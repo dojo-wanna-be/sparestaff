@@ -1,0 +1,80 @@
+<div class="popup" data-popup="popup-3">
+  <%= form_for(@user, url: registration_path(@user)) do |f| %>
+    <div class="popup-inner">
+      <p style="font-size:10pt">
+        Sign up with <%= link_to "Facebook", "#", class: "SmallLink" %> instead?
+      </p>
+      <table>
+        <tr>
+          <td style="width:45%">
+            <table class="GreyLine1Px" cellpadding="0">
+              <tr>
+                <td></td>
+              </tr>
+            </table>
+            </td style="width:10%">
+          <td style="text-align: center">or</td>
+          <td style="width:45%">
+            <table class="GreyLine1Px" cellpadding="0">
+              <tr>
+                <td></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+      <%= f.email_field :email, placeholder: "Email", class: "SlimBorder" %><br />
+      <br />
+      <table>
+        <tr>
+          <td class="Width50Percent PaddingRight5px">
+            <%= f.text_field :first_name, placeholder: "First name", class: "SlimBorder" %>
+          </td>
+          <td class="Width50Percent PaddingLeft5px">
+            <%= f.text_field :last_name, placeholder: "Last name", class: "SlimBorder" %>
+          </td>
+        </tr>
+      </table>
+      <div style="text-align: center">
+        <br />
+        <%= f.password_field :password, placeholder: "Password", class: "SlimBorder" %><br />
+        <br />
+        <%= f.password_field :password_confirmation, placeholder: "Confirm password", class: "SlimBorder" %><br />
+        <br />
+        <table class="SmallLetters">
+          <tr>
+            <td style="width: 20px">
+              <%= check_box_tag "Checkbox2", "Marketing", true %>
+            </td>
+            <td style="text-align: left">I'd like to receive marketing 
+              promotions, special offers, inspiration, and policy updates 
+              from Spare Staff via email.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= check_box_tag "Checkbox3" %>
+            </td>
+            <td style="text-align: left">I agree to Spare Staff
+              <%= link_to "Privacy Policy", "#", class: "SmallLink" %> and 
+              <%= link_to "Terms and Conditions", "#", class: "SmallLink" %>
+            </td>
+          </tr>
+        </table>
+        <br />
+      </div>
+      <table  class="ButtonOrangeSignUp">
+        <tr>
+          <td>
+            <%= f.submit "Sign up" %>
+            <!-- <a href="home.html">Sign up</a> -->
+          </td>
+        </tr>
+      </table>
+      <%= link_to "#", class: "popup-close", data: {popup_close: "popup-3"} do %>
+        <%= image_tag "cross.jpg" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
