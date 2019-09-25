@@ -29,37 +29,39 @@
         </td>
       </tr>
     </table>
-    <br />
-    <%= email_field_tag "Text1", "", placeholder: "Email", class: "SlimBorder" %><br />
-    <br />
-    <%= password_field_tag "Text2", "", placeholder: "Password", class: "SlimBorder" %><br />
-    <table>
-      <tr>
-        <td style="width: 20px; text-align: left;">
-          <%= check_box_tag "Checkbox1" %>
-        </td>
-        <td style="text-align: left; font-size: 10pt;">Remember me</td>
-        <td style="text-align: right"><%= link_to "Show password", "#", class: "SmallLink" %></td>
-      </tr>
-    </table>
-    <br />
-    <table  class="ButtonOrangeSignUp">
-      <tr>
-        <td>
-          <%= link_to "Log in", "#" %>
-          <!-- <a href="home.html">Log in</a> -->
-        </td>
-      </tr>
-    </table>
-    <br />
-    <%= link_to "Forgot password?", "#", class: "SmallLink" %><br />
-    <br />
-    <table class="GreyLine1Px" cellpadding="0">
-      <tr>
-        <td></td>
-      </tr>
-    </table>
-    <br />
+    <%= form_for(@user, url: session_path(@user)) do |f| %>
+      <br />
+      <%= f.email_field :email, placeholder: "Email", class: "SlimBorder" %><br />
+      <br />
+      <%= f.password_field :password, placeholder: "Password", class: "SlimBorder" %><br />
+      <table>
+        <tr>
+          <td style="width: 20px; text-align: left;">
+            <%= f.check_box :remember_me %>
+          </td>
+          <td style="text-align: left; font-size: 10pt;">Remember me</td>
+          <td style="text-align: right"><%= link_to "Show password", "#", class: "SmallLink" %></td>
+        </tr>
+      </table>
+      <br />
+      <table  class="ButtonOrangeSignUp">
+        <tr>
+          <td>
+            <%= f.submit "Log in" %>
+            <!-- <a href="home.html">Log in</a> -->
+          </td>
+        </tr>
+      </table>
+      <br />
+      <%= link_to "Forgot password?", "#", class: "SmallLink" %><br />
+      <br />
+      <table class="GreyLine1Px" cellpadding="0">
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+      <br />
+    <% end %>
     Don't have an account? <%= link_to "Sign up", "#", data: {popup_close: "popup-2", popup_open: "popup-1"} %>
     <%= link_to "#", class: "popup-close", data: {popup_close: "popup-2"} do %>
       <%= image_tag "cross.jpg" %>

@@ -45,7 +45,7 @@
         <table class="SmallLetters">
           <tr>
             <td style="width: 20px">
-              <%= check_box_tag "Checkbox2", "Marketing", true %>
+              <%= f.check_box :allow_marketing_promotions %>
             </td>
             <td style="text-align: left">I'd like to receive marketing 
               promotions, special offers, inspiration, and policy updates 
@@ -54,7 +54,7 @@
           </tr>
           <tr>
             <td>
-              <%= check_box_tag "Checkbox3" %>
+              <%= check_box_tag :agree_terms %>
             </td>
             <td style="text-align: left">I agree to Spare Staff
               <%= link_to "Privacy Policy", "#", class: "SmallLink" %> and 
