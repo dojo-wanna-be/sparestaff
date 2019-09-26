@@ -262,7 +262,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook, 'FACEBOOK_APP_ID', 'FACEBOOK_SECRET', {
                   scope: 'public_profile, email',
-                  info_fields: 'email, name',
+                  info_fields: 'email, first_name, last_name',
                   token_params: {parse: :json}
                 }
 
@@ -274,6 +274,9 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine

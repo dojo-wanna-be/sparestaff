@@ -2,12 +2,13 @@
   <td>
     <!--webbot bot="Include" u-include="includes/header-not-signed-in.html" tag="BODY" startspan -->
     <% if user_signed_in? %>
-      <%= render partial: "layouts/header_with_login" %>
+      <%= render partial: "layouts/header_logged_in" %>
     <% else %>
-      <%= render partial: "layouts/header_without_login" %>
+      <%= render partial: "layouts/header_not_logged_in" %>
       <%= render partial: "layouts/signup_button_popup" %>
       <%= render partial: "layouts/login_popup" %>
       <%= render partial: "layouts/signup_popup" %>
+      <%= render partial: "layouts/forgot_password_popup" %>
     <% end %>
     <!--webbot bot="Include" endspan i-checksum="33621" -->
   </td>

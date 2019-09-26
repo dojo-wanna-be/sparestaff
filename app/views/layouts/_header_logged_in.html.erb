@@ -10,7 +10,7 @@
       <table class="TopOrangeButton">
         <tr>
           <td>
-            <%= link_to "+ List an Employee", "#", class: "WhiteLink12ptNoUnderline" %>
+            <%= link_to "+ List an Employee", users_path, class: "WhiteLink12ptNoUnderline" %>
             <!-- <a class="WhiteLink12ptNoUnderline" href="list-an-employee/list-an-employee-intro.html">+ List an Employee</a> -->
           </td>
         </tr>
@@ -26,7 +26,7 @@
       <%= link_to "Help", "#", class: "TopMenuLink" %>
     </td>
     <td style="width: 60px;" class="TopMenuTd">
-      <%= link_to "#", onclick: "toggle_visibility('UserIconMenuBox');" do %>
+      <%= link_to "javascript:;", onclick: "toggle_visibility('UserIconMenuBox');" do %>
         <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
       <% end %>
       <div class="UserIconMenu" id="UserIconMenuBox">

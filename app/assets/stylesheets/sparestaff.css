@@ -155,7 +155,7 @@ table.HomeButton:hover {
 }
 
 table.ListAnEmployeeIntroImage {
-	background-image:url('images/hand-shake.jpg');
+	background-image:url('/assets/hand-shake.jpg');
 	background-repeat:no-repeat;
 	background-position:center;
 	height:500px;
@@ -2628,3 +2628,14 @@ a.BackendLeftMenuSelected {
 }
 
 /* End of Separator line with text at middle */
+.cust_btn{
+    background: #f15827;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+}
+.hide-password {
+  display: none
+}

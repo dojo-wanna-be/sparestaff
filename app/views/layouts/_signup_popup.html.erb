@@ -1,8 +1,8 @@
 <div class="popup" data-popup="popup-3">
-  <%= form_for(@user, url: registration_path(@user)) do |f| %>
+  <%= form_for @user, url: registration_path(@user), html: {id: "user_signup_form"} do |f| %>
     <div class="popup-inner">
       <p style="font-size:10pt">
-        Sign up with <%= link_to "Facebook", "#", class: "SmallLink" %> instead?
+        Sign up with <%= link_to "Facebook", user_facebook_omniauth_authorize_path, class: "SmallLink" %> instead?
       </p>
       <table>
         <tr>
@@ -24,23 +24,23 @@
         </tr>
       </table>
       <br />
-      <%= f.email_field :email, placeholder: "Email", class: "SlimBorder" %><br />
+      <%= f.email_field :email, placeholder: "Email", id: "new_user_email", class: "SlimBorder", required: true %><br />
       <br />
       <table>
         <tr>
           <td class="Width50Percent PaddingRight5px">
-            <%= f.text_field :first_name, placeholder: "First name", class: "SlimBorder" %>
+            <%= f.text_field :first_name, placeholder: "First name", id: "new_user_first_name", class: "SlimBorder", required: true %>
           </td>
           <td class="Width50Percent PaddingLeft5px">
-            <%= f.text_field :last_name, placeholder: "Last name", class: "SlimBorder" %>
+            <%= f.text_field :last_name, placeholder: "Last name", id: "new_user_last_name", class: "SlimBorder", required: true %>
           </td>
         </tr>
       </table>
       <div style="text-align: center">
         <br />
-        <%= f.password_field :password, placeholder: "Password", class: "SlimBorder" %><br />
+        <%= f.password_field :password, placeholder: "Password", id: "new_user_password", class: "SlimBorder", required: true %><br />
         <br />
-        <%= f.password_field :password_confirmation, placeholder: "Confirm password", class: "SlimBorder" %><br />
+        <%= f.password_field :password_confirmation, placeholder: "Confirm password", id: "new_user_confirm_password", class: "SlimBorder", required: true %><br />
         <br />
         <table class="SmallLetters">
           <tr>
@@ -54,7 +54,7 @@
           </tr>
           <tr>
             <td>
-              <%= check_box_tag :agree_terms %>
+              <%= check_box_tag :agree_terms, "", false, required: true %>
             </td>
             <td style="text-align: left">I agree to Spare Staff
               <%= link_to "Privacy Policy", "#", class: "SmallLink" %> and 
@@ -67,7 +67,7 @@
       <table  class="ButtonOrangeSignUp">
         <tr>
           <td>
-            <%= f.submit "Sign up" %>
+            <%= f.submit "Sign up", class: "cust_btn" %>
             <!-- <a href="home.html">Sign up</a> -->
           </td>
         </tr>

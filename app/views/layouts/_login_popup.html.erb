@@ -5,7 +5,7 @@
     <table  class="ButtonBlueSignUp">
       <tr>
         <td>
-          <%= link_to "Log in with Facebook", "#" %>
+          <%= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path %>
         </td>
       </tr>
     </table>
@@ -29,39 +29,45 @@
         </td>
       </tr>
     </table>
-    <%= form_for(@user, url: session_path(@user)) do |f| %>
+    <%= form_for @user, url: session_path(@user), html: {id: "user_login_form"} do |f| %>
       <br />
-      <%= f.email_field :email, placeholder: "Email", class: "SlimBorder" %><br />
+      <%= f.email_field :email, placeholder: "Email", id: "user_login_email", class: "SlimBorder", required: true %><br />
       <br />
-      <%= f.password_field :password, placeholder: "Password", class: "SlimBorder" %><br />
+      <%= f.password_field :password, placeholder: "Password", id: "user_login_password", class: "SlimBorder", required: true %><br />
       <table>
         <tr>
           <td style="width: 20px; text-align: left;">
-            <%= f.check_box :remember_me %>
+            <%= f.check_box :remember_me, id: "user_login_remember_me" %>
           </td>
           <td style="text-align: left; font-size: 10pt;">Remember me</td>
-          <td style="text-align: right"><%= link_to "Show password", "#", class: "SmallLink" %></td>
+          <td style="text-align: right">
+            <%#= link_to "Show password", "javascript:;", class: "SmallLink", id: "show_login_password" %>
+            <span class="password-showhide">
+              <span class="show-password"><%= link_to "Show password", "javascript:;", class: "SmallLink" %></span>
+              <span class="hide-password"><%= link_to "Hide password", "javascript:;", class: "SmallLink" %></span>
+            </span>
+          </td>
         </tr>
       </table>
       <br />
       <table  class="ButtonOrangeSignUp">
         <tr>
           <td>
-            <%= f.submit "Log in" %>
+            <%= f.submit "Log in", class: "cust_btn" %>
             <!-- <a href="home.html">Log in</a> -->
           </td>
         </tr>
       </table>
       <br />
-      <%= link_to "Forgot password?", "#", class: "SmallLink" %><br />
-      <br />
-      <table class="GreyLine1Px" cellpadding="0">
-        <tr>
-          <td></td>
-        </tr>
-      </table>
-      <br />
     <% end %>
+    <%= link_to "Forgot password?", "#", data: {popup_close: "popup-2", popup_open: "forgot_password_popup"} %>
+    <br />
+    <table class="GreyLine1Px" cellpadding="0">
+      <tr>
+        <td></td>
+      </tr>
+    </table>
+    <br />
     Don't have an account? <%= link_to "Sign up", "#", data: {popup_close: "popup-2", popup_open: "popup-1"} %>
     <%= link_to "#", class: "popup-close", data: {popup_close: "popup-2"} do %>
       <%= image_tag "cross.jpg" %>

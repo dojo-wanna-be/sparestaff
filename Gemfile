@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -34,7 +34,8 @@ gem 'devise'
 # gem 'mini_magick', '~> 4.8'
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
-
+gem 'i18n_data'
+gem 'toastr_rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -54,6 +55,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry-rails'
+  gem 'letter_opener'
 end
 
 group :test do
