@@ -3,7 +3,7 @@ lock "~> 3.11.1"
 
 set :application, "sparestaff-staging"
 set :repo_url, "git@github.com:jamesspare/sparestaff.git"
-
+set :branch, 'develop'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
