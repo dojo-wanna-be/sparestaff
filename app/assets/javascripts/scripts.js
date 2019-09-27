@@ -37,7 +37,7 @@ function show(id){
 
 $(document).ready(function() {
   $(".show-password, .hide-password").on('click', function() {
-    var passwordId = "user_password";
+    var passwordId = "user_login_password";
     if ($(this).hasClass('show-password')) {
       $("#" + passwordId).attr("type", "text");
       $(this).parent().find(".show-password").hide();
