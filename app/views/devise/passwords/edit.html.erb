@@ -1,25 +1,62 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<tr>
+  <td>
+    <table style="width:100%;">
+      <tr>
+        <td class="PaddingRightBottom20px">
+          <table class="UserAccountBox">
+            <tr>
+              <th>Reset Your Password</th>
+            </tr>
+            <tr>
+              <td class="UserAccountBoxContent">
+                <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, id: "user_new_password_form" }) do |f| %>
+                  <%= f.hidden_field :reset_password_token %>
+                  <table class="PaddingBottomTop10px">
+                    <tr>
+                      <td style="width: 200px; text-align: right;">New 
+                        Password
+                      </td>
+                      <td class="Padding10PxLeft30pxRight">
+                        <% if @minimum_password_length %>
+                          <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+                        <% end %>
+                        <%= f.password_field :password, id: "user_new_password", style: "width:200px;", required: true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 200px; text-align: right;">
+                        Confirm Password
+                      </td>
+                      <td class="Padding10PxLeft30pxRight">
+                        <%= f.password_field :password_confirmation, id: "user_confirm_new_password", style: "width:200px;", required: true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: right;" colspan="2" class="BorderBottom">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 200px; text-align: right;">
+                        &nbsp;
+                      </td>
+                      <td class="Padding10PxLeft30pxRight">
+                        <br />
+                        <table class="ButtonOrange" align="right">
+                          <tr>
+                            <td>
+                              <%= f.submit "Update Password", class: "cust_btn" %>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

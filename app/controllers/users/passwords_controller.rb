@@ -7,9 +7,17 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   # POST /resource/password
-  # def create
-  #   super
-  # end
+  def create
+    self.resource = resource_class.send_reset_password_instructions(resource_params)
+    yield resource if block_given?
+
+    if successfully_sent?(resource)
+      respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
+    else
+      flash[:error] = resource.errors.full_messages.to_sentence
+      redirect_to root_path
+    end
+  end
 
   # GET /resource/password/edit?reset_password_token=abcdef
   # def edit

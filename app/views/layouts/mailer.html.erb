@@ -8,6 +8,30 @@
   </head>
 
   <body>
-    <%= yield %>
+    <table style="margin-left:80px;width: 100%">
+      <tr>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <% if Rails.env == "staging" %>
+            <%= image_tag "https://staging.sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% else %>
+            <%= image_tag "https://sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= yield %>
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
   </body>
 </html>
