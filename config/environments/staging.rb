@@ -98,7 +98,7 @@ Rails.application.configure do
     port: '587',
     domain: 'sendgrid.net',
     user_name: 'apikey',
-    password: SMTP_PASSWORD,
+    password: Rails.application.credentials[Rails.env.to_sym][:smtp_password],
     authentication: :plain,
     enable_starttls_auto: true
   }
