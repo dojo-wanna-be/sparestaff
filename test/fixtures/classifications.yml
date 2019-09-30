@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: classifications
+#
+#  id                       :bigint           not null, primary key
+#  parent_classification_id :integer
+#  name                     :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  parent_classification_id: 1
+  name: MyString
+
+two:
+  parent_classification_id: 1
+  name: MyString

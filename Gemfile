@@ -34,7 +34,6 @@ gem 'devise'
 # gem 'mini_magick', '~> 4.8'
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
-gem 'i18n_data'
 gem 'toastr_rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

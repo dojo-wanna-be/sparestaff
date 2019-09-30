@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: employee_listing_languages
+#
+#  id                  :bigint           not null, primary key
+#  employee_listing_id :integer
+#  language_id         :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee_listing_id: 1
+  language_id: 1
+
+two:
+  employee_listing_id: 1
+  language_id: 1

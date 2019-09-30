@@ -288,6 +288,14 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
 	margin-left:20px;
 }
 
+.MarginBottom10Px {
+	margin-bottom:10px;
+}
+
+.MarginBottom5Px {
+	margin-bottom:5px;
+}
+
 .PaddingLeft15px {
 	padding-left:15px;
 }
@@ -995,6 +1003,12 @@ a.GreyLink12pt:hover, a.GreyLink12pt:active, a.GreyLink12pt:link, a.GreyLink12pt
 	font-size:12pt;
 	color:#333333;
 }
+
+a.GreyLink14Px:hover, a.GreyLink14Px:active, a.GreyLink14Px:link, a.GreyLink14Px:visited {
+	font-size:14px;
+	color:#484848;
+}
+
 
 a.GreyLink12ptNoUnderline {
 	font-size:12pt;
@@ -1855,6 +1869,17 @@ table.ButtonOrangeSignUp a {
     vertical-align:middle;
 }
 
+.PosterInvoiceBox .divTableCell  {
+	padding: 10px 20px 10px 0px;
+	vertical-align:top;
+}
+
+.PosterInvoicePriceBox .divTableCell  {
+	padding: 10px 10px 10px 10px;
+	vertical-align:top;
+	border-bottom:1px #e4e4e4 solid;
+}
+
 
 .ListingBox {
 	border:1.5px;
@@ -1954,6 +1979,10 @@ table.ButtonOrangeSignUp a {
 	color:#001f3f;
 }
 
+.TextWhite {
+	color:white;
+}
+
 .TextGreen {
 	color:#00CC00;
 }
@@ -1962,6 +1991,13 @@ table.ButtonOrangeSignUp a {
 	color:gray;
 }
 
+.TextLightGrey {
+	color:#e4e4e4;
+}
+
+.TextSilver {
+	color:silver;
+}
 
 .TextOrange {
 	color:#F15927;
@@ -1969,6 +2005,27 @@ table.ButtonOrangeSignUp a {
 
 .TextDarkGreen {
 	color:teal;
+}
+
+.TransparentBackgroundColourPadding5Px {
+	background-color: rgba(0,0,0,.5);
+	padding:5px 5px 5px 5px;
+}
+
+.TextAllCap {
+	text-transform:uppercase;
+}
+
+.Text40Px {
+	font-size:40px;
+}
+
+.Text26Px {
+	font-size:26px;
+}
+
+.Text24Px {
+	font-size:24px;
 }
 
 .Text32pxBoldNoPadding {
@@ -2267,6 +2324,9 @@ a.GreyLink18PxUnderlineOnHover:hover {
 	width:650px;
 }
 
+.Width500Px {
+	width:500px;
+}
 
 .Width400Px {
 	width:400px;
@@ -2320,6 +2380,11 @@ a.GreyLink18PxUnderlineOnHover:hover {
 .Width50Px {
 	width:50px;
 }
+
+.Width33Percent {
+	width:33%;
+}
+
 
 
 .ListingImageBoxPastOrder {
@@ -2438,6 +2503,33 @@ a.GreyLink18PxUnderlineOnHover:hover {
 	width:60px;
 }
 
+.ReservationList .BorderBottomNone .divTableCell  {
+	border-bottom:0px;
+}
+
+.ReservationList .BorderBottomNone .divTableRow {
+	border-bottom:0px;
+}
+
+.InvoiceList .divTableCell {
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right:10px;
+	font-size:14px;
+	vertical-align:top;
+}
+
+.InvoiceList .divTableHeading .divTableCell {
+	padding-top:20px;
+	padding-bottom:10px;
+	border-bottom:1px #e4e4e4 solid;
+}
+
+.InvoiceList .divTableCell a {
+	font-size:14px;
+}
+
+
 .input-icon {
   position: relative;
 }
@@ -2466,7 +2558,7 @@ a.GreyLink18PxUnderlineOnHover:hover {
 	background-color:#f2f2f2;
 }
 
-.BackGroundLightGrey {
+.BackGroundWhite {
 	background-color:white;
 }
 
@@ -2628,14 +2720,3 @@ a.BackendLeftMenuSelected {
 }
 
 /* End of Separator line with text at middle */
-.cust_btn{
-    background: #f15827;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-    color: #fff;
-    font-weight: 600;
-}
-.hide-password {
-  display: none
-}

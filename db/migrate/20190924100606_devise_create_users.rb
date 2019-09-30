@@ -35,8 +35,11 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :first_name
       t.string :last_name
       t.integer :company_id
-      t.boolean :is_owner, default: false
-      t.boolean :is_hr, default: false
+      t.integer :user_type
+      t.boolean :allow_marketing_promotions, default: false
+      t.string :provider
+      t.string :uid
+      t.string :phone_number
 
       t.timestamps null: false
     end

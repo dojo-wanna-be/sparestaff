@@ -15,14 +15,13 @@
 #  first_name                 :string
 #  last_name                  :string
 #  company_id                 :integer
-#  is_owner                   :boolean          default(FALSE)
-#  is_hr                      :boolean          default(FALSE)
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
+#  user_type                  :integer
 #  allow_marketing_promotions :boolean          default(FALSE)
 #  provider                   :string
 #  uid                        :string
 #  phone_number               :string
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 
 class User < ApplicationRecord
@@ -30,6 +29,10 @@ class User < ApplicationRecord
   # :lockable, :timeoutable, :trackable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+
+  belongs_to :company, optional: true
+  has_many :employee_listings, as: :lister
+  enum user_type: { owner: 0, hr: 1 }
 
   def self.new_with_session(params, session)
     super.tap do |user|
