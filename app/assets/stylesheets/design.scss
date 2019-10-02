@@ -1,0 +1,235 @@
+
+
+.new-header {
+  height: 71px;
+  padding: 0px 10px 0 80px !important;
+  border-bottom: 1px solid #e6e6e6;
+  @media screen and (max-width: 767px) {
+    padding: 10px 12px !important;
+    height: auto;
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px) {
+    padding: 0px 30px !important;
+  }
+
+  .navbar-brand {
+    font-size: 45px;
+    letter-spacing: 3px;
+    color: #484848;
+    font-weight: 400;
+    font-family: 'Vollkorn', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo-img {
+      height: 50px;
+
+      @media screen and (max-width: 767px) {
+        height: 28px;
+      }
+    }
+  }
+
+  .custom-right-navbar {
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+
+    .nav-item {
+      .nav-link {
+        font-size: 16px;
+        color: #484848;
+        font-weight: 400;
+        margin: 0px 12px;
+        line-height: 1;
+        background: transparent;
+        border: none;
+        padding: 0px 0.5rem;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+        position: relative;
+
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          color: #646464;
+          border-bottom: 2px #f15927 solid;
+        }
+        &:focus {
+          color: #000;
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          font-size: 14px;
+          letter-spacing: 2px;
+          margin: 4px 5px;
+        }
+
+        &.new-employee {
+          width: 175px;
+          height: 40px;
+          background-color: #f15927;
+          border-radius: 20px;
+          font-size: 16px;
+          color: #fff;
+          text-decoration: none;
+          padding: 0px 0.5rem;
+
+          &:hover {
+            background-color: #d75227;
+            border: none;
+          }
+        }
+
+        .badge {
+          position: absolute;
+          top: 6px;
+          right: -9px;
+          padding: 2px 7px;
+          border-radius: 50%;
+          background: #f15927;
+          box-shadow: 1px 1px 3px grey;
+          color: white;
+          font-size: 12px;
+        }
+      }
+
+      .join-btn {
+        width: 80px;
+        height: 43px;
+        border-radius: 8px;
+        background-color: #f8f8f8;
+        color: #7b7b7b;
+        border: none;
+
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          color: #000;
+          background: #f2f2f2;
+        }
+      }
+    }
+  }
+}
+
+/** HOMEPAGE CSS **/
+
+.homapage-section {
+  .inner-homepage {
+    padding: 32px 80px;
+
+    .search-box {
+      .search-heading {
+        font-size: 32px;
+        font-weight: bold;
+        color: #484848;
+        line-height: 1.4;
+        padding-top: 15px;
+      }
+      .form-box {
+        margin-top: 54px;
+
+        .search-form {
+          display: flex;
+          flex-direction: row;
+          width: 82.7%;
+          justify-content: space-between;
+
+          .enter-keyword {
+            width: 300px;
+          }
+
+          .select-field {
+            width: 230px;
+          }
+
+          .location-field {
+            width: 250px;
+          }
+
+          .search-btn {
+            width: 90px;
+            height: 40px;
+            background-color: #F15927;
+            text-align: center;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+
+            &:hover {
+              background-color: #d75227;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+
+    .featured-listings-box {
+      margin-top: 47px;
+
+      .featured-heading {
+        font-size: 32px;
+        font-weight: bold;
+        color: #484848;
+        line-height: 1.4;
+      }
+
+      .featured-listings {
+        display: flex;
+        flex-direction: row;
+       // justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 32px;
+
+        .licting-card-link {
+          color: #484848;
+          margin-right: 86px;
+
+          &:hover {
+            text-decoration: none;
+          }
+
+          .listing-card {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+
+            .listing-img {
+              height: 200px;
+              width: 200px;
+
+              .card-image {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+              }
+            }
+
+            .listing-details {
+              margin-top: 22px;
+
+              .rating {
+                .rating-img {
+                  height: 14px;
+                  vertical-align: baseline;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/** HOMEPAGE END CSS **/

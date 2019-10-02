@@ -1,11 +1,46 @@
-<tr>
-  <td>
-    <!--webbot bot="Include" u-include="includes/header-not-signed-in.html" tag="BODY" startspan -->
-    <% if user_signed_in? %>
-      <%= render partial: "layouts/header_logged_in" %>
-    <% else %>
-      <%= render partial: "layouts/header_not_logged_in" %>
+<header class="fixed-header ">
+  <nav class="navbar navbar-expand-md navbar-dark new-header">
+    <%= link_to '/', class: 'navbar-brand' do %>
+      <%= image_tag 'Spare-Staff-130x130.png', class: 'logo-img' %>
     <% end %>
-    <!--webbot bot="Include" endspan i-checksum="33621" -->
-  </td>
-</tr>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav navbar-right custom-right-navbar">
+        <li class="nav-item">
+          <%= link_to '+ List an Employee', employee_getting_started_path, class: 'nav-link new-employee' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Help', 'https://www.sparestaff.com.au/help', class: 'nav-link' %>
+        </li>
+
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "Sign up", "javascript:;", class: "nav-link", data: {popup_open: "popup-1"} %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Log in", "javascript:;", class: "nav-link", data: {popup_open: "popup-2"} %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "#", class: "nav-link" do %>
+              <span>Message</span><span class="badge">2</span>
+            <% end %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "javascript:;", class: 'nav-link', onclick: "toggle_visibility('UserIconMenuBox');" do %>
+              <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+
+              <%= render partial: "layouts/user_icon_menu_box" %>
+            <% end %>
+          </li>
+
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</header>

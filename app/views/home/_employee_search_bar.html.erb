@@ -1,29 +1,13 @@
-<tr>
-  <td rowspan="7" style="width: 80px">&nbsp;</td>
-  <td>
-    <h1 style="padding-top:15px">Find employees</h1>
-    <table style="width: 840px">
-      <tr>
-        <td>
-          <%= text_field_tag "Text1", "", placeholder: "Enter keywords", style: "width: 250px" %>
-        </td>
-        <td>
-          <%= select_tag "Select1", options_for_select([["Any classification"], ["Accounting"], ["All Accounting"], ["Accounts Officers/Clerks"], ["Accounts Payable"]], ["Any classification"]), include_blank: "", style: "width: 230px" %>
-        </td>
-        <td>
-          <%= text_field_tag "Text2", "", placeholder: "Enter suburb, city, or region", style: "width: 200px" %>
-        </td>
-        <td>
-          <table class="ButtonOrange90px">
-            <tr>
-              <td>
-                <%= link_to "Search", "#", class: "WhiteLink12ptNoUnderline" %>
-                <!-- <a class="WhiteLink12ptNoUnderline" href="employee-search/employee-search.html">Search</a> -->
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+<div class="search-box">
+  <h1 class="search-heading">Find employees</h1>
+
+  <div class="form-box">
+      <div class="search-form">
+        <%= text_field_tag "Text1", "", placeholder: "Enter keywords", class: 'enter-keyword' %>
+        <%= select_tag "Select1", options_for_select([["Any classification"], ["Accounting"], ["All Accounting"], ["Accounts Officers/Clerks"], ["Accounts Payable"]], ["Any classification"]), include_blank: "", class: 'select-field' %>
+        <%= text_field_tag "Text2", "", placeholder: "Enter suburb, city, or region", class: 'location-field' %>
+        <%= link_to "Search", "#", class: "search-btn" %>
+      </div>
+  </div>
+
+</div>
