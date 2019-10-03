@@ -16,5 +16,8 @@ Rails.application.routes.draw do
   post "employee/step_2" => "employee_listings#create_listing_step_2"
   get "employee/step_3" => "employee_listings#new_listing_step_3"
   post "employee/step_3" => "employee_listings#create_listing_step_3"
+  get "employee/step_4" => "employee_listings#new_listing_step_4"
+  post "employee/step_4" => "employee_listings#create_listing_step_4"
   get "employee/preview" => "employee_listings#preview_listing"
+  get "employee/publish" => "employee_listings#publish_listing"
 end

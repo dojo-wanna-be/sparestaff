@@ -2,11 +2,10 @@
 #
 # Table name: languages
 #
-#  id            :bigint           not null, primary key
-#  language      :string
-#  language_code :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id         :bigint           not null, primary key
+#  language   :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 require 'test_helper'

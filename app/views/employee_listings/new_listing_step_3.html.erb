@@ -1,0 +1,212 @@
+<tr>
+  <td>
+    <table cellpadding="0">
+      <tr>
+        <td style="width: 80px">&nbsp;</td>
+        <td>
+          <table class="ListAnEmployeeSteps">
+            <tr>
+              <td class="ListAnEmployeeMainWindow">
+                <%= form_for @employee_listing, url: employee_step_3_path, method: :post do |f| %>
+                  <%= hidden_field_tag "id", @employee_listing.id %>
+                  <h1 style="padding-top:15px">
+                    Employee details
+                  </h1>
+                  <p>
+                    Tell us about some basic details of the employee 
+                    you are listing so potential employers can search for 
+                    him/her. The more details you provide, the easier it is 
+                    for the employee to get hired.
+                  </p>
+                  <p>
+                    <strong>Listing title</strong><br />
+                    <%= f.text_field :title, placeholder: "i.e. Experienced Office Admin, Exceptional Problem Solver - IT Tech", style: "width:100%;", required: true %>
+                  </p>
+                  <table>
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>First name
+                        <%= f.text_field :first_name, style: "width:100%;", required: true %></strong>
+                      </td>
+                      <td class="PaddingLeft20px"><strong>Last name</strong><br />
+                        <%= f.text_field :last_name, style: "width:100%;", required: true %>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>TFN</strong> (optional, see note to the right)<br />
+                    <%= f.text_field :tfn, style: "width:100%;", required: true %>
+                  </p>
+                  <p>
+                    <strong>Year of birth</strong> (optional)<br />
+                    <%= f.number_field :birth_year, style: "width:100%;", required: true %>
+                  </p>
+                  <p>
+                    <strong>Employee address </strong>(optional)<br />
+                    <%= f.text_field :address_1, style: "width:100%;", required: true %>
+                  </p>
+                  <p>
+                    <strong>Address line 2</strong> (optional)<br />
+                    <%= f.text_field :address_2, style: "width:100%;", required: true %>
+                  </p>
+                  <p>
+                    <strong>Suburb/City</strong><br />
+                    <%= f.text_field :city, style: "width:100%;", required: true %>
+                  </p>
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>
+                          State<br />
+                          <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES), {}, {style: "width:100%;"} %>
+                        </strong>
+                      </td>
+                      <td class="PaddingLeft20px"><strong>Postcode</strong><br />
+                        <%= f.number_field :post_code, style: "width:100%;", required: true %>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>
+                      Country<br />
+                      <%= f.select :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES), {}, {style: "width:50%;"} %>
+                    </strong>
+                  </p>
+                  <table>
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>Residency status</strong><br />
+                        <strong>
+                          <%= f.select :residency_status, options_for_select(EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES), {}, {class: "FullWidth"} %>
+                        </strong>
+                      </td>
+                      <td class="PaddingLeft20px">
+                        <strong>&nbsp;</strong><br />
+                        <%= f.text_field :other_residency_status, placeholder: "Please specify", style: "width:100%;" %>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>ID verification</strong>  (see note 
+                    to the right)<br />
+                    <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES), {}, {class: "Width50Percent"} %>
+                  </p>
+                  <div class="PositionAbsolute" style="margin-left:345px; margin-top:-55px">
+                    <%= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
+                    <span class="PaddingLeft20px"></span>
+                    <%= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
+                  </div>
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>Gender</strong>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%">
+                        <table style="width: 100%">
+                          <tr>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :gender, "male", checked: true %></strong>
+                            </td>
+                            <td style="width: 100px">Male</td>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :gender, "female" %></strong>
+                            </td>
+                            <td>Female</td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table>
+                  <table style="width: 100%">
+                    <tr>
+                      <td colspan="2">
+                        <strong>Does the employee have his own vehicle?</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%">
+                        <table style="width: 100%">
+                          <tr>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :has_vehicle, true, checked: true %></strong>
+                            </td>
+                            <td style="width: 100px">Yes</td>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :has_vehicle, false %></strong>
+                            </td>
+                            <td>No</td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table>
+                  <p>
+                    &nbsp;
+                  </p>
+                  <div class="GreyLine1Px"></div>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 33%">
+                        <%= link_to "Back", employee_step_2_path %>
+                        <!-- <a href="list-an-employee-step-2.html">&lt; Back</a> -->
+                      </td>
+                      <td style="width: 33%"><a href="javascript:;">Save for 
+                        later</a>
+                      </td>
+                      <td>
+                        <table class="ButtonOrange" align="right">
+                          <tr>
+                            <td><%= f.submit "Continue", class: "cust_btn" %></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>&nbsp;</p>
+                <% end %>
+              </td>
+              <td class="ListAnEmployeeTipWindow">
+                <div class="TipBoxForListAnEmployee">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Listing title is one of the first details that Hirers 
+                  see. Write a short, descriptive title that catches 
+                  their attention.<br />
+                  <br />
+                  The employee's TFN, 
+                  year of birth, address, photo ID are not visible 
+                  in searches except Suburb/City and is only shared once 
+                  you have accepted Hirer's Request to Hire.<br />
+                  <br />
+                  TFN (Tax File Number) is optional. However without a 
+                  TFN, the employee will need to pay higher tax. If 
+                  you do not have the TFN now, you can always add it 
+                  in later after creating the listing.<br />
+                </div>
+                <div class="TipBoxForListAnEmployee" style="margin-top:900px">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  ID verification help Hirers feel more 
+                  confident hiring employees and build trust on our platform.<br />
+                  <br />
+                  It is optional in this step but is required before 
+                  the listing appears in search results. You can 
+                  proceed to completing this listing first and upload 
+                  a valid photo ID later.<br />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
