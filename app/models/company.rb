@@ -19,4 +19,7 @@
 class Company < ApplicationRecord
   has_many :users
   has_many :employee_listings, as: :lister
+
+  COMPANY_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS"]
+  EMPLOYEE_COUNTRIES = ["Australia"]
 end

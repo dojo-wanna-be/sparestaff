@@ -34,6 +34,8 @@ class User < ApplicationRecord
   has_many :employee_listings, as: :lister
   enum user_type: { owner: 0, hr: 1 }
 
+  ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
+
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
@@ -50,5 +52,17 @@ class User < ApplicationRecord
       user.last_name = auth.info.last_name
       user.skip_confirmation!
     end
+  end
+
+  def is_individual?
+    user_type.eql?(nil) && !self.company.present? && self.employee_listings.present?
+  end
+
+  def is_owner?
+    user_type.eql?("owner") && self.company.present?
+  end
+
+  def is_hr?
+    user_type.eql?("hr") && self.company.present?
   end
 end

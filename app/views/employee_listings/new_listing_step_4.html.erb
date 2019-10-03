@@ -1,0 +1,139 @@
+<tr>
+  <td>
+    <table cellpadding="0">
+      <tr>
+        <td style="width: 80px">&nbsp;</td>
+        <td>
+          <table class="ListAnEmployeeSteps">
+            <tr>
+              <td class="ListAnEmployeeMainWindow">
+                <h1 style="padding-top:15px">
+                  Employee skills and experience
+                </h1>
+                <p>
+                  Tell Hirers why this employee is the perfect candidate: 
+                  qualification, certification, knowledge, skill sets, 
+                  experience, completed training, etc. 
+                  For security and privacy, links, email addresses, phone 
+                  numbers, addresses are not allowed.
+                </p>
+                <%= form_for @employee_listing, url: employee_step_4_path, method: :post do |f| %>
+                  <%= hidden_field_tag "id", @employee_listing.id %>
+                  <table>
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>
+                          Select classification to list<br />
+                          <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {style: "width:100%;"} %>
+                        </strong>
+                      </td>
+                      <td class="PaddingLeft20px">
+                        &nbsp;<br />
+                        <strong>
+                          <%= render 'sub_classification_list', category_id: 1, f: f %>
+                        </strong>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>Please describe the employee skills, strength, expertise, experience, etc</strong><br />
+                    <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
+                  </p>
+                  <strong>Photos or relevant documents of your employee</strong> 
+                  (optional but recommended)
+                  <table class="UploadImages">
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>Any further comments about the employee </strong>(optional)<br />
+                    <%= f.text_area :optional_comments, cols: "20", rows: "5", style: "width:100%;" %>
+                  </p>
+                  <table style="width: 100%">
+                    <tr>
+                      <td colspan="2">
+                        <strong>What languages can the employee speak?</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 60%">
+                        <table>
+                          <% Language.all.each do |global_language| %>
+                            <tr>
+                              <td style="width: 30px">
+                                <%= check_box_tag "employee_listing_language_ids[]", global_language.id %>
+                              </td>
+                              <td style="width: 400px"><%= global_language.language.titleize %></td>
+                            </tr>
+                          <% end %>
+                        </table>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table>
+                  <p>
+                    &nbsp;
+                  </p>
+                  <div class="GreyLine1Px"></div>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 33%">
+                        <%= link_to "Back", employee_step_3_path %>
+                        <!-- <a href="list-an-employee-step-3.html">&lt; Back</a> -->
+                      </td>
+                      <td style="width: 33%"><a href="javascript:;">Save for 
+                        later</a>
+                      </td>
+                      <td>
+                        <table class="ButtonOrange" align="right">
+                          <tr>
+                            <td>
+                              <%= f.submit "Continue", class: "cust_btn" %>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                <% end %>
+                <p>&nbsp;</p>
+              </td>
+              <td class="ListAnEmployeeTipWindow">
+                <div class="TipBoxForListAnEmployee">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Hiring is the most important task for any businesses 
+                  and they take this very seriously. The more details you put here, the better it is for 
+                  the right employers to make decision to hire your 
+                  listed employee.<br />
+                </div>
+                <div class="TipBoxForListAnEmployee" style="margin-top:530px">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Employees are valuable assets of an organization and 
+                  the key to success. A company is represented by its 
+                  employees and every company wants to know who they 
+                  are hiring.<br />
+                  <br />
+                  First impression is the most lasting. A great photo 
+                  will more likely attract Hirers' attention.<br />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

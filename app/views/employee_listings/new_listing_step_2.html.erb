@@ -1,0 +1,125 @@
+<tr>
+  <td>
+    <table cellpadding="0">
+      <tr>
+        <td style="width: 80px">&nbsp;</td>
+        <td>
+          <table class="ListAnEmployeeSteps">
+            <tr>
+              <%= form_for @company, url: employee_step_2_path, method: :post do |f| %>
+                <td class="ListAnEmployeeMainWindow">
+                  <%= hidden_field_tag "id", @employee_listing.id %>
+                  <%= hidden_field_tag "company_id", @company.id %>
+                  <h1 style="padding-top:15px">
+                    Your company details
+                  </h1>
+                  <p>
+                    Because you are representing a company that want to list 
+                    an employee for sharing, we need some details about your 
+                    company.
+                  </p>
+                  <p class="RequiredFieldsNote">
+                    All fields are required
+                  </p>
+                  <p>
+                    <strong>Company name</strong><br />
+                    <%= f.text_field :name, style: "width:100%", required: true %>
+                  </p>
+                  <p>
+                    <strong>ACN / ABN</strong><br />
+                    <%= f.text_field :acn, style: "width:50%", required: true %>
+                  </p>
+                  <p>
+                    <strong>
+                      Your role<br />
+                      <%= select_tag "user_role", options_for_select(User::ROLES, current_user.is_owner? ? 0 : 1), {style: "width:50%"} %>
+                    </strong>
+                  </p>
+                  <p>
+                    <strong>Your company address</strong><br />
+                    <%= f.text_field :address_1, style: "width:100%", required: true %>
+                  </p>
+                  <p>
+                    <strong>Address line 2</strong><br />
+                    <%= f.text_field :address_2, style: "width:100%", required: true %>
+                  </p>
+                  <p>
+                    <strong>Suburb/City</strong><br />
+                    <%= f.text_field :city, style: "width:50%", required: true %>
+                  </p>
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>
+                          State<br />
+                          <%= f.select :state, options_for_select(Company::COMPANY_STATES, f.object.state), {}, {style: "width:100%"} %>
+                        </strong>
+                      </td>
+                      <td class="PaddingLeft20px"><strong>Postcode</strong><br />
+                        <%= f.number_field :post_code, style: "width:100%", required: true %>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>
+                      Country<br />
+                      <%= f.select :country, options_for_select(Company::EMPLOYEE_COUNTRIES, f.object.country), {}, {style: "width:50%"} %>
+                    </strong>
+                  </p>
+                  <p>
+                    <strong>Your phone number</strong><br />
+                    <%= f.number_field :contact_no, style: "width:50%", required: true %>
+                  </p>
+                  <p>
+                    &nbsp;
+                  </p>
+                  <div class="GreyLine1Px"></div>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 33%">
+                        <%= link_to "Back", employee_step_1_path %>
+                        <!-- <a href="list-an-employee-step-1.html">&lt; Back</a> -->
+                      </td>
+                      <td style="width: 33%"><a href="javascript:;">Save for 
+                        later</a>
+                      </td>
+                      <td>
+                        <table class="ButtonOrange" align="right">
+                          <tr>
+                            <td>
+                              <%= f.submit "Continue", class: "cust_btn" %>
+                              <!-- <a href="list-an-employee-step-3.html">Continue</a> -->
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>&nbsp;</p>
+                </td>
+              <% end %>
+              <td class="ListAnEmployeeTipWindow">
+                <div class="TipBoxForListAnEmployee">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Your company details is not visible in searches and is only 
+                  shared to Hirer after you have accepted Hirer's Request to Hire. This is how we can all get in 
+                  touch. <br />
+                </div>
+                <div class="NoteToDeveloper300WidthMarginTop20px" style="margin: 400px 0px 0px 30px">Note to 
+                  developer:<br />
+                  This page is only shown if Poster selected 2nd option 
+                  (representing company in Step 1 - 
+                  list-an-employee-step-1.html). Clicking on Continue will 
+                  take to Step 3.<br />
+                  If Poster selected 1st option in Step 1 (listing himself) 
+                  then it will skip this Step 2 and go to Step 3.
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
