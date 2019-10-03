@@ -1,0 +1,39 @@
+<div class="UserIconMenu" id="UserIconMenuBox">
+  <div class="divTable">
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Dashboard", "#" %>
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Your Listings", "#" %>
+        <!-- <a href="user-your-listings/user-your-listings.html">Your Listings</a> -->
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Your Hirings", "#" %>
+        <!-- <a href="user-hiring/user-hiring.html">Your Hirings</a> -->
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Edit Profile", "#" %>
+        <!-- <a href="user-profile/user-profile-edit-profile.html">Edit Profile</a> -->
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Account Settings", "#" %>
+        <!-- <a href="user-account/user-account-notifications.html">Account Settings</a> -->
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+        <!-- <a href="home-not-signed-in.html">Log Out</a> -->
+      </div>
+    </div>
+  </div>
+</div>

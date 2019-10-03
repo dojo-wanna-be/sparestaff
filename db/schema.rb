@@ -10,10 +10,73 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_100606) do
+ActiveRecord::Schema.define(version: 2019_09_30_062157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "classifications", force: :cascade do |t|
+    t.integer "parent_classification_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.string "acn"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.integer "post_code"
+    t.string "contact_no"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employee_listing_languages", force: :cascade do |t|
+    t.integer "employee_listing_id"
+    t.integer "language_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employee_listings", force: :cascade do |t|
+    t.integer "classification_id"
+    t.string "title"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "tfn"
+    t.integer "birth_year"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.integer "post_code"
+    t.string "residency_status"
+    t.string "other_residency_status"
+    t.string "verification_type"
+    t.string "gender"
+    t.boolean "has_vehicle", default: false
+    t.text "skill_description"
+    t.text "optional_comments"
+    t.boolean "published", default: false
+    t.integer "lister_id"
+    t.string "lister_type"
+    t.integer "listing_step"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "languages", force: :cascade do |t|
+    t.string "language"
+    t.string "language_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,8 +91,11 @@ ActiveRecord::Schema.define(version: 2019_09_24_100606) do
     t.string "first_name"
     t.string "last_name"
     t.integer "company_id"
-    t.boolean "is_owner", default: false
-    t.boolean "is_hr", default: false
+    t.integer "user_type"
+    t.boolean "allow_marketing_promotions", default: false
+    t.string "provider"
+    t.string "uid"
+    t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
