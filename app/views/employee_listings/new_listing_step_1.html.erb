@@ -8,70 +8,65 @@
             <tr>
               <td class="ListAnEmployeeMainWindow">
                 <h1 style="padding-top:15px">
-                  Let's get started listing your 
-                  employee
+                  Let's get started listing your employee
                 </h1>
                 <p>
                   Who are you listing?
                 </p>
-                <table style="width: 500px">
-                  <tr>
-                    <td style="width: 100px; text-align: center;">
-                      <input checked="checked" name="PosterType" type="radio" value="V1" />
-                    </td>
-                    <td>
-                      <table class="GreyBorderNoSize">
-                        <tr>
-                          <td style="padding:20px;">I am looking for job and I want to list 
-                            myself up for companies to find and hire me
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 80px; text-align: center;">
-                      &nbsp;
-                    </td>
-                    <td>
-                      &nbsp;
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="text-align: center">
-                      <input name="PosterType" type="radio" value="V1" />
-                    </td>
-                    <td>
-                      <div class="NoteToDeveloper800pxLeft" style="margin:100px 0px 0px -400px;">Note to 
-                        developer:<br />
-                        Selecting 2nd option then Continue will take to 
-                        Step 2.
-                        Selecting 1st option then Continue will take to 
-                        Step 3.<br />
-                      </div>
-                      <table class="GreyBorderNoSize">
-                        <tr>
-                          <td style="padding:20px;">I am representing a 
-                            company and listing one of our company’s 
-                            employee for sharing
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-                <br />
-                <br />
-                <table class="ButtonOrange">
-                  <tr>
-                    <td><a href="list-an-employee-step-2.html">Continue</a></td>
-                  </tr>
-                </table>
-                <p></p>
+                <%= form_tag employee_step_1_path, method: :post, id: "user_type_form" do |f| %>
+                  <table style="width: 500px">
+                    <tr>
+                      <td style="width: 100px; text-align: center;">
+                        <%= radio_button_tag "poster_type", "individual", true %>
+                      </td>
+                      <td>
+                        <table class="GreyBorderNoSize">
+                          <tr>
+                            <td style="padding:20px;">
+                              I am looking for job and I want to list myself up for companies to find and hire me
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 80px; text-align: center;">
+                        &nbsp;
+                      </td>
+                      <td>
+                        &nbsp;
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center">
+                        <%= radio_button_tag "poster_type", "company" %>
+                      </td>
+                      <td>
+                        <table class="GreyBorderNoSize">
+                          <tr>
+                            <td style="padding:20px;">
+                              I am representing a company and listing one of our company’s employee for sharing
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <br />
+                  <br />
+                  <table class="ButtonOrange">
+                    <tr>
+                      <td>
+                        <%= submit_tag "Continue", class: "cust_btn" %>
+                      </td>
+                    </tr>
+                  </table>
+                  <p></p>
+                <% end %>
               </td>
               <td class="ListAnEmployeeTipWindow">
                 <div class="TipBoxForListAnEmployee">
-                  <img alt="" src="../images/light-bulb.png"  /><br />
+                  <%= image_tag "light-bulb.png", alt: "" %><br />
                   As a job seeker, you can list yourself and your 
                   listing will be seen by hundreds of potential 
                   employers.<br />

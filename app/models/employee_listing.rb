@@ -32,6 +32,11 @@
 
 class EmployeeListing < ApplicationRecord
   belongs_to :lister, polymorphic: true
-  has_many :languages
-  has_many :spoken_languages, through: :languages
+  has_many :employee_listing_languages
+  has_many :languages, through: :employee_listing_languages
+
+  EMPLOYEE_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS"]
+  EMPLOYEE_COUNTRIES = ["Australia"]
+  EMPLOYEE_RESIDENCY_STATUSES = ["Permanen Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas"]
+  EMPLOYEE_VERIFICATION_TYPES = ["Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate", "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others"]
 end

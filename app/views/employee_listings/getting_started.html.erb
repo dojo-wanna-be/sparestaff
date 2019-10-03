@@ -249,7 +249,7 @@
           <table class="HomeButton" align="center">
             <tr>
               <td>
-                <a href="list-an-employee-step-1.html" style="text-decoration:none">Get Started</a>
+                <%= link_to "Get Started", employee_step_1_path, style: "text-decoration:none;" %>
               </td>
             </tr>
           </table>
@@ -264,3 +264,4 @@
 <tr>
   <td>&nbsp;</td>
 </tr>
+<%= render partial: "layouts/footer" %>
