@@ -19,13 +19,6 @@
 
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "Sign up", "javascript:;", class: "nav-link", data: {popup_open: "popup-1"} %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Log in", "javascript:;", class: "nav-link", data: {popup_open: "popup-2"} %>
-          </li>
-        <% else %>
-          <li class="nav-item">
             <%= link_to "#", class: "nav-link" do %>
               <span>Message</span><span class="badge">2</span>
             <% end %>
@@ -37,6 +30,13 @@
 
               <%= render partial: "layouts/user_icon_menu_box" %>
             <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Sign up", "javascript:;", class: "nav-link", data: {popup_open: "popup-1"} %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Log in", "javascript:;", class: "nav-link", data: {popup_open: "popup-2"} %>
           </li>
 
         <% end %>
