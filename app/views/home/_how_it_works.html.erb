@@ -1,74 +1,48 @@
-<tr>
-  <td>
-    <h1 style="padding-top:15px">How it works</h1>
-    <table style="width: 90%">
-      <tr>
-        <td>
-          <%= image_tag "how-it-works-1.jpg", alt: "", class: "Image300px" %>
-        </td>
-        <td>
-          <%= image_tag "how-it-works-2.jpg", alt: "", class: "Image300px" %>
-        </td>
-        <td>
-          <%= image_tag "how-it-works-3.jpg", alt: "", class: "Image300px" %>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center; width: 33%">
-          <table style="width: 100%">
-            <tr>
-              <td valign="top"><span class="HowItWorksNumber">1</span></td>
-              <td style="text-align: left" class="Padding10PxLeft30pxRight "><strong>
-                <br />
-                It's FREE 
-                to list an employee</strong><br />
-                As a company, you can list your employee for 
-                sharing. As a job seeker, you can list yourself 
-                for hiring.
-              </td>
-            </tr>
-          </table>
-        </td>
-        <td style="text-align: center; width: 33%">
-          <table style="width: 100%">
-            <tr>
-              <td valign="top"><span class="HowItWorksNumber">2</span></td>
-              <td style="text-align: left" class="Padding10PxLeft30pxRight">
-                <strong><br />
-                Get your employee ready for work</strong><br />
-                Discuss with 
-                Hirer through our 
-                messaging platform. Provide further details if 
-                requested.
-              </td>
-            </tr>
-          </table>
-        </td>
-        <td style="text-align: center; width: 33%">
-          <table style="width: 100%">
-            <tr>
-              <td valign="top"><span class="HowItWorksNumber">3</span></td>
-              <td style="text-align: left" class="Padding10PxLeft30pxRight">
-                <strong><br />
-                Get paid</strong><br />
-                Our secure payment system let you
-                get paid automatically after employment starts.
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          &nbsp;
-        </td>
-        <td>
-          &nbsp;
-        </td>
-        <td>
-          &nbsp;
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+<div class="how-it-work-box">
+  <h1 class="work-heading">You might be interested in</h1>
+
+  <div class="work-card-box">
+    <div class="work-card">
+      <div class="card-img-box">
+        <%= image_tag "how-it-works-1.jpg", alt: "", class: "card-image" %>
+      </div>
+      <div class="card-details">
+        <div class="num-text">1</div>
+        <div class="detail">
+          <div><b>It's FREE to list</b></div>
+          <div>
+            As a job seeker, you can list yourself for
+            companies to find you. Create your best profile
+            to attract employers.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="card-img-box">
+        <%= image_tag "how-it-works-2.jpg", alt: "", class: "card-image" %>
+      </div>
+      <div class="card-details">
+        <div class="num-text">2</div>
+        <div class="detail">
+        <div><b>Get ready for work</b></div>
+        <div>Discuss with Hirer through our messaging platform. Provide further details if requested.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="card-img-box">
+        <%= image_tag "how-it-works-3.jpg", alt: "", class: "card-image" %>
+      </div>
+      <div class="card-details">
+        <div class="num-text">3</div>
+        <div class="detail">
+        <div><b>Get paid</b></div>
+        <div>Our secure payment system let you get paid automatically after employment starts.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

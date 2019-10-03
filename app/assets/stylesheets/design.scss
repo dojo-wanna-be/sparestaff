@@ -193,9 +193,13 @@
         .licting-card-link {
           color: #484848;
           margin-right: 86px;
+          padding: 5px;
+          padding-bottom: 10px;
+          border-radius: 5px;
 
           &:hover {
             text-decoration: none;
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
           }
 
           .listing-card {
@@ -226,6 +230,138 @@
             }
           }
         }
+      }
+    }
+
+    .employe-hiring-box {
+      margin-top: 30px;
+
+      .hiring-heading {
+        font-size: 32px;
+        font-weight: bold;
+        color: #484848;
+        line-height: 1.4;
+      }
+
+      .image-details-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 25px;
+
+        .image-box {
+          width: 270px;
+          height: 266px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          text-align: center;
+          font-size: 12pt;
+          color: #484848;
+          line-height: 1.4;
+
+          .image {
+            .Image200px {
+              height: 200px;
+              width: 200px;
+            }
+          }
+        }
+      }
+    }
+
+    .how-it-work-box {
+      margin-top: 47px;
+
+      .work-heading {
+        font-size: 32px;
+        font-weight: bold;
+        color: #484848;
+        line-height: 1.4;
+      }
+
+      .work-card-box {
+        display: flex;
+        flex-direction: row;
+       // justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 32px;
+
+        .work-card {
+          width: 361px;
+          height: 473px;
+          display: flex;
+          flex-direction: column;
+
+          .card-img-box {
+            height: 300px;
+            width: 300px;
+
+            .card-image {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+            }
+          }
+
+          .card-details {
+            margin-top: 0px;
+            display: flex;
+            flex-direction: row;
+
+            .num-text {
+              line-height: 1.4;
+              font-size: 80px;
+              color: #f15927;
+            }
+
+            .detail {
+              padding-left: 10px;
+              padding-right: 30px;
+              vertical-align: top;
+              font-size: 16px;
+              color: #484848;
+              line-height: 1.4;
+              padding-top: 22px;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  .list-employee-box {
+    height: 227px;
+    background-color: #F15927;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .employee-heading {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .employe-btn {
+      display: flex;
+      width: 180px;
+      height: 40px;
+      background-color: white;
+      border: 1.5px solid #d75227;
+      border-collapse: separate;
+      justify-content: center;
+      align-items: center;
+      margin-top: 15px;
+      border-radius: 3px;
+      color: #f15927;
+
+      &:hover {
+        background-color: #fcf1ed;
+        text-decoration: none;
+        box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+        color: #f15927;
       }
     }
   }

@@ -77,4 +77,3 @@ gem 'capistrano-rbenv', '~> 2.1'
 gem 'rb-readline'
 gem 'bootstrap', '~> 4.3.1'
 gem "font-awesome-rails"
-gem 'jquery-rails'
