@@ -1,1 +1,0 @@
-<%= f.select :classification_id, options_for_select(Classification.find(category_id).sub_classifications.order(:name).pluck(:name, :id)), {}, {style: "width:100%;"} %>
