@@ -99,8 +99,6 @@ class EmployeeListingsController < ApplicationController
     end
     @employee_listing.update_attribute(:listing_step, 4)
     redirect_to employee_step_5_path(id: @employee_listing.id)
-    end
-
   end
 
   def new_listing_step_5
