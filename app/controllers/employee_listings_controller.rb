@@ -11,6 +11,11 @@ class EmployeeListingsController < ApplicationController
                                       :show]
 
   before_action :find_company, only: [:create_listing_step_2]
+  before_action :listing_step, only: [:new_listing_step_2,
+                                      :new_listing_step_3,
+                                      :new_listing_step_4,
+                                     ]
+                                    
 
   def getting_started
   end
@@ -72,6 +77,7 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
+    @employee_listing.update_attributes(classification_id: params[:classification_id])
     params[:employee_listing_language_ids].each do |language_id|
       EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
     end
@@ -99,6 +105,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def show
+  end
+
+  def sub_category_lists
+    # @classification = Classification.find(params[:id])
   end
 
   private
@@ -140,7 +150,6 @@ class EmployeeListingsController < ApplicationController
 
   def listing_skill_params
     params.require(:employee_listing).permit(
-      :classification_id,
       :skill_description,
       :optional_comments
     )
@@ -153,4 +162,18 @@ class EmployeeListingsController < ApplicationController
   def find_company
     @company = Company.find(params[:company_id])
   end
+
+  def listing_step
+    step_list = action_name.split('_').last
+    if @employee_listing.listing_step.present? && (@employee_listing.listing_step.to_i + 1 < step_list.to_i)
+      step = "/employee/step_#{@employee_listing.listing_step}"
+      redirect_to step
+      # return false
+    else 
+     # step = "step_#{@employee_listing.listing_step.to_i + 1}"
+     # redirect_to "/employee/#{step}?id=#{params[:id]}"
+      return true
+    end 
+  end
+
 end
