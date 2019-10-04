@@ -6,8 +6,8 @@
         <td>
           <table class="ListAnEmployeeSteps">
             <tr>
-              <%= form_for @company, url: employee_step_2_path, method: :post do |f| %>
-                <td class="ListAnEmployeeMainWindow">
+              <td class="ListAnEmployeeMainWindow">
+                <%= form_for @company, url: employee_step_2_path, method: :post do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <%= hidden_field_tag "company_id", @company.id %>
                   <h1 style="padding-top:15px">
@@ -78,7 +78,7 @@
                   <table style="width: 100%">
                     <tr>
                       <td style="width: 33%">
-                        <%= link_to "Back", employee_step_1_path %>
+                        <%= link_to "Back", employee_step_1_path(id: @employee_listing.id) %>
                         <!-- <a href="list-an-employee-step-1.html">&lt; Back</a> -->
                       </td>
                       <td style="width: 33%"><a href="javascript:;">Save for 
@@ -97,23 +97,14 @@
                     </tr>
                   </table>
                   <p>&nbsp;</p>
-                </td>
-              <% end %>
+                <% end %>
+              </td>
               <td class="ListAnEmployeeTipWindow">
                 <div class="TipBoxForListAnEmployee">
                   <img alt="" src="/assets/light-bulb.png"  /><br />
                   Your company details is not visible in searches and is only 
                   shared to Hirer after you have accepted Hirer's Request to Hire. This is how we can all get in 
                   touch. <br />
-                </div>
-                <div class="NoteToDeveloper300WidthMarginTop20px" style="margin: 400px 0px 0px 30px">Note to 
-                  developer:<br />
-                  This page is only shown if Poster selected 2nd option 
-                  (representing company in Step 1 - 
-                  list-an-employee-step-1.html). Clicking on Continue will 
-                  take to Step 3.<br />
-                  If Poster selected 1st option in Step 1 (listing himself) 
-                  then it will skip this Step 2 and go to Step 3.
                 </div>
               </td>
             </tr>

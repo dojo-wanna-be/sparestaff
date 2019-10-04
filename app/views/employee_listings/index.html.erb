@@ -1,0 +1,175 @@
+<%= render partial: "user_settings_header" %>
+<tr>
+  <td>
+    <table style="width: 100%">
+      <tr>
+        <td class="UserLeftMenuGap">&nbsp;</td>
+        <td class="AccountLeftMenu">&nbsp;</td>
+        <td class="Width800px">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top">
+          &nbsp;
+        </td>
+        <td valign="top">
+          <!--webbot bot="Include" u-include="../includes/your-listings-left-menu.html" tag="BODY" startspan -->
+          <table class="AccountLeftMenu">
+            <tr>
+              <td>
+                <%= link_to "Your Listings", employee_listings_path, id: "YourListingsLeftMenu" %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a id="YourReservations" href="user-your-reservations.html">Your Reservations</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+          <table class="ButtonOrange">
+            <tr>
+              <td>
+                <%= link_to "Add New Listing", employee_step_1_path %>
+              </td>
+            </tr>
+          </table>
+          <!--webbot bot="Include" endspan i-checksum="25610" -->
+        </td>
+        <td class="PaddingRightBottom20px">
+          <% if @employee_listings.present? %>
+            <table class="UserAccountBox">
+              <tr>
+                <th>Listed</th>
+              </tr>
+              <% @employee_listings.each do |listing| %>
+                <tr>
+                  <td class="UserAccountBoxContent">
+                    <div class="divTable ListingBox PositionRelative">
+                      <div class="divTableRow">
+                        <div class="divTableCell ListingImageBoxSmaller" style="background-image:url('/assets/luca.png')">
+                        </div>
+                        <div class="divTableCell ListingContent MarginLeft250Px FloatLeft">
+                          <span class="OrderListingTitle"><%= listing.title %></span><br />
+                          <span class="OrderListingSubTitle"><%= "#{listing.first_name} #{listing.last_name}" %></span><br />
+                          <%= "#{listing.city} #{listing.state} #{listing.post_code}" %><br />
+                          <br />
+                          <span class="GreyText16Px">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></span><br />
+                          <br />
+                          <table style="width: 340px">
+                            <tr>
+                              <td>
+                                <table class="ButtonDarkGrey180px FloatLeft">
+                                  <tr>
+                                    <td>
+                                      <a href="user-manage-listing-listing-details.html">Manage Listing</a>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                              <td>
+                                <table class="FloatRight ButtonDarkGrey140px">
+                                  <tr>
+                                    <td>
+                                      <%= link_to "Preview", employee_listing_path(id: listing.id), target: "_blank" %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          <% end %>
+        </td>
+        <td valign="top">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          &nbsp;
+        </td>
+        <td valign="top">
+          &nbsp;
+        </td>
+        <td class="PaddingRightBottom20px">
+          <table class="UserAccountBox">
+            <tr>
+              <th>In Progress</th>
+            </tr>
+            <tr>
+              <td class="UserAccountBoxContent">
+                <div class="divTable ListingBox PositionRelative">
+                  <div class="divTableRow">
+                    <div class="divTableCell ListingImageBoxSmaller" style="background-image:url('/assets/no-image.jpg')">
+                    </div>
+                    <div class="divTableCell ListingContent MarginLeft250Px FloatLeft">
+                      <span class="OrderListingTitle">Office Admin</span><br />
+                      <span class="OrderListingSubTitle">Lionel Messi</span><br />
+                      North Sydney NSW 2060<br />
+                      <br />
+                      <span class="GreyText16Px">Last updated on 12 December 2017</span><br />
+                      <br />
+                      <table style="width: 340px">
+                        <tr>
+                          <td>
+                            <table class="ButtonOrange FloatLeft">
+                              <tr>
+                                <td>
+                                  <a href="../list-an-employee/list-an-employee-step-1.html">Finish The Listing</a>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td>
+                            <table class="FloatRight ButtonDarkGrey140px">
+                              <tr>
+                                <td>
+                                  <a href="../employee-search/employee-profile.html" target="_blank">Preview</a>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td valign="top">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td>
+    &nbsp;
+  </td>
+</tr>
+<%= render partial: "layouts/footer" %>
+<script type="text/javascript">
+  window.onload=function(){
+    highlight_menu('YourListings');
+    highlight_left_menu('YourListingsLeftMenu');
+  };
+</script>

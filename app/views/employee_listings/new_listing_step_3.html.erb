@@ -7,7 +7,10 @@
           <table class="ListAnEmployeeSteps">
             <tr>
               <td class="ListAnEmployeeMainWindow">
-                <%= form_for @employee_listing, url: employee_step_3_path, method: :post, :html => { :id => "freelancer_name" } do |f| %>
+
+    
+
+                <%= form_for @employee_listing, url: employee_step_3_path, method: :post, multipart: true do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <h1 style="padding-top:15px">
                     Employee details
@@ -92,9 +95,11 @@
                     <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES), {}, {class: "Width50Percent"} %>
                   </p>
                   <div class="PositionAbsolute" style="margin-left:345px; margin-top:-55px">
-                    <%= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
+                    <%= f.file_field :verification_front_image , class: "Height100px"%>
+                    <%#= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
                     <span class="PaddingLeft20px"></span>
-                    <%= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
+                    <%= f.file_field :verification_back_image, class: "Height100px" %>
+                    <%#= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
                   </div>
                   <table style="width: 100%">
                     <tr>
@@ -157,7 +162,7 @@
                   <table style="width: 100%">
                     <tr>
                       <td style="width: 33%">
-                        <%= link_to "Back", employee_step_2_path %>
+                        <%= link_to "Back", employee_step_2_path(id: @employee_listing.id) %>
                         <!-- <a href="list-an-employee-step-2.html">&lt; Back</a> -->
                       </td>
                       <td style="width: 33%"><a href="javascript:;">Save for 

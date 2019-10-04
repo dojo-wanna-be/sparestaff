@@ -6,6 +6,8 @@ class EmployeeListingsController < ApplicationController
                                       :create_listing_step_3,
                                       :new_listing_step_4,
                                       :create_listing_step_4,
+                                      :new_listing_step_5,
+                                      :create_listing_step_5,
                                       :preview_listing,
                                       :publish_listing,
                                       :show]
@@ -18,6 +20,14 @@ class EmployeeListingsController < ApplicationController
                                     
 
   def getting_started
+  end
+
+  def index
+    if current_user.is_owner? || current_user.is_hr?
+      @employee_listings = current_user.company.employee_listings.where(published: true)
+    elsif current_user.is_individual?
+      @employee_listing = current_user.employee_listings.where(published: true)
+    end
   end
 
   def new_listing_step_1
@@ -68,6 +78,8 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
+    @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image])
+    @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image])
     @employee_listing.update_attribute(:listing_step, 3)
     redirect_to employee_step_4_path(id: @employee_listing.id)
   end
@@ -78,10 +90,50 @@ class EmployeeListingsController < ApplicationController
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
     @employee_listing.update_attributes(classification_id: params[:classification_id])
-    params[:employee_listing_language_ids].each do |language_id|
+    if params[:employee_listing_language_ids].present?
+      @employee_listing.employee_listing_languages.destroy_all
+      params[:employee_listing_language_ids].each do |language_id|
       EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
+      @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
+      end
     end
     @employee_listing.update_attribute(:listing_step, 4)
+    redirect_to employee_step_5_path(id: @employee_listing.id)
+    end
+
+  end
+
+  def new_listing_step_5
+  end
+
+  def create_listing_step_5
+    @employee_listing.update(listing_availability_params)
+
+    if params[:slot_ids].present?
+      @employee_listing.employee_listing_slots.destroy_all
+      params[:slot_ids].each do |slot_id|
+        EmployeeListingSlot.create(employee_listing_id: @employee_listing.id, slot_id: slot_id)
+      end
+    end
+
+    if params[:unavailable_days].present?
+      @employee_listing.employee_listing_languages.destroy_all
+      (ListingAvailability::DAYS.map{|k,v| v} - params[:unavailable_days]).each do |day|
+        ListingAvailability.create(employee_listing_id: @employee_listing.id,
+                                    day: day,
+                                    start_time: params[:start_time].first[:"#{day}"],
+                                    end_time: params[:end_time].first[:"#{day}"])
+      end
+    else
+      ListingAvailability::DAYS.map{|k,v| v}.each do |day|
+        ListingAvailability.create(employee_listing_id: @employee_listing.id,
+                                    day: day,
+                                    start_time: params[:start_time].first[:"#{day}"],
+                                    end_time: params[:end_time].first[:"#{day}"])
+      end
+    end
+
+    @employee_listing.update_attribute(:listing_step, 5)
     redirect_to employee_preview_path(id: @employee_listing.id)
   end
 
@@ -152,6 +204,17 @@ class EmployeeListingsController < ApplicationController
     params.require(:employee_listing).permit(
       :skill_description,
       :optional_comments
+    )
+  end
+
+  def listing_availability_params
+    params.require(:employee_listing).permit(
+      :available_in_holidays,
+      :weekday_price,
+      :holiday_price,
+      :minimum_working_hours,
+      :start_publish_date,
+      :end_publish_date
     )
   end
 

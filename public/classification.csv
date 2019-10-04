@@ -1,0 +1,414 @@
+id,name,parent_classification_id
+1,Accounting,NULL
+2,Analysis & Reporting,1
+3,Accounts Officer/Clerks,1
+4,Accounts Payable,1
+5,Accounts Receivable/Credit Control,1
+6,Assistant Accountants,1
+7,Audit - External,1
+8,Audit - Internal,1
+9,Bookkeeping & Small Practice Accounting,1
+10,Business Services & Corporate Advisory,1
+11,Company Secretaries,1
+12,Compliance & Risk,1
+13,Cost Accounting,1
+14,Financial Accounting & Reporting,1
+15,Financial Managers & Controllers,1
+16,Forensic Accounting & Investigation,1
+17,Insolvency & Corporate Recover,1
+18,Inventory & Fixed Assets,1
+19,Management,1
+20,Management Accounting & Budgeting,1
+21,Payroll,1
+22,Strategy & Planning,1
+23,Systems Accounting & IT Audit,1
+24,Taxation,1
+25,Treasury,1
+26,Other,1
+27,Administration & Office Support,NULL
+28,Administrative Assistants,27
+29,Client & Sales Administration,27
+30,Contracts Administration,27
+31,Data Entry & Word Processing,27
+32,Office Management,27
+33,"PA, EA & Secretarial",27
+34,Receptionists,27
+35,Records Management & Document Control,27
+36,Other,27
+37,"Advertising, Arts & Media",NULL
+38,Agency Account Management,37
+39,Art Direction,37
+40,Editing & Publishing,37
+41,Event Management,37
+42,Journalism & Writing,37
+43,Management,37
+44,"Media Strategy, Planning & Buying",37
+45,Performing Arts,37
+46,Photography,37
+47,Programming & Production,37
+48,Promotions,37
+49,Other,37
+50,Banking & Financial Services,NULL
+51,Account & Relationship Management,50
+52,Analysis & Reporting,50
+53,Banking - Business,50
+54,Banking - Corporate & Institutional,50
+55,Banking - Retail/Branch,50
+56,Client Services,50
+57,Compliance & Risk,50
+58,Corporate Finance & Investment Banking,50
+59,Credit,50
+60,Financial Planning,50
+61,Funds Management,50
+62,Management,50
+63,Mortgages,50
+64,Settlements,50
+65,Stockbroking & Trading,50
+66,Treasury,50
+67,Other,50
+68,Call Centre & Customer Service,NULL
+69,Collections,68
+70,Customer Service - Call Centre,68
+71,Customer Service - Customer Facing,68
+72,Management & Support,68
+73,Sales - Inbound,68
+74,Sales - Outbound,68
+75,Supervisors/Team Leaders,68
+76,Other,68
+77,CEO & General Management,NULL
+78,Board Appointments,77
+79,CEO,77
+80,COO & MD,77
+81,General/Business Unit Manager,77
+82,Other,77
+83,Community Services & Development,NULL
+84,Aged & Disability Support,83
+85,"Child Welfare, Youth & Family Services",83
+86,Community Development,83
+87,Employment Services,83
+88,Fundraising,83
+89,Housing & Homelessness Services,83
+90,Indigenous & Multicultural Services,83
+91,Management,83
+92,Volunteer Coordination & Support,83
+93,Other,83
+94,Construction,NULL
+95,Contracts Management,94
+96,Estimating,94
+97,Foreperson/Supervisors,94
+98,"Health, Safety & Environment",94
+99,Management,94
+100,Planning & Scheduling,94
+101,Plant & Machinery Operators,94
+102,Project Management,94
+103,Quality Assurance & Control,94
+104,Surveying,94
+105,Other,94
+106,Consulting & Strategy,NULL
+107,Analysts,106
+108,Corporate Development,106
+109,Environment & Sustainability Consulting,106
+110,Management & Change Consulting,106
+111,Policy,106
+112,Strategy & Planning,106
+113,Other,106
+114,Design & Architecture,NULL
+115,Architectural Drafting,114
+116,Architecture,114
+117,Fashion & Textile Design,114
+118,Graphic Design,114
+119,Illustration & Animation,114
+120,Industrial Design,114
+121,Interior Design,114
+122,Landscape Architecture,114
+123,Urban Design & Planning,114
+124,Web & Interaction Design,114
+125,Other,114
+126,Education & Training,NULL
+127,Childcare & Outside School Hours Care,126
+128,Library Services & Information Management,126
+129,Management - Schools,126
+130,Management - Universities,126
+131,Management - Vocational,126
+132,Research & Fellowships,126
+133,Student Services,126
+134,Teaching - Early Childhood,126
+135,Teaching - Primary,126
+136,Teaching - Secondary,126
+137,Teaching - Tertiary,126
+138,Teaching - Vocational,126
+139,Teaching Aides & Special Needs,126
+140,Tutoring,126
+141,Workplace Training & Assessment,126
+142,Other,126
+143,Engineering,NULL
+144,Aerospace Engineering,143
+145,Automotive Engineering,143
+146,Building Services Engineering,143
+147,Chemical Engineering,143
+148,Civil/Structural Engineering,143
+149,Electrical/Electronic Engineering,143
+150,Engineering Drafting,143
+151,Environmental Engineering,143
+152,Field Engineering,143
+153,Industrial Engineering,143
+154,Maintenance,143
+155,Management,143
+156,Materials Handling Engineering,143
+157,Mechanical Engineering,143
+158,Process Engineering,143
+159,Project Engineering,143
+160,Project Management,143
+161,Supervisors,143
+162,Systems Engineering,143
+163,Water & Waste Engineering,143
+164,Other,143
+165,"Farming, Animals & Conservation",NULL
+166,Agronomy & Farm Services,165
+167,"Conservation, Parks & Wildlife",165
+168,Farm Labour,165
+169,Farm Management,165
+170,Fishing & Aquaculture,165
+171,Horticulture,165
+172,Veterinary Services & Animal Welfare,165
+173,Winery & Viticulture,165
+174,Other,165
+175,Healthcare & Medical,NULL
+176,Ambulance/Paramedics,175
+177,Chiropractic & Osteopathic,175
+178,Clinical/Medical Research,175
+179,Dental,175
+180,Dieticians,175
+181,Environmental Services,175
+182,General Practitioners,175
+183,Management,175
+184,Medical Administration,175
+185,Medical Imaging,175
+186,Medical Specialists,175
+187,Natural Therapies & Alternative Medicine,175
+188,"Nursing - A&E, Critical Care & ICU",175
+189,Nursing - Aged Care,175
+190,"Nursing - Community, Maternal & Child Health",175
+191,Nursing - Educators & Facilitators,175
+192,Nursing - General Medical & Surgical,175
+193,Nursing - High Acuity,175
+194,Nursing - Management,175
+195,"Nursing - Midwifery, Neo-Natal, SCN & NICU",175
+196,Nursing - Paediatric & PICU,175
+197,"Nursing - Psych, Forensic & Correctional Health",175
+198,Nursing - Theatre & Recovery,175
+199,Optical,175
+200,Pathology,175
+201,Pharmaceuticals & Medical Devices,175
+202,Pharmacy,175
+203,"Physiotherapy, OT & Rehabilitation",175
+204,"Psychology, Counselling & Social Work",175
+205,Residents & Registrars,175
+206,Sales,175
+207,Speech Therapy,175
+208,Other,175
+209,Hospitality & Tourism,NULL
+210,Airlines,209
+211,Bar & Beverage Staff,209
+212,Chefs/Cooks,209
+213,Front Office & Guest Services,209
+214,Gaming,209
+215,Housekeeping,209
+216,Kitchen & Sandwich Hands,209
+217,Management,209
+218,Reservations,209
+219,Tour Guides,209
+220,Travel Agents/Consultants,209
+221,Waiting Staff,209
+222,Other,209
+223,Human Resources & Recruitment,NULL
+224,Consulting & Generalist HR,223
+225,Industrial & Employee Relations,223
+226,Management - Agency,223
+227,Management - Internal,223
+228,Occupational Health & Safety,223
+229,Organisational Development,223
+230,Recruitment - Agency,223
+231,Recruitment - Internal,223
+232,Remuneration & Benefits,223
+233,Training & Development,223
+234,Other,223
+235,Information & Communication Technology,NULL
+236,Architects,235
+237,Business/Systems Analysts,235
+238,Computer Operators,235
+239,Consultants,235
+240,Database Development & Administration,235
+241,Developers/Programmers,235
+242,Engineering - Hardware,235
+243,Engineering - Network,235
+244,Engineering - Software,235
+245,Help Desk & IT Support,235
+246,Management,235
+247,Networks & Systems Administration,235
+248,Product Management & Development,235
+249,Programme & Project Management,235
+250,Sales - Pre & Post,235
+251,Security,235
+252,Team Leaders,235
+253,Technical Writing,235
+254,Telecommunications,235
+255,Testing & Quality Assurance,235
+256,Web Development & Production,235
+257,Other,235
+258,Insurance & Superannuation,NULL
+259,Actuarial,258
+260,Assessment,258
+261,Brokerage,258
+262,Claims,258
+263,Fund Administration,258
+264,Management,258
+265,Risk Consulting,258
+266,Superannuation,258
+267,Underwriting,258
+268,Workers' Compensation,258
+269,Other,258
+270,Legal,NULL
+271,Banking & Finance Law,270
+272,Construction Law,270
+273,Corporate & Commercial Law,270
+274,Criminal & Civil Law,270
+275,Environment & Planning Law,270
+276,Family Law,270
+277,Generalists - In-house,270
+278,Generalists - Law Firm,270
+279,Industrial Relations & Employment Law,270
+280,Insurance & Superannuation Law,270
+281,Intellectual Property Law,270
+282,Law Clerks & Paralegals,270
+283,Legal Practice Management,270
+284,Legal Secretaries,270
+285,Litigation & Dispute Resolution,270
+286,Personal Injury Law,270
+287,Property Law,270
+288,Tax Law,270
+289,Other,270
+290,"Manufacturing, Transport & Logistics",NULL
+291,Analysis & Reporting,290
+292,Assembly & Process Work,290
+293,Aviation Services,290
+294,"Couriers, Drivers & Postal Services",290
+295,Fleet Management,290
+296,Freight/Cargo Forwarding,290
+297,Import/Export & Customs,290
+298,Machine Operators,290
+299,Management,290
+300,Pattern Makers & Garment Technicians,290
+301,Pickers & Packers,290
+302,"Production, Planning & Scheduling",290
+303,Public Transport & Taxi Services,290
+304,"Purchasing, Procurement & Inventory",290
+305,Quality Assurance & Control,290
+306,Rail & Maritime Transport,290
+307,Road Transport,290
+308,Team Leaders/Supervisors,290
+309,"Warehousing, Storage & Distribution",290
+310,Other,290
+311,Marketing & Communications,NULL
+312,Brand Management,311
+313,Digital & Search Marketing,311
+314,Direct Marketing & CRM,311
+315,Event Management,311
+316,Internal Communications,311
+317,Management,311
+318,Market Research & Analysis,311
+319,Marketing Assistants/Coordinators,311
+320,Marketing Communications,311
+321,Product Management & Development,311
+322,Public Relations & Corporate Affairs,311
+323,Trade Marketing,311
+324,Other,311
+325,"Mining, Resources & Energy",NULL
+326,Analysis & Reporting,325
+327,"Health, Safety & Environment",325
+328,Management,325
+329,Mining - Drill & Blast,325
+330,Mining - Engineering & Maintenance,325
+331,Mining - Exploration & Geoscience,325
+332,Mining - Operations,325
+333,Mining - Processing,325
+334,Natural Resources & Water,325
+335,Oil & Gas - Drilling,325
+336,Oil & Gas - Engineering & Maintenance,325
+337,Oil & Gas - Exploration & Geoscience,325
+338,Oil & Gas - Operations,325
+339,Oil & Gas - Production & Refinement,325
+340,Power Generation & Distribution,325
+341,Surveying,325
+342,Other,325
+343,Real Estate & Property,NULL
+344,Administration,343
+345,Analysts,343
+346,Body Corporate & Facilities Management,343
+347,"Commercial Sales, Leasing & Property Mgmt",343
+348,Residential Leasing & Property Management,343
+349,Residential Sales,343
+350,Retail & Property Development,343
+351,Valuation,343
+352,Other,343
+353,Retail & Consumer Products,NULL
+354,Buying,353
+355,Management - Area/Multi-site,353
+356,Management - Department/Assistant,353
+357,Management - Store,353
+358,Merchandisers,353
+359,Planning,353
+360,Retail Assistants,353
+361,Other,353
+362,Sales,NULL
+363,Account & Relationship Management,362
+364,Analysis & Reporting,362
+365,Management,362
+366,New Business Development,362
+367,Sales Coordinators,362
+368,Sales Representatives/Consultants,362
+369,Other,362
+370,Science & Technology,NULL
+371,Biological & Biomedical Sciences,370
+372,Biotechnology & Genetics,370
+373,Chemistry & Physics,370
+374,"Environmental, Earth & Geosciences",370
+375,Food Technology & Safety,370
+376,Laboratory & Technical Services,370
+377,Materials Sciences,370
+378,"Mathematics, Statistics & Information Sciences",370
+379,Modelling & Simulation,370
+380,Quality Assurance & Control,370
+381,Other,370
+382,Self Employment,NULL
+383,Self Employment,382
+384,Sport & Recreation,NULL
+385,Coaching & Instruction,384
+386,Fitness & Personal Training,384
+387,Management,384
+388,Other,384
+389,Trades & Services,NULL
+390,Air Conditioning & Refrigeration,389
+391,Automotive Trades,389
+392,Bakers & Pastry Chefs,389
+393,Building Trades,389
+394,Butchers,389
+395,Carpentry & Cabinet Making,389
+396,Cleaning Services,389
+397,Electricians,389
+398,"Fitters, Turners & Machinists",389
+399,Floristry,389
+400,Gardening & Landscaping,389
+401,Hair & Beauty Services,389
+402,Labourers,389
+403,Locksmiths,389
+404,Maintenance & Handyperson Services,389
+405,Nannies & Babysitters,389
+406,Painters & Sign Writers,389
+407,Plumbers,389
+408,Printing & Publishing Services,389
+409,Security Services,389
+410,Tailors & Dressmakers,389
+411,Technicians,389
+412,Welders & Boilermakers,389
+413,Other,389
