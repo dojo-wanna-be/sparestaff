@@ -1,80 +1,63 @@
-<div class="popup" data-popup="popup-3">
-  <%= form_for @user, url: registration_path(@user), html: {id: "user_signup_form"} do |f| %>
-    <div class="popup-inner">
-      <p style="font-size:10pt">
-        Sign up with <%= link_to "Facebook", user_facebook_omniauth_authorize_path, class: "SmallLink" %> instead?
-      </p>
-      <table>
-        <tr>
-          <td style="width:45%">
-            <table class="GreyLine1Px" cellpadding="0">
-              <tr>
-                <td></td>
-              </tr>
-            </table>
-            </td style="width:10%">
-          <td style="text-align: center">or</td>
-          <td style="width:45%">
-            <table class="GreyLine1Px" cellpadding="0">
-              <tr>
-                <td></td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <br />
-      <%= f.email_field :email, placeholder: "Email", id: "new_user_email", class: "SlimBorder", required: true %><br />
-      <br />
-      <table>
-        <tr>
-          <td class="Width50Percent PaddingRight5px">
-            <%= f.text_field :first_name, placeholder: "First name", id: "new_user_first_name", class: "SlimBorder", required: true %>
-          </td>
-          <td class="Width50Percent PaddingLeft5px">
-            <%= f.text_field :last_name, placeholder: "Last name", id: "new_user_last_name", class: "SlimBorder", required: true %>
-          </td>
-        </tr>
-      </table>
-      <div style="text-align: center">
-        <br />
-        <%= f.password_field :password, placeholder: "Password", id: "new_user_password", class: "SlimBorder", required: true %><br />
-        <br />
-        <%= f.password_field :password_confirmation, placeholder: "Confirm password", id: "new_user_confirm_password", class: "SlimBorder", required: true %><br />
-        <br />
-        <table class="SmallLetters">
-          <tr>
-            <td style="width: 20px">
-              <%= f.check_box :allow_marketing_promotions %>
-            </td>
-            <td style="text-align: left">I'd like to receive marketing
-              promotions, special offers, inspiration, and policy updates
-              from Spare Staff via email.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= check_box_tag :agree_terms, "", false, required: true %>
-            </td>
-            <td style="text-align: left">I agree to Spare Staff
-              <%= link_to "Privacy Policy", "#", class: "SmallLink" %> and
-              <%= link_to "Terms and Conditions", "#", class: "SmallLink" %>
-            </td>
-          </tr>
-        </table>
-        <br />
+<div class="modal custom-modal" id="signupModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
       </div>
-      <table  class="ButtonOrangeSignUp">
-        <tr>
-          <td>
-            <%= f.submit "Sign up", class: "cust_btn" %>
-            <!-- <a href="home.html">Sign up</a> -->
-          </td>
-        </tr>
-      </table>
-      <%= link_to "#", class: "popup-close", data: {popup_close: "popup-3"} do %>
-        <%= image_tag "cross.jpg" %>
-      <% end %>
+
+      <div class="modal-body">
+        <div class="facebook-login">
+          <%#= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path, class: 'facebook-btn' %>
+          <p style="font-size:10pt">
+            Sign up with <%= link_to "Facebook", user_facebook_omniauth_authorize_path, class: "small-link" %> instead?
+          </p>
+        </div>
+
+        <div class="login-or">
+          <hr class="hr-or">
+          <span class="span-or">or</span>
+         </div>
+
+        <div class="session-box">
+          <%= form_for @user, url: registration_path(@user), html: {id: "user_signup_form"} do |f| %>
+
+            <%= f.email_field :email, placeholder: "Email", id: "new_user_email", class: "custom-field", required: true %>
+
+            <div class="name-box">
+              <%= f.text_field :first_name, placeholder: "First name", id: "new_user_first_name", class: "custom-field", required: true %>
+
+              <%= f.text_field :last_name, placeholder: "Last name", id: "new_user_last_name", class: "custom-field", required: true %>
+            </div>
+
+            <%= f.password_field :password, placeholder: "Password", id: "new_user_password", class: "custom-field", required: true %>
+
+            <%= f.password_field :password_confirmation, placeholder: "Confirm password", id: "new_user_confirm_password", class: "custom-field", required: true %>
+
+
+            <div class="show-pass-box">
+              <div class="remember-me">
+                <%= f.check_box :allow_marketing_promotions, class: 'custom-check' %>
+                I'd like to receive marketing promotions, special offers, inspiration, and policy updates from Spare Staff via email.
+              </div>
+            </div>
+            <div class="show-pass-box">
+              <div class="remember-me">
+                <%= check_box_tag :agree_terms, "", false, required: true, class: 'custom-check' %>
+                I agree to Spare Staff &nbsp; <%= link_to "Privacy Policy", "#", class: "small-link" %> &nbsp; and &nbsp; <%= link_to "Terms and Conditions", "#", class: "small-link" %>
+              </div>
+            </div>
+
+            <div class="sesion-btn">
+              <%= f.submit "Sign up", class: "cust_btn" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
+
+
+
+

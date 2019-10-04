@@ -448,7 +448,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 20px 99px 0;
+    margin: 20px 99px 40px;
     border-top: 1px solid #C0C0C0;
     padding: 18px 0;
 
@@ -494,3 +494,207 @@
 
 
 /** HOMEPAGE END CSS **/
+
+
+/** MODAL CSS **/
+
+.custom-modal {
+
+  .modal-dialog {
+    max-width: 530px;
+    width: 100%;
+    padding: 40px;
+    background: #fff;
+
+    .modal-content {
+      border: none;
+      border-radius: 0;
+
+      .modal-header {
+        border: none;
+        position: relative;
+        padding: 0;
+        height: 0;
+
+        .close {
+          position: relative;
+          margin: 0;
+          padding: 11px;
+          height: 21px;
+          bottom: 13px;
+
+          .close-img {
+            height: 21px;
+            width: 23px;
+            position: absolute;
+            left: 0;
+            top: 3px;
+          }
+        }
+      }
+
+      .modal-body {
+        padding: 0px;
+        padding-top: 20px;
+
+        .small-link {
+          font-size: 14px;
+          color: #f15927;
+          text-decoration: none;
+        }
+
+        .facebook-login {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 16px 0;
+
+          .facebook-btn {
+            display: flex;
+            flex: auto;
+            justify-content: center;
+            height: 40px;
+            align-items: center;
+            color: #fff;
+            font-size: 12pt;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #4568b2;
+            border-radius: 3px;
+
+            &:hover {
+              text-decoration: none;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+            }
+          }
+        }
+
+        .login-or {
+          position: relative;
+          margin: 20px 0;
+          padding: 10px 0;
+          font-size: 15px;
+          color: #484848;
+          line-height: 1.4;
+          font-weight: 400;
+          .hr-or {
+            height: 1px;
+            margin: 0px !important;
+            border-top: 1px solid #e4e4e4;
+          }
+          .span-or {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 0px;
+            margin-left: -25px;
+            background-color: #fff;
+            width: 50px;
+            text-align: center;
+          }
+        }
+
+        .custom-field {
+          width: 100%;
+          border: 1px silver solid;
+          padding: 0 5px;
+          background: #fff;
+          height: 40px;
+          font-size: 15px;
+          margin-bottom: 22px;
+
+          &:hover {
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+          }
+          &.last-child {
+            margin-bottom: 10px;
+          }
+        }
+
+        .name-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .custom-field {
+            width: 48.5%;
+          }
+        }
+
+        .show-pass-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: 25px;
+
+          .remember-me {
+            line-height: 1.4;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .custom-check {
+              height: 13px;
+              margin-right: 10px;
+            }
+          }
+
+          .show-hide-pass {
+            .SmallLink {
+              font-size: 14px;
+              color: #f15927;
+            }
+          }
+        }
+
+        .sesion-btn {
+          margin-bottom: 20px;
+
+          .cust_btn {
+            background: #f15827;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+
+            &:hover {
+              text-decoration: none;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+            }
+          }
+        }
+
+        .forgot-box {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .forgot-link {
+            font-size: 14px;
+            color: #f15927;
+          }
+        }
+
+        .dont-have {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px 0 0px;
+          border-top: 1px solid #e4e4e4;
+          margin-top: 20px;
+          color: #484848;
+
+          .bottom-link {
+            font-size: 16px;
+            color: #f15927;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/** MODAL END CSS **/

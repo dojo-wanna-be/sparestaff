@@ -1,52 +1,37 @@
-<div class="popup" data-popup="popup-1">
-  <div class="popup-inner">
-    <br />
-    <br />
-    <table  class="ButtonBlueSignUp">
-      <tr>
-        <td>
-          <%= link_to "Sign up with Facebook", user_facebook_omniauth_authorize_path %>
-        </td>
-      </tr>
-    </table>
-    <br />
-    <table>
-      <tr>
-        <td style="width:45%">
-          <table class="GreyLine1Px" cellpadding="0">
-            <tr>
-              <td></td>
-            </tr>
-          </table>
-          </td style="width:10%">
-        <td style="text-align: center">or</td>
-        <td style="width:45%">
-          <table class="GreyLine1Px" cellpadding="0">
-            <tr>
-              <td></td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-    <br />
-    <table  class="ButtonOrangeSignUp">
-      <tr>
-        <td>
-          <%= link_to "Sign up with Email", "#", data: {popup_close: "popup-1", popup_open: "popup-3"} %>
-        </td>
-      </tr>
-    </table>
-    <br />
-    <table class="GreyLine1Px" cellpadding="0">
-      <tr>
-        <td></td>
-      </tr>
-    </table>
-    <br />
-    Already have a Spare Staff account? <%= link_to "Log in", "#", data: {popup_close: "popup-1", popup_open: "popup-2"} %>
-    <%= link_to "#", class: "popup-close", data: {popup_close: "popup-1"} do %>
-      <%= image_tag "cross.jpg" %>
-    <% end %>
+<div class="modal custom-modal" id="signup_button_Modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="facebook-login">
+          <%= link_to "Sign up with Facebook", user_facebook_omniauth_authorize_path, class: 'facebook-btn' %>
+        </div>
+
+        <div class="login-or">
+          <hr class="hr-or">
+          <span class="span-or">or</span>
+         </div>
+
+        <div class="session-box">
+
+          <div class="sesion-btn">
+            <%#= link_to "Sign up with Email", "javascript:;", data: {toggle: "modal", target: "#signupModal" }, class: "cust_btn" %>
+
+            <%= button_tag 'javascript:;', class: "cust_btn", data: {toggle: "modal", target: "#signupModal", dismiss: "modal" } do %>
+              <%= t('.Sign up with Email')%>
+            <% end %>
+          </div>
+
+          <div class="dont-have">
+            Already have a Spare Staff account? <%= link_to "Log in", "#", data: {toggle: "modal", target: "#loginModal", dismiss: "modal" }, class: 'bottom-link' %>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
