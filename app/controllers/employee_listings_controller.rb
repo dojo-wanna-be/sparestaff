@@ -135,7 +135,19 @@ class EmployeeListingsController < ApplicationController
   end
 
   def publish_listing
-    @employee_listing.update_attributes(published: true, listing_step: 6) if params[:published].eql?("true")
+    @employee_listing.update_attributes(published: true, listing_step: 5) if params[:published].eql?("true")
+    if @employee_listing.published.present?
+      user = current_user
+      user_admin = User.where(is_admin: true)
+      if user_admin.present?
+        UserMailer.admin_listing_confirmation(user_admin).deliver!
+      end
+      if @employee_listing.tfn.empty?
+       UserMailer.tfn_verification(user).deliver!
+      end
+      UserMailer.listing_create_confirmation(user).deliver!
+      UserMailer.photo_verification(user).deliver!
+    end
   end
 
   def show

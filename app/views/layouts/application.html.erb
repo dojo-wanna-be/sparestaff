@@ -16,10 +16,8 @@
   </head>
 
   <body>
-    <table style="width: 100%">
-      <%= render 'toastr_rails/flash' %>
-      <%= render partial: "layouts/header" %>
-      <%= yield %>
-    </table>
+    <%= render 'toastr_rails/flash' %>
+    <%= render partial: "layouts/header" %>
+    <%= yield %>
   </body>
 </html>

@@ -368,4 +368,129 @@
 }
 
 
+.custom-footer {
+  margin-top: 50px;
+  border-top: 1px solid #C0C0C0;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+
+  .inner-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 99px;
+
+    .footer-heading {
+      font-size: 16px;
+      color: #484848;
+      line-height: 1.4;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .footer-list-link {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      .list-item {
+
+        .custom-link {
+          color: #484848;
+          text-decoration: none;
+          line-height: 23px;
+          font-size: 15px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .left-box {
+      display: flex;
+      flex-direction: row;
+      width: calc(28% + 147px);
+      justify-content: space-between;
+
+      .logo-side {
+        width: 215px;
+
+        .logo-img {
+          height: 50px;
+        }
+      }
+
+      .spare-staff {
+        width: calc(100% - 150px);
+      }
+    }
+
+    .right-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 60%;
+
+      .easy-online {
+        width: 50%;
+      }
+
+      .employee {
+        width: 50%;
+      }
+    }
+  }
+
+  .sub-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 99px 0;
+    border-top: 1px solid #C0C0C0;
+    padding: 18px 0;
+
+    .left-sub {
+      .spare-link {
+        color: #484848;
+        text-decoration: none;
+        line-height: 1.4;
+        font-size: 13px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .right-sub {
+      .sub-list-link {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+
+        .sub-list-item {
+          margin-right: 10px;
+
+          .sub-custom-link {
+            color: #484848;
+            text-decoration: none;
+            line-height: 1.4;
+            font-size: 13px;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 /** HOMEPAGE END CSS **/
