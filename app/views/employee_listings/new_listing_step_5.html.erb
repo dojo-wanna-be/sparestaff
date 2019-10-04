@@ -1,0 +1,296 @@
+<tr>
+  <td>
+    <table cellpadding="0">
+      <tr>
+        <td style="width: 80px">&nbsp;</td>
+        <td>
+          <table class="ListAnEmployeeSteps">
+            <tr>
+              <td class="ListAnEmployeeMainWindow">
+                <%= form_for @employee_listing, url: employee_step_5_path, method: :post do |f| %>
+                  <%= hidden_field_tag "id", @employee_listing.id %>
+                  <h1 style="padding-top:15px">
+                    Employee availability and your earning
+                  </h1>
+                  <table style="width: 60%">
+                    <tr>
+                      <td>
+                        <strong>Availability of the employee </strong>
+                        (tick all that applies)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <table>
+                          <tr>
+                            <% Slot.all.each do |slot| %>
+                              <td style="width: 30px">
+                                <%= check_box_tag "slot_ids[]", slot.id %>
+                              </td>
+                              <td style="width: 200px"><%= slot.time_slot %></td>
+                            <% end %>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>As the employee might have other commitment, it’s 
+                    necessary to tell Hirers which day and time he/she is 
+                    available to be hired.
+                  </p>
+                  <table class="DaySelection" style="width:90%">
+                    <tr>
+                      <td style="width: 20%">&nbsp;</td>
+                      <td style="width: 25%">From</td>
+                      <td style="width: 25%; ">To</td>
+                      <td style="width: 30%;">
+                      </td>
+                    </tr>
+                    <% ListingAvailability::DAYS.each do |day, value| %>
+                      <tr>
+                        <td><%= day %></td>
+                        <td>
+                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                        </td>
+                        <td>
+                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                        </td>
+                        <td>
+                          <table>
+                            <tr>
+                              <td style="width: 30px;">
+                                <%= check_box_tag "unavailable_days[]", value %>
+                              </td>
+                              <td>Not available</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 50%">
+                        <strong>Public holiday</strong>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%">
+                        <table style="width: 100%">
+                          <tr>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :available_in_holidays, true %></strong>
+                            </td>
+                            <td style="width: 100px">Available</td>
+                            <td style="width: 30px">
+                              <strong>
+                              <%= f.radio_button :available_in_holidays, false %></strong>
+                            </td>
+                            <td>Not available</td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table>
+                  <br />
+                  <table>
+                    <tr>
+                      <td colspan="2">
+                        <strong>Select price per hour that Hirers are 
+                        expected to pay to hire the employee</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%">
+                        <table>
+                          <tr>
+                            <td style="width: 45%">
+                              &nbsp;
+                            </td>
+                            <td style="text-align: center; width:10%">
+                              &nbsp;
+                            </td>
+                            <td style="width:45%; text-align: right;">
+                              &nbsp;
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 45%">
+                              Weekday
+                            </td>
+                            <td style="text-align: center; width:10%">
+                              &nbsp;
+                            </td>
+                            <td style="width:45%; text-align: right;">
+                              &nbsp;
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 45%">
+                              <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES), {}, {style: "width:100%"} %>
+                            </td>
+                            <td style="text-align: center; width:10%">or</td>
+                            <td style="width:45%; text-align: right;">
+                              <%= f.number_field :weekday_price, placeholder: "Enter your own", style: "width:100%" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 45%">
+                              &nbsp;
+                            </td>
+                            <td style="text-align: center; width:10%">
+                              &nbsp;
+                            </td>
+                            <td style="width:45%; text-align: right;">
+                              &nbsp;
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">
+                              Weekend / Public holidays (if available)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 45%">
+                              <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES), {}, {style: "width:100%"} %>
+                            </td>
+                            <td style="text-align: center; width:10%">
+                              or
+                            </td>
+                            <td style="width:45%; text-align: right;">
+                              <%= f.number_field :holiday_price, placeholder: "Enter your own", style: "width:100%" %>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td style="width: 50%">
+                        &nbsp;
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    <strong>Minimum employment term per week</strong> (optional)<br />
+                    <strong>
+                      <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS), {}, {style: "width:50%"} %>
+                    </strong>
+                  </p>
+                  <table>
+                    <tr>
+                      <td colspan="2">
+                        <strong>When would you like to publish this listing?</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width:50%">
+                        <table cellpadding="0">
+                          <tr>
+                            <td style="width: 45%">&nbsp;</td>
+                            <td style="width: 10%">&nbsp;</td>
+                            <td style="width: 45%">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>Start date</td>
+                            <td>&nbsp;</td>
+                            <td>End date</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <table class="CalendarSelection">
+                                <tr>
+                                  <td>
+                                    <%= f.date_field :start_publish_date %>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              <table class="CalendarSelection">
+                                <tr>
+                                  <td>
+                                    <%= f.date_field :end_publish_date %>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        &nbsp;
+                      </td>
+                    </tr>
+                  </table>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 30px">
+                        <%= check_box_tag "confirm_details", "", false, style: "height:30px", required: true %>
+                      </td>
+                      <td class="RequiredFieldsNote">I confirm that 
+                        this employee has a valid Australian visa with 
+                        work rights.
+                      </td>
+                    </tr>
+                  </table>
+                  <p>
+                    &nbsp;
+                  </p>
+                  <div class="GreyLine1Px"></div>
+                  <br />
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 33%">
+                        <%= link_to "Back", employee_step_4_path(id: @employee_listing.id) %>
+                        <!-- <a href="list-an-employee-step-4.html">&lt; Back</a> -->
+                      </td>
+                      <td style="width: 33%"><a href="javascript:;">Save for 
+                        later</a>
+                      </td>
+                      <td>
+                        <table class="ButtonOrange" align="right">
+                          <tr>
+                            <td><%= f.submit "Preview", class: "cust_btn" %></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>&nbsp;</p>
+                <% end %>
+              </td>
+              <td class="ListAnEmployeeTipWindow">
+                <div class="TipBoxForListAnEmployee">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Great progress. This is the last step.<br />
+                  <br />
+                  Let’s work 
+                  out the employee availability and how much Hirer 
+                  should pay you.<br />
+                  <br />
+                  Keep the employee availability up-to-date to avoid 
+                  disappointing Hirers.<br />
+                </div>
+                <div class="TipBoxForListAnEmployee" style="margin-top:700px">
+                  <img alt="" src="/assets/light-bulb.png"  /><br />
+                  Select a price that you expect to charge Hirer, but 
+                  keep it competitive to the market and increase your 
+                  chances of getting a hiring.<br />
+                  <br />
+                  To publish your listing immediately, select today's 
+                  date.<br />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

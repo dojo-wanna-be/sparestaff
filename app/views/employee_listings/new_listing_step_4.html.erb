@@ -17,7 +17,7 @@
                   For security and privacy, links, email addresses, phone 
                   numbers, addresses are not allowed.
                 </p>
-                <%= form_for @employee_listing, url: employee_step_4_path, method: :post do |f| %>
+                <%= form_for @employee_listing, url: employee_step_4_path, method: :post, multipart: true do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <table>
                     <tr>
@@ -41,20 +41,12 @@
                   </p>
                   <strong>Photos or relevant documents of your employee</strong> 
                   (optional but recommended)
-                  <table class="UploadImages">
+                  <table>
                     <tr>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
+                      <td>
+                      &nbsp;
+                      <%= f.file_field :relevant_documents, multiple: true %>
+                      </td>
                     </tr>
                   </table>
                   <p>
@@ -91,7 +83,7 @@
                   <table style="width: 100%">
                     <tr>
                       <td style="width: 33%">
-                        <%= link_to "Back", employee_step_3_path %>
+                        <%= link_to "Back", employee_step_3_path(id: @employee_listing.id) %>
                         <!-- <a href="list-an-employee-step-3.html">&lt; Back</a> -->
                       </td>
                       <td style="width: 33%"><a href="javascript:;">Save for 

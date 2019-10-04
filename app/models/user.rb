@@ -22,6 +22,7 @@
 #  phone_number               :string
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  is_admin                   :boolean
 #
 
 class User < ApplicationRecord
@@ -64,5 +65,9 @@ class User < ApplicationRecord
 
   def is_hr?
     user_type.eql?("hr") && self.company.present?
+  end
+
+  def name
+    "#{self.first_name} #{self.last_name}"
   end
 end
