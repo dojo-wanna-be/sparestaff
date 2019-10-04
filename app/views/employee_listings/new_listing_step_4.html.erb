@@ -30,11 +30,26 @@
                       <td class="PaddingLeft20px">
                         &nbsp;<br />
                         <strong>
-                          <%= render 'sub_classification_list', category_id: 1, f: f %>
+                          <div id = "user-sub-category-lists">
+                           <%= render 'sub_category_lists', sub_classifications_id: options_for_select(Classification.where(parent_classification_id: params[:id]).order(:name).pluck(:name, :id)) %>
+                         </div>
                         </strong>
                       </td>
                     </tr>
                   </table>
+                  <script>
+                    $('#parent_classification').on('change', function(){
+                      var parent_val = $('#parent_classification :selected').val();
+                      $.ajax({
+                        url: "/employee/sub_category_lists",
+                        type: "GET",
+                        data : {
+                          id: parent_val,
+                        },
+                        dataType: "script",
+                      });
+                    });
+                  </script>
                   <p>
                     <strong>Please describe the employee skills, strength, expertise, experience, etc</strong><br />
                     <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
@@ -73,7 +88,7 @@
                           <% Language.all.each do |global_language| %>
                             <tr>
                               <td style="width: 30px">
-                                <%= check_box_tag "employee_listing_language_ids[]", global_language.id %>
+                                <%= check_box_tag "employee_listing_language_ids[]", global_language.id, false, class: 'checkbox-inline'%>
                               </td>
                               <td style="width: 400px"><%= global_language.language.titleize %></td>
                             </tr>
@@ -101,7 +116,7 @@
                         <table class="ButtonOrange" align="right">
                           <tr>
                             <td>
-                              <%= f.submit "Continue", class: "cust_btn" %>
+                              <%= f.submit "Continue", class: "cust_btn"%>
                             </td>
                           </tr>
                         </table>
@@ -137,3 +152,26 @@
     </table>
   </td>
 </tr>
+
+
+<!-- <script type="text/javascript">
+  $("#freelancer_name").submit(function(e){
+    debugger
+     var formValid = true
+     var checK_box = $('.checkbox-inline').is('checked');
+    if checK_box {
+      ("#check_boxes").hide();
+    }
+    else{
+      ("#check_boxes").show();
+    }
+    return formValid 
+  });
+</script>
+
+
+<style type="text/css">
+  label#check_boxes {
+      display: none;
+  }
+</style> -->

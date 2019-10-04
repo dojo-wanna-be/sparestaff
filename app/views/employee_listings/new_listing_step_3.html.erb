@@ -7,7 +7,7 @@
           <table class="ListAnEmployeeSteps">
             <tr>
               <td class="ListAnEmployeeMainWindow">
-                <%= form_for @employee_listing, url: employee_step_3_path, method: :post do |f| %>
+                <%= form_for @employee_listing, url: employee_step_3_path, method: :post, :html => { :id => "freelancer_name" } do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <h1 style="padding-top:15px">
                     Employee details
@@ -82,7 +82,7 @@
                       </td>
                       <td class="PaddingLeft20px">
                         <strong>&nbsp;</strong><br />
-                        <%= f.text_field :other_residency_status, placeholder: "Please specify", style: "width:100%;" %>
+                        <%= f.text_field :other_residency_status, placeholder: "Please specify", style: "width:100%;" ,id:  'other_res_sta', value: ''%>
                       </td>
                     </tr>
                   </table>
@@ -210,3 +210,22 @@
     </table>
   </td>
 </tr>
+
+<script type="text/javascript">
+  $('#employee_listing_residency_status').on('keyup keypress change', function (){
+    var lisTingtiTle = $("#employee_listing_residency_status").val();
+      if (lisTingtiTle == "Other Visas")
+      {
+        $("#other_res_sta").show();
+      }
+      else{
+        $("#other_res_sta").hide();
+      }
+   });
+</script>
+
+<style type="text/css">
+  input#other_res_sta {
+    display: none;
+}
+</style>
