@@ -68,6 +68,7 @@ class EmployeeListingsController < ApplicationController
         else
           flash[:error] = "Listing not processed because #{@employee_listing.errors.full_messages.to_sentence}"
           redirect_to employee_step_1_path(id: @employee_listing.id)
+        end
       else
         flash[:error] = "Company not saved because #{company.errors.full_messages.to_sentence}"
         redirect_to employee_step_1_path(id: @employee_listing.id)
