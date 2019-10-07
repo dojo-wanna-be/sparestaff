@@ -7,7 +7,7 @@
           <table class="ListAnEmployeeSteps">
             <tr>
               <td class="ListAnEmployeeMainWindow">
-                <%= form_for @employee_listing, url: employee_step_5_path, method: :post do |f| %>
+                <%= form_for @employee_listing, url: employee_step_5_path, method: :post, :html => { :id => "str_tme_id" } do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <h1 style="padding-top:15px">
                     Employee availability and your earning
@@ -25,12 +25,13 @@
                           <tr>
                             <% Slot.all.each do |slot| %>
                               <td style="width: 30px">
-                                <%= check_box_tag "slot_ids[]", slot.id %>
+                                <%= check_box_tag "slot_ids[]", slot.id, nil , class: "slot_check"%>
                               </td>
                               <td style="width: 200px"><%= slot.time_slot %></td>
                             <% end %>
                           </tr>
                         </table>
+                        <label id="tim_av_id">Please select atleast one</label>
                       </td>
                     </tr>
                   </table>
@@ -46,14 +47,17 @@
                       <td style="width: 30%;">
                       </td>
                     </tr>
+                   
                     <% ListingAvailability::DAYS.each do |day, value| %>
                       <tr>
                         <td><%= day %></td>
                         <td>
-                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS), class: 'cust_str_id', include_blank: 'Select Start Day'%>
+                           <label id="end_start_tm">Start date must be smaller from end date</label>
                         </td>
                         <td>
-                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS), class: 'end_str_id', include_blank: 'Select End Day' %>
+                          <label id="tm_end">End date must be greater from start date</label>
                         </td>
                         <td>
                           <table>
@@ -256,7 +260,7 @@
                       <td>
                         <table class="ButtonOrange" align="right">
                           <tr>
-                            <td><%= f.submit "Preview", class: "cust_btn" %></td>
+                            <td><%= f.submit "Preview", class: "cust_btn prw_btn" %></td>
                           </tr>
                         </table>
                       </td>
@@ -294,3 +298,84 @@
     </table>
   </td>
 </tr>
+
+
+<script type="text/javascript">
+  $('.prw_btn').click(function() {
+    var availaBility = $('.slot_check').is(':checked')
+    if (availaBility){
+      $('#tim_av_id').hide();
+    }
+    else{
+      $('#tim_av_id').show(); 
+    }
+  });
+  $('.slot_check').on('keyup keypress change', function () {
+   var availaBility = $('.slot_check').is(':checked')
+    if (availaBility) {
+      $("#tim_av_id").hide();
+    }
+    else{
+      $("#tim_av_id").show();
+    }        
+  });
+  $("#str_tme_id").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent()); 
+    },
+    rules: {
+    "start_time[]monday": {required: true},
+    "start_time[]tuesday": {required: true},
+    "start_time[]wednesday": {required: true},
+    "start_time[]thursday": {required: true},
+    "start_time[]friday": {required: true},
+    "start_time[]saturday": {required: true},
+    "start_time[]sunday": {required: true},
+    "end_time[]monday": {required: true},
+    "end_time[]tuesday": {required: true},
+    "end_time[]wednesday": {required: true},
+    "end_time[]thursday": {required: true},
+    "end_time[]friday": {required: true},
+    "end_time[]saturday": {required: true},
+    "end_time[]sunday": {required: true},
+    },
+  });
+  $('.cust_str_id').on('keyup keypress change', function () {
+   var startVal = $('.cust_str_id').val()
+   var endVal = $('.end_str_id').val()
+    if (startVal >= endVal && endVal != "" ) {
+      $("#end_start_tm").show();
+    }
+    else{
+      $("#end_start_tm").hide();
+    }        
+  });
+  $('.end_str_id').on('keyup keypress change', function () {
+   var startVal = $('.cust_str_id').val()
+   var endVal = $('.end_str_id').val()
+    if (startVal >= endVal && startVal != "") {
+      $("#tm_end").show();
+    }
+    else{
+      $("#tm_end").hide();
+    }        
+  });
+</script>
+
+<style type="text/css">
+  label#tim_av_id {
+    display: none;
+    color:#FF0000;
+  }
+  label#end_start_tm {
+    display: none;
+    color:#FF0000; 
+  }
+  label#tm_end {
+   display: none;
+   color:#FF0000;
+  }
+  .error{
+    color:#FF0000; 
+  }
+</style>
