@@ -38,14 +38,12 @@
           <li class="nav-item">
             <%= link_to "Log in", "javascript:;", class: "nav-link", data: {toggle: "modal", target: "#loginModal" } %>
           </li>
-
+          <%= render partial: "layouts/login_popup" %>
+          <%= render partial: "layouts/signup_button_popup" %>
+          <%= render partial: "layouts/signup_popup" %>
+          <%= render partial: "layouts/forgot_password_popup" %>
         <% end %>
       </ul>
     </div>
   </nav>
 </header>
-
-<%= render partial: "layouts/login_popup" %>
-<%= render partial: "layouts/signup_button_popup" %>
-<%= render partial: "layouts/signup_popup" %>
-<%= render partial: "layouts/forgot_password_popup" %>

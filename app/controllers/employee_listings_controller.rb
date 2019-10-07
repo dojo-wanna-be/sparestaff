@@ -13,6 +13,7 @@ class EmployeeListingsController < ApplicationController
                                       :show]
 
   before_action :find_company, only: [:create_listing_step_2]
+  
   before_action :listing_step, only: [:new_listing_step_2,
                                       :new_listing_step_3,
                                       :new_listing_step_4,
