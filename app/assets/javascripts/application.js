@@ -16,6 +16,8 @@
 //= require bootstrap-sprockets
 //= require rails-ujs
 //= require toastr_rails
+//= require jquery.validate
+//= require allow_numeric
 //= require activestorage
 //= require turbolinks
 //= require_tree .

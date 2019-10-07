@@ -10,7 +10,7 @@
 
     
 
-                <%= form_for @employee_listing, url: employee_step_3_path, method: :post, multipart: true do |f| %>
+                <%= form_for @employee_listing, url: employee_step_3_path, method: :post, multipart: true, :html => { :id => "emp_listing_det" }  do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <h1 style="padding-top:15px">
                     Employee details
@@ -23,16 +23,16 @@
                   </p>
                   <p>
                     <strong>Listing title</strong><br />
-                    <%= f.text_field :title, placeholder: "i.e. Experienced Office Admin, Exceptional Problem Solver - IT Tech", style: "width:100%;", required: true %>
+                    <%= f.text_field :title, placeholder: "i.e. Experienced Office Admin, Exceptional Problem Solver - IT Tech", style: "width:100%;" %>
                   </p>
                   <table>
                     <tr>
                       <td style="width: 50%">
                         <strong>First name
-                        <%= f.text_field :first_name, style: "width:100%;", required: true %></strong>
+                        <%= f.text_field :first_name, style: "width:100%;"%></strong>
                       </td>
                       <td class="PaddingLeft20px"><strong>Last name</strong><br />
-                        <%= f.text_field :last_name, style: "width:100%;", required: true %>
+                        <%= f.text_field :last_name, style: "width:100%;" %>
                       </td>
                     </tr>
                   </table>
@@ -42,7 +42,7 @@
                   </p>
                   <p>
                     <strong>Year of birth</strong> (optional)<br />
-                    <%= f.number_field :birth_year, style: "width:100%;"%>
+                    <%= f.text_field :birth_year, data: { numeric: true } ,maxlength: 4 ,style: "width:100%; "%>
                   </p>
                   <p>
                     <strong>Employee address </strong>(optional)<br />
@@ -54,18 +54,18 @@
                   </p>
                   <p>
                     <strong>Suburb/City</strong><br />
-                    <%= f.text_field :city, style: "width:100%;", required: true %>
+                    <%= f.text_field :city, style: "width:100%;" %>
                   </p>
                   <table style="width: 100%">
                     <tr>
                       <td style="width: 50%">
                         <strong>
                           State<br />
-                          <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES), {}, {style: "width:100%;"} %>
+                          <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES), {}, {style: "width:100%;"}  %>
                         </strong>
                       </td>
                       <td class="PaddingLeft20px"><strong>Postcode</strong><br />
-                        <%= f.number_field :post_code, style: "width:100%;", required: true %>
+                        <%= f.number_field :post_code, style: "width:100%;" %>
                       </td>
                     </tr>
                   </table>
@@ -171,7 +171,7 @@
                       <td>
                         <table class="ButtonOrange" align="right">
                           <tr>
-                            <td><%= f.submit "Continue", class: "cust_btn" %></td>
+                            <td><%= f.submit "Continue", class: "cust_btn", id: 'employee_form_id' %></td>
                           </tr>
                         </table>
                       </td>
@@ -217,6 +217,7 @@
 </tr>
 
 <script type="text/javascript">
+$(document).ready(function () { 
   $('#employee_listing_residency_status').on('keyup keypress change', function (){
     var lisTingtiTle = $("#employee_listing_residency_status").val();
       if (lisTingtiTle == "Other Visas")
@@ -227,10 +228,33 @@
         $("#other_res_sta").hide();
       }
    });
+  $("#emp_listing_det").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent()); 
+    },
+      rules: {
+      "employee_listing[title]": {required: true},
+      "employee_listing[first_name]": {required: true},
+      "employee_listing[last_name]": {required: true},
+      "employee_listing[city]": {required: true},
+      "employee_listing[post_code]": {required: true},
+      },
+    });
+  });
 </script>
 
 <style type="text/css">
   input#other_res_sta {
     display: none;
 }
+label#sel_sta_id {
+    display: none;
+    color:#FF0000;
+}
+.error {
+    color:#FF0000;
+}
 </style>
+
+
+
