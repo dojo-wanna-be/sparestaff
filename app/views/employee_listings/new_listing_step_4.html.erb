@@ -17,21 +17,21 @@
                   For security and privacy, links, email addresses, phone 
                   numbers, addresses are not allowed.
                 </p>
-                <%= form_for @employee_listing, url: employee_step_4_path, method: :post, multipart: true do |f| %>
+                <%= form_for @employee_listing, url: employee_step_4_path, method: :post, multipart: true, :html => { :id => "skl_expr" } do |f| %>
                   <%= hidden_field_tag "id", @employee_listing.id %>
                   <table>
                     <tr>
                       <td style="width: 50%">
                         <strong>
                           Select classification to list<br />
-                          <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {style: "width:100%;"} %>
+                          <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {style: "width:100%;" , include_blank: "Please select category"} %>
                         </strong>
                       </td>
                       <td class="PaddingLeft20px">
                         &nbsp;<br />
                         <strong>
                           <div id = "user-sub-category-lists">
-                           <%= render 'sub_category_lists', sub_classifications_id: options_for_select(Classification.where(parent_classification_id: params[:id]).order(:name).pluck(:name, :id)) %>
+                           <%= render 'sub_category_lists', sub_classifications_id: options_for_select(Classification.where(parent_classification_id: params[:id]).order(:name).pluck(:name, :id)), :include_blank => 'Select a Category'  %>
                          </div>
                         </strong>
                       </td>
@@ -146,18 +146,15 @@
 </tr>
 
 
-<!-- <script type="text/javascript">
-  $("#freelancer_name").submit(function(e){
-    debugger
-     var formValid = true
-     var checK_box = $('.checkbox-inline').is('checked');
-    if checK_box {
-      ("#check_boxes").hide();
-    }
-    else{
-      ("#check_boxes").show();
-    }
-    return formValid 
+<script type="text/javascript">
+  $("#skl_expr").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent()); 
+    },
+    rules: {
+    "parent_classification": {required: true},
+    "employee_listing[skill_description]": {required: true},
+    },
   });
 </script>
 
@@ -166,4 +163,7 @@
   label#check_boxes {
       display: none;
   }
-</style> -->
+  .error {
+      color:#FF0000;
+  }
+</style>
