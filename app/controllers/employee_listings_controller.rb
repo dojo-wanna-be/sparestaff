@@ -107,11 +107,13 @@ class EmployeeListingsController < ApplicationController
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
     @employee_listing.update_attributes(classification_id: params[:classification_id])
-    if params[:employee_listing_language_ids].present?
-      @employee_listing.employee_listing_languages.destroy_all
-      params[:employee_listing_language_ids].each do |language_id|
-      EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
-      @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
+      if params[:employee_listing_language_ids].present?
+        @employee_listing.employee_listing_languages.destroy_all
+        params[:employee_listing_language_ids].each do |language_id|
+        EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
+        if  @employee_listing.relevant_documents.present?
+          @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
+        end
       end
     end
     @employee_listing.update_attribute(:listing_step, 4)
