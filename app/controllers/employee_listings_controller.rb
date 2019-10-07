@@ -16,6 +16,7 @@ class EmployeeListingsController < ApplicationController
   before_action :listing_step, only: [:new_listing_step_2,
                                       :new_listing_step_3,
                                       :new_listing_step_4,
+                                      :new_listing_step_5,
                                      ]
                                     
 
@@ -227,13 +228,10 @@ class EmployeeListingsController < ApplicationController
   def listing_step
     step_list = action_name.split('_').last
     if @employee_listing.listing_step.present? && (@employee_listing.listing_step.to_i + 1 < step_list.to_i)
-      step = "/employee/step_#{@employee_listing.listing_step}"
-      redirect_to step
-      # return false
+      step = "step_#{@employee_listing.listing_step + 1}"
+      redirect_to "/employee/#{step}?id=#{params[:id]}"
+      flash[:error] = "You can't skip form step"
     else 
-     # step = "step_#{@employee_listing.listing_step.to_i + 1}"
-     # redirect_to "/employee/#{step}?id=#{params[:id]}"
-      return true
     end 
   end
 
