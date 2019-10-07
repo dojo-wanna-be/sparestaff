@@ -34,8 +34,11 @@ class EmployeeListingsController < ApplicationController
   def new_listing_step_1
     if current_user.is_owner? || current_user.is_hr?
       @employee_listing = current_user.company.employee_listings.build
-      @employee_listing.save
-      redirect_to employee_step_2_path(id: @employee_listing.id)
+      if @employee_listing.save
+        redirect_to employee_step_2_path(id: @employee_listing.id)
+      else
+        flash[:error] = @employee_listing.errors.full_messages.to_sentence
+      end
     elsif current_user.is_individual?
       @employee_listing = current_user.employee_listings.first
       redirect_to employee_step_3_path(id: @employee_listing.id)
@@ -46,17 +49,28 @@ class EmployeeListingsController < ApplicationController
     if params[:poster_type].eql?("individual")
       @employee_listing = current_user.employee_listings.build
       @employee_listing.listing_step = 1
-      @employee_listing.save
-      redirect_to employee_step_3_path(id: @employee_listing.id)
+      if @employee_listing.save
+        redirect_to employee_step_3_path(id: @employee_listing.id)
+      else
+        flash[:error] = @employee_listing.errors.full_messages.to_sentence
+        redirect_to employee_step_1_path(id: @employee_listing.id)
+      end
     elsif params[:poster_type].eql?("company")
       company = Company.new
-      company.save
-      current_user.company_id = company.id
-      current_user.save
-      @employee_listing = company.employee_listings.build
-      @employee_listing.listing_step = 1
-      @employee_listing.save
-      redirect_to employee_step_2_path(id: @employee_listing.id)
+      if company.save
+        current_user.company_id = company.id
+        current_user.save
+        @employee_listing = company.employee_listings.build
+        @employee_listing.listing_step = 1
+        if @employee_listing.save
+          redirect_to employee_step_2_path(id: @employee_listing.id)
+        else
+          flash[:error] = "Listing not processed because #{@employee_listing.errors.full_messages.to_sentence}"
+          redirect_to employee_step_1_path(id: @employee_listing.id)
+      else
+        flash[:error] = "Company not saved because #{company.errors.full_messages.to_sentence}"
+        redirect_to employee_step_1_path(id: @employee_listing.id)
+      end
     else
       flash[:error] = "Invalid Choice"
       redirect_to employee_step_1_path
@@ -124,6 +138,7 @@ class EmployeeListingsController < ApplicationController
                                     end_time: params[:end_time].first[:"#{day}"])
       end
     else
+      @employee_listing.employee_listing_languages.destroy_all
       ListingAvailability::DAYS.map{|k,v| v}.each do |day|
         ListingAvailability.create(employee_listing_id: @employee_listing.id,
                                     day: day,
@@ -141,17 +156,18 @@ class EmployeeListingsController < ApplicationController
 
   def publish_listing
     @employee_listing.update_attributes(published: true, listing_step: 5) if params[:published].eql?("true")
-    if @employee_listing.published.present?
-      user = current_user
+    if @employee_listing.published?
       user_admin = User.where(is_admin: true)
       if user_admin.present?
         UserMailer.admin_listing_confirmation(user_admin).deliver!
       end
-      if @employee_listing.tfn.empty?
-       UserMailer.tfn_verification(user).deliver!
+
+      if @employee_listing.tfn.blank?
+       UserMailer.tfn_verification(current_user).deliver!
       end
-      UserMailer.listing_create_confirmation(user).deliver!
-      UserMailer.photo_verification(user).deliver!
+
+      UserMailer.listing_create_confirmation(current_user).deliver!
+      UserMailer.photo_verification(current_user).deliver!
     end
   end
 
