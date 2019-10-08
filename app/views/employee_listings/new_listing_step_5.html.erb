@@ -63,7 +63,7 @@
                           <table>
                             <tr>
                               <td style="width: 30px;">
-                                <%= check_box_tag "unavailable_days[]", value, !f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                                <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false %>
                               </td>
                               <td>Not available</td>
                             </tr>
