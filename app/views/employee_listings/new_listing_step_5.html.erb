@@ -63,7 +63,7 @@
                           <table>
                             <tr>
                               <td style="width: 30px;">
-                                <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false %>
+                                <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: 'nt_schedule' %>
                               </td>
                               <td>Not available</td>
                             </tr>
@@ -338,6 +338,7 @@
     "end_time[]friday": {required: true},
     "end_time[]saturday": {required: true},
     "end_time[]sunday": {required: true},
+    "confirm_details": {required: true},
     },
   });
   $('.cust_str_id').on('keyup keypress change', function () {
@@ -360,6 +361,29 @@
       $("#tm_end").hide();
     }        
   });
+  // $('.nt_schedule').click(function(e) {
+  //   var FormValid = true
+  //   var scheduleDay = $('#unavailable_days_').is(':checked')
+  //   var valSchedule = $.map($('input[id="unavailable_days_"]:checked'), function(c){return c.value; })
+  //   if (scheduleDay && (valSchedule == "sunday" || valSchedule == "monday" || valSchedule == "tuesday" || valSchedule == "wednesday" || valSchedule == "thursday" || valSchedule == "friday" || valSchedule == "saturday" )){
+  //     $('#start_time_sunday').attr('disabled', 'disabled');
+  //     $('#end_time_sunday').attr('disabled', 'disabled');
+  //     $('#start_time_monday').attr('disabled', 'disabled');
+  //     $('#end_time_monday').attr('disabled', 'disabled');
+  //     $('#start_time_tuesday').attr('disabled', 'disabled');
+  //     $('#end_time_tuesday').attr('disabled', 'disabled');
+  //     $('#start_time_wednesday').attr('disabled', 'disabled');
+  //     $('#end_time_wednesday').attr('disabled', 'disabled');
+  //     $('#start_time_thursday').attr('disabled', 'disabled');
+  //     $('#end_time_thursday').attr('disabled', 'disabled');
+  //     $('#start_time_friday').attr('disabled', 'disabled');
+  //     $('#end_time_friday').attr('disabled', 'disabled');
+  //     $('#start_time_saturday').attr('disabled', 'disabled');
+  //     $('#end_time_saturday').attr('disabled', 'disabled');
+  //   }
+  //   else{
+  //   }
+  // });
 </script>
 
 <style type="text/css">
