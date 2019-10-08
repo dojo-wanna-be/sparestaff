@@ -80,7 +80,7 @@
                           <% Language.all.each do |global_language| %>
                             <tr>
                               <td style="width: 30px">
-                                <%= check_box_tag "employee_listing_language_ids[]", global_language.id, false, class: 'checkbox-inline'%>
+                                <%= check_box_tag "employee_listing_language_ids[]", global_language.id, languages_present(f.object, global_language), class: 'checkbox-inline'%>
                               </td>
                               <td style="width: 400px"><%= global_language.language.titleize %></td>
                             </tr>

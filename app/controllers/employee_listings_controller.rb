@@ -134,7 +134,7 @@ class EmployeeListingsController < ApplicationController
     end
 
     if params[:unavailable_days].present?
-      @employee_listing.employee_listing_languages.destroy_all
+      @employee_listing.listing_availabilities.destroy_all
       (ListingAvailability::DAYS.map{|k,v| v} - params[:unavailable_days]).each do |day|
         ListingAvailability.create(employee_listing_id: @employee_listing.id,
                                     day: day,
@@ -142,7 +142,7 @@ class EmployeeListingsController < ApplicationController
                                     end_time: params[:end_time].first[:"#{day}"])
       end
     else
-      @employee_listing.employee_listing_languages.destroy_all
+      @employee_listing.listing_availabilities.destroy_all
       ListingAvailability::DAYS.map{|k,v| v}.each do |day|
         ListingAvailability.create(employee_listing_id: @employee_listing.id,
                                     day: day,
@@ -227,6 +227,8 @@ class EmployeeListingsController < ApplicationController
   end
 
   def listing_availability_params
+    params[:employee_listing][:weekday_price] = params[:employee_listing][:other_weekday_price] if params[:employee_listing][:other_weekday_price].present?
+    params[:employee_listing][:holiday_price] = params[:employee_listing][:other_holiday_price] if params[:employee_listing][:other_holiday_price].present?
     params.require(:employee_listing).permit(
       :available_in_holidays,
       :weekday_price,
@@ -251,7 +253,7 @@ class EmployeeListingsController < ApplicationController
       step = "step_#{@employee_listing.listing_step + 1}"
       redirect_to "/employee/#{step}?id=#{params[:id]}"
       flash[:error] = "You can't skip form step"
-    else 
+    else
     end 
   end
 

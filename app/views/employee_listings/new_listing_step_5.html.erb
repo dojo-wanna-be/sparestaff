@@ -25,7 +25,7 @@
                           <tr>
                             <% Slot.all.each do |slot| %>
                               <td style="width: 30px">
-                                <%= check_box_tag "slot_ids[]", slot.id %>
+                                <%= check_box_tag "slot_ids[]", slot.id, @employee_listing.slots.pluck(:id).include?(slot.id) %>
                               </td>
                               <td style="width: 200px"><%= slot.time_slot %></td>
                             <% end %>
@@ -50,16 +50,16 @@
                       <tr>
                         <td><%= day %></td>
                         <td>
-                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)) %>
                         </td>
                         <td>
-                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS) %>
+                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)) %>
                         </td>
                         <td>
                           <table>
                             <tr>
                               <td style="width: 30px;">
-                                <%= check_box_tag "unavailable_days[]", value %>
+                                <%= check_box_tag "unavailable_days[]", value, !f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
                               </td>
                               <td>Not available</td>
                             </tr>
@@ -131,11 +131,11 @@
                           </tr>
                           <tr>
                             <td style="width: 45%">
-                              <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES), {}, {style: "width:100%"} %>
+                              <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price), {}, {style: "width:100%"} %>
                             </td>
                             <td style="text-align: center; width:10%">or</td>
                             <td style="width:45%; text-align: right;">
-                              <%= f.number_field :weekday_price, placeholder: "Enter your own", style: "width:100%" %>
+                              <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", style: "width:100%" %>
                             </td>
                           </tr>
                           <tr>
@@ -156,13 +156,13 @@
                           </tr>
                           <tr>
                             <td style="width: 45%">
-                              <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES), {}, {style: "width:100%"} %>
+                              <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {style: "width:100%"} %>
                             </td>
                             <td style="text-align: center; width:10%">
                               or
                             </td>
                             <td style="width:45%; text-align: right;">
-                              <%= f.number_field :holiday_price, placeholder: "Enter your own", style: "width:100%" %>
+                              <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", style: "width:100%" %>
                             </td>
                           </tr>
                         </table>
@@ -175,7 +175,7 @@
                   <p>
                     <strong>Minimum employment term per week</strong> (optional)<br />
                     <strong>
-                      <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS), {}, {style: "width:50%"} %>
+                      <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS, f.object.minimum_working_hours), {}, {style: "width:50%"} %>
                     </strong>
                   </p>
                   <table>

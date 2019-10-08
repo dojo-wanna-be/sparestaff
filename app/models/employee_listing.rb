@@ -37,6 +37,9 @@
 #
 
 class EmployeeListing < ApplicationRecord
+  attr_accessor :other_weekday_price
+  attr_accessor :other_holiday_price
+
   belongs_to :lister, polymorphic: true
   has_many :employee_listing_languages
   has_many :languages, through: :employee_listing_languages
