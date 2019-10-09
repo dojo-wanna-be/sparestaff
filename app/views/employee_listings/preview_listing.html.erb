@@ -1,205 +1,164 @@
-<tr>
-  <td>
-    <table cellpadding="0">
-      <tr>
-        <td style="width: 80px">&nbsp;</td>
-        <td>
-          <table class="ListAnEmployeeSteps">
-            <tr>
-              <td class="ListAnEmployeeMainWindow">
-                <h1 style="padding-top:15px">
-                  That's it. You're almost done!
-                </h1>
-                <p>
-                  Review details you've entered. Click Back to edit them 
-                  if necessary. Click Publish when you're ready.
-                </p>
-                <br />
-                <div class="GreyLine1Px"></div>
-                <br />
-                <table style="width: 100%">
-                  <tr>
-                    <td valign="top">
-                      <h1><%= @employee_listing.title %></h1>
-                      <table class="ListingTitle">
-                        <tr>
-                          <td style="width: 160px; font-size: 16pt;"><strong>Name</strong></td>
-                          <td style="font-size: 16pt"><%= "#{@employee_listing.first_name} #{@employee_listing.last_name}" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Current employer</strong></td>
-                          <td><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Age</strong></td>
-                          <td><%= Date.today.year - @employee_listing.birth_year %> years old</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Gender</strong></td>
-                          <td><%= @employee_listing.gender.titleize %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Location</strong></td>
-                          <td><%= "#{@employee_listing.city} #{@employee_listing.state} #{@employee_listing.post_code}" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Residency</strong></td>
-                          <td>
-                            <%= @employee_listing.residency_status.eql?("Other Visas") ? @employee_listing.other_residency_status : @employee_listing.residency_status %>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><strong>Have own vehicle</strong></td>
-                          <td><%= @employee_listing.has_vehicle ? "Yes" : "No" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Language</strong></td>
-                          <td><%= @employee_listing.languages.pluck(:language).to_sentence %></td>
-                        </tr>
-                      </table>
-                    </td>
-                    <td style="width: 270px" valign="top">
-                      <br />
-                      <br />
-                      <a href="#">
-                      <img alt="" class="Image250pxRightGreyBorder" src="/assets/luca.png" /></a>
-                      <div class="ViewPhotosButton">
-                        <table class="ViewPhotosButton">
-                          <tr>
-                            <td style="text-align: center"><a href="#" class="GreyLink10ptNoUnderline">
-                              View photos</a>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Description, expertise, skills</h3>
-                <%= @employee_listing.skill_description %>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Other comments</h3>
-                <%= @employee_listing.optional_comments %>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Cancellation</h3>
-                <strong>Cancellation policy – Free cancellation within 
-                48 hours</strong><br />
-                Cancel within 48 hours of booking to get a full refund.
-                <ul>
-                  <li>Cancel up to 24 hours before employment contract start 
-                    date and time to get a refund, minus Spare Staff service 
-                    fees.
-                  </li>
-                  <li>Cancel within 24 hours of check-in and the cost of the 
-                    first day of contract is non-refundable.
-                  </li>
-                  <li>Spare Staff service fees are refunded only if the 
-                    reservation is cancelled within 48 hours of booking and 
-                    the employment contract has not started yet.
-                  </li>
-                </ul>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Prices</h3>
-                <table style="width: 400px" class="ListingTitle">
-                  <tr>
-                    <td style="width: 140px">Weekday</td>
-                    <td><%= "$#{@employee_listing.weekday_price}/hour" %></td>
-                  </tr>
-                  <tr>
-                    <td>Weekend / <br />
-                      Public holiday
-                    </td>
-                    <td><%= @employee_listing.available_in_holidays ? "$#{@employee_listing.holiday_price}/hour" : "Not Available" %></td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Availability</h3>
-                <p>Available for <%= @employee_listing.slots.pluck(:time_slot).to_sentence %> roles.</p>
-                <table style="width: 400px" class="ListingTitle">
-                  <% ListingAvailability::DAYS.map{|k,v| v}.each do |week_day| %>
-                    <tr>
-                      <td style="width: 140px"><%= week_day.titleize %></td>
-                      <td>
-                        <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
-                        <% if availability.present? %>
-                          <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp; 
-                          <%= availability.end_time.strftime("%I:%M%p") %>
-                        <% else %>
-                          Not Available
-                        <% end %>
-                      </td>
-                    </tr>
+<div class="new-listing-step_section">
+  <div class="inner-listing-section">
+    <div class="left-white-side">
+      <h1 class="main-heading">That's it. You're almost done!</h1>
+
+      <div class="who-box">
+        <p>Review details you've entered. Click Back to edit them if necessary. Click Publish when you're ready.</p>
+
+        <div class="user-profile">
+          <div class="user-detail">
+            <h1 class="user-detail-heading"><%= @employee_listing.title %></h1>
+
+            <ul class="detail-list">
+              <li class="item">
+                <div class="left-heading name"><b>Name</b></div>
+                <div class="name right-content"><%= "#{@employee_listing.first_name} #{@employee_listing.last_name}" %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading "><b>Current employer</b></div>
+                <div class="right-content"><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "" %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Age</b></div>
+                <div class="right-content"><%#= Date.today.year - @employee_listing.birth_year %> years old</div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Gender</b></div>
+                <div class="right-content"><%= @employee_listing.gender.titleize %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Location</b></div>
+                <div class="right-content"><%= "#{@employee_listing.city} #{@employee_listing.state} #{@employee_listing.post_code}" %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Residency</b></div>
+                <div class="right-content"><%= @employee_listing.residency_status.eql?("Other Visas") ? @employee_listing.other_residency_status : @employee_listing.residency_status %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Have own vehicle</b></div>
+                <div class="right-content"><%= @employee_listing.has_vehicle ? "Yes" : "No" %></div>
+              </li>
+              <li class="item">
+                <div class="left-heading"><b>Language</b></div>
+                <div class="right-content"><%= @employee_listing.languages.pluck(:language).to_sentence %></div>
+              </li>
+            </ul>
+          </div>
+          <div class="profile-box">
+            <div class="profile">
+              <%= image_tag '/assets/luca.png', class: 'profile-img' %>
+
+              <div class="view-photo">
+                <%= link_to 'View photos', '', class: 'view' %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Description, expertise, skills</h3>
+          <p class="pera-text"><%= @employee_listing.skill_description %></p>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Other comments</h3>
+          <p class="pera-text"><%= @employee_listing.optional_comments %></p>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Cancellation</h3>
+          <div><strong>Cancellation policy – Free cancellation within 48 hours</strong><br />Cancel within 48 hours of booking to get a full refund.</div>
+
+          <ul class="cancelation-list">
+            <li>Cancel up to 24 hours before employment contract start
+              date and time to get a refund, minus Spare Staff service
+              fees.
+            </li>
+            <li>Cancel within 24 hours of check-in and the cost of the
+              first day of contract is non-refundable.
+            </li>
+            <li>Spare Staff service fees are refunded only if the
+              reservation is cancelled within 48 hours of booking and
+              the employment contract has not started yet.
+            </li>
+          </ul>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Prices</h3>
+          <ul class="custom-list">
+            <li class="list-item">
+              <span class="first">Weekday</span>
+              <span><%= "$#{@employee_listing.weekday_price}/hour" %></span>
+            </li>
+            <li class="list-item">
+              <span class="first">Weekend / <br /> Public holiday</span>
+              <span><%= @employee_listing.available_in_holidays ? "$#{@employee_listing.holiday_price}/hour" : "Not Available" %></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Availability</h3>
+          <p>Available for <%= @employee_listing.slots.pluck(:time_slot).to_sentence %> roles.</p>
+
+          <ul class="custom-list">
+            <% ListingAvailability::DAYS.map{|k,v| v}.each do |week_day| %>
+              <li class="list-item">
+                <span class="first"><%= week_day.titleize %></span>
+                <span class="right">
+                  <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
+                  <% if availability.present? %>
+                    <%#= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
+                    <%#= availability.end_time.strftime("%I:%M%p") %>
+                  <% else %>
+                    Not Available
                   <% end %>
-                  <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Public holiday</td>
-                    <td><%= @employee_listing.available_in_holidays ? "Available" : "Not available" %></td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Minimum employment term</h3>
-                <table style="width: 400px" class="ListingTitle">
-                  <tr>
-                    <td style="width: 140px">Minimum</td>
-                    <td><%= @employee_listing.minimum_working_hours %> hours</td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Published between</h3>
-                <%= "From #{@employee_listing.start_publish_date.strftime("%A %b %d, %Y")} to #{@employee_listing.end_publish_date.strftime("%A %b %d, %Y")}" %>
-                <p>
-                  &nbsp;
-                </p>
-                <div class="GreyLine1Px"></div>
-                <br />
-                <table style="width: 100%">
-                  <tr>
-                    <td style="width: 33%">
-                      <%= link_to "Back", employee_step_5_path(id: @employee_listing.id) %>
-                      <!-- <a href="list-an-employee-step-5.html">&lt; Back</a> -->
-                    </td>
-                    <td style="width: 33%"><a href="#">Save for 
-                      later</a>
-                    </td>
-                    <td>
-                      <table class="ButtonOrange" align="right">
-                        <tr>
-                          <td>
-                            <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, published: true) %>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-              </td>
-              <td class="ListAnEmployeeTipWindow">
-                <div class="TipBoxForListAnEmployee">
-                  <img alt="" src="/assets/light-bulb.png"  /><br />
-                  Once published, your listing will show up in search 
-                  results, Hirers will be able to find your listing 
-                  and submit Request to Hire for available days.<br />
-                  <br />
-                  You can edit your listing, price, and settings 
-                  anytime.
-                </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+                </span>
+              </li>
+            <% end %>
+
+            <li class="list-item top-space">
+              <span class="first">Public holiday</span>
+              <span><%= @employee_listing.available_in_holidays ? "Available" : "Not available" %></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="detail-custom-box">
+          <h3 class="detail-heading">Minimum employment term</h3>
+          <ul class="custom-list">
+            <li class="list-item">
+              <span class="first">Minimum</span>
+              <span><%= @employee_listing.minimum_working_hours %> hours</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="detail-custom-box last-box">
+          <h3 class="detail-heading">Published between</h3>
+          <p class="pera-text"><%#= "From #{@employee_listing.start_publish_date.strftime("%A %b %d, %Y")} to #{@employee_listing.end_publish_date.strftime("%A %b %d, %Y")}" %></p>
+        </div>
+
+        <div class="button-box">
+          <%= link_to "Back", employee_step_5_path(id: @employee_listing.id), class: 'link-text' %>
+
+          <a href="javascript:;" class="link-text">Save for later</a>
+
+          <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="right-grey-side">
+      <div class="bulb-box">
+        <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %><br />
+        Once published, your listing will show up in search results, Hirers will be able to find your listing and submit Request to Hire for available days.<br />
+        <br />
+        You can edit your listing, price, and settings anytime.
+      </div>
+    </div>
+  </div>
+</div>

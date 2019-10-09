@@ -58,6 +58,28 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(function () { 
+    $("#user_signup_form").validate({
+      rules: {
+      "user[first_name]": {required: true,  maxlength: 15},
+      "user[last_name]": {required: true,  maxlength: 15},
+       // "user[email]": {required: true, email: true, remote: "/home/email_availability" },
+      "user[password]": {required: true},
+      "user[password_confirmation]": {equalTo: "#new_user_password"},
+      "user[allow_marketing_promotions]": {required: true},
+      "agree_terms": {required: true},
+      },
+     messages: {
+        // "user[email]":  {remote: "Email already exist ."},
+        "user[first_name]": {maxlength: "First name must be 15 character"},
+        "user[last_name]": {maxlength: "Last name must be 15 character", },
+        "user[password]": {required: "Enter Password"},
+        "user[password_confirmation]": {equalTo: "Confirm password must be same"},
+      }
+    });
+  });
+</script>  
 
 
 

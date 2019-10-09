@@ -1,50 +1,24 @@
-<tr>
-  <td>
-    <table cellpadding="0">
-      <tr>
-        <td style="width: 80px">&nbsp;</td>
-        <td>
-          <table class="ListAnEmployeeSteps" style="height:85vh">
-            <tr>
-              <td class="ListAnEmployeeMainWindow">
-                <h1 style="padding-top:15px">
-                  You've completed your listing!
-                </h1>
-                <p>
-                  Great job finishing up. Your employee listing will be published 
-                  on the start date that you've selected. If you selected today's 
-                  date, it will show up in search results immediately.
-                </p>
-                <p>
-                  You can view your listings in 
-                  <%= link_to "Your Listings", employee_listings_path %> 
-                  page.
-                </p>
-                <p>
-                  Make sure to keep your employee availability up-to-date 
-                  for Hirers to find and hire the employee. You can edit 
-                  your listing, price and settings anytime.
-                </p>
-                <br />
-                <br />
-                <p></p>
-              </td>
-              <td class="ListAnEmployeeTipWindow">
-                <div class="TipBoxForListAnEmployee">
-                  <img alt="" src="/assets/light-bulb.png"  /><br />
-                  List once and let our platform do the rest!<br />
-                  <br />
-                  Hiring is a serious decision. Simply giving an 
-                  introduction about the employee won't get you any 
-                  hiring. Make sure to keep your listings up-to-date, 
-                  add specific details and optimise it to attract 
-                  Hirers.
-                </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+<div class="new-listing-step_section">
+  <div class="inner-listing-section">
+    <div class="left-white-side">
+      <h1 class="main-heading">You've completed your listing!</h1>
+
+      <div class="who-box">
+        <p>Great job finishing up. Your employee listing will be published on the start date that you've selected. If you selected today's date, it will show up in search results immediately.</p>
+
+        <p>You can view your listings in <span><%= link_to "Your Listings", employee_listings_path %></span> page.</p>
+
+        <p>Make sure to keep your employee availability up-to-date for Hirers to find and hire the employee. You can edit your listing, price and settings anytime.</p>
+      </div>
+    </div>
+
+    <div class="right-grey-side">
+      <div class="bulb-box">
+        <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %><br />
+        List once and let our platform do the rest!<br />
+        <br />
+        Hiring is a serious decision. Simply giving an introduction about the employee won't get you any hiring. Make sure to keep your listings up-to-date, add specific details and optimise it to attract Hirers.
+      </div>
+    </div>
+  </div>
+</div>
