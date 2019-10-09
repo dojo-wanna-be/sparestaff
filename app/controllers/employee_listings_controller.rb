@@ -19,7 +19,6 @@ class EmployeeListingsController < ApplicationController
                                       :new_listing_step_4,
                                       :new_listing_step_5,
                                      ]
-                                    
 
   def getting_started
   end
