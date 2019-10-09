@@ -66,9 +66,9 @@
             </div>
 
             <div class="button-box">
-              <%= link_to "Back", employee_step_1_path(id: @employee_listing.id), class: 'link-text' %>
+              <%= link_to "Back", employee_step_1_path(id: @employee_listing.id, back: true), class: 'link-text' %>
 
-              <a href="javascript:;" class="link-text">Save for later</a>
+              <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 
               <%= f.submit "Continue", class: "continue-btn" %>
             </div>

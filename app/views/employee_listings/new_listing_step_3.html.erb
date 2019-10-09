@@ -35,7 +35,7 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Year of birth <span class="thin-text">(optional)</span></label>
-              <%= f.text_field :birth_year, data: { numeric: true } ,maxlength: 4 , class: 'custom-field half-field' %>
+              <%= f.text_field :birth_year, data: { numeric: true }, minlength: 4, maxlength: 4, class: 'custom-field half-field' %>
             </div>
 
             <div class="custom-input-group">
@@ -56,7 +56,7 @@
             <div class="joint-group">
               <div class="custom-input-group">
                 <label class="custom-label">State</label>
-                <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES), {}, {class: 'custom-field'}  %>
+                <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES, f.object.state), {}, {class: 'custom-field'}  %>
               </div>
 
               <div class="custom-input-group">
@@ -67,18 +67,18 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Country</label>
-              <%= f.select :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES), {}, {class: 'custom-field half-field'} %>
+              <%= f.select :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES, f.object.country), {}, {class: 'custom-field half-field'} %>
             </div>
 
             <div class="joint-group">
               <div class="custom-input-group">
                 <label class="custom-label">Residency status</label>
-                <%= f.select :residency_status, options_for_select(EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES), {}, {class: "custom-field"} %>
+                <%= f.select :residency_status, options_for_select(EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES, f.object.residency_status), {}, {class: "custom-field"} %>
               </div>
 
               <div class="custom-input-group">
                 <label class="custom-label">&nbsp;</label>
-                <%= f.text_field :other_residency_status, placeholder: "Please specify", class: 'custom-field' ,id:  'other_res_sta', value: ''%>
+                <%= f.text_field :other_residency_status, placeholder: "Please specify", class: 'custom-field' ,id:  'other_res_sta', value: EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES.include?(f.object.residency_status) ? "" : f.object.residency_status %>
               </div>
             </div>
 
@@ -86,7 +86,7 @@
               <div class="custom-input-group">
                 <label class="custom-label">ID verification <span class="thin-text">(see note
                     to the right)</span></label>
-                <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES), {}, {class: "custom-field"} %>
+                <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES, f.object.verification_type), {}, {class: "custom-field"} %>
               </div>
 
               <div class="custom-input-group">
@@ -109,8 +109,8 @@
               <label class="custom-label">Gender</label>
 
               <div class="inner-input-group">
-                <div class="first"><%= f.radio_button :gender, "male", checked: true, class: 'input-checked' %> <span>Male</span></div>
-                <div class="last"><%= f.radio_button :gender, "female", class: 'input-checked' %> <span>Female</span></div>
+                <div class="first"><%= f.radio_button :gender, "male", checked: f.object.gender.eql?("male") || f.object.gender.eql?(nil), class: 'input-checked' %> <span>Male</span></div>
+                <div class="last"><%= f.radio_button :gender, "female", checked: f.object.gender.eql?("female"), class: 'input-checked' %> <span>Female</span></div>
               </div>
             </div>
 
@@ -118,15 +118,15 @@
               <label class="custom-label">Does the employee have his own vehicle?</label>
 
               <div class="inner-input-group">
-                <div class="first"><%= f.radio_button :has_vehicle, true, checked: true, class: 'input-checked' %> <span>Yes</span></div>
+                <div class="first"><%= f.radio_button :has_vehicle, true, class: 'input-checked' %> <span>Yes</span></div>
                 <div class="last"><%= f.radio_button :has_vehicle, false, class: 'input-checked' %> <span>No</span></div>
               </div>
             </div>
 
             <div class="button-box">
-              <%= link_to "Back", employee_step_2_path(id: @employee_listing.id), class: 'link-text' %>
+              <%= link_to "Back", employee_step_2_path(id: @employee_listing.id, back: true), class: 'link-text' %>
 
-              <a href="javascript:;" class="link-text">Save for later</a>
+              <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 
               <%= f.submit "Continue", class: "continue-btn", id: 'employee_form_id' %>
             </div>
