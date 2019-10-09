@@ -50,7 +50,7 @@
               <% if @employee_listing.profile_picture.attached? %>
                 <%= image_tag url_for(@employee_listing.profile_picture), class: 'profile-img' %>
               <% else %>
-                <%= image_tag '/assets/luca.png', class: 'profile-img' %>
+                <%= image_tag '/assets/no-image.jpg', class: 'profile-img' %>
               <% end %>
 
               <div class="view-photo">
