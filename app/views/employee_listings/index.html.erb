@@ -28,7 +28,11 @@
             <div class="listing-card-box">
               <div class="listing-card">
                 <div class="img-box">
-                  <%= image_tag '/assets/luca.png', class: 'img-card' %>
+                  <% if listing.profile_picture.attached? %>
+                    <%= image_tag url_for(listing.profile_picture), class: 'img-card' %>
+                  <% else %>
+                    <%= image_tag '/assets/no-image.jpg', class: 'img-card' %>
+                  <% end %>
                 </div>
                 <div class="card-detail-box">
                   <div class="card_heading"><%= listing.title %></div>
