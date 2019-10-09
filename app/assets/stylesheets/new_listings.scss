@@ -648,3 +648,212 @@
     }
   }
 }
+
+
+//** EMPLOYEE LISTINGS CSS **//
+
+.employee_listings_section {
+  padding: 22px 80px;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px 12px;
+  }
+
+  .inner-listings-section {
+    display: flex;
+    flex-direction: row;
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      margin-right: 40px;
+
+      .panel-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        .panel-item {
+          padding-bottom: 10px;
+
+          .panel-link {
+            color: #767676;
+            font-size: 16px;
+
+            &:hover {
+              color: #bbbbbb;
+              text-decoration: none;
+            }
+
+            &.AccountLeftMenuSelected {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+          }
+
+          .listing-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 3px;
+            background-color: #f15928;
+            color: #fff;
+            margin-top: 64px;
+
+            &:hover {
+              background-color: #d75227;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      width: 780px;
+
+      .right-panel-header {
+        font-size: 13pt;
+        font-weight: normal;
+        background-color: #f2f2f2;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dce0e0;
+        height: 45px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .listed-box {
+        border: 1px solid #dce0e0;
+        margin-bottom: 20px;
+
+        .listing-card-box {
+          padding: 20px 15px 20px 15px;
+          display: flex;
+          flex-direction: column;
+
+          .listing-card {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid #dce0e0;
+
+            .img-box {
+              width: 251px;
+              height: 240px;
+              border: 1px solid transparent;
+              border-right: none;
+              border-bottom: none;
+
+              .img-card {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+              }
+            }
+
+            .card-detail-box {
+              width: calc(100% - 251px);
+              padding: 20px 20px 20px 29px;
+              display: flex;
+              flex-direction: column;
+
+              .card_heading {
+                font-size: 24px;
+                display: inline-block;
+                padding-bottom: 10px;
+              }
+
+              .sub-detail {
+                font-size: 18px;
+                display: inline-block;
+                padding-bottom: 5px;
+              }
+
+              .small_grey_text {
+                font-size: 16px;
+                color: #767676;
+                margin-top: 14px;
+              }
+
+              .card-btns {
+                width: 340px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-top: 22px;
+
+                .manage-btn {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: #333;
+                  text-decoration: none;
+                  width: 180px;
+                  height: 40px;
+                  border: 1px solid #333;
+                  background-color: #fff;
+                  border-radius: 3px;
+                }
+
+                .preview-btn {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 140px;
+                  height: 40px;
+                  border: 1px solid #333;
+                  background-color: #fff;
+                  border-radius: 3px;
+                  color: #333;
+                  text-decoration: none;
+                }
+              }
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+}
+
+//** EMPLOYEE LISTINGS END CSS **//
+
+
+
+
+//** EMPLOYEE PREVIEW LISTINGS CSS **//
+
+.listing-preview-section {
+
+  .inner-preveiw {
+    max-width: 100%;
+    width: 1040px;
+    margin: 0 auto;
+    margin-left: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+
+    .left-preview-detail {
+      width: 650px;
+    }
+
+    .right-preview-detail {
+      width: 350px;
+    }
+  }
+}
+//** EMPLOYEE LISTINGS END CSS **//

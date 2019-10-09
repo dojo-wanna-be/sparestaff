@@ -1,3 +1,20 @@
+<div class="listing-preview-section">
+  <div class="inner-preveiw">
+    <div class="left-preview-detail">
+
+    </div>
+
+    <div class="right-preview-detail">
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <tr>
   <td>
     <table style="width: 100%">
@@ -63,7 +80,7 @@
                         </tr>
                         <tr>
                           <td><strong>Age</strong></td>
-                          <td><%= Date.today.year - @employee_listing.birth_year %> years old</td>
+                          <td><%#= Date.today.year - @employee_listing.birth_year %> years old</td>
                         </tr>
                         <tr>
                           <td><strong>Gender</strong></td>
@@ -117,19 +134,19 @@
                 <p>&nbsp;</p>
                 <div class="GreyLine1Px"></div>
                 <h3>Cancellation</h3>
-                <strong>Cancellation policy – Free cancellation within 
+                <strong>Cancellation policy – Free cancellation within
                 48 hours</strong><br />
                 Cancel within 48 hours of booking to get a full refund.
                 <ul>
-                  <li>Cancel up to 24 hours before employment contract start 
-                    date and time to get a refund, minus Spare Staff service 
+                  <li>Cancel up to 24 hours before employment contract start
+                    date and time to get a refund, minus Spare Staff service
                     fees.
                   </li>
-                  <li>Cancel within 24 hours of contract start date and the cost of the 
+                  <li>Cancel within 24 hours of contract start date and the cost of the
                     first day of contract is non-refundable.
                   </li>
-                  <li>Spare Staff service fees are refunded only if the 
-                    reservation is cancelled within 48 hours of booking and 
+                  <li>Spare Staff service fees are refunded only if the
+                    reservation is cancelled within 48 hours of booking and
                     the employment contract has not started yet.
                   </li>
                 </ul>
@@ -161,7 +178,7 @@
                       <td>
                         <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
                         <% if availability.present? %>
-                          <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp; 
+                          <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
                           <%= availability.end_time.strftime("%I:%M%p") %>
                         <% else %>
                           Not Available
@@ -243,9 +260,9 @@
                   </tr>
                   <tr>
                     <td colspan="3" class="PaddingTop15px">
-                      There have been a few players 
-                      described as 'the new George Best' over the 
-                      years, but this is the first time it's been a 
+                      There have been a few players
+                      described as 'the new George Best' over the
+                      years, but this is the first time it's been a
                       compliment to me.<br />
                       <br />
                       <div class="GreyLine1Px"></div>
@@ -269,8 +286,8 @@
                   </tr>
                   <tr>
                     <td colspan="3" class="PaddingTop15px">
-                      Ronaldo is better than George 
-                      Best and Denis Law, who were two brilliant and 
+                      Ronaldo is better than George
+                      Best and Denis Law, who were two brilliant and
                       great players in the history of United.<br />
                       <br />
                       <div class="GreyLine1Px"></div>
@@ -294,12 +311,12 @@
                   </tr>
                   <tr>
                     <td colspan="3" class="PaddingTop15px">
-                      I have 
-                      nothing but praise for the boy. He is easily the 
-                      best player in the world. His contribution as a 
-                      goal threat is unbelievable. His stats are 
-                      incredible. Strikes at goal, attempts on goal, 
-                      raids into the penalty box, headers. It is all 
+                      I have
+                      nothing but praise for the boy. He is easily the
+                      best player in the world. His contribution as a
+                      goal threat is unbelievable. His stats are
+                      incredible. Strikes at goal, attempts on goal,
+                      raids into the penalty box, headers. It is all
                       there. Absolutely astounding.<br />
                       <p>&nbsp;</p>
                       <table style="width: 300px">
@@ -387,26 +404,26 @@
                     <td colspan="2">&nbsp;</td>
                   </tr>
                 </table>
-                Our company is a professional football club based in Old 
-                Trafford, Greater Manchester, England, that competes in 
-                the Premier League, the top flight of English football. 
-                Nicknamed "the Red Devils", the club was founded as 
-                Newton Heath LYR Football Club in 1878, changed its name 
-                to Manchester United in 1902 and moved to its current 
-                stadium, Old Trafford, in 1910. Manchester United have 
-                won a record 20 League titles, 12 FA Cups, 5 League Cups 
-                and a record 21 FA Community Shields. The club has also 
-                won three UEFA Champions Leagues, one UEFA Europa 
-                League, one UEFA Cup Winners' Cup, one UEFA Super Cup, 
-                one Intercontinental Cup and one FIFA Club World Cup. In 
-                1998–99, the club became the first in the history of 
-                English football to achieve the treble of the Premier 
-                League, the FA Cup and the UEFA Champions League.[3] In 
-                2016–17, by winning the UEFA Europa League, they became 
-                one of five clubs to have won all three main UEFA club 
-                competitions. In addition, they became the only 
-                professional English club to have won every ongoing 
-                honour available to the first team that is organised by 
+                Our company is a professional football club based in Old
+                Trafford, Greater Manchester, England, that competes in
+                the Premier League, the top flight of English football.
+                Nicknamed "the Red Devils", the club was founded as
+                Newton Heath LYR Football Club in 1878, changed its name
+                to Manchester United in 1902 and moved to its current
+                stadium, Old Trafford, in 1910. Manchester United have
+                won a record 20 League titles, 12 FA Cups, 5 League Cups
+                and a record 21 FA Community Shields. The club has also
+                won three UEFA Champions Leagues, one UEFA Europa
+                League, one UEFA Cup Winners' Cup, one UEFA Super Cup,
+                one Intercontinental Cup and one FIFA Club World Cup. In
+                1998–99, the club became the first in the history of
+                English football to achieve the treble of the Premier
+                League, the FA Cup and the UEFA Champions League.[3] In
+                2016–17, by winning the UEFA Europa League, they became
+                one of five clubs to have won all three main UEFA club
+                competitions. In addition, they became the only
+                professional English club to have won every ongoing
+                honour available to the first team that is organised by
                 a national or international governing body.<br />
                 <br />
                 <table class="OrangeBorder150px">
@@ -419,8 +436,8 @@
                 <p>&nbsp;</p>
                 <div class="GreyLine1Px"></div>
                 <br/>
-                <strong>Always communicate through Spare Staff</strong> 
-                · To protect your payment, never transfer money or 
+                <strong>Always communicate through Spare Staff</strong>
+                · To protect your payment, never transfer money or
                 communicate outside of the Spare Staff website or app.
                 <a href="#">Learn more</a>
                 <br/><br/>
@@ -431,7 +448,7 @@
                 <table class="RequestToHireBox">
                   <tr>
                     <td style="padding:20px">
-                      from <span style="font-size: 20pt">$35</span> 
+                      from <span style="font-size: 20pt">$35</span>
                       per hour<br />
                       <br />
                       <div class="GreyLine1Px"></div>
@@ -652,13 +669,13 @@
                         <tr>
                           <td colspan="2" class="Text14px">
                             <div class="RedText Text14px Hidden" id="TaxNotice">
-                              As an employer, tax withholding is your 
-                              legal requirement. If you choose not to 
-                              withhold tax now, you might be liable for a 
+                              As an employer, tax withholding is your
+                              legal requirement. If you choose not to
+                              withhold tax now, you might be liable for a
                               penalty to ATO later.
                             </div>
-                            You can use pre-calculated tax amount or 
-                            type in your own. Always make sure tax 
+                            You can use pre-calculated tax amount or
+                            type in your own. Always make sure tax
                             withholding amount is correct.
                           </td>
                         </tr>
@@ -675,8 +692,8 @@
                           </td>
                         </tr>
                         <tr>
-                          <td colspan="2" style="border-bottom-style:hidden">You can set probation period 
-                            and terminate employment contracts early at any 
+                          <td colspan="2" style="border-bottom-style:hidden">You can set probation period
+                            and terminate employment contracts early at any
                             time if the employee underperforms.
                           </td>
                         </tr>
@@ -724,11 +741,11 @@
                         </tr>
                       </table>
                       <div style="text-align: center; padding-top:10px; width:100%; border-bottom:0.5px #e4e4e4 solid; font-size:10pt">
-                        You won't be charged yet. 
-                        You will not pay the Total employment 
-                        contract upfront. It's your choice to pay 
+                        You won't be charged yet.
+                        You will not pay the Total employment
+                        contract upfront. It's your choice to pay
                         weekly or fortnightly.<br />
-                        &nbsp;              
+                        &nbsp;
                       </div>
                       <br />
                       This employee listing has been viewed 149 times.
@@ -795,13 +812,13 @@
             </tr>
             <tr>
               <td>
-                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 28           
+                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 28
               </td>
               <td>
-                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 35           
+                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 35
               </td>
               <td>
-                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 12           
+                <img alt="" class="ListingListStarRating" src="/assets/star-rating.png" /> 12
               </td>
               <td>No reviews yet</td>
             </tr>
