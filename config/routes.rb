@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get "employee/preview" => "employee_listings#preview_listing"
   get "employee/publish" => "employee_listings#publish_listing"
   get "employee/sub_category_lists" => "employee_listings#sub_category_lists"
+  get "home/email_availability" => "home#email_availability"
 end
