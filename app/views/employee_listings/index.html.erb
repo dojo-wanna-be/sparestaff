@@ -56,7 +56,7 @@
                   <td class="UserAccountBoxContent">
                     <div class="divTable ListingBox PositionRelative">
                       <div class="divTableRow">
-                        <div class="divTableCell ListingImageBoxSmaller" style="background-image:url('/assets/luca.png')">
+                        <div class="divTableCell ListingImageBoxSmaller" style="background-image:url(<%= url_for(listing.profile_picture) %>)">
                         </div>
                         <div class="divTableCell ListingContent MarginLeft250Px FloatLeft">
                           <span class="OrderListingTitle"><%= listing.title %></span><br />
