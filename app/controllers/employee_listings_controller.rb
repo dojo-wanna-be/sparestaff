@@ -28,6 +28,7 @@ class EmployeeListingsController < ApplicationController
   def new_listing_step_1
     if current_user.is_owner? || current_user.is_hr?
       @employee_listing = current_user.company.employee_listings.build
+      @employee_listing.listing_step = 1
       if @employee_listing.save
         redirect_to employee_step_2_path(id: @employee_listing.id)
       else
