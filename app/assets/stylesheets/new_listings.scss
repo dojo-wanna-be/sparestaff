@@ -265,6 +265,18 @@
               display: flex;
               flex-direction: column;
               width: 146px;
+
+              .error {
+                font-size: 14px;
+              }
+
+              label#start_dat {
+                font-size: 12px;
+              }
+
+              label#end_date {
+                font-size: 12px;
+              }
             }
           }
 
@@ -453,8 +465,6 @@
                 }
 
                 .error {
-                  width: 100%;
-                  text-align: right;
                   margin-top: 5px;
                   font-size: 14px;
                 }
@@ -474,8 +484,6 @@
                   float:left;
                 }
                 .error {
-                  width: 100%;
-                  text-align: left;
                   margin-top: 5px;
                   font-size: 14px;
                 }
@@ -496,7 +504,7 @@
         }
 
         .comfirm-box {
-          display: flex;
+          display: block;
           flex-direction: row;
           align-items: center;
           margin-top: 30px;
@@ -505,7 +513,15 @@
           color: #484848;
 
           input {
-            margin: 3px 10px 3px 4px;
+            margin: 3px 10px 2px 4px;
+            height: 13px !important;
+            width: 13px !important;
+            position: relative;
+            top: 2px;
+          }
+
+          .error {
+            width: 100%;
           }
         }
 
