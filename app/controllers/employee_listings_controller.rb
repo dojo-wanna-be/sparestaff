@@ -13,12 +13,6 @@ class EmployeeListingsController < ApplicationController
                                       :show]
 
   before_action :find_company, only: [:create_listing_step_2]
-  
-  before_action :listing_step, only: [:new_listing_step_2,
-                                      :new_listing_step_3,
-                                      :new_listing_step_4,
-                                      :new_listing_step_5,
-                                     ]
 
   def getting_started
   end
@@ -79,7 +73,17 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_2
-    @company = @employee_listing.lister
+    if @employee_listing.listing_step >= 1
+      if @employee_listing.lister_type.eql?("Company")
+        @company = @employee_listing.lister
+      else
+        flash[:error] = "You can't go to this step"
+        redirect_to employee_step_3_path(id: @employee_listing.id)
+      end
+    else
+      flash[:error] = "You can't go to this step"
+      redirect_to employee_step_1_path(id: @employee_listing.id)
+    end
   end
 
   def create_listing_step_2
@@ -90,6 +94,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_3
+    unless (@employee_listing.lister_type.eql?("User") && @employee_listing.listing_step >= 1) || @employee_listing.listing_step >= 2
+      flash[:error] = "You can't go to this step"
+      redirect_to employee_step_1_path(id: @employee_listing.id)
+    end
   end
 
   def create_listing_step_3
@@ -101,6 +109,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_4
+    unless @employee_listing.listing_step >= 3
+      flash[:error] = "You can't go to this step"
+      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+    end
   end
 
   def create_listing_step_4
@@ -120,6 +132,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_5
+    unless @employee_listing.listing_step >= 4
+      flash[:error] = "You can't go to this step"
+      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+    end
   end
 
   def create_listing_step_5
@@ -155,22 +171,31 @@ class EmployeeListingsController < ApplicationController
   end
 
   def preview_listing
+    unless @employee_listing.listing_step >= 5
+      flash[:error] = "You can't go to this step"
+      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+    end
   end
 
   def publish_listing
-    @employee_listing.update_attributes(published: true, listing_step: 5) if params[:published].eql?("true")
-    if @employee_listing.published?
-      user_admin = User.where(is_admin: true)
-      if user_admin.present?
-        UserMailer.admin_listing_confirmation(user_admin).deliver!
-      end
+    unless @employee_listing.listing_step >= 5
+      flash[:error] = "You can't go to this step"
+      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+    else
+      @employee_listing.update_attributes(published: true, listing_step: 6) if params[:published].eql?("true")
+      if @employee_listing.published?
+        user_admin = User.where(is_admin: true)
+        if user_admin.present?
+          UserMailer.admin_listing_confirmation(user_admin).deliver!
+        end
 
-      if @employee_listing.tfn.blank?
-       UserMailer.tfn_verification(current_user).deliver!
-      end
+        if @employee_listing.tfn.blank?
+         UserMailer.tfn_verification(current_user).deliver!
+        end
 
-      UserMailer.listing_create_confirmation(current_user).deliver!
-      UserMailer.photo_verification(current_user).deliver!
+        UserMailer.listing_create_confirmation(current_user).deliver!
+        UserMailer.photo_verification(current_user).deliver!
+      end
     end
   end
 
@@ -244,16 +269,6 @@ class EmployeeListingsController < ApplicationController
 
   def find_company
     @company = Company.find(params[:company_id])
-  end
-
-  def listing_step
-    step_list = action_name.split('_').last
-    if @employee_listing.listing_step.present? && (@employee_listing.listing_step.to_i + 1 < step_list.to_i)
-      step = "step_#{@employee_listing.listing_step + 1}"
-      redirect_to "/employee/#{step}?id=#{params[:id]}"
-      flash[:error] = "You can't skip form step"
-    else
-    end 
   end
 
 end
