@@ -30,7 +30,13 @@
 
             <div class="custom-input-group">
               <label class="custom-label">TFN <span class="thin-text">(optional, see note to the right)</span></label>
-              <%= f.text_field :tfn, class: 'custom-field half-field' %>
+              <div>
+                <%= f.text_field :tfn, class: 'custom-field half-field' %>
+                
+                <div class="profile_picture">
+                  <%= f.file_field :profile_picture , class: "image-upload"%>
+                </div>
+              </div>
             </div>
 
             <div class="custom-input-group">

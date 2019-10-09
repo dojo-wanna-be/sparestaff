@@ -34,12 +34,14 @@
                     <div class="start-side">
                       <span><%= day %></span>
                       <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id' %>
+                      <label id="end_start_tm">Start date must be smaller from end date</label>
                     </div>
                     <div class="end-side">
                       <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id' %>
+                      <label id="tm_end">End date must be greater from start date</label>
 
                       <div class="availability-checkbox">
-                        <%= check_box_tag "unavailable_days[]", value, !f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                        <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: "unavailable_day_check" %>
                         <span>Not available</span>
                       </div>
                     </div>
@@ -95,11 +97,13 @@
             <div class="date-box">
               <div class="date-sec">
                 <label class="thin-label">Start Date</label>
-                <%= f.date_field :start_publish_date %>
+                <%= f.date_field :start_publish_date, id: 'str_pub' %>
+                <label id="start_dat">Start date must be smaller from end date</label>
               </div>
               <div class="date-sec">
                 <label class="thin-label">End Date</label>
-                <%= f.date_field :end_publish_date %>
+                <%= f.date_field :end_publish_date, id: 'pub_end' %>
+                <label id="end_date">End date must be greater from start date</label>
               </div>
             </div>
           </div>
@@ -146,30 +150,47 @@
 
 
 <script type="text/javascript">
+  $(".unavailable_day_check").on('change', function () {
+    if ($(this).is(":checked")) {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeClass("error");
+      parent.find("select").attr("disabled", "disabled");
+      parent.find("select").val("");
+      parent.find("label.error").hide();
+      parent.find("label#end_start_tm").hide();
+      parent.find("label#tm_end").hide();
+    } else {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeAttr("disabled");
+    }
+  });
+
   $('.prw_btn').click(function() {
-    var formValid = true
-    var availaBility = $('.slot_check').is(':checked')
+    var formValid = true;
+    var availaBility = $('.slot_check').is(':checked');
     if (availaBility){
       $('#tim_av_id').hide();
     }
     else{
       $('#tim_av_id').show();
-      FormValid = false
+      FormValid = false;
       $('#tim_av_id').show();
     }
   });
+
   $('.slot_check').on('keyup keypress change', function () {
-   var  formValid = true
-   var availaBility = $('.slot_check').is(':checked')
+    var  formValid = true;
+    var availaBility = $('.slot_check').is(':checked');
     if (availaBility) {
       $("#tim_av_id").hide();
     }
     else{
       $("#tim_av_id").show();
-      formValid = false
+      formValid = false;
     }
-    return formValid
+    return formValid;
   });
+
   $("#str_tme_id").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());
@@ -194,29 +215,38 @@
     "employee_listing[end_publish_date]": {required: true},
     },
   });
+
   $('.cust_str_id').on('keyup keypress change', function () {
-   var startVal = $('.cust_str_id').val()
-   var endVal = $('.end_str_id').val()
+    var parent = $(this).parent().parent();
+    var startVal = $(this).val();
+    var endVal = parent.find("select.end_str_id").val();
     if (startVal >= endVal && endVal != "" ) {
-      $("#end_start_tm").show();
+      $(this).parent().parent().find("#end_start_tm").show();
+      $(this).parent().parent().find("#tm_end").hide();
     }
     else{
-      $("#end_start_tm").hide();
+      $(this).parent().parent().find("#end_start_tm").hide();
+      $(this).parent().parent().find("#tm_end").hide();
     }
   });
+
   $('.end_str_id').on('keyup keypress change', function () {
-   var startVal = $('.cust_str_id').val()
-   var endVal = $('.end_str_id').val()
+    var parent = $(this).parent().parent();
+    var startVal = parent.find("select.cust_str_id").val();
+    var endVal = $(this).val();
     if (startVal >= endVal && startVal != "") {
-      $("#tm_end").show();
+      $(this).parent().parent().find("#tm_end").show();
+      $(this).parent().parent().find("#end_start_tm").hide();
     }
     else{
-      $("#tm_end").hide();
+      $(this).parent().parent().find("#end_start_tm").hide();
+      $(this).parent().parent().find("#tm_end").hide();
     }
   });
+
   $('#str_pub').on('keyup keypress change', function () {
-   var strPub = $('#str_pub').val()
-   var endPub = $('#pub_end').val()
+    var strPub = $('#str_pub').val();
+    var endPub = $('#pub_end').val();
     if (strPub >= endPub && endPub != "") {
       $("#start_dat").show();
     }
@@ -225,8 +255,8 @@
     }
   });
   $('#pub_end').on('keyup keypress change', function () {
-   var strPub = $('#str_pub').val()
-   var endPub = $('#pub_end').val()
+    var strPub = $('#str_pub').val();
+    var endPub = $('#pub_end').val();
     if (strPub >= endPub && strPub != "") {
       $("#end_date").show();
     }
@@ -234,71 +264,8 @@
       $("#end_date").hide();
     }
   });
-  $('.check_avl_id').click(function(e) {
-    var scheduleDay = $('#unavailable_days_').is(':checked')
-    var valSchedule = $.map($('input[id="unavailable_days_"]:checked'), function(c){return c.value; })
-    if (scheduleDay && valSchedule.includes('sunday')){
-     $('#start_time_sunday').attr("disabled", "disabled");
-     $('#end_time_sunday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_sunday').removeAttr('disabled');
-     $('#end_time_sunday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('monday')){
-     $('#start_time_monday').attr("disabled", "disabled");
-     $('#end_time_monday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_monday').removeAttr('disabled');
-     $('#start_time_monday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('tuesday')){
-     $('#start_time_tuesday').attr("disabled", "disabled");
-     $('#end_time_tuesday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_tuesday').removeAttr('disabled');
-     $('#end_time_tuesday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('wednesday')){
-     $('#start_time_wednesday').attr("disabled", "disabled");
-     $('#end_time_wednesday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_wednesday').removeAttr('disabled');
-     $('#end_time_wednesday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('thursday')){
-     $('#start_time_thursday').attr("disabled", "disabled");
-     $('#end_time_thursday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_thursday').removeAttr('disabled');
-     $('#end_time_thursday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('friday')){
-     $('#start_time_friday').attr("disabled", "disabled");
-     $('#end_time_friday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_friday').removeAttr('disabled');
-     $('#end_time_friday').removeAttr('disabled');
-    }
-    if (scheduleDay && valSchedule.includes('saturday')){
-     $('#start_time_saturday').attr("disabled", "disabled");
-     $('#end_time_saturday').attr("disabled", "disabled");
-    }
-    else {
-     $('#start_time_saturday').removeAttr('disabled');
-     $('#end_time_saturday').removeAttr('disabled');
-    }
-  });
+
 </script>
-
-
-
-
 
 <style type="text/css">
   label#tim_av_id {

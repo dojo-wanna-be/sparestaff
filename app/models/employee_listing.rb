@@ -46,6 +46,7 @@ class EmployeeListing < ApplicationRecord
   has_many :listing_availabilities
   has_many :employee_listing_slots
   has_many :slots, through: :employee_listing_slots
+  has_one_attached :profile_picture
   has_one_attached :verification_front_image
   has_one_attached :verification_back_image
   has_many_attached :relevant_documents

@@ -122,8 +122,9 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
-    @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image])
-    @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image])
+    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
+    @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image]) if params[:employee_listing][:verification_front_image].present?
+    @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
     if params[:save_later]
       redirect_to employee_step_3_path(id: @employee_listing.id)
@@ -142,14 +143,15 @@ class EmployeeListingsController < ApplicationController
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
     @employee_listing.update_attributes(classification_id: params[:classification_id])
-      if params[:employee_listing_language_ids].present?
-        @employee_listing.employee_listing_languages.destroy_all
-        params[:employee_listing_language_ids].each do |language_id|
+    if params[:employee_listing_language_ids].present?
+      @employee_listing.employee_listing_languages.destroy_all
+      params[:employee_listing_language_ids].each do |language_id|
         EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
-        if  @employee_listing.relevant_documents.present?
-          @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
-        end
       end
+    end
+    if params[:employee_listing][:relevant_documents].present?
+      @employee_listing.relevant_documents.destroy_all
+      @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
     end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
@@ -217,7 +219,7 @@ class EmployeeListingsController < ApplicationController
       if params[:published].eql?("true")
         @employee_listing.update_attributes(published: true, listing_step: 6)
       elsif params[:save_later]
-        @employee_listing.update_attribute(listing_step: 6)
+        @employee_listing.update_attribute(:listing_step, 6)
         redirect_to employee_publish_path(id: @employee_listing.id)
       end
       if @employee_listing.published?
