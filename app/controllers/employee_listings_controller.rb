@@ -217,7 +217,7 @@ class EmployeeListingsController < ApplicationController
       if params[:published].eql?("true")
         @employee_listing.update_attributes(published: true, listing_step: 6)
       elsif params[:save_later]
-        @employee_listing.update_attribute(listing_step: 6)
+        @employee_listing.update_attribute(:listing_step, 6)
         redirect_to employee_publish_path(id: @employee_listing.id)
       end
       if @employee_listing.published?

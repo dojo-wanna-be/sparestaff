@@ -110,8 +110,8 @@
                 <span class="right">
                   <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
                   <% if availability.present? %>
-                    <%#= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
-                    <%#= availability.end_time.strftime("%I:%M%p") %>
+                    <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
+                    <%= availability.end_time.strftime("%I:%M%p") %>
                   <% else %>
                     Not Available
                   <% end %>
@@ -144,7 +144,7 @@
         <div class="button-box">
           <%= link_to "Back", employee_step_5_path(id: @employee_listing.id, back: true), class: 'link-text' %>
 
-          <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
+          <%= link_to "Save for later", employee_publish_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
 
           <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
         </div>

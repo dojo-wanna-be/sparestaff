@@ -56,6 +56,7 @@
 
             <div class="custom-input-group">
               <label class="custom-label">What languages can the employee speak?</label>
+              <label id="lan_emp_id">Please select at least one language</label>
               <div class="lang-box">
                 <% Language.all.each do |global_language| %>
                   <div class="check-box">
@@ -71,7 +72,7 @@
 
               <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 
-              <%= f.submit "Continue", class: "continue-btn" %>
+              <%= f.submit "Continue", class: "continue-btn cont_step" %>
             </div>
 
           </div>
@@ -123,20 +124,20 @@
   });
 
   $('.cont_step').click(function(e) {
-    var FormValid = true
-    var empLang = $('.checkbox-inline').is(':checked')
+    var FormValid = true;
+    var empLang = $('.checkbox-inline').is(':checked');
     if (empLang){
       $('#lan_emp_id').hide();
     }
     else{
       $('#lan_emp_id').show();
-       FormValid = false
+      FormValid = false;
     }
-    return FormValid
+    return FormValid;
   });
 
-  $('.checkbox_inline').on('keyup keypress change', function () {
-   var empLang = $('.checkbox_inline').is(':checked')
+  $('.checkbox-inline').on('keyup keypress change', function () {
+   var empLang = $('.checkbox-inline').is(':checked');
     if (empLang) {
       $("#lan_emp_id").hide();
     }
