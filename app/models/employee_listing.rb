@@ -53,7 +53,7 @@ class EmployeeListing < ApplicationRecord
 
   EMPLOYEE_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS"]
   EMPLOYEE_COUNTRIES = ["Australia"]
-  EMPLOYEE_RESIDENCY_STATUSES = ["Permanen Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas"]
+  EMPLOYEE_RESIDENCY_STATUSES = ["Permanent Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas"]
   EMPLOYEE_VERIFICATION_TYPES = ["Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate", "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others"]
   PRICES = [ ["$20 / Hour", 20], ["$30 / Hour", 30], ["$40 / Hour", 40], ["$50 / Hour", 50], ["$60 / Hour", 60],
               ["$70 / Hour", 70], ["$80 / Hour", 80], ["$90 / Hour", 90], ["$100 / Hour", 100] ]

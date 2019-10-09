@@ -12,4 +12,12 @@ module EmployeeListingsHelper
     availablity = listing.listing_availabilities.find_by(day: day)
     availablity.present? ? availablity.end_time.strftime("%H:%M") : ""
   end
+
+  def disable(listing, day)
+    if listing.listing_availabilities.present?
+      listing.listing_availabilities.pluck(:day).include?(day.downcase) ? "" : "disabled"
+    else
+      ''
+    end
+  end
 end
