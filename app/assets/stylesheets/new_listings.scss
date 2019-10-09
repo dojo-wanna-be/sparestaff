@@ -7,6 +7,68 @@
     width: 1284px;
     margin: 0 auto;
 
+    .image-group {
+      display: flex;
+      flex-direction: row;
+
+      .box-img {
+        position: relative;
+        margin-left: 20px;
+
+        &:first-child {
+          margin-left: 0px;
+        }
+
+        .upload-file {
+
+        }
+
+        .image-upload {
+          position: absolute;
+          opacity: 0;
+          height: 100px;
+          width: 100px;
+          cursor: pointer;
+        }
+
+        .image-label {
+          height: 100px;
+          width: 100px;
+          margin: 0;
+
+          .upload-img {
+            height: 100%;
+            width: 100%;
+          }
+        }
+
+        .avatar-preview {
+          position: absolute;
+          height: 100px;
+          width: 100px;
+          top: 0;
+          overflow: hidden;
+
+          .preview-img {
+            height: 100%;
+          }
+
+          .remove-img {
+            position: absolute;
+            right: -18px;
+            top: -8px;
+            padding: 10px 12px 2px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            transform: rotate(45deg);
+            height: 30px;
+            width: 50px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
     .left-white-side {
       background-color: #fff;
       width: 780px;
@@ -102,6 +164,13 @@
           flex-direction: column;
           margin-bottom: 0;
           width: 100%;
+
+          .tfn-file {
+
+            .profile_picture {
+              margin-top: 15px;
+            }
+          }
 
           &.step-4-multiple-img {
             display: block;
@@ -249,37 +318,7 @@
           }
         }
 
-        .image-group {
-          display: flex;
-          flex-direction: row;
 
-          .box-img {
-            position: relative;
-            margin-left: 20px;
-
-            &:first-child {
-              margin-left: 0px;
-            }
-
-            .image-upload {
-              position: absolute;
-              opacity: 0;
-              height: 100px;
-              width: 100px;
-              cursor: pointer;
-            }
-
-            .image-label {
-              height: 100px;
-              width: 100px;
-
-              .upload-img {
-                height: 100%;
-                width: 100%;
-              }
-            }
-          }
-        }
 
         .custom-label {
           font-size: 16px;
@@ -401,7 +440,7 @@
 
               .start-side {
                 width: 235px;
-                display: flex;
+                display: block;
                 justify-content: space-between;
                 flex-direction: row;
                 align-items: center;
@@ -410,12 +449,20 @@
                   height: 30px;
                   padding: 5px;
                   width: 117px;
+                  float:right;
+                }
+
+                .error {
+                  width: 100%;
+                  text-align: right;
+                  margin-top: 5px;
+                  font-size: 14px;
                 }
               }
 
               .end-side {
                 width: 321px;
-                display: flex;
+                display: block;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
@@ -424,12 +471,19 @@
                   height: 30px;
                   padding: 5px;
                   width: 117px;
+                  float:left;
+                }
+                .error {
+                  width: 100%;
+                  text-align: left;
+                  margin-top: 5px;
+                  font-size: 14px;
                 }
 
                 .availability-checkbox {
                   width: 170px;
                   display: flex;
-                  justify-content: flex-start;
+                  justify-content: flex-end;
                   align-items: center;
 
                   input {

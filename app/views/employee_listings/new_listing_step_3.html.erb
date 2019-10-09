@@ -30,12 +30,27 @@
 
             <div class="custom-input-group">
               <label class="custom-label">TFN <span class="thin-text">(optional, see note to the right)</span></label>
-              <div>
+              <div class="tfn-file">
                 <%= f.text_field :tfn, class: 'custom-field half-field' %>
-                
+
                 <div class="profile_picture">
-                  <%= f.file_field :profile_picture , class: "image-upload"%>
+                  <label class="custom-label">Profile Picture</label>
+                  <div class="image-group">
+                    <div class="box-img">
+                      <div class="upload-file">
+                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3", :accept => ".png, .jpg, .jpeg"%>
+                        <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                      </div>
+
+                      <div class="avatar-preview preview3">
+                        <%= image_tag '', :id => "imagePreview3" %>
+
+                        <div class="remove-img remove3">X</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
               </div>
             </div>
 
@@ -98,13 +113,30 @@
               <div class="custom-input-group">
                 <div class="image-group">
                   <div class="box-img">
-                    <%= f.file_field :verification_front_image , class: "image-upload"%>
-                    <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                    <div class="upload-file">
+                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload", :accept => ".png, .jpg, .jpeg"%>
+                      <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                    </div>
+
+                    <div class="avatar-preview preview1">
+                      <%= image_tag '', :id => "imagePreview" %>
+
+                      <div class="remove-img remove1">X</div>
+                    </div>
                   </div>
+
                   <%#= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
                   <div class="box-img">
-                    <%= f.file_field :verification_back_image, class: "image-upload" %>
-                    <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                    <div class="upload-file">
+                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload2", :accept => ".png, .jpg, .jpeg"%>
+                      <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                    </div>
+
+                    <div class="avatar-preview preview2">
+                      <%= image_tag '', :id => "imagePreview2" %>
+
+                      <div class="remove-img remove2">X</div>
+                    </div>
                   </div>
                   <%#= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
                 </div>
@@ -190,6 +222,74 @@ $(document).ready(function () {
       "employee_listing[post_code]": {required: true},
       },
     });
+  });
+
+
+  $('.preview1').hide();
+  $('.preview2').hide();
+  $('.preview3').hide();
+
+  function readURL1(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('.preview1').show();
+            $('#imagePreview').attr('src', e.target.result);
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#imageUpload").change(function() {
+      readURL1(this);
+  });
+
+  $('.remove1').click(function(){
+    $('#imagePreview').removeAttr('src');
+    $('.preview1').hide();
+  });
+
+  function readURL2(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+          $('.preview2').show();
+          $('#imagePreview2').attr('src', e.target.result);
+          $('#imagePreview2').hide();
+          $('#imagePreview2').fadeIn(650);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#imageUpload2").change(function() {
+      readURL2(this);
+  });
+
+  $('.remove2').click(function(){
+    $('#imagePreview2').removeAttr('src');
+    $('.preview2').hide();
+  });
+
+  function readURL3(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+          $('.preview3').show();
+          $('#imagePreview3').attr('src', e.target.result);
+          $('#imagePreview3').hide();
+          $('#imagePreview3').fadeIn(650);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#imageUpload3").change(function() {
+      readURL3(this);
+  });
+
+  $('.remove3').click(function(){
+    $('#imagePreview3').removeAttr('src');
+    $('.preview3').hide();
   });
 </script>
 
