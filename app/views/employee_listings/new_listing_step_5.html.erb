@@ -290,15 +290,150 @@
                   <br />
                   To publish your listing immediately, select today's 
                   date.<br />
+<div class="new-listing-step_section">
+  <div class="inner-listing-section">
+    <div class="left-white-side">
+      <h1 class="main-heading">Employee availability and your earning</h1>
+
+      <div class="who-box">
+
+        <%= form_for @employee_listing, url: employee_step_5_path, method: :post, :html => { :id => "str_tme_id" } do |f| %>
+          <%= hidden_field_tag "id", @employee_listing.id %>
+
+          <div class="custom-input-group">
+            <label class="custom-label">Availability of the employee <span class="thin-text">(tick all that applies)</span></label>
+
+            <div class="availability-box">
+              <% Slot.all.each do |slot| %>
+                <div class="check-box">
+                  <%= check_box_tag "slot_ids[]", slot.id, @employee_listing.slots.pluck(:id).include?(slot.id), class: "slot_check" %>
+                  <%= slot.time_slot %>
                 </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+              <%end%>
+            </div>
+            <p class="employee-might">As the employee might have other commitment, it’s necessary to tell Hirers which day and time he/she is available to be hired.</p>
+
+            <div class="week-availability">
+              <ul class="from-to-list">
+                <li class="header-item">
+                  <div class="from-text">From</div>
+                  <div class="to-text">To</div>
+                </li>
+
+                <% ListingAvailability::DAYS.each do |day, value| %>
+                  <li class="availability-item">
+                    <div class="start-side">
+                      <span><%= day %></span>
+                      <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id' %>
+                    </div>
+                    <div class="end-side">
+                      <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id' %>
+
+                      <div class="availability-checkbox">
+                        <%= check_box_tag "unavailable_days[]", value, !f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                        <span>Not available</span>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+
+              </ul>
+            </div>
+          </div>
+
+          <div class="custom-input-group">
+            <label class="custom-label">Public holiday</label>
+
+            <div class="holiday-box">
+              <div class="avail-box"><%= f.radio_button :available_in_holidays, true %> <span>Available</span>
+              </div>
+              <div class="avail-box"><%= f.radio_button :available_in_holidays, false %> <span>Not available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="custom-input-group">
+            <label class="custom-label">Select price per hour that Hirers are expected to pay to hire the employee</label>
+
+            <div class="week-day-box">
+              <label class="thin-label">Weekday</label>
+              <div class="week-row">
+                <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price), {}, {class: 'week-select'} %>
+
+                <div class="mid-text">or</div>
+
+                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", class: 'custom-input' %>
+              </div>
+
+              <label class="thin-label">Weekend / Public holidays (if available)</label>
+              <div class="week-row bottom-space">
+                <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price), {}, {class: 'week-select'} %>
+
+                <div class="mid-text">or</div>
+
+                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", class: 'custom-input' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="custom-input-group">
+            <label class="custom-label">Minimum employment term per week <span class="thin-text">(optional)</span></label>
+            <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS, f.object.minimum_working_hours), {}, {class: 'custom-field half-field'} %>
+          </div>
+
+          <div class="custom-input-group">
+            <label class="custom-label">When would you like to publish this listing?</label>
+            <div class="date-box">
+              <div class="date-sec">
+                <label class="thin-label">Start Date</label>
+                <%= f.date_field :start_publish_date %>
+              </div>
+              <div class="date-sec">
+                <label class="thin-label">End Date</label>
+                <%= f.date_field :end_publish_date %>
+              </div>
+            </div>
+          </div>
+
+          <div class="comfirm-box">
+            <%= check_box_tag "confirm_details", "", false, style: "height:30px", required: true %>
+            <span class="">I confirm that this employee has a valid Australian visa with work rights.</span>
+          </div>
+
+          <div class="button-box">
+            <%= link_to "Back", employee_step_4_path(id: @employee_listing.id), class: 'link-text' %>
+
+            <a href="javascript:;" class="link-text">Save for later</a>
+
+            <%= f.submit "Preview", class: "continue-btn prw_btn" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+
+    <div class="right-grey-side">
+      <div class="bulb-box">
+        <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+        <br />
+        Great progress. This is the last step.<br />
+        <br />
+        Let’s work out the employee availability and how much Hirer
+        should pay you.<br />
+        <br />
+        Keep the employee availability up-to-date to avoid disappointing Hirers.<br />
+      </div>
+
+       <div class="bulb-box bulb-box-bottom">
+        <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+        <br />
+        Select a price that you expect to charge Hirer, but keep it competitive to the market and increase your chances of getting a hiring.<br />
+        <br />
+        To publish your listing immediately, select today's date.<br />
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script type="text/javascript">
@@ -311,6 +446,7 @@
     else{
       $('#tim_av_id').show(); 
       FormValid = false
+      $('#tim_av_id').show();
     }
   });
   $('.slot_check').on('keyup keypress change', function () {
@@ -327,7 +463,7 @@
   });
   $("#str_tme_id").validate({
     errorPlacement: function(error, element) {
-       error.appendTo(element.parent()); 
+       error.appendTo(element.parent());
     },
     rules: {
     "start_time[]monday": {required: true},
@@ -357,7 +493,7 @@
     }
     else{
       $("#end_start_tm").hide();
-    }        
+    }
   });
   $('.end_str_id').on('keyup keypress change', function () {
    var startVal = $('.cust_str_id').val()
@@ -367,7 +503,7 @@
     }
     else{
       $("#tm_end").hide();
-    }        
+    }
   });
   $('#str_pub').on('keyup keypress change', function () {
    var strPub = $('#str_pub').val()
@@ -462,7 +598,7 @@
   }
   label#end_start_tm {
     display: none;
-    color:#FF0000; 
+    color:#FF0000;
   }
   label#tm_end {
    display: none;
@@ -477,6 +613,6 @@
     color:#FF0000;
   }
   .error{
-    color:#FF0000; 
+    color:#FF0000;
   }
 </style>

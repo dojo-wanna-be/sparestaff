@@ -1,85 +1,43 @@
-<tr>
-  <td>
-    <table cellpadding="0">
-      <tr>
-        <td style="width: 80px">&nbsp;</td>
-        <td>
-          <table class="ListAnEmployeeSteps">
-            <tr>
-              <td class="ListAnEmployeeMainWindow">
-                <h1 style="padding-top:15px">
-                  Let's get started listing your employee
-                </h1>
-                <p>
-                  Who are you listing?
-                </p>
-                <%= form_tag employee_step_1_path, method: :post, id: "user_type_form" do |f| %>
-                  <table style="width: 500px">
-                    <tr>
-                      <td style="width: 100px; text-align: center;">
-                        <%= radio_button_tag "poster_type", "individual", true %>
-                      </td>
-                      <td>
-                        <table class="GreyBorderNoSize">
-                          <tr>
-                            <td style="padding:20px;">
-                              I am looking for job and I want to list myself up for companies to find and hire me
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="width: 80px; text-align: center;">
-                        &nbsp;
-                      </td>
-                      <td>
-                        &nbsp;
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: center">
-                        <%= radio_button_tag "poster_type", "company" %>
-                      </td>
-                      <td>
-                        <table class="GreyBorderNoSize">
-                          <tr>
-                            <td style="padding:20px;">
-                              I am representing a company and listing one of our company’s employee for sharing
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                  <br />
-                  <br />
-                  <table class="ButtonOrange">
-                    <tr>
-                      <td>
-                        <%= submit_tag "Continue", class: "cust_btn" %>
-                      </td>
-                    </tr>
-                  </table>
-                  <p></p>
-                <% end %>
-              </td>
-              <td class="ListAnEmployeeTipWindow">
-                <div class="TipBoxForListAnEmployee">
-                  <%= image_tag "light-bulb.png", alt: "" %><br />
-                  As a job seeker, you can list yourself and your 
-                  listing will be seen by hundreds of potential 
-                  employers.<br />
-                  <br />
-                  As a company, sharing employees is a great way to 
-                  reduce your biggest overhead costs - wages. Your 
-                  employee also gets better job security, gains experience, connects with more people.<br />
-                </div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+<div class="new-listing-step_section">
+  <div class="inner-listing-section">
+    <div class="left-white-side">
+      <h1 class="main-heading">Let's get started listing your employee</h1>
+
+      <div class="who-box">
+        <p>Who are you listing?</p>
+
+        <%= form_tag employee_step_1_path, method: :post, id: "user_type_form" do |f| %>
+          <div class="checked-box">
+            <div class="input-checked">
+              <%= radio_button_tag "poster_type", "individual", true %>
+            </div>
+            <div class="message-box">I am looking for job and I want to list myself up for companies to find and hire me</div>
+          </div>
+
+          <div class="checked-box">
+            <div class="input-checked">
+              <%= radio_button_tag "poster_type", "company" %>
+            </div>
+            <div class="message-box">I am representing a company and listing one of our company’s employee for sharing</div>
+          </div>
+
+          <%= submit_tag "Continue", class: "continue-btn" %>
+
+        <% end %>
+      </div>
+    </div>
+
+    <div class="right-grey-side">
+      <div class="bulb-box">
+        <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %><br />
+        As a job seeker, you can list yourself and your
+        listing will be seen by hundreds of potential
+        employers.<br />
+        <br />
+        As a company, sharing employees is a great way to
+        reduce your biggest overhead costs - wages. Your
+        employee also gets better job security, gains experience, connects with more people.<br />
+      </div>
+    </div>
+  </div>
+</div>
