@@ -33,11 +33,27 @@
                   <li class="availability-item">
                     <div class="start-side">
                       <span><%= day %></span>
-                      <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id' %>
+                      <% if f.object.listing_availabilities.present? %>
+                        <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id' %>
+                        <% else %>
+                          <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id', disabled: 'disabled'%>
+                        <% end %>
+                      <% else %>
+                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id' %>
+                      <% end %>
                       <label id="end_start_tm">Start date must be smaller from end date</label>
                     </div>
                     <div class="end-side">
-                      <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id' %>
+                      <% if f.object.listing_availabilities.present? %>
+                        <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id' %>
+                        <% else %>
+                          <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id', disabled: 'disabled' %>
+                        <% end %>
+                      <% else %>
+                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'Select End Day', class: 'end_str_id' %>
+                      <% end %>
                       <label id="tm_end">End date must be greater from start date</label>
 
                       <div class="availability-checkbox">
@@ -78,11 +94,11 @@
 
               <label class="thin-label">Weekend / Public holidays (if available)</label>
               <div class="week-row bottom-space">
-                <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price), {}, {class: 'week-select'} %>
+                <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select'} %>
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", class: 'custom-input' %>
+                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", class: 'custom-input' %>
               </div>
             </div>
           </div>

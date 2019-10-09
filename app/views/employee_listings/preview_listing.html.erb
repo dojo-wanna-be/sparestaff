@@ -21,7 +21,7 @@
               </li>
               <li class="item">
                 <div class="left-heading"><b>Age</b></div>
-                <div class="right-content"><%#= Date.today.year - @employee_listing.birth_year %> years old</div>
+                <div class="right-content"><%= @employee_listing.birth_year.present? ? "#{(Date.today.year - @employee_listing.birth_year)} years old" : "-" %></div>
               </li>
               <li class="item">
                 <div class="left-heading"><b>Gender</b></div>
@@ -67,7 +67,7 @@
 
         <div class="detail-custom-box">
           <h3 class="detail-heading">Other comments</h3>
-          <p class="pera-text"><%= @employee_listing.optional_comments %></p>
+          <p class="pera-text"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
         </div>
 
         <div class="detail-custom-box">
@@ -135,14 +135,26 @@
           <ul class="custom-list">
             <li class="list-item">
               <span class="first">Minimum</span>
-              <span><%= @employee_listing.minimum_working_hours %> hours</span>
+              <span>
+                <% if @employee_listing.minimum_working_hours > 0 %>
+                  <%= @employee_listing.minimum_working_hours %> hours
+                <% else %>
+                  -
+                <% end %>
+              </span>
             </li>
           </ul>
         </div>
 
         <div class="detail-custom-box last-box">
           <h3 class="detail-heading">Published between</h3>
-          <p class="pera-text"><%#= "From #{@employee_listing.start_publish_date.strftime("%A %b %d, %Y")} to #{@employee_listing.end_publish_date.strftime("%A %b %d, %Y")}" %></p>
+          <p class="pera-text">
+            <% if @employee_listing.start_publish_date.present? && @employee_listing.end_publish_date.present? %>
+              <%= "From #{@employee_listing.start_publish_date.strftime("%A %b %d, %Y")} to #{@employee_listing.end_publish_date.strftime("%A %b %d, %Y")}" %>
+            <% else %>
+              -
+            <% end %>
+          </p>
         </div>
 
         <div class="button-box">
