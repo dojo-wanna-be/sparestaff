@@ -1,6 +1,229 @@
 <div class="listing-preview-section">
   <div class="inner-preveiw">
     <div class="left-preview-detail">
+      <div class="link-box">
+        <%#= link_to '&lt; Back' %>
+        <a href="#" class="link-text">&lt; Back</a>
+
+        <ul class="link-box-list">
+          <li class="link-box-item"><%= link_to 'Overview','#Overview', class: 'type-link selected-link' %> <span class="dot">·</span></li>
+          <li class="link-box-item"><%= link_to 'Asking wage', '#AskingWage', class: 'type-link' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Availability', '#Availability', class: 'type-link' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Reviews', '#Reviews', class: 'type-link' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Poster', '#Poster', class: 'type-link' %> </li>
+        </ul>
+      </div>
+
+      <div class="user-profile">
+        <div class="user-detail">
+          <h1 class="user-detail-heading"><%= @employee_listing.title %></h1>
+
+          <ul class="detail-list">
+            <li class="item">
+              <div class="left-heading name"><b>Name</b></div>
+              <div class="name right-content"><%= "#{@employee_listing.first_name} #{@employee_listing.last_name}" %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading "><b>Current employer</b></div>
+              <div class="right-content"><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "" %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Age</b></div>
+              <div class="right-content"><%#= Date.today.year - @employee_listing.birth_year %> years old</div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Gender</b></div>
+              <div class="right-content"><%= @employee_listing.gender.titleize %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Location</b></div>
+              <div class="right-content"><%= "#{@employee_listing.city} #{@employee_listing.state} #{@employee_listing.post_code}" %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Residency</b></div>
+              <div class="right-content"><%= @employee_listing.residency_status.eql?("Other Visas") ? @employee_listing.other_residency_status : @employee_listing.residency_status %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Have own vehicle</b></div>
+              <div class="right-content"><%= @employee_listing.has_vehicle ? "Yes" : "No" %></div>
+            </li>
+            <li class="item">
+              <div class="left-heading"><b>Language</b></div>
+              <div class="right-content"><%= @employee_listing.languages.pluck(:language).to_sentence %></div>
+            </li>
+          </ul>
+        </div>
+        <div class="profile-box">
+          <div class="profile">
+            <%= image_tag '/assets/luca.png', class: 'profile-img' %>
+
+            <div class="view-photo">
+              <%= link_to 'View photos', '', class: 'view' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Description, expertise, skills</h3>
+        <p class="pera-text"><%= @employee_listing.skill_description %></p>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Other comments</h3>
+        <p class="pera-text"><%= @employee_listing.optional_comments %></p>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Cancellation</h3>
+        <div><strong>Cancellation policy – Free cancellation within 48 hours</strong><br />Cancel within 48 hours of booking to get a full refund.</div>
+
+        <ul class="cancelation-list">
+          <li>Cancel up to 24 hours before employment contract start
+            date and time to get a refund, minus Spare Staff service
+            fees.
+          </li>
+          <li>Cancel within 24 hours of check-in and the cost of the
+            first day of contract is non-refundable.
+          </li>
+          <li>Spare Staff service fees are refunded only if the
+            reservation is cancelled within 48 hours of booking and
+            the employment contract has not started yet.
+          </li>
+        </ul>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading" id="AskingWage">Asking wage</h3>
+        <ul class="custom-list">
+          <li class="list-item">
+            <span class="first">Weekday</span>
+            <span><%= "$#{@employee_listing.weekday_price}/hour" %></span>
+          </li>
+          <li class="list-item">
+            <span class="first">Weekend / <br /> Public holiday</span>
+            <span><%= @employee_listing.available_in_holidays ? "$#{@employee_listing.holiday_price}/hour" : "Not Available" %></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading" id="Availability">Availability</h3>
+        <p>Available for <%= @employee_listing.slots.pluck(:time_slot).to_sentence %> roles.</p>
+
+        <ul class="custom-list">
+          <% ListingAvailability::DAYS.map{|k,v| v}.each do |week_day| %>
+            <li class="list-item">
+              <span class="first"><%= week_day.titleize %></span>
+              <span class="right">
+                <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
+                <% if availability.present? %>
+                  <%#= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
+                  <%#= availability.end_time.strftime("%I:%M%p") %>
+                <% else %>
+                  Not Available
+                <% end %>
+              </span>
+            </li>
+          <% end %>
+
+          <li class="list-item top-space">
+            <span class="first">Public holiday</span>
+            <span><%= @employee_listing.available_in_holidays ? "Available" : "Not available" %></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Minimum employment term</h3>
+        <ul class="custom-list">
+          <li class="list-item">
+            <span class="first">Minimum</span>
+            <span><%= @employee_listing.minimum_working_hours %> hours</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="detail-custom-box">
+        <div class="review-box">
+          <div class="review-header">
+            <div class="review-count">
+              25 Reviews
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+            </div>
+            <div class="search-review">
+               <input name="Text1" type="text" placeholder="Search reviews" class="custom-input" />
+            </div>
+          </div>
+
+          <ul class="review-list">
+           <li class="review-item">
+             <div class="left-review">
+              <div class="text-review">
+                Friendliness
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+             <div class="right-review">
+              <div class="text-review">
+                Technical skills
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+           </li>
+
+           <li class="review-item">
+             <div class="left-review">
+              <div class="text-review">
+                Punctuality
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+             <div class="right-review">
+              <div class="text-review">
+                Management skills
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+           </li>
+
+           <li class="review-item">
+             <div class="left-review">
+              <div class="text-review">
+                Professionalism
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+             <div class="right-review">
+              <div class="text-review">
+                Communication
+              </div>
+              <%= image_tag '/assets/star-rating.png', class: 'review-img' %>
+             </div>
+           </li>
+
+          </ul>
+
+          <div class="user-review">
+            <div class="user-detail">
+              <div class="user">
+                <%= link_to '../users/user-profile.html' do %>
+                  <%= image_tag '/assets/Henry1.jpg', class: 'ProfileIcon40px' %>
+                <% end %>
+                <div class="name">
+                  <div><b>HirerDEF</b></div>
+                  <div>November 2017</div>
+                </div>
+              </div>
+              <div class="flag">
+                <%= image_tag '/assets/flag.png', class: 'FlagReview' %>
+              </div>
+            </div>
+            <p>There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
+          </div>
+
+        </div>
+      </div>
 
     </div>
 
@@ -27,243 +250,19 @@
               <td style="width: 650px">
                 <table>
                   <tr>
-                    <td>
-                      <a href="#">&lt; Back</a>
-                    </td>
-                    <td>
-                      &nbsp;
-                    </td>
-                    <td style="text-align: right; width: 50px">
-                      Overview
-                    </td>
-                    <td style="text-align: center; width: 20px">
-                      ·
-                    </td>
-                    <td style="text-align: right; width: 96px">
-                      <a href="#AskingWage">Asking wage</a>
-                    </td>
-                    <td style="text-align: center; width: 20px">
-                      ·
-                    </td>
-                    <td style="text-align: right; width: 50px">
-                      <a href="#Availability">Availability</a>
-                    </td>
-                    <td style="text-align: center; width: 20px">
-                      ·
-                    </td>
-                    <td style="text-align: right; width: 50px">
-                      <a href="#Reviews">Reviews</a>
-                    </td>
-                    <td style="text-align: center; width: 20px">
-                      ·
-                    </td>
-                    <td style="text-align: right; width: 50px">
-                      <a href="#Poster">Poster</a>
-                    </td>
-                  </tr>
-                </table>
-                <br />
-                <div class="GreyLine1Px"></div>
-                <br />
-                <table style="width: 100%">
-                  <tr>
-                    <td valign="top">
-                      <h1><%= @employee_listing.title %></h1>
-                      <table class="ListingTitle">
-                        <tr>
-                          <td style="width: 160px; font-size: 16pt;"><strong>Name</strong></td>
-                          <td style="font-size: 16pt"><%= "#{@employee_listing.first_name} #{@employee_listing.last_name}" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Listed by</strong></td>
-                          <td><%= @employee_listing.lister.name %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Age</strong></td>
-                          <td><%#= Date.today.year - @employee_listing.birth_year %> years old</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Gender</strong></td>
-                          <td><%= @employee_listing.gender.titleize %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Location</strong></td>
-                          <td><%= "#{@employee_listing.city} #{@employee_listing.state} #{@employee_listing.post_code}" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Residency</strong></td>
-                          <td>
-                            <%= @employee_listing.residency_status.eql?("Other Visas") ? @employee_listing.other_residency_status : @employee_listing.residency_status %>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><strong>Have own vehicle</strong></td>
-                          <td><%= @employee_listing.has_vehicle ? "Yes" : "No" %></td>
-                        </tr>
-                        <tr>
-                          <td><strong>Language</strong></td>
-                          <td><%= @employee_listing.languages.pluck(:language).to_sentence %></td>
-                        </tr>
-                      </table>
-                    </td>
-                    <td style="width: 270px" valign="top">
-                      <br />
-                      <br />
-                      <a href="#">
-                      <img alt="" class="Image250pxRightGreyBorder" src="/assets/luca.png" /></a>
-                      <div class="ViewPhotosButton">
-                        <table class="ViewPhotosButton">
-                          <tr>
-                            <td style="text-align: center"><a href="#" class="GreyLink10ptNoUnderline">
-                              View photos</a>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Description, expertise, skills</h3>
-                <%= @employee_listing.skill_description %>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Other comments</h3>
-                <%= @employee_listing.optional_comments %>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Cancellation</h3>
-                <strong>Cancellation policy – Free cancellation within
-                48 hours</strong><br />
-                Cancel within 48 hours of booking to get a full refund.
-                <ul>
-                  <li>Cancel up to 24 hours before employment contract start
-                    date and time to get a refund, minus Spare Staff service
-                    fees.
-                  </li>
-                  <li>Cancel within 24 hours of contract start date and the cost of the
-                    first day of contract is non-refundable.
-                  </li>
-                  <li>Spare Staff service fees are refunded only if the
-                    reservation is cancelled within 48 hours of booking and
-                    the employment contract has not started yet.
-                  </li>
-                </ul>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3 id="AskingWage">Asking wage</h3>
-                <table style="width: 400px" class="ListingTitle">
-                  <tr>
-                    <td style="width: 140px">Weekday</td>
-                    <td><%= "$#{@employee_listing.weekday_price}/hour" %></td>
-                  </tr>
-                  <tr>
-                    <td>Weekend</td>
-                    <td><%= @employee_listing.available_in_holidays ? "$#{@employee_listing.holiday_price}/hour" : "Not Available" %></td>
-                  </tr>
-                  <tr>
-                    <td>Public holidays</td>
-                    <td><%= @employee_listing.available_in_holidays ? "Available" : "Not Available" %></td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3 id="Availability">Availability</h3>
-                <p>Available for <%= @employee_listing.slots.pluck(:time_slot).to_sentence %> roles.</p>
-                <table style="width: 400px" class="ListingTitle">
-                  <% ListingAvailability::DAYS.map{|k,v| v}.each do |week_day| %>
-                    <tr>
-                      <td style="width: 140px"><%= week_day.titleize %></td>
-                      <td>
-                        <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
-                        <% if availability.present? %>
-                          <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
-                          <%= availability.end_time.strftime("%I:%M%p") %>
-                        <% else %>
-                          Not Available
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <h3>Minimum employment term</h3>
-                <table style="width: 400px" class="ListingTitle">
-                  <tr>
-                    <td style="width: 140px">Minimum</td>
-                    <td><%= @employee_listing.minimum_working_hours %> hours</td>
-                  </tr>
-                </table>
-                <p>&nbsp;</p>
-                <div class="GreyLine1Px"></div>
-                <table style="width: 100%">
-                  <tr>
-                    <td style="width: 140px">
-                      <h2 id="Reviews">25 Reviews</h2>
-                    </td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReviewTotal" />
-                    </td>
-                    <td style="text-align: right">
-                      <input name="Text1" type="text" placeholder="Search reviews" class="Height40px" />
-                    </td>
-                  </tr>
-                </table>
-                <table style="width: 100%" class="ListingTitle">
-                  <tr>
-                    <td style="width: 140px">Friendliness</td>
-                    <td style="width: 140px">
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                    <td style="width: 160px">Technical skills</td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Punctuality</td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                    <td>Management skills</td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Professionalism</td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                    <td>Communication</td>
-                    <td>
-                      <img alt=""src="/assets/star-rating.png" class="ListingReview" />
-                    </td>
-                  </tr>
-                </table>
-                <br />
-                <table>
-                  <tr>
                     <td style="width: 55px" valign="top">
-                      <a href="../users/user-profile.html" target="_blank">
-                      <img alt="" src="/assets/Henry1.jpg" class="ProfileIcon40px" align="top"/></a>
+
                     </td>
-                    <td valign="top"><strong>HirerDEF</strong><br />
-                      November 2017
+                    <td valign="top"><strong>
                     </td>
                     <td style="text-align: right" valign="top">
                       <a href="#">
-                      <img alt="" class="FlagReview" src="/assets/flag.png"/></a>
+                      <img alt="" class="" src=""/></a>
                     </td>
                   </tr>
                   <tr>
                     <td colspan="3" class="PaddingTop15px">
-                      There have been a few players
-                      described as 'the new George Best' over the
-                      years, but this is the first time it's been a
-                      compliment to me.<br />
+                      <br />
                       <br />
                       <div class="GreyLine1Px"></div>
                     </td>
