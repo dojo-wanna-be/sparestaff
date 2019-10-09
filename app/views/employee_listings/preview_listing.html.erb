@@ -142,9 +142,9 @@
         </div>
 
         <div class="button-box">
-          <%= link_to "Back", employee_step_5_path(id: @employee_listing.id), class: 'link-text' %>
+          <%= link_to "Back", employee_step_5_path(id: @employee_listing.id, back: true), class: 'link-text' %>
 
-          <a href="javascript:;" class="link-text">Save for later</a>
+          <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
 
           <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
         </div>
