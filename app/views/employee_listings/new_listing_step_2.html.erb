@@ -66,7 +66,8 @@
             </div>
 
             <div class="button-box">
-              <%= link_to "Back", employee_step_1_path(id: @employee_listing.id, back: true), class: 'link-text' %>
+              <span class="link-text">&lt; <%= link_to "Back", employee_step_1_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+
 
               <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 

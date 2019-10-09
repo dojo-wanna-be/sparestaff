@@ -323,8 +323,12 @@
           }
         }
 
+
+
         .link-text {
           color: #f15927;
+          background: transparent;
+          border: none;
         }
 
         //*** step5 ***//
@@ -836,6 +840,7 @@
 //** EMPLOYEE PREVIEW LISTINGS CSS **//
 
 .listing-preview-section {
+  margin: 22px 0;
 
   .inner-preveiw {
     max-width: 100%;
@@ -849,6 +854,308 @@
 
     .left-preview-detail {
       width: 650px;
+      display: flex;
+      flex-direction: column;
+
+      .link-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .link-box-list {
+          display: flex;
+          flex-direction: row;
+          padding: 0;
+          margin: 0;
+          list-style: none;
+
+          .link-box-item {
+            font-size: 16px;
+
+            .type-link {
+              color: #f15927;
+
+              &.selected-link {
+                color: #484848;
+                text-decoration: none;
+              }
+            }
+
+            .dot {
+              padding: 0px 6.4px;
+            }
+          }
+        }
+      }
+
+      .user-profile {
+        display: flex;
+        flex-direction: row;
+        padding: 22px 0 40px;
+        border-top: 1px solid #e4e4e4;
+        border-bottom: 1px solid #e4e4e4;
+        margin-top: 22px;
+        justify-content: space-between;
+
+        .user-detail {
+          width: 380px;
+
+          .user-detail-heading {
+            font-size: 32px;
+            font-weight: bold;
+            color: #484848;
+            margin: 0.67em 0;
+            line-height: 1.4;
+          }
+
+          .detail-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            .item {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              color: #484848;
+              font-size: 16px;
+              line-height: 1.4;
+              padding-bottom: 5px;
+
+              .left-heading {
+                width: 160px;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+
+              }
+              .name {
+                font-size: 21px !important;
+              }
+
+              .right-content {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                width: 220px;
+              }
+            }
+          }
+        }
+
+        .profile-box {
+          width: 270px;
+          padding-top: 49px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+
+          .profile {
+            width: 252px;
+            float: right;
+            border: 1px solid silver;
+            position: relative;
+            height: 252px;
+
+            .profile-img {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+            }
+
+            .view-photo {
+              position: absolute;
+              bottom: 9px;
+              left: 0;
+              right: 0;
+              margin: 0 auto;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-left: 12px;
+
+              .view {
+                width: 100px;
+                height: 30px;
+                border: 1px solid #c0c0c0;
+                background-color: white;
+                border-radius: 3px;
+                border-collapse: separate;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 10pt;
+                color: #333333;
+                text-decoration: none;
+
+                &:hover {
+                  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .detail-custom-box {
+        border-bottom: 1px solid #e4e4e4;
+        padding: 0px 0 50px;
+
+        &.last-box {
+          border-bottom: none;
+          padding-bottom: 0px;
+        }
+
+        .detail-heading {
+          font-size: 1.17em;
+          font-weight: bold;
+          margin: 16px 0;
+          line-height: 1.4;
+          color: #484848;
+        }
+
+        .pera-text {
+          font-size: 16px;
+          color: #484848;
+          margin: 0;
+        }
+
+        .cancelation-list {
+          margin: 16px 0 0;
+        }
+
+        .custom-list {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          width: 400px;
+
+          .list-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 5px;
+
+            &.top-space {
+              margin-top: 27px;
+            }
+
+            .first {
+              width: 140px;
+            }
+          }
+        }
+
+        .review-box {
+          margin: 0.83em 0;
+
+          .review-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .review-count {
+              font-size: 1.5em;
+              margin: 0;
+              font-weight: bold;
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
+
+              .review-img {
+                height: 18.36px;
+                margin-left: 12px;
+              }
+            }
+
+            .search-review {
+              .custom-input {
+                height: 40px;
+                margin-top: 2px;
+                width: 208px;
+              }
+            }
+          }
+
+          .review-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            width: 560px;
+            flex-direction: column;
+            margin-top: 18px;
+
+            .review-item {
+              display: flex;
+              flex-direction: row;
+              padding-bottom: 5px;
+              justify-content: space-between;
+
+              .left-review {
+                font-size: 16px;
+                margin: 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                width: 280px;
+
+                .text-review {
+                  width: 140px;
+                }
+
+                .review-img {
+                  height: 14.69px;
+                }
+              }
+              .right-review {
+                font-size: 16px;
+                margin: 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                width: 280px;
+
+                .text-review {
+                  width: 160px;
+                }
+
+                .review-img {
+                  height: 14.69px;
+                }
+              }
+            }
+
+          }
+
+          .user-review {
+            margin: 22px 0;
+            border-bottom: 1px solid #e4e4e4;
+            display: flex;
+            flex-direction: column;
+
+            .user-detail {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+
+              .user {
+                display: flex;
+                flex-direction: row;
+
+                .name {
+
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
     .right-preview-detail {

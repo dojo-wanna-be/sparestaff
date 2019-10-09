@@ -110,7 +110,7 @@
           </div>
 
           <div class="button-box">
-            <%= link_to "Back", employee_step_4_path(id: @employee_listing.id, back: true), class: 'link-text' %>
+            <span class="link-text">&lt; <%= link_to "Back", employee_step_4_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
             <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 
@@ -153,7 +153,7 @@
       $('#tim_av_id').hide();
     }
     else{
-      $('#tim_av_id').show(); 
+      $('#tim_av_id').show();
       FormValid = false
       $('#tim_av_id').show();
     }
@@ -167,7 +167,7 @@
     else{
       $("#tim_av_id").show();
       formValid = false
-    }        
+    }
     return formValid
   });
   $("#str_tme_id").validate({
@@ -222,7 +222,7 @@
     }
     else{
       $("#start_dat").hide();
-    }        
+    }
   });
   $('#pub_end').on('keyup keypress change', function () {
    var strPub = $('#str_pub').val()
@@ -232,7 +232,7 @@
     }
     else{
       $("#end_date").hide();
-    }        
+    }
   });
   $('.check_avl_id').click(function(e) {
     var scheduleDay = $('#unavailable_days_').is(':checked')
@@ -315,7 +315,7 @@
   }
   label#start_dat {
     display: none;
-    color:#FF0000; 
+    color:#FF0000;
   }
   label#end_date {
     display: none;
