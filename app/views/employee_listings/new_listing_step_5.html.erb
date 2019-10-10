@@ -5,7 +5,7 @@
 
       <div class="who-box">
 
-        <%= form_for @employee_listing, url: employee_step_5_path, method: :post, :html => { :id => "str_tme_id" } do |f| %>
+        <%= form_for @employee_listing, url: create_step_5_employee_path, method: :post, :html => { :id => "str_tme_id" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
 
           <div class="custom-input-group">
@@ -130,7 +130,7 @@
           </div>
 
           <div class="button-box">
-            <span class="link-text">&lt; <%= link_to "Back", employee_step_4_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+            <span class="link-text">&lt; <%= link_to "Back", step_4_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
             <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 

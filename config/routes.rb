@@ -5,23 +5,33 @@ Rails.application.routes.draw do
     passwords: "users/passwords",
     confirmations: "users/confirmations"
   }
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "home#index"
-  resources :employee_listings, only: [:index, :show]
 
-  get "employee/getting_started" => "employee_listings#getting_started"
-  get "employee/step_1" => "employee_listings#new_listing_step_1"
-  post "employee/step_1" => "employee_listings#create_listing_step_1"
-  get "employee/step_2" => "employee_listings#new_listing_step_2"
-  post "employee/step_2" => "employee_listings#create_listing_step_2"
-  get "employee/step_3" => "employee_listings#new_listing_step_3"
-  post "employee/step_3" => "employee_listings#create_listing_step_3"
-  get "employee/step_4" => "employee_listings#new_listing_step_4"
-  post "employee/step_4" => "employee_listings#create_listing_step_4"
-  get "employee/step_5" => "employee_listings#new_listing_step_5"
-  post "employee/step_5" => "employee_listings#create_listing_step_5"
-  get "employee/preview" => "employee_listings#preview_listing"
-  get "employee/publish" => "employee_listings#publish_listing"
-  get "employee/sub_category_lists" => "employee_listings#sub_category_lists"
-  get "home/email_availability" => "home#email_availability"
+  root to: "home#index"
+
+  resources :home, :path => "home", :as => "home", only: [] do
+    collection do
+      get :email_availability
+    end
+  end
+
+  resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show] do
+    collection do
+      get :getting_started, path: "getting_started", as: "getting_started"
+      get :sub_category_lists
+      get :new_listing_step_1, path: "step_1", as: "step_1"
+      post :create_listing_step_1, path: "step_1", as: "create_step_1"
+    end
+    member do
+      get :new_listing_step_2, path: "step_2", as: "step_2"
+      post :create_listing_step_2, path: "step_2", as: "create_step_2"
+      get :new_listing_step_3, path: "step_3", as: "step_3"
+      post :create_listing_step_3, path: "step_3", as: "create_step_3"
+      get :new_listing_step_4, path: "step_4", as: "step_4"
+      post :create_listing_step_4, path: "step_4", as: "create_step_4"
+      get :new_listing_step_5, path: "step_5", as: "step_5"
+      post :create_listing_step_5, path: "step_5", as: "create_step_5"
+      get :preview_listing, path: "preview", as: "preview"
+      get :publish_listing, path: "publish", as: "publish"
+    end
+  end
 end

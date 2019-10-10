@@ -62,24 +62,21 @@
   $(document).ready(function () { 
     $("#user_signup_form").validate({
       rules: {
-      "user[first_name]": {required: true,  maxlength: 15},
-      "user[last_name]": {required: true,  maxlength: 15},
-       // "user[email]": {required: true, email: true, remote: "/home/email_availability" },
-      "user[password]": {required: true},
-      "user[password_confirmation]": {equalTo: "#new_user_password"},
-      "user[allow_marketing_promotions]": {required: true},
-      "agree_terms": {required: true},
+        "user[first_name]": {required: true,  maxlength: 15},
+        "user[last_name]": {required: true,  maxlength: 15},
+        "user[email]": {required: true, email: true, remote: "/home/email_availability?form=signup" },
+        "user[password]": {required: true},
+        "user[password_confirmation]": {equalTo: "#new_user_password"},
+        "user[allow_marketing_promotions]": {required: true},
+        "agree_terms": {required: true},
       },
      messages: {
-        // "user[email]":  {remote: "Email already exist ."},
-        "user[first_name]": {maxlength: "First name must be 15 character"},
-        "user[last_name]": {maxlength: "Last name must be 15 character", },
-        "user[password]": {required: "Enter Password"},
-        "user[password_confirmation]": {equalTo: "Confirm password must be same"},
+        "user[first_name]": {required: "Please enter your first name", maxlength: "First name can be of 15 characters"},
+        "user[last_name]": {required: "Please enter your last name", maxlength: "Last name can be of 15 characters"},
+        "user[email]": {required: "Please enter your email",remote: "Email already exists"},
+        "user[password]": {required: "Please enter Password"},
+        "user[password_confirmation]": {equalTo: "Confirm Password must be same as Password"},
       }
     });
   });
 </script>  
-
-
-

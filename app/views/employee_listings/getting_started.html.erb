@@ -5,7 +5,7 @@
     <h1 class="sec-heading dark-bg">Create your best profile once and let employers find you</h1>
 
     <div class="sect-btn-box">
-      <%= link_to "Get Started", employee_step_1_path, class: "started-btn" %>
+      <%= link_to "Get Started", step_1_employee_index_path, class: "started-btn" %>
     </div>
   </div>
 
@@ -22,7 +22,7 @@
       <div class="inner-box">
         <div class="safety-card">
           <div class="card-img-text">
-            <%=image_tag '/assets/data-security.png', class: 'card-img first-img' %>
+            <%=image_tag 'data-security.png', class: 'card-img first-img' %>
 
             <span>Confidentiality Protection</span>
           </div>
@@ -33,7 +33,7 @@
 
         <div class="safety-card">
           <div class="card-img-text">
-            <%=image_tag '/assets/secured-payment.png', class: 'card-img' %>
+            <%=image_tag 'secured-payment.png', class: 'card-img' %>
 
             <span>Automatic Secured Payment System</span>
           </div>
@@ -44,7 +44,7 @@
 
         <div class="safety-card">
           <div class="card-img-text">
-            <%=image_tag '/assets/trust.png', class: 'card-img' %>
+            <%=image_tag 'trust.png', class: 'card-img' %>
 
             <span>Built on Trust and Relationship</span>
           </div>
@@ -134,7 +134,10 @@
     </div>
   </div>
 
-  <%= render partial: "home/list_an_employee" %>
+  <div class="list-employee-box">
+    <h1 class="employee-heading">Easy Online Employee Hiring</h1>
+    <%= link_to "List an Employee", step_1_employee_index_path, class: 'employe-btn' %>
+  </div>
 
   <%= render partial: "layouts/footer" %>
 </div>

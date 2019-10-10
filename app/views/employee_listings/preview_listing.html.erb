@@ -17,7 +17,7 @@
               </li>
               <li class="item">
                 <div class="left-heading "><b>Current employer</b></div>
-                <div class="right-content"><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "" %></div>
+                <div class="right-content"><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "-" %></div>
               </li>
               <li class="item">
                 <div class="left-heading"><b>Age</b></div>
@@ -50,7 +50,7 @@
               <% if @employee_listing.profile_picture.attached? %>
                 <%= image_tag url_for(@employee_listing.profile_picture), class: 'profile-img' %>
               <% else %>
-                <%= image_tag '/assets/no-image.jpg', class: 'profile-img', onclick: 'openModal();currentSlide(1)' %>
+                <%= image_tag 'no-image.jpg', class: 'profile-img', onclick: 'openModal();currentSlide(1)' %>
               <% end %>
 
               <div class="view-photo">
@@ -158,11 +158,11 @@
         </div>
 
         <div class="button-box">
-          <span class="link-text">&lt; <%= link_to "Back", employee_step_5_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+          <span class="link-text">&lt; <%= link_to "Back", step_5_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
-          <%= link_to "Save for later", employee_publish_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
+          <%= link_to "Save for later", publish_employee_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
 
-          <%= link_to "Publish", employee_publish_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
+          <%= link_to "Publish", publish_employee_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
         </div>
 
       </div>
