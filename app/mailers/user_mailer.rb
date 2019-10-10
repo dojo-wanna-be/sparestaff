@@ -19,6 +19,6 @@ class UserMailer < ApplicationMailer
 
   def photo_verification (user)
   	@user = user 
-  	mail(to: @user.email, subject: "Please approved listing")
+  	mail(to: @user.email, subject: "Please approve listing")
   end
 end
