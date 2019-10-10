@@ -2,15 +2,16 @@
   <span class="close cursor" onclick="closeModal()">&times;</span>
   <div class="modal-content">
     <% if @employee_listing.relevant_documents.attached? %>
-      <% @employee_listing.relevant_documents.each do |document| %>
+      <% count = @employee_listing.relevant_documents.count %>
+      <% @employee_listing.relevant_documents.each_with_index do |document, index| %>
         <div class="mySlides">
-          <div class="numbertext">1 / 4</div>
+          <div class="numbertext"><%= "#{index+1}/#{count}" %></div>
           <%= image_tag url_for(document), class: "slide-img" %>
         </div>
       <% end %>
     <% else %>
       <div class="mySlides">
-        <div class="numbertext">1 / 4</div>
+        <div class="numbertext">1 / 1</div>
         <%= image_tag "hand-shake.jpg", class: "slide-img" %>
       </div>
     <% end %>

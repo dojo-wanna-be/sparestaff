@@ -38,13 +38,12 @@
                   <div class="image-group">
                     <div class="box-img">
                       <div class="upload-file">
-                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3", :accept => ".png, .jpg, .jpeg"%>
+                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
                         <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
                       </div>
 
                       <div class="avatar-preview preview3">
-                        <%= image_tag '', :id => "imagePreview3" %>
-
+                        <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
                         <div class="remove-img remove3">X</div>
                       </div>
                     </div>
@@ -114,12 +113,12 @@
                 <div class="image-group">
                   <div class="box-img">
                     <div class="upload-file">
-                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload", :accept => ".png, .jpg, .jpeg"%>
+                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload" %>
                       <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
                     </div>
 
                     <div class="avatar-preview preview1">
-                      <%= image_tag '', :id => "imagePreview" %>
+                      <%= image_tag '', :id => "imagePreview", class: 'preview-img' %>
 
                       <div class="remove-img remove1">X</div>
                     </div>
@@ -128,12 +127,12 @@
                   <%#= image_tag "upload-photo-ID.jpg", alt: "", class: "Height100px" %>
                   <div class="box-img">
                     <div class="upload-file">
-                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload2", :accept => ".png, .jpg, .jpeg"%>
+                      <%= f.file_field :verification_front_image , class: "image-upload", :id => "imageUpload2" %>
                       <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
                     </div>
 
                     <div class="avatar-preview preview2">
-                      <%= image_tag '', :id => "imagePreview2" %>
+                      <%= image_tag '', :id => "imagePreview2", class: 'preview-img' %>
 
                       <div class="remove-img remove2">X</div>
                     </div>
