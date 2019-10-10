@@ -1,26 +1,19 @@
 <div id="myModal" class="modal custom-light-box">
   <span class="close cursor" onclick="closeModal()">&times;</span>
   <div class="modal-content">
-
-    <div class="mySlides">
-      <div class="numbertext">1 / 4</div>
-      <img src="/assets/hand-shake.jpg" class="slide-img">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">2 / 4</div>
-      <img src="https://miro.medium.com/max/700/1*tZSwCigaTaJdovyWlp5uBQ.jpeg" class="slide-img">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">3 / 4</div>
-      <img src="https://cdn.lynda.com/course/124398/124398-636991480544530178-16x9.jpg" class="slide-img">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">4 / 4</div>
-      <img src="https://cdn.lynda.com/course/774903/774903-636878923511769182-16x9.jpg" class="slide-img">
-    </div>
+    <% if @employee_listing.relevant_documents.attached? %>
+      <% @employee_listing.relevant_documents.each do |document| %>
+        <div class="mySlides">
+          <div class="numbertext">1 / 4</div>
+          <%= image_tag url_for(document), class: "slide-img" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="mySlides">
+        <div class="numbertext">1 / 4</div>
+        <%= image_tag "hand-shake.jpg", class: "slide-img" %>
+      </div>
+    <% end %>
 
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -30,18 +23,17 @@
     </div> -->
 
     <div class="small-img-box">
-      <div class="column">
-        <img class="demo cursor" src="/assets/hand-shake.jpg" style="width:100%" onclick="currentSlide(1)" alt="Nature and sunrise">
-      </div>
-      <div class="column">
-        <img class="demo cursor" src="https://miro.medium.com/max/700/1*tZSwCigaTaJdovyWlp5uBQ.jpeg" style="width:100%" onclick="currentSlide(2)" alt="Snow">
-      </div>
-      <div class="column">
-        <img class="demo cursor" src="https://cdn.lynda.com/course/124398/124398-636991480544530178-16x9.jpg" style="width:100%" onclick="currentSlide(3)" alt="Mountains and fjords">
-      </div>
-      <div class="column">
-        <img class="demo cursor" src="https://cdn.lynda.com/course/774903/774903-636878923511769182-16x9.jpg" style="width:100%" onclick="currentSlide(4)" alt="Northern Lights">
-      </div>
+      <% if @employee_listing.relevant_documents.attached? %>
+        <% @employee_listing.relevant_documents.each_with_index do |document, index| %>
+          <div class="column">
+            <%= image_tag url_for(document), class: "demo", style: "width:100%", onclick: "currentSlide(#{index+1})", alt: "" %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="mySlides">
+          <%= image_tag "hand-shake.jpg", class: "demo", style: "width:100%", onclick: "currentSlide(#{index+1})", alt: "" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
