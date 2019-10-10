@@ -111,6 +111,12 @@
           }
         }
 
+        &.custom-show-dropdown {
+          &.is-active + .custom-menu-dropdown {
+            display: block;
+          }
+        }
+
         .badge {
           position: absolute;
           top: 6px;
@@ -121,6 +127,44 @@
           box-shadow: 1px 1px 3px grey;
           color: white;
           font-size: 12px;
+        }
+      }
+
+      .custom-menu-dropdown {
+        text-align: left;
+        position: absolute;
+        margin-top: 3px;
+        margin-left: -185px;
+        width: 250px;
+        color: #767676;
+        padding: 0px 15px 0px 15px;
+        background-color: white;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        z-index: 100;
+        display: none;
+
+        .menu-list {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+
+          .menu-item {
+            padding: 15px 0px 15px 0px;
+            border-bottom: 1px #f2f2f2 solid;
+
+            &:hover {
+              border-bottom: 1px #484848 solid;
+            }
+
+            &:last-child {
+               border-bottom: 0px #484848 solid;
+            }
+
+            a {
+              color: #767676;
+              text-decoration: none;
+            }
+          }
         }
       }
 
@@ -344,6 +388,12 @@
 
   @media screen and (max-width: 767px) {
     margin-top: 15px;
+  }
+
+  &.getting-employee {
+    .image-detail {
+      text-align: left;
+    }
   }
 
   .hiring-heading {
