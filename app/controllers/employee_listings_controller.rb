@@ -31,13 +31,13 @@ class EmployeeListingsController < ApplicationController
         @employee_listing = current_user.company.employee_listings.build
         @employee_listing.listing_step = 1
         if @employee_listing.save
-          redirect_to employee_step_2_path(id: @employee_listing.id)
+          redirect_to step_2_employee_path(id: @employee_listing.id)
         else
           flash[:error] = @employee_listing.errors.full_messages.to_sentence
         end
       elsif current_user.is_individual?
         @employee_listing = current_user.employee_listings.first
-        redirect_to employee_step_3_path(id: @employee_listing.id)
+        redirect_to step_3_employee_path(id: @employee_listing.id)
       end
     else
       current_user.employee_listings.destroy_all if current_user.is_individual?
@@ -52,10 +52,10 @@ class EmployeeListingsController < ApplicationController
       @employee_listing = current_user.employee_listings.build
       @employee_listing.listing_step = 1
       if @employee_listing.save
-        redirect_to employee_step_3_path(id: @employee_listing.id)
+        redirect_to step_3_employee_path(id: @employee_listing.id)
       else
         flash[:error] = @employee_listing.errors.full_messages.to_sentence
-        redirect_to employee_step_1_path(id: @employee_listing.id)
+        redirect_to step_1_employee_index_path(id: @employee_listing.id)
       end
     elsif params[:poster_type].eql?("company")
       company = Company.new
@@ -65,18 +65,18 @@ class EmployeeListingsController < ApplicationController
         @employee_listing = company.employee_listings.build
         @employee_listing.listing_step = 1
         if @employee_listing.save
-          redirect_to employee_step_2_path(id: @employee_listing.id)
+          redirect_to step_2_employee_path(id: @employee_listing.id)
         else
           flash[:error] = "Listing not processed because #{@employee_listing.errors.full_messages.to_sentence}"
-          redirect_to employee_step_1_path(id: @employee_listing.id)
+          redirect_to step_1_employee_index_path(id: @employee_listing.id)
         end
       else
         flash[:error] = "Company not saved because #{company.errors.full_messages.to_sentence}"
-        redirect_to employee_step_1_path(id: @employee_listing.id)
+        redirect_to step_1_employee_index_path(id: @employee_listing.id)
       end
     else
       flash[:error] = "Invalid Choice"
-      redirect_to employee_step_1_path(id: @employee_listing.id)
+      redirect_to step_1_employee_index_path(id: @employee_listing.id)
     end
   end
 
@@ -87,17 +87,17 @@ class EmployeeListingsController < ApplicationController
           @company = @employee_listing.lister
         else
           flash[:error] = "You can't go to this step"
-          redirect_to employee_step_3_path(id: @employee_listing.id)
+          redirect_to step_3_employee_path(id: @employee_listing.id)
         end
       else
         flash[:error] = "You can't go to this step"
-        redirect_to employee_step_1_path(id: @employee_listing.id)
+        redirect_to step_1_employee_index_path(id: @employee_listing.id)
       end
     else
       if @employee_listing.lister_type.eql?("Company")
         @company = @employee_listing.lister
       else
-        redirect_to employee_step_1_path(id: @employee_listing.id, back: true)
+        redirect_to step_1_employee_index_path(id: @employee_listing.id, back: true)
       end
     end
   end
@@ -107,16 +107,16 @@ class EmployeeListingsController < ApplicationController
     current_user.update_attribute(:user_type, params[:user_role].to_i)
     @employee_listing.update_attribute(:listing_step, 2)
     if params[:save_later]
-      redirect_to employee_step_2_path(id: @employee_listing.id)
+      redirect_to step_2_employee_path(id: @employee_listing.id)
     else
-      redirect_to employee_step_3_path(id: @employee_listing.id)
+      redirect_to step_3_employee_path(id: @employee_listing.id)
     end
   end
 
   def new_listing_step_3
     unless (((@employee_listing.lister_type.eql?("User") && @employee_listing.listing_step >= 1) || @employee_listing.listing_step >= 2) && params[:back].eql?("true")) || (@employee_listing.lister_type.eql?("User") && @employee_listing.listing_step >= 1) || @employee_listing.listing_step >= 2
       flash[:error] = "You can't go to this step"
-      redirect_to employee_step_1_path(id: @employee_listing.id)
+      redirect_to step_1_employee_index_path(id: @employee_listing.id)
     end
   end
 
@@ -127,16 +127,16 @@ class EmployeeListingsController < ApplicationController
     @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
     if params[:save_later]
-      redirect_to employee_step_3_path(id: @employee_listing.id)
+      redirect_to step_3_employee_path(id: @employee_listing.id)
     else
-      redirect_to employee_step_4_path(id: @employee_listing.id)
+      redirect_to step_4_employee_path(id: @employee_listing.id)
     end
   end
 
   def new_listing_step_4
     unless (params[:back].eql?("true") && @employee_listing.listing_step >= 3) || @employee_listing.listing_step >= 3
       flash[:error] = "You can't go to this step"
-      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+      redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     end
   end
 
@@ -155,16 +155,16 @@ class EmployeeListingsController < ApplicationController
     end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
-      redirect_to employee_step_4_path(id: @employee_listing.id)
+      redirect_to step_4_employee_path(id: @employee_listing.id)
     else
-      redirect_to employee_step_5_path(id: @employee_listing.id)
+      redirect_to step_5_employee_path(id: @employee_listing.id)
     end
   end
 
   def new_listing_step_5
     unless (params[:back].eql?("true") && @employee_listing.listing_step >= 4) || @employee_listing.listing_step >= 4
       flash[:error] = "You can't go to this step"
-      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+      redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     end
   end
 
@@ -198,29 +198,29 @@ class EmployeeListingsController < ApplicationController
 
     @employee_listing.update_attribute(:listing_step, 5)
     if params[:save_later]
-      redirect_to employee_step_5_path(id: @employee_listing.id)
+      redirect_to step_5_employee_path(id: @employee_listing.id)
     else
-      redirect_to employee_preview_path(id: @employee_listing.id)
+      redirect_to preview_employee_path(id: @employee_listing.id)
     end
   end
 
   def preview_listing
     unless @employee_listing.listing_step >= 5
       flash[:error] = "You can't go to this step"
-      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+      redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     end
   end
 
   def publish_listing
     unless @employee_listing.listing_step >= 5
       flash[:error] = "You can't go to this step"
-      redirect_to "/employee/step_#{@employee_listing.listing_step}?id=#{@employee_listing.id}"
+      redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     else
       if params[:published].eql?("true")
         @employee_listing.update_attributes(published: true, listing_step: 6)
       elsif params[:save_later]
         @employee_listing.update_attribute(:listing_step, 6)
-        redirect_to employee_publish_path(id: @employee_listing.id)
+        redirect_to publish_employee_path(id: @employee_listing.id)
       end
       if @employee_listing.published?
         user_admin = User.where(is_admin: true)

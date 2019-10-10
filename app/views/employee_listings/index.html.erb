@@ -5,13 +5,13 @@
     <div class="left-panel">
       <ul class="panel-list">
         <li class="panel-item">
-          <%= link_to "Your Listings", employee_listings_path, id: "YourListingsLeftMenu", class: 'panel-link' %>
+          <%= link_to "Your Listings", employee_index_path, id: "YourListingsLeftMenu", class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Your Reservations", 'user-your-reservations.html', id: "YourReservations", class: 'panel-link' %>
+          <%= link_to "Your Reservations", 'javascript:;', id: "YourReservations", class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Add New Listing", employee_step_1_path, class: 'listing-btn' %>
+          <%= link_to "Add New Listing", step_1_employee_index_path, class: 'listing-btn' %>
         </li>
       </ul>
     </div>
@@ -31,7 +31,7 @@
                   <% if listing.profile_picture.attached? %>
                     <%= image_tag url_for(listing.profile_picture), class: 'img-card' %>
                   <% else %>
-                    <%= image_tag '/assets/no-image.jpg', class: 'img-card' %>
+                    <%= image_tag 'no-image.jpg', class: 'img-card' %>
                   <% end %>
                 </div>
                 <div class="card-detail-box">
@@ -48,7 +48,7 @@
                   <div class="card-btns">
                     <a href="user-manage-listing-listing-details.html" class="manage-btn">Manage Listing</a>
 
-                    <%= link_to "Preview", employee_listing_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
+                    <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
 
                   </div>
                 </div>
@@ -68,7 +68,7 @@
         <div class="listing-card-box">
           <div class="listing-card">
             <div class="img-box">
-              <%= image_tag '/assets/no-image.jpg', class: 'img-card' %>
+              <%= image_tag 'no-image.jpg', class: 'img-card' %>
             </div>
             <div class="card-detail-box">
               <div class="card_heading">Office Admin</div>

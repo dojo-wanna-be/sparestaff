@@ -6,7 +6,7 @@
       <div class="who-box">
         <p>Tell Hirers why this employee is the perfect candidate: qualification, certification, knowledge, skill sets, experience, completed training, etc. For security and privacy, links, email addresses, phone numbers, addresses are not allowed.</p>
 
-        <%= form_for @employee_listing, url: employee_step_4_path, method: :post, multipart: true, :html => { :id => "skl_expr" } do |f| %>
+        <%= form_for @employee_listing, url: create_step_4_employee_path, method: :post, multipart: true, :html => { :id => "skl_expr" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
 
           <div class="custom-field-box">
@@ -70,7 +70,7 @@
             </div>
 
             <div class="button-box">
-              <span class="link-text">&lt; <%= link_to "Back", employee_step_3_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+              <span class="link-text">&lt; <%= link_to "Back", step_3_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
               <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 
