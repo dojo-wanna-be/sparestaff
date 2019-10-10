@@ -7,6 +7,11 @@
     width: 1284px;
     margin: 0 auto;
 
+    .custom-error {
+      font-size: 12px;
+      color: #ff0000;
+    }
+
     .image-group {
       display: flex;
       flex-direction: row;
@@ -64,6 +69,58 @@
             height: 30px;
             width: 50px;
             cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .multiple-image-group {
+      display: flex;
+      flex-direction: row;
+
+      .box-img {
+        .upload-file {
+
+        }
+
+        .image-upload {
+          position: absolute;
+          opacity: 0;
+          height: 100px;
+          width: 100px;
+          cursor: pointer;
+          margin-top: 11px;
+        }
+
+        .image-label {
+          height: 100px;
+          width: 100px;
+          margin: 0;
+          margin: 10px;
+          margin-right: 0px;
+          margin-left: 0;
+
+          .upload-img {
+            height: 100%;
+            width: 100%;
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+          }
+
+          & + label {
+            display: none !important;
+          }
+        }
+
+        .avatar-preview {
+
+          .preview-img {
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            margin: 10px;
+            margin-right: 55px;
+            margin-left: 0;
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
           }
         }
       }
@@ -462,6 +519,12 @@
                   padding: 5px;
                   width: 117px;
                   float:right;
+                  color: #484848;
+
+                  &.start-side-select + label + label {
+                    width: 100%;
+                    text-align: right;
+                  }
                 }
 
                 .error {
@@ -482,6 +545,11 @@
                   padding: 5px;
                   width: 117px;
                   float:left;
+                  color: #484848;
+
+                  &.end-side-select {
+                    color: #484848;
+                  }
                 }
                 .error {
                   margin-top: 5px;
@@ -599,6 +667,7 @@
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
+                cursor: pointer;
               }
 
               .view-photo {
