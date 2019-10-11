@@ -25,9 +25,10 @@
           </li>
 
           <li class="nav-item">
-            <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown', onclick: "toggle_visibility('UserIconMenuBox');" do %>
-              <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon toggle" %>
-
+            <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
+              <span class="dropdown_toggle">
+                <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+              </span>
             <% end %>
             <%= render partial: "layouts/user_icon_menu_box" %>
           </li>
@@ -50,17 +51,18 @@
 
 
 <script type="text/javascript">
-  const $Showmenu = $('.custom-show-dropdown');
+  $( document ).ready(function() {
+    var $ShowMenu = $('.custom-show-dropdown');
 
-  $(document).mouseup(e => {
-     if (!$Showmenu.is(e.target) // if the target of the click isn't the container...
-     && $Showmenu.has(e.target).length === 0) // ... nor a descendant of the container
-     {
-       $Showmenu.removeClass('is-active');
-    }
-   });
+    $(document).mouseup(e => {
+      if (!$ShowMenu.is(e.target) && $ShowMenu.has(e.target).length === 0)
+      {
+        $ShowMenu.removeClass('is-active');
+      }
+     });
 
-  $('.toggle').on('click', () => {
-    $Showmenu.toggleClass('is-active');
+    $('.dropdown_toggle').on('click', () => {
+      $ShowMenu.toggleClass('is-active');
+    });
   });
 </script>

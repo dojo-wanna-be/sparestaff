@@ -231,7 +231,9 @@
   }
 
   $( 'a[href^="#"]' ).on( 'click', function( e ) {
+    alert("gfh")
     e.preventDefault();
+
     var a = document.createElement( 'a' );
       a.href = this.href;
     redirect ( a.hash );

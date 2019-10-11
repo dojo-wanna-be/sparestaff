@@ -25,9 +25,12 @@
             <%= f.email_field :email, placeholder: "Email", id: "new_user_email", class: "custom-field", required: true %>
 
             <div class="name-box">
-              <%= f.text_field :first_name, placeholder: "First name", id: "new_user_first_name", class: "custom-field", required: true %>
-
-              <%= f.text_field :last_name, placeholder: "Last name", id: "new_user_last_name", class: "custom-field", required: true %>
+              <div class="column-box">
+                <%= f.text_field :first_name, placeholder: "First name", id: "new_user_first_name", class: "custom-field", required: true %>
+              </div>
+              <div class="column-box">
+                <%= f.text_field :last_name, placeholder: "Last name", id: "new_user_last_name", class: "custom-field", required: true %>
+              </div>
             </div>
 
             <%= f.password_field :password, placeholder: "Password", id: "new_user_password", class: "custom-field", required: true %>
@@ -37,14 +40,18 @@
 
             <div class="show-pass-box">
               <div class="remember-me">
-                <%= f.check_box :allow_marketing_promotions, class: 'custom-check' %>
-                I'd like to receive marketing promotions, special offers, inspiration, and policy updates from Spare Staff via email.
+                <div class="align-checkmark">
+                  <%= f.check_box :allow_marketing_promotions, class: 'custom-check' %>
+                  <span class="text-check">I'd like to receive marketing promotions, special offers, inspiration, and policy updates from Spare Staff via email.</span>
+                </div>
               </div>
             </div>
             <div class="show-pass-box">
               <div class="remember-me">
-                <%= check_box_tag :agree_terms, "", false, required: true, class: 'custom-check' %>
-                I agree to Spare Staff &nbsp; <%= link_to "Privacy Policy", "#", class: "small-link" %> &nbsp; and &nbsp; <%= link_to "Terms and Conditions", "#", class: "small-link" %>
+                <div class="align-checkmark">
+                  <%= check_box_tag :agree_terms, "", false, required: true, class: 'custom-check' %>
+                  <span class="text-check">I agree to Spare Staff &nbsp; <%= link_to "Privacy Policy", "#", class: "small-link" %> &nbsp; and &nbsp; <%= link_to "Terms and Conditions", "#", class: "small-link" %></span>
+                  </div>
               </div>
             </div>
 
@@ -59,7 +66,7 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function () { 
+  $(document).ready(function () {
     $("#user_signup_form").validate({
       rules: {
         "user[first_name]": {required: true,  maxlength: 15},
@@ -79,4 +86,4 @@
       }
     });
   });
-</script>  
+</script>
