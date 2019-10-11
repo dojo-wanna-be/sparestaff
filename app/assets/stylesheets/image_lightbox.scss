@@ -52,6 +52,12 @@
       height: 440px;
 
       .mySlides {
+        display: none;
+        height: 326px;
+        width: 100%;
+        text-align: center;
+        float: left;
+        background: #484848;
 
         .numbertext {
           color: #f2f2f2;
@@ -62,9 +68,8 @@
         }
 
         .slide-img {
-          width: 100%;
-          height: 345px;
-          object-fit: cover;
+          height: -webkit-fill-available;
+          max-width: 100%;
         }
       }
 
@@ -104,7 +109,7 @@
       }
 
       .small-img-box {
-        height: 142px;
+        height: 110px;
         float: left;
         width: 100%;
 
@@ -113,11 +118,10 @@
           width: 25%;
 
           .demo {
-            opacity: 0.6;
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
+            max-width: 100%;
+            height: -webkit-fill-available;
             cursor: pointer;
+            background: #484848;
           }
           .active,
           .demo:hover {
@@ -130,8 +134,4 @@
 
 
   }
-}
-
-.mySlides {
-  display: none;
 }
