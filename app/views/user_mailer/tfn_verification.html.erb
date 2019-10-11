@@ -4,10 +4,10 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi, <%= "#{@user.first_name} #{@user.last_name}" %></h1>
+    <h1>Hi, <%= "#{@user.name}" %></h1>
     <p>
       Please add TFN (Tax File Number). If  You have not add TFN then you will pay higher tax,
-      so add TFN from this link : <%= @user.email %>.<br>
+      so add TFN to your listing.<br>
     </p>    
   </body>
 </html>
