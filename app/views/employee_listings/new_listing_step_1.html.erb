@@ -6,7 +6,7 @@
       <div class="who-box">
         <p>Who are you listing?</p>
 
-        <%= form_tag create_step_1_employee_path, method: :post, id: "user_type_form" do |f| %>
+        <%= form_tag create_step_1_employee_index_path, method: :post, id: "user_type_form" do |f| %>
           <div class="checked-box">
             <div class="input-checked">
               <%= radio_button_tag "poster_type", "individual", true %>
