@@ -115,6 +115,13 @@
           &.is-active + .custom-menu-dropdown {
             display: block;
           }
+
+          .dropdown_toggle {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
 
         .badge {
@@ -766,10 +773,16 @@
 .custom-modal {
 
   .modal-dialog {
-    max-width: 530px;
-    width: 100%;
+    max-width: 100%;
+    width: 530px;
     padding: 40px;
     background: #fff;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin: 10% auto;
+      padding: 25px
+    }
 
     .modal-content {
       border: none;
@@ -806,6 +819,11 @@
           font-size: 14px;
           color: #f15927;
           text-decoration: none;
+        }
+
+        .error {
+          color: #ff0000;
+          font-size: 14px;
         }
 
         .facebook-login {
@@ -927,6 +945,10 @@
             &:hover {
               text-decoration: none;
               box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+            }
+
+            .translation_missing {
+              color: #fff;
             }
           }
         }
