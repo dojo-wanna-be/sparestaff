@@ -75,7 +75,7 @@
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Other comments</h3>
-        <p class="pera-text"><%= @employee_listing.optional_comments %></p>
+        <p class="pera-text"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
       </div>
 
       <div class="detail-custom-box">
