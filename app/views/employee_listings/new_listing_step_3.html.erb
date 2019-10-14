@@ -32,22 +32,6 @@
               <label class="custom-label">TFN <span class="thin-text">(optional, see note to the right)</span></label>
               <div class="tfn-file">
                 <%= f.text_field :tfn, class: 'custom-field half-field' %>
-                <div class="profile_picture">
-                  <label class="custom-label">Profile Picture</label>
-                  <div class="image-group">
-                    <div class="box-img">
-                      <div class="upload-file">
-                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
-                        <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
-                      </div>
-
-                      <div class="avatar-preview preview3">
-                        <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
-                        <div class="remove-img remove3"><%= image_tag 'rubbish-bin.png', class: 'bin-img' %></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 

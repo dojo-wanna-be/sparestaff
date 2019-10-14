@@ -1,12 +1,12 @@
 <div id="myModal" class="modal custom-light-box">
   <span class="close cursor" onclick="closeModal()">&times;</span>
   <div class="modal-content">
-    <% if @employee_listing.relevant_documents.attached? %>
+    <% if @employee_listing.relevant_documents.present? %>
       <% count = @employee_listing.relevant_documents.count %>
-      <% @employee_listing.relevant_documents.each_with_index do |document, index| %>
+      <% @employee_listing.relevant_documents.each_with_index do |relevant_document, index| %>
         <div class="mySlides">
           <div class="numbertext"><%= "#{index+1}/#{count}" %></div>
-          <%= image_tag url_for(document), class: "slide-img" %>
+          <%= image_tag relevant_document.document.url, class: "slide-img" %>
         </div>
       <% end %>
     <% else %>
@@ -24,10 +24,10 @@
     </div> -->
 
     <div class="small-img-box">
-      <% if @employee_listing.relevant_documents.attached? %>
-        <% @employee_listing.relevant_documents.limit(4).each_with_index do |document, index| %>
+      <% if @employee_listing.relevant_documents.present? %>
+        <% @employee_listing.relevant_documents.limit(4).each_with_index do |relevant_document, index| %>
           <div class="column">
-            <%= image_tag url_for(document), class: "demo", style: "width:100%", onclick: "currentSlide(#{index+1})", alt: "" %>
+            <%= image_tag relevant_document.document.url, class: "demo", style: "width:100%", onclick: "currentSlide(#{index+1})", alt: "" %>
           </div>
         <% end %>
       <% else %>

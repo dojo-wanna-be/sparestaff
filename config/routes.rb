@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get :sub_category_lists
       get :new_listing_step_1, path: "step_1", as: "step_1"
       post :create_listing_step_1, path: "step_1", as: "create_step_1"
+      patch :add_relevant_document, path: "relevant_document", as: "relevant_document"
     end
     member do
       get :new_listing_step_2, path: "step_2", as: "step_2"

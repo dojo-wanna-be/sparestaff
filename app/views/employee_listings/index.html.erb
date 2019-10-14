@@ -28,8 +28,8 @@
             <div class="listing-card-box">
               <div class="listing-card">
                 <div class="img-box">
-                  <% if listing.profile_picture.attached? %>
-                    <%= image_tag url_for(listing.profile_picture), class: 'img-card' %>
+                  <% if listing.profile_picture.present? %>
+                    <%= image_tag listing.profile_picture.url, class: 'img-card' %>
                   <% else %>
                     <%= image_tag 'no-image.jpg', class: 'img-card' %>
                   <% end %>

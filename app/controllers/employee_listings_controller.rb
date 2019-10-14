@@ -5,6 +5,7 @@ class EmployeeListingsController < ApplicationController
                                       :new_listing_step_3,
                                       :create_listing_step_3,
                                       :new_listing_step_4,
+                                      :add_relevant_document,
                                       :create_listing_step_4,
                                       :new_listing_step_5,
                                       :create_listing_step_5,
@@ -26,25 +27,26 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_1
-    unless params[:back].eql?("true")
-      if current_user.is_owner? || current_user.is_hr?
-        @employee_listing = current_user.company.employee_listings.build
-        @employee_listing.listing_step = 1
-        if @employee_listing.save
-          redirect_to step_2_employee_path(id: @employee_listing.id)
-        else
-          flash[:error] = @employee_listing.errors.full_messages.to_sentence
-        end
-      elsif current_user.is_individual?
-        @employee_listing = current_user.employee_listings.first
-        redirect_to step_3_employee_path(id: @employee_listing.id)
-      end
-    else
-      current_user.employee_listings.destroy_all if current_user.is_individual?
-      current_user.company.employee_listings.destroy_all if current_user.is_owner? || current_user.is_hr?
-      current_user.company.destroy if current_user.is_owner? || current_user.is_hr?
-      current_user.update_attribute(:user_type, nil)
-    end
+    current_user.update_attribute(:user_type, nil)
+    # unless params[:back].eql?("true")
+    #   if current_user.is_owner? || current_user.is_hr?
+    #     @employee_listing = current_user.company.employee_listings.build
+    #     @employee_listing.listing_step = 1
+    #     if @employee_listing.save
+    #       redirect_to step_2_employee_path(id: @employee_listing.id)
+    #     else
+    #       flash[:error] = @employee_listing.errors.full_messages.to_sentence
+    #     end
+    #   elsif current_user.is_individual?
+    #     @employee_listing = current_user.employee_listings.first
+    #     redirect_to step_3_employee_path(id: @employee_listing.id)
+    #   end
+    # else
+    #   current_user.employee_listings.destroy_all if current_user.is_individual?
+    #   current_user.company.employee_listings.destroy_all if current_user.is_owner? || current_user.is_hr?
+    #   current_user.company.destroy if current_user.is_owner? || current_user.is_hr?
+    #   current_user.update_attribute(:user_type, nil)
+    # end
   end
 
   def create_listing_step_1
@@ -58,7 +60,11 @@ class EmployeeListingsController < ApplicationController
         redirect_to step_1_employee_index_path(id: @employee_listing.id)
       end
     elsif params[:poster_type].eql?("company")
-      company = Company.new
+      if current_user.company.present?
+        company = current_user.company
+      else
+        company = Company.new
+      end
       if company.save
         current_user.company_id = company.id
         current_user.save
@@ -122,8 +128,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
-    @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image]) if params[:employee_listing][:verification_front_image].present?
-    @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
     if params[:save_later]
       redirect_to step_3_employee_path(id: @employee_listing.id)
@@ -141,7 +145,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
-    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.update_attributes(classification_id: params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
@@ -149,10 +152,10 @@ class EmployeeListingsController < ApplicationController
         EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
       end
     end
-    if params[:employee_listing][:relevant_documents].present?
-      @employee_listing.relevant_documents.destroy_all
-      @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
-    end
+    # if params[:employee_listing][:relevant_documents].present?
+    #   @employee_listing.relevant_documents.destroy_all
+    #   @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
+    # end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
       redirect_to step_4_employee_path(id: @employee_listing.id)
@@ -245,6 +248,22 @@ class EmployeeListingsController < ApplicationController
     # @classification = Classification.find(params[:id])
   end
 
+  def add_relevant_document
+    relevant_document =  Paperclip.io_adapters.for(params[:image])
+    document = @employee_listing.relevant_documents.new
+    document.document = relevant_document
+
+    if document.save
+      respond_to do |format|
+        format.json { render :json => true}
+      end
+    else
+      respond_to do |format|
+        format.json { render :json => false}
+      end
+    end
+  end
+
   private
 
   def company_params
@@ -278,14 +297,17 @@ class EmployeeListingsController < ApplicationController
       :other_residency_status,
       :verification_type,
       :gender,
-      :has_vehicle
+      :has_vehicle,
+      :verification_front_image,
+      :verification_back_image
     )
   end
 
   def listing_skill_params
     params.require(:employee_listing).permit(
       :skill_description,
-      :optional_comments
+      :optional_comments,
+      :profile_picture
     )
   end
 

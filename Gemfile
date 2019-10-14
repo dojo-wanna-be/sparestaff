@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
+gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
 gem 'toastr_rails'
