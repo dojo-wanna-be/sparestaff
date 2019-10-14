@@ -34,10 +34,12 @@
 #  minimum_working_hours  :integer
 #  start_publish_date     :date
 #  end_publish_date       :date
+#  weekend_price          :decimal(, )
 #
 
 class EmployeeListing < ApplicationRecord
   attr_accessor :other_weekday_price
+  attr_accessor :other_weekend_price
   attr_accessor :other_holiday_price
 
   belongs_to :lister, polymorphic: true

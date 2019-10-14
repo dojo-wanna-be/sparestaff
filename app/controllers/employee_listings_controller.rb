@@ -291,10 +291,12 @@ class EmployeeListingsController < ApplicationController
 
   def listing_availability_params
     params[:employee_listing][:weekday_price] = params[:employee_listing][:other_weekday_price] if params[:employee_listing][:other_weekday_price].present?
+    params[:employee_listing][:weekend_price] = params[:employee_listing][:other_weekend_price] if params[:employee_listing][:other_weekend_price].present?
     params[:employee_listing][:holiday_price] = params[:employee_listing][:other_holiday_price] if params[:employee_listing][:other_holiday_price].present?
     params.require(:employee_listing).permit(
       :available_in_holidays,
       :weekday_price,
+      :weekend_price,
       :holiday_price,
       :minimum_working_hours,
       :start_publish_date,
