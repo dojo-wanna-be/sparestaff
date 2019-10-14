@@ -102,13 +102,23 @@
               </div>
 
               <label class="thin-label">Public holidays (if available)</label>
-              <div class="week-row bottom-space">
-                <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select'} %>
+              <% if @employee_listing.available_in_holidays? %>
+                <div class="week-row bottom-space">
+                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select'} %>
 
-                <div class="mid-text">or</div>
+                  <div class="mid-text">or</div>
 
-                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
-              </div>
+                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+                </div>
+              <% else %>
+                <div class="week-row bottom-space">
+                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select', disabled: "disabled"} %>
+
+                  <div class="mid-text">or</div>
+
+                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input', disabled: "disabled" %>
+                </div>
+              <% end %>
             </div>
           </div>
 
@@ -297,6 +307,19 @@
     }
   });
 
+  $("#employee_listing_available_in_holidays_false").change(function(){
+    if ($(this).is(":checked")){
+      $("#employee_listing_holiday_price").attr("disabled", "disabled");
+      $("#employee_listing_other_holiday_price").attr("disabled", "disabled");
+    }
+  });
+
+  $("#employee_listing_available_in_holidays_true").change(function(){
+    if ($(this).is(":checked")){
+      $("#employee_listing_holiday_price").removeAttr("disabled");
+      $("#employee_listing_other_holiday_price").removeAttr("disabled");
+    }
+  });
 </script>
 
 <style type="text/css">
