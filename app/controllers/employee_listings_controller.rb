@@ -122,7 +122,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
-    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image]) if params[:employee_listing][:verification_front_image].present?
     @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
@@ -142,6 +141,7 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
+    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.update_attributes(classification_id: params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
