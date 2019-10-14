@@ -89,7 +89,7 @@
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", class: 'custom-input' %>
+                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
 
               <label class="thin-label">Weekend / Public holidays (if available)</label>
@@ -98,7 +98,7 @@
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", class: 'custom-input' %>
+                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
             </div>
           </div>
