@@ -113,7 +113,7 @@ class EmployeeListingsController < ApplicationController
     current_user.update_attribute(:user_type, params[:user_role].to_i)
     @employee_listing.update_attribute(:listing_step, 2)
     if params[:save_later]
-      redirect_to step_2_employee_path(id: @employee_listing.id)
+      redirect_to employee_index_path
     else
       redirect_to step_3_employee_path(id: @employee_listing.id)
     end
@@ -130,7 +130,7 @@ class EmployeeListingsController < ApplicationController
     @employee_listing.update(listing_params)
     @employee_listing.update_attribute(:listing_step, 3)
     if params[:save_later]
-      redirect_to step_3_employee_path(id: @employee_listing.id)
+      redirect_to employee_index_path
     else
       redirect_to step_4_employee_path(id: @employee_listing.id)
     end
@@ -158,7 +158,7 @@ class EmployeeListingsController < ApplicationController
     # end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
-      redirect_to step_4_employee_path(id: @employee_listing.id)
+      redirect_to employee_index_path
     else
       redirect_to step_5_employee_path(id: @employee_listing.id)
     end
@@ -201,7 +201,7 @@ class EmployeeListingsController < ApplicationController
 
     @employee_listing.update_attribute(:listing_step, 5)
     if params[:save_later]
-      redirect_to step_5_employee_path(id: @employee_listing.id)
+      redirect_to employee_index_path
     else
       redirect_to preview_employee_path(id: @employee_listing.id)
     end
@@ -223,7 +223,7 @@ class EmployeeListingsController < ApplicationController
         @employee_listing.update_attributes(published: true, listing_step: 6)
       elsif params[:save_later]
         @employee_listing.update_attribute(:listing_step, 6)
-        redirect_to publish_employee_path(id: @employee_listing.id)
+        redirect_to employee_index_path
       end
       if @employee_listing.published?
         user_admin = User.where(is_admin: true)
@@ -231,12 +231,8 @@ class EmployeeListingsController < ApplicationController
           UserMailer.admin_listing_confirmation(user_admin).deliver!
         end
 
-        if @employee_listing.tfn.blank?
-         UserMailer.tfn_verification(current_user).deliver!
-        end
-
+        UserMailer.tfn_and_photo_verification(current_user).deliver!
         UserMailer.listing_create_confirmation(current_user).deliver!
-        UserMailer.photo_verification(current_user).deliver!
       end
     end
   end

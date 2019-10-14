@@ -1,9 +1,8 @@
 class UserMailer < ApplicationMailer
-  default :from => "sparestaff.com"
+  default :from => "noreply@sparestaff.com.au"
 
   def listing_create_confirmation(user)
-	  @user = user
-		mail(to: @user.email, subject: "Listing created successfully")
+		mail(to: user.email, subject: "Congrats, your listing is published!")
   end
 
   def admin_listing_confirmation(user_admin)
@@ -11,14 +10,8 @@ class UserMailer < ApplicationMailer
  	 mail(to: @admin, subject: "Please approve listing")
   end
 
-  def tfn_verification(user)
-  	@user = user
-  	mail(to: @user.email, subject: "Please Add Tax File Number(TFN)")
-  end
-
-  def photo_verification(user)
-  	@user = user 
-  	mail(to: @user.email, subject: "Please Upload ID in Listing")
+  def tfn_and_photo_verification(user)
+  	mail(to: user.email, subject: "Add employee TFN and Photo ID for your listing")
   end
 
   def user_confirmed(user)

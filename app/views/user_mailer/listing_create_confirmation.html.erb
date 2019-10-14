@@ -4,11 +4,67 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi, <%= "#{@user.name}" %></h1>
-    <p>
-      You Listing has been successfully Created,
-      your email is : <%= @user.email %>.<br>
-    </p>
-    <p>Thanks for joining and have a great day!</p>
+    <table style="width: 500px; margin-left: 80px;">
+      <tr>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <% if Rails.env == "staging" %>
+            <%= image_tag "https://staging.sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% else %>
+            <%= image_tag "https://sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td><br />
+        <h2>Get your listed employee ready for work</h2>
+        Now that you’ve finished your listing, the listing will show up 
+        in search results starting from selected publish date. You’ll get a hiring 
+        request when a qualified Hirer books.<br />
+        <h2>Remember to update availability</h2>
+        Update the employee's availablity so you don't have to cancel hiring 
+        reservation. Cancelling hiring reservations may cause negative impact on 
+        your listing placement in search results.<br />
+        <br />
+
+        <table style="width: 180px; height: 50px; background-color: #F15927">
+          <tr>
+            <td style="text-align: center">
+              <%= link_to 'Manage your listing', "javascript:;", style: "font-size:12pt; color:white;" %>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <h2>Tips to get your first hiring reservation</h2>
+        <strong>Add employee's TFN and Photo ID</strong> if you have not done 
+        so. Having TFN and Photo ID handy help gaining trust from employers. 
+        These details are not shared to the public and only shared to Hirer 
+        after you have accepted a hiring request.<br />
+        <br />
+        <a href="javascript:;">
+        Add TFN &amp; Photo ID</a><br />
+        <br />
+        <strong>Add more photos.</strong> Employees represent companies and 
+        every company wants to know who they are hiring. Create a long-lasting 
+        first impression with a great professional photo to significantly 
+        increase your change of getting a hiring request.<br />
+        <br />
+        <a href="javascript:;">
+        Add photos</a><br />
+
+        <br />
+        <br />
+        The Spare Staff Team <br />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
   </body>
 </html>
