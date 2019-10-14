@@ -53,6 +53,9 @@
           width: 100px;
           top: 0;
           overflow: hidden;
+          background: #484848;
+          text-align: center;
+          box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
 
           .preview-img {
             height: 100%;
@@ -61,15 +64,21 @@
 
           .remove-img {
             position: absolute;
-            right: -18px;
-            top: -8px;
-            padding: 10px 12px 2px 20px;
+            left: 0;
+            top: 0;
+            padding: 0;
             background: rgba(0, 0, 0, 0.5);
             color: #fff;
-            transform: rotate(45deg);
             height: 30px;
-            width: 50px;
+            width: 30px;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .bin-img {
+              height: 15px;
+            }
           }
         }
       }
@@ -334,6 +343,17 @@
 
               label#end_date {
                 font-size: 12px;
+              }
+
+              input[type=date]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                display: none;
+              }
+
+              input[type=date]::-webkit-clear-button
+              {
+                display: none; /* Hide the button */
+                -webkit-appearance: none; /* turn off default browser styling */
               }
             }
           }

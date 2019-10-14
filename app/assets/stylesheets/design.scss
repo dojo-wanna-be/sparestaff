@@ -1019,3 +1019,36 @@
 }
 
 /** MODAL END CSS **/
+
+/** RESET PASSWORD PAGE CSS **/
+
+.reset-password-box {
+  width: 530px;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 30px;
+  border: 8px solid #ccc;
+
+  .inner-reset-password-box {
+    .reset-heading {
+      font-size: 32px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .reset-form {
+      .field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+
+        .custom-input {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+/** RESET PASSWORD PAGE END CSS **/

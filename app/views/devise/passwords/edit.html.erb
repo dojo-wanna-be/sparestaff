@@ -1,62 +1,30 @@
-<tr>
-  <td>
-    <table style="width:100%;">
-      <tr>
-        <td class="PaddingRightBottom20px">
-          <table class="UserAccountBox">
-            <tr>
-              <th>Reset Your Password</th>
-            </tr>
-            <tr>
-              <td class="UserAccountBoxContent">
-                <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, id: "user_new_password_form" }) do |f| %>
-                  <%= f.hidden_field :reset_password_token %>
-                  <table class="PaddingBottomTop10px">
-                    <tr>
-                      <td style="width: 200px; text-align: right;">New 
-                        Password
-                      </td>
-                      <td class="Padding10PxLeft30pxRight">
-                        <% if @minimum_password_length %>
-                          <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-                        <% end %>
-                        <%= f.password_field :password, id: "user_new_password", style: "width:200px;", required: true %>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="width: 200px; text-align: right;">
-                        Confirm Password
-                      </td>
-                      <td class="Padding10PxLeft30pxRight">
-                        <%= f.password_field :password_confirmation, id: "user_confirm_new_password", style: "width:200px;", required: true %>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: right;" colspan="2" class="BorderBottom">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="width: 200px; text-align: right;">
-                        &nbsp;
-                      </td>
-                      <td class="Padding10PxLeft30pxRight">
-                        <br />
-                        <table class="ButtonOrange" align="right">
-                          <tr>
-                            <td>
-                              <%= f.submit "Update Password", class: "cust_btn" %>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                <% end %>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+<div class="reset-password-box">
+  <div class="inner-reset-password-box">
+    <h1 class="reset-heading">Reset Your Password</h1>
+
+    <div class="reset-form">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, id: "user_new_password_form" }) do |f| %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="field">
+          <label>
+            Password
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+            <% end %>
+          </label>
+          <%= f.password_field :password, id: "user_new_password", class: 'custom-input', required: true %>
+        </div>
+
+        <div class="field">
+          <label>Confirm Password</label>
+          <%= f.password_field :password_confirmation, id: "user_confirm_new_password", class: 'custom-input', required: true %>
+        </div>
+
+        <div class="field">
+          <%= f.submit "Update Password", class: "cust_btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
