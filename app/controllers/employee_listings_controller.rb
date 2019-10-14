@@ -5,6 +5,7 @@ class EmployeeListingsController < ApplicationController
                                       :new_listing_step_3,
                                       :create_listing_step_3,
                                       :new_listing_step_4,
+                                      :add_relevant_document,
                                       :create_listing_step_4,
                                       :new_listing_step_5,
                                       :create_listing_step_5,
@@ -151,10 +152,10 @@ class EmployeeListingsController < ApplicationController
         EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
       end
     end
-    if params[:employee_listing][:relevant_documents].present?
-      @employee_listing.relevant_documents.destroy_all
-      @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
-    end
+    # if params[:employee_listing][:relevant_documents].present?
+    #   @employee_listing.relevant_documents.destroy_all
+    #   @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
+    # end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
       redirect_to step_4_employee_path(id: @employee_listing.id)
@@ -245,6 +246,22 @@ class EmployeeListingsController < ApplicationController
 
   def sub_category_lists
     # @classification = Classification.find(params[:id])
+  end
+
+  def add_relevant_document
+    relevant_document =  Paperclip.io_adapters.for(params[:image])
+    document = @employee_listing.relevant_documents.new
+    document.document = relevant_document
+
+    if document.save
+      respond_to do |format|
+        format.json { render :json => true}
+      end
+    else
+      respond_to do |format|
+        format.json { render :json => false}
+      end
+    end
   end
 
   private

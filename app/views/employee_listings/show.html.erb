@@ -105,8 +105,8 @@
             <span><%= "$#{@employee_listing.weekday_price}/hour" %></span>
           </li>
           <li class="list-item">
-            <span class="first">Weekday</span>
-            <span><%= <%= @employee_listing.weekend_price.present? ? "$#{@employee_listing.weekend_price}/hour" : "Not Available" %> %></span>
+            <span class="first">Weekend</span>
+            <span><%= @employee_listing.weekend_price.present? ? "$#{@employee_listing.weekend_price}/hour" : "Not Available" %></span>
           </li>
           <li class="list-item">
             <span class="first">Public holiday</span>
