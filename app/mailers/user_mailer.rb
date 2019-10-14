@@ -20,4 +20,8 @@ class UserMailer < ApplicationMailer
   	@user = user 
   	mail(to: @user.email, subject: "Please Upload ID in Listing")
   end
+
+  def user_confirmed(user)
+    mail(to: user.email, subject: "Welcome to Spare Staff")
+  end
 end
