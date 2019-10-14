@@ -47,8 +47,8 @@
           </div>
           <div class="profile-box">
             <div class="profile">
-              <% if @employee_listing.profile_picture.attached? %>
-                <%= image_tag url_for(@employee_listing.profile_picture), onclick: 'openModal();currentSlide(1)', class: 'profile-img' %>
+              <% if @employee_listing.profile_picture.present? %>
+                <%= image_tag @employee_listing.profile_picture.url, onclick: 'openModal();currentSlide(1)', class: 'profile-img' %>
               <% else %>
                 <%= image_tag 'no-image.jpg', class: 'profile-img', onclick: 'openModal();currentSlide(1)' %>
               <% end %>

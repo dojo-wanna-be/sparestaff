@@ -127,8 +127,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
-    @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image]) if params[:employee_listing][:verification_front_image].present?
-    @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
     if params[:save_later]
       redirect_to step_3_employee_path(id: @employee_listing.id)
@@ -146,7 +144,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
-    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.update_attributes(classification_id: params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
@@ -283,14 +280,17 @@ class EmployeeListingsController < ApplicationController
       :other_residency_status,
       :verification_type,
       :gender,
-      :has_vehicle
+      :has_vehicle,
+      :verification_front_image,
+      :verification_back_image
     )
   end
 
   def listing_skill_params
     params.require(:employee_listing).permit(
       :skill_description,
-      :optional_comments
+      :optional_comments,
+      :profile_picture
     )
   end
 
