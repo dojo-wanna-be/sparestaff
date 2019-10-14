@@ -26,25 +26,26 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_1
-    unless params[:back].eql?("true")
-      if current_user.is_owner? || current_user.is_hr?
-        @employee_listing = current_user.company.employee_listings.build
-        @employee_listing.listing_step = 1
-        if @employee_listing.save
-          redirect_to step_2_employee_path(id: @employee_listing.id)
-        else
-          flash[:error] = @employee_listing.errors.full_messages.to_sentence
-        end
-      elsif current_user.is_individual?
-        @employee_listing = current_user.employee_listings.first
-        redirect_to step_3_employee_path(id: @employee_listing.id)
-      end
-    else
-      current_user.employee_listings.destroy_all if current_user.is_individual?
-      current_user.company.employee_listings.destroy_all if current_user.is_owner? || current_user.is_hr?
-      current_user.company.destroy if current_user.is_owner? || current_user.is_hr?
-      current_user.update_attribute(:user_type, nil)
-    end
+    current_user.update_attribute(:user_type, nil)
+    # unless params[:back].eql?("true")
+    #   if current_user.is_owner? || current_user.is_hr?
+    #     @employee_listing = current_user.company.employee_listings.build
+    #     @employee_listing.listing_step = 1
+    #     if @employee_listing.save
+    #       redirect_to step_2_employee_path(id: @employee_listing.id)
+    #     else
+    #       flash[:error] = @employee_listing.errors.full_messages.to_sentence
+    #     end
+    #   elsif current_user.is_individual?
+    #     @employee_listing = current_user.employee_listings.first
+    #     redirect_to step_3_employee_path(id: @employee_listing.id)
+    #   end
+    # else
+    #   current_user.employee_listings.destroy_all if current_user.is_individual?
+    #   current_user.company.employee_listings.destroy_all if current_user.is_owner? || current_user.is_hr?
+    #   current_user.company.destroy if current_user.is_owner? || current_user.is_hr?
+    #   current_user.update_attribute(:user_type, nil)
+    # end
   end
 
   def create_listing_step_1
@@ -58,7 +59,11 @@ class EmployeeListingsController < ApplicationController
         redirect_to step_1_employee_index_path(id: @employee_listing.id)
       end
     elsif params[:poster_type].eql?("company")
-      company = Company.new
+      if current_user.company.present?
+        company = current_user.company
+      else
+        company = Company.new
+      end
       if company.save
         current_user.company_id = company.id
         current_user.save
