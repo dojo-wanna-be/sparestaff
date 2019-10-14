@@ -56,7 +56,7 @@
                       <% end %>
 
                       <div class="availability-checkbox">
-                        <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: "unavailable_day_check" %>
+                        <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: "unavailable_day_check", id: "unavailable_check_#{day.downcase}" %>
                         <span>Not available</span>
                       </div>
                       <label id="tm_end" class="custom-error">End date must be greater from start date</label>
@@ -89,16 +89,25 @@
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", class: 'custom-input' %>
+                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
 
-              <label class="thin-label">Weekend / Public holidays (if available)</label>
+              <label class="thin-label">Weekend (if available)</label>
+              <div class="week-row">
+                <%= f.select :weekend_price, options_for_select(EmployeeListing::PRICES, f.object.weekend_price), {}, {class: 'week-select'} %>
+
+                <div class="mid-text">or</div>
+
+                <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.include?(f.object.weekend_price) ? nil : f.object.weekend_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+              </div>
+
+              <label class="thin-label">Public holidays (if available)</label>
               <div class="week-row bottom-space">
                 <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select'} %>
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", class: 'custom-input' %>
+                <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
             </div>
           </div>
@@ -167,6 +176,13 @@
 
 <script type="text/javascript">
   $(".unavailable_day_check").on('change', function () {
+    if ($("#unavailable_check_sunday").is(":checked") && $("#unavailable_check_saturday").is(":checked")) {
+      $("#employee_listing_weekend_price").attr("disabled", "disabled");
+      $("#employee_listing_other_weekend_price").attr("disabled", "disabled");
+    }else{
+      $("#employee_listing_weekend_price").removeAttr("disabled");
+      $("#employee_listing_other_weekend_price").removeAttr("disabled");
+    }
     if ($(this).is(":checked")) {
       var parent = $(this).parent().parent().parent();
       parent.find("select").removeClass("error");

@@ -50,7 +50,7 @@
               <div class="remember-me">
                 <div class="align-checkmark">
                   <%= check_box_tag :agree_terms, "", false, required: true, class: 'custom-check' %>
-                  <span class="text-check">I agree to Spare Staff &nbsp; <%= link_to "Privacy Policy", "#", class: "small-link" %> &nbsp; and &nbsp; <%= link_to "Terms and Conditions", "#", class: "small-link" %></span>
+                  <span class="text-check">I agree to Spare Staff <%= link_to "Privacy Policy", "https://www.sparestaff.com.au/terms", target: "_blank", class: "small-link" %> and <%= link_to "Terms and Conditions", "https://www.sparestaff.com.au/privacy", target: "_blank", class: "small-link" %></span>
                   </div>
               </div>
             </div>
@@ -74,7 +74,6 @@
         "user[email]": {required: true, email: true, remote: "/home/email_availability?form=signup" },
         "user[password]": {required: true},
         "user[password_confirmation]": {equalTo: "#new_user_password"},
-        "user[allow_marketing_promotions]": {required: true},
         "agree_terms": {required: true},
       },
      messages: {

@@ -14,7 +14,7 @@
   <tr>
     <td>
       <br />
-      Hi <%= @email %>,<br />
+      Hi <%= @resource.first_name.titleize %>,<br />
       &nbsp;<br />
       Welcome to Spare Staff! In order to get started, you need to confirm your email address. <br />
       <br />
@@ -22,7 +22,6 @@
         <tr>
           <td style="text-align: center">
             <%= link_to 'Confirm Email', confirmation_url(@resource, confirmation_token: @token), style: "font-size:12pt; color:white;" %>
-            <!-- <a class="WhiteLink12pt" href="welcome-email.html">Confirm Email</a> -->
           </td>
         </tr>
       </table>

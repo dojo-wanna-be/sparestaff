@@ -1,0 +1,40 @@
+<table style="margin-left:80px;width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <% if Rails.env == "staging" %>
+        <%= image_tag "https://staging.sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+      <% else %>
+        <%= image_tag "https://sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1>Find. List. Share. Hire employees.</h1>
+    Search hundreds of available employees on Spare Staff. Your next 
+    hiring starts here.<br />
+    Are you a job seeker? List yourself for hire on Spare Staff for 
+    potential employers to easily find you. <br />
+    <br />
+    <table style="width: 180px; height: 50px; background-color: #F15927">
+      <tr>
+        <td style="text-align: center">
+          <%= link_to 'Start your search', root_url, style: "font-size:12pt; color:white;" %>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <br />
+    The Spare Staff Team <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

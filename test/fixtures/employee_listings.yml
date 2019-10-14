@@ -34,6 +34,7 @@
 #  minimum_working_hours  :integer
 #  start_publish_date     :date
 #  end_publish_date       :date
+#  weekend_price          :decimal(, )
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

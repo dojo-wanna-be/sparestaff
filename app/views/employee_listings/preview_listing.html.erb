@@ -16,8 +16,8 @@
                 <div class="name right-content"><%= "#{@employee_listing.first_name} #{@employee_listing.last_name}" %></div>
               </li>
               <li class="item">
-                <div class="left-heading "><b>Current employer</b></div>
-                <div class="right-content"><%= @employee_listing.lister_type.eql?("Company") ? @employee_listing.lister.name : "-" %></div>
+                <div class="left-heading "><b>Posted By</b></div>
+                <div class="right-content"><%= @employee_listing.lister.name %></div>
               </li>
               <li class="item">
                 <div class="left-heading"><b>Age</b></div>
@@ -90,14 +90,18 @@
         </div>
 
         <div class="detail-custom-box">
-          <h3 class="detail-heading">Prices</h3>
+          <h3 class="detail-heading">Asking wage</h3>
           <ul class="custom-list">
             <li class="list-item">
               <span class="first">Weekday</span>
               <span><%= "$#{@employee_listing.weekday_price}/hour" %></span>
             </li>
             <li class="list-item">
-              <span class="first">Weekend / <br /> Public holiday</span>
+              <span class="first">Weekend</span>
+              <span><%= @employee_listing.weekend_price.present? ? "$#{@employee_listing.weekend_price}/hour" : "Not Available" %></span>
+            </li>
+            <li class="list-item">
+              <span class="first">Public holiday</span>
               <span><%= @employee_listing.available_in_holidays ? "$#{@employee_listing.holiday_price}/hour" : "Not Available" %></span>
             </li>
           </ul>

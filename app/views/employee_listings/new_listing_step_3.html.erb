@@ -32,7 +32,6 @@
               <label class="custom-label">TFN <span class="thin-text">(optional, see note to the right)</span></label>
               <div class="tfn-file">
                 <%= f.text_field :tfn, class: 'custom-field half-field' %>
-
                 <div class="profile_picture">
                   <label class="custom-label">Profile Picture</label>
                   <div class="image-group">
@@ -49,7 +48,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -225,7 +223,6 @@ $(document).ready(function () {
 
   $('.preview1').hide();
   $('.preview2').hide();
-  $('.preview3').hide();
 
   function readURL1(input) {
     if (input.files && input.files[0]) {
@@ -267,27 +264,6 @@ $(document).ready(function () {
   $('.remove2').click(function(){
     $('#imagePreview2').removeAttr('src');
     $('.preview2').hide();
-  });
-
-  function readURL3(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-          $('.preview3').show();
-          $('#imagePreview3').attr('src', e.target.result);
-          $('#imagePreview3').hide();
-          $('#imagePreview3').fadeIn(650);
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-  $("#imageUpload3").change(function() {
-      readURL3(this);
-  });
-
-  $('.remove3').click(function(){
-    $('#imagePreview3').removeAttr('src');
-    $('.preview3').hide();
   });
 </script>
 

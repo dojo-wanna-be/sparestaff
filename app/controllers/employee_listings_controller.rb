@@ -122,7 +122,6 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_3
     @employee_listing.update(listing_params)
-    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.verification_front_image.attach(params[:employee_listing][:verification_front_image]) if params[:employee_listing][:verification_front_image].present?
     @employee_listing.verification_back_image.attach(params[:employee_listing][:verification_back_image]) if params[:employee_listing][:verification_back_image].present?
     @employee_listing.update_attribute(:listing_step, 3)
@@ -142,6 +141,7 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
+    @employee_listing.profile_picture.attach(params[:employee_listing][:profile_picture]) if params[:employee_listing][:profile_picture].present?
     @employee_listing.update_attributes(classification_id: params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
@@ -291,10 +291,12 @@ class EmployeeListingsController < ApplicationController
 
   def listing_availability_params
     params[:employee_listing][:weekday_price] = params[:employee_listing][:other_weekday_price] if params[:employee_listing][:other_weekday_price].present?
+    params[:employee_listing][:weekend_price] = params[:employee_listing][:other_weekend_price] if params[:employee_listing][:other_weekend_price].present?
     params[:employee_listing][:holiday_price] = params[:employee_listing][:other_holiday_price] if params[:employee_listing][:other_holiday_price].present?
     params.require(:employee_listing).permit(
       :available_in_holidays,
       :weekday_price,
+      :weekend_price,
       :holiday_price,
       :minimum_working_hours,
       :start_publish_date,
