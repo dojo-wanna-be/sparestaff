@@ -134,26 +134,26 @@
           <div class="accodian-box">
             <div class="accordion1 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <div class="card-header collapsed" role="tab" id="headingOneH" href="#collapseOneH" data-toggle="collapse" data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
+                <div class="card-header collapsed custom-accrodian" >
                   <a class="card-title"> Can I legally share my employees?</a>
                 </div>
-                <div class="collapse" id="collapseOneH" role="tabpanel" aria-labelledby="headingOneH">
+                <div class="collapse">
                   <div class="card-body">
                     details
                   </div>
                 </div>
-                <div class="card-header collapsed" role="tab" id="headingTwoH" href="#collapseTwoH" data-toggle="collapse" data-parent="#accordionH" aria-expanded="false" aria-controls="collapseTwoH">
+                <div class="card-header collapsed custom-accrodian" >
                   <a class="card-title">Can I choose who to share employees to?</a>
                 </div>
-                <div class="collapse" id="collapseTwoH" role="tabpanel" aria-labelledby="headingTwoH">
+                <div class="collapse">
                   <div class="card-body">
                     details
                   </div>
                 </div>
-                <div class="card-header collapsed" role="tab" id="headingThreeH" href="#collapseThreeH" data-toggle="collapse" data-parent="#accordionH" aria-expanded="false" aria-controls="collapseThreeH">
+                <div class="card-header collapsed custom-accrodian">
                   <a class="card-title">Does Spare Staff screen Hirers?</a>
                 </div>
-                <div class="collapse" id="collapseThreeH" role="tabpanel" aria-labelledby="headingThreeH">
+                <div class="collapse">
                   <div class="card-body">
                     Spare Staff verifies some information about employers and employees to help make our community a safer place for everyone. That includes requiring a profile photo, confirmed phone number, and confirmed email
                     address. As a Leasor, for added security, you can also ask potential Leasee to provide an official ID and complete Spare Staff’s
@@ -171,27 +171,27 @@
           <div class="accodian-box">
             <div class="accordion2 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <div class="card-header collapsed" role="tab" id="headingOneY" href="#collapseOneY" data-toggle="collapse" data-parent="#accordionY" aria-expanded="false" aria-controls="collapseOneY">
+                <div class="card-header collapsed custom-accrodian" >
                   <a class="card-title">What hourly rate should I list my
                   employee?</a>
                 </div>
-                <div class="collapse" id="collapseOneY" role="tabpanel" aria-labelledby="headingOneY">
+                <div class="collapse" >
                   <div class="card-body">
                     details
                   </div>
                 </div>
-                <div class="card-header collapsed" role="tab" id="headingTwoY" href="#collapseTwoY" data-toggle="collapse" data-parent="#accordionY" aria-expanded="false" aria-controls="collapseTwoY">
+                <div class="card-header collapsed custom-accrodian" >
                   <a class="card-title">How do Spare Staff payment work?</a>
                 </div>
-                <div class="collapse" id="collapseTwoY" role="tabpanel" aria-labelledby="headingTwoY">
+                <div class="collapse">
                   <div class="card-body">
                     details
                   </div>
                 </div>
-                <div class="card-header collapsed" role="tab" id="headingThreeY" href="#collapseThreeY" data-toggle="collapse" data-parent="#accordionY" aria-expanded="false" aria-controls="collapseThreeY">
+                <div class="card-header collapsed custom-accrodian" >
                   <a class="card-title">Who should pay for woker compensation?</a>
                 </div>
-                <div class="collapse" id="collapseThreeY" role="tabpanel" aria-labelledby="headingThreeY">
+                <div class="collapse">
                   <div class="card-body">
                     As required by laws, all companies are required to pay for worker compensation to cover injuries to employees and contractors. This ensure safety to all shared employees and a safer community.
                   </div>
@@ -214,50 +214,17 @@
 
 
 <script type="text/javascript">
-  $( '.closeall' ).click( function( e ) {
-    e.preventDefault();
-    $( '.accordion .collapse.show' ).collapse( 'hide' );
-    return false;
-  } );
+  $('.custom-accrodian').click(function(e) {
+    $(this).next().toggle(300);
+    var rotateIcon = $('.card-header').has('collapsed');
 
-  $( '.openall' ).click( function( e ) {
-    e.preventDefault();
-    $( '.accordion .collapse' ).collapse( 'show' );
-    return false;
-  } );
+    // if (rotateIcon) {
+    //   $('.card-header').removeClass('collapsed');
+    // }
+    // else {
+    //   $('.card-header').addClass('collapsed');
+    // }
 
-  if ( window.location.hash ) {
-    redirect( window.location.hash );
-  }
-
-  $( 'a[href^="#"]' ).on( 'click', function( e ) {
-    alert("gfh")
-    e.preventDefault();
-
-    var a = document.createElement( 'a' );
-      a.href = this.href;
-    redirect ( a.hash );
-    return false;
-  } );
-
-  function redirect( hash ) {
-    // $( hash ).attr( 'aria-expanded', 'true' ).focus();
-    // $( hash + '+div.collapse' ).addClass( 'show' ).attr( 'aria-expanded', 'true' );
-    $( hash + '+div.collapse' ).collapse( 'show' );
-
-    // using this because of static nav bar space
-    $( 'html, body' ).animate( {
-      scrollTop: $( hash ).offset().top - 60
-    }, 10, function() {
-    // Add hash (#) to URL when done scrolling (default click behavior)
-      window.location.hash = hash;
-    } );
-  }
-
-  document.documentElement.setAttribute("lang", "en");
-  document.documentElement.removeAttribute("class");
-
-  axe.run( function(err, results) {
-    console.log( results.violations );
-  } );
+  });
 </script>
+
