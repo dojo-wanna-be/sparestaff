@@ -216,14 +216,14 @@
 <script type="text/javascript">
   $('.custom-accrodian').click(function(e) {
     $(this).next().toggle(300);
-    var rotateIcon = $('.card-header').has('collapsed');
+    var rotateIcon = $('.card-header').hasClass('collapsed');
 
-    // if (rotateIcon) {
-    //   $('.card-header').removeClass('collapsed');
-    // }
-    // else {
-    //   $('.card-header').addClass('collapsed');
-    // }
+    if (rotateIcon) {
+      $('.card-header').removeClass('collapsed');
+    }
+    else {
+      $('.card-header').addClass('collapsed');
+    }
 
   });
 </script>
