@@ -2,13 +2,32 @@
   <%= hidden_field_tag "id", @employee_listing.id %>
   <%= hidden_field_tag "edit", "listing_details" %>
 
-  <h5>Profile photo</h5>
-  <%= render partial: "listing_profile_picture", locals: {f: f} %>
+  <div class="custom-input-group">
+    <div class="profile_picture">
+      <label class="custom-label">Profile photo</label>
+      <div class="image-group">
+        <div class="box-img">
+          <div class="avatar-preview">
+            <%= render partial: "listing_profile_picture", locals: {f: f} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <h5>Additional photos</h5>
-  <%= render partial: "additional_listing_photos", locals: {f: f} %>
+  <div class="custom-input-group">
+    <label class="custom-label">Additional photos</label>
+    <div class="multiple-image-group">
+      <div class="box-img">
+        <div class="avatar-preview">
+          <%= render partial: "additional_listing_photos", locals: {f: f} %>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <h5>Listing title & Employee details</h5>
+  <h5 class="comman-heading">Listing title & Employee details</h5>
+
   <div class="custom-field-box">
     <div class="custom-input-group">
       <label class="custom-label">Listing title</label>

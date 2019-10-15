@@ -212,6 +212,56 @@
   }
 }
 
+/** HEADER END CSS **/
+
+.sub_navbar {
+  width: 100%;
+  background: #f15927;
+  height: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .sub-nav-list {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    padding: 0 80px;
+
+    .nav-list-item {
+      list-style: none;
+      padding: 0 13px;
+
+      &:nth-child(1) {
+        padding-left: 0;
+      }
+
+      .sub-nav-link {
+        color: #fff;
+        font-size: 16px;
+        padding: 0;
+        display: flex;
+        border-bottom: 2px solid #00800000;
+        transition: all 0.1s;
+        text-decoration: none;
+        height: 40px;
+        align-items: center;
+        line-height: 1.6;
+
+        &:hover {
+          border-color: #fff;
+        }
+        &.active {
+          border-color: #fff;
+        }
+      }
+    }
+  }
+}
+
+/** ORANGE SUB-HEADER END CSS **/
+
 /** HOMEPAGE CSS **/
 
 .homapage-section {

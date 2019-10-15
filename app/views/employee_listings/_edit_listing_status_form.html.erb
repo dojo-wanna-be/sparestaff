@@ -2,8 +2,21 @@
   <%= hidden_field_tag "id", @employee_listing.id %>
   <%= hidden_field_tag "edit", "listing_status" %>
 
-  <h6>Listing Status</h6>
-  <%= @employee_listing.published? ? "Listed" : "Not Listed" %>
+  <div class="custom-input-group">
+    <label class="custom-label">Listing Status</label>
+
+    <div class="listed-green">
+      <% if @employee_listing.published? %>
+        <span class="circle-badge listed"></span>
+        <span>Listed</span>
+      <% else %>
+        <span class="circle-badge not-listed"> </span>
+        <span>Not Listed</span>
+      <% end %>
+
+      <%#= @employee_listing.published? ? "Listed" : "Not Listed" %>
+    </div>
+  </div>
 
   <div class="custom-input-group">
     <label class="custom-label">When would you like to publish this listing?</label>
@@ -39,7 +52,7 @@
       $("#start_dat").hide();
     }
   });
-  
+
   $('#pub_end').on('keyup keypress change', function () {
     var strPub = $('#str_pub').val();
     var endPub = $('#pub_end').val();

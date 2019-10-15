@@ -1,6 +1,9 @@
 <% if @employee_listing.relevant_documents.present? %>
   <% @employee_listing.relevant_documents.each do |relevant_document| %>
-    <%= image_tag relevant_document.document.url %>
+    <%= image_tag relevant_document.document.url, class: 'preview-img' %>
   <% end %>
 <% end %>
-<%= f.file_field :relevant_documents %>
+<span class="upload-file">
+  <%= f.file_field :relevant_documents, class: 'image-upload' %>
+  <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+</span>

@@ -1,5 +1,5 @@
 <% if @employee_listing.profile_picture.present? %>
-  <%= image_tag @employee_listing.profile_picture.url %>
+  <%= image_tag @employee_listing.profile_picture.url, class: 'preview-img' %>
 <% else %>
   <%= f.file_field :profile_picture %>
 <% end %>
