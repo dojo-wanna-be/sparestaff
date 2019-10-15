@@ -151,7 +151,6 @@
             </div>
 
           </div>
-
         <% end %>
       </div>
     </div>
@@ -179,49 +178,51 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function () {
-  $('#employee_listing_residency_status').on('keyup keypress change', function (){
-    var lisTingtiTle = $("#employee_listing_residency_status").val();
-      if (lisTingtiTle == "Other Visas")
-      {
+
+  $(document).ready(function () {
+    $('#employee_listing_residency_status').on('keyup keypress change', function (){
+      var lisTingtiTle = $("#employee_listing_residency_status").val();
+      if (lisTingtiTle == "Other Visas"){
         $("#other_res_sta").show();
-      }
-      else{
+        $("#other_res_sta").attr("required", true);
+      }else{
         $("#other_res_sta").hide();
+        $("#other_res_sta").removeAttr("required");
       }
-   });
-  $("#emp_listing_det").validate({
-    errorPlacement: function(error, element) {
-       error.appendTo(element.parent());
-    },
+    });
+
+    $("#emp_listing_det").validate({
+      errorPlacement: function(error, element) {
+        error.appendTo(element.parent());
+      },
       rules: {
-      "employee_listing[title]": {required: true},
-      "employee_listing[first_name]": {required: true},
-      "employee_listing[last_name]": {required: true},
-      "employee_listing[city]": {required: true},
-      "employee_listing[post_code]": {required: true},
+        "employee_listing[title]": {required: true},
+        "employee_listing[first_name]": {required: true},
+        "employee_listing[last_name]": {required: true},
+        "employee_listing[city]": {required: true},
+        "employee_listing[post_code]": {required: true},
       },
     });
   });
-
 
   $('.preview1').hide();
   $('.preview2').hide();
 
   function readURL1(input) {
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('.preview1').show();
-            $('#imagePreview').attr('src', e.target.result);
-            $('#imagePreview').hide();
-            $('#imagePreview').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('.preview1').show();
+        $('#imagePreview').attr('src', e.target.result);
+        $('#imagePreview').hide();
+        $('#imagePreview').fadeIn(650);
+      }
+      reader.readAsDataURL(input.files[0]);
     }
   }
+
   $("#imageUpload").change(function() {
-      readURL1(this);
+    readURL1(this);
   });
 
   $('.remove1').click(function(){
@@ -233,16 +234,17 @@ $(document).ready(function () {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function(e) {
-          $('.preview2').show();
-          $('#imagePreview2').attr('src', e.target.result);
-          $('#imagePreview2').hide();
-          $('#imagePreview2').fadeIn(650);
+        $('.preview2').show();
+        $('#imagePreview2').attr('src', e.target.result);
+        $('#imagePreview2').hide();
+        $('#imagePreview2').fadeIn(650);
       }
       reader.readAsDataURL(input.files[0]);
     }
   }
+
   $("#imageUpload2").change(function() {
-      readURL2(this);
+    readURL2(this);
   });
 
   $('.remove2').click(function(){
@@ -254,12 +256,12 @@ $(document).ready(function () {
 <style type="text/css">
   input#other_res_sta {
     display: none;
-}
-label#sel_sta_id {
+  }
+  label#sel_sta_id {
     display: none;
     color:#FF0000;
-}
-.error {
+  }
+  .error {
     color:#FF0000;
-}
+  }
 </style>

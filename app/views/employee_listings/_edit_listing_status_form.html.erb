@@ -1,0 +1,67 @@
+<%= form_for @employee_listing, url: employee_path, method: :patch, :html => { :id => "str_tme_id" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "listing_status" %>
+
+  <h6>Listing Status</h6>
+  <%= @employee_listing.published? ? "Listed" : "Not Listed" %>
+
+  <div class="custom-input-group">
+    <label class="custom-label">When would you like to publish this listing?</label>
+    <div class="date-box">
+      <div class="date-sec">
+        <label class="thin-label">Start Date</label>
+        <%= f.date_field :start_publish_date, id: 'str_pub' %>
+        <label id="start_dat">Start date must be smaller from end date</label>
+      </div>
+      <div class="date-sec">
+        <label class="thin-label">End Date</label>
+        <%= f.date_field :end_publish_date, id: 'pub_end' %>
+        <label id="end_date">End date must be greater from start date</label>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to "Permanently deactivate my listing", "javascript:;" %>
+
+  <div class="button-box">
+    <%= f.submit "Save", class: "continue-btn prw_btn" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#str_pub').on('keyup keypress change', function () {
+    var strPub = $('#str_pub').val();
+    var endPub = $('#pub_end').val();
+    if (strPub >= endPub && endPub != "") {
+      $("#start_dat").show();
+    }
+    else{
+      $("#start_dat").hide();
+    }
+  });
+  
+  $('#pub_end').on('keyup keypress change', function () {
+    var strPub = $('#str_pub').val();
+    var endPub = $('#pub_end').val();
+    if (strPub >= endPub && strPub != "") {
+      $("#end_date").show();
+    }
+    else{
+      $("#end_date").hide();
+    }
+  });
+</script>
+
+<style type="text/css">
+  label#start_dat {
+    display: none;
+    color:#FF0000;
+  }
+  label#end_date {
+    display: none;
+    color:#FF0000;
+  }
+  .error{
+    color:#FF0000;
+  }
+</style>

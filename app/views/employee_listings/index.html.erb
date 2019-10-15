@@ -46,10 +46,8 @@
                   <div class="small_grey_text">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></div>
 
                   <div class="card-btns">
-                    <a href="user-manage-listing-listing-details.html" class="manage-btn">Manage Listing</a>
-
+                    <%= link_to "Manage Listing", edit_employee_path(id: listing.id), class: 'manage-btn' %>
                     <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
-
                   </div>
                 </div>
               </div>

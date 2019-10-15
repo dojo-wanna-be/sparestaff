@@ -1,0 +1,6 @@
+<% if @employee_listing.relevant_documents.present? %>
+  <% @employee_listing.relevant_documents.each do |relevant_document| %>
+    <%= image_tag relevant_document.document.url %>
+  <% end %>
+<% end %>
+<%= f.file_field :relevant_documents %>

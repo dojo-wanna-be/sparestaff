@@ -40,7 +40,7 @@
                           <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id start-side-select', disabled: 'disabled'%>
                         <% end %>
                       <% else %>
-                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Select Start Day', class: 'cust_str_id start-side-select' %>
+                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS), include_blank: 'Select Start Day', class: 'cust_str_id start-side-select' %>
                       <% end %>
                       <label id="end_start_tm" class="custom-error">Start date must be smaller from end date</label>
                     </div>
@@ -56,7 +56,7 @@
                       <% end %>
 
                       <div class="availability-checkbox">
-                        <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: "unavailable_day_check", id: "unavailable_check_#{day.downcase}" %>
+                        <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? f.object.listing_availabilities.pluck(:day, :not_available).include?([day.downcase, true]) : false, class: "unavailable_day_check", id: "unavailable_check_#{day.downcase}" %>
                         <span>Not available</span>
                       </div>
                       <label id="tm_end" class="custom-error">End date must be greater from start date</label>
@@ -85,38 +85,38 @@
             <div class="week-day-box">
               <label class="thin-label">Weekday</label>
               <div class="week-row">
-                <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price), {}, {class: 'week-select'} %>
+                <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price.to_f), {}, {class: 'week-select'} %>
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.include?(f.object.weekday_price) ? nil : f.object.weekday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+                <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekday_price.to_f) ? nil : f.object.weekday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
 
               <label class="thin-label">Weekend (if available)</label>
               <div class="week-row">
-                <%= f.select :weekend_price, options_for_select(EmployeeListing::PRICES, f.object.weekend_price), {}, {class: 'week-select'} %>
+                <%= f.select :weekend_price, options_for_select(EmployeeListing::PRICES, f.object.weekend_price.to_f), {}, {class: 'week-select'} %>
 
                 <div class="mid-text">or</div>
 
-                <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.include?(f.object.weekend_price) ? nil : f.object.weekend_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+                <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekend_price.to_f) ? nil : f.object.weekend_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
               </div>
 
               <label class="thin-label">Public holidays (if available)</label>
-              <% if @employee_listing.available_in_holidays? %>
+              <% if @employee_listing.available_in_holidays? || @employee_listing.holiday_price.present? %>
                 <div class="week-row bottom-space">
-                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select'} %>
+                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price.to_f), {}, {class: 'week-select'} %>
 
                   <div class="mid-text">or</div>
 
-                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
                 </div>
               <% else %>
                 <div class="week-row bottom-space">
-                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price), {}, {class: 'week-select', disabled: "disabled"} %>
+                  <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price.to_f), {}, {class: 'week-select', disabled: "disabled"} %>
 
                   <div class="mid-text">or</div>
 
-                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.include?(f.object.holiday_price) ? nil : f.object.holiday_price, placeholder: "Enter your own", min: 0, class: 'custom-input', disabled: "disabled" %>
+                  <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input', disabled: "disabled" %>
                 </div>
               <% end %>
             </div>
@@ -155,7 +155,6 @@
 
             <%= f.submit "Preview", class: "continue-btn prw_btn" %>
           </div>
-
         <% end %>
       </div>
     </div>

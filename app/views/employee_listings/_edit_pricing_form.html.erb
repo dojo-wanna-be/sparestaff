@@ -1,0 +1,51 @@
+<%= form_for @employee_listing, url: employee_path, method: :patch, :html => { :id => "str_tme_id" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "listing_pricing" %>
+
+  <div class="custom-input-group">
+    <label class="custom-label">Select price per hour that Hirers are expected to pay to hire the employee</label>
+
+    <div class="week-day-box">
+      <label class="thin-label">Weekday</label>
+      <div class="week-row">
+        <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price.to_f), {}, {class: 'week-select'} %>
+
+        <div class="mid-text">or</div>
+
+        <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekday_price.to_f) ? nil : f.object.weekday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+      </div>
+
+      <label class="thin-label">Weekend (if available)</label>
+      <div class="week-row">
+        <%= f.select :weekend_price, options_for_select(EmployeeListing::PRICES, f.object.weekend_price.to_f), {}, {class: 'week-select'} %>
+
+        <div class="mid-text">or</div>
+
+        <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekend_price.to_f) ? nil : f.object.weekend_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+      </div>
+
+      <label class="thin-label">Public holidays (if available)</label>
+      <% if @employee_listing.available_in_holidays? || @employee_listing.holiday_price.present? %>
+        <div class="week-row bottom-space">
+          <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price.to_f), {}, {class: 'week-select'} %>
+
+          <div class="mid-text">or</div>
+
+          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+        </div>
+      <% else %>
+        <div class="week-row bottom-space">
+          <%= f.select :holiday_price, options_for_select(EmployeeListing::PRICES, f.object.holiday_price.to_f), {}, {class: 'week-select', disabled: "disabled"} %>
+
+          <div class="mid-text">or</div>
+
+          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input', disabled: "disabled" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="button-box">
+    <%= f.submit "Save", class: "continue-btn prw_btn" %>
+  </div>
+<% end %>

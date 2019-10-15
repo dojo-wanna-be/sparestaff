@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show] do
+  resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
       get :getting_started, path: "getting_started", as: "getting_started"
       get :sub_category_lists

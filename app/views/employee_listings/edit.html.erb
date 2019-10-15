@@ -1,0 +1,23 @@
+<h2><%= @employee_listing.title %></h2>
+<%= link_to "Preview", employee_path(id: @employee_listing.id), target: "_blank" %>
+<ul>
+  <li><%= link_to "Listing Details", edit_employee_path(id: @employee_listing.id, edit: "listing_details") %></li>
+  <li><%= link_to "Employee Skills", edit_employee_path(id: @employee_listing.id, edit: "employee_skills") %></li>
+  <li><%= link_to "Pricing", edit_employee_path(id: @employee_listing.id, edit: "listing_pricing") %></li>
+  <li><%= link_to "Availability", edit_employee_path(id: @employee_listing.id, edit: "listing_availability") %></li>
+  <li><%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status") %></li>
+</ul>
+
+<% if params[:edit].eql?("listing_details") %>
+  <%= render partial: "edit_listing_details_form.html.erb" %>
+<% elsif params[:edit].eql?("employee_skills") %>
+  <%= render partial: "edit_employee_skills_form.html.erb" %>
+<% elsif params[:edit].eql?("listing_pricing") %>
+  <%= render partial: "edit_pricing_form.html.erb" %>
+<% elsif params[:edit].eql?("listing_availability") %>
+  <%= render partial: "edit_availability_form.html.erb" %>
+<% elsif params[:edit].eql?("listing_status") %>
+  <%= render partial: "edit_listing_status_form.html.erb" %>
+<% else %>
+  <%= render partial: "edit_listing_details_form.html.erb" %>
+<% end %>

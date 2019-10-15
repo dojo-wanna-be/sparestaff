@@ -1,0 +1,220 @@
+<%= form_for @employee_listing, url: employee_path, method: :patch, :html => { :id => "str_tme_id" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "listing_availability" %>
+
+  <div class="custom-input-group">
+    <label class="custom-label">Availability of the employee <span class="thin-text">(tick all that applies)</span></label>
+
+    <div class="availability-box">
+      <% Slot.all.each do |slot| %>
+        <div class="check-box">
+          <%= check_box_tag "slot_ids[]", slot.id, @employee_listing.slots.pluck(:id).include?(slot.id), class: "slot_check" %>
+          <%= slot.time_slot %>
+        </div>
+      <%end%>
+    </div>
+    <label id="tim_av_id">Please select atleast one</label>
+    <p class="employee-might">As the employee might have other commitment, it’s necessary to tell Hirers which day and time he/she is available to be hired.</p>
+
+    <div class="week-availability">
+      <ul class="from-to-list">
+        <li class="header-item">
+          <div class="from-text">From</div>
+          <div class="to-text">To</div>
+        </li>
+
+        <% ListingAvailability::DAYS.each do |day, value| %>
+          <li class="availability-item">
+            <div class="start-side">
+              <span><%= day %></span>
+              <% if f.object.listing_availabilities.present? %>
+                <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                  <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start Time', class: 'cust_str_id start-side-select' %>
+                <% else %>
+                  <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start Time', class: 'cust_str_id start-side-select', disabled: 'disabled'%>
+                <% end %>
+              <% else %>
+                <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS), include_blank: 'Start Time', class: 'cust_str_id start-side-select' %>
+              <% end %>
+              <label id="end_start_tm" class="custom-error">Start date must be smaller from end date</label>
+            </div>
+            <div class="end-side">
+              <% if f.object.listing_availabilities.present? %>
+                <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
+                  <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End Time', class: 'end_str_id end-side-select' %>
+                <% else %>
+                  <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End Time', class: 'end_str_id end-side-select', disabled: 'disabled' %>
+                <% end %>
+              <% else %>
+                <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End Time', class: 'end_str_id end-side-select' %>
+              <% end %>
+
+              <div class="availability-checkbox">
+                <%= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? f.object.listing_availabilities.pluck(:day, :not_available).include?([day.downcase, true]) : false, class: "unavailable_day_check", id: "unavailable_check_#{day.downcase}" %>
+                <span>Not available</span>
+              </div>
+              <label id="tm_end" class="custom-error">End date must be greater from start date</label>
+            </div>
+          </li>
+        <% end %>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="custom-input-group">
+    <label class="custom-label">Public holiday</label>
+
+    <div class="holiday-box">
+      <div class="avail-box"><%= f.radio_button :available_in_holidays, true %> <span>Available</span>
+      </div>
+      <div class="avail-box"><%= f.radio_button :available_in_holidays, false %> <span>Not available</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-input-group">
+    <label class="custom-label">Minimum employment term per week <span class="thin-text">(optional)</span></label>
+    <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS, f.object.minimum_working_hours), {}, {class: 'custom-field half-field'} %>
+  </div>
+
+  <div class="button-box">
+    <%= f.submit "Save", class: "continue-btn prw_btn" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(".unavailable_day_check").on('change', function () {
+    if ($("#unavailable_check_sunday").is(":checked") && $("#unavailable_check_saturday").is(":checked")) {
+      $("#employee_listing_weekend_price").attr("disabled", "disabled");
+      $("#employee_listing_other_weekend_price").attr("disabled", "disabled");
+    }else{
+      $("#employee_listing_weekend_price").removeAttr("disabled");
+      $("#employee_listing_other_weekend_price").removeAttr("disabled");
+    }
+    if ($(this).is(":checked")) {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeClass("error");
+      parent.find("select").attr("disabled", "disabled");
+      parent.find("select").val("");
+      parent.find("label.error").hide();
+      parent.find("label#end_start_tm").hide();
+      parent.find("label#tm_end").hide();
+    } else {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeAttr("disabled");
+    }
+  });
+
+  $('.prw_btn').click(function() {
+    var formValid = true;
+    var availaBility = $('.slot_check').is(':checked');
+    if (availaBility){
+      $('#tim_av_id').hide();
+    }
+    else{
+      $('#tim_av_id').show();
+      FormValid = false;
+      $('#tim_av_id').show();
+    }
+  });
+
+  $('.slot_check').on('keyup keypress change', function () {
+    var  formValid = true;
+    var availaBility = $('.slot_check').is(':checked');
+    if (availaBility) {
+      $("#tim_av_id").hide();
+    }
+    else{
+      $("#tim_av_id").show();
+      formValid = false;
+    }
+    return formValid;
+  });
+
+  $("#str_tme_id").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+    "start_time[]monday": {required: true},
+    "start_time[]tuesday": {required: true},
+    "start_time[]wednesday": {required: true},
+    "start_time[]thursday": {required: true},
+    "start_time[]friday": {required: true},
+    "start_time[]saturday": {required: true},
+    "start_time[]sunday": {required: true},
+    "end_time[]monday": {required: true},
+    "end_time[]tuesday": {required: true},
+    "end_time[]wednesday": {required: true},
+    "end_time[]thursday": {required: true},
+    "end_time[]friday": {required: true},
+    "end_time[]saturday": {required: true},
+    "end_time[]sunday": {required: true},
+    "confirm_details": {required: true},
+    "employee_listing[start_publish_date]": {required: true},
+    "employee_listing[end_publish_date]": {required: true},
+    },
+  });
+
+  $('.cust_str_id').on('keyup keypress change', function () {
+    var parent = $(this).parent().parent();
+    var startVal = $(this).val();
+    var endVal = parent.find("select.end_str_id").val();
+    if (startVal >= endVal && endVal != "" ) {
+      $(this).parent().parent().find("#end_start_tm").show();
+      $(this).parent().parent().find("#tm_end").hide();
+    }
+    else{
+      $(this).parent().parent().find("#end_start_tm").hide();
+      $(this).parent().parent().find("#tm_end").hide();
+    }
+  });
+
+  $('.end_str_id').on('keyup keypress change', function () {
+    var parent = $(this).parent().parent();
+    var startVal = parent.find("select.cust_str_id").val();
+    var endVal = $(this).val();
+    if (startVal >= endVal && startVal != "") {
+      $(this).parent().parent().find("#tm_end").show();
+      $(this).parent().parent().find("#end_start_tm").hide();
+    }
+    else{
+      $(this).parent().parent().find("#end_start_tm").hide();
+      $(this).parent().parent().find("#tm_end").hide();
+    }
+  });
+
+  $("#employee_listing_available_in_holidays_false").change(function(){
+    if ($(this).is(":checked")){
+      $("#employee_listing_holiday_price").attr("disabled", "disabled");
+      $("#employee_listing_other_holiday_price").attr("disabled", "disabled");
+    }
+  });
+
+  $("#employee_listing_available_in_holidays_true").change(function(){
+    if ($(this).is(":checked")){
+      $("#employee_listing_holiday_price").removeAttr("disabled");
+      $("#employee_listing_other_holiday_price").removeAttr("disabled");
+    }
+  });
+</script>
+
+<style type="text/css">
+
+  label#tim_av_id {
+    display: none;
+    color:#FF0000;
+  }
+  label#end_start_tm {
+    display: none;
+    color:#FF0000;
+  }
+  label#tm_end {
+   display: none;
+   color:#FF0000;
+  }
+  .error{
+    color:#FF0000;
+  }
+</style>

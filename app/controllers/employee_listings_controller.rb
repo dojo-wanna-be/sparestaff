@@ -11,7 +11,9 @@ class EmployeeListingsController < ApplicationController
                                       :create_listing_step_5,
                                       :preview_listing,
                                       :publish_listing,
-                                      :show]
+                                      :show,
+                                      :edit,
+                                      :update]
 
   before_action :find_company, only: [:create_listing_step_2]
 
@@ -185,22 +187,13 @@ class EmployeeListingsController < ApplicationController
       end
     end
 
-    if params[:unavailable_days].present?
-      @employee_listing.listing_availabilities.destroy_all
-      (ListingAvailability::DAYS.map{|k,v| v} - params[:unavailable_days]).each do |day|
-        ListingAvailability.create(employee_listing_id: @employee_listing.id,
-                                    day: day,
-                                    start_time: params[:start_time].first[:"#{day}"],
-                                    end_time: params[:end_time].first[:"#{day}"])
-      end
-    else
-      @employee_listing.listing_availabilities.destroy_all
-      ListingAvailability::DAYS.map{|k,v| v}.each do |day|
-        ListingAvailability.create(employee_listing_id: @employee_listing.id,
-                                    day: day,
-                                    start_time: params[:start_time].first[:"#{day}"],
-                                    end_time: params[:end_time].first[:"#{day}"])
-      end
+    @employee_listing.listing_availabilities.destroy_all
+    ListingAvailability::DAYS.map{|k,v| v}.each do |day|
+      ListingAvailability.create(employee_listing_id: @employee_listing.id,
+                                  day: day,
+                                  start_time: params[:start_time].first[:"#{day}"],
+                                  end_time: params[:end_time].first[:"#{day}"],
+                                  not_available: params[:unavailable_days].include?(day))
     end
 
     @employee_listing.update_attribute(:listing_step, 5)
@@ -242,6 +235,19 @@ class EmployeeListingsController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @employee_listing.update_attributes(update_listing_params)
+      flash[:notice] = "Updated Successfully"
+      redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
+    else
+      flash[:error] = @employee_listing.errors.full_messages.to_sentence
+      redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
+    end
   end
 
   def sub_category_lists
@@ -316,6 +322,42 @@ class EmployeeListingsController < ApplicationController
     params[:employee_listing][:weekend_price] = params[:employee_listing][:other_weekend_price] if params[:employee_listing][:other_weekend_price].present?
     params[:employee_listing][:holiday_price] = params[:employee_listing][:other_holiday_price] if params[:employee_listing][:other_holiday_price].present?
     params.require(:employee_listing).permit(
+      :available_in_holidays,
+      :weekday_price,
+      :weekend_price,
+      :holiday_price,
+      :minimum_working_hours,
+      :start_publish_date,
+      :end_publish_date
+    )
+  end
+
+  def update_listing_params
+    params[:employee_listing][:weekday_price] = params[:employee_listing][:other_weekday_price] if params[:employee_listing][:other_weekday_price].present?
+    params[:employee_listing][:weekend_price] = params[:employee_listing][:other_weekend_price] if params[:employee_listing][:other_weekend_price].present?
+    params[:employee_listing][:holiday_price] = params[:employee_listing][:other_holiday_price] if params[:employee_listing][:other_holiday_price].present?
+    params.require(:employee_listing).permit(
+      :title,
+      :first_name,
+      :last_name,
+      :tfn,
+      :birth_year,
+      :address_1,
+      :address_2,
+      :city,
+      :state,
+      :country,
+      :post_code,
+      :residency_status,
+      :other_residency_status,
+      :verification_type,
+      :gender,
+      :has_vehicle,
+      :verification_front_image,
+      :verification_back_image,
+      :skill_description,
+      :optional_comments,
+      :profile_picture,
       :available_in_holidays,
       :weekday_price,
       :weekend_price,

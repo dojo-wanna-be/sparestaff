@@ -125,7 +125,7 @@
               <span class="first"><%= week_day.titleize %></span>
               <span class="right">
                 <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
-                <% if availability.present? %>
+                <% if availability.present? && availability.start_time.present? && availability.end_time.present? %>
                   <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
                   <%= availability.end_time.strftime("%I:%M%p") %>
                 <% else %>
