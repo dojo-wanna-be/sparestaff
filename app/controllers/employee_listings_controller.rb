@@ -19,11 +19,14 @@ class EmployeeListingsController < ApplicationController
   end
 
   def index
-    if current_user.is_owner? || current_user.is_hr?
-      @employee_listings = current_user.company.employee_listings
-    elsif current_user.is_individual?
-      @employee_listing = current_user.employee_listings
-    end
+    # if current_user.is_owner? || current_user.is_hr?
+    #   @employee_listings = current_user.company.employee_listings
+    # elsif current_user.is_individual?
+    #   @employee_listing = current_user.employee_listings
+    # end
+    company_listings = current_user.company.employee_listings if current_user.company.present? && current_user.company.employee_listings.present?
+    individual_listings = current_user.employee_listings if current_user.employee_listings.present?
+    @employee_listings = company_listings + individual_listings
   end
 
   def new_listing_step_1
