@@ -42,7 +42,7 @@
 
                   <div class="avatar-preview preview3">
                     <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
-                    <div class="remove-img remove3">X</div>
+                    <div class="remove-img remove3"><%= image_tag 'rubbish-bin.png', class: 'bin-img' %></div>
                   </div>
                 </div>
               </div>
@@ -141,7 +141,7 @@
       $('.preview3').hide();
     });
   });
-  
+
   $("#skl_expr").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());

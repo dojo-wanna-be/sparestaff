@@ -54,7 +54,7 @@
 
       .mySlides {
         display: none;
-        height: 326px;
+        height: 362px;
         width: 100%;
         text-align: center;
         float: left;
@@ -110,19 +110,27 @@
       }
 
       .small-img-box {
-        height: 110px;
+        height: 74px;
         float: left;
         width: 100%;
+        display: -webkit-inline-box;
+        overflow: hidden;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         .column {
-          float: left;
-          width: 25%;
+         // float: left;
+          width: 74px;
 
           .demo {
             max-width: 100%;
             height: -webkit-fill-available;
             cursor: pointer;
             background: #484848;
+            object-fit: cover;
           }
           .active,
           .demo:hover {
