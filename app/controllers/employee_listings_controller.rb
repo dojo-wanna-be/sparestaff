@@ -24,8 +24,9 @@ class EmployeeListingsController < ApplicationController
     # elsif current_user.is_individual?
     #   @employee_listing = current_user.employee_listings
     # end
-    company_listings = current_user.company.employee_listings if current_user.company.present? && current_user.company.employee_listings.present?
-    individual_listings = current_user.employee_listings if current_user.employee_listings.present?
+    company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings : []
+    individual_listings = current_user.employee_listings.present? ? current_user.employee_listings : []
+
     @employee_listings = company_listings + individual_listings
   end
 
