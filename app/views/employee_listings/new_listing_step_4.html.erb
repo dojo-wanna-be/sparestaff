@@ -11,7 +11,7 @@
 
           <div class="custom-field-box">
 
-            <div class="joint-group">
+            <div class="joint-group mobile-joint-group">
               <div class="custom-input-group">
                 <label class="custom-label">Select classification to list</label>
                 <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {class: 'custom-field' , include_blank: "Please select category"} %>
@@ -30,19 +30,20 @@
               <label class="custom-label">Please describe the employee skills, strength, expertise, experience, etc</label>
               <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
             </div>
+            <div class="custom-input-group">
+              <div class="profile_picture">
+                <label class="custom-label">Profile Picture</label>
+                <div class="image-group">
+                  <div class="box-img">
+                    <div class="upload-file">
+                      <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
+                      <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                    </div>
 
-            <div class="profile_picture">
-              <label class="custom-label">Profile Picture</label>
-              <div class="image-group">
-                <div class="box-img">
-                  <div class="upload-file">
-                    <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
-                    <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
-                  </div>
-
-                  <div class="avatar-preview preview3">
-                    <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
-                    <div class="remove-img remove3"><%= image_tag 'rubbish-bin.png', class: 'bin-img' %></div>
+                    <div class="avatar-preview preview3">
+                      <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
+                      <div class="remove-img remove3"><%= image_tag 'rubbish-bin.png', class: 'bin-img' %></div>
+                    </div>
                   </div>
                 </div>
               </div>
