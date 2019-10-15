@@ -7,6 +7,12 @@
     width: 1284px;
     margin: 0 auto;
 
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 60px;
+    }
+
     .custom-error {
       font-size: 12px;
       color: #ff0000;
@@ -100,6 +106,11 @@
           width: 100px;
           cursor: pointer;
           margin-top: 11px;
+
+          @media screen and (max-width: 767px) {
+            height: 80px;
+            width: 80px;
+          }
         }
 
         .image-label {
@@ -109,6 +120,11 @@
           margin: 10px;
           margin-right: 0px;
           margin-left: 0;
+
+          @media screen and (max-width: 767px) {
+            height: 80px;
+            width: 80px;
+          }
 
           .upload-img {
             height: 100%;
@@ -131,6 +147,12 @@
             margin-right: 55px;
             margin-left: 0;
             box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+
+            @media screen and (max-width: 767px) {
+              height: 80px;
+              width: 80px;
+              margin-right: 15px;
+            }
           }
         }
       }
@@ -142,6 +164,11 @@
       padding-left: 80px;
       padding-right: 50px;
 
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        padding: 0 12px;
+      }
+
       .main-heading {
         font-size: 32px;
         line-height: 1.4;
@@ -149,6 +176,11 @@
         padding-top: 15px;
         margin: 0.67em 0;
         color: #484848;
+
+        @media screen and (max-width: 767px) {
+          font-size: 22px;
+          line-height: 1.2;
+        }
       }
 
       .who-box {
@@ -166,12 +198,22 @@
           flex-direction: row;
           margin-bottom: 22px;
 
+          @media screen and (max-width: 767px) {
+            height: auto;
+            margin-bottom: 20px;
+          }
+
           .input-checked {
             width: 100px;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+
+            @media screen and (max-width: 767px) {
+              height: auto;
+              width: 20%;
+            }
 
             input {
               margin: 3px 3px 0px 5px;
@@ -185,6 +227,11 @@
             font-size: 16px;
             color: #484848;
             line-height: 1.4;
+
+            @media screen and (max-width: 767px) {
+              padding: 12px;
+              width: 80%;
+            }
           }
         }
 
@@ -203,6 +250,12 @@
           &:hover {
             background-color: #d75227;
           }
+
+          @media screen and (max-width: 767px) {
+            float: right;
+            margin-top: 0;
+            width: 110px;
+          }
         }
 
         .custom-field-box {
@@ -215,11 +268,29 @@
           flex-direction: row;
           justify-content: space-between;
 
+          &.mobile-joint-group {
+            @media screen and (max-width: 767px) {
+              flex-direction: column;
+
+              .custom-input-group {
+                width: 100%;
+              }
+            }
+          }
+
           .custom-input-group {
             width: 50%;
 
+            @media screen and (max-width: 767px) {
+              width: 48%;
+            }
+
             & + .custom-input-group {
               padding-left: 20px;
+
+              @media screen and (max-width: 767px) {
+                padding: 0;
+              }
             }
           }
         }
@@ -231,6 +302,10 @@
           flex-direction: column;
           margin-bottom: 0;
           width: 100%;
+
+          @media screen and (max-width: 767px) {
+            margin-bottom: 15px;
+          }
 
           .tfn-file {
 
@@ -296,6 +371,9 @@
             width: 325px;
             margin-top: 20px;
 
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
 
             .week-row {
               display: flex;
@@ -328,10 +406,18 @@
             width: 325px;
             margin-top: 22px;
 
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
+
             .date-sec {
               display: flex;
               flex-direction: column;
               width: 146px;
+
+              @media screen and (max-width: 767px) {
+                width: 48%;
+              }
 
               .error {
                 font-size: 14px;
@@ -402,6 +488,10 @@
             align-items: center;
             float: left;
 
+            @media screen and (max-width: 767px) {
+              width: 50%;
+            }
+
             input {
               margin-right: 10px;
             }
@@ -433,6 +523,10 @@
 
           &.half-field {
             width: 50%;
+
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
           }
         }
 
@@ -497,6 +591,10 @@
             list-style: none;
             width: 585px;
 
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
+
             .header-item {
               display: flex;
               flex-direction: row;
@@ -506,12 +604,31 @@
               color: #484848;
               line-height: 1.4;
 
+              @media screen and (max-width: 767px) {
+                line-height: 1.2;
+                padding-bottom: 0;
+              }
+
               .from-text {
                 width: 235px;
                 padding-left: 118px;
+
+                @media screen and (max-width: 767px) {
+                  width: 50%;
+                  padding: 0;
+                  text-align: center;
+                  font-weight: bold;
+                }
               }
               .to-text {
                 width: 321px;
+
+                @media screen and (max-width: 767px) {
+                  width: 50%;
+                  padding: 0;
+                  text-align: center;
+                  font-weight: bold;
+                }
               }
             }
 
@@ -535,6 +652,11 @@
                 flex-direction: row;
                 align-items: center;
 
+                @media screen and (max-width: 767px) {
+                  width: 49%;
+                  font-size: 14px;
+                }
+
                 .cust_str_id {
                   height: 30px;
                   padding: 5px;
@@ -545,6 +667,12 @@
                   &.start-side-select + label + label {
                     width: 100%;
                     text-align: right;
+                  }
+
+                  @media screen and (max-width: 767px) {
+                    width: 80px;
+                    -webkit-appearance: none;
+                    margin: 0 !important;
                   }
                 }
 
@@ -561,6 +689,11 @@
                 justify-content: space-between;
                 align-items: center;
 
+                @media screen and (max-width: 767px) {
+                  width: 49%;
+                  font-size: 14px;
+                }
+
                 select {
                   height: 30px;
                   padding: 5px;
@@ -570,6 +703,13 @@
 
                   &.end-side-select {
                     color: #484848;
+                  }
+
+                  @media screen and (max-width: 767px) {
+                    width: 80px;
+                    -webkit-appearance: none;
+                    margin: 0 !important;
+                    margin-right: 8px !important;
                   }
                 }
                 .error {
@@ -583,8 +723,20 @@
                   justify-content: flex-end;
                   align-items: center;
 
+                  @media screen and (max-width: 767px) {
+                    font-size: 12px;
+                    /* display: block; */
+                    width: fit-content;
+                    line-height: 1.2;
+                  }
+
                   input {
                     margin-right: 8px;
+
+                    @media screen and (max-width: 767px) {
+                      height: auto;
+                      margin-right: 4px;
+                    }
                   }
                 }
               }
@@ -623,8 +775,18 @@
           margin-top: 38px;
           justify-content: space-between;
 
+          @media screen and (max-width: 767px) {
+            flex-direction: column-reverse;
+            padding: 15px 0 30px;
+            margin-top: 20px;
+          }
+
           .user-detail {
             width: 380px;
+
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
 
             .user-detail-heading {
               font-size: 32px;
@@ -632,6 +794,12 @@
               color: #484848;
               margin: 0.67em 0;
               line-height: 1.4;
+
+              @media screen and (max-width: 767px) {
+                line-height: 1.2;
+                font-size: 26px;
+                margin: 0.5em 0;
+              }
             }
 
             .detail-list {
@@ -655,6 +823,10 @@
                   flex-direction: row;
                   justify-content: flex-start;
 
+                  @media screen and (max-width: 767px) {
+                    width: 38%;
+                  }
+
                 }
                 .name {
                   font-size: 21px !important;
@@ -665,6 +837,11 @@
                   flex-direction: row;
                   justify-content: flex-start;
                   width: 220px;
+
+                  @media screen and (max-width: 767px) {
+                    width: 62%;
+                    padding-left: 8px;
+                  }
                 }
               }
             }
@@ -677,12 +854,23 @@
             flex-direction: row;
             justify-content: flex-end;
 
+            @media screen and (max-width: 767px) {
+              width: 100%;
+              justify-content: center;
+              padding-top: 10px;
+            }
+
             .profile {
               width: 252px;
               float: right;
               border: 1px solid silver;
               position: relative;
               height: 252px;
+
+              @media screen and (max-width: 767px) {
+                height: 180px;
+                width: 180px;
+              }
 
               .profile-img {
                 height: 100%;
@@ -701,6 +889,10 @@
                 justify-content: center;
                 align-items: center;
                 padding-left: 12px;
+
+                @media screen and (max-width: 767px) {
+                  padding-left: 0;
+                }
 
                 .view {
                   width: 100px;
@@ -759,6 +951,10 @@
             list-style: none;
             width: 400px;
 
+            @media screen and (max-width: 767px) {
+              width: 100%;
+            }
+
             .list-item {
               display: flex;
               flex-direction: row;
@@ -786,6 +982,12 @@
       padding-right: 80px;
       padding-left: 30px;
 
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        padding: 0 12px;
+        margin-top: 20px;
+      }
+
       .bulb-box {
         border: #dce0e0 1.5px solid;
         border-radius: 3px;
@@ -800,8 +1002,16 @@
         &.bulb-box-bottom {
           margin-top: 480px;
 
+          @media screen and (max-width: 767px) {
+            margin-top: 20px;
+          }
+
           &.step-4-bulb {
             margin-top: 300px;
+
+            @media screen and (max-width: 767px) {
+              margin-top: 20px;
+            }
           }
         }
 
@@ -828,11 +1038,20 @@
     display: flex;
     flex-direction: row;
 
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+
     .left-panel {
       display: flex;
       flex-direction: column;
       width: 180px;
       margin-right: 40px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0 0 20px;
+      }
 
       .panel-list {
         padding: 0;
@@ -886,6 +1105,10 @@
       flex-direction: column;
       width: 780px;
 
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+
       .right-panel-header {
         font-size: 13pt;
         font-weight: normal;
@@ -907,10 +1130,18 @@
           display: flex;
           flex-direction: column;
 
+          @media screen and (max-width: 767px) {
+            padding: 20px 5px 20px 5px;
+          }
+
           .listing-card {
             display: flex;
             flex-direction: row;
             border: 1px solid #dce0e0;
+
+            @media screen and (max-width: 767px) {
+              flex-direction: column;
+            }
 
             .img-box {
               width: 251px;
@@ -919,10 +1150,22 @@
               border-right: none;
               border-bottom: none;
 
+              @media screen and (max-width: 767px) {
+                width: 100%;
+                height: 150px;
+                text-align: center;
+                margin-top: 5px;
+              }
+
               .img-card {
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
+
+                @media screen and (max-width: 767px) {
+                  width: 150px;
+                  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+                }
               }
             }
 
@@ -932,22 +1175,39 @@
               display: flex;
               flex-direction: column;
 
+              @media screen and (max-width: 767px) {
+                width: 100%;
+                padding: 20px 10px 20px 10px;
+              }
+
               .card_heading {
                 font-size: 24px;
                 display: inline-block;
                 padding-bottom: 10px;
+
+                @media screen and (max-width: 767px) {
+                  font-size: 22px;
+                }
               }
 
               .sub-detail {
                 font-size: 18px;
                 display: inline-block;
                 padding-bottom: 5px;
+
+                @media screen and (max-width: 767px) {
+                  font-size: 16px;
+                }
               }
 
               .small_grey_text {
                 font-size: 16px;
                 color: #767676;
                 margin-top: 14px;
+
+                @media screen and (max-width: 767px) {
+                  font-size: 14px;
+                }
               }
 
               .card-btns {
@@ -956,6 +1216,10 @@
                 flex-direction: row;
                 justify-content: space-between;
                 margin-top: 22px;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
 
                 .manage-btn {
                   display: flex;
@@ -968,6 +1232,11 @@
                   border: 1px solid #333;
                   background-color: #fff;
                   border-radius: 3px;
+
+                  @media screen and (max-width: 767px) {
+                    width: fit-content;
+                    padding: 0 20px;
+                  }
                 }
 
                 .preview-btn {
@@ -981,6 +1250,11 @@
                   border-radius: 3px;
                   color: #333;
                   text-decoration: none;
+
+                  @media screen and (max-width: 767px) {
+                    width: fit-content;
+                    padding: 0 20px;
+                  }
                 }
               }
             }

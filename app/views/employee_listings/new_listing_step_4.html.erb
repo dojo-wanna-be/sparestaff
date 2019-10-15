@@ -11,7 +11,7 @@
 
           <div class="custom-field-box">
 
-            <div class="joint-group">
+            <div class="joint-group mobile-joint-group">
               <div class="custom-input-group">
                 <label class="custom-label">Select classification to list</label>
                 <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {class: 'custom-field' , include_blank: "Please select category"} %>
