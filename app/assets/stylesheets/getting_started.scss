@@ -147,9 +147,18 @@
               height: 70px;
               margin-right: 20px;
 
+              @media screen and (max-width: 767px) {
+                width: 64px;
+                height: 64px;
+              }
+
               &.first-img {
                 width: 70px;
                 height: 48px;
+
+                @media screen and (max-width: 767px) {
+                  width: 64px;
+                }
               }
             }
           }
