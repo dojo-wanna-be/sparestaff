@@ -172,6 +172,9 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_5
+    if @employee_listing.listing_availabilities.present?
+      @availability = @employee_listing.listing_availabilities.map{|a| {a.day=>a.not_available}} 
+    end 
     unless (params[:back].eql?("true") && @employee_listing.listing_step >= 4) || @employee_listing.listing_step >= 4
       flash[:error] = "You can't go to this step"
       redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
