@@ -30,6 +30,7 @@ class EmployeeListingsController < ApplicationController
     individual_listings = current_user.employee_listings.present? ? current_user.employee_listings : []
 
     @employee_listings = company_listings + individual_listings
+    @employee_listings = @employee_listings.sort_by{|e| e[:updated_at]}.reverse
   end
 
   def new_listing_step_1
