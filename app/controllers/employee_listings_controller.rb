@@ -152,7 +152,7 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
-    @employee_listing.update_attributes(classification_id: params[:classification_id])
+    @employee_listing.update_attribute(:classification_id, params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
       params[:employee_listing_language_ids].each do |language_id|
@@ -192,9 +192,9 @@ class EmployeeListingsController < ApplicationController
     ListingAvailability::DAYS.map{|k,v| v}.each do |day|
       ListingAvailability.create(employee_listing_id: @employee_listing.id,
                                   day: day,
-                                  start_time: params[:start_time].present? ? params[:start_time].first[:"#{day}"] : "00:00",
-                                  end_time: params[:end_time].present? ? params[:end_time].first[:"#{day}"] : "00:00",
-                                  not_available: params[:unavailable_days].include?(day))
+                                  start_time: params[:start_time].present? ? params[:start_time].first[:"#{day}"] : "",
+                                  end_time: params[:end_time].present? ? params[:end_time].first[:"#{day}"] : "",
+                                  not_available: params[:unavailable_days].present? ? params[:unavailable_days].include?(day) : false)
     end
 
     @employee_listing.update_attribute(:listing_step, 5)
@@ -242,6 +242,34 @@ class EmployeeListingsController < ApplicationController
   end
 
   def update
+    if params[:edit].eql?("employee_skills")
+      @employee_listing.update_attribute(:classification_id, params[:classification_id]) if params[:classification_id].present?
+      if params[:employee_listing_language_ids].present?
+        @employee_listing.employee_listing_languages.destroy_all
+        params[:employee_listing_language_ids].each do |language_id|
+          EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
+        end
+      end
+    end
+
+    if params[:edit].eql?("listing_availability")
+      if params[:slot_ids].present?
+        @employee_listing.employee_listing_slots.destroy_all
+        params[:slot_ids].each do |slot_id|
+          EmployeeListingSlot.create(employee_listing_id: @employee_listing.id, slot_id: slot_id)
+        end
+      end
+
+      @employee_listing.listing_availabilities.destroy_all
+      ListingAvailability::DAYS.map{|k,v| v}.each do |day|
+        ListingAvailability.create(employee_listing_id: @employee_listing.id,
+                                    day: day,
+                                    start_time: params[:start_time].present? ? params[:start_time].first[:"#{day}"] : "",
+                                    end_time: params[:end_time].present? ? params[:end_time].first[:"#{day}"] : "",
+                                    not_available: params[:unavailable_days].present? ? params[:unavailable_days].include?(day) : false)
+      end
+    end
+
     if @employee_listing.update_attributes(update_listing_params)
       flash[:notice] = "Updated Successfully"
       redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
