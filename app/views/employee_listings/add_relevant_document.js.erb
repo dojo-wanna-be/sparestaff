@@ -1,1 +1,33 @@
 $('#relevant_document_container').html("<%= j render 'additional_listing_photos' %>")
+
+function sendRelevantDocument(fileData) {
+  var listing_id = "<%= @employee_listing.id %>"
+  var formData = new FormData();
+  formData.append('image', fileData);
+  formData.append('id', listing_id);
+  $.ajax({
+    type: 'PATCH',
+    url: '/employee/relevant_document',
+    data: formData,
+    contentType: false,
+    processData: false
+  });
+}
+
+function create_hex_code_relevant_document(input){
+  if (input.files) {
+    var filesAmount = input.files.length;
+
+    for (i = 0; i < filesAmount; i++) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        sendRelevantDocument(event.target.result);
+      }
+      reader.readAsDataURL(input.files[i]);
+    }
+  }
+}
+
+$('#relevant_documents').on('change', function() {
+  create_hex_code_relevant_document(this);
+});

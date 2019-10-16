@@ -216,30 +216,40 @@ $(document).ready(function () {
     });
   }
 
-  function create_hex_code(input, from){
+  function create_hex_code_front(input, from){
     if (input.files) {
       var filesAmount = input.files.length;
 
       for (i = 0; i < filesAmount; i++) {
         var reader = new FileReader();
         reader.onload = function(event) {
-          if (from == "front_image"){
-            sendFrontImage(event.target.result);
-          }else if (from == "back_image") {
-            sendBackImage(event.target.result)
-          }
+          sendFrontImage(event.target.result);
         }
         reader.readAsDataURL(input.files[i]);
       }
     }
   }
 
-  $('#verification_front_image').on('change', function() {
-    create_hex_code(this, "front_image");
+  function create_hex_code_back(input, from){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendBackImage(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  $('#verification_front_image').change(function() {
+    create_hex_code_front(this);
   });
 
-  $('#verification_back_image').on('change', function() {
-    create_hex_code(this, "back_image");
+  $('#verification_back_image').change(function() {
+    create_hex_code_back(this);
   });
 </script>
 

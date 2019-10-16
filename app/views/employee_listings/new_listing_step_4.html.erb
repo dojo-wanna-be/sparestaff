@@ -52,10 +52,6 @@
                     <div id="relevant_document_container">
                       <%= render partial: "additional_listing_photos" %>
                     </div>
-                    <span class="upload-file">
-                      <%= file_field_tag :relevant_documents, class: "image-upload" %>
-                      <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
-                    </span>
                   </div>
                 </div>
               </div>
@@ -186,18 +182,28 @@
     });
   }
 
-  function create_hex_code(input, from){
+  function create_hex_code_profile(input){
     if (input.files) {
       var filesAmount = input.files.length;
 
       for (i = 0; i < filesAmount; i++) {
         var reader = new FileReader();
         reader.onload = function(event) {
-          if (from == "relevant_document"){
-            sendRelevantDocument(event.target.result);
-          }else if (from == "profile_picture") {
-            sendProfilePicture(event.target.result)
-          }
+          sendProfilePicture(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  function create_hex_code_relevant_document(input){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendRelevantDocument(event.target.result);
         }
         reader.readAsDataURL(input.files[i]);
       }
@@ -205,11 +211,11 @@
   }
 
   $('#relevant_documents').on('change', function() {
-    create_hex_code(this, "relevant_document");
+    create_hex_code_relevant_document(this);
   });
 
   $('#listing_profile_picture').on('change', function() {
-    create_hex_code(this, "profile_picture");
+    create_hex_code_profile(this);
   });
 </script>
 
