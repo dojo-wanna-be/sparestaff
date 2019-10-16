@@ -12,8 +12,8 @@
     padding: 10px 12px !important;
     height: auto;
   }
-  @media screen and (min-width: 768px) and (max-width: 992px) {
-    padding: 0px 30px !important;
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    padding: 0px 25px !important;
   }
 
   .navbar-toggler {
@@ -114,6 +114,9 @@
             margin: 0;
             margin-bottom: 10px;
             padding: 0;
+          }
+          @media screen and (min-width: 768px) and (max-width: 992px) {
+            width: 190px;
           }
         }
 
@@ -237,6 +240,9 @@
       padding: 12px;
       flex-direction: column;
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 0 25px;
+    }
 
     .nav-list-item {
       list-style: none;
@@ -329,7 +335,7 @@
             flex-direction: column;
             width: 100%;
           }
-          @media screen and (min-width: 768px) and (max-width: 1024px) {
+          @media screen and (min-width: 768px) and (max-width: 992px) {
             width: 100%;
           }
 
@@ -422,6 +428,9 @@
           flex-wrap: wrap;
           justify-content: space-around;
         }
+        @media screen and (width: 1024px) {
+          justify-content: space-between;
+        }
 
         .licting-card-link {
           color: #484848;
@@ -454,7 +463,7 @@
             @media screen and (max-width: 767px) {
               width: 100%;
             }
-            @media screen and (min-width: 768px) and (max-width: 1024px) {
+            @media screen and (min-width: 768px) and (max-width: 992px) {
               width: 300px;
             }
 
@@ -466,7 +475,7 @@
                 width: 100%;
                 height: 160px;
               }
-              @media screen and (min-width: 768px) and (max-width: 1024px) {
+              @media screen and (min-width: 768px) and (max-width: 992px) {
                 width: 300px;
               }
 
@@ -540,6 +549,9 @@
       flex-direction: column;
       margin-top: 20px;
     }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      flex-wrap: wrap;
+    }
 
     .image-box {
       width: 270px;
@@ -555,6 +567,9 @@
       @media screen and (max-width: 767px) {
         height: auto;
         width: 100%;
+        margin-bottom: 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
         margin-bottom: 20px;
       }
 
@@ -604,6 +619,10 @@
       margin-top: 20px;
       flex-direction: column;
     }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
 
     .work-card {
       width: 361px;
@@ -619,6 +638,12 @@
         padding: 5px;
         border-radius: 5px;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 48%;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+        padding: 4px;
+      }
 
       .card-img-box {
         height: 300px;
@@ -626,6 +651,9 @@
 
         @media screen and (max-width: 767px) {
           height: 190px;
+          width: 100%;
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
           width: 100%;
         }
 
@@ -731,6 +759,9 @@
       flex-direction: column;
       padding: 0 12px;
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 0 25px;
+    }
 
     .footer-heading {
       font-size: 16px;
@@ -779,6 +810,9 @@
         width: 100%;
         margin-bottom: 20px;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: calc(16% + 147px);
+      }
 
       .logo-side {
         width: 215px;
@@ -788,6 +822,9 @@
           display: flex;
           justify-content: flex-start;
           align-items: center;
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          width: 145px;
         }
 
         .logo-img {
@@ -817,6 +854,9 @@
       @media screen and (max-width: 767px) {
         width: 100%;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 62%;
+      }
 
       .easy-online {
         width: 50%;
@@ -838,6 +878,9 @@
 
     @media screen and (max-width: 767px) {
       margin: 20px 12px 20px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      margin: 20px 25px 30px;
     }
 
     .left-sub {

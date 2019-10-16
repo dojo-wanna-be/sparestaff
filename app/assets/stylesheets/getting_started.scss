@@ -13,6 +13,10 @@
       padding: 20px 12px 60px;
       height: auto;
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      height: auto;
+      padding: 40px 25px;
+    }
 
     .dark-bg {
       background-color: rgba(0, 0, 0, 0.5);
@@ -32,6 +36,9 @@
         font-size: 22px;
         margin-top: 40px;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        margin-top: 20px;
+      }
     }
 
     .sec-heading {
@@ -44,6 +51,9 @@
 
       @media screen and (max-width: 767px) {
         font-size: 26px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        font-size: 32px;
       }
     }
 
@@ -79,6 +89,9 @@
     @media screen and (max-width: 767px) {
       padding: 20px 12px;
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 30px 25px;
+    }
   }
 
   .safety-box {
@@ -90,6 +103,9 @@
 
     @media screen and (max-width: 767px) {
       padding: 0 12px 20px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 0 25px 25px;
     }
 
 
@@ -212,6 +228,9 @@
             width: 100%;
             margin-bottom: 20px;
           }
+          @media screen and (min-width: 768px) and (max-width: 992px) {
+            width: 48%;
+          }
         }
 
         .earning-box {
@@ -221,6 +240,9 @@
 
           @media screen and (max-width: 767px) {
             width: 100%;
+          }
+          @media screen and (min-width: 768px) and (max-width: 992px) {
+            width: 48%;
           }
         }
       }

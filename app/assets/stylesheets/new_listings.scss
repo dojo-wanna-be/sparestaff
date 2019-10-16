@@ -12,6 +12,9 @@
       width: 100%;
       margin-bottom: 60px;
     }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      width: 100%;
+    }
 
     .custom-error {
       font-size: 12px;
@@ -168,6 +171,11 @@
         width: 100%;
         padding: 0 12px;
       }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 70%;
+        padding-left: 15px;
+        padding-right: 5px;
+      }
 
       .main-heading {
         font-size: 32px;
@@ -180,6 +188,9 @@
         @media screen and (max-width: 767px) {
           font-size: 22px;
           line-height: 1.2;
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          font-size: 26px;
         }
       }
 
@@ -591,7 +602,7 @@
             list-style: none;
             width: 585px;
 
-            @media screen and (max-width: 767px) {
+            @media screen and (max-width: 992px) {
               width: 100%;
             }
 
@@ -618,6 +629,9 @@
                   padding: 0;
                   text-align: center;
                   font-weight: bold;
+                }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  padding-left: 90px;
                 }
               }
               .to-text {
@@ -656,6 +670,9 @@
                   width: 49%;
                   font-size: 14px;
                 }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  width: 40%;
+                }
 
                 .cust_str_id {
                   height: 30px;
@@ -692,6 +709,9 @@
                 @media screen and (max-width: 767px) {
                   width: 49%;
                   font-size: 14px;
+                }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  width: 56%;
                 }
 
                 select {
@@ -859,6 +879,10 @@
               justify-content: center;
               padding-top: 10px;
             }
+            @media screen and (min-width: 768px) and (max-width: 992px) {
+              width: 138px;
+              padding-top: 0;
+            }
 
             .profile {
               width: 252px;
@@ -870,6 +894,10 @@
               @media screen and (max-width: 767px) {
                 height: 180px;
                 width: 180px;
+              }
+              @media screen and (min-width: 768px) and (max-width: 992px) {
+                width: 138px;
+                height: 138px;
               }
 
               .profile-img {
@@ -892,6 +920,10 @@
 
                 @media screen and (max-width: 767px) {
                   padding-left: 0;
+                }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  padding: 0;
+                  bottom: -15px;
                 }
 
                 .view {
@@ -987,6 +1019,11 @@
         padding: 0 12px;
         margin-top: 20px;
       }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 30%;
+        padding-right: 5px;
+        padding-left: 5px;
+      }
 
       .bulb-box {
         border: #dce0e0 1.5px solid;
@@ -998,6 +1035,12 @@
         background-color: #fff;
         font-size: 16px;
         line-height: 1.4;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          padding: 10px;
+          font-size: 14px;
+          width: 100%;
+        }
 
         &.bulb-box-bottom {
           margin-top: 480px;
@@ -1018,6 +1061,11 @@
         .bulb-img {
           width: 22px;
           padding-bottom: 15px;
+
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            width: 16px;
+            padding-bottom: 10px;
+          }
         }
       }
     }
@@ -1032,6 +1080,9 @@
 
   @media screen and (max-width: 767px) {
     padding: 10px 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    padding: 20px 25px;
   }
 
   .inner-listings-section {
@@ -1051,6 +1102,10 @@
       @media screen and (max-width: 767px) {
         width: 100%;
         margin: 0 0 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 20%;
+        margin-right: 12px;
       }
 
       .panel-list {
@@ -1111,6 +1166,9 @@
       @media screen and (max-width: 767px) {
         width: 100%;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 80%;
+      }
 
       .right-panel-header {
         font-size: 13pt;
@@ -1159,6 +1217,10 @@
                 text-align: center;
                 margin-top: 5px;
               }
+              @media screen and (min-width: 768px) and (max-width: 992px) {
+                height: 232px;
+                width: 232px;
+              }
 
               .img-card {
                 height: 100%;
@@ -1182,6 +1244,10 @@
                 width: 100%;
                 padding: 20px 10px 20px 10px;
               }
+              @media screen and (min-width: 768px) and (max-width: 992px) {
+                width: calc(100% - 232px);
+                padding: 10px 10px 10px 15px;
+              }
 
               .card_heading {
                 font-size: 24px;
@@ -1191,6 +1257,10 @@
                 @media screen and (max-width: 767px) {
                   font-size: 22px;
                 }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  font-size: 22px;
+                  padding-bottom: 5px;
+                }
               }
 
               .sub-detail {
@@ -1198,8 +1268,9 @@
                 display: inline-block;
                 padding-bottom: 5px;
 
-                @media screen and (max-width: 767px) {
+                @media screen and (max-width: 992px) {
                   font-size: 16px;
+                  padding-bottom: 3px;
                 }
               }
 
@@ -1208,7 +1279,7 @@
                 color: #767676;
                 margin-top: 14px;
 
-                @media screen and (max-width: 767px) {
+                @media screen and (max-width: 992px) {
                   font-size: 14px;
                 }
               }
@@ -1220,7 +1291,7 @@
                 justify-content: space-between;
                 margin-top: 22px;
 
-                @media screen and (max-width: 767px) {
+                @media screen and (max-width: 992px) {
                   width: 100%;
                 }
 
@@ -1236,7 +1307,7 @@
                   background-color: #fff;
                   border-radius: 3px;
 
-                  @media screen and (max-width: 767px) {
+                  @media screen and (max-width: 992px) {
                     width: fit-content;
                     padding: 0 20px;
                   }
@@ -1254,7 +1325,7 @@
                   color: #333;
                   text-decoration: none;
 
-                  @media screen and (max-width: 767px) {
+                  @media screen and (max-width: 992px) {
                     width: fit-content;
                     padding: 0 20px;
                   }
@@ -1344,6 +1415,10 @@
             color: #484848;
             margin: 0.67em 0;
             line-height: 1.4;
+
+            @media screen and (min-width: 768px) and (max-width: 992px) {
+              font-size: 26px;
+            }
           }
 
           .detail-list {

@@ -56,6 +56,9 @@
         width: 95%;
         height: 280px;
       }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 90%;
+      }
 
       .mySlides {
         display: none;
