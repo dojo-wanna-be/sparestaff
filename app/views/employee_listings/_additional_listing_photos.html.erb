@@ -1,9 +1,14 @@
-<% if @employee_listing.relevant_documents.present? %>
-  <% @employee_listing.relevant_documents.each do |relevant_document| %>
-    <%= image_tag relevant_document.document.url, class: 'preview-img' %>
+<span class="preview5">
+  <% if @employee_listing.relevant_documents.present? %>
+    <% @employee_listing.relevant_documents.each do |relevant_document| %>
+      <span class="relevent-imgs-box">
+        <%= image_tag relevant_document.document.url, class: 'preview-img' %>
+        <%= link_to relevant_document_employee_index_path(id: @employee_listing.id, relevant_document_id: relevant_document.id), remote: true, method: :patch do %>
+          <div class="remove-img remove-relevent">
+            <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
+          </div>
+        <% end %>
+      </span>
+    <% end %>
   <% end %>
-<% end %>
-<span class="upload-file">
-  <%= f.file_field :relevant_documents, class: 'image-upload', id: 'relevant_document_image' %>
-  <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
 </span>
