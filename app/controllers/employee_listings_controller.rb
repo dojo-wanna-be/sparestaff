@@ -6,6 +6,9 @@ class EmployeeListingsController < ApplicationController
                                       :create_listing_step_3,
                                       :new_listing_step_4,
                                       :add_relevant_document,
+                                      :add_profile_picture,
+                                      :add_verification_front,
+                                      :add_verification_back,
                                       :create_listing_step_4,
                                       :new_listing_step_5,
                                       :create_listing_step_5,
@@ -250,18 +253,63 @@ class EmployeeListingsController < ApplicationController
   end
 
   def add_relevant_document
-    relevant_document =  Paperclip.io_adapters.for(params[:image])
-    document = @employee_listing.relevant_documents.new
-    document.document = relevant_document
-
-    if document.save
-      respond_to do |format|
-        format.json { render :json => true}
-      end
+    if params[:relevant_document_id]
+      @employee_listing.relevant_documents.find(params[:relevant_document_id]).destroy
     else
-      respond_to do |format|
-        format.json { render :json => false}
+      relevant_document =  Paperclip.io_adapters.for(params[:image])
+      document = @employee_listing.relevant_documents.new
+      document.document = relevant_document
+
+      @status = if document.save
+        true 
+      else
+        false
       end
+    end
+  end
+
+  def add_profile_picture
+    if params[:type]
+      @employee_listing.profile_picture = nil
+    else
+      profile_picture =  Paperclip.io_adapters.for(params[:image])
+      @employee_listing.profile_picture = profile_picture
+    end
+
+    @status = if @employee_listing.save
+      true 
+    else
+      false
+    end
+  end
+
+  def add_verification_front
+    if params[:type]
+      @employee_listing.verification_front_image = nil
+    else
+      verification_front =  Paperclip.io_adapters.for(params[:image])
+      @employee_listing.verification_front_image = verification_front
+    end
+
+    @status = if @employee_listing.save
+      true 
+    else
+      false
+    end
+  end
+
+  def add_verification_back
+    if params[:type]
+      @employee_listing.verification_back_image = nil
+    else
+      verification_back =  Paperclip.io_adapters.for(params[:image])
+      @employee_listing.verification_back_image = verification_back
+    end
+
+    @status = if @employee_listing.save
+      true 
+    else
+      false
     end
   end
 
@@ -298,17 +346,14 @@ class EmployeeListingsController < ApplicationController
       :other_residency_status,
       :verification_type,
       :gender,
-      :has_vehicle,
-      :verification_front_image,
-      :verification_back_image
+      :has_vehicle
     )
   end
 
   def listing_skill_params
     params.require(:employee_listing).permit(
       :skill_description,
-      :optional_comments,
-      :profile_picture
+      :optional_comments
     )
   end
 

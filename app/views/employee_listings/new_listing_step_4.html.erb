@@ -35,23 +35,8 @@
                 <label class="custom-label">Profile Picture</label>
                 <div class="image-group">
                   <div class="box-img">
-                    <div class="upload-file">
-                      <% if f.object.profile_picture.present? %>
-                        <label class="image-label">
-                          <%= image_tag f.object.profile_picture.url, class: 'upload-img' %>
-                          <div class="remove-img remove3">
-                            <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
-                          </div>
-                        </label>
-                      <% else %>
-                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
-                        <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
-                      <% end %>
-                    </div>
-
-                    <div class="avatar-preview preview3">
-                      <%= image_tag '', :id => "imagePreview3", class: "preview-img" %>
-                      <div class="remove-img remove3"><%= image_tag 'rubbish-bin.png', class: 'bin-img' %></div>
+                    <div class="upload-file" id="profile_picture_container">
+                      <%= render partial: "listing_profile_picture" %>
                     </div>
                   </div>
                 </div>
@@ -64,20 +49,11 @@
               <div class="multiple-image-group">
                 <div class="box-img">
                   <div class="avatar-preview">
-                    <span class="preview5">
-                      <% if @employee_listing.relevant_documents.present? %>
-                        <% @employee_listing.relevant_documents.each do |relevant_document| %>
-                          <span class="relevent-imgs-box">
-                            <%= image_tag relevant_document.document.url, class: 'preview-img' %>
-                            <div class="remove-img remove-relevent">
-                              <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
-                            </div>
-                          </span>
-                        <% end %>
-                      <% end %>
-                    </span>
+                    <div id="relevant_document_container">
+                      <%= render partial: "additional_listing_photos" %>
+                    </div>
                     <span class="upload-file">
-                      <%= f.file_field :relevant_documents, class: "image-upload", :id => "gallery-photo-add" %>
+                      <%= file_field_tag :relevant_documents, class: "image-upload" %>
                       <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
                     </span>
                   </div>
@@ -137,31 +113,6 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function () {
-    $('.preview3').hide();
-
-    function readURL3(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('.preview3').show();
-            $('#imagePreview3').attr('src', e.target.result);
-            $('#imagePreview3').hide();
-            $('#imagePreview3').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-    $("#imageUpload3").change(function() {
-        readURL3(this);
-    });
-
-    $('.remove3').click(function(){
-      $('#imagePreview3').removeAttr('src');
-      $('.preview3').hide();
-    });
-  });
-
   $("#skl_expr").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());
@@ -207,28 +158,7 @@
     }
   });
 
-  $(function() {
-    // Multiple images preview in browser
-    var imagesPreview = function(input, placeToInsertImagePreview) {
-      if (input.files) {
-        var filesAmount = input.files.length;
-
-        for (i = 0; i < filesAmount; i++) {
-          var reader = new FileReader();
-          reader.onload = function(event) {
-            sendFile(event.target.result);
-            $($.parseHTML('<img class="preview-img">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
-          }
-          reader.readAsDataURL(input.files[i]);
-        }
-      }
-    };
-    $('#gallery-photo-add').on('change', function() {
-        imagesPreview(this, 'span.preview5');
-    });
-  });
-
-  function sendFile(fileData) {
+  function sendRelevantDocument(fileData) {
     var listing_id = "<%= @employee_listing.id %>"
     var formData = new FormData();
     formData.append('image', fileData);
@@ -242,6 +172,45 @@
     });
   }
 
+  function sendProfilePicture(fileData) {
+    var listing_id = "<%= @employee_listing.id %>"
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/profile_picture',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  function create_hex_code(input, from){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          if (from == "relevant_document"){
+            sendRelevantDocument(event.target.result);
+          }else if (from == "profile_picture") {
+            sendProfilePicture(event.target.result)
+          }
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  $('#relevant_documents').on('change', function() {
+    create_hex_code(this, "relevant_document");
+  });
+
+  $('#listing_profile_picture').on('change', function() {
+    create_hex_code(this, "profile_picture");
+  });
 </script>
 
 <style type="text/css">
