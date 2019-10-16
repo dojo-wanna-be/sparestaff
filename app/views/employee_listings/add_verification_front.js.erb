@@ -1,1 +1,33 @@
 $('#verification_front_image_container').html("<%= j render 'listing_verification_front_image' %>")
+
+function sendFrontImage(fileData) {
+  var listing_id = "<%= @employee_listing.id %>"
+  var formData = new FormData();
+  formData.append('image', fileData);
+  formData.append('id', listing_id);
+  $.ajax({
+    type: 'PATCH',
+    url: '/employee/verification_front',
+    data: formData,
+    contentType: false,
+    processData: false
+  });
+}
+
+function create_hex_code_front(input, from){
+  if (input.files) {
+    var filesAmount = input.files.length;
+
+    for (i = 0; i < filesAmount; i++) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        sendFrontImage(event.target.result);
+      }
+      reader.readAsDataURL(input.files[i]);
+    }
+  }
+}
+
+$('#verification_front_image').change(function() {
+  create_hex_code_front(this);
+});
