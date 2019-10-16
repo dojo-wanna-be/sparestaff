@@ -17,7 +17,7 @@
               </li>
               <li class="item">
                 <div class="left-heading "><b>Posted By</b></div>
-                <div class="right-content"><%= @employee_listing.lister.name %></div>
+                <div class="right-content"><%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></div>
               </li>
               <li class="item">
                 <div class="left-heading"><b>Age</b></div>
