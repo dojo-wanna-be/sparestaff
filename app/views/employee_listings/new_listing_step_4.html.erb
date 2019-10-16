@@ -36,8 +36,12 @@
                 <div class="image-group">
                   <div class="box-img">
                     <div class="upload-file">
-                      <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
-                      <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                      <% if f.object.profile_picture.present? %>
+                        <label class="image-label"><%= image_tag f.object.profile_picture.url, class: 'upload-img' %></label>
+                      <% else %>
+                        <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
+                        <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+                      <% end %>
                     </div>
 
                     <div class="avatar-preview preview3">
@@ -57,6 +61,11 @@
                   <div class="avatar-preview">
                     <span class="preview5">
                     </span>
+                    <% if @employee_listing.relevant_documents.present? %>
+                      <% @employee_listing.relevant_documents.each do |relevant_document| %>
+                        <%= image_tag relevant_document.document.url, class: 'preview-img' %>
+                      <% end %>
+                    <% end %>
                     <span class="upload-file">
                       <%= f.file_field :relevant_documents, class: "image-upload", :id => "gallery-photo-add" %>
                       <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>

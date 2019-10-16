@@ -28,6 +28,7 @@ class EmployeeListingsController < ApplicationController
     individual_listings = current_user.employee_listings.present? ? current_user.employee_listings : []
 
     @employee_listings = company_listings + individual_listings
+    @employee_listings = @employee_listings.sort_by{|e| e[:updated_at]}.reverse
   end
 
   def new_listing_step_1
@@ -149,7 +150,7 @@ class EmployeeListingsController < ApplicationController
 
   def create_listing_step_4
     @employee_listing.update(listing_skill_params)
-    @employee_listing.update_attributes(classification_id: params[:classification_id])
+    @employee_listing.update_attribute(:classification_id, params[:classification_id])
     if params[:employee_listing_language_ids].present?
       @employee_listing.employee_listing_languages.destroy_all
       params[:employee_listing_language_ids].each do |language_id|
