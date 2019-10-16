@@ -8,19 +8,19 @@
 
       <ul class="manage-sub-list">
         <li class="manage-sub-item">
-          <%= link_to "Listing Details", edit_employee_path(id: @employee_listing.id, edit: "listing_details"), class: 'item-link selected' %>
+          <%= link_to "Listing Details", edit_employee_path(id: @employee_listing.id, edit: "listing_details"), class: "item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Employee Skills", edit_employee_path(id: @employee_listing.id, edit: "employee_skills"), class: 'item-link' %>
+          <%= link_to "Employee Skills", edit_employee_path(id: @employee_listing.id, edit: "employee_skills"), class: "item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Pricing", edit_employee_path(id: @employee_listing.id, edit: "listing_pricing"), class: 'item-link' %>
+          <%= link_to "Pricing", edit_employee_path(id: @employee_listing.id, edit: "listing_pricing"), class: "item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Availability", edit_employee_path(id: @employee_listing.id, edit: "listing_availability"), class: 'item-link' %>
+          <%= link_to "Availability", edit_employee_path(id: @employee_listing.id, edit: "listing_availability"), class: "item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status"), class: 'item-link' %>
+          <%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status"), class: "item-link #{params[:edit].eql?('listing_status') ? 'selected' : ''}" %>
         </li>
       </ul>
     </div>

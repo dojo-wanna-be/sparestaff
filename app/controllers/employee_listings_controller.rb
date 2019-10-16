@@ -191,8 +191,8 @@ class EmployeeListingsController < ApplicationController
     ListingAvailability::DAYS.map{|k,v| v}.each do |day|
       ListingAvailability.create(employee_listing_id: @employee_listing.id,
                                   day: day,
-                                  start_time: params[:start_time].first[:"#{day}"],
-                                  end_time: params[:end_time].first[:"#{day}"],
+                                  start_time: params[:start_time].present? ? params[:start_time].first[:"#{day}"] : "00:00",
+                                  end_time: params[:end_time].present? ? params[:end_time].first[:"#{day}"] : "00:00",
                                   not_available: params[:unavailable_days].include?(day))
     end
 

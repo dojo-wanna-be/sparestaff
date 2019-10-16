@@ -1,0 +1,6 @@
+<% if @employee_listing.verification_front_image.present? %>
+  <%= image_tag @employee_listing.verification_front_image.url, class: 'preview-img' %>
+<% else %>
+  <%= f.file_field :verification_front_image, class: "image-upload" %>
+  <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+<% end %>
