@@ -242,6 +242,11 @@ class EmployeeListingsController < ApplicationController
   end
 
   def edit
+    classification = @employee_listing.classification
+    if classification.present? 
+      @classification_id = classification.classification.id
+      @sub_classification_id = classification.id
+    end
   end
 
   def update
