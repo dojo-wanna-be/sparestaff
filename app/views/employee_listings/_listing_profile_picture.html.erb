@@ -1,0 +1,13 @@
+<% if @employee_listing.profile_picture.present? %>
+  <label class="image-label">
+    <%= image_tag @employee_listing.profile_picture.url, class: 'upload-img' %>
+    <%= link_to profile_picture_employee_index_path(id: @employee_listing.id, type: "delete"), remote: true, method: :patch do %>
+      <div class="remove-img remove3">
+        <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
+      </div>
+    <% end %>
+  </label>
+<% else %>
+  <%= file_field_tag :listing_profile_picture , class: "image-upload" %>
+  <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
+<% end %>
