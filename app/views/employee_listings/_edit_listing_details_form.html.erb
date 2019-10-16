@@ -93,7 +93,7 @@
       <%= f.select :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES, f.object.country), {}, {class: 'custom-field half-field'} %>
     </div>
 
-    <div class="joint-group">
+    <div class="joint-group mobile-joint-group">
       <div class="custom-input-group">
         <label class="custom-label">Residency status</label>
         <%= f.select :residency_status, options_for_select(EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES, f.object.residency_status), {}, {class: "custom-field"} %>
@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    <div class="joint-group">
+    <div class="joint-group mobile-joint-group">
       <div class="custom-input-group">
         <label class="custom-label">ID verification <span class="thin-text">(see note
             to the right)</span></label>
