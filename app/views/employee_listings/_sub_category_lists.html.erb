@@ -1,1 +1,1 @@
-<%= select_tag "classification_id", options_for_select(Classification.where(parent_classification_id: params[:id]).order(:name).pluck(:name, :id)), {style: "width:100%;"} %>
+<%= select_tag "classification_id", options_for_select(Classification.where(parent_classification_id: classification_id).order(:name).pluck(:name, :id), sub_classification_id), :include_blank => 'Select a Category', class: 'custom-field' %>
