@@ -37,7 +37,12 @@
                   <div class="box-img">
                     <div class="upload-file">
                       <% if f.object.profile_picture.present? %>
-                        <label class="image-label"><%= image_tag f.object.profile_picture.url, class: 'upload-img' %></label>
+                        <label class="image-label">
+                          <%= image_tag f.object.profile_picture.url, class: 'upload-img' %>
+                          <div class="remove-img remove3">
+                            <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
+                          </div>
+                        </label>
                       <% else %>
                         <%= f.file_field :profile_picture , class: "image-upload", :id => "imageUpload3" %>
                         <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>
@@ -60,12 +65,17 @@
                 <div class="box-img">
                   <div class="avatar-preview">
                     <span class="preview5">
-                    </span>
-                    <% if @employee_listing.relevant_documents.present? %>
-                      <% @employee_listing.relevant_documents.each do |relevant_document| %>
-                        <%= image_tag relevant_document.document.url, class: 'preview-img' %>
+                      <% if @employee_listing.relevant_documents.present? %>
+                        <% @employee_listing.relevant_documents.each do |relevant_document| %>
+                          <span class="relevent-imgs-box">
+                            <%= image_tag relevant_document.document.url, class: 'preview-img' %>
+                            <div class="remove-img remove-relevent">
+                              <%= image_tag 'rubbish-bin.png', class: 'bin-img' %>
+                            </div>
+                          </span>
+                        <% end %>
                       <% end %>
-                    <% end %>
+                    </span>
                     <span class="upload-file">
                       <%= f.file_field :relevant_documents, class: "image-upload", :id => "gallery-photo-add" %>
                       <label class="image-label"><%= image_tag 'upload-photo-ID.jpg', class: 'upload-img' %></label>

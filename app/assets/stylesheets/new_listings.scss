@@ -46,10 +46,37 @@
           height: 100px;
           width: 100px;
           margin: 0;
+          position: relative;
+
+          &:hover {
+            .remove-img {
+              display: flex;
+            }
+          }
 
           .upload-img {
             height: 100%;
             width: 100%;
+          }
+
+          .remove-img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+
+            .bin-img {
+              height: 15px;
+            }
           }
         }
 
@@ -139,19 +166,50 @@
 
         .avatar-preview {
 
-          .preview-img {
-            height: 100px;
-            width: 100px;
-            object-fit: cover;
-            margin: 10px;
-            margin-right: 55px;
-            margin-left: 0;
-            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+          .relevent-imgs-box {
+            position: relative;
+            float: left;
 
-            @media screen and (max-width: 767px) {
-              height: 80px;
-              width: 80px;
-              margin-right: 15px;
+            .preview-img {
+              height: 100px;
+              width: 100px;
+              object-fit: cover;
+              margin: 10px;
+              margin-right: 55px;
+              margin-left: 0;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+
+              @media screen and (max-width: 767px) {
+                height: 80px;
+                width: 80px;
+                margin-right: 15px;
+              }
+
+              &:hover {
+                & + .remove-img {
+                  display: flex;
+                }
+              }
+            }
+
+            .remove-img {
+              position: absolute;
+              left: 0;
+              top: 10px;
+              padding: 0;
+              background: rgba(0, 0, 0, 0.5);
+              color: #fff;
+              height: 30px;
+              width: 30px;
+              cursor: pointer;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              display: none;
+
+              .bin-img {
+                height: 15px;
+              }
             }
           }
         }
