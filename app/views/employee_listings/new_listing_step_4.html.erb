@@ -14,14 +14,14 @@
             <div class="joint-group mobile-joint-group">
               <div class="custom-input-group">
                 <label class="custom-label">Select classification to list</label>
-                <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id)), {class: 'custom-field' , include_blank: "Please select category"} %>
+                <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id), @classification_id), {class: 'custom-field' , include_blank: "Please select category"} %>
               </div>
 
               <div class="custom-input-group">
                 <label class="custom-label">&nbsp;</label>
 
                 <div id = "user-sub-category-lists">
-                  <%= render 'sub_category_lists', sub_classifications_id: options_for_select(Classification.where(parent_classification_id: params[:id]).order(:name).pluck(:name, :id)), :include_blank => 'Select a Category', class: 'custom-field' %>
+                  <%= render 'sub_category_lists', classification_id: @classification_id, sub_classification_id: @sub_classification_id %>
                 </div>
               </div>
             </div>

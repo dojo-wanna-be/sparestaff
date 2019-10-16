@@ -151,6 +151,11 @@ class EmployeeListingsController < ApplicationController
       flash[:error] = "You can't go to this step"
       redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     end
+    classification = @employee_listing.classification
+    if classification.present? 
+      @classification_id = classification.classification.id
+      @sub_classification_id = classification.id
+    end
   end
 
   def create_listing_step_4
@@ -177,7 +182,7 @@ class EmployeeListingsController < ApplicationController
   def new_listing_step_5
     if @employee_listing.listing_availabilities.present?
       @availability = @employee_listing.listing_availabilities.map{|a| {a.day=>a.not_available}} 
-    end 
+    end
     unless (params[:back].eql?("true") && @employee_listing.listing_step >= 4) || @employee_listing.listing_step >= 4
       flash[:error] = "You can't go to this step"
       redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
@@ -249,6 +254,9 @@ class EmployeeListingsController < ApplicationController
     if classification.present? 
       @classification_id = classification.classification.id
       @sub_classification_id = classification.id
+    end
+    if @employee_listing.listing_availabilities.present?
+      @availability = @employee_listing.listing_availabilities.map{|a| {a.day=>a.not_available}} 
     end
   end
 
