@@ -127,6 +127,8 @@
             <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS, f.object.minimum_working_hours), {}, {class: 'custom-field half-field'} %>
           </div>
 
+          <%= hidden_field_tag "current_date", Date.today.strftime("%Y-%m-%d") %>
+
           <div class="custom-input-group">
             <label class="custom-label">When would you like to publish this listing?</label>
             <div class="date-box">
@@ -184,6 +186,20 @@
 
 
 <script type="text/javascript">
+  jQuery.validator.addMethod("greaterThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+  },'Must be greater than {0}');
+
+  jQuery.validator.addMethod("lessThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) < new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val())); 
+  },'Must be less than {0}');
+
   $(".unavailable_day_check").on('change', function () {
     if ($("#unavailable_check_sunday").is(":checked") && $("#unavailable_check_saturday").is(":checked")) {
       $("#employee_listing_weekend_price").attr("disabled", "disabled");
@@ -237,24 +253,28 @@
        error.appendTo(element.parent());
     },
     rules: {
-    "start_time[]monday": {required: true},
-    "start_time[]tuesday": {required: true},
-    "start_time[]wednesday": {required: true},
-    "start_time[]thursday": {required: true},
-    "start_time[]friday": {required: true},
-    "start_time[]saturday": {required: true},
-    "start_time[]sunday": {required: true},
-    "end_time[]monday": {required: true},
-    "end_time[]tuesday": {required: true},
-    "end_time[]wednesday": {required: true},
-    "end_time[]thursday": {required: true},
-    "end_time[]friday": {required: true},
-    "end_time[]saturday": {required: true},
-    "end_time[]sunday": {required: true},
-    "confirm_details": {required: true},
-    "employee_listing[start_publish_date]": {required: true},
-    "employee_listing[end_publish_date]": {required: true},
+      "start_time[]monday": {required: true},
+      "start_time[]tuesday": {required: true},
+      "start_time[]wednesday": {required: true},
+      "start_time[]thursday": {required: true},
+      "start_time[]friday": {required: true},
+      "start_time[]saturday": {required: true},
+      "start_time[]sunday": {required: true},
+      "end_time[]monday": {required: true},
+      "end_time[]tuesday": {required: true},
+      "end_time[]wednesday": {required: true},
+      "end_time[]thursday": {required: true},
+      "end_time[]friday": {required: true},
+      "end_time[]saturday": {required: true},
+      "end_time[]sunday": {required: true},
+      "confirm_details": {required: true},
+      "employee_listing[start_publish_date]": {required: true, greaterThan: "#current_date", lessThan: "#pub_end"},
+      "employee_listing[end_publish_date]": {required: true, greaterThan: "#current_date", greaterThan: "#str_pub"},
     },
+    messages: {
+      "employee_listing[start_publish_date]": {greaterThan: "Must be greater than Current Date", lessThan: "Must be less than End Date"},
+      "employee_listing[end_publish_date]": {greaterThan: "Must be greater than Current Date and Start Date"},
+    }
   });
 
   $('.cust_str_id').on('keyup keypress change', function () {
@@ -282,27 +302,6 @@
     else{
       $(this).parent().parent().find("#end_start_tm").hide();
       $(this).parent().parent().find("#tm_end").hide();
-    }
-  });
-
-  $('#str_pub').on('keyup keypress change', function () {
-    var strPub = $('#str_pub').val();
-    var endPub = $('#pub_end').val();
-    if (strPub >= endPub && endPub != "") {
-      $("#start_dat").show();
-    }
-    else{
-      $("#start_dat").hide();
-    }
-  });
-  $('#pub_end').on('keyup keypress change', function () {
-    var strPub = $('#str_pub').val();
-    var endPub = $('#pub_end').val();
-    if (strPub >= endPub && strPub != "") {
-      $("#end_date").show();
-    }
-    else{
-      $("#end_date").hide();
     }
   });
 

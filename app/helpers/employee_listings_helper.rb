@@ -20,4 +20,15 @@ module EmployeeListingsHelper
       ''
     end
   end
+
+  def listing_images(listing)
+    image_urls = []
+    image_urls << listing.profile_picture.url if listing.profile_picture.present?
+    if listing.relevant_documents.present?
+      listing.relevant_documents.each do |relevant_document|
+        image_urls << relevant_document.document.url
+      end
+    end
+    return image_urls
+  end
 end
