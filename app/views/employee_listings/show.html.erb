@@ -25,7 +25,7 @@
             </li>
             <li class="item">
               <div class="left-heading "><b>Posted By</b></div>
-              <div class="right-content"><%= @employee_listing.lister.name %></div>
+              <div class="right-content"><%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></div>
             </li>
             <li class="item">
               <div class="left-heading"><b>Age</b></div>
@@ -125,7 +125,7 @@
               <span class="first"><%= week_day.titleize %></span>
               <span class="right">
                 <% availability = @employee_listing.listing_availabilities.find_by(day: week_day) %>
-                <% if availability.present? %>
+                <% if availability.present? && availability.start_time.present? && availability.end_time.present? %>
                   <%= availability.start_time.strftime("%I:%M%p") %>&nbsp; -&nbsp;
                   <%= availability.end_time.strftime("%I:%M%p") %>
                 <% else %>
@@ -143,7 +143,7 @@
       </div>
 
       <div class="detail-custom-box">
-        <h3 class="detail-heading">Minimum employment term</h3>
+        <h3 class="detail-heading">Minimum employment term (per week)</h3>
         <ul class="custom-list">
           <li class="list-item">
             <span class="first">Minimum</span>
@@ -264,21 +264,10 @@
             <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
           </div>
 
-          <div class="page-tabbing">
-            <ul class="page-tabbing-list">
-              <li class="tabbing-item"><a href="" class="tabbing-link">&lt;</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link tab-select">1</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">2</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">3</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">4</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">&gt;</a></li>
-            </ul>
-          </div>
-
-          <div class="poster-box">
+          <div class="poster-box" id="Poster">
             <div class="poster-detail">
               <div class="left-detail">
-                <h2 class="poster-heading">Listed by PosterABC</h2>
+                <h2 class="poster-heading">Listed by <%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></h2>
                 <div>Wolli Creek, Australia. Joined in May 2016</div>
 
                 <div class="both-box">
@@ -307,6 +296,17 @@
             </p>
 
             <%= link_to 'Contact Poster', '#', class: 'poster-btn' %>
+          </div>
+
+          <div class="page-tabbing">
+            <ul class="page-tabbing-list">
+              <li class="tabbing-item"><a href="" class="tabbing-link">&lt;</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link tab-select">1</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link">2</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link">3</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link">4</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link">&gt;</a></li>
+            </ul>
           </div>
 
           <div class="normal-text-box">
