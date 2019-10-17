@@ -40,14 +40,14 @@
 <% end %>
 
 <script type="text/javascript">
-  jQuery.validator.addMethod("greaterThan", function(value, element, params) {
+  $.validator.addMethod("greaterThan", function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) > new Date($(params).val());
     }
     return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
   },'Must be greater than {0}');
 
-  jQuery.validator.addMethod("lessThan", function(value, element, params) {
+  $.validator.addMethod("lessThan", function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) < new Date($(params).val());
     }
@@ -70,14 +70,6 @@
 </script>
 
 <style type="text/css">
-  label#start_dat {
-    display: none;
-    color:#FF0000;
-  }
-  label#end_date {
-    display: none;
-    color:#FF0000;
-  }
   .error{
     color:#FF0000;
   }

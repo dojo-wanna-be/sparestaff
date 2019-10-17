@@ -751,6 +751,7 @@
           .availability-box {
             display: flex;
             flex-direction: row;
+            margin-top: 15px;
 
             .check-box {
               width: 156px;
@@ -758,13 +759,19 @@
               flex-direction: row;
               justify-content: flex-start;
               align-items: center;
-              height: 46px;
+              height: 18px;
               font-size: 16px;
               color: #484848;
               line-height: 1.4;
+              flex-wrap: wrap;
 
               .slot_check {
-                margin: 3px 8px 3px 4px;
+                margin: 0px 8px 0px 4px;
+                height: 16px;
+              }
+
+              .error {
+                font-size: 14px;
               }
             }
           }
@@ -773,7 +780,7 @@
             font-size: 16px;
             color: #484848;
             line-height: 1.4;
-            margin: 16px 0;
+            margin: 28px 0 16px;
           }
 
           .week-availability {
@@ -914,12 +921,16 @@
                     display: flex;
                     justify-content: flex-end;
                     align-items: center;
+                    height: 30px;
+                    margin-top: 5px;
 
                     @media screen and (max-width: 767px) {
                       font-size: 12px;
                       /* display: block; */
                       width: fit-content;
                       line-height: 1.2;
+                      height: initial;
+                      margin-top: initial;
                     }
 
                     input {

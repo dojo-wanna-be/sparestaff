@@ -19,7 +19,6 @@
                 </div>
               <%end%>
             </div>
-            <label id="tim_av_id">Please select atleast one</label>
             <p class="employee-might">As the employee might have other commitment, it’s necessary to tell Hirers which day and time he/she is available to be hired.</p>
 
             <div class="week-availability">
@@ -193,14 +192,22 @@
 
 
 <script type="text/javascript">
-  jQuery.validator.addMethod("greaterThan", function(value, element, params) {
+  $.validator.addMethod('lessThan', function(value, element, param) {
+    return this.optional(element) || value < $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod('greaterThan', function(value, element, param) {
+    return this.optional(element) || value > $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod("dateGreaterThan", function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) > new Date($(params).val());
     }
     return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
   },'Must be greater than {0}');
 
-  jQuery.validator.addMethod("lessThan", function(value, element, params) {
+  $.validator.addMethod("dateLessThan", function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) < new Date($(params).val());
     }
@@ -229,86 +236,46 @@
     }
   });
 
-  $('.prw_btn').click(function() {
-    var formValid = true;
-    var availaBility = $('.slot_check').is(':checked');
-    if (availaBility){
-      $('#tim_av_id').hide();
-    }
-    else{
-      $('#tim_av_id').show();
-      formValid = false;
-    }
-    return formValid;
-  });
-
-  $('.slot_check').on('keyup keypress change', function () {
-    var  formValid = true;
-    var availaBility = $('.slot_check').is(':checked');
-    if (availaBility) {
-      $("#tim_av_id").hide();
-    }
-    else{
-      $("#tim_av_id").show();
-      formValid = false;
-    }
-    return formValid;
-  });
-
   $("#str_tme_id").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());
     },
     rules: {
-      "start_time[]monday": {required: true},
-      "start_time[]tuesday": {required: true},
-      "start_time[]wednesday": {required: true},
-      "start_time[]thursday": {required: true},
-      "start_time[]friday": {required: true},
-      "start_time[]saturday": {required: true},
-      "start_time[]sunday": {required: true},
-      "end_time[]monday": {required: true},
-      "end_time[]tuesday": {required: true},
-      "end_time[]wednesday": {required: true},
-      "end_time[]thursday": {required: true},
-      "end_time[]friday": {required: true},
-      "end_time[]saturday": {required: true},
-      "end_time[]sunday": {required: true},
-      "confirm_details": {required: true},
-      "employee_listing[start_publish_date]": {required: true, greaterThan: "#current_date", lessThan: "#pub_end"},
-      "employee_listing[end_publish_date]": {required: true, greaterThan: "#current_date", greaterThan: "#str_pub"},
+      "start_time[]monday": {required: true, lessThan: "#end_time_monday"},
+      "start_time[]tuesday": {required: true, lessThan: "#end_time_tuesday"},
+      "start_time[]wednesday": {required: true, lessThan: "#end_time_wednesday"},
+      "start_time[]thursday": {required: true, lessThan: "#end_time_thursday"},
+      "start_time[]friday": {required: true, lessThan: "#end_time_friday"},
+      "start_time[]saturday": {required: true, lessThan: "#end_time_saturday"},
+      "start_time[]sunday": {required: true, lessThan: "#end_time_sunday"},
+      "end_time[]monday": {required: true, greaterThan: "#start_time_monday"},
+      "end_time[]tuesday": {required: true, greaterThan: "#start_time_tuesday"},
+      "end_time[]wednesday": {required: true, greaterThan: "#start_time_wednesday"},
+      "end_time[]thursday": {required: true, greaterThan: "#start_time_thursday"},
+      "end_time[]friday": {required: true, greaterThan: "#start_time_friday"},
+      "end_time[]saturday": {required: true, greaterThan: "#start_time_saturday"},
+      "end_time[]sunday": {required: true, greaterThan: "#start_time_sunday"},
+      "slot_ids[]": {required: true},
+      "employee_listing[start_publish_date]": {required: true, dateGreaterThan: "#current_date", dateLessThan: "#pub_end"},
+      "employee_listing[end_publish_date]": {required: true, dateGreaterThan: "#current_date", dateGreaterThan: "#str_pub"},
     },
     messages: {
-      "employee_listing[start_publish_date]": {greaterThan: "Must be greater than Current Date", lessThan: "Must be less than End Date"},
-      "employee_listing[end_publish_date]": {greaterThan: "Must be greater than Current Date and Start Date"},
-    }
-  });
-
-  $('.cust_str_id').on('keyup keypress change', function () {
-    var parent = $(this).parent().parent();
-    var startVal = $(this).val();
-    var endVal = parent.find("select.end_str_id").val();
-    if (startVal >= endVal && endVal != "" ) {
-      $(this).parent().parent().find("#end_start_tm").show();
-      $(this).parent().parent().find("#tm_end").hide();
-    }
-    else{
-      $(this).parent().parent().find("#end_start_tm").hide();
-      $(this).parent().parent().find("#tm_end").hide();
-    }
-  });
-
-  $('.end_str_id').on('keyup keypress change', function () {
-    var parent = $(this).parent().parent();
-    var startVal = parent.find("select.cust_str_id").val();
-    var endVal = $(this).val();
-    if (startVal >= endVal && startVal != "") {
-      $(this).parent().parent().find("#tm_end").show();
-      $(this).parent().parent().find("#end_start_tm").hide();
-    }
-    else{
-      $(this).parent().parent().find("#end_start_tm").hide();
-      $(this).parent().parent().find("#tm_end").hide();
+      "start_time[]monday": {lessThan: "Must be less than Monday End Time"},
+      "start_time[]tuesday": {lessThan: "Must be less than Tuesday End Time"},
+      "start_time[]wednesday": {lessThan: "Must be less than Wednesday End Time"},
+      "start_time[]thursday": {lessThan: "Must be less than Thursday End Time"},
+      "start_time[]friday": {lessThan: "Must be less than Friday End Time"},
+      "start_time[]saturday": {lessThan: "Must be less than Saturday End Time"},
+      "start_time[]sunday": {lessThan: "Must be less than Sunday End Time"},
+      "end_time[]monday": {greaterThan: "Must be greater than Monday Start Time"},
+      "end_time[]tuesday": {greaterThan: "Must be greater than Tuesday Start Time"},
+      "end_time[]wednesday": {greaterThan: "Must be greater than Wednesday Start Time"},
+      "end_time[]thursday": {greaterThan: "Must be greater than Thursday Start Time"},
+      "end_time[]friday": {greaterThan: "Must be greater than Friday Start Time"},
+      "end_time[]saturday": {greaterThan: "Must be greater than Saturday Start Time"},
+      "end_time[]sunday": {greaterThan: "Must be greater than Sunday Start Time"},
+      "employee_listing[start_publish_date]": {dateGreaterThan: "Must be greater than Current Date", dateLessThan: "Must be less than End Date"},
+      "employee_listing[end_publish_date]": {dateGreaterThan: "Must be greater than Current Date and Start Date"},
     }
   });
 
@@ -328,11 +295,6 @@
 </script>
 
 <style type="text/css">
-
-  label#tim_av_id {
-    display: none;
-    color:#FF0000;
-  }
   label#end_start_tm {
     display: none;
     color:#FF0000;

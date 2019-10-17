@@ -639,6 +639,7 @@
         .availability-box {
           display: flex;
           flex-direction: row;
+          margin: 10px 0;
 
           .check-box {
             width: 156px;
@@ -650,6 +651,7 @@
             font-size: 16px;
             color: #484848;
             line-height: 1.4;
+            flex-wrap: wrap;
 
             .slot_check {
               margin: 3px 8px 3px 4px;
@@ -811,19 +813,23 @@
                   display: flex;
                   justify-content: flex-end;
                   align-items: center;
+                  height: 30px;
+                  margin-top: 5px;
 
                   @media screen and (max-width: 767px) {
                     font-size: 12px;
                     /* display: block; */
                     width: fit-content;
                     line-height: 1.2;
+                    height: initial;
+                    margin-top: initial;
                   }
 
                   input {
                     margin-right: 8px;
+                    height: auto;
 
                     @media screen and (max-width: 767px) {
-                      height: auto;
                       margin-right: 4px;
                     }
                   }
