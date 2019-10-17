@@ -1764,7 +1764,7 @@
             border-bottom: 1px solid #e4e4e4;
 
             .page-tabbing-list {
-              padding: 0;
+              padding: 20px 0 0; 
               margin: 0;
               list-style: none;
               display: flex;
@@ -1825,7 +1825,7 @@
                     margin-right: 30px;
 
                     .review-btn {
-                      background-image: asset_url('../assets/yellow-button.png');
+                      background-image: asset_url('yellow-button.png');
                       height: 35px;
                       width: 80px;
                       background-size: contain;
