@@ -37,7 +37,6 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_1
-    current_user.update_attribute(:user_type, nil)
     # unless params[:back].eql?("true")
     #   if current_user.is_owner? || current_user.is_hr?
     #     @employee_listing = current_user.company.employee_listings.build
@@ -180,9 +179,6 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_5
-    if @employee_listing.listing_availabilities.present?
-      @availability = @employee_listing.listing_availabilities.map{|a| {a.day=>a.not_available}} 
-    end
     unless (params[:back].eql?("true") && @employee_listing.listing_step >= 4) || @employee_listing.listing_step >= 4
       flash[:error] = "You can't go to this step"
       redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
@@ -257,9 +253,6 @@ class EmployeeListingsController < ApplicationController
     if classification.present? 
       @classification_id = classification.classification.id
       @sub_classification_id = classification.id
-    end
-    if @employee_listing.listing_availabilities.present?
-      @availability = @employee_listing.listing_availabilities.map{|a| {a.day=>a.not_available}} 
     end
   end
 
