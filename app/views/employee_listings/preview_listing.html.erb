@@ -166,7 +166,10 @@
 
           <%= link_to "Save for later", publish_employee_path(id: @employee_listing.id, save_later: "Save for later"), class: "link-text"%>
 
-          <%= link_to "Publish", publish_employee_path(id: @employee_listing.id, published: true), class: "continue-btn"%>
+          <%= form_for @employee_listing, url: publish_employee_path(id: @employee_listing), method: :patch, :html => { :id => "publish_listing" } do |f| %>
+            <%= hidden_field_tag "published", true %>
+            <%= f.submit "Publish", class: "continue-btn prw_btn" %>
+          <% end %>
         </div>
 
       </div>

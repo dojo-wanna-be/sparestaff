@@ -321,7 +321,7 @@
     </div>
 
     <div class="right-preview-detail">
-      <%= form_for @employee_listing, url: create_step_5_employee_path, method: :post, :html => { :id => "str_tme_id" } do |f| %>
+      <%= form_for @employee_listing, url: create_step_5_employee_path, method: :patch, :html => { :id => "str_tme_id" } do |f| %>
         <%= hidden_field_tag "id", @employee_listing.id %>
 
         <div class="price-header">

@@ -6,7 +6,7 @@
       <div class="who-box">
         <p>Tell Hirers why this employee is the perfect candidate: qualification, certification, knowledge, skill sets, experience, completed training, etc. For security and privacy, links, email addresses, phone numbers, addresses are not allowed.</p>
 
-        <%= form_for @employee_listing, url: create_step_4_employee_path, method: :post, multipart: true, :html => { :id => "skl_expr" } do |f| %>
+        <%= form_for @employee_listing, url: create_step_4_employee_path, method: :patch, multipart: true, :html => { :id => "skl_expr" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
 
           <div class="custom-field-box">

@@ -6,7 +6,7 @@
       <div class="who-box">
         <p>Tell us about some basic details of the employee you are listing so potential employers can search for him/her. The more details you provide, the easier it is for the employee to get hired.</p>
 
-        <%= form_for @employee_listing, url: create_step_3_employee_path, method: :post, multipart: true, :html => { :id => "emp_listing_det" } do |f| %>
+        <%= form_for @employee_listing, url: create_step_3_employee_path, method: :patch, multipart: true, :html => { :id => "emp_listing_det" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
 
           <div class="custom-field-box">

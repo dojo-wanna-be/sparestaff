@@ -8,7 +8,7 @@
 
         <p class="required-text">All fields are required</p>
 
-        <%= form_for @company, url: create_step_2_employee_path, method: :post, :html => { :id => "company_details" } do |f| %>
+        <%= form_for @company, url: create_step_2_employee_path, method: :patch, :html => { :id => "company_details" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
           <%= hidden_field_tag "company_id", @company.id %>
 

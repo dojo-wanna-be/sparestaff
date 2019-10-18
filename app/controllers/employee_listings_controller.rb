@@ -221,10 +221,16 @@ class EmployeeListingsController < ApplicationController
   end
 
   def publish_listing
-    unless @employee_listing.listing_step >= 5
-      flash[:error] = "You can't go to this step"
-      redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
-    else
+    if request.get?
+      unless @employee_listing.listing_step >= 5 && @employee_listing.published.eql?(true)
+        flash[:error] = "You can't go to this step"
+        if @employee_listing.listing_step < 6
+          redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
+        else
+          redirect_to preview_employee_path(id: @employee_listing.id)
+        end
+      end
+    elsif request.patch?
       if params[:published].eql?("true")
         @employee_listing.update_attributes(published: true, listing_step: 6)
       elsif params[:save_later]

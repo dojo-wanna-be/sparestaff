@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists
       get :new_listing_step_1, path: "step_1", as: "step_1"
-      post :create_listing_step_1, path: "step_1", as: "create_step_1"
+      patch :create_listing_step_1, path: "step_1", as: "create_step_1"
       patch :add_relevant_document, path: "relevant_document", as: "relevant_document"
       patch :add_profile_picture, path: "profile_picture", as: "profile_picture"
       patch :add_verification_front, path: "verification_front", as: "verification_front"
@@ -28,15 +28,15 @@ Rails.application.routes.draw do
     end
     member do
       get :new_listing_step_2, path: "step_2", as: "step_2"
-      post :create_listing_step_2, path: "step_2", as: "create_step_2"
+      patch :create_listing_step_2, path: "step_2", as: "create_step_2"
       get :new_listing_step_3, path: "step_3", as: "step_3"
-      post :create_listing_step_3, path: "step_3", as: "create_step_3"
+      patch :create_listing_step_3, path: "step_3", as: "create_step_3"
       get :new_listing_step_4, path: "step_4", as: "step_4"
-      post :create_listing_step_4, path: "step_4", as: "create_step_4"
+      patch :create_listing_step_4, path: "step_4", as: "create_step_4"
       get :new_listing_step_5, path: "step_5", as: "step_5"
-      post :create_listing_step_5, path: "step_5", as: "create_step_5"
+      patch :create_listing_step_5, path: "step_5", as: "create_step_5"
       get :preview_listing, path: "preview", as: "preview"
-      get :publish_listing, path: "publish", as: "publish"
+      match :publish_listing, path: "publish", as: "publish", via: [:get, :patch]
       patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
     end
   end
