@@ -42,7 +42,6 @@
                       <% else %>
                         <%= select_tag "start_time[]#{day[1]}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day[1])), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
                       <% end %>
-                      <label id="end_start_tm" class="custom-error">Start date must be smaller from end date</label>
                     </div>
                     <div class="end-side">
                       <% if f.object.listing_availabilities.present? %>
@@ -67,7 +66,6 @@
                           <span>Not available</span>
                         </div>
                       <% end %>
-                      <label id="tm_end" class="custom-error">End date must be greater from start date</label>
                     </div>
                   </li>
                 <% end %>
@@ -295,22 +293,6 @@
 </script>
 
 <style type="text/css">
-  label#end_start_tm {
-    display: none;
-    color:#FF0000;
-  }
-  label#tm_end {
-   display: none;
-   color:#FF0000;
-  }
-  label#start_dat {
-    display: none;
-    color:#FF0000;
-  }
-  label#end_date {
-    display: none;
-    color:#FF0000;
-  }
   .error{
     color:#FF0000;
   }

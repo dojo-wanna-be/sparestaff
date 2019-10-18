@@ -97,12 +97,15 @@
   }, "The value {0} must be less than {1}");
 
   $(".unavailable_day_check").on('change', function () {
-    if ($("#unavailable_check_sunday").is(":checked") && $("#unavailable_check_saturday").is(":checked")) {
-      $("#employee_listing_weekend_price").attr("disabled", "disabled");
-      $("#employee_listing_other_weekend_price").attr("disabled", "disabled");
-    }else{
-      $("#employee_listing_weekend_price").removeAttr("disabled");
-      $("#employee_listing_other_weekend_price").removeAttr("disabled");
+    if ($(this).is(":checked")) {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeClass("error");
+      parent.find("select").attr("disabled", "disabled");
+      parent.find("select").val("");
+      parent.find("label.error").hide();
+    } else {
+      var parent = $(this).parent().parent().parent();
+      parent.find("select").removeAttr("disabled");
     }
   });
 
@@ -111,21 +114,21 @@
        error.appendTo(element.parent());
     },
     rules: {
-    "start_time[]monday": {required: true, lessThan: "#end_time_monday"},
-    "start_time[]tuesday": {required: true, lessThan: "#end_time_tuesday"},
-    "start_time[]wednesday": {required: true, lessThan: "#end_time_wednesday"},
-    "start_time[]thursday": {required: true, lessThan: "#end_time_thursday"},
-    "start_time[]friday": {required: true, lessThan: "#end_time_friday"},
-    "start_time[]saturday": {required: true, lessThan: "#end_time_saturday"},
-    "start_time[]sunday": {required: true, lessThan: "#end_time_sunday"},
-    "end_time[]monday": {required: true, greaterThan: "#start_time_monday"},
-    "end_time[]tuesday": {required: true, greaterThan: "#start_time_tuesday"},
-    "end_time[]wednesday": {required: true, greaterThan: "#start_time_wednesday"},
-    "end_time[]thursday": {required: true, greaterThan: "#start_time_thursday"},
-    "end_time[]friday": {required: true, greaterThan: "#start_time_friday"},
-    "end_time[]saturday": {required: true, greaterThan: "#start_time_saturday"},
-    "end_time[]sunday": {required: true, greaterThan: "#start_time_sunday"},
-    "slot_ids[]": {required: true},
+      "start_time[]monday": {required: true, lessThan: "#end_time_monday"},
+      "start_time[]tuesday": {required: true, lessThan: "#end_time_tuesday"},
+      "start_time[]wednesday": {required: true, lessThan: "#end_time_wednesday"},
+      "start_time[]thursday": {required: true, lessThan: "#end_time_thursday"},
+      "start_time[]friday": {required: true, lessThan: "#end_time_friday"},
+      "start_time[]saturday": {required: true, lessThan: "#end_time_saturday"},
+      "start_time[]sunday": {required: true, lessThan: "#end_time_sunday"},
+      "end_time[]monday": {required: true, greaterThan: "#start_time_monday"},
+      "end_time[]tuesday": {required: true, greaterThan: "#start_time_tuesday"},
+      "end_time[]wednesday": {required: true, greaterThan: "#start_time_wednesday"},
+      "end_time[]thursday": {required: true, greaterThan: "#start_time_thursday"},
+      "end_time[]friday": {required: true, greaterThan: "#start_time_friday"},
+      "end_time[]saturday": {required: true, greaterThan: "#start_time_saturday"},
+      "end_time[]sunday": {required: true, greaterThan: "#start_time_sunday"},
+      "slot_ids[]": {required: true},
     },
     messages: {
       "start_time[]monday": {lessThan: "Must be less than Monday End Time"},
