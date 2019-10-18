@@ -51,7 +51,7 @@
 
               <div class="custom-input-group">
                 <label class="custom-label">Postcode</label>
-                <%= f.number_field :post_code, style: "width:100%", minlength: 4, maxlength: 4, required: true %>
+                <%= f.number_field :post_code, style: "width:100%", min: 1000, minlength: 4, maxlength: 4, required: true %>
               </div>
             </div>
 
@@ -62,7 +62,7 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Your phone number</label>
-              <%= f.number_field :contact_no, class: 'custom-field half-field', minlength: 10, maxlength: 13, required: true %>
+              <%= f.number_field :contact_no, class: 'custom-field half-field', min: 10000000000, minlength: 10, maxlength: 13, required: true %>
             </div>
 
             <div class="button-box">

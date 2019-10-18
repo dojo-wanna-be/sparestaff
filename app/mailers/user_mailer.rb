@@ -10,7 +10,8 @@ class UserMailer < ApplicationMailer
  	 mail(to: @admin, subject: "Please approve listing")
   end
 
-  def tfn_and_photo_verification(user)
+  def tfn_and_photo_verification(user, listing)
+    @listing = listing
   	mail(to: user.email, subject: "Add employee TFN and Photo ID for your listing")
   end
 

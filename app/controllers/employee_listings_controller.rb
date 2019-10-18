@@ -244,7 +244,7 @@ class EmployeeListingsController < ApplicationController
         end
 
         if @employee_listing.tfn.blank? || (@employee_listing.verification_front_image.blank? && @employee_listing.verification_back_image.blank?)
-          UserMailer.tfn_and_photo_verification(current_user).deliver!
+          UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver!
         end
 
         UserMailer.listing_create_confirmation(current_user).deliver!

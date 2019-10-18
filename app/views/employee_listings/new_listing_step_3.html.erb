@@ -63,7 +63,7 @@
 
               <div class="custom-input-group">
                 <label class="custom-label">Postcode</label>
-                <%= f.number_field :post_code, minlength: 4, maxlength: 4, class: 'custom-field' %>
+                <%= f.number_field :post_code, min: 1000, minlength: 4, maxlength: 4, class: 'custom-field' %>
               </div>
             </div>
 
