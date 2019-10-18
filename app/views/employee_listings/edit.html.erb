@@ -20,7 +20,7 @@
           <%= link_to "Availability", edit_employee_path(id: @employee_listing.id, edit: "listing_availability"), class: "item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status"), class: "item-link #{params[:edit].eql?('listing_status') ? 'selected' : ''}" %>
+          <%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status"), class: "item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
         </li>
       </ul>
     </div>
@@ -38,6 +38,10 @@
             <%= render partial: "edit_availability_form.html.erb" %>
           <% elsif params[:edit].eql?("listing_status") %>
             <%= render partial: "edit_listing_status_form.html.erb" %>
+          <% elsif params[:edit].eql?("deactivation_reason") %>
+            <%= render partial: "deactivation_reason_form" %>
+          <% elsif params[:edit].eql?("deactivation_feedback") %>
+            <%= render partial: "deactivation_feedback_form" %>
           <% else %>
             <%= render partial: "edit_listing_details_form.html.erb" %>
           <% end %>

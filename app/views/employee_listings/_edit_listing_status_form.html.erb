@@ -32,9 +32,9 @@
     </div>
   </div>
 
-  <%= link_to "Permanently deactivate my listing", "javascript:;" %>
+  <%= link_to "Permanently deactivate my listing", edit_employee_path(id: @employee_listing.id, edit: "deactivation_reason"), class: "permanently_deactivate_link" %>
 
-  <div class="button-box">
+  <div class="button-box top_space">
     <%= f.submit "Save", class: "continue-btn prw_btn" %>
   </div>
 <% end %>

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
       get :getting_started, path: "getting_started", as: "getting_started"
+      get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists
       get :new_listing_step_1, path: "step_1", as: "step_1"
       post :create_listing_step_1, path: "step_1", as: "create_step_1"
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
       post :create_listing_step_5, path: "step_5", as: "create_step_5"
       get :preview_listing, path: "preview", as: "preview"
       get :publish_listing, path: "publish", as: "publish"
+      patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
     end
   end
 end

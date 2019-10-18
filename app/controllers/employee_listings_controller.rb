@@ -16,7 +16,8 @@ class EmployeeListingsController < ApplicationController
                                       :publish_listing,
                                       :show,
                                       :edit,
-                                      :update]
+                                      :update,
+                                      :listing_deactivation]
 
   before_action :find_company, only: [:create_listing_step_2]
 
@@ -359,6 +360,29 @@ class EmployeeListingsController < ApplicationController
     end
   end
 
+  def listing_deactivation
+    if params[:edit].eql?("deactivation_feedback")
+      if @employee_listing.update_attribute(:deactivation_reason, params[:employee_listing][:deactivation_reason])
+        flash[:notice] = "Reason Submitted Successfully"
+        redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
+      else
+        flash[:error] = @employee_listing.errors.full_messages.to_sentence
+        redirect_to edit_employee_path(id: @employee_listing, edit: "listing_status")
+      end
+    elsif params[:edit].eql?("deactivation_done")
+      if @employee_listing.update_attributes(deactivation_feedback: params[:employee_listing][:deactivation_feedback], deactivated: true)
+        flash[:notice] = "Listing Deactivated Successfully"
+        redirect_to deactivated_employee_index_path
+      else
+        flash[:error] = @employee_listing.errors.full_messages.to_sentence
+        redirect_to edit_employee_path(id: @employee_listing, edit: "listing_status")
+      end
+    end
+  end
+
+  def deactivated_completely
+  end
+
   private
 
   def company_params
@@ -456,6 +480,9 @@ class EmployeeListingsController < ApplicationController
 
   def find_listing
     @employee_listing = EmployeeListing.find(params[:id])
+    rescue Exception
+      flash[:error] = "Couldn't find the Record"
+      redirect_to employee_index_path
   end
 
   def find_company

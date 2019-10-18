@@ -406,7 +406,7 @@
           }
 
           .continue-btn {
-            width: 90px;
+            width: fit-content;
             height: 40px;
             margin-top: 22px;
             border-radius: 3px;
@@ -416,6 +416,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 0 29px;
 
             &:hover {
               background-color: #d75227;
@@ -426,6 +427,33 @@
               margin-top: 0;
               width: 110px;
             }
+          }
+
+          .keep-btn {
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0 29px;
+            border-radius: 3px;
+            border: 1px solid #000;
+            height: 40px;
+            background: #fff;
+            text-decoration: none;
+            color: #484848;
+            margin-left: 20px;
+
+            &:hover {
+              border-color: #484848;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+
+            }
+          }
+
+          .gray-thin-text {
+            font-size: 14px;
+            color: #767676;
           }
 
           .custom-field-box {
@@ -475,6 +503,36 @@
 
             @media screen and (max-width: 767px) {
               margin-bottom: 15px;
+            }
+
+            .checkbox-list {
+              padding: 0;
+              list-style: none;
+              margin: 20px 0 0;
+              display: flex;
+              flex-direction: column;
+
+              .checkbox-item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                height: 20px;
+                margin: 20px 0 10px;
+                position: relative;
+
+                .checkbox-radio {
+                  height: auto;
+                  margin-top: 4px;
+                  margin-right: 15px;
+
+                  & + .error {
+                    position: absolute;
+                    left: 0;
+                    top: -22px;
+                  }
+                }
+              }
             }
 
             .listed-green {
@@ -698,6 +756,10 @@
             line-height: 1.4;
             margin:0;
             color: #484848;
+
+            &.feedback-label {
+              font-size: 18px;
+            }
           }
 
           .thin-text {
@@ -731,6 +793,18 @@
             border-top: 1px solid #e4e4e4;
             padding-top: 22px;
             padding-bottom: 50px;
+            align-items: center;
+
+            .continue-btn {
+              margin-top: 0px;
+            }
+          }
+
+          .feedback-button-box {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: 22px 0;
             align-items: center;
 
             .continue-btn {
@@ -1197,6 +1271,74 @@
         font-size: 13px;
         color: #484848;
       }
+    }
+  }
+}
+
+.top_space{
+  margin-top: 25px !important;
+}
+.permanently_deactivate_link{
+  margin-top: 25px;
+  display: block;
+  &:hover{
+    color: #f15927;
+  }
+}
+
+.deactivated-page {
+  max-width: 100%;
+  width: 1051px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 23px 0 0;
+
+  .deactivate-label {
+    padding: 0 0 24px;
+    font-size: 22px;
+  }
+
+  .continue-btn {
+    width: fit-content;
+    height: 40px;
+    margin-top: 22px;
+    border-radius: 3px;
+    background-color: #F15927;
+    border: none;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+
+    &:hover {
+      background-color: #d75227;
+    }
+
+    @media screen and (max-width: 767px) {
+      float: right;
+      margin-top: 0;
+      width: 110px;
+    }
+  }
+
+  .edit-form-footer {
+    border-top: 1px solid #e4e4e4;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 65px;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 0;
+    }
+
+    .root-link {
+      text-decoration: none;
+      font-size: 13px;
+      color: #484848;
     }
   }
 }

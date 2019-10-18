@@ -50,6 +50,8 @@
 #
 
 class EmployeeListing < ApplicationRecord
+  default_scope { where(deactivated: false) }
+
   attr_accessor :other_weekday_price
   attr_accessor :other_weekend_price
   attr_accessor :other_holiday_price
@@ -69,11 +71,17 @@ class EmployeeListing < ApplicationRecord
   has_attached_file :verification_back_image
   validates_attachment_content_type :verification_back_image, content_type: /\Aimage\/.*\z/
 
-  EMPLOYEE_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS"]
-  EMPLOYEE_COUNTRIES = ["Australia"]
-  EMPLOYEE_RESIDENCY_STATUSES = ["Permanent Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas"]
-  EMPLOYEE_VERIFICATION_TYPES = ["Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate", "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others"]
+  EMPLOYEE_STATES = [ "NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS" ]
+  EMPLOYEE_COUNTRIES = [ "Australia" ]
+  EMPLOYEE_RESIDENCY_STATUSES = [ "Permanent Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas" ]
+  EMPLOYEE_VERIFICATION_TYPES = [ "Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate",
+                                  "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others" ]
   PRICES = [ ["$20 / Hour", 20.0], ["$30 / Hour", 30.0], ["$40 / Hour", 40.0], ["$50 / Hour", 50.0], ["$60 / Hour", 60.0],
               ["$70 / Hour", 70.0], ["$80 / Hour", 80.0], ["$90 / Hour", 90.0], ["$100 / Hour", 100.0] ]
-  MINIMUM_WORKING_HOURS = [ ["None", 0], ["2 Hours", 2], ["4 Hours", 4], ["6 Hours", 6], ["8 Hours", 8], ["10 Hours", 10], ["20 Hours (approx 1 week part time)", 20], ["40 Hours (approx 1 week full time)", 40] ]
+  MINIMUM_WORKING_HOURS = [ ["None", 0], ["2 Hours", 2], ["4 Hours", 4], ["6 Hours", 6], ["8 Hours", 8], ["10 Hours", 10],
+                            ["20 Hours (approx 1 week part time)", 20], ["40 Hours (approx 1 week full time)", 40] ]
+  DEACTIVATION_REASON = [ ["Our company no longer have this employee", 0], ["Our company needs the employee more often now", 1],
+                          ["I am the employee and I have found a job elsewhere", 2], ["It's a duplicated listing", 3],
+                          ["I have law, confidentiality or policy concerns", 4], ["It takes too much effort", 5],
+                          ["I'm a job seeker but I'm not comfortable listing myself for hiring here", 6], ["None of these", 7] ]
 end
