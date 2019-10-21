@@ -357,24 +357,24 @@
                     <span><%= day %></span>
                     <% if f.object.listing_availabilities.present? %>
                       <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
-                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
+                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
                       <% else %>
-                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select', disabled: 'disabled'%>
+                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select', disabled: 'disabled'%>
                       <% end %>
                     <% else %>
-                      <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
+                      <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
                     <% end %>
                     <!-- <label id="end_start_tm" class="custom-error">Start date must be smaller from end date</label> -->
                   </div>
                   <div class="end-side">
                     <% if f.object.listing_availabilities.present? %>
                       <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
-                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
+                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
                       <% else %>
-                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select', disabled: 'disabled' %>
+                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select', disabled: 'disabled' %>
                       <% end %>
                     <% else %>
-                      <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
+                      <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
                     <% end %>
 
                     <!-- <div class="availability-checkbox">
