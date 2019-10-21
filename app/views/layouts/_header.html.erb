@@ -1,7 +1,7 @@
 <header class="fixed-header ">
   <nav class="navbar navbar-expand-md navbar-dark new-header">
     <%= link_to '/', class: 'navbar-brand' do %>
-      <%= image_tag 'Spare-Staff-130x130.png', class: 'logo-img' %>
+      <%= image_tag 'logo.png', class: 'logo-img' %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -13,17 +13,19 @@
         <li class="nav-item">
           <%= link_to '+ List an Employee', getting_started_employee_index_path, class: 'nav-link new-employee' %>
         </li>
-        <li class="nav-item">
-          <%= link_to 'Help', 'https://www.sparestaff.com.au/help', class: 'nav-link' %>
-        </li>
 
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "#", class: "nav-link" do %>
+            <%= link_to "#", class: "nav-link message" do %>
               <span>Message</span><span class="badge">2</span>
             <% end %>
           </li>
+        <% end %>
 
+        <li class="nav-item">
+          <%= link_to 'Help', 'https://www.sparestaff.com.au/help', class: 'nav-link help' %>
+        </li>
+        <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
               <span class="dropdown_toggle">

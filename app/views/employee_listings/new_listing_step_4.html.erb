@@ -75,6 +75,22 @@
               <label id="lan_emp_id">Please select at least one language</label>
             </div>
 
+            <!-- ONLY MOBILE SHOW -->
+            <div class="bulb-box">
+              <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+              <br />
+              Hiring is the most important task for any businesses and they take this very seriously. The more details you put here, the better it is for the right employers to make decision to hire your listed employee.<br />
+            </div>
+
+            <div class="bulb-box bulb-box-bottom step-4-bulb ">
+              <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+              <br />
+              Employees are valuable assets of an organization and the key to success. A company is represented by its employees and every company wants to know who they are hiring.<br />
+              <br />
+              First impression is the most lasting. A great photo will more likely attract Hirers' attention.<br />
+            </div>
+            <!-- ONLY MOBILE SHOW -->
+
             <div class="button-box">
               <span class="link-text">&lt; <%= link_to "Back", step_3_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 

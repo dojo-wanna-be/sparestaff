@@ -161,6 +161,15 @@
           </p>
         </div>
 
+        <!-- ONLY MOBILE SHOW -->
+        <div class="bulb-box">
+          <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %><br />
+          Once published, your listing will show up in search results, Hirers will be able to find your listing and submit Request to Hire for available days.<br />
+          <br />
+          You can edit your listing, price, and settings anytime.
+        </div>
+        <!-- ONLY MOBILE SHOW -->
+
         <div class="button-box">
           <span class="link-text">&lt; <%= link_to "Back", step_5_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 

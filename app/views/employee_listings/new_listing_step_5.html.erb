@@ -154,6 +154,27 @@
             <span class="">I confirm that this employee has a valid Australian visa with work rights.</span>
           </div>
 
+          <!-- ONLY MOBILE SHOW -->
+          <div class="bulb-box">
+            <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+            <br />
+            Great progress. This is the last step.<br />
+            <br />
+            Let’s work out the employee availability and how much Hirer
+            should pay you.<br />
+            <br />
+            Keep the employee availability up-to-date to avoid disappointing Hirers.<br />
+          </div>
+
+           <div class="bulb-box bulb-box-bottom">
+            <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+            <br />
+            Select a price that you expect to charge Hirer, but keep it competitive to the market and increase your chances of getting a hiring.<br />
+            <br />
+            To publish your listing immediately, select today's date.<br />
+          </div>
+          <!-- ONLY MOBILE SHOW -->
+
           <div class="button-box">
             <span class="link-text">&lt; <%= link_to "Back", step_4_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
@@ -202,14 +223,14 @@
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) > new Date($(params).val());
     }
-    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
   },'Must be greater than {0}');
 
   $.validator.addMethod("dateLessThan", function(value, element, params) {
     if (!/Invalid|NaN/.test(new Date(value))) {
       return new Date(value) < new Date($(params).val());
     }
-    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val())); 
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val()));
   },'Must be less than {0}');
 
   $(".unavailable_day_check").on('change', function () {

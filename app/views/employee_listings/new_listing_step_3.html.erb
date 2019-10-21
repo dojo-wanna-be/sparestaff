@@ -125,6 +125,26 @@
               </div>
             </div>
 
+            <!-- ONLY MOBILE SHOW -->
+            <div class="bulb-box">
+              <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+              <br />
+              Listing title is one of the first details that Hirers see. Write a short, descriptive title that catches their attention.<br />
+              <br />
+              The employee's TFN, year of birth, address, photo ID are not visible in searches except Suburb/City and is only shared once you have accepted Hirer's Request to Hire.<br />
+              <br />
+              TFN (Tax File Number) is optional. However without a TFN, the employee will need to pay higher tax. If you do not have the TFN now, you can always add it in later after creating the listing.<br />
+            </div>
+
+            <div class="bulb-box bulb-box-bottom">
+              <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+              <br />
+              ID verification help Hirers feel more confident hiring employees and build trust on our platform.<br />
+              <br />
+              It is optional in this step but is required before the listing appears in search results. You can proceed to completing this listing first and upload a valid photo ID later.<br />
+            </div>
+            <!-- ONLY MOBILE SHOW -->
+
             <div class="button-box">
               <% if @employee_listing.lister_type.eql?("Company") %>
                 <span class="link-text">&lt; <%= link_to "Back", step_2_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
