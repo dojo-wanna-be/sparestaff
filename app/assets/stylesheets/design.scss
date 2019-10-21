@@ -980,6 +980,52 @@
         padding: 0px;
         padding-top: 20px;
 
+        .custom-label {
+          width: 100%;
+          text-align: center;
+          font-size: 19px;
+          font-weight: 600;
+          color: #484848;
+        }
+
+        .tabbing-btn-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin: 20px 0 0;
+          align-items: center;
+
+          .comman-butn {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            padding: 0 20px;
+            border-radius: 3px;
+            border: none;
+            color: #fff;
+            height: 40px;
+            background-color: #f15827;
+            text-decoration: none;
+
+            &#save_btn {
+              background-color: #008000;
+            }
+            &.close {
+              font-size: 16px;
+              font-weight: normal;
+              opacity: 0.75;
+              text-shadow: none;
+              background: #ff0000;
+            }
+            &:hover {
+              text-decoration: none;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+            }
+          }
+        }
+
         .small-link {
           font-size: 14px;
           color: #f15927;

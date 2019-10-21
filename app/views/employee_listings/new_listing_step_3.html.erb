@@ -29,7 +29,7 @@
             </div>
 
             <div class="custom-input-group">
-              <label class="custom-label">TFN <span class="thin-text">(optional, see note to the right)</span></label>
+              <label class="custom-label">TFN <span class="thin-text">(higher tax applies if TFN is not specified)</span></label>
               <div class="tfn-file">
                 <%= f.text_field :tfn, class: 'custom-field half-field' %>
               </div>
@@ -37,7 +37,7 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Year of birth <span class="thin-text">(optional)</span></label>
-              <%= f.text_field :birth_year, data: { numeric: true }, minlength: 4, maxlength: 4, max: Date.today.year - 20, min: Date.today.year - 80, class: 'custom-field half-field' %>
+              <%= f.text_field :birth_year, data: { numeric: true }, minlength: 4, maxlength: 4, min: Date.today.year - 80, class: 'custom-field half-field' %>
             </div>
 
             <div class="custom-input-group">
@@ -86,8 +86,7 @@
 
             <div class="joint-group mobile-joint-group">
               <div class="custom-input-group">
-                <label class="custom-label">ID verification <span class="thin-text">(see note
-                    to the right)</span></label>
+                <label class="custom-label">ID verification <span class="thin-text">(required for listing to appear in search results)</span></label>
                 <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES, f.object.verification_type), {}, {class: "custom-field"} %>
               </div>
 
@@ -127,7 +126,11 @@
             </div>
 
             <div class="button-box">
-              <span class="link-text">&lt; <%= link_to "Back", step_2_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+              <% if @employee_listing.lister_type.eql?("Company") %>
+                <span class="link-text">&lt; <%= link_to "Back", step_2_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+              <% else %>
+                <span class="link-text">&lt; <%= link_to "Back", step_2_employee_path(id: @employee_listing.id, back: true), data: {confirm: 'You are about to discard this unfinished listing and create a new one. You will need to re-enter all details, photos again. Are you sure?'}, class: 'link-text' %></span>
+              <% end %>
 
               <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
 

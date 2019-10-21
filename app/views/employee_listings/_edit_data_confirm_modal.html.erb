@@ -1,0 +1,38 @@
+<div class="modal custom-modal" id="edit_confirmation_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
+      </div>
+
+      <div class="modal-body">
+
+        <label class="custom-label">Do you want to save the changes in this tab?</label>
+
+        <div class="tabbing-btn-box">
+          <%= submit_tag "Save", id: "save_btn", class: 'comman-butn' %>
+          <%= link_to "Don't Save", "#", id: "dont_save_btn", class: 'comman-butn' %>
+          <button type="button" class="close comman-butn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var type;
+  $(".edit_listing_links").click(function(){
+    type = $(this).data("type");
+    var listing_id = <%= @employee_listing.id %>
+    $("#dont_save_btn").attr("href", "/employee/"+listing_id+"/edit?edit="+type);
+  })
+
+  $("#save_btn").click(function() {
+    var $form = $('form:visible');
+    var newElement = '<input type="hidden" value="'+type+'" name="redirect_link" />';
+    $form.append( $(newElement) );
+    $("#edit_confirmation_modal").modal("hide");
+    $form.submit();
+  });
+</script>

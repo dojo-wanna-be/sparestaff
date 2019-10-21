@@ -38,6 +38,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def new_listing_step_1
+    if params[:back].eql?("true")
+      find_listing
+      @employee_listing.destroy
+    end
     # unless params[:back].eql?("true")
     #   if current_user.is_owner? || current_user.is_hr?
     #     @employee_listing = current_user.company.employee_listings.build
@@ -294,7 +298,11 @@ class EmployeeListingsController < ApplicationController
 
     if @employee_listing.update_attributes(update_listing_params)
       flash[:notice] = "Updated Successfully"
-      redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
+      if params[:redirect_link].present?
+        redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:redirect_link])
+      else
+        redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])
+      end
     else
       flash[:error] = @employee_listing.errors.full_messages.to_sentence
       redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:edit])

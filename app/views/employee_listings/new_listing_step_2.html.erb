@@ -62,11 +62,11 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Your phone number</label>
-              <%= f.number_field :contact_no, class: 'custom-field half-field', min: 10000000000, minlength: 10, maxlength: 13, required: true %>
+              <%= f.number_field :contact_no, class: 'custom-field half-field', min: 0, minlength: 10, maxlength: 13, required: true %>
             </div>
 
             <div class="button-box">
-              <span class="link-text">&lt; <%= link_to "Back", step_1_employee_index_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
+              <span class="link-text">&lt; <%= link_to "Back", step_1_employee_index_path(id: @employee_listing.id, back: true), data: {confirm: 'You are about to discard this unfinished listing and create a new one. You will need to re-enter all details, photos again. Are you sure?'}, class: 'link-text' %></span>
 
 
               <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>

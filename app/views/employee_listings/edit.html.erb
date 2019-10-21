@@ -8,19 +8,19 @@
 
       <ul class="manage-sub-list">
         <li class="manage-sub-item">
-          <%= link_to "Listing Details", edit_employee_path(id: @employee_listing.id, edit: "listing_details"), class: "item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
+          <%= link_to "Listing Details", "javascript:;", data: {type: "listing_details", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Employee Skills", edit_employee_path(id: @employee_listing.id, edit: "employee_skills"), class: "item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
+          <%= link_to "Employee Skills", "javascript:;", data: {type: "employee_skills", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Pricing", edit_employee_path(id: @employee_listing.id, edit: "listing_pricing"), class: "item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
+          <%= link_to "Pricing", "javascript:;", data: {type: "listing_pricing", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Availability", edit_employee_path(id: @employee_listing.id, edit: "listing_availability"), class: "item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
+          <%= link_to "Availability", "javascript:;", data: {type: "listing_availability", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Listing Status", edit_employee_path(id: @employee_listing.id, edit: "listing_status"), class: "item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
+          <%= link_to "Listing Status", "javascript:;", data: {type: "listing_status", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
         </li>
       </ul>
     </div>
@@ -29,21 +29,21 @@
       <div class="form-left-box">
         <div class="manage-form-box">
           <% if params[:edit].eql?("listing_details") %>
-            <%= render partial: "edit_listing_details_form.html.erb" %>
+            <%= render partial: "edit_listing_details_form" %>
           <% elsif params[:edit].eql?("employee_skills") %>
-            <%= render partial: "edit_employee_skills_form.html.erb" %>
+            <%= render partial: "edit_employee_skills_form" %>
           <% elsif params[:edit].eql?("listing_pricing") %>
-            <%= render partial: "edit_pricing_form.html.erb" %>
+            <%= render partial: "edit_pricing_form" %>
           <% elsif params[:edit].eql?("listing_availability") %>
-            <%= render partial: "edit_availability_form.html.erb" %>
+            <%= render partial: "edit_availability_form" %>
           <% elsif params[:edit].eql?("listing_status") %>
-            <%= render partial: "edit_listing_status_form.html.erb" %>
+            <%= render partial: "edit_listing_status_form" %>
           <% elsif params[:edit].eql?("deactivation_reason") %>
             <%= render partial: "deactivation_reason_form" %>
           <% elsif params[:edit].eql?("deactivation_feedback") %>
             <%= render partial: "deactivation_feedback_form" %>
           <% else %>
-            <%= render partial: "edit_listing_details_form.html.erb" %>
+            <%= render partial: "edit_listing_details_form" %>
           <% end %>
         </div>
       </div>
@@ -55,3 +55,4 @@
 
   </div>
 </div>
+<%= render partial: "edit_data_confirm_modal" %>
