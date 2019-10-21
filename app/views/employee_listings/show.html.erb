@@ -332,12 +332,12 @@
           <div class="date-box">
             <div class="date-sec">
               <label class="thin-label">Start Date</label>
-              <%= f.date_field :start_publish_date, id: 'str_pub' %>
+              <%= date_field_tag "hiring_start_date", Date.today, min: Date.today, id: 'str_pub' %>
               <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
             </div>
             <div class="date-sec">
               <label class="thin-label">End Date</label>
-              <%= f.date_field :end_publish_date, id: 'pub_end' %>
+              <%= date_field_tag "hiring_end_date", Date.today, min: Date.today, id: 'pub_end' %>
               <!-- <label id="end_date">End date must be greater from start date</label> -->
             </div>
           </div>

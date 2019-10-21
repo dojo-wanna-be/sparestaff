@@ -64,6 +64,7 @@ class EmployeeListing < ApplicationRecord
   has_many :employee_listing_slots
   has_many :slots, through: :employee_listing_slots
   has_many :relevant_documents
+  has_many :employee_skills
   has_attached_file :profile_picture
   validates_attachment_content_type :profile_picture, content_type: /\Aimage\/.*\z/
   has_attached_file :verification_front_image

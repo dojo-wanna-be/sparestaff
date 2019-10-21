@@ -82,3 +82,4 @@ gem 'rb-readline'
 gem 'bootstrap', '~> 4.3.1'
 gem "font-awesome-rails"
 gem 'allow_numeric'
+gem 'tagsinput-rails'

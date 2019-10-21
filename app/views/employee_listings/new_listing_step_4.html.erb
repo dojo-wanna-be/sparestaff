@@ -30,6 +30,13 @@
               <label class="custom-label">Please describe the employee skills, strength, expertise, experience, etc</label>
               <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
             </div>
+
+            <div class="custom-input-group">
+              <label class="custom-label">Employee skills and experience</label>
+              <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).to_sentence %>
+              <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
+            </div>
+
             <div class="custom-input-group">
               <div class="profile_picture">
                 <label class="custom-label">Profile Picture</label>
@@ -123,6 +130,13 @@
 </div>
 
 <script type="text/javascript">
+  $('#skill_tags').tagsInput({
+    'defaultText':'Add skill',
+    'height':'50px',
+    'width':'430px',
+    'delimiter': [',']
+  });
+
   $("#skl_expr").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());

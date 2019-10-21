@@ -18,6 +18,7 @@
 //= require toastr_rails
 //= require jquery.validate
 //= require allow_numeric
+//= require jquery.tagsinput
 //= require activestorage
 //= require turbolinks
 //= require_tree .

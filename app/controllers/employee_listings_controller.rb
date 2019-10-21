@@ -163,6 +163,12 @@ class EmployeeListingsController < ApplicationController
   end
 
   def create_listing_step_4
+    if params[:employee_skills].present?
+      @employee_listing.employee_skills.destroy_all
+      params[:employee_skills].split(',').each do |skill|
+        EmployeeSkill.create(skill_name: skill, employee_listing_id: @employee_listing.id)
+      end
+    end
     @employee_listing.update(listing_skill_params)
     @employee_listing.update_attribute(:classification_id, params[:classification_id])
     if params[:employee_listing_language_ids].present?
@@ -270,6 +276,14 @@ class EmployeeListingsController < ApplicationController
   def update
     if params[:edit].eql?("employee_skills")
       @employee_listing.update_attribute(:classification_id, params[:classification_id]) if params[:classification_id].present?
+      
+      if params[:employee_skills].present?
+        @employee_listing.employee_skills.destroy_all
+        params[:employee_skills].split(',').each do |skill|
+          EmployeeSkill.create(skill_name: skill, employee_listing_id: @employee_listing.id)
+        end
+      end
+
       if params[:employee_listing_language_ids].present?
         @employee_listing.employee_listing_languages.destroy_all
         params[:employee_listing_language_ids].each do |language_id|

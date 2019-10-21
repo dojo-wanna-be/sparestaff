@@ -424,6 +424,17 @@
             }
           }
 
+          div.tagsinput {
+            border: 1px solid #CCC;
+            background: #FFF;
+            padding: 5px;
+            width: 300px;
+            height: 100px;
+            overflow-y: auto;
+            width: 100% !important;
+            height: auto !important;
+          }
+
           .holiday-box {
             display: flex;
             flex-direction: row;

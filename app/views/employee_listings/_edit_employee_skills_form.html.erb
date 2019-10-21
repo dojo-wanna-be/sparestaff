@@ -25,6 +25,12 @@
     </div>
 
     <div class="custom-input-group">
+      <label class="custom-label">Employee skills and experience</label>
+      <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).to_sentence %>
+      <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
+    </div>
+
+    <div class="custom-input-group">
       <label class="custom-label">Any further comments about the employee <span class="thin-text">(optional)</span></label>
       <%= f.text_area :optional_comments, cols: "20", rows: "5", style: "width:100%;" %>
     </div>
@@ -50,6 +56,13 @@
 <% end %>
 
 <script type="text/javascript">
+  $('#skill_tags').tagsInput({
+    'defaultText':'Add skill',
+    'height':'50px',
+    'width':'430px',
+    'delimiter': [',']
+  });
+
   $("#employee_skills").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());
