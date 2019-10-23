@@ -302,9 +302,9 @@
             <ul class="page-tabbing-list">
               <li class="tabbing-item"><a href="" class="tabbing-link">&lt;</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link tab-select">1</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">2</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">3</a></li>
-              <li class="tabbing-item"><a href="" class="tabbing-link">4</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link gray-border">2</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link gray-border">3</a></li>
+              <li class="tabbing-item"><a href="" class="tabbing-link gray-border">4</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link">&gt;</a></li>
             </ul>
           </div>
@@ -398,8 +398,6 @@
           </select>
         </div>
 
-        <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
-
         <ul class="calculation-list">
           <li class="calc-item">
             <span class="left">$35 x 5 hours</span>
@@ -418,6 +416,18 @@
           </li>
         </ul>
 
+        <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
+
+         <ul class="calculation-list">
+          <li class="calc-item">
+            <span class="left">Service fee</span>
+            <span class="right">-$11.13</span>
+          </li>
+          <li class="calc-item">
+            <span class="left"><b>Weekly total</b></span>
+            <span class="right"><b>$382.13</b></span>
+          </li>
+        </ul>
 
         <div class="nor-text">You can set probation period and terminate employment contracts early at any time if the employee underperforms.</div>
 
@@ -445,6 +455,7 @@
             <span class="right"><b>$4001.55</b></span>
           </li>
         </ul>
+        <%= link_to 'Contact Poster', '#', class: 'request-btn contact-poster' %>
 
         <%= link_to 'Request to hire', '#', class: 'request-btn' %>
 

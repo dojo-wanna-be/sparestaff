@@ -1576,7 +1576,7 @@
         padding: 17px 0 40px;
         border-top: 1px solid #e4e4e4;
         border-bottom: 1px solid #e4e4e4;
-        margin-top: 38px;
+        margin-top: 23px;
         justify-content: space-between;
 
         @media screen and (max-width: 1024px) {
@@ -1980,9 +1980,17 @@
                   border: 1px solid #f15927 ;
                   text-decoration: none;
 
+                  &.gray-border {
+                    border: 1px solid #C0C0C0;
+                  }
+
                   &.tab-select {
                     background: #f15927;
                     color: #fff;
+
+                    &.gray-border {
+                      border: 1px solid #f15927;
+                    }
                   }
                 }
               }
@@ -2440,6 +2448,21 @@
         text-decoration: none;
         margin-top: 20px;
 
+        &.contact-poster {
+          border: 1px solid #F15927;
+          background-color: transparent;
+          color: #F15927;
+          font-weight: normal;
+          transition: 0.2s;
+
+          &:hover {
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+            background-color: #F15927;
+            color: #fff;
+            font-weight: 600;
+          }
+        }
+
         &:hover {
           box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
         }
@@ -2474,10 +2497,11 @@
     }
 
     .featured-heading {
-      font-size: 32px;
+      font-size: 24px;
       font-weight: bold;
       color: #484848;
       line-height: 1.4;
+      margin: 0;
 
       @media screen and (max-width: 767px) {
         font-size: 22px;
@@ -2490,7 +2514,7 @@
       flex-direction: row;
      // justify-content: space-between;
       align-items: flex-start;
-      margin-top: 32px;
+      margin-top: 15px;
       flex-wrap: wrap;
 
       @media screen and (max-width: 767px) {
