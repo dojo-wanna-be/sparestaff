@@ -321,23 +321,23 @@
     </div>
 
     <div class="right-preview-detail">
-      <%= form_for @employee_listing, url: create_step_5_employee_path, method: :patch, :html => { :id => "str_tme_id" } do |f| %>
-        <%= hidden_field_tag "id", @employee_listing.id %>
+      <%= form_for @transaction, :html => { :id => "listing_transaction" } do |f| %>
+        <%= f.hidden_field :employee_listing_id, value: @employee_listing.id %>
 
         <div class="price-header">
-          from <span class="big-text">$35</span> per hour
+          from <span class="big-text">$<%= minimum_price(@employee_listing).present? ? minimum_price(@employee_listing) : 0 %></span> per hour
         </div>
 
         <div class="available-box">
           <div class="date-box">
             <div class="date-sec">
               <label class="thin-label">Start Date</label>
-              <%= date_field_tag "hiring_start_date", Date.today, min: Date.today, id: 'str_pub' %>
+              <%= f.date_field :start_date, value: Date.today, min: Date.today %>
               <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
             </div>
             <div class="date-sec">
               <label class="thin-label">End Date</label>
-              <%= date_field_tag "hiring_end_date", Date.today, min: Date.today, id: 'pub_end' %>
+              <%= f.date_field :end_date, value: Date.today, min: Date.today %>
               <!-- <label id="end_date">End date must be greater from start date</label> -->
             </div>
           </div>
@@ -346,71 +346,57 @@
 
           <div class="week-availability">
             <ul class="from-to-list">
+              <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
               <li class="header-item">
                 <div class="from-text">From</div>
                 <div class="to-text">To</div>
               </li>
 
-              <% ListingAvailability::DAYS.each do |day, value| %>
+              <% @employee_listing.listing_availabilities.each do |availability| %>
                 <li class="availability-item">
-                  <div class="start-side">
-                    <span><%= day %></span>
-                    <% if f.object.listing_availabilities.present? %>
-                      <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
-                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
-                      <% else %>
-                        <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select', disabled: 'disabled'%>
-                      <% end %>
-                    <% else %>
-                      <%= select_tag "start_time[]#{day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS, selected_start_time(f.object, day.downcase)), include_blank: 'Start time', class: 'cust_str_id start-side-select' %>
-                    <% end %>
-                    <!-- <label id="end_start_tm" class="custom-error">Start date must be smaller from end date</label> -->
-                  </div>
-                  <div class="end-side">
-                    <% if f.object.listing_availabilities.present? %>
-                      <% if f.object.listing_availabilities.pluck(:day).include?(day.downcase) %>
-                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
-                      <% else %>
-                        <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select', disabled: 'disabled' %>
-                      <% end %>
-                    <% else %>
-                      <%= select_tag "end_time[]#{day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS, selected_end_time(f.object, day.downcase)), include_blank: 'End time', class: 'end_str_id end-side-select' %>
-                    <% end %>
-
-                    <!-- <div class="availability-checkbox">
-                      <%#= check_box_tag "unavailable_days[]", value, f.object.listing_availabilities.present? ? !f.object.listing_availabilities.pluck(:day).include?(day.downcase) : false, class: "unavailable_day_check", id: "unavailable_check_#{day.downcase}" %>
-                      <span>Not available</span>
-                    </div> -->
-                    <!-- <label id="tm_end" class="custom-error">End date must be greater from start date</label> -->
-                  </div>
+                  <% if availability.not_available? %>
+                    <div class="start-side">
+                      <span class="disabled-field"><%= availability.day.titleize %></span>
+                      <%= select_tag "start_time[]#{availability.day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS), include_blank: ' ', class: 'cust_str_id start-side-select disabled-field', disabled: "disabled" %>
+                    </div>
+                    <div class="end-side">
+                      <%= select_tag "end_time[]#{availability.day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
+                    </div>
+                  <% else %>
+                    <div class="start-side">
+                      <span><%= availability.day.titleize %></span>
+                      <%= select_tag "start_time[]#{availability.day.downcase}", options_for_select(start_time_range(availability)), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                    </div>
+                    <div class="end-side">
+                      <%= select_tag "end_time[]#{availability.day.downcase}", options_for_select(end_time_range(availability)), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                    </div>
+                  <% end %>
                 </li>
               <% end %>
-
             </ul>
           </div>
         </div>
 
         <div class="week-box">
           <div>Wage payment frequency</div>
-          <select class="week-select">
-            <option>Weekly</option>
-            <option>Fortnightly</option>
-          </select>
+          <%= f.select :frequency, options_for_select([["Weekly", "weekly"], ["Fortnightly", "fortnight"]], f.object.frequency), {}, class: "week-select" %>
         </div>
-
-        <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
 
         <ul class="calculation-list">
           <li class="calc-item">
-            <span class="left">$35 x 5 hours</span>
-            <span class="right">$175.00</span>
+            <span class="left">
+              $<label class="listing_weekday_price"> <%= @employee_listing.weekday_price %> </label> x <label id="weekday_hours"> 0 </label> hours
+            </span>
+            <span class="right">$<label id="hiring_weekday_price"> 0 </label> </span>
           </li>
           <li class="calc-item">
-            <span class="left">$50 x 4 hours (weekend)</span>
-            <span class="right">$200.00</span>
+            <span class="left">
+              $<label class="listing_weekend_price"> <%= @employee_listing.weekend_price %> </label> x <label id="weekend_hours"> 0 </label> hours (weekend)
+            </span>
+            <span class="right">$<label id="hiring_weekend_price"> 0 </label> </span>
           </li>
           <li class="calc-item last-item">
-            <span class="left"><input type="checkbox" name="" class="tax-check"> Tax withholding</span>
+            <span class="left"><%= f.check_box :is_withholding_tax, class: "tax-check" %> Tax withholding</span>
             <span class="right">
               <span class="dollar-input-box">$</span>
               <input type="text" name="" placeholder="-4.00" class="calc-value" />
@@ -418,6 +404,9 @@
           </li>
         </ul>
 
+        <div class="nor-text" id="tax-notice">As an employer, tax withholding is your legal requirement. If you choose not to withhold tax now, you might be liable for a penalty to ATO later.</div>
+        
+        <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
 
         <div class="nor-text">You can set probation period and terminate employment contracts early at any time if the employee underperforms.</div>
 
@@ -425,12 +414,12 @@
 
         <ul class="calculation-list">
           <li class="calc-item">
-            <span class="left">$35 x 55 hours</span>
-            <span class="right">$1,925.00</span>
+            <span class="left">$<label class="listing_weekday_price"> <%= @employee_listing.weekday_price %> </label> x <label id="total_weekday_hours"> 0 </label> hours</span>
+            <span class="right">$<label id="hiring_total_weekday_price"> 0 </label> </span>
           </li>
           <li class="calc-item">
-            <span class="left">$50 x 40 hours (weekend)</span>
-            <span class="right">$2000.00</span>
+            <span class="left">$<label class="listing_weekend_price"> <%= @employee_listing.weekend_price %> </label> x <label id="total_weekend_hours"> 0 </label> hours (weekend)</span>
+            <span class="right">$<label id="hiring_total_weekend_price"> 0 </label> </span>
           </li>
           <li class="calc-item">
             <span class="left">Tax withholding</span>
@@ -446,12 +435,12 @@
           </li>
         </ul>
 
-        <%= link_to 'Request to hire', '#', class: 'request-btn' %>
+        <%#= link_to 'Request to hire', '#', class: 'request-btn' %>
+        <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
 
         <p class="thin-text">You won't be charged yet. You will not pay the Total employment contract upfront. It's your choice to pay weekly or fortnightly.</p>
 
         <div class="footer-text">This employee listing has been viewed 149 times.</div>
-
       <% end %>
     </div>
   </div>
@@ -540,6 +529,295 @@
 <%= render partial: "image_lightbox_modal" %>
 
 <script>
+  var isSunday = false;
+  var isMonday = false;
+  var isTuesday = false;
+  var isWednesday = false;
+  var isThursday = false;
+  var isFriday = false;
+  var isSaturday = false;
+
+  var totalSundays = 0;
+  var totalMondays = 0;
+  var totalTuesdays = 0;
+  var totalWednesdays = 0;
+  var totalThursdays = 0;
+  var totalFridays = 0;
+  var totalSaturdays = 0;
+
+  var totalSundayHours = 0;
+  var totalMondayHours = 0;
+  var totalTuesdayHours = 0;
+  var totalWednesdayHours = 0;
+  var totalThursdayHours = 0;
+  var totalFridayHours = 0;
+  var totalSaturdayHours = 0;
+
+  var sundayHour = 0;
+  var mondayHour = 0;
+  var tuesdayHour = 0;
+  var wednesdayHour = 0;
+  var thursdayHour = 0;
+  var fridayHour = 0;
+  var saturdayHour = 0;
+
+  var totalWeekdayHours = 0;
+  var totalWeekendHours = 0;
+
+  $.validator.addMethod('lessThan', function(value, element, param) {
+    return this.optional(element) || value < $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod('greaterThan', function(value, element, param) {
+    return this.optional(element) || value > $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod("dateGreaterThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
+  },'Must be greater than {0}');
+
+  $.validator.addMethod("dateLessThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) < new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val()));
+  },'Must be less than {0}');
+
+  $("#listing_transaction").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "end_time[]monday": {greaterThan: "#start_time_monday"},
+      "end_time[]tuesday": {greaterThan: "#start_time_tuesday"},
+      "end_time[]wednesday": {greaterThan: "#start_time_wednesday"},
+      "end_time[]thursday": {greaterThan: "#start_time_thursday"},
+      "end_time[]friday": {greaterThan: "#start_time_friday"},
+      "end_time[]saturday": {greaterThan: "#start_time_saturday"},
+      "end_time[]sunday": {greaterThan: "#start_time_sunday"},
+      "transaction[start_date]": {required: true},
+      "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
+    },
+    messages: {
+      "end_time[]monday": {greaterThan: "Must be greater than Monday Start Time"},
+      "end_time[]tuesday": {greaterThan: "Must be greater than Tuesday Start Time"},
+      "end_time[]wednesday": {greaterThan: "Must be greater than Wednesday Start Time"},
+      "end_time[]thursday": {greaterThan: "Must be greater than Thursday Start Time"},
+      "end_time[]friday": {greaterThan: "Must be greater than Friday Start Time"},
+      "end_time[]saturday": {greaterThan: "Must be greater than Saturday Start Time"},
+      "end_time[]sunday": {greaterThan: "Must be greater than Sunday Start Time"},
+      "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
+    }
+  });
+
+  $("#transaction_is_withholding_tax").on('change click', function () {
+    if ($(this).is(":checked")) {
+      $("#tax-notice").hide();
+    } else {
+      $("#tax-notice").show();
+    }
+  });
+
+  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+    totalSundays = 0;
+    totalMondays = 0;
+    totalTuesdays = 0;
+    totalWednesdays = 0;
+    totalThursdays = 0;
+    totalFridays = 0;
+    totalSaturdays = 0;
+
+    var start = $("#transaction_start_date").val();
+    var end = $("#transaction_end_date").val();
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+
+    if (startDate < endDate){
+      for (var i = startDate; i <= endDate; ){
+        if (i.getDay() == 0){
+          totalSundays++;
+        }else if (i.getDay() == 1) {
+          totalMondays++;
+        }else if (i.getDay() == 2) {
+          totalTuesdays++;
+        }else if (i.getDay() == 3) {
+          totalWednesdays++;
+        }else if (i.getDay() == 4) {
+          totalThursdays++;
+        }else if (i.getDay() == 5) {
+          totalFridays++;
+        }else if (i.getDay() == 6) {
+          totalSaturdays++;
+        }
+        i.setTime(i.getTime() + 1000*60*60*24);
+      }
+
+      console.log("Total Sundays = "+totalSundays);
+      console.log("Total Mondays = "+totalMondays);
+      console.log("Total Tuesdays = "+totalTuesdays);
+      console.log("Total Wednesdays = "+totalWednesdays);
+      console.log("Total Thursdays = "+totalThursdays);
+      console.log("Total Fridays = "+totalFridays);
+      console.log("Total Saturdays = "+totalSaturdays);
+
+      setWeekdayHours();
+      setWeekendHours();
+    }
+  });
+
+  function setWeekdayHours(){
+    totalMondayHours = totalMondays * mondayHour;
+    console.log("totalMondayHours = "+totalMondayHours);
+    totalTuesdayHours = totalTuesdays * tuesdayHour;
+    console.log("totalTuesdayHours = "+totalTuesdayHours);
+    totalWednesdayHours = totalWednesdays * wednesdayHour;
+    console.log("totalWednesdayHours = "+totalWednesdayHours);
+    totalThursdayHours = totalThursdays * thursdayHour;
+    console.log("totalThursdayHours = "+totalThursdayHours);
+    totalFridayHours = totalFridays * fridayHour;
+    console.log("totalFridayHours = "+totalFridayHours);
+    weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
+    totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
+    $("#weekday_hours").html(weekday_hour);
+    $("#total_weekday_hours").html(totalWeekdayHours);
+  }
+
+  function setWeekendHours(){
+    totalSaturdayHours = totalSaturdays * saturdayHour;
+    console.log("totalSaturdayHours = "+totalSaturdayHours);
+    totalSundayHours = totalSundays * sundayHour;
+    console.log("totalSundayHours = "+totalSundayHours);
+    weekend_hour = saturdayHour + sundayHour;
+    totalWeekendHours = totalSundayHours + totalSaturdayHours;
+    $("#weekend_hours").html(weekend_hour);
+    $("#total_weekend_hours").html(totalWeekendHours);
+  }
+
+  $(".monday_time_slot").change(function(){
+    if (($("#start_time_monday").val() != '' && $("#end_time_monday").val() != '') && ($("#start_time_monday").val() < $("#end_time_monday").val())) {
+      mondayHour = parseInt($("#end_time_monday").val()) - parseInt($("#start_time_monday").val());
+      isMonday = true;
+    }else {
+      mondayHour = 0;
+      totalMondayHours = 0;
+      isMonday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isMonday) {
+    //   alert('monday empty');
+    // }
+  });
+
+  $(".tuesday_time_slot").change(function(){
+    if (($("#start_time_tuesday").val() != '' && $("#end_time_tuesday").val() != '') && ($("#start_time_tuesday").val() < $("#end_time_tuesday").val())) {
+      tuesdayHour = parseInt($("#end_time_tuesday").val()) - parseInt($("#start_time_tuesday").val());
+      isTuesday = true;
+    }else {
+      tuesdayHour = 0;
+      totalTuesdayHours = 0;
+      isTuesday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isTuesday) {
+    //   alert('tuesday empty');
+    // }
+  });
+
+  $(".wednesday_time_slot").change(function(){
+    if (($("#start_time_wednesday").val() != '' && $("#end_time_wednesday").val() != '') && ($("#start_time_wednesday").val() < $("#end_time_wednesday").val())) {
+      wednesdayHour = parseInt($("#end_time_wednesday").val()) - parseInt($("#start_time_wednesday").val());
+      isWednesday = true;
+    }else {
+      wednesdayHour = 0;
+      totalWednesdayHours = 0;
+      isWednesday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isWednesday) {
+    //   alert('wednesday empty');
+    // }
+  });
+
+  $(".thursday_time_slot").change(function(){
+    if (($("#start_time_thursday").val() != '' && $("#end_time_thursday").val() != '') && ($("#start_time_thursday").val() < $("#end_time_thursday").val())) {
+      thursdayHour = parseInt($("#end_time_thursday").val()) - parseInt($("#start_time_thursday").val());
+      isThursday = true;
+    }else {
+      thursdayHour = 0;
+      totalThursdayHours = 0;
+      isThursday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isThursday) {
+    //   alert('thursday empty');
+    // }
+  });
+
+  $(".friday_time_slot").change(function(){
+    if (($("#start_time_friday").val() != '' && $("#end_time_friday").val() != '') && ($("#start_time_friday").val() < $("#end_time_friday").val())) {
+      fridayHour = parseInt($("#end_time_friday").val()) - parseInt($("#start_time_friday").val());
+      isFriday = true;
+    }else {
+      fridayHour = 0;
+      totalFridayHours = 0;
+      isFriday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isFriday) {
+    //   alert('friday empty');
+    // }
+  });
+
+  $(".sunday_time_slot").change(function(){
+    if (($("#start_time_sunday").val() != '' && $("#end_time_sunday").val() != '') && ($("#start_time_sunday").val() < $("#end_time_sunday").val())) {
+      sundayHour = parseInt($("#end_time_sunday").val()) - parseInt($("#start_time_sunday").val());
+      isSunday = true;
+    }else {
+      sundayHour = 0;
+      totalSundayHours = 0;
+      isSunday = false;
+    }
+
+    setWeekendHours();
+    // if (!isSunday) {
+    //   alert('sunday empty');
+    // }
+  });
+
+  $(".saturday_time_slot").change(function(){
+    if (($("#start_time_saturday").val() != '' && $("#end_time_saturday").val() != '') && ($("#start_time_saturday").val() < $("#end_time_saturday").val())) {
+      saturdayHour = parseInt($("#end_time_saturday").val()) - parseInt($("#start_time_saturday").val());
+      isSaturday = true;
+    }else {
+      saturdayHour = 0;
+      totalSaturdayHours = 0;
+      isSaturday = false;
+    }
+
+    setWeekendHours();
+    // if (!isSaturday) {
+    //   alert('saturday empty');
+    // }
+  });
+
+  $("#listing_transaction").submit(function(e){
+    if ( isSunday || isMonday || isTuesday || isWednesday || isThursday || isFriday || isSaturday ) {
+      $("#timing_error").hide();
+      return true
+    }else {
+      $("#timing_error").show();
+      return false
+    }
+  });
+
   function openModal() {
     document.getElementById("myModal").style.display = "block";
   }
@@ -577,3 +855,9 @@
     captionText.innerHTML = dots[slideIndex-1].alt;
   }
 </script>
+
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>

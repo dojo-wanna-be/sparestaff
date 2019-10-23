@@ -263,6 +263,16 @@ class EmployeeListingsController < ApplicationController
   end
 
   def show
+    unless @employee_listing.published?
+      flash[:error] = "Please publish this listing first"
+      if @employee_listing.listing_step < 6
+        redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
+      else
+        redirect_to preview_employee_path(id: @employee_listing.id)
+      end
+    else
+      @transaction = Transaction.new
+    end
   end
 
   def edit

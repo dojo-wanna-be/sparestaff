@@ -1,0 +1,2 @@
+class TaxDetail < ApplicationRecord
+end

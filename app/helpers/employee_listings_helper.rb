@@ -13,6 +13,20 @@ module EmployeeListingsHelper
     availability.present? && availability.end_time.present? ? availability.end_time.strftime("%H:%M") : ""
   end
 
+  def start_time_range(availability)
+    start_time = availability.start_time.strftime("%H:%M")
+    end_time = availability.end_time.strftime("%H:%M")
+    availability_slots = ListingAvailability::TIME_SLOTS
+    availability_slots[(availability_slots.index(start_time))..availability_slots.index(end_time)-1]
+  end
+
+  def end_time_range(availability)
+    start_time = availability.start_time.strftime("%H:%M")
+    end_time = availability.end_time.strftime("%H:%M")
+    availability_slots = ListingAvailability::TIME_SLOTS
+    availability_slots[(availability_slots.index(start_time)+1)..availability_slots.index(end_time)]
+  end
+
   def disable(listing, day)
     if listing.listing_availabilities.present?
       listing.listing_availabilities.pluck(:day).include?(day.downcase) ? "" : "disabled"
@@ -30,5 +44,13 @@ module EmployeeListingsHelper
       end
     end
     return image_urls
+  end
+
+  def minimum_price(listing)
+    prices = []
+    prices << listing.weekday_price if listing.weekday_price.present?
+    prices << listing.holiday_price if listing.holiday_price.present?
+    prices << listing.weekend_price if listing.weekend_price.present?
+    return prices.min
   end
 end

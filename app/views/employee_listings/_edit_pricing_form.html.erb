@@ -12,7 +12,7 @@
 
         <div class="mid-text">or</div>
 
-        <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekday_price.to_f) || f.object.weekday_price.to_f.eql?(0.0) ? nil : f.object.weekday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+        <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekday_price.to_f) || f.object.weekday_price.to_f.eql?(0.0) ? nil : f.object.weekday_price.to_f, placeholder: "Enter your own", min: 1, class: 'custom-input' %>
       </div>
 
       <label class="thin-label">Weekend (if available)</label>
@@ -21,7 +21,7 @@
 
         <div class="mid-text">or</div>
 
-        <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekend_price.to_f) || f.object.weekend_price.to_f.eql?(0.0) ? nil : f.object.weekend_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+        <%= f.number_field :other_weekend_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekend_price.to_f) || f.object.weekend_price.to_f.eql?(0.0) ? nil : f.object.weekend_price.to_f, placeholder: "Enter your own", min: 1, class: 'custom-input' %>
       </div>
 
       <label class="thin-label">Public holidays (if available)</label>
@@ -31,7 +31,7 @@
 
           <div class="mid-text">or</div>
 
-          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) || f.object.holiday_price.to_f.eql?(0.0) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input' %>
+          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) || f.object.holiday_price.to_f.eql?(0.0) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 1, class: 'custom-input' %>
         </div>
       <% else %>
         <div class="week-row bottom-space">
@@ -39,7 +39,7 @@
 
           <div class="mid-text">or</div>
 
-          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) || f.object.holiday_price.to_f.eql?(0.0) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 0, class: 'custom-input', disabled: "disabled" %>
+          <%= f.number_field :other_holiday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.holiday_price.to_f) || f.object.holiday_price.to_f.eql?(0.0) ? nil : f.object.holiday_price.to_f, placeholder: "Enter your own", min: 1, class: 'custom-input', disabled: "disabled" %>
         </div>
       <% end %>
     </div>
@@ -49,3 +49,18 @@
     <%= f.submit "Save", class: "continue-btn prw_btn" %>
   </div>
 <% end %>
+<script type="text/javascript">
+  $("#listing_pricing").validate({
+    rules: {
+      "employee_listing[other_weekday_price]": {min: 1},
+      "employee_listing[other_weekend_price]": {min: 1},
+      "employee_listing[other_holiday_price]": {min: 1},
+    }
+  });
+</script>
+
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>

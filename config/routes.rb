@@ -40,4 +40,6 @@ Rails.application.routes.draw do
       patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
     end
   end
+
+  resources :transactions
 end

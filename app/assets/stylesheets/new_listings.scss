@@ -2257,6 +2257,11 @@
                 margin-bottom: 15px;
               }
 
+              .disabled-field {
+                color: #ddd;
+                -webkit-appearance: none;
+              }
+
               .start-side {
                 width: 184px;
                 display: block;
@@ -2280,6 +2285,11 @@
                     width: 100%;
                     text-align: right;
                   }
+                  &.error {
+                    font-size: 14px;
+                    width: 82px;
+                    text-align: left;
+                  }
 
                   @media screen and (max-width: 767px) {
                     width: 80px;
@@ -2290,7 +2300,9 @@
 
                 .error {
                   margin-top: 5px;
-                  font-size: 14px;
+                  font-size: 12px;
+                  width: 100%;
+                  text-align: right;
                 }
               }
 
@@ -2316,6 +2328,9 @@
                   &.end-side-select {
                     color: #484848;
                   }
+                  &.error{
+                    font-size: 14px;
+                  }
 
                   @media screen and (max-width: 767px) {
                     width: 80px;
@@ -2326,7 +2341,8 @@
                 }
                 .error {
                   margin-top: 5px;
-                  font-size: 14px;
+                  font-size: 12px;
+                  white-space: nowrap;
                 }
 
                 .availability-checkbox {
@@ -2418,6 +2434,13 @@
       .nor-text {
         padding: 10px 0;
         border-bottom: 1px solid #e4e4e4;
+
+        &#tax-notice {
+          display: none;
+          color: #ff0000;
+          border: none;
+          padding-bottom: 0;
+        }
       }
 
       .coman-label {
@@ -2439,6 +2462,7 @@
         border-radius: 3px;
         text-decoration: none;
         margin-top: 20px;
+        width: 100%;
 
         &:hover {
           box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
