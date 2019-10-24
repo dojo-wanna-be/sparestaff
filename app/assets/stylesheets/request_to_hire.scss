@@ -237,6 +237,16 @@
           }
 
         }
+
+        .paypal_box {
+          margin-top: 23px;
+          border-top: 1px solid #c0c0c0;
+          padding-top: 30px;
+
+          .button-box {
+            padding: 0;
+          }
+        }
       }
     }
 
@@ -246,6 +256,7 @@
       font-size: 11pt;
       padding: 20px;
       height: fit-content;
+      margin-bottom: 40px;
 
       .user-right-box {
         display: flex;

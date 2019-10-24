@@ -2,66 +2,20 @@
   <h1 class="main-heading">Confirm and payment</h1>
   <p>You won't be charged until PosterABC has accepted your hiring request. PosterABC has 48 hours to respond to your request.</p>
   <div class="request-form-box">
-    <%= form_for '', method: :patch, multipart: true do |f| %>
-      <div class="custom-field-box">
+    <div class="custom-field-box">
 
-        <div class="custom-input-group">
-          <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
-          <select class="custom-field">
-            <option>Credit Card</option>
-            <option>PayPal</option>
-          </select>
-        </div>
-
-        <div class="custom-input-group">
-          <label class="thin-label">Card info*</label>
-          <%= f.text_field :first_name, placeholder: "Name on card", class: 'custom-field' %>
-        </div>
-
-        <div class="custom-input-group">
-          <%= f.text_field :first_name, placeholder: "Card number", class: 'custom-field' %>
-        </div>
-
-        <div class="joint-group">
-          <div class="custom-input-group">
-            <%= f.text_field :first_name, placeholder: "MM/YY", class: 'custom-field' %>
-          </div>
-          <div class="custom-input-group">
-            <%= f.text_field :first_name, placeholder: "CVV", class: 'custom-field' %>
-          </div>
-        </div>
-
-        <div class="joint-group">
-          <div class="custom-input-group">
-            <label class="thin-label">Billing info*</label>
-            <%= f.text_field :first_name, placeholder: "Zip code", class: 'custom-field' %>
-          </div>
-          <div class="custom-input-group">
-            <label class="thin-label">Billing country*</label>
-            <select class="custom-field">
-              <option>Credit Card</option>
-              <option>PayPal</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="custom-input-group">
-          <label class="thin-label">Redeem a Coupon</label>
-          <%= f.text_field :address_1, placeholder: "", class: 'custom-field' %>
-        </div>
-
-        <em class="italic-text">*required details</em>
-
-        <h2 class="com-nor-heading">Cancellation policy</h2>
-
-        <p>Cancel up to 24 hours before contract start date time and get a full refund (minus service fees). Cancel within 24 hours of contract start date time and the first day is non-refundable. Service fees are refunded if cancellation happens before contract start date time and within 48 hours of booking.</p>
-
-        <h2 class="com-nor-heading">I agree to <span><%= link_to 'Cancellation Policy', 'https://www.sparestaff.com.au/cancellation-policy', target: "_blank", class: 'bold-link' %></span>, and <span><%= link_to 'Hirer Refund Policy', 'https://www.sparestaff.com.au/hirer-refund-policy', target: "_blank", class: 'bold-link' %></span>. I also agree to pay the weekly total amount shown, which includes Service Fees.</h2>
-
-        <div class="button-box">
-          <button class="continue-btn">Request to hire</button>
-        </div>
+      <div class="custom-input-group">
+        <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
+        <select class="custom-field">
+          <option>Credit Card</option>
+          <option>PayPal</option>
+        </select>
       </div>
-    <% end %>
+
+      <%#= render partial: "employee_listings/credit_card_detail" %>
+
+      <%= render partial: "employee_listings/login_paypal_box" %>
+
+    </div>
   </div>
 </div>
