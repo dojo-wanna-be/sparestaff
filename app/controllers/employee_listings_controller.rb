@@ -17,6 +17,7 @@ class EmployeeListingsController < ApplicationController
                                       :show,
                                       :edit,
                                       :update,
+                                      # :request_to_hire,
                                       :listing_deactivation]
 
   before_action :find_company, only: [:create_listing_step_2]
@@ -156,7 +157,7 @@ class EmployeeListingsController < ApplicationController
       redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
     end
     classification = @employee_listing.classification
-    if classification.present? 
+    if classification.present?
       @classification_id = classification.classification.id
       @sub_classification_id = classification.id
     end
@@ -267,7 +268,7 @@ class EmployeeListingsController < ApplicationController
 
   def edit
     classification = @employee_listing.classification
-    if classification.present? 
+    if classification.present?
       @classification_id = classification.classification.id
       @sub_classification_id = classification.id
     end
@@ -276,7 +277,7 @@ class EmployeeListingsController < ApplicationController
   def update
     if params[:edit].eql?("employee_skills")
       @employee_listing.update_attribute(:classification_id, params[:classification_id]) if params[:classification_id].present?
-      
+
       if params[:employee_skills].present?
         @employee_listing.employee_skills.destroy_all
         params[:employee_skills].split(',').each do |skill|
@@ -336,7 +337,7 @@ class EmployeeListingsController < ApplicationController
       document.document = relevant_document
 
       @status = if document.save
-        true 
+        true
       else
         false
       end
@@ -352,7 +353,7 @@ class EmployeeListingsController < ApplicationController
     end
 
     @status = if @employee_listing.save
-      true 
+      true
     else
       false
     end
@@ -367,7 +368,7 @@ class EmployeeListingsController < ApplicationController
     end
 
     @status = if @employee_listing.save
-      true 
+      true
     else
       false
     end
@@ -382,7 +383,7 @@ class EmployeeListingsController < ApplicationController
     end
 
     @status = if @employee_listing.save
-      true 
+      true
     else
       false
     end
@@ -409,6 +410,10 @@ class EmployeeListingsController < ApplicationController
   end
 
   def deactivated_completely
+  end
+
+  def request_to_hire
+
   end
 
   private
