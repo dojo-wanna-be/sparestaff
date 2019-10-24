@@ -1,0 +1,21 @@
+<div class="confirm_and_pay">
+  <h1 class="main-heading">Confirm and payment</h1>
+  <p>You won't be charged until PosterABC has accepted your hiring request. PosterABC has 48 hours to respond to your request.</p>
+  <div class="request-form-box">
+    <div class="custom-field-box">
+
+      <div class="custom-input-group">
+        <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
+        <select class="custom-field">
+          <option>Credit Card</option>
+          <option>PayPal</option>
+        </select>
+      </div>
+
+      <%= render partial: "employee_listings/credit_card_detail" %>
+
+      <%#= render partial: "employee_listings/login_paypal_box" %>
+
+    </div>
+  </div>
+</div>
