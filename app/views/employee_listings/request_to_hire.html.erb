@@ -18,89 +18,10 @@
         </li>
       </ul>
 
-      <h1 class="main-heading">Request to hire Cristiano Ronaldo</h1>
-      <h2 class="comman-heading">Where does Cristiano Ronaldo need to work?</h2>
+      <%#= render partial: "employee_listings/review_hire_details" %>
 
-      <div class="request-form-box">
+      <%= render partial: "employee_listings/confirm_and_pay" %>
 
-          <%= form_for '', method: :patch, multipart: true do |f| %>
-            <div class="custom-field-box">
-              <div class="custom-input-group">
-                <label class="thin-label">Company name</label>
-                <%= f.text_field :title, placeholder: "Name, ACN/ABN are not shown to poster until hiring request is accepted", class: 'custom-field' %>
-              </div>
-
-              <div class="joint-group">
-                <div class="custom-input-group">
-                  <label class="custom-label">ACN/ABN</label>
-                  <%= f.text_field :first_name, class: 'custom-field' %>
-                </div>
-                <div class="custom-input-group">
-                  <label class="custom-label">Your role in company</label>
-                  <select class="custom-field">
-                    <option>C.E.O</option>
-                    <option>H.R. Manager</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="custom-input-group">
-                <label class="thin-label">Address line 1<span class="thin-text">(optional)</span></label>
-                <%= f.text_field :address_1, placeholder: "Full address is not shown to poster until hiring request is accepted", class: 'custom-field' %>
-              </div>
-
-              <div class="custom-input-group">
-                <label class="thin-label">Address line 2 <span class="thin-text">(optional)</span></label>
-                <%= f.text_field :address_2, class: 'custom-field' %>
-              </div>
-
-              <div class="custom-input-group">
-                <label class="thin-label">Suburb/City</label>
-                <%= f.text_field :city, class: 'custom-field half-field' %>
-              </div>
-
-              <div class="joint-group">
-                <div class="custom-input-group">
-                  <label class="thin-label">State</label>
-                  <select class="custom-field">
-                    <option>NSW</option>
-                    <option>Delhi</option>
-                  </select>
-                </div>
-
-                <div class="custom-input-group">
-                  <label class="thin-label">Postcode</label>
-                  <%= f.number_field :post_code, min: 1000, minlength: 4, maxlength: 4, class: 'custom-field' %>
-                </div>
-              </div>
-
-              <div class="custom-input-group">
-                <label class="thin-label">Country</label>
-                <select class="custom-field half-field">
-                  <option>India</option>
-                  <option>Nepal</option>
-                </select>
-              </div>
-
-              <div class="custom-input-group">
-                <label class="comman-heading">Set probationary period</label>
-                <select class="custom-field half-field">
-                  <option>NSW</option>
-                  <option>Delhi</option>
-                </select>
-              </div>
-
-              <h2 class="comman-heading">Send a message to PosterABC</h2>
-              <p>Let PosterABC know more about your company, why you're hiring, details of the job to be carried out, and any other helpful information.</p>
-
-              <%= f.text_area nil, rows: "13" %>
-
-              <div class="button-box">
-                <button class="continue-btn">Continue</button>
-              </div>
-            </div>
-          <% end %>
-        </div>
     </div>
 
     <div class="right_request_section">

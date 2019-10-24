@@ -58,6 +58,20 @@
         margin: 1em 0;
       }
 
+      .italic-text {
+        margin-top: 23px;
+      }
+
+      .bold-link {
+        color: #f15927;
+      }
+
+      .com-nor-heading {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 1.33em 0;
+      }
+
       .request-form-box {
 
         .custom-field-box {
@@ -117,6 +131,15 @@
           color: #484848;
           line-height: 1.4;
           margin: 0;
+          display: flex;
+          justify-content: space-between;
+
+          .right-cards {
+            .img-card {
+              height: 25px;
+              width: auto;
+            }
+          }
         }
 
         .custom-field {
