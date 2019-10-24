@@ -352,23 +352,23 @@
                 <div class="to-text">To</div>
               </li>
 
-              <% @employee_listing.listing_availabilities.each do |availability| %>
+              <% @employee_listing.listing_availabilities.each_with_index do |availability,index| %>
                 <li class="availability-item">
                   <% if availability.not_available? %>
                     <div class="start-side">
                       <span class="disabled-field"><%= availability.day.titleize %></span>
-                      <%= select_tag "start_time[]#{availability.day.downcase}", options_for_select(ListingAvailability::START_TIME_SLOTS), include_blank: ' ', class: 'cust_str_id start-side-select disabled-field', disabled: "disabled" %>
+                      <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(ListingAvailability::START_TIME_SLOTS), include_blank: ' ', class: 'cust_str_id start-side-select disabled-field', disabled: "disabled" %>
                     </div>
                     <div class="end-side">
-                      <%= select_tag "end_time[]#{availability.day.downcase}", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
+                      <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
                     </div>
                   <% else %>
                     <div class="start-side">
                       <span><%= availability.day.titleize %></span>
-                      <%= select_tag "start_time[]#{availability.day.downcase}", options_for_select(start_time_range(availability)), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                      <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability)), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
                     </div>
                     <div class="end-side">
-                      <%= select_tag "end_time[]#{availability.day.downcase}", options_for_select(end_time_range(availability)), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                      <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability)), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
                     </div>
                   <% end %>
                 </li>
@@ -591,24 +591,24 @@
        error.appendTo(element.parent());
     },
     rules: {
-      "end_time[]monday": {greaterThan: "#start_time_monday"},
-      "end_time[]tuesday": {greaterThan: "#start_time_tuesday"},
-      "end_time[]wednesday": {greaterThan: "#start_time_wednesday"},
-      "end_time[]thursday": {greaterThan: "#start_time_thursday"},
-      "end_time[]friday": {greaterThan: "#start_time_friday"},
-      "end_time[]saturday": {greaterThan: "#start_time_saturday"},
-      "end_time[]sunday": {greaterThan: "#start_time_sunday"},
+      "transaction[booking_attributes][0][end_time]": {greaterThan: "#transaction_booking_attributes_0_start_time"},
+      "transaction[booking_attributes][1][end_time]": {greaterThan: "#transaction_booking_attributes_1_start_time"},
+      "transaction[booking_attributes][2][end_time]": {greaterThan: "#transaction_booking_attributes_2_start_time"},
+      "transaction[booking_attributes][3][end_time]": {greaterThan: "#transaction_booking_attributes_3_start_time"},
+      "transaction[booking_attributes][4][end_time]": {greaterThan: "#transaction_booking_attributes_4_start_time"},
+      "transaction[booking_attributes][5][end_time]": {greaterThan: "#transaction_booking_attributes_5_start_time"},
+      "transaction[booking_attributes][6][end_time]": {greaterThan: "#transaction_booking_attributes_6_start_time"},
       "transaction[start_date]": {required: true},
       "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
     },
     messages: {
-      "end_time[]monday": {greaterThan: "Must be greater than Monday Start Time"},
-      "end_time[]tuesday": {greaterThan: "Must be greater than Tuesday Start Time"},
-      "end_time[]wednesday": {greaterThan: "Must be greater than Wednesday Start Time"},
-      "end_time[]thursday": {greaterThan: "Must be greater than Thursday Start Time"},
-      "end_time[]friday": {greaterThan: "Must be greater than Friday Start Time"},
-      "end_time[]saturday": {greaterThan: "Must be greater than Saturday Start Time"},
-      "end_time[]sunday": {greaterThan: "Must be greater than Sunday Start Time"},
+      "transaction[booking_attributes][0][end_time]": {greaterThan: "Must be greater than Sunday Start Time"},
+      "transaction[booking_attributes][1][end_time]": {greaterThan: "Must be greater than Monday Start Time"},
+      "transaction[booking_attributes][2][end_time]": {greaterThan: "Must be greater than Tuesday Start Time"},
+      "transaction[booking_attributes][3][end_time]": {greaterThan: "Must be greater than Wednesday Start Time"},
+      "transaction[booking_attributes][4][end_time]": {greaterThan: "Must be greater than Thursday Start Time"},
+      "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
+      "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
       "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
     }
   });
@@ -655,14 +655,6 @@
         i.setTime(i.getTime() + 1000*60*60*24);
       }
 
-      console.log("Total Sundays = "+totalSundays);
-      console.log("Total Mondays = "+totalMondays);
-      console.log("Total Tuesdays = "+totalTuesdays);
-      console.log("Total Wednesdays = "+totalWednesdays);
-      console.log("Total Thursdays = "+totalThursdays);
-      console.log("Total Fridays = "+totalFridays);
-      console.log("Total Saturdays = "+totalSaturdays);
-
       setWeekdayHours();
       setWeekendHours();
     }
@@ -670,15 +662,10 @@
 
   function setWeekdayHours(){
     totalMondayHours = totalMondays * mondayHour;
-    console.log("totalMondayHours = "+totalMondayHours);
     totalTuesdayHours = totalTuesdays * tuesdayHour;
-    console.log("totalTuesdayHours = "+totalTuesdayHours);
     totalWednesdayHours = totalWednesdays * wednesdayHour;
-    console.log("totalWednesdayHours = "+totalWednesdayHours);
     totalThursdayHours = totalThursdays * thursdayHour;
-    console.log("totalThursdayHours = "+totalThursdayHours);
     totalFridayHours = totalFridays * fridayHour;
-    console.log("totalFridayHours = "+totalFridayHours);
     weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
     totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
     $("#weekday_hours").html(weekday_hour);
@@ -687,9 +674,7 @@
 
   function setWeekendHours(){
     totalSaturdayHours = totalSaturdays * saturdayHour;
-    console.log("totalSaturdayHours = "+totalSaturdayHours);
     totalSundayHours = totalSundays * sundayHour;
-    console.log("totalSundayHours = "+totalSundayHours);
     weekend_hour = saturdayHour + sundayHour;
     totalWeekendHours = totalSundayHours + totalSaturdayHours;
     $("#weekend_hours").html(weekend_hour);
@@ -697,8 +682,8 @@
   }
 
   $(".monday_time_slot").change(function(){
-    if (($("#start_time_monday").val() != '' && $("#end_time_monday").val() != '') && ($("#start_time_monday").val() < $("#end_time_monday").val())) {
-      mondayHour = parseInt($("#end_time_monday").val()) - parseInt($("#start_time_monday").val());
+    if (($("#transaction_booking_attributes_1_start_time").val() != '' && $("#transaction_booking_attributes_1_end_time").val() != '') && ($("#transaction_booking_attributes_1_start_time").val() < $("#transaction_booking_attributes_1_end_time").val())) {
+      mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
       isMonday = true;
     }else {
       mondayHour = 0;
@@ -713,8 +698,8 @@
   });
 
   $(".tuesday_time_slot").change(function(){
-    if (($("#start_time_tuesday").val() != '' && $("#end_time_tuesday").val() != '') && ($("#start_time_tuesday").val() < $("#end_time_tuesday").val())) {
-      tuesdayHour = parseInt($("#end_time_tuesday").val()) - parseInt($("#start_time_tuesday").val());
+    if (($("#transaction_booking_attributes_2_start_time").val() != '' && $("#transaction_booking_attributes_2_end_time").val() != '') && ($("#transaction_booking_attributes_2_start_time").val() < $("#transaction_booking_attributes_2_end_time").val())) {
+      tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
       isTuesday = true;
     }else {
       tuesdayHour = 0;
@@ -729,8 +714,8 @@
   });
 
   $(".wednesday_time_slot").change(function(){
-    if (($("#start_time_wednesday").val() != '' && $("#end_time_wednesday").val() != '') && ($("#start_time_wednesday").val() < $("#end_time_wednesday").val())) {
-      wednesdayHour = parseInt($("#end_time_wednesday").val()) - parseInt($("#start_time_wednesday").val());
+    if (($("#transaction_booking_attributes_3_start_time").val() != '' && $("#transaction_booking_attributes_3_end_time").val() != '') && ($("#transaction_booking_attributes_3_start_time").val() < $("#transaction_booking_attributes_3_end_time").val())) {
+      wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
       isWednesday = true;
     }else {
       wednesdayHour = 0;
@@ -745,8 +730,8 @@
   });
 
   $(".thursday_time_slot").change(function(){
-    if (($("#start_time_thursday").val() != '' && $("#end_time_thursday").val() != '') && ($("#start_time_thursday").val() < $("#end_time_thursday").val())) {
-      thursdayHour = parseInt($("#end_time_thursday").val()) - parseInt($("#start_time_thursday").val());
+    if (($("#transaction_booking_attributes_4_start_time").val() != '' && $("#transaction_booking_attributes_4_end_time").val() != '') && ($("#transaction_booking_attributes_4_start_time").val() < $("#transaction_booking_attributes_4_end_time").val())) {
+      thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
       isThursday = true;
     }else {
       thursdayHour = 0;
@@ -761,8 +746,8 @@
   });
 
   $(".friday_time_slot").change(function(){
-    if (($("#start_time_friday").val() != '' && $("#end_time_friday").val() != '') && ($("#start_time_friday").val() < $("#end_time_friday").val())) {
-      fridayHour = parseInt($("#end_time_friday").val()) - parseInt($("#start_time_friday").val());
+    if (($("#transaction_booking_attributes_5_start_time").val() != '' && $("#transaction_booking_attributes_5_end_time").val() != '') && ($("#transaction_booking_attributes_5_start_time").val() < $("#transaction_booking_attributes_5_end_time").val())) {
+      fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
       isFriday = true;
     }else {
       fridayHour = 0;
@@ -777,8 +762,8 @@
   });
 
   $(".sunday_time_slot").change(function(){
-    if (($("#start_time_sunday").val() != '' && $("#end_time_sunday").val() != '') && ($("#start_time_sunday").val() < $("#end_time_sunday").val())) {
-      sundayHour = parseInt($("#end_time_sunday").val()) - parseInt($("#start_time_sunday").val());
+    if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
+      sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
       isSunday = true;
     }else {
       sundayHour = 0;
@@ -793,8 +778,8 @@
   });
 
   $(".saturday_time_slot").change(function(){
-    if (($("#start_time_saturday").val() != '' && $("#end_time_saturday").val() != '') && ($("#start_time_saturday").val() < $("#end_time_saturday").val())) {
-      saturdayHour = parseInt($("#end_time_saturday").val()) - parseInt($("#start_time_saturday").val());
+    if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
+      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
       isSaturday = true;
     }else {
       saturdayHour = 0;

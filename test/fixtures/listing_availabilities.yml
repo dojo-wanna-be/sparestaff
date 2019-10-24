@@ -3,12 +3,21 @@
 # Table name: listing_availabilities
 #
 #  id                  :bigint           not null, primary key
-#  start_time          :time
-#  end_time            :time
 #  day                 :integer
-#  employee_listing_id :bigint
+#  end_time            :time
+#  not_available       :boolean          default(FALSE)
+#  start_time          :time
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  employee_listing_id :bigint
+#
+# Indexes
+#
+#  index_listing_availabilities_on_employee_listing_id  (employee_listing_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (employee_listing_id => employee_listings.id)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

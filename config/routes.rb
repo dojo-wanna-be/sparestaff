@@ -41,5 +41,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :transactions
+  resources :transactions, only: [:create] do
+    member do
+      match :initialized, via: [:get, :patch]
+      match :payment, via: [:get, :patch]
+    end
+  end
 end

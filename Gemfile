@@ -59,6 +59,7 @@ group :development do
   gem 'pry-rails'
   gem 'letter_opener'
   gem 'annotate'
+  gem 'rubocop', require: false
 end
 
 group :test do
