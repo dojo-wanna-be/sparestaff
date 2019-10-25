@@ -34,4 +34,6 @@ class Transaction < ApplicationRecord
 
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, pending: 1, accepted: 3, rejected: 4, cancelled: 5, expired: 6 }
+
+  DAYS_HASH = {sunday: "Sun", monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri", saturday: "Sat"}
 end

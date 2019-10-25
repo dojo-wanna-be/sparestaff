@@ -1,0 +1,113 @@
+<div class="right_request_section">
+  <div class="user-right-box">
+    <div class="name-box">
+      <span class="Text22px"><%= @employee_listing.title %></span>
+      <%= @employee_listing.name %>
+    </div>
+    <div class="image-box">
+      <% if @employee_listing.profile_picture.present? %>
+        <%= image_tag @employee_listing.profile_picture.url, class: 'Image100pxRight' %>
+      <% else %>
+        <%= image_tag 'no-image.jpg', class: 'Image100pxRight' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="left">
+      <span><b>From</b></span>
+      <div><%= @transaction.start_date.strftime("%A %b %d, %Y") %></div>
+    </div>
+    <div class="right">
+      <span><b>To</b></span>
+      <div><%= @transaction.end_date.strftime("%A %b %d, %Y") %></div>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div>
+      <%= @slot.gsub(/,\s*$/, "").gsub(/(.*),(.*)/, '\1 and\2') %>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="left">
+      <span><b>Probationary period</b></span>
+    </div>
+    <div class="right">
+      <span>1 month</span>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="left">
+      <div><b>Weekly payment</b></div>
+      <div>$35.00 x 5 hours</div>
+      <div>$50.00 x 4 hours (weekend)</div>
+      <div>Tax withholding</div>
+      <div>Service fee</div>
+    </div>
+    <div class="right">
+      <div>&nbsp;</div>
+      <div>$175.00</div>
+      <div>$200.00</div>
+      <div>-$4.00</div>
+      <div>$11.13</div>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="left">
+      <span><b>Weekly Total</b></span>
+    </div>
+    <div class="right">
+      <span><b>$382.13</b></span>
+    </div>
+  </div>
+
+  <div class="user-right-box joint-box">
+    <div class="inner-joint">
+      <div class="left">
+        <div><b>Total employment contract</b></div>
+        <div>$35.00 x 55 hours</div>
+        <div>$50.00 x 40 hours (weekend)</div>
+        <div>Tax withholding</div>
+        <div>Service fee</div>
+      </div>
+      <div class="right">
+        <div>&nbsp;</div>
+        <div>$1,925.00</div>
+        <div>$2,000.00</div>
+        <div>-$40.00</div>
+        <div>$116.55</div>
+      </div>
+    </div>
+    <div class="devider">
+      <div class="full-row">
+        <span class="total"><b>Total</b></span>
+        <span class="value"><b>$4,001.55</b></span>
+      </div>
+      <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="name-box">
+      <span><b>PosterABC is PosterABC</b></span>
+    </div>
+    <div class="image-box">
+      <%= image_tag 'zidane-profile.jpg', class: 'Image100pxRight' %>
+    </div>
+  </div>
+
+  <div class="user-right-box bottom-joint-box">
+    <div><b>Cancellation policy</b></div>
+
+    <div class="more-box">
+      Cancel within 48 hours of booking to get a full refund.
+      <br />
+      <%= link_to 'More details', 'https://www.sparestaff.com.au/cancellation-policy', target: '_blank', class: 'blank-link' %>
+    </div>
+  </div>
+
+</div>

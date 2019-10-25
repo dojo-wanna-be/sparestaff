@@ -37,7 +37,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
   belongs_to :company, optional: true
-  has_many :employee_listings, as: :lister
+  has_many :employee_listings, as: :lister, dependent: :destroy
+  has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
+  has_many :messages, class_name: "Message", foreign_key: "sender_id"
+
   enum user_type: { owner: 0, hr: 1 }
 
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]

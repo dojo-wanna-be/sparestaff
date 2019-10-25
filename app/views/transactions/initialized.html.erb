@@ -1,1 +1,91 @@
-<h1>Company Details</h1>
+<div class="request_hire-section">
+  <div class="comman-inner-both">
+    <div class="left_request_section">
+      <%= render partial: "payment_steps_header" %>
+
+      <div class="review_hire_details">
+        <h1 class="main-heading">Request to hire <%= @employee_listing.name %></h1>
+        <h2 class="comman-heading">Where does <%= @employee_listing.name %> need to work?</h2>
+
+        <div class="request-form-box">
+          <%= form_for @company, url: initialized_transaction_path, method: :patch, multipart: true do |f| %>
+            <%= hidden_field_tag "id", @employee_listing.id %>
+            <%= hidden_field_tag "company_id", @company.id %>
+
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <label class="thin-label">Company name</label>
+                <%= f.text_field :name, placeholder: "Name, ACN/ABN are not shown to poster until hiring request is accepted", class: 'custom-field' %>
+              </div>
+
+              <div class="joint-group">
+                <div class="custom-input-group">
+                  <label class="custom-label">ACN/ABN</label>
+                  <%= f.text_field :acn, class: 'custom-field' %>
+                </div>
+                <div class="custom-input-group">
+                  <label class="custom-label">Your role in company</label>
+                  <%= select_tag "user_role", options_for_select(User::ROLES, current_user.is_owner? ? 0 : 1), {class: 'custom-field'} %>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="thin-label">Address line 1<span class="thin-text">(optional)</span></label>
+                <%= f.text_field :address_1, placeholder: "Full address is not shown to poster until hiring request is accepted", class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="thin-label">Address line 2 <span class="thin-text">(optional)</span></label>
+                <%= f.text_field :address_2, class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="thin-label">Suburb/City</label>
+                <%= f.text_field :city, class: 'custom-field half-field' %>
+              </div>
+
+              <div class="joint-group">
+                <div class="custom-input-group">
+                  <label class="thin-label">State</label>
+                  <%= f.select :state, options_for_select(Company::COMPANY_STATES, f.object.state), {}, {class: 'custom-field'} %>
+                </div>
+
+                <div class="custom-input-group">
+                  <label class="thin-label">Postcode</label>
+                  <%= f.number_field :post_code, min: 0, minlength: 4, maxlength: 4, class: 'custom-field' %>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="thin-label">Country</label>
+                <%= f.select :country, options_for_select(Company::EMPLOYEE_COUNTRIES, f.object.country), {}, {class: 'custom-field half-field'} %>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="comman-heading">Set probationary period</label>
+                <%= f.select :probationary_period, options_for_select(Company::PROBATIONARY_PERIOD, f.object.probationary_period), {}, {class: 'custom-field half-field'} %>
+              </div>
+
+              <h2 class="comman-heading">Send a message to <%= @employee_listing.poster.name %></h2>
+              <p>Let <%= @employee_listing.poster.name %> know more about your company, why you're hiring, details of the job to be carried out, and any other helpful information.</p>
+
+              <%= text_area_tag "message", nil, rows: "13" %>
+
+              <div class="button-box">
+                <%= f.submit "Continue", class: "continue-btn" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%= render partial: "right_listing_details" %>
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright', class: 'spare-link'%>
+    </div>
+  </div>
+</div>

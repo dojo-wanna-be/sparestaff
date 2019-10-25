@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
-      get :request_to_hire, path: "request_to_hire", as: "request_to_hire"
       get :getting_started, path: "getting_started", as: "getting_started"
       get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists

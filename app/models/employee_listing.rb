@@ -68,6 +68,8 @@ class EmployeeListing < ApplicationRecord
   has_many :slots, through: :employee_listing_slots
   has_many :relevant_documents
   has_many :employee_skills
+  has_many :conversations, dependent: :destroy
+  has_many :messages, through: :conversations
   has_attached_file :profile_picture
   validates_attachment_content_type :profile_picture, content_type: /\Aimage\/.*\z/
   has_attached_file :verification_front_image
@@ -91,5 +93,9 @@ class EmployeeListing < ApplicationRecord
 
   def poster
     lister_type.eql?("User") ? self.lister : self.lister.creator
+  end
+
+  def name
+    "#{self.first_name} #{self.last_name}"
   end
 end
