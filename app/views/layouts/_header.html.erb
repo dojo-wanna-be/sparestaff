@@ -16,7 +16,7 @@
 
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "#", class: "nav-link message" do %>
+            <%= link_to message_inbox_employee_index_path, class: "nav-link message" do %>
               <span>Message</span><span class="badge">2</span>
             <% end %>
           </li>

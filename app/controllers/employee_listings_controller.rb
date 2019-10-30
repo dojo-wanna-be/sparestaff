@@ -18,9 +18,18 @@ class EmployeeListingsController < ApplicationController
                                       :edit,
                                       :update,
                                       # :request_to_hire,
+                                      :message_inbox,
+                                      :user_dashboard,
                                       :listing_deactivation]
 
   before_action :find_company, only: [:create_listing_step_2]
+
+
+  def message_inbox
+  end
+
+  def user_dashboard
+  end
 
   def getting_started
   end
