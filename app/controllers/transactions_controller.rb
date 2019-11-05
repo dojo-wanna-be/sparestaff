@@ -1,16 +1,66 @@
 class TransactionsController < ApplicationController
+  include EmployeeListingsHelper
+
   before_action :authenticate_user!
   before_action :ensure_company_owner
-  before_action :find_transaction, only: [:ensure_not_poster, :initialized]
+  before_action :find_transaction, only: [:initialized, :payment]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment]
   before_action :find_company, only: [:initialized]
 
   def create
-    transaction = TransactionService.new(params, current_user).create
-    if transaction.present?
-      redirect_to initialized_transaction_path(id: transaction.id)
+    listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
+
+    transactions = listing
+                    .transactions
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?",
+                      params[:transaction][:start_date], params[:transaction][:end_date],
+                      params[:transaction][:start_date], params[:transaction][:end_date])
+                    .where(status: true)
+
+    transaction_ids = transactions.pluck(:id)
+    bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+    booked_timings = unavailable_time_slots(bookings)
+    requested_booking_slot = params[:transaction][:booking_attributes].to_unsafe_hash
+    continue = true
+
+    availability_slots = ListingAvailability::TIME_SLOTS
+
+    requested_booking_slot.each do |booking_day, booking_value|
+      if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+        if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
+          continue = false
+          break
+        end
+      end
+    end
+
+    if continue
+      transaction = TransactionService.new(params, current_user).create
+      if transaction.present?
+
+        # week_day_bookings = transaction.week_day_bookings
+        # weekday_hours = 0
+        # week_day_bookings.each do |booking|
+        #   weekday_hours = weekday_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
+        # end
+
+        # week_end_bookings = transaction.week_end_bookings
+        # weekend_hours = 0
+        # week_end_bookings.each do |booking|
+        #   weekend_hours = weekend_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
+        # end
+
+        # week_day_earning = weekday_hours * transaction.employee_listing.weekday_price
+        # week_end_earning = weekend_hours * transaction.employee_listing.weekend_price
+        # total_weekly_earning = week_day_earning + week_end_earning
+
+        redirect_to initialized_transaction_path(id: transaction.id)
+      else
+        flash[:error] = "Please check your selected dates and slotes and try again"
+        redirect_to employee_path(id: params[:transaction][:employee_listing_id])
+      end
     else
-      flash[:error] = "Please check your selected dates and slotes and try again"
+      flash[:error] = "Your booking is conflicting from other bookings. Please select different timings"
       redirect_to employee_path(id: params[:transaction][:employee_listing_id])
     end
   end
@@ -28,12 +78,41 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      binding.pry
+      # message sending code
       redirect_to payment_transaction_path(id: @transaction.id)
     end
   end
 
   def payment
+    @employee_listing = @transaction.employee_listing
+    unless request.patch?
+      @slot = ""
+      all_bookings = @transaction.bookings
+      ListingAvailability::DAYS.map{|k,v| v}.each do |day|
+        booking = all_bookings.find_by(day: day)
+        if booking.present?
+          @slot = @slot + Transaction::DAYS_HASH[:"#{day.downcase}"] + " #{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}, "
+        end
+      end
+    else
+      # transacton code here
+      # redirect_to payment_transaction_path(id: @transaction.id)
+    end
+  end
+
+  def check_slot_availability
+    @employee_listing = EmployeeListing.find(params[:listing_id])
+    @start_date = params[:start].to_date
+    @end_date = params[:end].to_date
+
+    transactions = @employee_listing
+                    .transactions
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
+
+    transaction_ids = transactions.pluck(:id)
+    bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+    @disabled_time = unavailable_time_slots(bookings)
+    @transaction = @employee_listing.transactions.build
   end
 
   private
@@ -69,7 +148,21 @@ class TransactionsController < ApplicationController
   end
 
   def ensure_not_poster
-    if current_user = @transaction.employee_listing.poster
+    if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
+      employee_listing = EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
+    elsif params[:id].present?
+      employee_listing = Transaction.find_by(id: params[:id]).employee_listing
+    else
+      flash[:error] = "Invalid request"
+      redirect_to employee_index_path
+    end
+
+    if employee_listing.present?
+      if current_user == employee_listing.poster
+        flash[:error] = "Invalid request"
+        redirect_to employee_index_path
+      end
+    else
       flash[:error] = "Invalid request"
       redirect_to employee_index_path
     end

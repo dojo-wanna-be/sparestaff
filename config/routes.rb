@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   end
 
   resources :transactions, only: [:create] do
+    collection do
+      get :check_slot_availability
+    end
     member do
       match :initialized, via: [:get, :patch]
       match :payment, via: [:get, :patch]

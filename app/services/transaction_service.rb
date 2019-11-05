@@ -13,8 +13,46 @@ class TransactionService
       tx.hirer_id = @hirer.id
       tx.poster_id = listing.poster.id
       tx.state = "initialized"
+      availability_slots = ListingAvailability::TIME_SLOTS
+
       if tx.save
-        create_bookings(tx)
+        weekly_hours = create_bookings(tx, availability_slots)
+
+        # tansaction_total_weekdays = tx.no_of_total_weekdays
+        # tansaction_total_weekends = tx.no_of_total_weekends
+
+        # total_days = tansaction_total_weekdays + tansaction_total_weekends
+
+        total_weekday_hours_per_week = weekly_hours[:monday_hours] + weekly_hours[:tuesday_hours] + weekly_hours[:wednesday_hours] + weekly_hours[:thursday_hours] + weekly_hours[:friday_hours]
+        total_weekday_hours = weekly_hours[:total_monday_hours] + weekly_hours[:total_tuesday_hours] + weekly_hours[:total_wednesday_hours] + weekly_hours[:total_thursday_hours] + weekly_hours[:total_friday_hours]
+        total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
+        total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
+
+        weekdays_price = listing.weekday_price * total_weekday_hours_per_week
+        weekends_price = listing.weekend_price * total_weekend_hours_per_week
+
+        total_weekdays_price = listing.weekday_price * total_weekday_hours
+        total_weekends_price = listing.weekend_price * total_weekend_hours
+
+        weekly_earning = weekdays_price + weekends_price + 0.99
+        total_earning = total_weekdays_price + total_weekends_price
+
+        tax_detail_hash = TaxDetail.tax_calculation(weekly_earning.to_f)
+        weekly_tax_withholding = (tax_detail_hash[:a] * weekly_earning) - tax_detail_hash[:b]
+
+        if tx.frequency.eql?("weekly")
+          tx.tax_withholding_amount = weekly_tax_withholding
+          tx.amount = weekly_earning - weekly_tax_withholding
+        elsif tx.frequency.eql?("")
+          fortnight_tax_withholding = 2 * weekly_tax_withholding
+          tx.tax_withholding_amount = fortnight_tax_withholding
+          tx.amount = weekly_earning - fortnight_tax_withholding
+        end
+
+        # tx.total_amount = total_earning - (weekly_tax_withholding * number_of_weeks)
+
+        tx.save
+
         return tx
       else
         ActiveRecord::RollBack
@@ -27,50 +65,166 @@ class TransactionService
 
   private
 
-  # def no_of_total_weekdays(tx)
-  #   no_of_mondays = (@start_date..@end_date).group_by(&:wday)[1].count
-  #   no_of_tuesdays = (@start_date..@end_date).group_by(&:wday)[2].count
-  #   no_of_wednesdays = (@start_date..@end_date).group_by(&:wday)[3].count
-  #   no_of_thursdays = (@start_date..@end_date).group_by(&:wday)[4].count
-  #   no_of_fridays = (@start_date..@end_date).group_by(&:wday)[5].count
-  #   create_bookings(@start_time, @end_time, tx)
+  def create_bookings(tx, availability_slots)
+    sunday_hours = 0
+    monday_hours = 0
+    tuesday_hours = 0
+    wednesday_hours = 0
+    thursday_hours = 0
+    friday_hours = 0
+    saturday_hours = 0
+    total_sunday_hours = 0
+    total_monday_hours = 0
+    total_tuesday_hours = 0
+    total_wednesday_hours = 0
+    total_thursday_hours = 0
+    total_friday_hours = 0
+    total_saturday_hours = 0
 
-  #   total_weekdays = no_of_mondays + no_of_tuesdays + no_of_wednesdays + no_of_thursdays + no_of_fridays
-  # end
-
-  # def no_of_total_weekends(tx)
-  #   no_of_sundays = (@start_date..@end_date).group_by(&:wday)[0].count
-  #   no_of_saturdays = (@start_date..@end_date).group_by(&:wday)[6].count
-  #   create_bookings(@start_time, @end_time)
-
-  #   total_weekends = no_of_sundays + no_of_saturdays
-  # end
-
-  def create_bookings(tx)
     @params[:transaction][:booking_attributes].to_unsafe_hash.map do |day, booking_timing|
-      if booking_timing[:start_time].present? && booking_timing[:end_time].present?
-        (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
-          Booking.create( transaction_id: tx.id,
-                          day: day.to_i,
-                          start_time: booking_timing[:start_time],
-                          end_time: booking_timing[:end_time],
-                          booking_date: date)
+      if day.eql?("0")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          sunday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_sundays = (tx.start_date..tx.end_date).group_by(&:wday)[0].count
+          total_sunday_hours = sunday_hours * no_of_sundays
+        else
+          sunday_hours = 0
+          total_sunday_hours = 0
+        end
+      end
+
+      if day.eql?("1")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          monday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_mondays = (tx.start_date..tx.end_date).group_by(&:wday)[1].count
+          total_monday_hours = monday_hours * no_of_mondays
+        else
+          monday_hours = 0
+          total_monday_hours = 0
+        end
+      end
+
+      if day.eql?("2")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          tuesday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_tuesdays = (tx.start_date..tx.end_date).group_by(&:wday)[2].count
+          total_tuesday_hours = tuesday_hours * no_of_tuesdays
+        else
+          tuesday_hours = 0
+          total_tuesday_hours = 0
+        end
+      end
+
+      if day.eql?("3")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          wednesday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_wednesday = (tx.start_date..tx.end_date).group_by(&:wday)[3].count
+          total_wednesday_hours = wednesday_hours * no_of_wednesdays
+        else
+          wednesday_hours = 0
+          total_wednesday_hours = 0
+        end
+      end
+
+      if day.eql?("4")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          thursday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_thursday = (tx.start_date..tx.end_date).group_by(&:wday)[4].count
+          total_thursday_hours = thursday_hours * no_of_thursdays
+        else
+          thursday_hours = 0
+          total_thursday_hours
+        end
+      end
+
+      if day.eql?("5")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          friday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_friday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          total_friday_hours = friday_hours * no_of_fridays
+        else
+          friday_hours = 0
+          total_friday_hours = 0
+        end
+      end
+
+      if day.eql?("6")
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+          (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
+            Booking.create( transaction_id: tx.id,
+                            day: day.to_i,
+                            start_time: booking_timing[:start_time],
+                            end_time: booking_timing[:end_time],
+                            booking_date: date)
+          end
+          saturday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
+          no_of_saturday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          total_saturday_hours = saturday_hours * no_of_saturdays
+        else
+          saturday_hours = 0
+          total_saturday_hours = 0
         end
       end
     end
-  end
 
-  def self.tax_calculation(weekly_earning)
-    flag = false
-    weekly_earnings = self.order(:weekly_earning).pluck(:weekly_earning)
-    weekly_earnings.each do |earning|
-      if weekly_earning < earning
-        tax_detail = self.find_by(weekly_earning: earning)
-        tax_details_hash = {a: tax_detail.a, b: tax_detail.b}
-        return tax_details_hash
-      end
-    end
-    tax_details_hash = {a: 0.4700, b: 576.7885}
+    {
+      sunday_hours: sunday_hours,
+      monday_hours: monday_hours,
+      tuesday_hours: tuesday_hours,
+      wednesday_hours: wednesday_hours,
+      thursday_hours: thursday_hours,
+      friday_hours: friday_hours,
+      saturday_hours: saturday_hours,
+      total_sunday_hours: total_sunday_hours,
+      total_monday_hours: total_monday_hours,
+      total_tuesday_hours: total_tuesday_hours,
+      total_wednesday_hours: total_wednesday_hours,
+      total_thursday_hours: total_thursday_hours,
+      total_friday_hours: total_friday_hours,
+      total_saturday_hours: total_saturday_hours
+    }
   end
 
   def transaction_params

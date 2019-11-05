@@ -68,6 +68,8 @@ class EmployeeListing < ApplicationRecord
   has_many :slots, through: :employee_listing_slots
   has_many :relevant_documents
   has_many :employee_skills
+  has_many :transactions
+  has_many :bookings, through: :transactions
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
   has_attached_file :profile_picture

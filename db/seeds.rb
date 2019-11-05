@@ -24,7 +24,7 @@ if Slot.count < 1
 end
 
 if TaxDetail.count < 1
-  t1 = TaxDetail.create(weekly_earning: 355 , a: nil , b: nil)
+  t1 = TaxDetail.create(weekly_earning: 355 , a: 0 , b: 0)
   t2 = TaxDetail.create(weekly_earning: 422 , a: 0.1900 , b: 67.4635)
   t3 = TaxDetail.create(weekly_earning: 528 , a: 0.2900 , b: 109.7321)
   t4 = TaxDetail.create(weekly_earning: 711 , a: 0.2100 , b: 67.4635)

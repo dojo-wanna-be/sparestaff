@@ -1,5 +1,6 @@
 class EmployeeListingsController < ApplicationController
-  before_action :authenticate_user!
+  include EmployeeListingsHelper
+
   before_action :find_listing, only: [:new_listing_step_2,
                                       :create_listing_step_2,
                                       :new_listing_step_3,
@@ -272,7 +273,18 @@ class EmployeeListingsController < ApplicationController
         redirect_to preview_employee_path(id: @employee_listing.id)
       end
     else
-      @transaction = Transaction.new
+      start_date = Date.today
+      end_date = Date.today
+
+      transactions = @employee_listing
+                    .transactions
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+      
+      transaction_ids = transactions.pluck(:id)
+      bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      @disabled_time = unavailable_time_slots(bookings)
+
+      @transaction = @employee_listing.transactions.build
     end
   end
 

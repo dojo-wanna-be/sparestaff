@@ -35,7 +35,7 @@
       <span><b>Probationary period</b></span>
     </div>
     <div class="right">
-      <span>1 month</span>
+      <span id="probationary_period"><%= @company.probationary_period.present? ? @company.probationary_period : "1 month" %></span>
     </div>
   </div>
 
