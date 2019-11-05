@@ -1,0 +1,143 @@
+<%= render partial: "user_settings_header" %>
+
+<div class="dashboard_container">
+  <h1 class="deshboard_heading">Dashboard</h1>
+  <h3 class="notif_heading">Notifications</h3>
+  <div class="messages_container">
+    <%= link_to '#', class: 'messages' do %>
+      <div class="logo">
+        <%= image_tag 'logo.png', alt: '' %>
+      </div>
+      <div class="day_date">
+        <span>Spare Staff</span><br>
+        <span>02 Mar 2019</span>
+      </div>
+      <div class="notify_msg">
+        <p>This is a notification from Spare Staff. This is a notification from Spare Staff. This is a notific...</p>
+      </div>
+    <% end %>
+    <%= link_to '#', class: 'messages' do %>
+      <div class="logo">
+        <%= image_tag 'logo.png', alt: '' %>
+      </div>
+      <div class="day_date">
+        <span>Spare Staff</span><br>
+        <span>02 Mar 2019</span>
+      </div>
+      <div class="notify_msg">
+        <p>This is a notification from Spare Staff. This is a notification from Spare Staff. This is a notific...</p>
+      </div>
+    <% end %>
+  </div>
+
+  <h2 class="upcoming_heading">Upcoming reservations</h2>
+  <div class="messages_container">
+    <div class="users_container">
+      <div class="user_content">
+        <div class="items ststus">
+          <h4>Status</h4>
+        </div>
+        <div class="items">
+          <h4>Dates, Hours, Location</h4>
+        </div>
+        <div class="items">
+          <h4>Hired Employee</h4>
+        </div>
+        <div class="items">
+          <h4>Hirer</h4>
+        </div>
+        <div class="items">
+          <h4>Details</h4>
+        </div>
+      </div>
+
+      <div class="user_content top_space">
+        <div class="items ststus">
+          <span class="greent-text">Accepted</span>
+        </div>
+        <div class="items">
+          <p>
+            12 Feb 2019 - 24 Apr 2019 <br>
+            95 Hour Total <br>
+            185 Enmore Rd <br>
+            Enmore NSW 2042 <br>
+          </p>
+        </div>
+        <div class="items">
+          <div class="user_profile">
+            <div>
+              <img class="profile_pic_sm" src="images/luca.png" alt="user_image">
+            </div>
+            <div class="name">
+              <strong>Senior IT Administrator</strong>
+              <p>Cristiano Ronaldo</p>
+            </div>
+          </div>
+        </div>
+        <div class="items">
+          <div class="user_profile">
+            <div>
+              <img class="profile_pic_sm" src="images/alex-profile.jpg" alt="user_image">
+            </div>
+            <div class="name">
+              <strong>HirerXYZ</strong>
+              <p>Contact: Alex Ferguson <br> HR Manager <br> +61 434 292 527</p>
+            </div>
+          </div>
+        </div>
+        <div class="items">
+          <p>$3,496.50 Total</p>
+          <a href="" class="orange">Print confirmation</a>
+          <a href="" class="orange">Change or Cancel</a>
+          <a href="" class="orange">Report a problem</a>
+          <a href="" class="orange">Send message</a>
+        </div>
+      </div>
+
+      <div class="user_content top_space">
+        <div class="items ststus">
+          <span class="orange">Pending</span>
+        </div>
+        <div class="items">
+          <p>
+            12 Feb 2019 - 24 Apr 2019 <br>
+            95 Hour Total <br>
+            185 Enmore Rd <br>
+            Enmore NSW 2042 <br>
+          </p>
+        </div>
+        <div class="items">
+          <div class="user_profile">
+            <div>
+              <img class="profile_pic_sm" src="images/luca.png" alt="user_image">
+            </div>
+            <div class="name">
+              <strong>Senior IT Administrator</strong>
+              <p>Cristiano Ronaldo</p>
+            </div>
+          </div>
+        </div>
+        <div class="items">
+          <div class="user_profile">
+            <div>
+              <img class="profile_pic_sm" src="images/alex-profile.jpg" alt="user_image">
+            </div>
+            <div class="name">
+              <strong>HirerXYZ</strong>
+              <p>Contact: Alex Ferguson <br> HR Manager <br> +61 434 292 527</p>
+            </div>
+          </div>
+        </div>
+        <div class="items">
+          <p>$3,496.50 Total</p>
+          <a href="" class="orange">Print confirmation</a>
+          <a href="" class="orange">Change or Cancel</a>
+          <a href="" class="orange">Report a problem</a>
+          <a href="" class="orange">Send message</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
