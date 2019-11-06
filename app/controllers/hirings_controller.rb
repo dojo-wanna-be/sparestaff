@@ -1,5 +1,12 @@
 class HiringsController < ApplicationController
-  before_action :find_transaction, only: [:change_or_cancel, :cancel_hiring, :tell_poster, :cancelled_successfully]
+  before_action :find_transaction, only: [:change_or_cancel,
+                                          :change_hiring,
+                                          :change_hiring_confirmation,
+                                          :changed_successfully,
+                                          :cancel_hiring,
+                                          :tell_poster,
+                                          :cancelled_successfully
+                                         ]
 
   def index
     hirer_transactions = Transaction.where(hirer_id: current_user.id)
@@ -8,6 +15,27 @@ class HiringsController < ApplicationController
 
   def change_or_cancel
     @listing = @transaction.employee_listing
+  end
+
+  def change_hiring
+    @listing = @transaction.employee_listing
+    unless request.patch?
+    else
+    end
+  end
+
+  def change_hiring_confirmation
+    @listing = @transaction.employee_listing
+    unless request.patch?
+    else
+    end
+  end
+
+  def changed_successfully
+    @listing = @transaction.employee_listing
+    unless request.patch?
+    else
+    end
   end
 
   def cancel_hiring
