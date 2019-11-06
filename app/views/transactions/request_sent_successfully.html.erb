@@ -1,17 +1,49 @@
-Hiring Request Sent
+<div class="hiring_request_sent_section">
+  <ul class="logo-list">
+    <li class="logo-list-item">
+      <%= link_to '' do %>
+        <%= image_tag 'logo.png', class: 'logo_img' %>
+      <% end %>
+    </li>
+  </ul>
 
-This is not a confirmed hiring - at least not yet. You'll get a response within 48 hours.
+  <div class="left-hiring-request">
+    <h1 class="main-heading">Hiring Request Sent</h1>
+    <div>This is not a confirmed hiring - at least not yet. You'll get a response within 48 hours.</div>
+    <div class="user-pro-box">
+      <div class="left-name-box">Cristiano Ronaldo<br>
+      Senior IT Administrator</div>
+      <div class="right-img-box">
+        <%= image_tag 'luca.png', class: 'Image200pxRight' %>
+      </div>
+    </div>
 
-Cristiano Ronaldo
-Senior IT Administrator 
+    <div class="user-pro-box">
+      <div>
+        <span><b>From</b></span>
+        </br>
+        Monday Feb 12, 2019
+      </div>
+      <div>
+        <span><b>To</b></span>
+        </br>
+        Wednesday Apr 24, 2019
+      </div>
+    </div>
+
+    <div class="user-pro-box">
+      You won't be charged until your hiring is confirmed by PosterABC.
+    </div>
+
+    <%= link_to "View Your Hirings", hirings_path, class: 'veiw-hiring-btn' %>
+
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <a class="spare-link" href="https://www.sparestaff.com.au/copyright">© Spare Staff</a>
+    </div>
+  </div>
+</div>
 
 
-From
-Monday Feb 12, 2019 To
-Wednesday Apr 24, 2019
-
-
-You won't be charged until your hiring is confirmed by PosterABC.
-
-
-<%= link_to "View Your Hirings", hirings_path %>
