@@ -1,0 +1,16 @@
+Your Hiring Has Been Cancelled
+Reason to cancel:
+<%= @transaction.reason %>
+
+Your Refund Summary
+Total Fee$382.13
+Service fee-$11.13
+Your Total Refund$371.00
+
+<% if @conversation.present? %>
+Your message to <%= @listing.poster.name %>
+<%= @conversation.messages.last.content %>
+<% end %>
+
+Cancellation takes effect immediately. You will receive an email confirmation from Spare Staff.
+<%= link_to "View Your Hirings", hirings_path %>

@@ -1,0 +1,10 @@
+Cancel Hiring Contract
+
+Cancellations affect Poster too
+We know that cancellations are sometimes unavoidable, but they also have a financial impact on the Poster who has spent time preparing for your hiring.
+
+<%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  Tell PosterABC why you need to cancel
+  <%= text_area_tag "message_text" %>
+  <%= submit_tag "Cancel Hiring" %>
+<% end %>

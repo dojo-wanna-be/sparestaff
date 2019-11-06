@@ -50,6 +50,19 @@ Rails.application.routes.draw do
     member do
       match :initialized, via: [:get, :patch]
       match :payment, via: [:get, :patch]
+      get :request_sent_successfully
+    end
+  end
+
+  resources :hirings, only: [:index] do
+    collection do
+      get :cancelled_successfully
+      patch :send_details
+    end
+    member do
+      get :change_or_cancel
+      match :cancel_hiring, via: [:get, :patch]
+      match :tell_poster, via: [:get, :patch]
     end
   end
 end

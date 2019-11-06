@@ -1,0 +1,12 @@
+Cancel Hiring Contract
+Why do you need to cancel?
+
+<%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  <% Transaction::CANCELLATION_REASON.each_with_index do |reason, index| %>
+    <div class="cancellation_reason">
+      <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}" %>
+      <%= reason %>
+    </div>
+  <% end %>
+  <%= submit_tag "Next Step" %>
+<% end %>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <table style="width: 500px; padding-left: 80px;">
+      <tr>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <% if Rails.env == "staging" %>
+            <%= image_tag "https://staging.sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% else %>
+            <%= image_tag "https://sparestaff.com.au/assets/Spare-Staff-130x130.png", width: "60", height: "60", alt: "" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td><br />
+        You have successfully cancelled the listing <%= @listing.title %>.<br />
+        <br />
+
+        <br />
+        <br />
+        The Spare Staff Team <br />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </body>
+</html>

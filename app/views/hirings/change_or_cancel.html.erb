@@ -1,0 +1,11 @@
+<h3>What would you like to do?</h3>
+
+<div class="change_contract">
+  <%= link_to "Change Hiring Contract", "#" %>
+  Change dates, or timetable.
+</div>
+
+<div class="cancel_contract">
+  <%= link_to "Cancel Hiring Contract", cancel_hiring_hiring_path(id: @transaction.id) %>
+  This hiring has cancellation policy.
+</div>

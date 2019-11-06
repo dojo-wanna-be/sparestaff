@@ -22,6 +22,10 @@ class Conversation < ApplicationRecord
 
   validates :sender_id, uniqueness: { scope: :receiver_id }
 
+  scope :between, -> (sender_id, receiver_id, employee_listing_id) do
+    where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? )", sender_id, receiver_id, employee_listing_id, receiver_id, sender_id, employee_listing_id)
+  end
+
   def opposed_user(user)
     user == receiver ? sender : receiver
   end

@@ -89,3 +89,14 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $("#company_probationary_period").change(function(){
+    var months = $(this).val();
+    if (months === "1"){
+      $("#probationary_period").html(months + " month");
+    }else{
+      $("#probationary_period").html(months + " months");
+    }
+  })
+</script>

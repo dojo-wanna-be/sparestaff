@@ -1,0 +1,28 @@
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Change or Cancel</th>
+      <th>Share</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hired_listing_transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.employee_listing.title %></td>
+        <td><%= link_to "Change or Cancel", change_or_cancel_hiring_path(id: transaction.id) %></td>
+        <td><%= link_to "Share Details", "javascript:;", class: "share-detail-link", data: {attribute: transaction.id} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render partial: "share_details_popup" %>
+
+<script type="text/javascript">
+  $(".share-detail-link").click(function(){
+    var transaction_id = $(this).data("attribute");
+    $("#shareDetailsModal").modal();
+    $("#transaction_hidden_field").val(transaction_id);
+  })
+</script>

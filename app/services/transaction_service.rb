@@ -28,6 +28,9 @@ class TransactionService
         total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
+        tx.weekday_hours = total_weekday_hours_per_week
+        tx.weekend_hours = total_weekend_hours_per_week
+
         weekdays_price = listing.weekday_price * total_weekday_hours_per_week
         weekends_price = listing.weekend_price * total_weekend_hours_per_week
 

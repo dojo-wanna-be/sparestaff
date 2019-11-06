@@ -7,12 +7,14 @@
 #  end_date               :date
 #  frequency              :integer
 #  is_withholding_tax     :boolean          default(TRUE)
-#  reason                 :integer
+#  reason                 :text
 #  start_date             :date
 #  state                  :integer
 #  status                 :boolean          default(TRUE)
 #  tax_withholding_amount :float
 #  total_amount           :float
+#  weekday_hours          :integer
+#  weekend_hours          :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  customer_id            :string
@@ -36,7 +38,17 @@ class Transaction < ApplicationRecord
   has_many :bookings, dependent: :destroy
 
   enum frequency: { weekly: 0, fortnight: 1 }
-  enum state: { initialized: 0, pending: 1, accepted: 3, rejected: 4, cancelled: 5, expired: 6 }
+  enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5 }
+
+  CANCELLATION_REASON = ["I no longer need to hire an employee",
+             "My date to hire employee changed",
+             "I made the hiring my mistake",
+             "I have extenuating circumstance",
+             "The poster needs to cancel",
+             "I'm uncomfortable dealing with the poster or the employee",
+             "The employee underperforms or does not meet my expectation",
+             "The employee commited an act of serious misconduct",
+             "Other"]
 
   DAYS_HASH = {sunday: "Sun", monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri", saturday: "Sat"}
 

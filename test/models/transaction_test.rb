@@ -7,12 +7,14 @@
 #  end_date               :date
 #  frequency              :integer
 #  is_withholding_tax     :boolean          default(TRUE)
-#  reason                 :integer
+#  reason                 :text
 #  start_date             :date
 #  state                  :integer
 #  status                 :boolean          default(TRUE)
 #  tax_withholding_amount :float
 #  total_amount           :float
+#  weekday_hours          :integer
+#  weekend_hours          :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  customer_id            :string

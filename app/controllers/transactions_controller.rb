@@ -3,9 +3,9 @@ class TransactionsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :ensure_company_owner
-  before_action :find_transaction, only: [:initialized, :payment]
+  before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment]
-  before_action :find_company, only: [:initialized]
+  before_action :find_company, only: [:initialized, :payment]
 
   def create
     listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
@@ -66,8 +66,8 @@ class TransactionsController < ApplicationController
   end
 
   def initialized
+    @employee_listing = @transaction.employee_listing
     unless request.patch?
-      @employee_listing = @transaction.employee_listing
       @slot = ""
       all_bookings = @transaction.bookings
       ListingAvailability::DAYS.map{|k,v| v}.each do |day|
@@ -76,9 +76,21 @@ class TransactionsController < ApplicationController
           @slot = @slot + Transaction::DAYS_HASH[:"#{day.downcase}"] + " #{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}, "
         end
       end
+
     else
       @company.update(company_params)
-      # message sending code
+      if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
+        @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
+      else
+        @conversation = Conversation.create!( receiver_id: @employee_listing.poster.id,
+                                              sender_id: current_user.id,
+                                              employee_listing_id: @employee_listing.id
+                                            )
+      end
+      message = @conversation.messages.build
+      message.content = params[:message_text]
+      message.sender_id = current_user.id
+      message.save
       redirect_to payment_transaction_path(id: @transaction.id)
     end
   end
@@ -96,8 +108,15 @@ class TransactionsController < ApplicationController
       end
     else
       # transacton code here
-      # redirect_to payment_transaction_path(id: @transaction.id)
+      @transaction.update_attribute(:state, "created")
+      TransactionMailer.listing_hiring_request_received(@employee_listing.poster).deliver!
+      TransactionMailer.listing_hiring_request_sent(current_user).deliver!
+      redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     end
+  end
+
+  def request_sent_successfully
+    @employee_listing = @transaction.employee_listing
   end
 
   def check_slot_availability
