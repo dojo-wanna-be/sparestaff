@@ -1,11 +1,133 @@
-<h3>What would you like to do?</h3>
+<%= render partial: "employee_listings/user_settings_header" %>
 
-<div class="change_contract">
-  <%= link_to "Change Hiring Contract", change_hiring_hiring_path(id: @transaction.id) %>
-  Change dates, or timetable.
+
+<div class="change-or-hiring-section">
+  <div class="left-detail">
+    <div class="text-allign-center">
+      <%= image_tag 'luca.png', class: 'pro-pic' %>
+      <div class="sub-title">Senior IT Administrator</div>
+      <div>Cristiano Ronaldo</div>
+      <div class="grey-text">Poster: PosterABC</div>
+    </div>
+
+    <div class="order-details first-order">
+      <div class="order-item">
+        <span><b>12 Feb 2019</b></span>
+        <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
+        <span><b>24 Apr 2019</b></span>
+      </div>
+      <div class="OrderTotalHour">95 Hour Total</div>
+      <div class="order-item space-bottom">
+        <span>Monday</span>
+        <span>09.00 - 12:00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Tuesday</span>
+        <span>09.00 - 12:00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Sunday</span>
+        <span>09.00 - 12:00</span>
+      </div>
+    </div>
+
+    <div class="order-details">
+      <div class="order-item space-bottom">
+        <span class="grey-text">Probationary period</span>
+      </div>
+      <div class="order-item ">
+        <div class="month1">1 month</div>
+      </div>
+    </div>
+
+    <div class="order-details">
+      <h3 class="sub-title">Weekly payment</h3>
+      <div class="order-item space-bottom">
+        <span>$35 x 5 hours</span>
+        <span>$175.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>$50.00 x 4 hours <br />(weekend)</span>
+        <span>$200.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Tax withholding</span>
+        <span>-$4.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Service fee</span>
+        <span>$11.13</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><b>Weekly total</b></span>
+        <span><b>$382.13</b></span>
+      </div>
+    </div>
+
+    <div class="toggle-payment-detail">Total employment contract</div>
+
+    <div class="order-details show-payment-box">
+      <div class="order-item space-bottom">
+        <span>$35 x 55 hours</span>
+        <span>$1,925.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>$50.00 x 40 hours <br />(weekend)</span>
+        <span>$2,000.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Tax withholding</span>
+        <span>-$40.00</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Service fee</span>
+        <span>$116.15</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><b>Total</b></span>
+        <span><b>$4,001.56</b></span>
+      </div>
+
+      <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
+    </div>
+
+  </div>
+
+  <div class="right-detail">
+    <h3 class="right-sub-title">What would you like to do?</h3>
+
+    <div class="change-or-cancel">
+      <div class="button-box">
+        <div class="icon-box">
+          <%= link_to change_hiring_hiring_path(id: @transaction.id) do %>
+            <%= image_tag 'change-icon.png', class: 'Height30px' %>
+          <% end %>
+        </div>
+        <div class="link-box">
+          <%= link_to 'Change Hiring Contract', change_hiring_hiring_path(id: @transaction.id), class: 'GreyLink' %>
+          <div>Change dates, or timetable.</div>
+        </div>
+      </div>
+
+      <div class="button-box">
+        <div class="icon-box">
+          <%= link_to cancel_hiring_hiring_path(id: @transaction.id) do %>
+            <%= image_tag 'cancel-icon.png', class: 'Height30px' %>
+          <% end %>
+        </div>
+        <div class="link-box">
+          <%= link_to 'Cancel Hiring Contract', cancel_hiring_hiring_path(id: @transaction.id), class: 'GreyLink' %>
+          <div>This hiring has cancellation policy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="cancel_contract">
-  <%= link_to "Cancel Hiring Contract", cancel_hiring_hiring_path(id: @transaction.id) %>
-  This hiring has cancellation policy.
-</div>
+<%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  $('.toggle-payment-detail').click(function(){
+    $('.show-payment-box').toggle();
+  });
+</script>
