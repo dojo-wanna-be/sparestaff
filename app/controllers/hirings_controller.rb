@@ -18,9 +18,17 @@ class HiringsController < ApplicationController
   end
 
   def change_hiring
+    @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
     else
+      @new_transaction = TransactionService.new(params, current_user).create
+      if @new_transaction.present?
+        redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id)
+      else
+        flash[:error] = "Some error occurred"
+        redirect_to change_hiring_hiring_path(id: @old_transaction.id)
+      end
     end
   end
 

@@ -18,18 +18,18 @@ class TransactionService
       if tx.save
         weekly_hours = create_bookings(tx, availability_slots)
 
-        # tansaction_total_weekdays = tx.no_of_total_weekdays
-        # tansaction_total_weekends = tx.no_of_total_weekends
-
-        # total_days = tansaction_total_weekdays + tansaction_total_weekends
-
         total_weekday_hours_per_week = weekly_hours[:monday_hours] + weekly_hours[:tuesday_hours] + weekly_hours[:wednesday_hours] + weekly_hours[:thursday_hours] + weekly_hours[:friday_hours]
         total_weekday_hours = weekly_hours[:total_monday_hours] + weekly_hours[:total_tuesday_hours] + weekly_hours[:total_wednesday_hours] + weekly_hours[:total_thursday_hours] + weekly_hours[:total_friday_hours]
         total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
+        number_of_weeks = start_date.upto(end_date).count.fdiv(7).round(2)
+
         tx.weekday_hours = total_weekday_hours_per_week
         tx.weekend_hours = total_weekend_hours_per_week
+
+        tx.total_weekday_hours = total_weekday_hours
+        tx.total_weekend_hours = total_weekend_hours
 
         weekdays_price = listing.weekday_price * total_weekday_hours_per_week
         weekends_price = listing.weekend_price * total_weekend_hours_per_week
@@ -38,21 +38,27 @@ class TransactionService
         total_weekends_price = listing.weekend_price * total_weekend_hours
 
         weekly_earning = weekdays_price + weekends_price + 0.99
-        total_earning = total_weekdays_price + total_weekends_price
+        total_cents = number_of_weeks * 0.99
+        total_earning = total_weekdays_price + total_weekends_price + total_cents
 
         tax_detail_hash = TaxDetail.tax_calculation(weekly_earning.to_f)
         weekly_tax_withholding = (tax_detail_hash[:a] * weekly_earning) - tax_detail_hash[:b]
 
+        total_tax_withholding = (tax_detail_hash[:a] * total_earning) - tax_detail_hash[:b]
+
         if tx.frequency.eql?("weekly")
           tx.tax_withholding_amount = weekly_tax_withholding
           tx.amount = weekly_earning - weekly_tax_withholding
+          tx.total_tax_withholding_amount = total_tax_withholding
+          tx.total_amount = total_earning - total_tax_withholding
         elsif tx.frequency.eql?("")
           fortnight_tax_withholding = 2 * weekly_tax_withholding
+          total_fortnight_tax_withholding = 2 * total_tax_withholding
           tx.tax_withholding_amount = fortnight_tax_withholding
           tx.amount = weekly_earning - fortnight_tax_withholding
+          tx.total_tax_withholding_amount = total_fortnight_tax_withholding
+          tx.total_amount = total_earning - total_fortnight_tax_withholding
         end
-
-        # tx.total_amount = total_earning - (weekly_tax_withholding * number_of_weeks)
 
         tx.save
 
