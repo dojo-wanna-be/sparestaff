@@ -1,6 +1,221 @@
-What do you want to change?
+<div class="request_hiring-section">
+  <div class="comman-inner-both">
+    <div class="left_request_section">
+      <ul class="logo-list">
+        <li class="logo-list-item">
+          <%= link_to '' do %>
+            <%= image_tag 'logo.png', class: 'logo_img' %>
+          <% end %>
+        </li>
+        <li class="logo-list-item">
+          <%= link_to '1. Change hiring contract', '#', class: 'item-logo select-item' %>
+        </li>
+        <li class="logo-list-item">
+          >
+        </li>
+        <li class="logo-list-item">
+          <%= link_to '2. Confirm request', change_hiring_confirmation_hiring_path(id: @transaction.id), class: 'item-logo' %>
+        </li>
+      </ul>
 
+      <%#= render partial: "employee_listings/review_hire_details" %>
+      <div class="review_hiring_details">
+        <h1 class="main-heading">What do you want to change?</h1>
 
-================================Change Hiring First Page=================================
+        <div class="hiring-time-box">
 
-<%= link_to "Go to second page", change_hiring_confirmation_hiring_path(id: @transaction.id) %>
+          <%= form_tag :html => { :id => "listing_transaction" } do |f| %>
+            <%= hidden_field_tag :employee_listing_id, @listing.id %>
+
+            <div class="available-box">
+              <div class="date-box">
+                <div class="date-sec">
+                  <label class="thin-label">Start Date</label>
+                  <%= date_field_tag :start_date, @transaction.start_date, min: @transaction.start_date %>
+                  <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
+                </div>
+                <div class="date-sec">
+                  <label class="thin-label">End Date</label>
+                  <%= date_field_tag :end_date, @transaction.end_date, min: @transaction.end_date %>
+                  <!-- <label id="end_date">End date must be greater from start date</label> -->
+                </div>
+              </div>
+
+              <div class="hiring-text">Select hiring time</div>
+
+              <div class="week-availability">
+                <ul class="from-to-list">
+                  <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
+                  <li class="header-item">
+                    <div class="from-text">From</div>
+                    <div class="to-text">To</div>
+                  </li>
+
+                  <% @listing.listing_availabilities.each_with_index do |availability, index| %>
+                    <li class="availability-item">
+                      <% if availability.not_available? %>
+                        <div class="start-side">
+                          <span class="disabled-field"><%= availability.day.titleize %></span>
+                          <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(ListingAvailability::START_TIME_SLOTS), include_blank: ' ', class: 'cust_str_id start-side-select disabled-field', disabled: "disabled" %>
+                        </div>
+                        <div class="end-side">
+                          <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
+                        </div>
+                      <% else %>
+                        <div class="start-side">
+                          <span><%= availability.day.titleize %></span>
+                          <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                        </div>
+                        <div class="end-side">
+                          <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                        </div>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
+          <%= link_to 'Continue', '#', class: 'continue-btn' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="right_request_section">
+      <div class="user-right-box">
+        <div class="name-box">
+          <span class="Text22px">Senior IT Administrator</span>
+          Cristiano Ronaldo
+        </div>
+        <div class="image-box">
+          <%= image_tag 'luca.png', class: 'Image100pxRight' %>
+        </div>
+      </div>
+
+      <div class="user-right-box">
+        <div class="left">
+          <span><b>From</b></span>
+          <div>Monday Feb 12, 2019</div>
+        </div>
+        <div class="right">
+          <span><b>To</b></span>
+          <div>Wednesday Apr 24, 2019</div>
+        </div>
+      </div>
+
+      <ul class="calculation-list">
+        <li class="calc-item">
+          <span class="left">
+            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours
+          </span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+        <li class="calc-item">
+          <span class="left">
+            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours (weekend)
+          </span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item last-item">
+          <span class="left">
+            <input class="tax-check" type="checkbox" value="1" checked="checked" name="transaction[is_withholding_tax]" id="transaction_is_withholding_tax"> Tax withholding
+          </span>
+          <span class="right">
+            <span class="dollar-input-box">$</span>
+            <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="transaction[tax_withholding_amount]" id="transaction_tax_withholding_amount">
+          </span>
+        </li>
+
+        <div class="nor-text" id="tax-notice">As an employer, tax withholding is your legal requirement. If you choose not to withhold tax now, you might be liable for a penalty to ATO later.</div>
+
+        <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
+
+        <li class="calc-item">
+          <span class="left">Service fee</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">New weekly total</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">Original weekly total</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left"><b>Weekly price difference</b></span>
+          <span class="right"><b>$<span id="hiring_weekday_price"> 0 </span> </b></span>
+        </li>
+      </ul>
+
+      <div class="toggle-total-employement">Total employment contract</div>
+
+      <ul class="calculation-list total-employement-list">
+        <li class="calc-item">
+          <span class="left">
+            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours
+          </span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+        <li class="calc-item">
+          <span class="left">
+            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours (weekend)
+          </span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">Tax withholding</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">Service fee</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">New total</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">Original total</span>
+          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left"><b>Price difference</b></span>
+          <span class="right"><b>$<span id="hiring_weekday_price"> 0 </span> </b></span>
+        </li>
+
+        <li class="calc-item">
+          <span>You will not pay the Total employment contract upfront. You chose to pay weekly.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright', class: 'spare-link'%>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.toggle-total-employement').click(function(){
+    $('.total-employement-list').toggle();
+  });
+</script>
+
+<style type="text/css">
+  .fixed-header  {
+    display: none;
+  }
+</style>

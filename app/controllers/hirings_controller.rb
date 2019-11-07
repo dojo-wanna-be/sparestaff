@@ -1,4 +1,6 @@
 class HiringsController < ApplicationController
+  include EmployeeListingsHelper
+
   before_action :find_transaction, only: [:change_or_cancel,
                                           :change_hiring,
                                           :change_hiring_confirmation,
@@ -26,6 +28,17 @@ class HiringsController < ApplicationController
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
+      start_date = @transaction.start_date
+      end_date = @transaction.end_date
+
+      transactions = @listing
+                    .transactions
+                    .where(state: "accepted")
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+
+      transaction_ids = transactions.pluck(:id)
+      bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      @disabled_time = unavailable_time_slots(bookings)
     else
       @new_transaction = TransactionService.new(params, current_user).create
       if @new_transaction.present?
