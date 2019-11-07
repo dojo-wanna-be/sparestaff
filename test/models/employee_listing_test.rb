@@ -16,7 +16,7 @@
 #  first_name                            :string
 #  gender                                :string
 #  has_vehicle                           :boolean          default(FALSE)
-#  holiday_price                         :decimal(, )
+#  holiday_price                         :decimal(, )      default(0.0)
 #  last_name                             :string
 #  lister_type                           :string
 #  listing_step                          :integer
@@ -44,8 +44,8 @@
 #  verification_front_image_file_size    :bigint
 #  verification_front_image_updated_at   :datetime
 #  verification_type                     :string
-#  weekday_price                         :decimal(, )
-#  weekend_price                         :decimal(, )
+#  weekday_price                         :decimal(, )      default(0.0)
+#  weekend_price                         :decimal(, )      default(0.0)
 #  created_at                            :datetime         not null
 #  updated_at                            :datetime         not null
 #  classification_id                     :integer

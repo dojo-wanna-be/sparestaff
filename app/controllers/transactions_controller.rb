@@ -12,10 +12,10 @@ class TransactionsController < ApplicationController
 
     transactions = listing
                     .transactions
+                    .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?",
                       params[:transaction][:start_date], params[:transaction][:end_date],
                       params[:transaction][:start_date], params[:transaction][:end_date])
-                    .where(status: true)
 
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
@@ -126,6 +126,7 @@ class TransactionsController < ApplicationController
 
     transactions = @employee_listing
                     .transactions
+                    .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
 
     transaction_ids = transactions.pluck(:id)
