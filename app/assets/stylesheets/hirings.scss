@@ -648,6 +648,63 @@
         }
       }
 
+      .comman-heading {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 23px 0 1em;
+      }
+
+      .date-detail {
+        font-size: 22px;
+        display: inline-block;
+        padding-bottom: 10px;
+        margin-top: 2px;
+      }
+
+      .total-hour {
+        font-size: 14px;
+        color: #767676;
+        text-transform: uppercase;
+      }
+
+      .original-through-text {
+        font-size: 16px;
+        color: #767676;
+        margin-top: 16px;
+        border-bottom: 1px solid #e4e4e4;
+        padding-bottom: 1em;
+        margin-bottom: 22px;
+
+        .through-text {
+          text-decoration: line-through;
+          color: #767676;
+        }
+      }
+
+      .inline-btn-box {
+        margin-top: 44px;
+        display: flex;
+        flex-direction: row;
+
+        .back-btn {
+          width: 90px;
+          height: 40px;
+          border: 1px solid #333;
+          background-color: #fff;
+          border-radius: 3px;
+          color: #484848;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 20px;
+          text-decoration: none;
+        }
+
+        .continue-btn {
+          margin: 0 !important;
+        }
+      }
+
       .review_hiring_details {
         display: flex;
         flex-direction: column;
@@ -899,6 +956,7 @@
           align-items: center;
           width: fit-content;
           padding: 0 20px;
+          text-decoration: none;
 
           &:hover {
             background-color: #d75227;

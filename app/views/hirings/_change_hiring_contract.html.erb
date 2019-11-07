@@ -1,0 +1,61 @@
+<div class="review_hiring_details">
+  <h1 class="main-heading">What do you want to change?</h1>
+
+  <div class="hiring-time-box">
+
+    <%= form_tag :html => { :id => "listing_transaction" } do |f| %>
+      <%= hidden_field_tag :employee_listing_id, @listing.id %>
+
+      <div class="available-box">
+        <div class="date-box">
+          <div class="date-sec">
+            <label class="thin-label">Start Date</label>
+            <%= date_field_tag :start_date, @transaction.start_date, min: @transaction.start_date %>
+            <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
+          </div>
+          <div class="date-sec">
+            <label class="thin-label">End Date</label>
+            <%= date_field_tag :end_date, @transaction.end_date, min: @transaction.end_date %>
+            <!-- <label id="end_date">End date must be greater from start date</label> -->
+          </div>
+        </div>
+
+        <div class="hiring-text">Select hiring time</div>
+
+        <div class="week-availability">
+          <ul class="from-to-list">
+            <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
+            <li class="header-item">
+              <div class="from-text">From</div>
+              <div class="to-text">To</div>
+            </li>
+
+            <% @listing.listing_availabilities.each_with_index do |availability, index| %>
+              <li class="availability-item">
+                <% if availability.not_available? %>
+                  <div class="start-side">
+                    <span class="disabled-field"><%= availability.day.titleize %></span>
+                    <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(ListingAvailability::START_TIME_SLOTS), include_blank: ' ', class: 'cust_str_id start-side-select disabled-field', disabled: "disabled" %>
+                  </div>
+                  <div class="end-side">
+                    <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
+                  </div>
+                <% else %>
+                  <div class="start-side">
+                    <span><%= availability.day.titleize %></span>
+                    <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                  </div>
+                  <div class="end-side">
+                    <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                  </div>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <%= link_to 'Continue', change_hiring_confirmation_hiring_path(id: @transaction.id), class: 'continue-btn' %>
+  </div>
+</div>
