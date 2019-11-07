@@ -7,12 +7,17 @@ class HiringsController < ApplicationController
                                           :changed_successfully,
                                           :cancel_hiring,
                                           :tell_poster,
-                                          :cancelled_successfully
+                                          :cancelled_successfully,
+                                          :show
                                          ]
 
   def index
-    hirer_transactions = Transaction.where(hirer_id: current_user.id)
+    hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
     @hired_listing_transactions = hirer_transactions.includes(:employee_listing)
+  end
+
+  def show
+    @listing = @transaction.employee_listing
   end
 
   def change_or_cancel

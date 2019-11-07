@@ -54,7 +54,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :hirings, only: [:index] do
+  resources :hirings, only: [:index, :show] do
     collection do
       get :cancelled_successfully
       patch :send_details

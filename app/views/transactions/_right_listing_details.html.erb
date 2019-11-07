@@ -69,23 +69,23 @@
     <div class="inner-joint">
       <div class="left">
         <div><b>Total employment contract</b></div>
-        <div>$35.00 x 55 hours</div>
-        <div>$50.00 x 40 hours (weekend)</div>
+        <div><%= "$#{@employee_listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></div>
+        <div><%= "$#{@employee_listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours (weekend)" %></div>
         <div>Tax withholding</div>
         <div>Service fee</div>
       </div>
       <div class="right">
         <div>&nbsp;</div>
-        <div>$1,925.00</div>
-        <div>$2,000.00</div>
-        <div>-$40.00</div>
+        <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></div>
+        <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></div>
+        <div><%= "-$#{@transaction.total_tax_withholding_amount}" %></div>
         <div>$116.55</div>
       </div>
     </div>
     <div class="devider">
       <div class="full-row">
         <span class="total"><b>Total</b></span>
-        <span class="value"><b>$4,001.55</b></span>
+        <span class="value"><b><%= "$#{@transaction.total_amount}" %></b></span>
       </div>
       <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
     </div>
