@@ -155,7 +155,7 @@ class TransactionService
                             booking_date: date)
           end
           wednesday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_wednesday = (tx.start_date..tx.end_date).group_by(&:wday)[3].count
+          no_of_wednesdays = (tx.start_date..tx.end_date).group_by(&:wday)[3].count
           total_wednesday_hours = wednesday_hours * no_of_wednesdays
         else
           wednesday_hours = 0
@@ -173,7 +173,7 @@ class TransactionService
                             booking_date: date)
           end
           thursday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_thursday = (tx.start_date..tx.end_date).group_by(&:wday)[4].count
+          no_of_thursdays = (tx.start_date..tx.end_date).group_by(&:wday)[4].count
           total_thursday_hours = thursday_hours * no_of_thursdays
         else
           thursday_hours = 0
@@ -191,7 +191,7 @@ class TransactionService
                             booking_date: date)
           end
           friday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_friday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          no_of_fridays = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
           total_friday_hours = friday_hours * no_of_fridays
         else
           friday_hours = 0
@@ -209,7 +209,7 @@ class TransactionService
                             booking_date: date)
           end
           saturday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_saturday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          no_of_saturdays = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
           total_saturday_hours = saturday_hours * no_of_saturdays
         else
           saturday_hours = 0

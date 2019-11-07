@@ -1,3 +1,539 @@
-// Place all the styles related to the hirings controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.sub-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  border-top: 1px solid #C0C0C0;
+  padding: 18px 0;
+  width: 1062px;
+
+  .left-sub {
+    .spare-link {
+      color: #484848;
+      text-decoration: none;
+      line-height: 1.4;
+      font-size: 13px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.gray-link {
+  color: #333333 !important;
+}
+
+.text-allign-center {
+  text-align: center;
+}
+
+.grey-text {
+  font-size: 14px;
+  color: #767676;
+}
+
+.sub-title {
+  font-size: 18px;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/********HIRING REQUEST CSS********/
+
+.hiring_request_sent_section {
+  padding: 45px 120px;
+
+  .logo-list {
+    padding: 0;
+    margin: 0px 0 0 -95px;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: flex-start;
+    align-items: center;
+
+    @media screen and (max-width: 767px) {
+      margin: 0;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      margin: 0;
+    }
+
+    .logo-list-item {
+      margin-right: 20px;
+      font-size: 13px;
+      color: #808080;
+
+      @media screen and (max-width: 767px) {
+        margin: 5px 0;
+        width: 100%;
+
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        margin-right: 15px;
+      }
+
+      .logo_img {
+        height: 16.34px;
+      }
+
+      .item-logo {
+        font-size: 13px;
+        color: #808080;
+        text-decoration: none;
+
+        &.select-item {
+          color: #484848;
+        }
+      }
+    }
+  }
+
+  .left-hiring-request {
+    width: 522px;
+    margin-top: -22px;
+    display: flex;
+    flex-direction: column;
+
+    .main-heading {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 1em 0;
+    }
+
+    .user-pro-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #e4e4e4;
+
+      .left-name-box {
+        width: 50%;
+        font-size: 12pt;
+      }
+
+      .right-img-box {
+        .pro-img {
+          width: 200px;
+          height: 200px;
+          opbject-fit: cover;
+        }
+      }
+    }
+
+    .veiw-hiring-btn {
+      display: flex;
+      width: 180px;
+      height: 40px;
+      background-color: #F15927;
+      text-align: center;
+      border-radius: 3px;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      margin: 20px auto;
+
+      &:hover {
+        background-color: #d75227;
+        box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+      }
+    }
+  }
+
+}
+
+/********HIRING REQUEST END CSS********/
+
+
+/********YOUR HIRING CSS********/
+
+.your-hiring-section {
+  max-width: 1072px;
+  padding: 0;
+  margin: 0 auto;
+  margin-left: 80px;
+
+  .inner-box {
+    .order_box {
+      display: flex;
+      flex-direction: row;
+      border: 1px solid #dce0e0;
+      margin-top: 22px;
+      justify-content: space-between;
+
+      &.pending_or_cancelled {
+        .listing_image_box {
+          img {
+            height: 100%;
+          }
+        }
+      }
+
+      .order_content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        width: 702px;
+
+        .top_part {
+         // flex-grow: 1;
+
+          .TextOrange {
+            padding: 15px;
+            color: #F15927;
+            background: #f2f2f2;
+            margin-bottom: 14px;
+            font-size: 16px;
+          }
+
+          .TextCancelled {
+            padding: 15px;
+            background: #f2f2f2;
+            margin-bottom: 14px;
+            font-size: 16px;
+          }
+
+          .order_listing_title {
+            font-size: 24px;
+            font-weight: normal;
+            padding-top: 3px;
+            margin: 0 0 12px;
+          }
+
+          .order_listing_title_small {
+            font-size: 18px;
+            font-weight: normal;
+            padding-bottom: 0px;
+            margin: 0 0 5px;
+          }
+
+          .post {
+            display: block;
+            margin-bottom: 22px;
+          }
+
+          .dt_bold {
+            color: #484848;
+          }
+
+          .aro {
+            color: #484848;
+            margin: 0 18px;
+          }
+
+          .OrderTotalHour {
+            display: block;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin: 0;
+          }
+        }
+
+        .bottom_part {
+          padding-top: 22px;
+          margin-top: 22px;
+          border-top: 1px solid #e4e4e4;
+
+          .add_info {
+            margin-right: 40px;
+            color: #484848;
+
+            img {
+              vertical-align: sub;
+              height: 20px;
+              margin-right: 3.5px;
+            }
+          }
+        }
+      }
+
+      .listing_image_box {
+        position: relative;
+
+        img {
+          width: 300px;
+          height: 285px;
+          margin-bottom: 0;
+          object-fit: cover;
+          border-top: 1px solid #fff;
+        }
+
+        .btn_over {
+          position: absolute;
+          color: #fff;
+          line-height: 40px;
+          width: 160px;
+          height: 40px;
+          background-color: #F15927;
+          text-align: center;
+          border-radius: 3px;
+          border-radius: 3px;
+          bottom: 21px;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          text-decoration: none;
+
+          &:hover {
+            background-color: #d75227;
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+          }
+        }
+      }
+    }
+
+    .order_listing_heading {
+      font-size: 24px;
+      font-weight: normal;
+      margin: 40px 0;
+    }
+
+    .card_container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .card {
+        width: 301px;
+        border: 1px solid #dce0e0;
+
+        .top_img {
+          position: relative;
+          height: 200px;
+
+          .card_profile_background_image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .card_profile_image {
+            height: 67px;
+            width: 67px;
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            margin-left: -33.5px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+          }
+        }
+
+        .card_content {
+          padding: 30px;
+          text-align: center;
+
+          .card_title {
+            font-size: 24px;
+            padding-bottom: 10px;
+            font-weight: normal;
+          }
+
+          .card_sub_title {
+            font-size: 18px;
+            padding-bottom: 10px;
+            font-weight: normal;
+          }
+
+          .sm_text {
+            display: block;
+            margin-bottom: 28px;
+          }
+
+          .dt_bold {
+            color: #484848;
+          }
+
+          .aro {
+            color: #484848;
+            margin: 0 18px;
+          }
+
+          .OrderTotalHour {
+            display: block;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin: 3px 0;
+          }
+
+          .review_part {
+            padding: 14px 0;
+            border-top: 1px solid #e4e4e4;
+            border-bottom: 1px solid #e4e4e4;
+            margin: 30px 0;
+
+            &.hide-part {
+              margin-bottom: 0px;
+              border-bottom: 0px solid #e4e4e4;
+              padding-bottom: 0px;
+            }
+
+            .review-img {
+              height: 15px;
+            }
+
+            .review-link {
+              display: block;
+              font-size: 16px;
+              margin-top: 10px;
+              color: #f15927;
+            }
+
+          }
+        }
+      }
+    }
+
+    .toggle-orange-hd {
+      font-size: 16px;
+      color: #f15927;
+      font-weight: bold;
+      margin: 34px 0 20px;
+      cursor: pointer;
+    }
+
+    .declined-hiring-cards {
+      display: none;
+    }
+  }
+}
+
+/********YOUR HIRING END CSS********/
+
+/********CHANGE OR CANCEL CSS********/
+
+.change-or-hiring-section {
+  max-width: 100%;
+  width: 1072px;
+  margin: 0 auto;
+  margin-left: 80px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 22px;
+
+  .left-detail {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 301px;
+    margin-right: 49px;
+    border: 1px solid #e4e4e4;
+
+    .pro-pic {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .order-details {
+      border-bottom: 1px solid #e4e4e4;
+      padding: 22px 0;
+      display: flex;
+      flex-direction: column;
+
+      &.first-order {
+        margin-top: 22px;
+        border-top: 1px solid #e4e4e4;
+      }
+
+      &.show-payment-box {
+        display: none;
+        padding-bottom: 0;
+        border-bottom: 0px;
+      }
+
+      .sub-title {
+        margin-bottom: 24px;
+        margin-top: 2px;
+      }
+
+      .order-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &.space-bottom {
+          margin-bottom: 10px;
+        }
+
+        .month1 {
+          margin-top: 12px;
+        }
+      }
+
+      .detail-bot-text {
+        border-top: 1px solid #e4e4e4;
+        padding-top: 20px;
+        padding-bottom: 10px;
+      }
+
+      .OrderTotalHour {
+        font-size: 14px;
+        color: #767676;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+    }
+
+    .toggle-payment-detail {
+      color: #F15927;
+      margin-top: 22px;
+
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .right-detail {
+    width: 481px;
+    padding-top: 2px;
+
+    .right-sub-title {
+      font-size: 18px;
+      padding-bottom: 0px;
+      margin-bottom: 7px;
+      display: inline-block;
+    }
+
+    .change-or-cancel {
+      .button-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border: 1px solid #dce0e0;
+        margin-top: 22px;
+
+        .icon-box {
+          margin-left: 20px;
+          width: 40px;
+        }
+
+        .link-box {
+          padding: 20px 22px;
+           width: calc(100% - 40px);
+
+          .GreyLink {
+            font-size: 22px;
+            padding-bottom: 10px;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
+}
+
+/********CHANGE OR CANCEL END CSS********/
