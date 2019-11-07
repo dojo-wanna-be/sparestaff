@@ -2,100 +2,103 @@
 
 <div class="your-hiring-section">
   <div class="inner-box">
-    <div class="order_box">
-      <div class="order_content">
-        <div class="top_part">
-          <h2 class="order_listing_title">Senior IT Administrator</h2>
-          <p class="order_listing_title_small">Cristiano Ronaldo</p>
-          <span class="post">PosterABC</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">95 Hour Total</span>
-        </div>
-        <div class="bottom_part">
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'send-message-icon.jpg' %>
-            Send Message
-          <% end %>
 
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'calendar-icon.jpg' %>
-            Change or Cancel
-          <% end %>
-
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'envelope-icon.jpg' %>
-            Share Details
-          <% end %>
-        </div>
-      </div>
-      <div class="listing_image_box">
-        <%= image_tag 'luca.png' %>
-        <%= link_to 'View Hiring', '', class: "btn_over" %>
-      </div>
-    </div>
-
-    <div class="order_box">
-      <div class="order_content">
-        <div class="top_part">
-          <div class="TextOrange">
-            <strong>Pending</strong>&nbsp;&nbsp;
-            This hiring isn't confirmed yet. The Poster has 48 hours to respond.
+    <% @hired_listing_transactions.each do |transaction| %>
+      <div class="order_box">
+        <div class="order_content">
+          <div class="top_part">
+            <h2 class="order_listing_title"><%= transaction.employee_listing.title %></h2>
+            <p class="order_listing_title_small">Cristiano Ronaldo</p>
+            <span class="post">PosterABC</span>
+            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
+            <span class="OrderTotalHour">95 Hour Total</span>
           </div>
-          <h2 class="order_listing_title">Senior IT Administrator</h2>
-          <p class="order_listing_title_small">Cristiano Ronaldo</p>
-          <span class="post">PosterABC</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">103 Hour Total</span>
-        </div>
-        <div class="bottom_part">
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'send-message-icon.jpg' %>
-            Send Message
-          <% end %>
+          <div class="bottom_part">
+            <%= link_to '#', class: 'add_info' do %>
+              <%= image_tag 'send-message-icon.jpg' %>
+              Send Message
+            <% end %>
 
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'circle-slash-icon.jpg' %>
-            Cancel Request
-          <% end %>
-        </div>
-      </div>
-      <div class="listing_image_box">
-        <%= image_tag 'professional-1.png' %>
-        <%= link_to 'View Hiring', '#', class: "btn_over" %>
-      </div>
-    </div>
+            <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
+              <%= image_tag 'calendar-icon.jpg' %>
+              Change or Cancel
+            <% end %>
 
-    <div class="order_box">
-      <div class="order_content">
-        <div class="top_part">
-          <div class="TextCancelled">
-            <strong>Cancelled</strong>&nbsp;&nbsp;
-            You cancelled this hiring.
+            <%= link_to 'javascript:;', class: 'add_info share-detail-link', data: {attribute: transaction.id} do %>
+              <%= image_tag 'envelope-icon.jpg' %>
+              Share Details
+            <% end %>
           </div>
-          <h2 class="order_listing_title">Senior IT Administrator</h2>
-          <p class="order_listing_title_small">Cristiano Ronaldo</p>
-          <span class="post">PosterABC</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">32 Hour Total</span>
         </div>
-        <div class="bottom_part">
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'send-message-icon.jpg' %>
-            Send Message
-          <% end %>
+        <div class="listing_image_box">
+          <%= image_tag 'luca.png' %>
+          <%= link_to 'View Hiring', '', class: "btn_over" %>
+        </div>
+      </div>
 
-          <%= link_to '#', class: 'add_info' do %>
-            <%= image_tag 'single-star.jpg' %>
-            Write a review
-          <% end %>
+      <div class="order_box pending_or_cancelled">
+        <div class="order_content">
+          <div class="top_part">
+            <div class="TextOrange">
+              <strong>Pending</strong>&nbsp;&nbsp;
+              This hiring isn't confirmed yet. The Poster has 48 hours to respond.
+            </div>
+            <h2 class="order_listing_title">Senior IT Administrator</h2>
+            <p class="order_listing_title_small">Cristiano Ronaldo</p>
+            <span class="post">PosterABC</span>
+            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
+            <span class="OrderTotalHour">103 Hour Total</span>
+          </div>
+          <div class="bottom_part">
+            <%= link_to '#', class: 'add_info' do %>
+              <%= image_tag 'send-message-icon.jpg' %>
+              Send Message
+            <% end %>
+
+            <%= link_to '#', class: 'add_info' do %>
+              <%= image_tag 'circle-slash-icon.jpg' %>
+              Cancel Request
+            <% end %>
+          </div>
+        </div>
+        <div class="listing_image_box">
+          <%= image_tag 'professional-1.png' %>
+          <%= link_to 'View Hiring', '#', class: "btn_over" %>
         </div>
       </div>
-      <div class="listing_image_box">
-        <%= image_tag 'luca.png' %>
-        <img src="images/" alt="">
-        <%= link_to 'View Hiring', '#', class: "btn_over" %>
+
+      <div class="order_box pending_or_cancelled">
+        <div class="order_content">
+          <div class="top_part">
+            <div class="TextCancelled">
+              <strong>Cancelled</strong>&nbsp;&nbsp;
+              You cancelled this hiring.
+            </div>
+            <h2 class="order_listing_title">Senior IT Administrator</h2>
+            <p class="order_listing_title_small">Cristiano Ronaldo</p>
+            <span class="post">PosterABC</span>
+            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
+            <span class="OrderTotalHour">32 Hour Total</span>
+          </div>
+          <div class="bottom_part">
+            <%= link_to '#', class: 'add_info' do %>
+              <%= image_tag 'send-message-icon.jpg' %>
+              Send Message
+            <% end %>
+
+            <%= link_to '#', class: 'add_info' do %>
+              <%= image_tag 'single-star.jpg' %>
+              Write a review
+            <% end %>
+          </div>
+        </div>
+        <div class="listing_image_box">
+          <%= image_tag 'luca.png' %>
+          <%= link_to 'View Hiring', '#', class: "btn_over" %>
+        </div>
       </div>
-    </div>
+    <% end %>
+
 
     <h1 class="order_listing_heading">Past Hiring</h1>
 
@@ -113,9 +116,9 @@
           <span class="OrderTotalHour">32 Hour Total</span>
           <div class="review_part">
             <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <%= link_to 'Write a Review', '#', class: 'review-link ' %>
           </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
+          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link' %>
         </div>
       </div>
 
@@ -132,9 +135,9 @@
           <span class="OrderTotalHour">32 Hour Total</span>
           <div class="review_part">
             <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <%= link_to 'Read Your Review', '#', class: 'review-link gray-link' %>
           </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
+          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link'%>
         </div>
       </div>
 
@@ -151,9 +154,9 @@
           <span class="OrderTotalHour">32 Hour Total</span>
           <div class="review_part">
             <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <%= link_to 'Read Your Review', '#', class: 'review-link gray-link' %>
           </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
+          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link' %>
         </div>
       </div>
 
@@ -174,11 +177,9 @@
             <span class="sm_text">PosterGHI</span>
             <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
             <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part">
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
-              <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <div class="review_part hide-part">
+              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
             </div>
-            <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
           </div>
         </div>
 
@@ -193,11 +194,9 @@
             <span class="sm_text">PosterGHI</span>
             <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
             <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part">
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
-              <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <div class="review_part hide-part">
+              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
             </div>
-            <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
           </div>
         </div>
 
@@ -212,11 +211,9 @@
             <span class="sm_text">PosterGHI</span>
             <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
             <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part">
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
-              <%= link_to 'Write a Review', '#', class: 'review-link' %>
+            <div class="review_part hide-part">
+              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
             </div>
-            <%= link_to 'View Receipt', '#' , class: 'review-receipt'%>
           </div>
         </div>
 
@@ -225,36 +222,15 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  $('.toggle-orange-hd').click(function(){
-    $('.declined-hiring-cards').toggle();
-  });
-</script>
-
-
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Change or Cancel</th>
-      <th>Share</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @hired_listing_transactions.each do |transaction| %>
-      <tr>
-        <td><%= transaction.employee_listing.title %></td>
-        <td><%= link_to "Change or Cancel", change_or_cancel_hiring_path(id: transaction.id) %></td>
-        <td><%= link_to "Share Details", "javascript:;", class: "share-detail-link", data: {attribute: transaction.id} %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render partial: "layouts/footer" %>
 
 <%= render partial: "share_details_popup" %>
 
 <script type="text/javascript">
+  $('.toggle-orange-hd').click(function(){
+    $('.declined-hiring-cards').toggle();
+  });
+
   $(".share-detail-link").click(function(){
     var transaction_id = $(this).data("attribute");
     $("#shareDetailsModal").modal();
