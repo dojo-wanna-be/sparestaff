@@ -1,0 +1,10 @@
+<%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  <div class="employee-changed">
+    <div class="affect-poster">
+      <div class="poster-text">Try asking Poster if you can change the hiring contract.</div>
+      <div><strong>Instead of cancelling:</strong></div>
+
+      <%= link_to 'Change Your Hiring', '#', class: 'continue-btn' %>
+    </div>
+  </div>
+<% end %>
