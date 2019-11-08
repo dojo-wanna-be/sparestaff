@@ -101,7 +101,7 @@
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount + @old_transaction.service_fee %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -143,7 +143,7 @@
 
         <li class="calc-item">
           <span class="left">Original total</span>
-          <span class="right">$<span id="OldContractTotalPrice"> <%= @old_transaction.total_amount %> </span> </span>
+          <span class="right">$<span id="OldContractTotalPrice"> <%= @old_transaction.total_amount + @old_transaction.total_service_fee %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -329,37 +329,55 @@
   function calculateTax(){
     var a = 0;
     var b = 0;
-
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price + 0.99;
-    if (weekly_earning >= 0 && weekly_earning <= 355){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price
+    var x = weekly_earning + 0.99;
+    if (x >= 0 && x <= 355){
       a = 0;
       b = 0;
-    }else if (weekly_earning > 355 && weekly_earning <= 422){
+    }else if (x > 355 && x <= 422){
       a = 0.1900;
       b = 67.4635;
-    }else if (weekly_earning > 422 && weekly_earning <= 528){
+    }else if (x > 422 && x <= 528){
       a = 0.2900;
       b = 109.7321;
-    }else if (weekly_earning > 528 && weekly_earning <= 711){
+    }else if (x > 528 && x <= 711){
       a = 0.2100;
       b = 67.4635;
-    }else if (weekly_earning > 711 && weekly_earning <= 1282){
+    }else if (x > 711 && x <= 1282){
       a = 0.3477;
       b = 165.4423;
-    }else if (weekly_earning > 1282 && weekly_earning <= 1730){
+    }else if (x > 1282 && x <= 1730){
       a = 0.3450;
       b = 161.9808;
-    }else if (weekly_earning > 1730 && weekly_earning <= 3461){
+    }else if (x > 1730 && x <= 3461){
       a = 0.3900;
       b = 239.8654;
     }else{
       a = 0.4700;
       b = 576.7885;
     }
-    var tax = (a * weekly_earning) - b
+    var tax = (a * x) - b
+    var service_tax = 0.03 * (weekly_earning - tax)
     $(".transaction_tax_withholding_amount").val(tax);
-    var weekly_total_price = weekly_earning - tax
-    $("#new_hiring_weekday_price").html(weekly_total_price);
+    $("#weeklyServicePrice").html(service_tax)
+    var old_price = <%= @old_transaction.amount + @old_transaction.total_service_fee %>;
+    var weekly_total_price = weekly_earning - tax + service_tax
+    var diff = old_price - weekly_total_price
+    $("#weekly_total_price").html(weekly_total_price);
+    $("#weekly_total_price_difference").html(diff);
+    totalEmploymentContract(tax, service_tax, weekly_total_price)
+  }
+
+  function totalEmploymentContract(tax, service_tax, weekly_total_price){
+    var startDate = new Date($("#transaction_start_date").val());
+    var endDate = new Date($("#transaction_end_date").val());
+    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    var old_total_price = <%= @old_transaction.total_amount + @old_transaction.total_service_fee %>;
+    var diff = old_total_price - (weekly_total_price * weekDiff)
+    $('#ContractTaxPrice').html(tax * weekDiff);
+    $('#ContractServicePrice').html(service_tax * weekDiff);
+    $('#ContractTotalPrice').html(weekly_total_price * weekDiff);
+    $("#ContractTotalPriceDifference").html(diff);
   }
 
   function setWeekdayHours(){
