@@ -7,6 +7,7 @@
 #  end_date                     :date
 #  frequency                    :integer
 #  is_withholding_tax           :boolean          default(TRUE)
+#  probationary_period          :integer
 #  reason                       :text
 #  start_date                   :date
 #  state                        :integer

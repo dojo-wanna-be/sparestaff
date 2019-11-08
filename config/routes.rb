@@ -58,12 +58,13 @@ Rails.application.routes.draw do
     collection do
       get :cancelled_successfully
       patch :send_details
+      get :check_slot_availability
     end
     member do
       get :change_or_cancel
       match :change_hiring, via: [:get, :patch]
       match :change_hiring_confirmation, via: [:get, :patch]
-      match :changed_successfully, via: [:get, :patch]
+      get :changed_successfully
       match :cancel_hiring, via: [:get, :patch]
       match :tell_poster, via: [:get, :patch]
     end

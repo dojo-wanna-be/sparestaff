@@ -35,7 +35,7 @@
       <span><b>Probationary period</b></span>
     </div>
     <div class="right">
-      <span id="probationary_period"><%= @company.probationary_period.present? ? "#{@company.probationary_period} month" : "1 month" %></span>
+      <span id="probationary_period"><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "1 month" %></span>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
       <span><b>Weekly Total</b></span>
     </div>
     <div class="right">
-      <span><b><%= "$#{@transaction.amount}" %></b></span>
+      <span><b><%= "$#{@transaction.amount.round(2)}" %></b></span>
     </div>
   </div>
 
@@ -78,14 +78,14 @@
         <div>&nbsp;</div>
         <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></div>
         <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></div>
-        <div><%= "-$#{@transaction.total_tax_withholding_amount}" %></div>
+        <div><%= "-$#{@transaction.total_tax_withholding_amount.round(2)}" %></div>
         <div>$116.55</div>
       </div>
     </div>
     <div class="devider">
       <div class="full-row">
         <span class="total"><b>Total</b></span>
-        <span class="value"><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span class="value"><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
       <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
     </div>

@@ -7,6 +7,7 @@
 #  end_date                     :date
 #  frequency                    :integer
 #  is_withholding_tax           :boolean          default(TRUE)
+#  probationary_period          :integer
 #  reason                       :text
 #  start_date                   :date
 #  state                        :integer
@@ -41,7 +42,18 @@ class Transaction < ApplicationRecord
   has_many :bookings, dependent: :destroy
 
   enum frequency: { weekly: 0, fortnight: 1 }
-  enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5 }
+  enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
+
+  SERVICE_FEE = 3
+
+  PROBATIONARY_PERIOD = {
+                          "1 month" => 1,
+                          "2 months" => 2,
+                          "3 months" => 3,
+                          "4 months" => 4,
+                          "5 months" => 5,
+                          "6 months" => 6
+                        }
 
   CANCELLATION_REASON = ["I no longer need to hire an employee",
              "My date to hire employee changed",
