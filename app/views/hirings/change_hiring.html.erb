@@ -261,8 +261,10 @@
   $("#transaction_is_withholding_tax").on('change click', function () {
     if ($(this).is(":checked")) {
       $("#tax-notice").hide();
+      $("#new_withholding_tax").val("true");
     } else {
       $("#tax-notice").show();
+      $("#new_withholding_tax").val("false");
     }
   });
 

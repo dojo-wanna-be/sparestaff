@@ -2,6 +2,7 @@
   <%= form_for transaction, url: change_hiring_hiring_path(id: transaction.id), method: :patch, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
     <%= f.hidden_field :frequency, value: transaction.frequency %>
+    <%= f.hidden_field :is_withholding_tax, value: transaction.is_withholding_tax, id: "new_withholding_tax" %>
 
     <div class="available-box">
       <div class="date-box">
