@@ -29,14 +29,16 @@
       <% end %>
     </div>
 
-    <div class="order-details">
-      <div class="order-item space-bottom">
-        <span class="grey-text">Probationary period</span>
+    <% if @transaction.probationary_period.present? %>
+      <div class="order-details">
+        <div class="order-item space-bottom">
+          <span class="grey-text">Probationary period</span>
+        </div>
+        <div class="order-item ">
+          <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
+        </div>
       </div>
-      <div class="order-item ">
-        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
-      </div>
-    </div>
+    <% end %>
 
     <div class="order-details">
       <h3 class="sub-title">Weekly payment</h3>
@@ -99,7 +101,7 @@
       <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
         <% Transaction::CANCELLATION_REASON.each_with_index do |reason, index| %>
           <div class="cancellation_reason">
-            <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}" %>
+            <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
             <%= reason %>
           </div>
         <% end %>
@@ -134,5 +136,30 @@
 <script type="text/javascript">
   $('.toggle-payment-detail').click(function(){
     $('.show-payment-box').toggle();
+  });
+
+  $(".cancellation_reasons").click(function(){
+    var reason_id = $(this).attr("id");
+    if (reason_id === "reason1") {
+
+    } else if (reason_id === "reason2") {
+
+    } else if (reason_id === "reason3") {
+
+    } else if (reason_id === "reason4") {
+
+    } else if (reason_id === "reason5") {
+
+    } else if (reason_id === "reason6") {
+
+    } else if (reason_id === "reason7") {
+
+    } else if (reason_id === "reason8") {
+
+    } else if (reason_id === "reason9") {
+
+    } else {
+
+    }
   });
 </script>

@@ -4,6 +4,7 @@
     <%= f.hidden_field :frequency, value: transaction.frequency %>
     <%= f.hidden_field :is_withholding_tax, value: transaction.is_withholding_tax, id: "new_withholding_tax" %>
     <%= f.hidden_field :tax_withholding_amount, value: transaction.tax_withholding_amount, id: "new_tax_withholding_amount" %>
+    <%= f.hidden_field :probationary_period, value: transaction.probationary_period, id: "new_probationary_period" %>
 
     <div class="available-box">
       <div class="date-box">
