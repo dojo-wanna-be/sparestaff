@@ -91,22 +91,22 @@
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_service_fee"> 0 </span> </span>
+          <span class="right">$<span id="weeklyServicePrice"> 0 </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">New weekly total</span>
-          <span class="right">$<span id="new_hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="weekly_total_price"> 0 </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @old_transaction.total_amount %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left"><b>Weekly price difference</b></span>
-          <span class="right"><b>$<span id="hiring_weekday_price_difference"> 0 </span> </b></span>
+          <span class="right"><b>$<span id="weekly_total_price_difference"> 0 </span> </b></span>
         </li>
       </ul>
 
@@ -115,40 +115,40 @@
       <ul class="calculation-list total-employement-list">
         <li class="calc-item">
           <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="total_weekday_hours"> 0 &nbsp;</span> hours
+            $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="total_weekday_hours"> <%= @old_transaction.total_weekday_hours %> &nbsp;</span> hours
           </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="hiring_total_weekday_price"> <%= @listing.weekday_price.to_f * @old_transaction.total_weekday_hours %> </span> </span>
         </li>
         <li class="calc-item">
           <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="total_weekend_hours"> 0 &nbsp;</span> hours (weekend)
+            $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="total_weekend_hours"> <%= @old_transaction.total_weekend_hours %> &nbsp;</span> hours (weekend)
           </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="hiring_total_weekend_price"> <%= @listing.weekday_price.to_f * @old_transaction.total_weekend_hours %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Tax withholding</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="ContractTaxPrice"> 0 </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="ContractServicePrice"> 0 </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">New total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="ContractTotalPrice"> 0 </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Original total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
+          <span class="right">$<span id="OldContractTotalPrice"> <%= @old_transaction.total_amount %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left"><b>Price difference</b></span>
-          <span class="right"><b>$<span id="hiring_weekday_price"> 0 </span> </b></span>
+          <span class="right"><b>$<span id="ContractTotalPriceDifference"> 0 </span> </b></span>
         </li>
 
         <li class="calc-item">
@@ -268,6 +268,10 @@
     }
   });
 
+  $("#transaction_tax_withholding_amount").on('keyup change', function () {
+    $("#new_tax_withholding_amount").val($(this).val());
+  });
+
   $("#transaction_start_date, #transaction_end_date").on('change', function (){
     totalSundays = 0;
     totalMondays = 0;
@@ -355,7 +359,7 @@
     var tax = (a * weekly_earning) - b
     $(".transaction_tax_withholding_amount").val(tax);
     var weekly_total_price = weekly_earning - tax
-    $("#weekly_total_price").html(weekly_total_price);
+    $("#new_hiring_weekday_price").html(weekly_total_price);
   }
 
   function setWeekdayHours(){
