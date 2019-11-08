@@ -1,0 +1,184 @@
+.show-hiring-section {
+  margin-top: 48px;
+
+  .continue-btn {
+   // width: 180px !important;
+    height: 40px;
+    margin-top: 22px;
+    border-radius: 3px;
+    background-color: #F15927;
+    border: none;
+    color: #fff !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 0 34px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #d75227;
+    }
+
+    @media screen and (max-width: 767px) {
+      float: right;
+      margin-top: 0;
+      width: 110px;
+    }
+  }
+
+  .inner-show-hiring {
+    max-width: 100%;
+    width: 1071px;
+    margin: 0 auto;
+    margin-left: 80px;
+
+    .header-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .header-left {
+        .hiring-title {
+          font-size: 24px;
+          display: inline-block;
+          padding-bottom: 12px;
+          margin: 0;
+        }
+      }
+      .header-right {
+        .print-btn {
+          color: #333333;
+          text-decoration: none;
+          width: 90px;
+          height: 40px;
+          border: 1px solid #767676;
+          background-color: #fff;
+          border-radius: 3px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: -28px 10px 0;
+
+          &:hover {
+            border: 1px solid #333333;
+          }
+        }
+      }
+    }
+
+    .inner-hiring-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .left-hiring-box {
+        border: 1px solid #e4e4e4;
+        padding: 30px;
+        width: 600px;
+
+        .user-detail-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 20px 0;
+          border-bottom: 1px solid #e4e4e4;
+
+          &:last-child {
+            padding: 20px 0 0;
+            border-bottom: 0px;
+          }
+          &:first-child {
+            padding: 0px 0 20px;
+          }
+
+          .user-detail-box-left {
+            width: 25%;
+            display: flex;
+          }
+
+          .user-detail-box-right {
+            display: flex;
+            flex-direction: column;
+            width: 75%;
+
+            .both-box {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              width: 100%;
+
+              &.space-both {
+                padding-bottom: 23px;
+                border-bottom: 1px solid #e4e4e4;
+                margin-bottom: 23px;
+              }
+
+              .both-left {
+                width: 50%;
+              }
+              .both-right {
+                width: 50%;
+
+                .Image150px {
+                  width: 150px;
+                  float: right;
+                  object-fit: cover;
+                  height: 150px;
+                }
+              }
+            }
+
+            .three-box {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              width: 100%;
+              .three-box-left {
+                width: 33.33%;
+              }
+              .three-box-middle {
+                width: 33.33%;
+              }
+              .three-box-right {
+                width: 33.33%;
+              }
+            }
+
+            .bottem-text {
+              font-size: 14px;
+              margin-top: 10px;
+              border-top: 1px solid #e4e4e4;
+              padding-top: 20px;
+              margin-bottom: 20px;
+            }
+
+            .orange-link {
+              color: #f15927;
+            }
+          }
+        }
+      }
+
+      .right-hiring-box {
+        border: 1px solid #e4e4e4;
+        margin-right: 20px;
+        width: 400px;
+        padding: 30px;
+        height: fit-content;
+
+        .poster-view {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          .orange-link {
+            color: #f15927;
+          }
+        }
+      }
+    }
+  }
+}
