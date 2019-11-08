@@ -8,7 +8,7 @@
           <% end %>
         </li>
         <li class="logo-list-item">
-          <%= link_to '1. Change hiring contract', '#', class: 'item-logo select-item' %>
+          <%= link_to '1. Change hiring contract', 'javascript:;', class: 'item-logo select-item' %>
         </li>
         <li class="logo-list-item">
           >
@@ -18,122 +18,21 @@
         </li>
       </ul>
 
-      <%= render partial: "hirings/confirm_request" %>
-
-    </div>
-
-    <div class="right_request_section">
-      <div class="user-right-box">
-        <div class="name-box">
-          <span class="Text22px"><%= @listing.title %></span>
-          <%= @listing.name %>
-        </div>
-        <div class="image-box">
-          <% if @listing.profile_picture.present? %>
-            <%= image_tag @listing.profile_picture.url, class: 'Image100pxRight' %>
-          <% else %>
-            <%= image_tag 'no-image.jpg', class: 'Image100pxRight' %>
+      <div class="review_hiring_details">
+        <h1 class="main-heading">Does this look right?</h1>
+        <%= render partial: "hirings/new_hiring_details" %>
+        <div class="inline-btn-box">
+          <%= link_to 'Back', '#', class: 'back-btn' %>
+          <%= form_tag change_hiring_confirmation_hiring_path(id: @transaction.id), method: :patch do %>
+            <%= hidden_field_tag "old_id", @old_transaction.id %>
+            <%= submit_tag "Send Request", class: "continue-btn" %>
           <% end %>
         </div>
       </div>
-
-      <div class="user-right-box">
-        <div class="left">
-          <span><b>From</b></span>
-          <div><%= @transaction.start_date.strftime("%A %b %d, %Y") %></div>
-        </div>
-        <div class="right">
-          <span><b>To</b></span>
-          <div><%= @transaction.end_date.strftime("%A %b %d, %Y") %></div>
-        </div>
-      </div>
-
-      <ul class="calculation-list">
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @transaction.weekday_hours %> &nbsp;</span> hours
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekday_price.to_f * @transaction.weekday_hours %> </span> </span>
-        </li>
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @transaction.weekend_hours %> &nbsp;</span> hours (weekend)
-          </span>
-          <span class="right">$<span id="hiring_weekend_price"> <%= @listing.weekend_price.to_f * @transaction.weekend_hours %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Tax withholding</span>
-          <span class="right">$<span id="tax_withholding_price"> <%= @transaction.tax_withholding_amount %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_weekday_service_fee"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">New weekly total</span>
-          <span class="right">$<span id="new_weekly_total_price"> <%= @transaction.amount.round(2) %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount.round(2) %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left"><b>Weekly price difference</b></span>
-          <span class="right"><b>$<span id="weekly_total_price_difference"> <%= (@transaction.amount - @old_transaction.amount).round(2) %> </span> </b></span>
-        </li>
-      </ul>
-
-      <div class="toggle-total-employement">Total employment contract</div>
-
-      <ul class="calculation-list total-employement-list">
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @transaction.total_weekday_hours %> &nbsp;</span> hours
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @transaction.total_weekend_hours %> &nbsp;</span> hours (weekend)
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Tax withholding</span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.total_tax_withholding_amount %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">New total</span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.total_amount.round(2) %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Original total</span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @old_transaction.total_amount.round(2) %> </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left"><b>Price difference</b></span>
-          <span class="right"><b>$<span id="hiring_weekday_price"> <%= (@transaction.total_amount - @old_transaction.total_amount).round(2) %> </span> </b></span>
-        </li>
-
-        <li class="calc-item">
-          <span>You will not pay the Total employment contract upfront. You chose to pay weekly.</span>
-        </li>
-      </ul>
     </div>
+
+    <%= render partial: "hirings/transaction_difference" %>
+
   </div>
 
   <div class="sub-footer">
