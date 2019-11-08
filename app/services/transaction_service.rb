@@ -23,7 +23,7 @@ class TransactionService
         total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
-        number_of_weeks = @start_date.upto(@end_date).count.fdiv(7).round(2)
+        number_of_weeks = @start_date.upto(@end_date).count.fdiv(7).ceil
 
         tx.weekday_hours = total_weekday_hours_per_week
         tx.weekend_hours = total_weekend_hours_per_week
@@ -38,7 +38,7 @@ class TransactionService
         total_weekends_price = listing.weekend_price.to_f * total_weekend_hours
 
         weekly_earning = weekdays_price + weekends_price
-        x = weekdays_price + weekends_price + 0.99
+        x = weekly_earning + 0.99
         total_cents = number_of_weeks * 0.99
         total_earning = total_weekdays_price + total_weekends_price
         x_total = total_weekdays_price + total_weekends_price + total_cents

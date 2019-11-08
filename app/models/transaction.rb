@@ -100,4 +100,12 @@ class Transaction < ApplicationRecord
                         saturdays: no_of_saturdays
                       }
   end
+
+  def service_fee
+    (0.03 * amount)
+  end
+
+  def total_service_fee
+    (0.03 * total_amount)
+  end
 end
