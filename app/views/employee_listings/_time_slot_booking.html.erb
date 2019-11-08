@@ -89,7 +89,7 @@
      <ul class="calculation-list">
       <li class="calc-item">
         <span class="left">Service fee</span>
-        <span class="right">-$11.13</span>
+        <span class="right">$<label id="weeklyServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left"><b>Weekly total</b></span>
@@ -103,24 +103,24 @@
 
     <ul class="calculation-list">
       <li class="calc-item">
-        <span class="left">$<label class="listing_weekday_price"> <%= employee_listing.weekday_price %> </label> x <label id="total_weekday_hours"> 0 </label> hours</span>
+        <span class="left">$<label class="listing_weekday_price"> <%= employee_listing.weekday_price %> </label>&nbsp; x &nbsp;<label id="total_weekday_hours">0 &nbsp;</label>hours</span>
         <span class="right">$<label id="hiring_total_weekday_price"> 0 </label> </span>
       </li>
       <li class="calc-item">
-        <span class="left">$<label class="listing_weekend_price"> <%= employee_listing.weekend_price %> </label> x <label id="total_weekend_hours"> 0 </label> hours (weekend)</span>
+        <span class="left">$<label class="listing_weekend_price"> <%= employee_listing.weekend_price %> </label>&nbsp; x &nbsp;<label id="total_weekend_hours"> 0 &nbsp;</label> hours (weekend)</span>
         <span class="right">$<label id="hiring_total_weekend_price"> 0 </label> </span>
       </li>
       <li class="calc-item">
         <span class="left">Tax withholding</span>
-        <span class="right">-$<label id="transaction_tax_withholding_amount"> 0 </label></span>
+        <span class="right">-$<label id="ContractTaxPrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left">Service fee</span>
-        <span class="right">-$116.55</span>
+        <span class="right"><label id="ContractServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left"><b>Total</b></span>
-        <span class="right"><b>$4001.55</b></span>
+        <span class="right"><b>$<label id="ContractTotalPrice"> 0 </label></b></span>
       </li>
     </ul>
     <%= link_to 'Contact Poster', '#', class: 'request-btn contact-poster' %>
