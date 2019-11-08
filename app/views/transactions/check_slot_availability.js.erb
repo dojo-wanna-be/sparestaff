@@ -143,7 +143,7 @@ function calculateTax(){
       b = 576.7885;
     }
     var tax = (a * x) - b
-    var service_tax = (3 * (weekly_earning - tax)) / 100
+    var service_tax = 0.03 * (weekly_earning - tax)
     $("#transaction_tax_withholding_amount").val(tax); 
     $("#weeklyServicePrice").html(service_tax)
     var weekly_total_price = weekly_earning - tax + service_tax

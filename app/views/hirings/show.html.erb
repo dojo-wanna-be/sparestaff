@@ -3,7 +3,7 @@
     <div class="header-box">
       <div class="header-left">
         <h1 class="hiring-title">You're hiring Cristiano Ronaldo!</h1>
-        <div>Hiring ID: 12345</div>
+        <div>Hiring ID: <%= @transaction.id %></div>
       </div>
       <div class="header-right">
         <%= link_to "Print", '#', class: 'print-btn' %>
@@ -19,10 +19,14 @@
           <div class="user-detail-box-right">
             <div class="both-box">
               <div class="both-left">
-                <div>Senior IT Administrator <br/>  Cristiano Ronaldo </div>
+                <div><%= @listing.title %> <br/> <%= @listing.name %> </div>
               </div>
               <div class="both-right">
-                <%= image_tag 'luca.png', class: 'Image150px' %>
+                <% if @listing.profile_picture.present? %>
+                  <%= image_tag @listing.profile_picture.url, class: 'Image150px' %>
+                <% else %>
+                  <%= image_tag 'no-image.jpg', class: 'Image150px' %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -35,13 +39,13 @@
           <div class="user-detail-box-right">
             <div class="three-box">
               <div class="three-box-left">
-                <div>12 Feb 2019</div>
+                <div><%= @transaction.start_date.strftime("%d %h %Y") %></div>
               </div>
               <div class="three-box-middle">
                 <div><b>Hiring End</b></div>
               </div>
               <div class="three-box-right">
-                <div>24 Apr 2019</div>
+                <div><%= @transaction.end_date.strftime("%d %h %Y") %></div>
               </div>
             </div>
           </div>
@@ -54,7 +58,7 @@
           <div class="user-detail-box-right">
             <div class="three-box">
               <div class="three-box-left">
-                <div>1 month</div>
+                <div><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "-" %></div>
               </div>
               <div class="three-box-middle">
                 <div>&nbsp;</div>
@@ -71,21 +75,21 @@
             <b>Timetable</b>
           </div>
           <div class="user-detail-box-right">
-            <div class="three-box">
-              <div class="three-box-left">
-                <div>Monday</div>
-                <div>Tuesday</div>
-                <div>Saturday</div>
+            <% @transaction.bookings.each do |booking| %>
+              <div class="three-box">
+                <div class="three-box-left">
+                  <div><%= booking.day.titleize %></div>
+                </div>
+                <div class="three-box-middle">
+                  <div>
+                    <%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %>
+                  </div>
+                </div>
+                <div class="three-box-right">
+                  <div>&nbsp;</div>
+                </div>
               </div>
-              <div class="three-box-middle">
-                <div>09:00 - 12:00</div>
-                <div>15:00 - 17:00</div>
-                <div>12:00 - 16:00</div>
-              </div>
-              <div class="three-box-right">
-                <div>&nbsp;</div>
-              </div>
-            </div>
+            <% end %>
           </div>
         </div>
 
@@ -96,7 +100,11 @@
           <div class="user-detail-box-right">
             <div class="three-box">
               <div class="three-box-left">
-                <div>185 Enmore Rd Enmore NSW 2042 Australia</div>
+                <div>
+                  <%= "#{@listing.address_1}" %>
+                  <%= "#{@listing.city} #{@listing.state} #{@listing.post_code}" %>
+                  <%= "#{@listing.country}" %>
+                </div>
               </div>
               <div class="three-box-middle">
                 <div>&nbsp;</div>
@@ -116,8 +124,8 @@
             <div class="both-box space-both">
               <div class="box-left">
                 <div>Weekly payment</div>
-                <div>$35 x 5 hours</div>
-                <div>$50.00 x 4 hours (weekend)</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></div>
                 <div>Tax withholding</div>
                 <div>Service fee</div>
                 <div><b>Weekly total</b></div>
@@ -125,19 +133,19 @@
 
               <div class="three-box-right">
                 <div>&nbsp;</div>
-                <div>$175.00</div>
-                <div>$200.00</div>
-                <div>-$4.00</div>
+                <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
+                <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
+                <div>-$<%= @transaction.tax_withholding_amount %></div>
                 <div>$11.13</div>
-                <div><b>$382.13</b></div>
+                <div><b>$<%= @transaction.amount %></b></div>
               </div>
             </div>
 
             <div class="both-box">
               <div class="box-left">
                 <div>Total employment contract</div>
-                <div>$35 x 55 hours</div>
-                <div>$50.00 x 40 hours (weekend)</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.total_weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.total_weekend_hours} hours (weekend)" %></div>
                 <div>Tax withholding</div>
                 <div>Service fee</div>
                 <div><b>Total</b></div>
@@ -145,17 +153,17 @@
 
               <div class="three-box-right">
                 <div>&nbsp;</div>
-                <div>$1,925.00</div>
-                <div>$2000.00</div>
-                <div>-$40.00</div>
+                <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
+                <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
+                <div>-$<%= @transaction.total_tax_withholding_amount %></div>
                 <div>$116.13</div>
-                <div><b>$4,001.55</b></div>
+                <div><b>$<%= @transaction.total_amount %></b></div>
               </div>
             </div>
 
             <div class="bottem-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
 
-            <%= link_to 'Get receipt', '', class: 'orange-link' %>
+            <%= link_to 'Get receipt', 'javascript:;', class: 'orange-link' %>
           </div>
         </div>
 
@@ -164,7 +172,7 @@
             <b>Need help?</b>
           </div>
           <div class="user-detail-box-right">
-            <div>Visit the <%= link_to 'Help Center', '#', class: 'orange-link' %></div>
+            <div>Visit the <%= link_to 'Help Center', 'javascript:;', class: 'orange-link' %></div>
           </div>
         </div>
 
@@ -175,7 +183,7 @@
           <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon100pxNoBorder' %>
           <br>
           <br>
-          <strong>Poster: PosterABC</strong>
+          <strong>Poster: <%= @listing.poster.name %></strong>
           <br>
           Have a question about your hiring? The
           best way to get information is to
@@ -183,10 +191,10 @@
           <br>
           <br>
 
-          <%= link_to 'Message Poster', '#', class: 'continue-btn' %>
+          <%= link_to 'Message Poster', 'javascript:;', class: 'continue-btn' %>
           <br>
 
-          <%= link_to '#', class: 'orange-link' do  %>
+          <%= link_to 'javascript:;', class: 'orange-link' do  %>
             <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
             &nbsp; +61 434 292 527
           <% end %>

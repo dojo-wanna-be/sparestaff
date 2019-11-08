@@ -30,14 +30,16 @@
       <% end %>
     </div>
 
-    <div class="order-details">
-      <div class="order-item space-bottom">
-        <span class="grey-text">Probationary period</span>
+    <% if @transaction.probationary_period.present? %>
+      <div class="order-details">
+        <div class="order-item space-bottom">
+          <span class="grey-text">Probationary period</span>
+        </div>
+        <div class="order-item ">
+          <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
+        </div>
       </div>
-      <div class="order-item ">
-        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
-      </div>
-    </div>
+    <% end %>
 
     <div class="order-details">
       <h3 class="sub-title">Weekly payment</h3>
@@ -55,11 +57,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$11.13</span>
+        <span>$<%= @transaction.service_fee%></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount.round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -80,11 +82,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$116.15</span>
+        <span>$<%= @transaction.total_service_fee%></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
