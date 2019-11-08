@@ -30,14 +30,16 @@
       <% end %>
     </div>
 
-    <div class="order-details">
-      <div class="order-item space-bottom">
-        <span class="grey-text">Probationary period</span>
+    <% if @transaction.probationary_period.present? %>
+      <div class="order-details">
+        <div class="order-item space-bottom">
+          <span class="grey-text">Probationary period</span>
+        </div>
+        <div class="order-item ">
+          <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
+        </div>
       </div>
-      <div class="order-item ">
-        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
-      </div>
-    </div>
+    <% end %>
 
     <div class="order-details">
       <h3 class="sub-title">Weekly payment</h3>
