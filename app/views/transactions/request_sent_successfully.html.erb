@@ -11,10 +11,14 @@
     <h1 class="main-heading">Hiring Request Sent</h1>
     <div>This is not a confirmed hiring - at least not yet. You'll get a response within 48 hours.</div>
     <div class="user-pro-box">
-      <div class="left-name-box">Cristiano Ronaldo<br>
-      Senior IT Administrator</div>
+      <div class="left-name-box"><%= @employee_listing.name %><br>
+      <%= @employee_listing.title %></div>
       <div class="right-img-box">
-        <%= image_tag 'luca.png', class: 'Image200pxRight' %>
+        <% if @employee_listing.profile_picture.present? %>
+          <%= image_tag @employee_listing.profile_picture.url, class: 'Image200pxRight' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'Image200pxRight' %>
+        <% end %>
       </div>
     </div>
 
@@ -22,17 +26,17 @@
       <div>
         <span><b>From</b></span>
         </br>
-        Monday Feb 12, 2019
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %>
       </div>
       <div>
         <span><b>To</b></span>
         </br>
-        Wednesday Apr 24, 2019
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %>
       </div>
     </div>
 
     <div class="user-pro-box">
-      You won't be charged until your hiring is confirmed by PosterABC.
+      You won't be charged until your hiring is confirmed by <%= @employee_listing.poster.name %>.
     </div>
 
     <%= link_to "View Your Hirings", hirings_path, class: 'veiw-hiring-btn' %>

@@ -64,7 +64,7 @@ class User < ApplicationRecord
   end
 
   def is_individual?
-    user_type.eql?(nil) && !self.company.present? && self.employee_listings.present?
+    user_type.eql?(nil) && self.company.blank? && self.employee_listings.present?
   end
 
   def is_owner?

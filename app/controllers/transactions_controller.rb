@@ -76,9 +76,9 @@ class TransactionsController < ApplicationController
           @slot = @slot + Transaction::DAYS_HASH[:"#{day.downcase}"] + " #{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}, "
         end
       end
-
     else
       @company.update(company_params)
+      @transaction.update_attribute(:probationary_period, params[:transaction][:probationary_period])
       if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
         @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
       else
@@ -107,7 +107,7 @@ class TransactionsController < ApplicationController
         end
       end
     else
-      # transacton code here
+      # Payment code here
       @transaction.update_attribute(:state, "created")
       TransactionMailer.listing_hiring_request_received(@employee_listing.poster).deliver!
       TransactionMailer.listing_hiring_request_sent(current_user).deliver!
@@ -147,8 +147,7 @@ class TransactionsController < ApplicationController
       :state,
       :post_code,
       :country,
-      :contact_no,
-      :probationary_period
+      :contact_no
     )
   end
 

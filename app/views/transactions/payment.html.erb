@@ -5,7 +5,7 @@
 
       <div class="confirm_and_pay">
         <h1 class="main-heading">Confirm and payment</h1>
-        <p>You won't be charged until PosterABC has accepted your hiring request. PosterABC has 48 hours to respond to your request.</p>
+        <p>You won't be charged until <%= @employee_listing.poster.name %> has accepted your hiring request. <%= @employee_listing.poster.name %> has 48 hours to respond to your request.</p>
         <div class="request-form-box">
           <div class="custom-field-box">
 
@@ -19,7 +19,7 @@
 
             <%= render partial: "credit_card_detail" %>
 
-            <%#= render partial: "login_paypal_box" %>
+            <%= render partial: "login_paypal_box" %>
 
           </div>
         </div>

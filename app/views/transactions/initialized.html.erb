@@ -63,7 +63,7 @@
 
               <div class="custom-input-group">
                 <label class="comman-heading">Set probationary period</label>
-                <%= f.select :probationary_period, options_for_select(Company::PROBATIONARY_PERIOD, f.object.probationary_period), {}, {class: 'custom-field half-field'} %>
+                <%= select_tag "transaction[probationary_period]", options_for_select(Transaction::PROBATIONARY_PERIOD), {}, {class: 'custom-field half-field'} %>
               </div>
 
               <h2 class="comman-heading">Send a message to <%= @employee_listing.poster.name %></h2>
@@ -91,7 +91,7 @@
 </div>
 
 <script type="text/javascript">
-  $("#company_probationary_period").change(function(){
+  $("#transaction_probationary_period").change(function(){
     var months = $(this).val();
     if (months === "1"){
       $("#probationary_period").html(months + " month");

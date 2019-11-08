@@ -10,6 +10,7 @@ class HiringsController < ApplicationController
                                           :cancelled_successfully,
                                           :show
                                          ]
+  before_action :ensure_not_poster, only: [:change_hiring]
 
   def index
     hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
@@ -35,16 +36,49 @@ class HiringsController < ApplicationController
                     .transactions
                     .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+                    .where.not(id: @old_transaction.id)
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
       @disabled_time = unavailable_time_slots(bookings)
     else
-      @new_transaction = TransactionService.new(params, current_user).create
-      if @new_transaction.present?
-        redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id)
+      listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
+
+      transactions = listing
+                      .transactions
+                      .where(state: "accepted")
+                      .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?",
+                        params[:transaction][:start_date], params[:transaction][:end_date],
+                        params[:transaction][:start_date], params[:transaction][:end_date])
+                      .where.not(id: @old_transaction.id)
+
+      transaction_ids = transactions.pluck(:id)
+      bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      booked_timings = unavailable_time_slots(bookings)
+      requested_booking_slot = params[:transaction][:booking_attributes].to_unsafe_hash
+      continue = true
+
+      availability_slots = ListingAvailability::TIME_SLOTS
+
+      requested_booking_slot.each do |booking_day, booking_value|
+        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+          if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
+            continue = false
+            break
+          end
+        end
+      end
+
+      if continue
+        @new_transaction = TransactionService.new(params, current_user).create
+        if @new_transaction.present?
+          redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id)
+        else
+          flash[:error] = "Please check your selected dates and slotes and try again"
+          redirect_to change_hiring_hiring_path(id: @old_transaction.id)
+        end
       else
-        flash[:error] = "Some error occurred"
+        flash[:error] = "Your booking is conflicting from other bookings. Please select different timings"
         redirect_to change_hiring_hiring_path(id: @old_transaction.id)
       end
     end
@@ -53,15 +87,14 @@ class HiringsController < ApplicationController
   def change_hiring_confirmation
     @listing = @transaction.employee_listing
     unless request.patch?
+      @old_transaction.update_attributes(state: "completed", status: false)
+      # Transaction changed mail for accept & decline
     else
     end
   end
 
   def changed_successfully
     @listing = @transaction.employee_listing
-    unless request.patch?
-    else
-    end
   end
 
   def cancel_hiring
@@ -109,9 +142,47 @@ class HiringsController < ApplicationController
     redirect_to hirings_path
   end
 
+  def check_slot_availability
+    @employee_listing = EmployeeListing.find(params[:listing_id])
+    @start_date = params[:start].to_date
+    @end_date = params[:end].to_date
+    @transaction = Transaction.find(params[:transaction_id])
+
+    transactions = @employee_listing
+                    .transactions
+                    .where(state: "accepted")
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
+                    .not.where(id: @transaction.id)
+
+    transaction_ids = transactions.pluck(:id)
+    bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+    @disabled_time = unavailable_time_slots(bookings)
+  end
+
   private
 
   def find_transaction
     @transaction = Transaction.find_by(id: params[:id])
+  end
+
+  def ensure_not_poster
+    if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
+      employee_listing = EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
+    elsif params[:id].present?
+      employee_listing = Transaction.find_by(id: params[:id]).employee_listing
+    else
+      flash[:error] = "Invalid request"
+      redirect_to employee_index_path
+    end
+
+    if employee_listing.present?
+      if current_user == employee_listing.poster
+        flash[:error] = "Invalid request"
+        redirect_to employee_index_path
+      end
+    else
+      flash[:error] = "Invalid request"
+      redirect_to employee_index_path
+    end
   end
 end

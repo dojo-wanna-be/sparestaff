@@ -23,7 +23,7 @@ class TransactionService
         total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
-        number_of_weeks = start_date.upto(end_date).count.fdiv(7).round(2)
+        number_of_weeks = @start_date.upto(@end_date).count.fdiv(7).round(2)
 
         tx.weekday_hours = total_weekday_hours_per_week
         tx.weekend_hours = total_weekend_hours_per_week
@@ -31,20 +31,22 @@ class TransactionService
         tx.total_weekday_hours = total_weekday_hours
         tx.total_weekend_hours = total_weekend_hours
 
-        weekdays_price = listing.weekday_price * total_weekday_hours_per_week
-        weekends_price = listing.weekend_price * total_weekend_hours_per_week
+        weekdays_price = listing.weekday_price.to_f * total_weekday_hours_per_week
+        weekends_price = listing.weekend_price.to_f * total_weekend_hours_per_week
 
-        total_weekdays_price = listing.weekday_price * total_weekday_hours
-        total_weekends_price = listing.weekend_price * total_weekend_hours
+        total_weekdays_price = listing.weekday_price.to_f * total_weekday_hours
+        total_weekends_price = listing.weekend_price.to_f * total_weekend_hours
 
-        weekly_earning = weekdays_price + weekends_price + 0.99
+        weekly_earning = weekdays_price + weekends_price
+        x = weekdays_price + weekends_price + 0.99
         total_cents = number_of_weeks * 0.99
-        total_earning = total_weekdays_price + total_weekends_price + total_cents
+        total_earning = total_weekdays_price + total_weekends_price
+        x_total = total_weekdays_price + total_weekends_price + total_cents
 
-        tax_detail_hash = TaxDetail.tax_calculation(weekly_earning.to_f)
-        weekly_tax_withholding = (tax_detail_hash[:a] * weekly_earning) - tax_detail_hash[:b]
+        tax_detail_hash = TaxDetail.tax_calculation(x)
+        weekly_tax_withholding = (tax_detail_hash[:a] * x) - tax_detail_hash[:b]
 
-        total_tax_withholding = (tax_detail_hash[:a] * total_earning) - tax_detail_hash[:b]
+        total_tax_withholding = (tax_detail_hash[:a] * x_total) - tax_detail_hash[:b]
 
         if tx.frequency.eql?("weekly")
           tx.tax_withholding_amount = weekly_tax_withholding
@@ -155,7 +157,7 @@ class TransactionService
                             booking_date: date)
           end
           wednesday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_wednesdays = (tx.start_date..tx.end_date).group_by(&:wday)[3].count
+          no_of_wednesday = (tx.start_date..tx.end_date).group_by(&:wday)[3].count
           total_wednesday_hours = wednesday_hours * no_of_wednesdays
         else
           wednesday_hours = 0
@@ -173,7 +175,7 @@ class TransactionService
                             booking_date: date)
           end
           thursday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_thursdays = (tx.start_date..tx.end_date).group_by(&:wday)[4].count
+          no_of_thursday = (tx.start_date..tx.end_date).group_by(&:wday)[4].count
           total_thursday_hours = thursday_hours * no_of_thursdays
         else
           thursday_hours = 0
@@ -191,7 +193,7 @@ class TransactionService
                             booking_date: date)
           end
           friday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_fridays = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          no_of_friday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
           total_friday_hours = friday_hours * no_of_fridays
         else
           friday_hours = 0
@@ -209,7 +211,7 @@ class TransactionService
                             booking_date: date)
           end
           saturday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_saturdays = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          no_of_saturday = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
           total_saturday_hours = saturday_hours * no_of_saturdays
         else
           saturday_hours = 0
