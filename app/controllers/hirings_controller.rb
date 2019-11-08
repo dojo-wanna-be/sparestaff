@@ -92,11 +92,13 @@ class HiringsController < ApplicationController
     if request.patch?
       @transaction.update_attribute(:state, "created")
       # Transaction changed mail for accept & decline
+      redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
 
   def changed_successfully
     @listing = @transaction.employee_listing
+    @old_transaction = Transaction.find_by(id: params[:old_id])
   end
 
   def cancel_hiring
