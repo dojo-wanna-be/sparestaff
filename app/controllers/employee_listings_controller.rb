@@ -294,6 +294,8 @@ class EmployeeListingsController < ApplicationController
       @disabled_time = unavailable_time_slots(bookings)
 
       @transaction = @employee_listing.transactions.build
+      @avalibilities = @employee_listing.listing_availabilities
+      @slots = @employee_listing.slots.pluck(:time_slot).to_sentence
     end
   end
 

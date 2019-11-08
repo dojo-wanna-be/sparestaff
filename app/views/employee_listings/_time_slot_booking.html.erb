@@ -89,7 +89,7 @@
      <ul class="calculation-list">
       <li class="calc-item">
         <span class="left">Service fee</span>
-        <span class="right">-$11.13</span>
+        <span class="right">$<label id="weeklyServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left"><b>Weekly total</b></span>
@@ -112,15 +112,15 @@
       </li>
       <li class="calc-item">
         <span class="left">Tax withholding</span>
-        <span class="right">-$<label id="transaction_tax_withholding_amount"> 0 </label></span>
+        <span class="right">-$<label id="ContractTaxPrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left">Service fee</span>
-        <span class="right">-$116.55</span>
+        <span class="right"><label id="ContractServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left"><b>Total</b></span>
-        <span class="right"><b>$4001.55</b></span>
+        <span class="right"><b>$<label id="ContractTotalPrice"> 0 </label></b></span>
       </li>
     </ul>
     <%= link_to 'Contact Poster', '#', class: 'request-btn contact-poster' %>
