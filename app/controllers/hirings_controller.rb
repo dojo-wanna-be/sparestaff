@@ -40,6 +40,8 @@ class HiringsController < ApplicationController
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      @start_date = Date.today
+      @end_date = Date.today
       @disabled_time = unavailable_time_slots(bookings)
     else
       listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
@@ -72,7 +74,7 @@ class HiringsController < ApplicationController
       if continue
         @new_transaction = TransactionService.new(params, current_user).create
         if @new_transaction.present?
-          redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id)
+          redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"
           redirect_to change_hiring_hiring_path(id: @old_transaction.id)
@@ -86,10 +88,10 @@ class HiringsController < ApplicationController
 
   def change_hiring_confirmation
     @listing = @transaction.employee_listing
-    unless request.patch?
-      @old_transaction.update_attributes(state: "completed", status: false)
+    @old_transaction = Transaction.find_by(id: params[:old_id])
+    if request.patch?
+      @transaction.update_attribute(:state, "created")
       # Transaction changed mail for accept & decline
-    else
     end
   end
 
@@ -152,11 +154,27 @@ class HiringsController < ApplicationController
                     .transactions
                     .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
-                    .not.where(id: @transaction.id)
+                    .where.not(id: @transaction.id)
 
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
     @disabled_time = unavailable_time_slots(bookings)
+  end
+
+  def listing_approval
+    if params[state: "accepted"]
+      @old_transaction.update_attributes(state: "completed", status: false)
+
+      @transaction.update_attributes(state: "accepted", status: false)
+
+      # Transaction changed accepted mail to hirer
+      redirect_to root_path
+    elsif params[state: "rejected"]
+
+      @transaction.update_attributes(state: "rejected", status: false)
+      # Transaction changed rejected mail to hirer
+      redirect_to root_path
+    end
   end
 
   private

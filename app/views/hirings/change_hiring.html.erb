@@ -24,8 +24,8 @@
         <div id="change_booking_slots">
           <%= render partial: "change_time_slot_booking", locals: { transaction: @old_transaction,
                                                                     employee_listing: @listing,
-                                                                    start_date: @old_transaction.start_date,
-                                                                    end_date: @old_transaction.end_date
+                                                                    start_date: @start_date,
+                                                                    end_date: @end_date
                                                                   } %>
         </div>
 

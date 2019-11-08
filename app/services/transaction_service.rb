@@ -53,7 +53,7 @@ class TransactionService
           tx.amount = weekly_earning - weekly_tax_withholding
           tx.total_tax_withholding_amount = total_tax_withholding
           tx.total_amount = total_earning - total_tax_withholding
-        elsif tx.frequency.eql?("")
+        elsif tx.frequency.eql?("fortnight")
           fortnight_tax_withholding = 2 * weekly_tax_withholding
           total_fortnight_tax_withholding = 2 * total_tax_withholding
           tx.tax_withholding_amount = fortnight_tax_withholding
