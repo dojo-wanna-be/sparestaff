@@ -23,7 +23,7 @@
             <span class="OrderListingTitle">You're hiring Cristiano Ronaldo!</span>
             <br />
             Hiring ID:
-            12345
+            <%= @transaction.id %>
             <br /><br />
             <div class="divTable">
               <div class="divTableRow">
@@ -40,13 +40,15 @@
                               <div class="divTable">
                                 <div class="divTableRow">
                                   <div class="divTableCell FloatLeft">
-                                    Senior IT 
-                                    Administrator<br />
-                                    Cristiano 
-                                    Ronaldo
+                                    <%= @listing.title %><br />
+                                    <%= @listing.name %>
                                   </div>
                                   <div class="divTableCell FloatRight">
-                                    <%= image_tag "luca.png", class: "Image150px" %>
+                                    <% if @listing.profile_picture.present? %>
+                                      <%= image_tag @listing.profile_picture.url, class: 'Image150px' %>
+                                    <% else %>
+                                      <%= image_tag 'no-image.jpg', class: 'Image150px' %>
+                                    <% end %>
                                   </div>
                                 </div>
                               </div>
@@ -63,13 +65,13 @@
                               <strong>Hiring Start</strong>
                             </div>
                             <div class="divTableCell VerticalAlignMiddle" style="width:25%">
-                              12 Feb 2019
+                              <%= @transaction.start_date.strftime("%d %h %Y") %>
                             </div>
                             <div class="divTableCell VerticalAlignMiddle" style="width:25%">
                               <strong>Hiring End</strong>
                             </div>
                             <div class="divTableCell" style="width:25%">
-                              24 Apr 2019
+                              <%= @transaction.end_date.strftime("%d %h %Y") %>
                             </div>
                           </div>
                         </div>
@@ -83,7 +85,7 @@
                               <strong>Probation</strong>
                             </div>
                             <div class="divTableCell">
-                              1 month
+                              <%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "-" %>
                             </div>
                           </div>
                         </div>
@@ -98,30 +100,16 @@
                             </div>
                             <div class="divTableCell">
                               <div class="divTable">
-                                <div class="divTableRow">
-                                  <div class="divTableCell VerticalAlignMiddle" style="width:33%">
-                                    Monday
+                                <% @transaction.bookings.each do |booking| %>
+                                  <div class="divTableRow">
+                                    <div class="divTableCell VerticalAlignMiddle" style="width:33%">
+                                      <%= booking.day.titleize %>
+                                    </div>
+                                    <div class="divTableCell VerticalAlignMiddle">
+                                      <%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %>
+                                    </div>
                                   </div>
-                                  <div class="divTableCell VerticalAlignMiddle">
-                                    09:00 - 12:00
-                                  </div>
-                                </div>
-                                <div class="divTableRow">
-                                  <div class="divTableCell VerticalAlignMiddle" style="width:33%">
-                                    Tuesday
-                                  </div>
-                                  <div class="divTableCell VerticalAlignMiddle">
-                                    15:00 - 17:00
-                                  </div>
-                                </div>
-                                <div class="divTableRow">
-                                  <div class="divTableCell VerticalAlignMiddle" style="width:33%">
-                                    Saturday
-                                  </div>
-                                  <div class="divTableCell VerticalAlignMiddle">
-                                    12:00 - 16:00
-                                  </div>
-                                </div>
+                                <% end %>
                               </div>
                             </div>
                           </div>
@@ -136,9 +124,9 @@
                               <strong>Address</strong>
                             </div>
                             <div class="divTableCell">
-                              185 Enmore Rd<br />
-                              Enmore NSW 2042<br />
-                              Australia
+                              <%= "#{@listing.address_1}" %><br />
+                              <%= "#{@listing.city} #{@listing.state} #{@listing.post_code}" %><br />
+                              <%= "#{@listing.country}" %>
                             </div>
                           </div>
                         </div>
@@ -162,18 +150,18 @@
                                 </div>
                                 <div class="divTableRow">
                                   <div class="divTableCell FloatLeft">
-                                    $35 x 5 hours
+                                    $<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %>
                                   </div>
                                   <div class="divTableCell FloatRight">
-                                    $175.00
+                                    $<%= @listing.weekday_price * @transaction.weekday_hours %>
                                   </div>
                                 </div>
                                 <div class="divTableRow">
                                   <div class="divTableCell FloatLeft">
-                                    $50.00 x 4 hours (weekend)
+                                    $<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %>
                                   </div>
                                   <div class="divTableCell FloatRight">
-                                    $200.00
+                                    $<%= @listing.weekend_price * @transaction.weekend_hours %>
                                   </div>
                                 </div>
                                 <div class="divTableRow">
@@ -181,7 +169,7 @@
                                     Tax withholding
                                   </div>
                                   <div class="divTableCell FloatRight">
-                                    -$4.00
+                                    -$<%= @transaction.tax_withholding_amount %>
                                   </div>
                                 </div>
                                 <div class="divTableRow">
@@ -198,7 +186,7 @@
                                     total</strong>
                                   </div>
                                   <div class="divTableCell FloatRight">
-                                    <strong>$382.13</strong>
+                                    <strong>$<%= @transaction.amount %></strong>
                                   </div>
                                 </div>
                               </div>
@@ -210,23 +198,24 @@
                               <div class="" id="TotalEmploymentContract">
                                 <div class="divTable">
                                   <div class="divTableRow">
-                                    <div class="divTableCell FloatLeft">$35 x 
-                                      55 hours
+                                    <div class="divTableCell FloatLeft">
+                                      $<%= "#{@listing.weekday_price} x #{@transaction.total_weekday_hours} hours" %>
                                     </div>
-                                    <div class="divTableCell FloatRight">$1,925.00</div>
+                                    <div class="divTableCell FloatRight">
+                                      $<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
                                   </div>
                                   <div class="divTableRow">
-                                    <div class="divTableCell FloatLeft">$50.00 x 40 hours 
-                                      (weekend)
+                                    <div class="divTableCell FloatLeft">
+                                      $<%= "#{@listing.weekend_price} x #{@transaction.total_weekend_hours} hours (weekend)" %>
                                     </div>
-                                    <div class="divTableCell FloatRight">$2,000.00</div>
+                                    <div class="divTableCell FloatRight">$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
                                   </div>
                                   <div class="divTableRow">
                                     <div class="divTableCell FloatLeft">
                                       Tax withholding
                                     </div>
                                     <div class="divTableCell FloatRight">
-                                      -$40.00
+                                      -$<%= @transaction.total_tax_withholding_amount %>
                                     </div>
                                   </div>
                                   <div class="divTableRow">
@@ -242,7 +231,7 @@
                                       <strong>Total</strong>
                                     </div>
                                     <div class="divTableCell FloatRight PaddingBottom10px">
-                                      <strong>$4,001.55</strong>
+                                      <strong>$<%= @transaction.total_amount %></strong>
                                     </div>
                                   </div>
                                   <div class="divTableRow">
@@ -257,7 +246,7 @@
                                   </div>
                                 </div>
                                 <br />
-                                <a href="user-hiring-view-hirer-receipt-list.html">Get receipt
+                                <a href="javascript:;">Get receipt
                                 </a>
                               </div>
                             </div>
@@ -288,7 +277,7 @@
                       <div class="divTableCell Padding30Px FullWidth TextAllignCenter">
                         <%= image_tag "zidane-profile.jpg", class: "ProfileIcon100pxNoBorder" %><br />
                         <br />
-                        <strong>Poster: PosterABC</strong><br />
+                        <strong>Poster: <%= @listing.poster.name %></strong><br />
                         Have a question about your hiring? The 
                         best way to get information is to 
                         discuss with the Poster directly.<br />
@@ -296,13 +285,13 @@
                         <table class="ButtonOrange AlignCenter">
                           <tr>
                             <td>
-                              <a href="user-accepted-hiring-send-message.html">Message Poster</a>
+                              <a href="javascript:;">Message Poster</a>
                             </td>
                           </tr>
                         </table>
                         <br />
                         <%= image_tag "tel-icon.jpg", class: "Height20px VerticalAlignMiddle" %>&nbsp;
-                        <a href="#">+61 434 292 527</a>
+                        <a href="javascript:;">+61 434 292 527</a>
                       </div>
                     </div>
                   </div>
