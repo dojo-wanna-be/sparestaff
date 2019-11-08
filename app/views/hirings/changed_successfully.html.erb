@@ -18,118 +18,18 @@
         </li> -->
       </ul>
 
-      <%= render partial: "hirings/hiring_change_request" %>
+      <div class="review_hiring_details">
+        <h1 class="main-heading">Hiring Change Request Sent</h1>
+        <%= render partial: "hirings/new_hiring_details" %>
+        <div>You will receive an email of this request from Spare Staff.</div>
+        <div class="inline-btn-box">
+          <%= link_to "View Your Hirings", hirings_path, class: 'continue-btn' %>
+        </div>
 
+      </div>
     </div>
 
-    <div class="right_request_section">
-      <div class="user-right-box">
-        <div class="name-box">
-          <span class="Text22px">Senior IT Administrator</span>
-          Cristiano Ronaldo
-        </div>
-        <div class="image-box">
-          <%= image_tag 'luca.png', class: 'Image100pxRight' %>
-        </div>
-      </div>
-
-      <div class="user-right-box">
-        <div class="left">
-          <span><b>From</b></span>
-          <div>Monday Feb 12, 2019</div>
-        </div>
-        <div class="right">
-          <span><b>To</b></span>
-          <div>Wednesday Apr 24, 2019</div>
-        </div>
-      </div>
-
-      <ul class="calculation-list">
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours (weekend)
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Tax withholding</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">New weekly total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Original weekly total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left"><b>Weekly price difference</b></span>
-          <span class="right"><b>$<span id="hiring_weekday_price"> 0 </span> </b></span>
-        </li>
-      </ul>
-
-      <div class="toggle-total-employement">Total employment contract</div>
-
-      <ul class="calculation-list total-employement-list">
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-        <li class="calc-item">
-          <span class="left">
-            $<span class="listing_weekday_price">35.00</span> &nbsp;x&nbsp; <span id="weekday_hours"> 0 &nbsp;</span> hours (weekend)
-          </span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Tax withholding</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Service fee</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">New total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left">Original total</span>
-          <span class="right">$<span id="hiring_weekday_price"> 0 </span> </span>
-        </li>
-
-        <li class="calc-item">
-          <span class="left"><b>Price difference</b></span>
-          <span class="right"><b>$<span id="hiring_weekday_price"> 0 </span> </b></span>
-        </li>
-
-        <li class="calc-item">
-          <span>You will not pay the Total employment contract upfront. You chose to pay weekly.</span>
-        </li>
-      </ul>
-    </div>
+    <%= render partial: "hirings/transaction_difference" %>
   </div>
 
   <div class="sub-footer">

@@ -34,8 +34,7 @@
         <span class="grey-text">Probationary period</span>
       </div>
       <div class="order-item ">
-        <% company = @listing.poster.company %>
-        <div class="month1"><%= company.probationary_period.eql?(1) ? "#{company.probationary_period} month" : "#{company.probationary_period} months" %></div>
+        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
       </div>
     </div>
 
