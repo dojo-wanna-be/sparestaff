@@ -63,7 +63,7 @@
 
               <div class="custom-input-group">
                 <label class="comman-heading">Set probationary period</label>
-                <%= select_tag "transaction[probationary_period]", options_for_select(Transaction::PROBATIONARY_PERIOD), {}, {class: 'custom-field half-field'} %>
+                <%= select_tag "transaction[probationary_period]", options_for_select(Transaction::PROBATIONARY_PERIOD), {class: 'custom-field half-field'} %>
               </div>
 
               <h2 class="comman-heading">Send a message to <%= @employee_listing.poster.name %></h2>
