@@ -121,17 +121,15 @@
     padding: 10px;
   }
 
-  form {
-    .cancellation_reason {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      height: 38px;
+  .cancellation_reason {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 38px;
 
-      input {
-        margin: -1px 13px 0px 5px;
-      }
+    input {
+      margin: -1px 13px 0px 5px;
     }
   }
 

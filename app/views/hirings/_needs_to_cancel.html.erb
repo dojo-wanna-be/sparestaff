@@ -7,9 +7,6 @@
     the Poster a message asking him/her to cancel to make sure you receive a
     full refund.
 
-    <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
-      <%= hidden_field_tag "reason", "The poster needs to cancel" %>
-      <%= submit_tag 'Send message to Poster', class: 'continue-btn' %>
-    <% end %>
+    <%= link_to 'Send message to Poster', "javascritp:;", class: 'continue-btn' %>
   </div>
 </div>

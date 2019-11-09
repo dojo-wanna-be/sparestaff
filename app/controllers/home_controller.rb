@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     @user = User.new
-    @employee_listings = EmployeeListing.order(updated_at: :desc).limit(4)
+    @employee_listings = EmployeeListing.where(published: true).order(updated_at: :desc).limit(4)
   end
 
   def email_availability

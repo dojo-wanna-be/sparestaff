@@ -1,5 +1,5 @@
 <div class="hire_an_employee_box">
-  <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
     <%= hidden_field_tag "reason", "I made the hiring my mistake" %>
 
     <div class="my-mistake">
@@ -14,7 +14,7 @@
             Total Fee
           </div>
           <div class="right-item">
-            $382.13
+            <%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %>
           </div>
         </div>
         <div class="list-item">
@@ -22,7 +22,7 @@
             Service fee
           </div>
           <div class="right-item">
-            -$11.13
+            <%= "-$#{@transaction.total_service_fee}" %>
           </div>
         </div>
         <div class="list-item grey-list-item">
@@ -30,12 +30,12 @@
             <strong>Your Total Refund</strong>
           </div>
           <div class="right-item">
-            <strong>$371.00</strong>
+            <strong><%= "$#{@transaction.total_amount}" %></strong>
           </div>
         </div>
       </div>
 
-      <div class="custom-label">Tell PosterABC why you need to cancel</div>
+      <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
 
       <%= text_area_tag "message_text" %>
 
