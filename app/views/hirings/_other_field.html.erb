@@ -13,7 +13,7 @@
             Total Fee
           </div>
           <div class="right-item">
-            $382.13
+            <%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %>
           </div>
         </div>
         <div class="list-item">
@@ -21,7 +21,7 @@
             Service fee
           </div>
           <div class="right-item">
-            -$11.13
+            <%= "-$#{@transaction.total_service_fee}" %>
           </div>
         </div>
         <div class="list-item grey-list-item">
@@ -29,7 +29,7 @@
             <strong>Your Total Refund</strong>
           </div>
           <div class="right-item">
-            <strong>$371.00</strong>
+            <strong><%= "$#{@transaction.total_amount}" %></strong>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
       <div class="affect-poster">
         Please tell us why you're cancelling<br>
         <br>
-        <textarea cols="20" name="TextArea4" rows="3" class="FullWidthBorderBox" placeholder="This information won't be shared with the Poster"></textarea><br>
+        <%= text_area_tag "reason", "", cols: 20, rows: 3, class: "FullWidthBorderBox", placeholder: "This information won't be shared with the Poster" %><br>
       </div>
       <%= submit_tag "Next Step", class: 'continue-btn' %>
     </div>

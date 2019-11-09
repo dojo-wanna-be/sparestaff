@@ -98,14 +98,11 @@
       <h3 class="main-heading">Cancel Hiring Contract</h3>
       <h3 class="comman-heading">Why do you need to cancel?</h3>
 
-      <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
-        <% Transaction::CANCELLATION_REASON.each_with_index do |reason, index| %>
-          <div class="cancellation_reason">
-            <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
-            <%= reason %>
-          </div>
-        <% end %>
-
+      <% Transaction::CANCELLATION_REASON.each_with_index do |reason, index| %>
+        <div class="cancellation_reason">
+          <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
+          <%= reason %>
+        </div>
       <% end %>
 
       <!-- One -->

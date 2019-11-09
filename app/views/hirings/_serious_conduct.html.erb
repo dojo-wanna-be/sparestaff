@@ -20,7 +20,8 @@
   </ul>
   <br/>
 
-  <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+    <%= hidden_field_tag "reason", "The employee commited an act of serious misconduct" %>
 
     <div class="my-mistake">
       <div class="title-main">Your Refund Summary</div>
@@ -71,7 +72,7 @@
         </div>
       </div>
 
-      <div class="custom-label">Tell PosterABC why you need to cancel</div>
+      <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
 
       <%= text_area_tag "message_text" %>
 

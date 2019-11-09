@@ -105,7 +105,7 @@ class HiringsController < ApplicationController
     unless request.patch?
       @listing = @transaction.employee_listing
     else
-      @transaction.update_attributes(reason: params[:reason], state: "cancelled")
+      @transaction.update_attributes(reason: params[:reason])
       redirect_to tell_poster_hiring_path(id: @transaction.id)
     end
   end
@@ -113,6 +113,11 @@ class HiringsController < ApplicationController
   def tell_poster
     @listing = @transaction.employee_listing
     if request.patch?
+      if params[:reason]
+        @transaction.update_attributes(reason: params[:reason], state: "cancelled")
+      else
+        @transaction.update_attributes(state: "cancelled")
+      end
       conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
       if conversation.present?
         @conversation = conversation.first

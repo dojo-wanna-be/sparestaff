@@ -12,10 +12,6 @@
             <div class="custom-input-group">
               <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
               <%= select_tag "payment_mode", options_for_select([["Credit Card", "credit_card"], ["PayPal", "paypal"]]), class: "custom-field" %>
-              <!-- <select class="custom-field">
-                <option>Credit Card</option>
-                <option>PayPal</option>
-              </select> -->
             </div>
 
             <div class="credit_card_detail">
