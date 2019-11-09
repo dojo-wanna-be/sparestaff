@@ -109,8 +109,9 @@ class TransactionsController < ApplicationController
     else
       # Payment code here
       @transaction.update_attribute(:state, "created")
-      TransactionMailer.listing_hiring_request_received(@employee_listing.poster).deliver!
-      TransactionMailer.listing_hiring_request_sent(current_user).deliver!
+      TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
+      TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user).deliver!
+
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     end
   end

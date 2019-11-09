@@ -91,7 +91,8 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      # Transaction changed mail for accept & decline
+      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction).deliver!
       redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
@@ -131,7 +132,8 @@ class HiringsController < ApplicationController
       message.content = params[:message_text]
       message.sender_id = current_user.id
       message.save
-      TransactionMailer.listing_cancelled_successfully(@listing, current_user).deliver!
+      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver!
+      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver!
       redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
     end
   end

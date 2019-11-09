@@ -1,0 +1,111 @@
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <img alt="" class="LogoInEmail" src="../images/logo.png"/></td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1>Your request was sent</h1>
+    This is not a confirmed hiring. You'll get a response within 48 hours.<br />
+    <br />
+    <table style="width: 500px">
+      <tr>
+        <td style="width: 50%"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td>
+        <img alt="" src="../images/luca.png" class="Image200pxRight" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <br />
+        <div class="GreyLine1Px"></div>       <br />
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px"><strong>From</strong><br />
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+        <td style="text-align: right"><strong>To</strong><br />
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px"></div>       <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">You won't be charged until your hiring is 
+        confirmed</td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px"></div>       <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+    <table class="ButtonOrange" align="center">
+      <tr>
+        <td style="text-align: center">
+        <a class="WhiteLink12pt" href="<%= hirings_url %>">View Your Hiring</a></td>
+      </tr>
+    </table>
+        <br />
+    <table class="GreyBorder" align="center">
+      <tr>
+        <td style="text-align: center">
+        <a class="OrangeLink12ptNoUnderline" href="<%= cancel_hiring_hiring_url(id: @transaction.id) %>">Cancel Request</a></td>
+      </tr>
+    </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px"></div>       <br />
+</td>
+      </tr>
+      <tr>
+        <td style="width: 300px">Total weekly payment</td>
+        <td style="text-align: right"><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px"></div>       <br />
+</td>
+      </tr>
+      <tr>
+        <td style="width: 300px">
+        <h4><%= @poster.name %> is Poster</h4>
+        Contact <%= @poster.name %> for further coordination.</td>
+        <td>
+        <img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px"></div>       <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <h4>Customer support&nbsp;</h4>
+        <p><a href="https://www.sparestaff.com.au/help">Visit Help 
+        Center</a></p>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

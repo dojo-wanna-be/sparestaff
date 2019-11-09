@@ -56,11 +56,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$11.13</span>
+        <span><%= "$#{@transaction.service_fee}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount}" %></b></span>
+        <span><b><%= "$#{@transaction.amount + @transaction.service_fee}" %></b></span>
       </div>
     </div>
 
@@ -81,11 +81,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$116.15</span>
+        <span><%= "$#{@transaction.total_service_fee}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span><b><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
