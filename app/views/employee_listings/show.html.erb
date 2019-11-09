@@ -295,7 +295,7 @@
             trademark.[415] Other comments Cristiano Ronaldo dos Santos Aveiro GOIH, ComM (born 5 February 1985) is a Portuguese professional footballer who plays as a forward for Spanish club Real Madrid and the Portugal national team. Often considered the best player in the world and widely regarded as one of the greatest of all time.
             </p>
 
-            <%= link_to 'Contact Poster', '#', class: 'poster-btn' %>
+            <%= link_to 'Contact Poster', 'javascript:;', class: 'poster-btn' %>
           </div>
 
           <div class="page-tabbing">
@@ -453,9 +453,9 @@
   var hiring_weekday_price = 0;
   var hiring_weekend_price = 0;
 
-  var listingID = "<%= @employee_listing.id %>"
-  var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>"
-  var listingWeekendPrice = "<%= @employee_listing.weekend_price %>"
+  var listingID = "<%= @employee_listing.id %>";
+  var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>";
+  var listingWeekendPrice = "<%= @employee_listing.weekend_price %>";
 
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
@@ -571,7 +571,7 @@
     var a = 0;
     var b = 0;
 
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var x = weekly_earning + 0.99;
     if (x >= 0 && x <= 355){
       a = 0;
@@ -598,13 +598,13 @@
       a = 0.4700;
       b = 576.7885;
     }
-    var tax = (a * x) - b
-    var service_tax = (3 * (weekly_earning - tax)) / 100
-    $("#transaction_tax_withholding_amount").val(tax); 
-    $("#weeklyServicePrice").html(service_tax)
-    var weekly_total_price = weekly_earning - tax + service_tax
-    $("#weekly_total_price").html(weekly_total_price);
-    totalEmploymentContract(tax, service_tax, weekly_total_price)
+    var tax = (a * x) - b;
+    var service_tax = (3 * (weekly_earning - tax)) / 100;
+    $("#transaction_tax_withholding_amount").val(tax.toFixed(2));
+    $("#weeklyServicePrice").html(service_tax.toFixed(2));
+    var weekly_total_price = weekly_earning - tax + service_tax;
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    totalEmploymentContract(tax, service_tax, weekly_total_price);
   }
 
   function totalEmploymentContract(tax, service_tax, weekly_total_price){
@@ -612,8 +612,8 @@
     var endDate = new Date($("#transaction_end_date").val());
     var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
     $('#ContractTaxPrice').html(tax * weekDiff);
-    $('#ContractServicePrice').html(service_tax * weekDiff);
-    $('#ContractTotalPrice').html(weekly_total_price * weekDiff);
+    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
+    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
   }
 
 
@@ -626,7 +626,7 @@
     weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
     totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
     $("#weekday_hours").html(weekday_hour);
-    hiring_weekday_price = weekday_hour * listingWeekdayPrice
+    hiring_weekday_price = weekday_hour * listingWeekdayPrice;
     $("#hiring_weekday_price").html(hiring_weekday_price);
     $("#total_weekday_hours").html(totalWeekdayHours);
     hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;

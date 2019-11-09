@@ -1,7 +1,8 @@
 <div class="hire_an_employee_box">
   <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
-    <%= hidden_field_tag "reason", "I no longer need to hire an employee" %>
-    <div class="FullWidth">
+    <%= hidden_field_tag "reason", "I made the hiring my mistake" %>
+
+    <div class="my-mistake">
       <div class="title-main">Your Refund Summary</div>
       <div><b>This listing has cancellation policy</b></div>
 
@@ -34,7 +35,13 @@
         </div>
       </div>
 
-      <%= submit_tag "Next Step", class: 'continue-btn' %>
+      <div class="custom-label">Tell PosterABC why you need to cancel</div>
+
+      <%= text_area_tag "message_text" %>
+
+      <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
+
+      <div class="small-grey-text">Cancellation is effective immediately</div>
     </div>
   <% end %>
 </div>

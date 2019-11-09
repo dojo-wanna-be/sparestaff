@@ -2,7 +2,9 @@
   <div class="inner-homepage">
     <%= render partial: "employee_search_bar" %>
 
-    <%= render partial: "featured_listings" %>
+    <% if @employee_listings.present? %>
+      <%= render partial: "featured_listings" %>
+    <% end %>
 
     <%= render partial: "services_offered" %>
 

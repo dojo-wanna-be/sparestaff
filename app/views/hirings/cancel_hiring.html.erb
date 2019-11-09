@@ -109,29 +109,53 @@
       <% end %>
 
       <!-- One -->
-      <%= render partial: "hirings/your_refund_summary" %>
+      <div id="reason_1_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/your_refund_summary" %>
+      </div>
       <!-- Two -->
-      <%#= render partial: "hirings/employee_changed" %>
+      <div id="reason_2_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/employee_changed" %>
+      </div>
       <!-- Three -->
-      <%#= render partial: "hirings/my_mistake" %>
+      <div id="reason_3_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/my_mistake_1" %>
+      </div>
       <!-- Four -->
-      <%#= render partial: "hirings/circumstance" %>
+      <div id="reason_4_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/circumstance" %>
+      </div>
       <!-- Five -->
-      <%#= render partial: "hirings/needs_to_cancel" %>
+      <div id="reason_5_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/needs_to_cancel" %>
+      </div>
       <!-- Six -->
-      <%#= render partial: "hirings/my_mistake" %>
+      <div id="reason_6_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/my_mistake_2" %>
+      </div>
       <!-- Seven -->
-      <%#= render partial: "hirings/my_expectation" %>
+      <div id="reason_7_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/my_expectation" %>
+      </div>
       <!-- Eight -->
-      <%#= render partial: "hirings/serious_conduct" %>
+      <div id="reason_8_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/serious_conduct" %>
+      </div>
       <!-- Nine -->
-      <%#= render partial: "hirings/other_field" %>
+      <div id="reason_9_form" class="cancellation_reason_forms hidden">
+        <%= render partial: "hirings/other_field" %>
+      </div>
 
     </div>
   </div>
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+<style type="text/css">
+  .hidden{
+    display: none;
+  }
+</style>
 
 <script type="text/javascript">
   $('.toggle-payment-detail').click(function(){
@@ -141,25 +165,32 @@
   $(".cancellation_reasons").click(function(){
     var reason_id = $(this).attr("id");
     if (reason_id === "reason1") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_1_form").show();
     } else if (reason_id === "reason2") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_2_form").show();
     } else if (reason_id === "reason3") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_3_form").show();
     } else if (reason_id === "reason4") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_4_form").show();
     } else if (reason_id === "reason5") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_5_form").show();
     } else if (reason_id === "reason6") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_6_form").show();
     } else if (reason_id === "reason7") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_7_form").show();
     } else if (reason_id === "reason8") {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_8_form").show();
     } else if (reason_id === "reason9") {
-
-    } else {
-
+      $(".cancellation_reason_forms").hide();
+      $("#reason_9_form").show();
     }
   });
 </script>
