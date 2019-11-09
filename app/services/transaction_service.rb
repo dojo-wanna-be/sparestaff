@@ -210,7 +210,7 @@ class TransactionService
                             booking_date: date)
           end
           saturday_hours = availability_slots[availability_slots.index(booking_timing[:start_time])...availability_slots.index(booking_timing[:end_time])].count
-          no_of_saturdays = (tx.start_date..tx.end_date).group_by(&:wday)[5].count
+          no_of_saturdays = (tx.start_date..tx.end_date).group_by(&:wday)[6].count
           total_saturday_hours = saturday_hours * no_of_saturdays
         else
           saturday_hours = 0
