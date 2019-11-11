@@ -21,10 +21,10 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.each do |booking| %>
+      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
-          <span><%= booking.day.titleize %></span>
-          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+          <span><%= bookings.first.day.titleize %></span>
+          <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
         </div>
       <% end %>
     </div>
@@ -52,15 +52,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.tax_withholding_amount}" %></span>
+        <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span><%= "$#{@transaction.service_fee}" %></span>
+        <span><%= "$#{@transaction.service_fee.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount + @transaction.service_fee}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -77,15 +77,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.total_tax_withholding_amount}" %></span>
+        <span><%= "-$#{@transaction.total_tax_withholding_amount.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span><%= "$#{@transaction.total_service_fee}" %></span>
+        <span><%= "$#{@transaction.total_service_fee.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></b></span>
+        <span><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
@@ -99,10 +99,19 @@
       <h3 class="comman-heading">Why do you need to cancel?</h3>
 
       <% Transaction::CANCELLATION_REASON.each_with_index do |reason, index| %>
-        <div class="cancellation_reason">
-          <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
-          <%= reason %>
-        </div>
+        <% if index.eql?(6) || index.eql?(7) %>
+          <% if @transaction.start_date < Date.today %>
+            <div class="cancellation_reason">
+              <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
+              <%= reason %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="cancellation_reason">
+            <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
+            <%= reason %>
+          </div>
+        <% end %>
       <% end %>
 
       <!-- One -->

@@ -35,7 +35,7 @@
             Total Fee
           </div>
           <div class="right-item">
-            $382.13
+            <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
           </div>
         </div>
         <div class="list-item">
@@ -51,7 +51,7 @@
             Tax withholding
           </div>
           <div class="right-item">
-            -$0.00
+            <%= "-$#{@transaction.tax_withholding_amount.round(2)}" %>
           </div>
         </div>
         <div class="list-item">
@@ -59,7 +59,7 @@
             Service fee
           </div>
           <div class="right-item">
-            -$11.13
+            <%= "-$#{@transaction.service_fee.round(2)}" %>
           </div>
         </div>
         <div class="list-item grey-list-item">
@@ -67,7 +67,7 @@
             <strong>Your Total Refund</strong>
           </div>
           <div class="right-item">
-            <strong>$101.00</strong>
+            <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
           </div>
         </div>
       </div>

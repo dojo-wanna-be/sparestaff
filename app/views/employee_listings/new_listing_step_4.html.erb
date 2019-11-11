@@ -33,7 +33,7 @@
 
             <div class="custom-input-group">
               <label class="custom-label">Employee skills and experience</label>
-              <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).to_sentence %>
+              <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).join(', ') %>
               <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
             </div>
 
