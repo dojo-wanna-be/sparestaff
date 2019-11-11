@@ -108,4 +108,25 @@ class Transaction < ApplicationRecord
   def total_service_fee
     (0.03 * total_amount)
   end
+
+  def partial_hiring_fee
+    week_start_date = Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
+    todays_date = Date.today
+    weekday_slots = []
+    weekend_slots = []
+    availability_slots = ListingAvailability::TIME_SLOTS
+    all_bookings = bookings.where(booking_date: (week_start_date..todays_date).to_a)
+    all_bookings.each do |booking|
+      if ["monday", "tuesday", "wednesday", "thursday", "friday"].include?(booking.day)
+        weekday_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+      elsif ["sunday", "saturday"].include?(booking.day)
+        weekend_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+      end
+    end
+    weekday_hours = weekday_slots.flatten.uniq.count
+    weekend_hours = weekend_slots.flatten.uniq.count
+    weekday_price = self.employee_listing.weekday_price.to_f
+    weekend_price = self.employee_listing.weekend_price.to_f
+    (weekday_hours * weekday_price) + (weekend_hours * weekend_price)
+  end
 end

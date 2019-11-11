@@ -43,7 +43,7 @@
             Partial hiring fee
           </div>
           <div class="right-item">
-            -$270.13
+            <%= "-$#{@transaction.partial_hiring_fee.round(2)}" %>
           </div>
         </div>
         <div class="list-item">
@@ -67,7 +67,7 @@
             <strong>Your Total Refund</strong>
           </div>
           <div class="right-item">
-            <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
+            <strong><%= "$#{(@transaction.amount - @transaction.partial_hiring_fee).round(2)}" %></strong>
           </div>
         </div>
       </div>
