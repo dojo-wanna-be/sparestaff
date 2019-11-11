@@ -24,7 +24,7 @@ class EmployeeListingsController < ApplicationController
                                       :listing_deactivation]
 
   before_action :find_company, only: [:create_listing_step_2]
-
+  skip_before_action :authenticate_user!, only: [:show]
 
   def message_inbox
   end
@@ -274,6 +274,7 @@ class EmployeeListingsController < ApplicationController
   end
 
   def show
+    @user = current_user ? current_user : User.new
     unless @employee_listing.published?
       flash[:error] = "Please publish this listing first"
       if @employee_listing.listing_step < 6

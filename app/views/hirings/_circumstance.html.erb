@@ -26,7 +26,7 @@
               Total Fee
             </div>
             <div class="right-item">
-              <%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %>
+              <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
             </div>
           </div>
           <div class="list-item">
@@ -34,7 +34,7 @@
               Service fee
             </div>
             <div class="right-item">
-              <%= "-$#{@transaction.total_service_fee}" %>
+              <%= "-$#{@transaction.service_fee.round(2)}" %>
             </div>
           </div>
           <div class="list-item grey-list-item">
@@ -42,7 +42,7 @@
               <strong>Your Total Refund</strong>
             </div>
             <div class="right-item">
-              <strong><%= "$#{@transaction.total_amount}" %></strong>
+              <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
             </div>
           </div>
         </div>
