@@ -45,14 +45,14 @@
             <b>Timetable</b>
           </div>
           <div class="user-detail-box-right">
-            <% @transaction.bookings.each do |booking| %>
+            <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
               <div class="three-box">
                 <div class="three-box-left">
-                  <div><%= booking.day.titleize %></div>
+                  <div><%= bookings.first.day.titleize %></div>
                 </div>
                 <div class="three-box-middle">
                   <div>
-                    <%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %>
+                    <%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %>
                   </div>
                 </div>
                 <div class="three-box-right">
