@@ -105,9 +105,9 @@
                 <div>&nbsp;</div>
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
-                <div>-$<%= @transaction.tax_withholding_amount %></div>
-                <div>$<%= @transaction.service_fee %></div>
-                <div><b>$<%= @transaction.amount + @transaction.service_fee %></b></div>
+                <div>-$<%= (@transaction.tax_withholding_amount).round(2) %></div>
+                <div>$<%= @transaction.service_fee.round(2) %></div>
+                <div><b>$<%= (@transaction.amount + @transaction.service_fee).round(2) %></b></div>
               </div>
             </div>
 
@@ -123,11 +123,11 @@
 
               <div class="three-box-right">
                 <div>&nbsp;</div>
-                <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
-                <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
-                <div>-$<%= @transaction.total_tax_withholding_amount %></div>
-                <div>$<%= @transaction.total_service_fee %></div>
-                <div><b>$<%= @transaction.total_amount + @transaction.total_service_fee %></b></div>
+                <div>$<%= (@listing.weekday_price * @transaction.total_weekday_hours).round(2) %></div>
+                <div>$<%= (@listing.weekend_price * @transaction.total_weekend_hours).round(2) %></div>
+                <div>-$<%= @transaction.total_tax_withholding_amount.round(2) %></div>
+                <div>$<%= @transaction.total_service_fee.round(2) %></div>
+                <div><b>$<%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %></b></div>
               </div>
             </div>
 
