@@ -136,8 +136,8 @@
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
                 <div>-$<%= @transaction.tax_withholding_amount %></div>
-                <div>$11.13</div>
-                <div><b>$<%= @transaction.amount %></b></div>
+                <div>$<%= @transaction.service_fee %></div>
+                <div><b>$<%= @transaction.amount + @transaction.service_fee %></b></div>
               </div>
             </div>
 
@@ -156,14 +156,14 @@
                 <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
                 <div>-$<%= @transaction.total_tax_withholding_amount %></div>
-                <div>$116.13</div>
-                <div><b>$<%= @transaction.total_amount %></b></div>
+                <div>$<%= @transaction.total_service_fee %></div>
+                <div><b>$<%= @transaction.total_amount + @transaction.total_service_fee %></b></div>
               </div>
             </div>
 
             <div class="bottem-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
 
-            <%= link_to 'Get receipt', 'javascript:;', class: 'orange-link' %>
+            <%= link_to 'Get receipt', get_receipt_hiring_path(id: @transaction.id), class: 'orange-link' %>
           </div>
         </div>
 

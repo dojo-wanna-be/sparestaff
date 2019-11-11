@@ -8,7 +8,9 @@ class HiringsController < ApplicationController
                                           :cancel_hiring,
                                           :tell_poster,
                                           :cancelled_successfully,
-                                          :show
+                                          :show,
+                                          :get_receipt,
+                                          :receipt_details
                                          ]
   before_action :ensure_not_poster, only: [:change_hiring]
 
@@ -184,6 +186,14 @@ class HiringsController < ApplicationController
       # Transaction changed rejected mail to hirer
       redirect_to root_path
     end
+  end
+
+  def get_receipt
+    @listing = @transaction.employee_listing
+  end
+
+  def receipt_details
+    @listing = @transaction.employee_listing
   end
 
   private
