@@ -11,12 +11,10 @@
         <div class="date-sec">
           <label class="thin-label">Start Date</label>
           <%= f.date_field :start_date, value: start_date, min: Date.today %>
-          <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
         </div>
         <div class="date-sec">
           <label class="thin-label">End Date</label>
           <%= f.date_field :end_date, value: end_date, min: Date.today %>
-          <!-- <label id="end_date">End date must be greater from start date</label> -->
         </div>
       </div>
 
@@ -31,7 +29,7 @@
             <div class="to-text">To</div>
           </li>
 
-          <% employee_listing.listing_availabilities.each_with_index do |availability, index| %>
+          <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>
                 <div class="start-side">
@@ -133,3 +131,363 @@
     <div class="footer-text">This employee listing has been viewed 149 times.</div>
   <% end %>
 </div>
+
+<script>
+  var isSunday = false;
+  var isMonday = false;
+  var isTuesday = false;
+  var isWednesday = false;
+  var isThursday = false;
+  var isFriday = false;
+  var isSaturday = false;
+
+  var totalSundays = 0;
+  var totalMondays = 0;
+  var totalTuesdays = 0;
+  var totalWednesdays = 0;
+  var totalThursdays = 0;
+  var totalFridays = 0;
+  var totalSaturdays = 0;
+
+  var totalSundayHours = 0;
+  var totalMondayHours = 0;
+  var totalTuesdayHours = 0;
+  var totalWednesdayHours = 0;
+  var totalThursdayHours = 0;
+  var totalFridayHours = 0;
+  var totalSaturdayHours = 0;
+
+  var sundayHour = 0;
+  var mondayHour = 0;
+  var tuesdayHour = 0;
+  var wednesdayHour = 0;
+  var thursdayHour = 0;
+  var fridayHour = 0;
+  var saturdayHour = 0;
+
+  var totalWeekdayHours = 0;
+  var totalWeekendHours = 0;
+
+  var hiring_weekday_price = 0;
+  var hiring_weekend_price = 0;
+
+  var listingID = "<%= @employee_listing.id %>";
+  var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>";
+  var listingWeekendPrice = "<%= @employee_listing.weekend_price %>";
+
+  $.validator.addMethod('lessThan', function(value, element, param) {
+    return this.optional(element) || value < $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod('greaterThan', function(value, element, param) {
+    return this.optional(element) || value > $(param).val();
+  }, "The value {0} must be less than {1}");
+
+  $.validator.addMethod("dateGreaterThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) > new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
+  },'Must be greater than {0}');
+
+  $.validator.addMethod("dateLessThan", function(value, element, params) {
+    if (!/Invalid|NaN/.test(new Date(value))) {
+      return new Date(value) < new Date($(params).val());
+    }
+    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val()));
+  },'Must be less than {0}');
+
+  $("#listing_transaction").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "transaction[booking_attributes][0][end_time]": {greaterThan: "#transaction_booking_attributes_0_start_time"},
+      "transaction[booking_attributes][1][end_time]": {greaterThan: "#transaction_booking_attributes_1_start_time"},
+      "transaction[booking_attributes][2][end_time]": {greaterThan: "#transaction_booking_attributes_2_start_time"},
+      "transaction[booking_attributes][3][end_time]": {greaterThan: "#transaction_booking_attributes_3_start_time"},
+      "transaction[booking_attributes][4][end_time]": {greaterThan: "#transaction_booking_attributes_4_start_time"},
+      "transaction[booking_attributes][5][end_time]": {greaterThan: "#transaction_booking_attributes_5_start_time"},
+      "transaction[booking_attributes][6][end_time]": {greaterThan: "#transaction_booking_attributes_6_start_time"},
+      "transaction[start_date]": {required: true},
+      "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
+    },
+    messages: {
+      "transaction[booking_attributes][0][end_time]": {greaterThan: "Must be greater than Sunday Start Time"},
+      "transaction[booking_attributes][1][end_time]": {greaterThan: "Must be greater than Monday Start Time"},
+      "transaction[booking_attributes][2][end_time]": {greaterThan: "Must be greater than Tuesday Start Time"},
+      "transaction[booking_attributes][3][end_time]": {greaterThan: "Must be greater than Wednesday Start Time"},
+      "transaction[booking_attributes][4][end_time]": {greaterThan: "Must be greater than Thursday Start Time"},
+      "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
+      "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
+      "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
+    }
+  });
+
+  $("#transaction_is_withholding_tax").on('change click', function () {
+    if ($(this).is(":checked")) {
+      $("#tax-notice").hide();
+    } else {
+      $("#tax-notice").show();
+    }
+  });
+
+  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+    totalSundays = 0;
+    totalMondays = 0;
+    totalTuesdays = 0;
+    totalWednesdays = 0;
+    totalThursdays = 0;
+    totalFridays = 0;
+    totalSaturdays = 0;
+
+    var start = $("#transaction_start_date").val();
+    var end = $("#transaction_end_date").val();
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+    console.log(startDate)
+    console.log(endDate)
+    console.log(startDate < endDate)
+    console.log("===================")
+    if (startDate < endDate){
+      validateAvailability(start, end, listingID);
+      for (var i = startDate; i <= endDate; ){
+        if (i.getDay() == 0){
+          totalSundays++;
+        }else if (i.getDay() == 1) {
+          totalMondays++;
+        }else if (i.getDay() == 2) {
+          totalTuesdays++;
+        }else if (i.getDay() == 3) {
+          totalWednesdays++;
+        }else if (i.getDay() == 4) {
+          totalThursdays++;
+        }else if (i.getDay() == 5) {
+          totalFridays++;
+        }else if (i.getDay() == 6) {
+          totalSaturdays++;
+        }
+        i.setTime(i.getTime() + 1000*60*60*24);
+      }
+
+      setWeekdayHours();
+      setWeekendHours();
+    }
+  });
+
+  function validateAvailability(start_date, end_date, listing){
+    $.ajax({
+      url: "/transactions/check_slot_availability",
+      type: "GET",
+      data : {
+        start: start_date,
+        end: end_date,
+        listing_id: listing,
+      },
+      dataType: "script",
+    });
+  }
+
+  function calculateTax(){
+    var a = 0;
+    var b = 0;
+
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+    var x = weekly_earning + 0.99;
+    if (x >= 0 && x <= 355){
+      a = 0;
+      b = 0;
+    }else if (x > 355 && x <= 422){
+      a = 0.1900;
+      b = 67.4635;
+    }else if (x > 422 && x <= 528){
+      a = 0.2900;
+      b = 109.7321;
+    }else if (x > 528 && x <= 711){
+      a = 0.2100;
+      b = 67.4635;
+    }else if (x > 711 && x <= 1282){
+      a = 0.3477;
+      b = 165.4423;
+    }else if (x > 1282 && x <= 1730){
+      a = 0.3450;
+      b = 161.9808;
+    }else if (x > 1730 && x <= 3461){
+      a = 0.3900;
+      b = 239.8654;
+    }else{
+      a = 0.4700;
+      b = 576.7885;
+    }
+    var tax = (a * x) - b;
+    var service_tax = (3 * (weekly_earning - tax)) / 100;
+    $("#transaction_tax_withholding_amount").val(tax.toFixed(2));
+    $("#weeklyServicePrice").html(service_tax.toFixed(2));
+    var weekly_total_price = weekly_earning - tax + service_tax;
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    totalEmploymentContract(tax, service_tax, weekly_total_price);
+  }
+
+  function totalEmploymentContract(tax, service_tax, weekly_total_price){
+    var startDate = new Date($("#transaction_start_date").val());
+    var endDate = new Date($("#transaction_end_date").val());
+    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    $('#ContractTaxPrice').html(tax * weekDiff);
+    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
+    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
+  }
+
+
+  function setWeekdayHours(){
+    totalMondayHours = totalMondays * mondayHour;
+    totalTuesdayHours = totalTuesdays * tuesdayHour;
+    totalWednesdayHours = totalWednesdays * wednesdayHour;
+    totalThursdayHours = totalThursdays * thursdayHour;
+    totalFridayHours = totalFridays * fridayHour;
+    weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
+    totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
+    $("#weekday_hours").html(weekday_hour);
+    hiring_weekday_price = weekday_hour * listingWeekdayPrice;
+    $("#hiring_weekday_price").html(hiring_weekday_price);
+    $("#total_weekday_hours").html(totalWeekdayHours);
+    hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
+    $("#hiring_total_weekday_price").html(hiring_total_weekday_price);
+    calculateTax();
+  }
+
+  function setWeekendHours(){
+    totalSaturdayHours = totalSaturdays * saturdayHour;
+    totalSundayHours = totalSundays * sundayHour;
+    weekend_hour = saturdayHour + sundayHour;
+    totalWeekendHours = totalSundayHours + totalSaturdayHours;
+    $("#weekend_hours").html(weekend_hour);
+    hiring_weekend_price = weekend_hour * listingWeekendPrice;
+    $("#hiring_weekend_price").html(hiring_weekend_price);
+    $("#total_weekend_hours").html(totalWeekendHours);
+    hiring_total_weekend_price = totalWeekendHours * listingWeekendPrice;
+    $("#hiring_total_weekend_price").html(hiring_total_weekend_price);
+    calculateTax();
+  }
+
+  $(".monday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_1_start_time").val() != '' && $("#transaction_booking_attributes_1_end_time").val() != '') && ($("#transaction_booking_attributes_1_start_time").val() < $("#transaction_booking_attributes_1_end_time").val())) {
+      mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
+      isMonday = true;
+    }else {
+      mondayHour = 0;
+      totalMondayHours = 0;
+      isMonday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isMonday) {
+    //   alert('monday empty');
+    // }
+  });
+
+  $(".tuesday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_2_start_time").val() != '' && $("#transaction_booking_attributes_2_end_time").val() != '') && ($("#transaction_booking_attributes_2_start_time").val() < $("#transaction_booking_attributes_2_end_time").val())) {
+      tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
+      isTuesday = true;
+    }else {
+      tuesdayHour = 0;
+      totalTuesdayHours = 0;
+      isTuesday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isTuesday) {
+    //   alert('tuesday empty');
+    // }
+  });
+
+  $(".wednesday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_3_start_time").val() != '' && $("#transaction_booking_attributes_3_end_time").val() != '') && ($("#transaction_booking_attributes_3_start_time").val() < $("#transaction_booking_attributes_3_end_time").val())) {
+      wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
+      isWednesday = true;
+    }else {
+      wednesdayHour = 0;
+      totalWednesdayHours = 0;
+      isWednesday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isWednesday) {
+    //   alert('wednesday empty');
+    // }
+  });
+
+  $(".thursday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_4_start_time").val() != '' && $("#transaction_booking_attributes_4_end_time").val() != '') && ($("#transaction_booking_attributes_4_start_time").val() < $("#transaction_booking_attributes_4_end_time").val())) {
+      thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
+      isThursday = true;
+    }else {
+      thursdayHour = 0;
+      totalThursdayHours = 0;
+      isThursday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isThursday) {
+    //   alert('thursday empty');
+    // }
+  });
+
+  $(".friday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_5_start_time").val() != '' && $("#transaction_booking_attributes_5_end_time").val() != '') && ($("#transaction_booking_attributes_5_start_time").val() < $("#transaction_booking_attributes_5_end_time").val())) {
+      fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
+      isFriday = true;
+    }else {
+      fridayHour = 0;
+      totalFridayHours = 0;
+      isFriday = false;
+    }
+
+    setWeekdayHours();
+    // if (!isFriday) {
+    //   alert('friday empty');
+    // }
+  });
+
+  $(".sunday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
+      sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
+      isSunday = true;
+    }else {
+      sundayHour = 0;
+      totalSundayHours = 0;
+      isSunday = false;
+    }
+
+    setWeekendHours();
+    // if (!isSunday) {
+    //   alert('sunday empty');
+    // }
+  });
+
+  $(".saturday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
+      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
+      isSaturday = true;
+    }else {
+      saturdayHour = 0;
+      totalSaturdayHours = 0;
+      isSaturday = false;
+    }
+
+    setWeekendHours();
+    // if (!isSaturday) {
+    //   alert('saturday empty');
+    // }
+  });
+
+  $("#listing_transaction").submit(function(e){
+    if ( isSunday || isMonday || isTuesday || isWednesday || isThursday || isFriday || isSaturday ) {
+      $("#timing_error").hide();
+      return true
+    }else {
+      $("#timing_error").show();
+      return false
+    }
+  });
+</script>
