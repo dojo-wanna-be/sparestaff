@@ -509,6 +509,18 @@
   flex-direction: row;
   margin-top: 22px;
 
+  @media screen and (max-width: 767px) {
+    margin: 0;
+    padding: 10px 12px;
+    flex-direction: column;
+    width: 100%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+
   .left-detail {
     display: flex;
     flex-direction: column;
@@ -516,6 +528,16 @@
     width: 301px;
     margin-right: 49px;
     border: 1px solid #e4e4e4;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 10px;
+      margin-right: 15px;
+    }
 
     .pro-pic {
       width: 150px;
@@ -588,8 +610,19 @@
     width: 481px;
     padding-top: 2px;
 
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+
     &.cancel-hirings-right-detail {
       width: 580px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 470px;
+      }
     }
 
     .right-sub-title {
@@ -614,12 +647,20 @@
 
         .link-box {
           padding: 20px 22px;
-           width: calc(100% - 40px);
+          width: calc(100% - 40px);
+
+          @media screen and (max-width: 767px) {
+            padding: 15px;
+          }
 
           .GreyLink {
             font-size: 22px;
             padding-bottom: 10px;
             color: #333333;
+
+            @media screen and (max-width: 767px) {
+              font-size: 18px;
+            }
           }
         }
       }
@@ -660,10 +701,12 @@
     @media screen and (max-width: 767px) {
       width: 100%;
       flex-direction: column;
+      margin: 0;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 100%
+      width: 100%;
+      margin: 0;
     }
 
     .left_request_section {
@@ -710,7 +753,7 @@
             }
           }
           @media screen and (min-width: 768px) and (max-width: 1024px) {
-            margin-right: 15px;
+            margin-right: 8px;
           }
 
           .logo_img {
@@ -736,6 +779,9 @@
 
         @media screen and (max-width: 767px) {
           font-size: 22px;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          font-size: 26px;
         }
       }
 
@@ -800,6 +846,10 @@
         display: flex;
         flex-direction: column;
         margin-top: 13px;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          margin-bottom: 20px;
+        }
 
         .available-box {
           padding-bottom: 20px;
