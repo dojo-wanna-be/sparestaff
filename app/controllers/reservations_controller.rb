@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   include EmployeeListingsHelper
 
-  before_action :ensure_poster
+  before_action :ensure_poster, except: [:index]
   before_action :find_transaction, only: [:change_or_cancel,
                                           :change_reservation,
                                           :change_reservation_confirmation,
