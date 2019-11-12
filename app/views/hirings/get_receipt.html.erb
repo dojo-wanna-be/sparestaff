@@ -106,8 +106,8 @@
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
                 <div>-$<%= @transaction.tax_withholding_amount %></div>
-                <div>$<%= @transaction.service_fee %></div>
-                <div><b>$<%= @transaction.amount + @transaction.service_fee %></b></div>
+                <div>$<%= @transaction.service_fee.round(2) %></div>
+                <div><b>$<%= (@transaction.amount + @transaction.service_fee).round(2) %></b></div>
               </div>
             </div>
 
@@ -125,9 +125,9 @@
                 <div>&nbsp;</div>
                 <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
-                <div>-$<%= @transaction.total_tax_withholding_amount %></div>
-                <div>$<%= @transaction.total_service_fee %></div>
-                <div><b>$<%= @transaction.total_amount + @transaction.total_service_fee %></b></div>
+                <div>-$<%= @transaction.total_tax_withholding_amount.round(2) %></div>
+                <div>$<%= @transaction.total_service_fee.round(2) %></div>
+                <div><b>$<%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %></b></div>
               </div>
             </div>
 
@@ -144,27 +144,19 @@
               <div class="divTableCell Width150Px">Amount</div>
               <div class="divTableCell">Date</div>
             </div>
-            <div class="divTableRow">
-              <div class="divTableCell">
-                <%= link_to "103", receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
-              </div>
-              <div class="divTableCell">$382.13</div>
-              <div class="divTableCell">26-Feb-2019</div>
-            </div>
-            <div class="divTableRow">
-              <div class="divTableCell">
-                <%= link_to "102", receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
-              </div>
-              <div class="divTableCell">$382.13</div>
-              <div class="divTableCell">19-Feb-2019</div>
-            </div>
-            <div class="divTableRow">
-              <div class="divTableCell">
-                <%= link_to "101", receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
-              </div>
-              <div class="divTableCell">$382.13</div>
-              <div class="divTableCell">12-Feb-2019</div>
-            </div>
+            <% start_date = @transaction.start_date %>
+            <% (start_date..Date.today).each do |date| %>
+              <% if start_date < Date.today %>
+                <div class="divTableRow">
+                  <div class="divTableCell">
+                    <%= link_to "103", receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
+                  </div>
+                  <div class="divTableCell">$<%= (@transaction.amount + @transaction.service_fee).round(2) %></div>
+                  <div class="divTableCell"><%= date.strftime("%d-%h-%Y") %></div>
+                </div>
+              <% end %>
+              <% start_date += 7 %>
+            <% end %>
           </div>
         </div>
       </div>
