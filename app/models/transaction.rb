@@ -75,29 +75,24 @@ class Transaction < ApplicationRecord
     bookings.where("day = 0 OR day = 6").count
   end
 
-  def no_of_total_weekdays
-    no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[1].count
-    no_of_tuesdays = (self.start_date..self.end_date).group_by(&:wday)[2].count
-    no_of_wednesdays = (self.start_date..self.end_date).group_by(&:wday)[3].count
-    no_of_thursdays = (self.start_date..self.end_date).group_by(&:wday)[4].count
-    no_of_fridays = (self.start_date..self.end_date).group_by(&:wday)[5].count
+  def total_days(day)
+    no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[day].count
+  end
 
+  def no_of_total_weekdays
     total_weekdays =  {
-                        mondays: no_of_mondays,
-                        tuesdays: no_of_tuesdays,
-                        wednesdays: no_of_wednesdays,
-                        thursdays: no_of_thursdays,
-                        fridays: no_of_fridays
+                        mondays: total_days(1),
+                        tuesdays: total_days(2),
+                        wednesdays: total_days(3),
+                        thursdays: total_days(4),
+                        fridays: total_days(5)
                       }
   end
 
   def no_of_total_weekends
-    no_of_sundays = (self.start_date..self.end_date).group_by(&:wday)[0].count
-    no_of_saturdays = (self.start_date..self.end_date).group_by(&:wday)[6].count
-
     total_weekdays =  {
-                        sundays: no_of_sundays,
-                        saturdays: no_of_saturdays
+                        sundays: total_days(0),
+                        saturdays: total_days(6)
                       }
   end
 
@@ -109,24 +104,20 @@ class Transaction < ApplicationRecord
     (0.03 * total_amount)
   end
 
+  def get_beginning_day
+    Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
+  end
+
   def partial_hiring_fee
-    week_start_date = Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
-    todays_date = Date.today
-    weekday_slots = []
-    weekend_slots = []
-    availability_slots = ListingAvailability::TIME_SLOTS
-    all_bookings = bookings.where(booking_date: (week_start_date..todays_date).to_a)
-    all_bookings.each do |booking|
+    weekday_hours = 0
+    weekend_hours = 0
+    bookings.where(booking_date: (get_beginning_day..Date.today).to_a).each do |booking|
       if ["monday", "tuesday", "wednesday", "thursday", "friday"].include?(booking.day)
-        weekday_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+        weekday_hours += (booking.end_time - booking.start_time)/3600
       elsif ["sunday", "saturday"].include?(booking.day)
-        weekend_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+        weekend_hours += (booking.end_time - booking.start_time)/3600
       end
     end
-    weekday_hours = weekday_slots.flatten.uniq.count
-    weekend_hours = weekend_slots.flatten.uniq.count
-    weekday_price = self.employee_listing.weekday_price.to_f
-    weekend_price = self.employee_listing.weekend_price.to_f
-    (weekday_hours * weekday_price) + (weekend_hours * weekend_price)
+    (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
   end
 end

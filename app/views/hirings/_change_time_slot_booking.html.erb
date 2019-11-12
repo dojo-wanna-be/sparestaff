@@ -30,7 +30,7 @@
             <div class="to-text">To</div>
           </li>
 
-          <% employee_listing.listing_availabilities.each_with_index do |availability, index| %>
+          <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>
                 <div class="start-side">
