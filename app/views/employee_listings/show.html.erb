@@ -414,6 +414,12 @@
 
 <%= render partial: "image_lightbox_modal" %>
 
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>
+
 <script>
   var isSunday = false;
   var isMonday = false;
@@ -527,7 +533,10 @@
     var end = $("#transaction_end_date").val();
     var startDate = new Date(start);
     var endDate = new Date(end);
-
+    console.log(startDate)
+    console.log(endDate)
+    console.log(startDate < endDate)
+    console.log("===================")
     if (startDate < endDate){
       validateAvailability(start, end, listingID);
       for (var i = startDate; i <= endDate; ){
@@ -769,47 +778,4 @@
       return false
     }
   });
-
-  function openModal() {
-    document.getElementById("myModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("myModal").style.display = "none";
-  }
-
-  var slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("demo");
-    var captionText = document.getElementById("caption");
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
-    captionText.innerHTML = dots[slideIndex-1].alt;
-  }
 </script>
-
-<style type="text/css">
-  .error{
-    color:#FF0000;
-  }
-</style>

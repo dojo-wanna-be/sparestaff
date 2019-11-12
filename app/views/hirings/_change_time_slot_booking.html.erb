@@ -24,13 +24,14 @@
 
       <div class="week-availability">
         <ul class="from-to-list">
+          <!-- <div id="web_loading"></div> -->
           <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
           <li class="header-item">
             <div class="from-text">From</div>
             <div class="to-text">To</div>
           </li>
 
-          <% employee_listing.listing_availabilities.each_with_index do |availability, index| %>
+          <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>
                 <div class="start-side">
