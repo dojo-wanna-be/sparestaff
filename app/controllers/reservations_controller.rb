@@ -1,22 +1,20 @@
-class HiringsController < ApplicationController
+class ReservationsController < ApplicationController
   include EmployeeListingsHelper
 
+  before_action :ensure_poster
   before_action :find_transaction, only: [:change_or_cancel,
-                                          :change_hiring,
-                                          :change_hiring_confirmation,
+                                          :change_reservation,
+                                          :change_reservation_confirmation,
                                           :changed_successfully,
-                                          :cancel_hiring,
-                                          :tell_poster,
+                                          :cancel_reservation,
+                                          :tell_hirer,
                                           :cancelled_successfully,
-                                          :show,
-                                          :get_receipt,
-                                          :receipt_details
+                                          :show
                                          ]
-  before_action :ensure_not_poster, only: [:change_hiring]
 
   def index
-    hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-    @hired_listing_transactions = hirer_transactions.includes(:employee_listing)
+    poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+    @posted_listing_transactions = poster_transactions.includes(:employee_listing)
   end
 
   def show
@@ -27,7 +25,7 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
   end
 
-  def change_hiring
+  def change_reservation
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
@@ -74,28 +72,30 @@ class HiringsController < ApplicationController
       end
 
       if continue
-        @new_transaction = TransactionService.new(params, current_user).create
+        hirer = User.find_by(id: @old_transaction.hirer_id)
+        @new_transaction = TransactionService.new(params, hirer).create
         if @new_transaction.present?
-          redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
+          redirect_to change_reservation_confirmation_reservation_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"
-          redirect_to change_hiring_hiring_path(id: @old_transaction.id)
+          redirect_to change_reservation_reservation_path(id: @old_transaction.id)
         end
       else
         flash[:error] = "Your booking is conflicting from other bookings. Please select different timings"
-        redirect_to change_hiring_hiring_path(id: @old_transaction.id)
+        redirect_to change_reservation_reservation_path(id: @old_transaction.id)
       end
     end
   end
 
-  def change_hiring_confirmation
+  def change_reservation_confirmation
     @listing = @transaction.employee_listing
     @old_transaction = Transaction.find_by(id: params[:old_id])
+    hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver!
-      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction).deliver!
-      redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction).deliver!
+      ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver!
+      redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
 
@@ -104,29 +104,30 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
   end
 
-  def cancel_hiring
+  def cancel_reservation
     unless request.patch?
       @listing = @transaction.employee_listing
     else
-      @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer")
-      redirect_to tell_poster_hiring_path(id: @transaction.id)
+      @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster")
+      redirect_to tell_hirer_reservation_path(id: @transaction.id)
     end
   end
 
-  def tell_poster
+  def tell_hirer
     @listing = @transaction.employee_listing
+    hirer = User.find_by(id: @transaction.hirer_id)
     if request.patch?
       if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled")
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled")
       else
         @transaction.update_attributes(state: "cancelled")
       end
-      conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
+      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @listing.id)
       if conversation.present?
         @conversation = conversation.first
       else
-        @conversation = Conversation.create!( receiver_id: @listing.poster.id,
-                                              sender_id: current_user.id,
+        @conversation = Conversation.create!( receiver_id: current_user.id,
+                                              sender_id: @transaction.hirer_id,
                                               listing_id: @listing.id
                                             )
       end
@@ -134,25 +135,18 @@ class HiringsController < ApplicationController
       message.content = params[:message_text]
       message.sender_id = current_user.id
       message.save
-      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver!
-      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver!
-      redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
+      TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver!
+      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, hirer).deliver!
+      redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
     end
   end
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @listing.id)
     if conversation.present?
       @conversation = conversation.first
     end
-  end
-
-  def send_details
-    transaction = Transaction.find_by(id: params[:transaction_id])
-    TransactionMailer.send_hiring_details(transaction, params[:email]).deliver!
-    flash[:notice] = "Shared successfully"
-    redirect_to hirings_path
   end
 
   def check_slot_availability
@@ -178,22 +172,14 @@ class HiringsController < ApplicationController
 
       @transaction.update_attributes(state: "accepted", status: false)
 
-      # Transaction changed accepted mail to hirer
+      # Transaction changed accepted mail to poster
       redirect_to root_path
     elsif params[state: "rejected"]
 
       @transaction.update_attributes(state: "rejected", status: false)
-      # Transaction changed rejected mail to hirer
+      # Transaction changed rejected mail to poster
       redirect_to root_path
     end
-  end
-
-  def get_receipt
-    @listing = @transaction.employee_listing
-  end
-
-  def receipt_details
-    @listing = @transaction.employee_listing
   end
 
   private
@@ -202,7 +188,7 @@ class HiringsController < ApplicationController
     @transaction = Transaction.find_by(id: params[:id])
   end
 
-  def ensure_not_poster
+  def ensure_poster
     if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
       employee_listing = EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
     elsif params[:id].present?
@@ -213,7 +199,7 @@ class HiringsController < ApplicationController
     end
 
     if employee_listing.present?
-      if current_user == employee_listing.poster
+      unless current_user == employee_listing.poster
         flash[:error] = "Invalid request"
         redirect_to employee_index_path
       end

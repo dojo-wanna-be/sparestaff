@@ -71,4 +71,19 @@ Rails.application.routes.draw do
       match :tell_poster, via: [:get, :patch]
     end
   end
+
+  resources :reservations, only: [:index, :show] do
+    collection do
+      get :cancelled_successfully
+      get :check_slot_availability
+    end
+    member do
+      get :change_or_cancel
+      match :change_reservation, via: [:get, :patch]
+      match :change_reservation_confirmation, via: [:get, :patch]
+      get :changed_successfully
+      match :cancel_reservation, via: [:get, :patch]
+      match :tell_hirer, via: [:get, :patch]
+    end
+  end
 end

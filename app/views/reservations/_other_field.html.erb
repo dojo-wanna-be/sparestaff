@@ -1,0 +1,45 @@
+<div class="hire_an_employee_box">
+  <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+
+    <div class="my-mistake">
+      <div class="title-main">Your Refund Summary</div>
+      <div><b>This listing has cancellation policy</b></div>
+
+      <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
+
+      <div class="calculation-list">
+        <div class="list-item">
+          <div class="left-item">
+            Total Fee
+          </div>
+          <div class="right-item">
+            <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="left-item">
+            Service fee
+          </div>
+          <div class="right-item">
+            <%= "-$#{@transaction.service_fee.round(2)}" %>
+          </div>
+        </div>
+        <div class="list-item grey-list-item">
+          <div class="left-item">
+            <strong>Your Total Refund</strong>
+          </div>
+          <div class="right-item">
+            <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="affect-poster">
+        Please tell us why you're cancelling<br>
+        <br>
+        <%= text_area_tag "reason", "", cols: 20, rows: 3, class: "FullWidthBorderBox", placeholder: "This information won't be shared with the Poster" %><br>
+      </div>
+      <%= submit_tag "Next Step", class: 'continue-btn' %>
+    </div>
+  <% end %>
+</div>

@@ -4,6 +4,7 @@
 #
 #  id                           :bigint           not null, primary key
 #  amount                       :float
+#  cancelled_by                 :integer
 #  end_date                     :date
 #  frequency                    :integer
 #  is_withholding_tax           :boolean          default(TRUE)
@@ -43,6 +44,7 @@ class Transaction < ApplicationRecord
 
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
+  enum cancelled_by: { hirer: 0, poster: 1 }
 
   SERVICE_FEE = 3
 
@@ -75,29 +77,24 @@ class Transaction < ApplicationRecord
     bookings.where("day = 0 OR day = 6").count
   end
 
-  def no_of_total_weekdays
-    no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[1].count
-    no_of_tuesdays = (self.start_date..self.end_date).group_by(&:wday)[2].count
-    no_of_wednesdays = (self.start_date..self.end_date).group_by(&:wday)[3].count
-    no_of_thursdays = (self.start_date..self.end_date).group_by(&:wday)[4].count
-    no_of_fridays = (self.start_date..self.end_date).group_by(&:wday)[5].count
+  def total_days(day)
+    no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[day].count
+  end
 
+  def no_of_total_weekdays
     total_weekdays =  {
-                        mondays: no_of_mondays,
-                        tuesdays: no_of_tuesdays,
-                        wednesdays: no_of_wednesdays,
-                        thursdays: no_of_thursdays,
-                        fridays: no_of_fridays
+                        mondays: total_days(1),
+                        tuesdays: total_days(2),
+                        wednesdays: total_days(3),
+                        thursdays: total_days(4),
+                        fridays: total_days(5)
                       }
   end
 
   def no_of_total_weekends
-    no_of_sundays = (self.start_date..self.end_date).group_by(&:wday)[0].count
-    no_of_saturdays = (self.start_date..self.end_date).group_by(&:wday)[6].count
-
     total_weekdays =  {
-                        sundays: no_of_sundays,
-                        saturdays: no_of_saturdays
+                        sundays: total_days(0),
+                        saturdays: total_days(6)
                       }
   end
 
