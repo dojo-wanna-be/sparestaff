@@ -57,17 +57,19 @@ class Transaction < ApplicationRecord
                           "6 months" => 6
                         }
 
-  CANCELLATION_REASON = ["I no longer need to hire an employee",
-             "My date to hire employee changed",
-             "I made the hiring my mistake",
-             "I have extenuating circumstance",
-             "The poster needs to cancel",
-             "I'm uncomfortable dealing with the poster or the employee",
-             "The employee underperforms or does not meet my expectation",
-             "The employee commited an act of serious misconduct",
-             "Other"]
+  CANCELLATION_REASON = [
+                          "I no longer need to hire an employee",
+                          "My date to hire employee changed",
+                          "I made the hiring my mistake",
+                          "I have extenuating circumstance",
+                          "The poster needs to cancel",
+                          "I'm uncomfortable dealing with the poster or the employee",
+                          "The employee underperforms or does not meet my expectation",
+                          "The employee commited an act of serious misconduct",
+                          "Other"
+                        ]
 
-  DAYS_HASH = {sunday: "Sun", monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri", saturday: "Sat"}
+  DAYS_HASH = { sunday: "Sun", monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri", saturday: "Sat" }
 
   def week_day_bookings
     bookings.where("day > 0 AND day < 6").count
@@ -106,24 +108,20 @@ class Transaction < ApplicationRecord
     (0.03 * total_amount)
   end
 
+  def get_beginning_day
+    Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
+  end
+
   def partial_hiring_fee
-    week_start_date = Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
-    todays_date = Date.today
-    weekday_slots = []
-    weekend_slots = []
-    availability_slots = ListingAvailability::TIME_SLOTS
-    all_bookings = bookings.where(booking_date: (week_start_date..todays_date).to_a)
-    all_bookings.each do |booking|
+    weekday_hours = 0
+    weekend_hours = 0
+    bookings.where(booking_date: (get_beginning_day..Date.today).to_a).each do |booking|
       if ["monday", "tuesday", "wednesday", "thursday", "friday"].include?(booking.day)
-        weekday_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+        weekday_hours += (booking.end_time - booking.start_time)/3600
       elsif ["sunday", "saturday"].include?(booking.day)
-        weekend_slots << availability_slots[availability_slots.index(booking.start_time.strftime("%H:%M"))...availability_slots.index(booking.end_time.strftime("%H:%M"))]
+        weekend_hours += (booking.end_time - booking.start_time)/3600
       end
     end
-    weekday_hours = weekday_slots.flatten.uniq.count
-    weekend_hours = weekend_slots.flatten.uniq.count
-    weekday_price = self.employee_listing.weekday_price.to_f
-    weekend_price = self.employee_listing.weekend_price.to_f
-    (weekday_hours * weekday_price) + (weekend_hours * weekend_price)
+    (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
   end
 end

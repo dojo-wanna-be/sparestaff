@@ -687,6 +687,7 @@
             margin: 0;
             list-style: none;
             width: 585px;
+            position: relative;
 
             @media screen and (max-width: 992px) {
               width: 100%;
@@ -2213,6 +2214,7 @@
             margin: 0;
             list-style: none;
             width: 100%;
+            position: relative;
 
             .header-item {
               display: flex;
