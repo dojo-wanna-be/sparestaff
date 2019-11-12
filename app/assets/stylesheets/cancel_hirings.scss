@@ -61,9 +61,8 @@
     }
 
     @media screen and (max-width: 767px) {
-      float: right;
-      margin-top: 0;
-      width: 110px;
+      margin-top: 10;
+     // width: 110px;
     }
   }
 
@@ -71,6 +70,10 @@
     font-size: 32px;
     font-weight: bold;
     margin: 22px 0;
+
+    @media screen and (max-width: 767px) {
+      font-size: 22px;
+    }
   }
 
   .comman-heading {
@@ -83,6 +86,10 @@
     font-size: 14px;
     color: #767676;
     margin-top: 17px;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 5px;
+    }
   }
 
   .sub-title {
@@ -95,6 +102,10 @@
     font-size: 18px;
     display: inline-block;
     padding-bottom: 5px;
+
+    @media screen and (max-width: 767px) {
+      font-size: 16px;
+    }
 
     & + #message_text {
       border: 1px silver solid;
@@ -170,6 +181,14 @@
   .employee-changed {
     .affect-poster {
       margin-top: 45px;
+
+      @media screen and (max-width: 767px) {
+        float: left;
+
+        .continue-btn {
+          margin-top: 15px;
+        }
+      }
 
       .poster-text {
         padding-bottom: 17px;
