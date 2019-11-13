@@ -185,3 +185,76 @@
 }
 
 //*** YOUR RESERVATION END CSS ***//
+
+
+//*** YOUR RESERVATION CHANGE OR CANCEL CSS ***//
+
+.reservation-change-or-cancel {
+  max-width: 100%;
+  width: 869px;
+  margin: 22px auto;
+
+  .main-heading {
+   font-size: 32px;
+   font-weight: bold;
+  }
+
+  .gray-text {
+    font-size: 16px;
+    color: #767676;
+  }
+
+  .change-or-cancel-row {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    margin-top: 55px;
+
+    .change-or-cancel-box {
+      width: 401px;
+      border: 1px solid #dce0e0;
+      display: flex;
+      flex-direction: column;
+      padding: 47px 0 45px 20px;
+      margin-right: 34px;
+      height: fit-content;
+
+      &:last-child {
+        margin-top: -11px;
+        margin-right: 0;
+        padding-top: 36px !important;
+        padding-bottom: 37px;
+      }
+
+      .GreyLink22Px {
+        font-size: 22px;
+        padding-top: 10px;
+        color: #333333;
+        padding-bottom: 0;
+      }
+
+      .transparent-continue-btn {
+        display: flex;
+        width: 180px;
+        height: 40px;
+        border: 1px solid #f15927;
+        border-radius: 3px;
+        font-size: 16px;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        text-decoration: none;
+        color: #f15927;
+        margin-top: 22px;
+        transition: 0.1s ease-out;
+
+        &:hover {
+          background: #f15927;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+//*** YOUR RESERVATION CHANGE OR CANCEL END CSS ***//
