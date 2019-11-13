@@ -2,15 +2,24 @@
 
 <div class="change-or-hiring-section">
   <div class="left-detail">
+    <div><b>About this Hirer</b></div>
+    <br/>
     <div class="text-allign-center">
       <% if @listing.profile_picture.present? %>
         <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
       <% else %>
         <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
       <% end %>
-      <div class="sub-title"><%= @listing.title %></div>
-      <div><%= @listing.name %></div>
-      <div class="grey-text"><%= "Poster: #{@listing.poster.name}" %></div>
+      <div class=""><b><%= @listing.title %></b></div>
+      <div class="grey-text">Sydney NSW 2000, Australia</div>
+      <div class="grey-text">3 Verifications | 25 Reviews</div>
+    </div>
+    <br/>
+    <div class="">
+      <div><b>Hiring details</b></div>
+      <br />
+      <%= link_to 'Senior IT Administrator', employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
+      <div>Cristiano Ronaldo</div>
     </div>
 
     <div class="order-details first-order">
@@ -39,6 +48,15 @@
         </div>
       </div>
     <% end %>
+
+    <div class="order-details">
+      <div class="order-item space-bottom">
+        <span class="grey-text">Address</span>
+      </div>
+      <div class="order-item ">
+        <div class="month1"><%= "#{@listing.address_1} #{@listing.city} #{@listing.state} #{@listing.post_code} #{@listing.country}" %></div>
+      </div>
+    </div>
 
     <div class="order-details">
       <h3 class="sub-title">Weekly payment</h3>
@@ -91,36 +109,22 @@
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
     </div>
 
+    <div class="order-details">
+      <h3 class="sub-title">Always communicate through Spare Staff</h3>
+      <div class="grey-text">
+        To protect your payment, never transfer money or communicate outside of Spare Staff website or app.
+      </div>
+      <br/>
+      <%= link_to 'Learn more', '#', class: 'orange-text learn-more' %>
+    </div>
   </div>
 
   <div class="right-detail">
-    <h3 class="right-sub-title">What would you like to do?</h3>
 
-    <div class="change-or-cancel">
-      <div class="button-box">
-        <div class="icon-box">
-          <%= link_to change_hiring_hiring_path(id: @transaction.id) do %>
-            <%= image_tag 'change-icon.png', class: 'Height30px' %>
-          <% end %>
-        </div>
-        <div class="link-box">
-          <%= link_to 'Change Hiring Contract', change_hiring_hiring_path(id: @transaction.id), class: 'GreyLink' %>
-          <div>Change dates, or timetable.</div>
-        </div>
-      </div>
+    <%= render partial: "accept_or_decline_option" %>
 
-      <div class="button-box">
-        <div class="icon-box">
-          <%= link_to cancel_hiring_hiring_path(id: @transaction.id) do %>
-            <%= image_tag 'cancel-icon.png', class: 'Height30px' %>
-          <% end %>
-        </div>
-        <div class="link-box">
-          <%= link_to 'Cancel Hiring Contract', cancel_hiring_hiring_path(id: @transaction.id), class: 'GreyLink' %>
-          <div>This hiring has cancellation policy.</div>
-        </div>
-      </div>
-    </div>
+    <%#= render partial: "change_or_cancel_option" %>
+    <%#= render partial: "declined_info" %>
   </div>
 </div>
 

@@ -86,4 +86,6 @@ Rails.application.routes.draw do
       match :tell_hirer, via: [:get, :patch]
     end
   end
+
+  resources :inboxes
 end
