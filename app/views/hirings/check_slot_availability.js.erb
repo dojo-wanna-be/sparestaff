@@ -111,10 +111,6 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     var end = $("#transaction_end_date").val();
     var startDate = new Date(start);
     var endDate = new Date(end);
-    console.log(startDate)
-    console.log(endDate)
-    console.log(startDate < endDate)
-    console.log("===================")
     if (startDate < endDate){
       validateAvailability(start, end, listingID);
       for (var i = startDate; i <= endDate; ){
@@ -198,7 +194,7 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     var startDate = new Date($("#transaction_start_date").val());
     var endDate = new Date($("#transaction_end_date").val());
     var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
-    $('#ContractTaxPrice').html(tax * weekDiff);
+    $('#ContractTaxPrice').html((tax * weekDiff).toFixed(2));
     $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
     $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
   }
@@ -214,10 +210,10 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
     $("#weekday_hours").html(weekday_hour);
     hiring_weekday_price = weekday_hour * listingWeekdayPrice;
-    $("#hiring_weekday_price").html(hiring_weekday_price);
+    $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
     $("#total_weekday_hours").html(totalWeekdayHours);
     hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
-    $("#hiring_total_weekday_price").html(hiring_total_weekday_price);
+    $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
     calculateTax();
   }
 
@@ -228,10 +224,10 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     totalWeekendHours = totalSundayHours + totalSaturdayHours;
     $("#weekend_hours").html(weekend_hour);
     hiring_weekend_price = weekend_hour * listingWeekendPrice;
-    $("#hiring_weekend_price").html(hiring_weekend_price);
+    $("#hiring_weekend_price").html(hiring_weekend_price.toFixed(2));
     $("#total_weekend_hours").html(totalWeekendHours);
     hiring_total_weekend_price = totalWeekendHours * listingWeekendPrice;
-    $("#hiring_total_weekend_price").html(hiring_total_weekend_price);
+    $("#hiring_total_weekend_price").html(hiring_total_weekend_price.toFixed(2));
     calculateTax();
   }
 
