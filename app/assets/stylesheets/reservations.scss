@@ -1,3 +1,187 @@
-// Place all the styles related to the reservations controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+//*** YOUR RESERVATION CSS ***//
+
+.reservation-section {
+  max-width: 100%;
+  width: 1245px;
+  margin: 22px auto;
+  margin-left: 80px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 20px 0;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    margin: 20px 15px;
+  }
+
+  .inner-reservation-section {
+    display: flex;
+    flex-direction: row;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .left-reservation-panel {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      margin-right: 40px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 20%;
+        margin-right: 12px;
+      }
+
+      .panel-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        .panel-item {
+          padding-bottom: 10px;
+
+          .panel-link {
+            color: #767676;
+            font-size: 16px;
+
+            &:hover {
+              color: #bbbbbb;
+              text-decoration: none;
+            }
+
+            &.AccountLeftMenuSelected {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+          }
+
+          .listing-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 3px;
+            background-color: #f15928;
+            color: #fff;
+            margin-top: 64px;
+
+            &:hover {
+              background-color: #d75227;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+              text-decoration: none;
+            }
+            @media screen and (max-width: 767px) {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .right-reservation-panel {
+      display: flex;
+      flex-direction: column;
+      width: 1025px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 80%;
+      }
+
+      .right-panel-header {
+        font-size: 13pt;
+        font-weight: normal;
+        background-color: #f2f2f2;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dce0e0;
+        height: 45px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .reservation-box {
+        border: 1px solid #e4e4e4;
+        margin-bottom: 20px;
+
+        &:last-child {
+          margin-bottom: 0px;
+        }
+
+        .reservation-list-box {
+          padding: 20px 15px 20px 15px;
+
+          .reservation-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e4e4e4;
+
+            &:first-child {
+              padding-top: 0;
+              padding-bottom: 10px;
+            }
+
+            .list-box {
+              padding-right: 10px;
+              &.one {
+                width: 117px;
+              }
+              &.two {
+                width: 210px;
+              }
+              &.three {
+                width: 230px;
+              }
+              &.four {
+                width: 230px;
+              }
+              &.five {
+                width: 206px;
+              }
+
+              a {
+                font-size: 14px;
+              }
+
+              .image-box {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+
+                .user-image {
+                  width: 60px;
+                  padding-right: 10px;
+                  display: table;
+
+                  .ProfileIcon {
+                    border-radius: 50%;
+                    width: 62px;
+                    height: 62px;
+                    border: 1px #dce0e0 solid;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//*** YOUR RESERVATION END CSS ***//
