@@ -28,281 +28,131 @@
             <div class="list-box five"><b>Details</b></div>
           </div>
 
-          <div class="reservation-list">
-            <div class="list-box one"><span class="green-text">Accepted</span></div>
-            <div class="list-box two">
-              12 Feb 2019 - 24 Apr 2019 <br>
-              95 Hour Total <br>
-              185 Enmore Rd <br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'luca.png', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>Senior IT Administrator</b><br>
-                  Cristiano Ronaldo
+          <% @posted_listing_transactions.each do |transaction| %>
+            <div class="reservation-list">
+              <% if transaction.state.eql?("accepted") %>
+                <div class="list-box one"><span class="green-text">Accepted</span></div>
+              <% elsif transaction.state.eql?("created") %>
+                <div class="list-box one"><span class="orange-text">Pending</span></div>
+              <% elsif transaction.state.eql?("rejected") %>
+                <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+              <% end %>
+              <div class="list-box two">
+                <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
+                <%= transaction.employee_listing.address_1 %> <br>
+                <%= "#{transaction.employee_listing.city} #{transaction.employee_listing.state} #{transaction.employee_listing.post_code}" %>
+              </div>
+              <div class="list-box three">
+                <div class="image-box">
+                  <div class="user-image">
+                    <% if transaction.employee_listing.profile_picture.present? %>
+                      <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                    <% else %>
+                      <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                    <% end %>
+                  </div>
+                  <div class="user-detail">
+                    <b><%= transaction.employee_listing.title %></b><br>
+                    <%= transaction.employee_listing.name %>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>HirerXYZ</b><br>
-                  Contact: Alex Ferguson<br>
-                  HR Manager<br>
-                  +61 434 292 527
-                </div>
-              </div>
-            </div>
-            <div class="list-box five">
-              $3,496.50 Total<br>
-              <%= link_to 'Print confirmation', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'Change or Cancel', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'View invoices', '#', class: 'orange-text' %>
-            </div>
-          </div>
-
-          <div class="reservation-list">
-            <div class="list-box one"><span class="orange-text">Pending</span></div>
-            <div class="list-box two">
-              18 Jan 2019 - 30 Jan 2020<br>
-              2,080 Hour Total<br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'professional-4.png', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>Accountant, Payroll, HR Assistant</b><br>
-                  Wayne Rooney
+              <div class="list-box four">
+                <div class="image-box">
+                  <div class="user-image">
+                    <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                  </div>
+                  <div class="user-detail">
+                    <b><%= transaction.hirer.name %></b><br>
+                    Contact: <%= transaction.hirer.company.name %><br>
+                    <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                    <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'Lifra.jpg', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>HirerDEF</b>
-                </div>
+              <div class="list-box five">
+                <%= "#{number_to_currency((transaction.total_amount + transaction.total_service_fee).round(2))} Total" %><br>
+                <%= link_to 'Print confirmation', hiring_path(id: transaction.id), class: 'orange-text' %>
+                <br>
+                <%= link_to 'Change or Cancel', '#', class: 'orange-text' %>
+                <br>
+                <%= link_to 'Message history', '#', class: 'orange-text' %>
+                <br>
+                <%= link_to 'View invoices', '#', class: 'orange-text' %>
               </div>
             </div>
-            <div class="list-box five">
-              $56,628.00 Total<br>
-              <%= link_to 'Accept or Decline', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-            </div>
-          </div>
-
-          <div class="reservation-list">
-            <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-            <div class="list-box two">
-              18 Jan 2019 - 30 Jan 2020<br>
-              2,080 Hour Total<br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'professional-1.png', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>Accountant, Payroll, HR Assistant</b><br>
-                  Wayne Rooney
-                </div>
-              </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'Henry1.jpg', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>HirerGHI</b>
-                </div>
-              </div>
-            </div>
-            <div class="list-box five">
-              $530.45 Total<br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-            </div>
-          </div>
-
-          <div class="reservation-list">
-            <div class="list-box one"><span class="light-blue-text">Canceled</span></div>
-            <div class="list-box two">
-              18 Jan 2019 - 30 Jan 2020<br>
-              2,080 Hour Total<br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'professional-3.png', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>Accountant, Payroll, HR Assistant</b><br>
-                  Wayne Rooney
-                </div>
-              </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>HirerJKL</b>
-                </div>
-              </div>
-            </div>
-            <div class="list-box five">
-              $221.45 Total<br>
-              <%= link_to 'Write a review', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'View invoices', '#', class: 'orange-text' %>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
 
-      <div class="reservation-box">
-        <div class="right-panel-header">Past Reservations</div>
-        <div class="reservation-list-box">
-          <div class="reservation-list">
-            <div class="list-box one"><b>Status</b></div>
-            <div class="list-box two"><b>Dates, Hours, Location</b></div>
-            <div class="list-box three"><b>Hired Employee</b></div>
-            <div class="list-box four"><b>Hirer</b></div>
-            <div class="list-box five"><b>Details</b></div>
-          </div>
+      <% if @completed_listing_transactions.present? %>
+        <div class="reservation-box">
+          <div class="right-panel-header">Past Reservations</div>
+          <div class="reservation-list-box">
+            <div class="reservation-list">
+              <div class="list-box one"><b>Status</b></div>
+              <div class="list-box two"><b>Dates, Hours, Location</b></div>
+              <div class="list-box three"><b>Hired Employee</b></div>
+              <div class="list-box four"><b>Hirer</b></div>
+              <div class="list-box five"><b>Details</b></div>
+            </div>
 
-          <div class="reservation-list">
-            <div class="list-box one"><span class="">Completed</span></div>
-            <div class="list-box two">
-              12 Feb 2019 - 24 Apr 2019 <br>
-              95 Hour Total <br>
-              185 Enmore Rd <br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'luca.png', class: 'ProfileIcon' %>
+            <% @completed_listing_transactions.each do |transaction| %>
+              <div class="reservation-list">
+                <div class="list-box one"><span class="">Completed</span></div>
+                <div class="list-box two">
+                  <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                  <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
+                  <%= transaction.employee_listing.address_1 %> <br>
+                  <%= "#{transaction.employee_listing.city} #{transaction.employee_listing.state} #{transaction.employee_listing.post_code}" %>
                 </div>
-                <div class="user-detail">
-                  <b>Senior IT Administrator</b><br>
-                  Cristiano Ronaldo
+                <div class="list-box three">
+                  <div class="image-box">
+                    <div class="user-image">
+                      <% if transaction.employee_listing.profile_picture.present? %>
+                        <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                      <% else %>
+                        <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                      <% end %>
+                    </div>
+                    <div class="user-detail">
+                      <b><%= transaction.employee_listing.title %></b><br>
+                      <%= transaction.employee_listing.name %>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                <div class="list-box four">
+                  <div class="image-box">
+                    <div class="user-image">
+                      <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                    </div>
+                    <div class="user-detail">
+                      <b><%= transaction.hirer.name %></b><br>
+                      Contact: <%= transaction.hirer.company.name %><br>
+                      <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                      <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                    </div>
+                  </div>
                 </div>
-                <div class="user-detail">
-                  <b>HirerXYZ</b><br>
-                  Contact: Alex Ferguson<br>
-                  HR Manager<br>
-                  +61 434 292 527
-                </div>
-              </div>
-            </div>
-            <div class="list-box five">
-              $3,496.50 Total<br>
-              <%= link_to 'Write a Review', '#', class: 'orange-text' %>
-              <br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-            </div>
-          </div>
-
-          <div class="reservation-list">
-            <div class="list-box one"><span class="">Completed</span></div>
-            <div class="list-box two">
-              18 Jan 2019 - 30 Jan 2020<br>
-              2,080 Hour Total<br>
-              Enmore NSW 2042
-            </div>
-            <div class="list-box three">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'professional-3.png', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>Accountant, Payroll, HR Assistant</b><br>
-                  Wayne Rooney
+                <div class="list-box five">
+                  <%= "#{number_to_currency((transaction.total_amount + transaction.total_service_fee).round(2))} Total" %><br>
+                  <%= link_to 'Print confirmation', hiring_path(id: transaction.id), class: 'orange-text' %>
+                  <br>
+                  <%= link_to 'Change or Cancel', '#', class: 'orange-text' %>
+                  <br>
+                  <%= link_to 'Message history', '#', class: 'orange-text' %>
+                  <br>
+                  <%= link_to 'View invoices', '#', class: 'orange-text' %>
                 </div>
               </div>
-            </div>
-            <div class="list-box four">
-              <div class="image-box">
-                <div class="user-image">
-                  <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon' %>
-                </div>
-                <div class="user-detail">
-                  <b>HirerJKL</b>
-                </div>
-              </div>
-            </div>
-            <div class="list-box five">
-              $221.45 Total<br>
-              <%= link_to 'Message history', '#', class: 'orange-text' %>
-            </div>
+            <% end %>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>
-
-<!-- <table class="calender table holiday_schedule">
-  <tr>
-    <th>Status</th>
-    <th colspan="7">Dates, Hours, Location</th>
-    <th colspan="3">Hired Employee</th>
-    <th colspan="5">Hirer</th>
-  </tr>
-  <%# @posted_listing_transactions.each do |transaction| %>
-    <tr>
-      <td><%#=transaction.state%></td>
-      <td colspan="7"><%#= transaction.employee_listing.start_publish_date.strftime("%d %b  %Y")%> - <%#=transaction.employee_listing.end_publish_date.strftime("%d %b  %Y")%>,<%#=transaction.weekday_hours + transaction.weekend_hours%>Hour Total, <%#=transaction.employee_listing.address_1%>,<%#=transaction.employee_listing.city%>, <%#=transaction.employee_listing.state%>, <%#= transaction.employee_listing.post_code%></td>
-      <%#if transaction.employee_listing.profile_picture.present?%>
-      <td colspan="3"><%#= image_tag transaction.employee_listing.profile_picture.url, class: 'res' %><%#= transaction.employee_listing.title%>, <%#= "#{transaction.employee_listing.first_name}#{transaction.employee_listing.last_name}"%></td>
-      <%#else%>
-       <td><%#= image_tag 'no-image.jpg' %></td>
-      <%#end%>
-      <td colspan="5"><%#= image_tag 'no-image.jpg',  class: 'res'  %>,<%#="#{transaction.hirer.first_name} #{transaction.hirer.last_name}"%>,<%#= transaction.hirer.company.name%>,<%#= transaction.hirer.user_type%>,<%#= transaction.hirer.company.contact_no%></td>
-    </tr>
-  <%#end%>
-</table>
-
-<div>
-  <h1>Details</h1>
-  <%# @posted_listing_transactions.each do |transaction| %>
-   <p>$ <%#=transaction.total_amount%>Total</p>
-   <%#= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: "btn_over" %><br>
-  <%#end%>
-   <%#= link_to 'Print confirmation', 'javascript:;', class: "btn_over" %><br>
-   <%#= link_to 'Message history', 'javascript:;', class: "btn_over" %><br>
-   <%#= link_to 'View invoices', 'javascript:;', class: "btn_over" %><br>
-</div> -->
 
 <%= render partial: "layouts/footer" %>
 

@@ -13,8 +13,10 @@ class ReservationsController < ApplicationController
                                          ]
 
   def index
-    poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+    poster_transactions = Transaction.where(poster_id: current_user.id, state: ["accepted", "rejected", "created"]).order(updated_at: :desc)
     @posted_listing_transactions = poster_transactions.includes(:employee_listing)
+    poster_completed_transactions = Transaction.where(poster_id: current_user.id, state: ["completed"]).order(updated_at: :desc)
+    @completed_listing_transactions = poster_completed_transactions.includes(:employee_listing)
   end
 
   def show
