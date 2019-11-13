@@ -93,7 +93,7 @@ class TransactionService
 
     @params[:transaction][:booking_attributes].to_unsafe_hash.map do |day, booking_timing|
       if day.eql?("0")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -111,7 +111,7 @@ class TransactionService
       end
 
       if day.eql?("1")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -129,7 +129,7 @@ class TransactionService
       end
 
       if day.eql?("2")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -147,7 +147,7 @@ class TransactionService
       end
 
       if day.eql?("3")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -165,7 +165,7 @@ class TransactionService
       end
 
       if day.eql?("4")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -183,7 +183,7 @@ class TransactionService
       end
 
       if day.eql?("5")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
@@ -201,7 +201,7 @@ class TransactionService
       end
 
       if day.eql?("6")
-        if booking_timing[:start_time].present? && booking_timing[:end_time].present?
+        if booking_timing[:start_time].present? && booking_timing[:end_time].present? && (@start_date..@end_date).group_by(&:wday)[day.to_i].present?
           (@start_date..@end_date).group_by(&:wday)[day.to_i].each do |date|
             Booking.create( transaction_id: tx.id,
                             day: day.to_i,
