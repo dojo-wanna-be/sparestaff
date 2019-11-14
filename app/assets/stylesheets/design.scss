@@ -28,7 +28,7 @@
   height: 40px;
   background-color: #F15927;
   border-radius: 3px;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -36,6 +36,7 @@
   margin-right: 20px;
 
   &:hover {
+    text-decoration: none;
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
   }
 }
@@ -45,7 +46,7 @@
   height: 40px;
   background-color: #fff;
   border-radius: 3px;
-  color: #484848;
+  color: #484848 !important;
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -54,6 +55,7 @@
   border: 1px solid #333333;
 
   &:hover {
+    text-decoration: none;
     border-color: #767676;
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
   }
