@@ -2,7 +2,7 @@
 
 .reservation-section {
   max-width: 100%;
-  width: 1245px;
+  width: 93%;
   margin: 22px auto;
   margin-left: 80px;
 
@@ -91,7 +91,7 @@
     .right-reservation-panel {
       display: flex;
       flex-direction: column;
-      width: 1025px;
+      width: calc(100% - 220px);
 
       @media screen and (max-width: 767px) {
         width: 100%;
