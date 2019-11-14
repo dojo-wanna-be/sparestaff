@@ -16,6 +16,49 @@
   color: #0099FF !important;
 }
 
+.sub-title18 {
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.modal-orange-btn {
+  padding: 0 20px;
+  height: 40px;
+  background-color: #F15927;
+  border-radius: 3px;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+
+  &:hover {
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+  }
+}
+
+.modal-white-btn {
+  padding: 0 20px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 3px;
+  color: #484848;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  border: 1px solid #333333;
+
+  &:hover {
+    border-color: #767676;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+  }
+}
+
 #web_loading {
   display: inline-block;
   width: 50px;

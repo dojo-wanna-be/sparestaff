@@ -1,0 +1,34 @@
+<div class="modal custom-modal" id="accept-reservation-popup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+     <!--  <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%#= image_tag "cross.jpg", class: 'close-img' %></button>
+      </div> -->
+
+      <div class="modal-body">
+        <div class="custom-modal-inner">
+          <div class="title-modal">Accept this request</div>
+
+          <form class="form-modal">
+            <label class="label-modal">Type optional message to Hirer</label>
+            <textarea cols="20" name="TextArea1" rows="7" class="modal-textarea"></textarea>
+
+            <div class="Text14px">
+              <input name="Checkbox1" type="checkbox" class="VerticalAlignMiddle">
+              By checking this box, I agree to
+              the <span><%= link_to 'Hirer Refund Policy Terms', '#', class: 'orange-text Text14px' %></span>, and
+              <span><%= link_to 'Terms of Service', '#', class: 'Text14px orange-text' %></span>.
+            </div>
+
+            <div class="modal-btn-box" >
+              <%= link_to 'Accept', '#', class: 'modal-orange-btn' %>
+              <%= link_to 'Close', '#', class: 'modal-white-btn' %>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
