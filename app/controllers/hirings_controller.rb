@@ -27,6 +27,32 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
   end
 
+  def accept
+    if @transaction.update_attributes(state: "accepted")
+    conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
+    @conversation = if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @listing.poster.id,
+                                            sender_id: current_user.id,
+                                            listing_id: @listing.id
+                                          )
+    end
+    message = @conversation.messages.build
+    message.content = params[:message_text]
+    message.sender_id = current_user.id
+    message.save
+    redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
+  end
+
+  def decline_request
+    
+  end
+
+  def decline
+    
+  end
+
   def change_hiring
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
