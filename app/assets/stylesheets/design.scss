@@ -85,6 +85,42 @@
   to { -webkit-transform: rotate(360deg); }
 }
 
+.invoice-list {
+  width: 500px;
+  border-bottom: 1px solid #e4e4e4;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  padding-top: 10px;
+
+  .invoice-list-box {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0;
+
+    &:first-child {
+      border-bottom: 1px solid #e4e4e4;
+    }
+
+    .item-box {
+      width: 150px;
+
+      &.date-item-box {
+        width: 200px;
+      }
+
+      .orange-text {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+
+/** COMMAN END CSS **/
+
+
+
 .new-header {
   height: 70px;
   padding: 0px 0px 0 80px !important;
@@ -988,9 +1024,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 20px 99px 40px;
+    margin: 20px auto 40px;
     border-top: 1px solid #C0C0C0;
     padding: 18px 0;
+    width: calc(100% - 198px);
 
     @media screen and (max-width: 767px) {
       margin: 20px 12px 20px;

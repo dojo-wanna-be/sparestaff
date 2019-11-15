@@ -79,7 +79,7 @@
                 <br>
                 <%= link_to 'Message history', '#', class: 'orange-text' %>
                 <br>
-                <%= link_to 'View invoices', '#', class: 'orange-text' %>
+                <%= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                 <br>
                 <%= link_to 'Accept or Decline', inbox_path(id: transaction.id), class: 'orange-text' %>
               </div>
@@ -145,7 +145,9 @@
                   <br>
                   <%= link_to 'Message history', '#', class: 'orange-text' %>
                   <br>
-                  <%= link_to 'View invoices', '#', class: 'orange-text' %>
+                  <%= link_to 'Write a Review', write_a_review_reservations_path, class: 'orange-text' %>
+                  <br>
+                  <%= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                 </div>
               </div>
             <% end %>
@@ -157,9 +159,3 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
-
-<style type="text/css">
-  img.res {
-      width: 100px;
-  }
-</style>

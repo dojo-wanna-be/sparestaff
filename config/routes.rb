@@ -76,6 +76,8 @@ Rails.application.routes.draw do
     collection do
       get :cancelled_successfully
       get :check_slot_availability
+      get :reservations_view_invoice_list
+      get :write_a_review
     end
     member do
       get :change_or_cancel

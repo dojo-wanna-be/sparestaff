@@ -9,7 +9,9 @@ class ReservationsController < ApplicationController
                                           :cancel_reservation,
                                           :tell_hirer,
                                           :cancelled_successfully,
-                                          :show
+                                          :show,
+                                          :reservations_view_invoice_list,
+                                          :write_a_review
                                          ]
 
   def index
@@ -182,6 +184,17 @@ class ReservationsController < ApplicationController
       # Transaction changed rejected mail to poster
       redirect_to root_path
     end
+  end
+
+  def reservations_view_invoice_list
+    poster_transactions = Transaction.where(poster_id: current_user.id, state: ["accepted", "rejected", "created"]).order(updated_at: :desc)
+    @posted_listing_transactions = poster_transactions.includes(:employee_listing)
+    poster_completed_transactions = Transaction.where(poster_id: current_user.id, state: ["completed"]).order(updated_at: :desc)
+    @completed_listing_transactions = poster_completed_transactions.includes(:employee_listing)
+  end
+
+  def write_a_review
+
   end
 
   private
