@@ -7,10 +7,12 @@
       <%= link_to "Inbox", message_inbox_employee_index_path, id: "Inbox", class: "sub-nav-link" %>
     </li>
     <li class="nav-list-item">
-      <%= link_to "Your Listings", employee_index_path, id: "YourListings", class: "sub-nav-link active" %>
+      <% is_listing_page = params[:controller].eql?("employee_listings") || params[:controller].eql?("reservations") %>
+      <%= link_to "Your Listings", employee_index_path, id: "YourListings", class: "#{ is_listing_page ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <%= link_to "Your Hirings", hirings_path, id: "YourListings", class: "sub-nav-link" %>
+      <% is_hiring = params[:controller].eql?("hirings") %>
+      <%= link_to "Your Hirings", hirings_path, id: "YourListings", class: "#{ is_hiring ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
       <a id="Profile" class="sub-nav-link" href="../user-profile/user-profile-edit-profile.html">Profile</a>
