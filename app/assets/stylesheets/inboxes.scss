@@ -128,8 +128,16 @@
       border: 1px solid #e4e4e4;
       width: 481px;
 
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+
       &.declined-box {
         width: 580px;
+
+        @media screen and (max-width: 767px) {
+          width: 100%;
+        }
       }
 
       .btn-box {

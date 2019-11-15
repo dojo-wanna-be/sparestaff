@@ -82,6 +82,8 @@
                 <%= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                 <br>
                 <%= link_to 'Accept or Decline', inbox_path(id: transaction.id), class: 'orange-text' %>
+                <br>
+                  <%= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
               </div>
             </div>
           <% end %>
@@ -144,8 +146,6 @@
                   <%= link_to 'Change or Cancel', '#', class: 'orange-text' %>
                   <br>
                   <%= link_to 'Message history', '#', class: 'orange-text' %>
-                  <br>
-                  <%= link_to 'Write a Review', write_a_review_reservations_path, class: 'orange-text' %>
                   <br>
                   <%= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                 </div>
