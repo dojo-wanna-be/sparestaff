@@ -1,60 +1,66 @@
-<div class="circumstance-box">
-  <div class="affect-poster">
-    <span class="sub-title"><strong>Extenuating circumstances require documentation and include:</strong></span><br>
-    <ul>
-      <li>Serious illness</li>
-      <li>Death of a family member</li>
-      <li>Jury duty or other civil obligation</li>
-      <li>Natural disaster</li>
-      <li>Political unrest</li>
-    </ul>
-    If you have documentation, you may be eligible for a bigger refund. You can apply after you've cancelled.
-  </div>
-  <div class="hire_an_employee_box">
-    <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
-      <%= hidden_field_tag "reason", "I have extenuating circumstance" %>
-
-      <div class="my-mistake">
-        <div class="title-main">Your Refund Summary</div>
-        <div><b>This listing has cancellation policy</b></div>
-
-        <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
-
-        <div class="calculation-list">
-          <div class="list-item">
-            <div class="left-item">
-              Total Fee
-            </div>
-            <div class="right-item">
-              <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
-            </div>
-          </div>
-          <div class="list-item">
-            <div class="left-item">
-              Service fee
-            </div>
-            <div class="right-item">
-              <%= "-$#{@transaction.service_fee.round(2)}" %>
-            </div>
-          </div>
-          <div class="list-item grey-list-item">
-            <div class="left-item">
-              <strong>Your Total Refund</strong>
-            </div>
-            <div class="right-item">
-              <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
-            </div>
-          </div>
+<br>
+<br>
+<div class="FullWidth Hidden" id="SubOutcome2" style="display: block;">
+  <strong>For your consideration</strong><br>
+  <br>
+  It's best practice to give notice to Hirer so that they are aware of your situation and prepared for it.
+  <br><br>
+  <div id="PayoutSummary">
+    <br>
+    <span class="Text22pxPaddingBottom20px">Your Payout Summary</span><br>
+    If you cancel now, you'll receive your next payout for the work that the Employee has done up to the hour before this cancellation, minus Spare 
+    Staff service fees.<br><br>
+    If the Employee plans to complete work for today for Hirer, you should cancel after the final hour of today and before the next working day of this hiring.<br>
+    <br>
+    <div class="calculation-list">
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekday_price %> x 0 hours
         </div>
-
-        <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
-
-        <%= text_area_tag "message_text" %>
-
-        <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
-
-        <div class="small-grey-text">Cancellation is effective immediately</div>
+        <div class="right-item">
+          $0.00
+        </div>
       </div>
-    <% end %>
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekend_price %> x 0 hours (weekend)
+        </div>
+        <div class="right-item">
+          $0.00
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Tax withholding
+        </div>
+        <div class="right-item">
+          -$0.00
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Service fee
+        </div>
+        <div class="right-item">
+          -$0.00
+        </div>
+      </div>
+      <div class="list-item grey-list-item">
+        <div class="left-item">
+          <strong>Your Next Payout</strong>
+        </div>
+        <div class="right-item">
+          <strong>
+            $0.00
+          </strong>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<%= form_tag cancel_reservation_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do %>
+  <%= hidden_field_tag "reason", "The employee or I feel uncomfortable with the hirer" %>
+  <div class="reservation_cancel_actions">
+    <%= render partial: "reservation_cancel_actions"%>
+  </div>
+<% end %>

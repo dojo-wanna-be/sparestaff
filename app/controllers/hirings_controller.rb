@@ -122,9 +122,9 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
     if request.patch?
       if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled")
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
       else
-        @transaction.update_attributes(state: "cancelled")
+        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
       conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
       if conversation.present?

@@ -1,15 +1,16 @@
 class InboxesController < ApplicationController
-    before_action :find_transaction, only: [:show]
-    def index
-    end
+  before_action :find_transaction, only: [:show]
 
-    def show
-        @listing = @transaction.employee_listing
-    end
+  def index
+  end
 
-    private
+  def show
+    @listing = @transaction.employee_listing
+  end
 
-    def find_transaction
-        @transaction = Transaction.find_by(id: params[:id])
-    end
+  private
+
+  def find_transaction
+    @transaction = Transaction.find_by(id: params[:id])
+  end
 end

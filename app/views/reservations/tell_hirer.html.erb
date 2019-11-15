@@ -88,27 +88,41 @@
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
     </div>
-
+    <br>
+    <div class="GreyLine1Px"></div>
+    <br>
+    <div class="divTable">
+      <div class="divTableRow">
+        <div class="divTableCell PaddingBottom10px">
+          <span class="GreyText18PxStrong">Missed earnings</span><br>
+          Hourly total,<br>
+          minus tax withholding,<br>
+          minus service fee</div><div class="divTableCell PaddingBottom10px ">
+          <span class="GreyText18Px TextLineThrough">$2,188.80</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="right-detail cancel-hirings-right-detail">
     <div class="cancel-hirings-section">
-      <h3 class="main-heading">Cancel Hiring Contract</h3>
+      <h3 class="main-heading">Cancel Hiring Reservation</h3>
 
       <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
 
         <div class="affect-poster">
-          <span class="sub-title">Cancellations affect Poster too</span><br>
-          We know that cancellations are sometimes unavoidable, but
-          they also have a financial impact on the Poster who has spent
-          time preparing for your hiring.
+          <span class="sub-title">Consider HirerDEF’s plan before cancelling</span><br>
+          Cancelling hiring reservation now can disrupt their plan and have serious implication on their business and work flow.
+          <br>
+          HirerDEF will be refunded the hiring reservation cost for the time that the Employee has not worked.
         </div>
 
-        <div class="custom-label">Tell PosterABC why you need to cancel</div>
+        <div class="custom-label">Tell HirerDEF why you need to cancel</div>
 
         <%= text_area_tag "message_text" %>
-
-        <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
+        The hiring reservation will be cancelled immediately.
+        <div class="reservation_cancel_actions">
+          <%= render partial: "reservation_cancel_actions"%>
+        </div>
       <% end %>
 
     </div>

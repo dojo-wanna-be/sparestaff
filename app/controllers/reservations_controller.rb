@@ -215,9 +215,9 @@ class ReservationsController < ApplicationController
     hirer = User.find_by(id: @transaction.hirer_id)
     if request.patch?
       if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled")
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
       else
-        @transaction.update_attributes(state: "cancelled")
+        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @listing.id)
       if conversation.present?

@@ -90,7 +90,19 @@
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
     </div>
-
+    <br>
+    <div class="GreyLine1Px"></div>
+    <br>
+    <div class="divTable">
+      <div class="divTableRow">
+        <div class="divTableCell PaddingBottom10px">
+          <span class="GreyText18PxStrong">Missed earnings</span><br>
+          Hourly total,<br>
+          minus tax withholding,<br>
+          minus service fee</div><div class="divTableCell PaddingBottom10px ">
+          <span class="GreyText18Px TextLineThrough">$2,188.80</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="right-detail cancel-hirings-right-detail">
@@ -100,7 +112,7 @@
 
       <% Transaction::RESERVATION_CANCELLATION_REASON.each_with_index do |reason, index| %>
         <div class="cancellation_reason">
-          <%= radio_button_tag "cancel_reservation_reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
+          <%= radio_button_tag "reason", reason, false, id: "reason#{index+1}", class: "cancellation_reasons" %>
           <%= reason %>
         </div>
       <% end %>
@@ -125,6 +137,10 @@
       <div id="reason_5_form" class="cancellation_reason_forms hidden">
         <%= render partial: "other_field" %>
       </div>
+    </div>
+
+    <div class="reservation_cancel_actions">
+      <%#= render partial: "reservation_cancel_actions"%>
     </div>
   </div>
 </div>
@@ -160,34 +176,5 @@
       $(".cancellation_reason_forms").hide();
       $("#reason_5_form").show();
     }
-  });
-
-  $(".cancellation_reason_form").validate({
-    focusInvalid: false,
-    rules: {
-     'cancelReason':{ required:true },
-        'new_price': {required:{
-            depends: function(element){
-                return $("#test6").is(":checked");
-           }
-        },
-                      minlength: 2
-     },
-     'cancel_explanation': {required:{
-            depends: function(element){
-                return $("#test7").is(":checked");
-            }
-         },
-            minlength: 35
-       }
-    },
-    messages: {
-    cancel_explanation: "Let your client know why 10 word min",
-    cancelReason: "Let your client know why you are cancelling",
-    new_price: {
-       required: "oops this is required",
-        minlength: "Please enter at least 2 characters.",
-    }
-  }
   });
 </script>

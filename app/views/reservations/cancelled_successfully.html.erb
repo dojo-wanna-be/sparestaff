@@ -94,57 +94,10 @@
 
   <div class="right-detail cancel-hirings-right-detail">
     <div class="cancel-hirings-section">
-      <h3 class="main-heading">Your Hiring Has Been Cancelled</h3>
-      <div><b>Reason to cancel:</b></div>
-      <div><%= @transaction.reason %></div>
+      <h3 class="main-heading">Your Hiring Reservation Has Been Cancelled</h3>
+      <div>You and HirerDEF will receive an email confirmation from Spare Staff.</div>
 
-      <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
-        <div class="cancel-successfully">
-          <div class="title-main">Your Refund Summary</div>
-
-          <div class="calculation-list">
-            <div class="list-item">
-              <div class="left-item">
-                Total Fee
-              </div>
-              <div class="right-item">
-                $382.13
-              </div>
-            </div>
-            <div class="list-item">
-              <div class="left-item">
-                Service fee
-              </div>
-              <div class="right-item">
-                -$11.13
-              </div>
-            </div>
-            <div class="list-item grey-list-item">
-              <div class="left-item">
-                <strong>Your Total Refund</strong>
-              </div>
-              <div class="right-item">
-                <strong>$371.00</strong>
-              </div>
-            </div>
-          </div>
-          <% if @conversation.present? %>
-            <div class="sub-title2">Your message to <%= @listing.poster.name %></div>
-            <div class="grey-text"><%= @conversation.messages.last.content %>
-              <br/>
-              <br/>
-              Regards
-              <br/>
-              James
-            </div>
-          <% end %>
-
-          <div>Cancellation takes effect immediately. You will receive an email confirmation from Spare Staff.</div>
-
-          <%= link_to "View Your Hirings", hirings_path, class: 'continue-btn' %>
-        </div>
-
-      <% end %>
+      <%= link_to "Return to Your Reservations", reservations_path, class: 'continue-btn' %>
 
     </div>
   </div>
