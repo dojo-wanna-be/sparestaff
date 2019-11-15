@@ -10,25 +10,36 @@
         <div class="custom-modal-inner">
           <div class="title-modal">Please share with us why you decline</div>
 
-          <form class="form-modal">
+          <%= form_tag decline_hiring_path(id: @transaction.id), method: :patch, id: "decline_now_form", class: "form-modal" do |f| %>
             <label class="label-modal">More details can help us improve your experience. This information won't be shared with the Hirer. (Required).</label>
-            <textarea cols="20" name="TextArea1" rows="7" class="modal-textarea"></textarea>
+            <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
 
             <div class="Text14px">
-              <input name="Checkbox1" type="checkbox" class="VerticalAlignMiddle">
+              <%= check_box_tag :term, nil, false, id: "term", class: 'VerticalAlignMiddle' %>
               By checking this box, I agree to
               the <span><%= link_to 'Hirer Refund Policy Terms', '#', class: 'orange-text Text14px' %></span>, and
               <span><%= link_to 'Terms of Service', '#', class: 'Text14px orange-text' %></span>.
             </div>
 
             <div class="modal-btn-box" >
-              <%= link_to 'Decline now', 'javascript:;', class: 'modal-orange-btn' %>
+              <%= submit_tag "Decline now", class: 'modal-orange-btn' %>
               <%= link_to 'Back', 'javascript:;', class: 'modal-white-btn', data: { toggle: "modal", target: "#decline-reservation-step-1-popup", dismiss: "modal"} %>
             </div>
-          </form>
+          <% end %>
 
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#decline_now_form").validate({
+      rules: {
+        "message_text": {required: true },
+        "term": {required: true}
+      }
+    });
+  });
+</script>

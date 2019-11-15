@@ -69,6 +69,11 @@ class Transaction < ApplicationRecord
                           "The employee commited an act of serious misconduct",
                           "Other"
                         ]
+  DECLINE_REASON = [
+                      "My listing doesn't fit the Hirer's needs",
+                      "I want a reservation with a different price, contract length, or start date",
+                      "I'm uncomfortable with this reservation"
+                    ]
 
   DAYS_HASH = { sunday: "Sun", monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri", saturday: "Sat" }
 

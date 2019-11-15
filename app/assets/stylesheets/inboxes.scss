@@ -176,6 +176,17 @@
         border: 1px solid #e4e4e4;
       }
 
+      .Text14px {
+        position: relative;
+
+        label.error {
+          position: absolute;
+          bottom: -19px;
+          margin: 0;
+          left: 0;
+        }
+      }
+
       .select-box {
         margin: 20px 0 15px;
 
