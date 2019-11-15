@@ -2,7 +2,8 @@ class ReservationsController < ApplicationController
   include EmployeeListingsHelper
 
   before_action :ensure_poster, except: [:index]
-  before_action :find_transaction, only: [:change_or_cancel,
+  before_action :find_transaction, only: [
+                                          :change_or_cancel,
                                           :change_reservation,
                                           :change_reservation_confirmation,
                                           :changed_successfully,
@@ -10,6 +11,10 @@ class ReservationsController < ApplicationController
                                           :tell_hirer,
                                           :cancelled_successfully,
                                           :show,
+                                          :accept,
+                                          :decline_request,
+                                          :decline,
+                                          :change_listing_approval,
                                           :reservations_view_invoice_list,
                                           :write_a_review
                                          ]
@@ -27,6 +32,94 @@ class ReservationsController < ApplicationController
 
   def change_or_cancel
     @listing = @transaction.employee_listing
+  end
+
+  def accept
+    if @transaction.update_attributes(state: "accepted")
+      # Hiring accepted mail to hirer
+      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
+  end
+
+  def decline_request
+    @transaction.update_attribute(:reason, params[:reason])
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+    @conversation = if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.hirer_id,
+                                            sender_id: current_user.id,
+                                            listing_id: @transaction.employee_listing_id
+                                          )
+    end
+    if params[:message_text].present?
+      message = @conversation.messages.build
+      message.content = params[:message_text]
+      message.sender_id = current_user.id
+      message.save
+    end
+  end
+
+  def decline
+    if @transaction.update_attribute(:state, "rejected")
+      # Hiring rejected mail to hirer
+      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
+  end
+
+  def change_listing_approval
+    @old_transaction = Transaction.find_by(id: params[:old_id])
+    @transaction = Transaction.find_by(id: params[:id])
+
+    if params[state: "accepted"]
+      @old_transaction.update_attributes(state: "completed", status: false)
+
+      @transaction.update_attribute(:state, "accepted")
+
+      # Transaction changed accepted mail to hirer
+      redirect_to inbox_path(id: @transaction.id)
+    elsif params[state: "rejected"]
+
+      @transaction.update_attributes(state: "rejected", status: false)
+      # Transaction changed rejected mail to hirer
+      redirect_to inbox_path(id: @old_transaction.id)
+    end
   end
 
   def change_reservation
@@ -168,22 +261,6 @@ class ReservationsController < ApplicationController
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
     @disabled_time = unavailable_time_slots(bookings)
-  end
-
-  def listing_approval
-    if params[state: "accepted"]
-      @old_transaction.update_attributes(state: "completed", status: false)
-
-      @transaction.update_attributes(state: "accepted", status: false)
-
-      # Transaction changed accepted mail to poster
-      redirect_to root_path
-    elsif params[state: "rejected"]
-
-      @transaction.update_attributes(state: "rejected", status: false)
-      # Transaction changed rejected mail to poster
-      redirect_to root_path
-    end
   end
 
   def reservations_view_invoice_list

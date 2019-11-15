@@ -1,0 +1,10 @@
+<h3 class="comman-heading">Why is the employee not available?</h3>
+
+<%= form_tag cancel_reservation_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+  <% Transaction::EMPLOYEE_UNAVAILABLE_REASON.each_with_index do |reason, index| %>
+    <div class="cancellation_reason">
+      <%= radio_button_tag "reason", reason, false, id: "employee_reason#{index+1}", class: "cancellation_reasons" %>
+      <%= reason %>
+    </div>
+  <% end %>
+<% end %>
