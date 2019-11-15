@@ -32,6 +32,75 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
   end
 
+  def accept
+    if @transaction.update_attributes(state: "accepted")
+      # Registration accepted mail to poster
+      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
+  end
+
+  def decline_request
+    @transaction.update_attribute(:reason, params[:reason])
+    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+    @conversation = if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.poster_id,
+                                            sender_id: current_user.id,
+                                            listing_id: @transaction.employee_listing_id
+                                          )
+    end
+    if params[:message_text].present?
+      message = @conversation.messages.build
+      message.content = params[:message_text]
+      message.sender_id = current_user.id
+      message.save
+    end
+  end
+
+  def decline
+    if @transaction.update_attribute(:state, "rejected")
+      # Registration rejected mail to poster
+      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
+  end
+
   def change_hiring
     @old_transaction = @transaction
     @listing = @transaction.employee_listing

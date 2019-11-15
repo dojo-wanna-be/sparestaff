@@ -14,7 +14,6 @@ class ReservationsController < ApplicationController
                                           :accept,
                                           :decline_request,
                                           :decline,
-                                          :change_listing_approval,
                                           :reservations_view_invoice_list,
                                           :write_a_review
                                          ]
@@ -103,24 +102,24 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def change_listing_approval
-    @old_transaction = Transaction.find_by(id: params[:old_id])
-    @transaction = Transaction.find_by(id: params[:id])
+  # def change_listing_approval
+  #   @old_transaction = Transaction.find_by(id: params[:old_id])
+  #   @transaction = Transaction.find_by(id: params[:id])
 
-    if params[state: "accepted"]
-      @old_transaction.update_attributes(state: "completed", status: false)
+  #   if params[state: "accepted"]
+  #     @old_transaction.update_attributes(state: "completed", status: false)
 
-      @transaction.update_attribute(:state, "accepted")
+  #     @transaction.update_attribute(:state, "accepted")
 
-      # Transaction changed accepted mail to hirer
-      redirect_to inbox_path(id: @transaction.id)
-    elsif params[state: "rejected"]
+        # Transaction changed accepted mail to hirer
+  #     redirect_to inbox_path(id: @transaction.id)
+  #   elsif params[state: "rejected"]
 
-      @transaction.update_attributes(state: "rejected", status: false)
-      # Transaction changed rejected mail to hirer
-      redirect_to inbox_path(id: @old_transaction.id)
-    end
-  end
+  #     @transaction.update_attributes(state: "rejected", status: false)
+        # Transaction changed rejected mail to hirer
+  #     redirect_to inbox_path(id: @old_transaction.id)
+  #   end
+  # end
 
   def change_reservation
     @old_transaction = @transaction
@@ -271,7 +270,6 @@ class ReservationsController < ApplicationController
   end
 
   def write_a_review
-
   end
 
   private

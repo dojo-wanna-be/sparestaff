@@ -89,7 +89,7 @@
     <table class="ButtonOrange" align="center">
       <tr>
         <td style="text-align: center">
-        <a class="WhiteLink12pt" href="javascript:;">Accept or Decline</a></td>
+        <%= link_to "Accept or Decline", inbox_url(id: @transaction.id), class: "WhiteLink12pt" %></td>
       </tr>
     </table>
         </td>
