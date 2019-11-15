@@ -1,0 +1,95 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="write-a-review-section">
+  <div class="left-review-box">
+    <h2 class="main-heading">Rate & Review</h2>
+    <div class="sub-title18">Describe your experience with the hirer - HirerDEF (required)</div>
+
+    <form>
+      <p>Your review will be public on hirer's profile.</p>
+      <textarea name="TextArea1" class="review-textarea" placeholder="How was it like to deal with HirerDEF? How was the work environment, culture, colleagues, benefits &amp; perks?"></textarea>
+
+      <div class="sub-title18">Private Feedback</div>
+      <p>This feedback is just for the hirer. We won't make it public.</p>
+      <textarea name="TextArea3" class="review-textarea" cols="20" rows="1" placeholder="Thank the hirer for work opportunity or offer some tips to help them improve for next hiring."></textarea>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Workplace Environment</div>
+        <div>Is it a good place to work at?</div>
+        <div><%= image_tag 'star-rating.png', class: 'review-star' %></div>
+      </div>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Suitability</div>
+        <div>Was the work suitable for the employee?</div>
+        <div><%= image_tag 'star-rating.png', class: 'review-star' %></div>
+      </div>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Communication</div>
+        <div>How clearly did the hirer communicate their plans, questions, concerns?</div>
+        <div><%= image_tag 'star-rating.png', class: 'review-star' %></div>
+      </div>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Employee Satisfaction</div>
+        <div>Did the employee enjoy the work?</div>
+        <div><%= image_tag 'star-rating.png', class: 'review-star' %></div>
+      </div>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Employee's and Your Overall Experience</div>
+        <div><%= image_tag 'rating-selected.png', class: 'selected-star' %></div>
+      </div>
+
+      <div class="rate-and-review">
+        <div class="sub-title18">Would you recommend this hirer?</div>
+        <div>Your answer will not be posted on hirer profile.</div>
+        <div class="thumbs-box">
+          <div class="box">
+            <%= image_tag 'thumbs-down.png', class: 'thumbs-img' %>
+            &nbsp;No
+          </div>
+          <div class="box">
+            <%= image_tag 'thumbs-up.png', class: 'thumbs-img' %>
+            &nbsp;Yes
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <%= link_to 'Submit', '#', class: 'submit-btn' %>
+      </div>
+    </form>
+  </div>
+
+  <div class="right-review-box">
+    <div class="right-user-box">
+      <div class="user-img-box">
+        <%= image_tag 'luca.png', class: 'user-img' %>
+      </div>
+
+      <div class="details-box">
+        <div><b>Employee:</b></div>
+        <div>EmployeeXYZ</div>
+        <div>Senior IT Administrator</div>
+      </div>
+
+      <div class="details-box">
+        <div><b>Hired:</b></div>
+        <div>Feb 12, 2019 - Apr 24, 2019</div>
+      </div>
+
+      <div class="details-box">
+        <div><b>Hirer:</b></div>
+        <div>HirerDEF</div>
+      </div>
+
+      <div class="details-box">
+        <%= image_tag 'alex-profile.jpg', class: 'Height100px' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

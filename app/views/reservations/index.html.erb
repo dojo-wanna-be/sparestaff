@@ -99,6 +99,7 @@
                 <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
                   <div>
                     <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
+                    <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
               </div>
@@ -171,6 +172,7 @@
                   </div>
                   <div>
                     <%= link_to 'View invoices', 'javascript:;', class: 'orange-text' %>
+                    <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 </div>
               </div>
@@ -183,9 +185,3 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
-
-<style type="text/css">
-  img.res {
-      width: 100px;
-  }
-</style>

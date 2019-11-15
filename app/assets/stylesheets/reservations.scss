@@ -9,10 +9,12 @@
   @media screen and (max-width: 767px) {
     width: 100%;
     margin: 20px 0;
+    padding: 0 12px;
   }
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     width: 100%;
-    margin: 20px 15px;
+    margin: 20px 0px;
+    padding: 0 15px
   }
 
   .inner-reservation-section {
@@ -97,7 +99,7 @@
         width: 100%;
       }
       @media screen and (min-width: 768px) and (max-width: 992px) {
-        width: 80%;
+        width: calc(80% - 12px);
       }
 
       .right-panel-header {
@@ -123,6 +125,11 @@
         .reservation-list-box {
           padding: 20px 15px 20px 15px;
 
+          @media screen and (max-width: 1024px) {
+            overflow: hidden;
+            overflow-x: auto;
+          }
+
           .reservation-list {
             display: flex;
             flex-direction: row;
@@ -130,6 +137,13 @@
             font-size: 14px;
             padding: 20px 0;
             border-bottom: 1px solid #e4e4e4;
+
+            @media screen and (max-width: 767px) {
+              width: 820px;
+            }
+            @media screen and (min-width: 768px) and (max-width: 1024px) {
+              width: 900px;
+            }
 
             &:first-child {
               padding-top: 0;
@@ -194,9 +208,25 @@
   width: 869px;
   margin: 22px auto;
 
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 0 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    padding: 0 15px;
+  }
+
   .main-heading {
    font-size: 32px;
    font-weight: bold;
+
+   @media screen and (max-width: 767px) {
+    font-size: 22px;
+   }
+   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    font-size: 26px;
+   }
   }
 
   .gray-text {
@@ -210,6 +240,11 @@
     // justify-content: space-between;
     margin-top: 55px;
 
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+      margin-top: 25px;
+    }
+
     .change-or-cancel-box {
       width: 401px;
       border: 1px solid #dce0e0;
@@ -219,11 +254,25 @@
       margin-right: 34px;
       height: fit-content;
 
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0;
+        padding: 25px 12px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 48%;
+        padding: 25px 15px;
+      }
+
       &:last-child {
         margin-top: -11px;
         margin-right: 0;
         padding-top: 36px !important;
         padding-bottom: 37px;
+
+        @media screen and (max-width: 767px) {
+          margin-top: 20px;
+        }
       }
 
       .GreyLink22Px {
@@ -231,6 +280,10 @@
         padding-top: 10px;
         color: #333333;
         padding-bottom: 0;
+
+        @media screen and (max-width: 767px) {
+          font-size: 20px;
+        }
       }
 
       .transparent-continue-btn {
@@ -258,3 +311,191 @@
 }
 
 //*** YOUR RESERVATION CHANGE OR CANCEL END CSS ***//
+
+
+//*** YOUR RESERVATION WRITE A REVIEW CSS ***//
+
+.write-a-review-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 100%;
+  width: 1026px;
+  margin: 22px 80px auto;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    flex-direction: column;
+    margin: 20px 0;
+    padding: 0 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    padding: 0 15px;
+    margin: 22px auto;
+  }
+
+  .left-review-box {
+    display: flex;
+    flex-direction: column;
+    width: 596px;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      width: 60%;
+    }
+
+    .main-heading {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0.96em 0;
+
+      @media screen and (max-width: 767px) {
+        font-size: 20px;
+      }
+    }
+
+    .sub-title18 {
+      font-weight: normal;
+      display: inline-block;
+      padding-bottom: 17px;
+      font-size: 14pt;
+      line-height: 1.3;
+    }
+
+    .review-textarea {
+      width: 500px;
+      height: 120px;
+      border: 1px silver solid;
+      margin-bottom: 50px;
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+      }
+    }
+
+    .rate-and-review {
+      margin-bottom: 20px;
+
+      .sub-title18 {
+        padding: 0;
+      }
+      .review-star {
+        height: 30px;
+        margin-top: 20px;
+
+        @media screen and (max-width: 767px) {
+          height: 25px;
+          margin-top: 5px;
+        }
+      }
+      .selected-star {
+        height: 84px;
+        margin-top: 20px;
+
+        @media screen and (max-width: 767px) {
+          width: 100%;
+          height: auto;
+          margin-top: 5px;
+        }
+      }
+
+      .thumbs-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 14pt;
+        margin: 20px 0;
+
+        .box {
+          margin-right: 20px;
+
+          .thumbs-img {
+            height: 30px;
+          }
+        }
+      }
+    }
+
+    .submit-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 180px;
+      height: 40px;
+      background-color: #F15927;
+      border-radius: 3px;
+      color: #fff;
+      margin-top: 50px;
+
+      &:hover {
+        text-decoration: none;
+        box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+      }
+    }
+  }
+
+  .right-review-box {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-top: 20px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      width: 38%;
+    }
+
+    .right-user-box {
+      padding: 20px;
+      border: 1px solid #c0c0c0;
+
+      @media screen and (max-width: 767px) {
+        padding: 12px;
+      }
+
+      .user-img-box {
+        margin-bottom: 20px;
+        .user-img {
+          height: 200px;
+          width: 200px;
+          object-fit: cover;
+
+          @media screen and (max-width: 767px) {
+            height: 126px;
+            width: 126px;
+          }
+        }
+      }
+
+      .details-box {
+        margin-bottom: 23px;
+
+        &:first-child {
+          margin-top: 20px;
+        }
+        &:last-child {
+          margin-bottom: 0px;
+        }
+
+        .hirer-img {
+          height: 100px;
+          width: 100px;
+          object-fit: cover;
+
+          @media screen and (max-width: 767px) {
+            height: 80px;
+            width: 80px;
+          }
+        }
+      }
+    }
+  }
+}
+
+//*** YOUR RESERVATION WRITE A REVIEW END CSS ***//
