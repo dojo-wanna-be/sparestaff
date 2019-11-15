@@ -61,6 +61,9 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
+      patch :accept
+      patch :decline_request
+      patch :decline
       get :change_or_cancel
       get :get_receipt
       get :receipt_details
@@ -71,4 +74,26 @@ Rails.application.routes.draw do
       match :tell_poster, via: [:get, :patch]
     end
   end
+
+  resources :reservations, only: [:index, :show] do
+    collection do
+      get :cancelled_successfully
+      get :check_slot_availability
+      get :reservations_view_invoice_list
+      get :write_a_review
+    end
+    member do
+      patch :accept
+      patch :decline_request
+      patch :decline
+      get :change_or_cancel
+      match :change_reservation, via: [:get, :patch]
+      match :change_reservation_confirmation, via: [:get, :patch]
+      get :changed_successfully
+      match :cancel_reservation, via: [:get, :patch]
+      match :tell_hirer, via: [:get, :patch]
+    end
+  end
+
+  resources :inboxes
 end

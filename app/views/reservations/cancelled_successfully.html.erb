@@ -1,0 +1,112 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="change-or-hiring-section">
+  <div class="left-detail">
+    <div class="text-allign-center">
+      <% if @listing.profile_picture.present? %>
+        <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+      <% else %>
+        <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+      <% end %>
+      <div class="sub-title"><%= @listing.title %></div>
+      <div><%= @listing.name %></div>
+      <div class="grey-text"><%= "Poster: #{@listing.poster.name}" %></div>
+    </div>
+
+    <div class="order-details first-order">
+      <div class="order-item">
+        <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
+        <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
+        <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
+      </div>
+      <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
+      <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
+      <% @transaction.bookings.each do |booking| %>
+        <div class="order-item space-bottom">
+          <span><%= booking.day.titleize %></span>
+          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="order-details">
+      <div class="order-item space-bottom">
+        <span class="grey-text">Probationary period</span>
+      </div>
+      <div class="order-item ">
+        <% company = @listing.poster.company %>
+        <div class="month1"><%= company.probationary_period.eql?(1) ? "#{company.probationary_period} month" : "#{company.probationary_period} months" %></div>
+      </div>
+    </div>
+
+    <div class="order-details">
+      <h3 class="sub-title">Weekly payment</h3>
+      <div class="order-item space-bottom">
+        <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
+        <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
+        <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Tax withholding</span>
+        <span><%= "-$#{@transaction.tax_withholding_amount}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Service fee</span>
+        <span>$11.13</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><b>Weekly total</b></span>
+        <span><b><%= "$#{@transaction.amount}" %></b></span>
+      </div>
+    </div>
+
+    <div class="toggle-payment-detail">Total employment contract</div>
+
+    <div class="order-details show-payment-box">
+      <div class="order-item space-bottom">
+        <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
+        <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
+        <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Tax withholding</span>
+        <span><%= "-$#{@transaction.total_tax_withholding_amount}" %></span>
+      </div>
+      <div class="order-item space-bottom">
+        <span>Service fee</span>
+        <span>$116.15</span>
+      </div>
+      <div class="order-item space-bottom">
+        <span><b>Total</b></span>
+        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+      </div>
+
+      <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
+    </div>
+
+  </div>
+
+  <div class="right-detail cancel-hirings-right-detail">
+    <div class="cancel-hirings-section">
+      <h3 class="main-heading">Your Hiring Reservation Has Been Cancelled</h3>
+      <div>You and HirerDEF will receive an email confirmation from Spare Staff.</div>
+
+      <%= link_to "Return to Your Reservations", reservations_path, class: 'continue-btn' %>
+
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  $('.toggle-payment-detail').click(function(){
+    $('.show-payment-box').toggle();
+  });
+</script>

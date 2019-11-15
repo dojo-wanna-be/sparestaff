@@ -1,0 +1,52 @@
+<div class="request_hiring-section">
+  <div class="comman-inner-both">
+    <div class="left_request_section">
+      <ul class="logo-list">
+        <li class="logo-list-item">
+          <%= link_to '' do %>
+            <%= image_tag 'logo.png', class: 'logo_img' %>
+          <% end %>
+        </li>
+        <!-- <li class="logo-list-item">
+          <%#= link_to '1. Change hiring contract', '#', class: 'item-logo select-item' %>
+        </li>
+        <li class="logo-list-item">
+          >
+        </li>
+        <li class="logo-list-item">
+          <%#= link_to '2. Confirm request', change_hiring_confirmation_hiring_path(id: @transaction.id), class: 'item-logo' %>
+        </li> -->
+      </ul>
+
+      <div class="review_hiring_details">
+        <h1 class="main-heading">Hiring Change Request Sent</h1>
+        <%= render partial: "hirings/new_hiring_details" %>
+        <div>You will receive an email of this request from Spare Staff.</div>
+        <div class="inline-btn-box">
+          <%= link_to "View Your Hirings", hirings_path, class: 'continue-btn' %>
+        </div>
+
+      </div>
+    </div>
+
+    <%= render partial: "hirings/transaction_difference" %>
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright', class: 'spare-link'%>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.toggle-total-employement').click(function(){
+    $('.total-employement-list').toggle();
+  });
+</script>
+
+<style type="text/css">
+  .fixed-header  {
+    display: none;
+  }
+</style>

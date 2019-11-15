@@ -4,6 +4,8 @@
 #
 #  id                           :bigint           not null, primary key
 #  amount                       :float
+#  cancelled_at                 :date
+#  cancelled_by                 :integer
 #  end_date                     :date
 #  frequency                    :integer
 #  is_withholding_tax           :boolean          default(TRUE)

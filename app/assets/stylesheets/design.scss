@@ -3,6 +3,143 @@
   line-height: 1.4;
 }
 
+.green-text {
+  color: #00CC00 !important;
+}
+.orange-text {
+  color: #F15927 !important;
+}
+.dark-green-text {
+  color: #008080 !important;
+}
+.light-blue-text {
+  color: #0099FF !important;
+}
+
+.sub-title18 {
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.modal-orange-btn {
+  padding: 0 20px;
+  height: 40px;
+  background-color: #F15927;
+  border-radius: 3px;
+  color: #fff !important;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+  }
+}
+
+.modal-white-btn {
+  padding: 0 20px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 3px;
+  color: #484848 !important;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  border: 1px solid #333333;
+
+  &:hover {
+    text-decoration: none;
+    border-color: #767676;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+  }
+}
+
+.reservation-action-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  border-top: 1px solid #e4e4e4;
+  padding-top: 23px;
+
+  .right-action {
+    display: flex;
+    .modal-white-btn {
+      margin-right: 10px;
+    }
+    .modal-orange-btn {
+      margin: 0;
+    }
+  }
+}
+
+#web_loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f159277a;
+  border-radius: 50%;
+  border-top-color: #f15927;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+
+.invoice-list {
+  width: 500px;
+  border-bottom: 1px solid #e4e4e4;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  padding-top: 10px;
+
+  .invoice-list-box {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0;
+
+    &:first-child {
+      border-bottom: 1px solid #e4e4e4;
+    }
+
+    .item-box {
+      width: 150px;
+
+      &.date-item-box {
+        width: 200px;
+      }
+
+      .orange-text {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+
+/** COMMAN END CSS **/
+
+
 
 .new-header {
   height: 70px;
@@ -907,15 +1044,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 20px 99px 40px;
+    margin: 20px auto 40px;
     border-top: 1px solid #C0C0C0;
     padding: 18px 0;
+    width: calc(100% - 198px);
 
     @media screen and (max-width: 767px) {
       margin: 20px 12px 20px;
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-      margin: 20px 25px 30px;
+      margin: 20px 0;
+      width: 100%;
     }
 
     .left-sub {

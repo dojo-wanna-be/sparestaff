@@ -1,0 +1,111 @@
+<br>
+<br>
+<div class="FullWidth">
+  <span class="Text22px">Spare Staff Extenuating Circumstances Policy</span>
+  <br>
+    We understand that emergencies can happen. Situations 
+    covered by our policy include, but are not limited to:
+  <ul>
+    <li>Serious illness</li>
+    <li>Death of a family member</li>
+    <li>Natural disaster</li>
+    <li>Political unrest</li>
+  </ul>
+</div>
+<br>
+<div class="FullWidth Hidden" id="SubOutcome2" style="display: block;">
+  <strong>For your consideration</strong><br>
+  <br>
+  It's best practice to give notice to Hirer so that they are aware of your situation and prepared for it.
+  <br><br>
+  <span class="Text22pxPaddingBottom20px">Review the 
+  results for cancelling</span><br>
+  <div class="divTable">
+    <div class="divTableRow Hidden">
+      <div class="divTableCell PaddingBottom20px">
+        <%= image_tag 'card-icon.jpg', class: 'Width30Px VerticalAlignMiddle' %>
+      </div>
+      <div class="divTableCell PaddingLeft20px PaddingBottom20px">
+        <strong>Cancellation fee</strong><br>
+        A cancellation fee applies for all 
+        cancellation as per our listing policy
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell PaddingBottom20px">
+        <%= image_tag 'ranking.png', class: 'Width30Px VerticalAlignMiddle' %>
+      </div>
+      <div class="divTableCell PaddingLeft20px PaddingBottom20px">
+        <strong>Listing ranking impact</strong><br>
+        If you cancel multiple reservations, your listing ranking may be reduced or temporarily removed from search results
+      </div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= image_tag 'upset-icon.jpg', class: 'Width30Px VerticalAlignMiddle' %>
+      </div>
+      <div class="divTableCell PaddingLeft20px">
+        <strong>An automatic cancellation review</strong><br>
+        An automatic cancellation review will be posted on your listing
+      </div>
+    </div>
+  </div>
+  <div id="PayoutSummary">
+    <br>
+    <span class="Text22pxPaddingBottom20px">Your Payout Summary</span><br>
+    If you cancel now, you'll receive your next payout for the work that the Employee has done up to the hour before this cancellation, minus Spare 
+    Staff service fees.<br><br>
+    If the Employee plans to complete work for today for Hirer, you should cancel after the final hour of today and before the next working day of this hiring.<br>
+    <br>
+    <div class="calculation-list">
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekday_price %> x 0 hours
+        </div>
+        <div class="right-item">
+          $0.00
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekend_price %> x 0 hours (weekend)
+        </div>
+        <div class="right-item">
+          $0.00
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Tax withholding
+        </div>
+        <div class="right-item">
+          -$0.00
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Service fee
+        </div>
+        <div class="right-item">
+          -$0.00
+        </div>
+      </div>
+      <div class="list-item grey-list-item">
+        <div class="left-item">
+          <strong>Your Next Payout</strong>
+        </div>
+        <div class="right-item">
+          <strong>
+            $0.00
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= form_tag cancel_reservation_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do %>
+  <%= hidden_field_tag "reason", "I have an emergency" %>
+  <div class="reservation_cancel_actions">
+    <%= render partial: "reservation_cancel_actions"%>
+  </div>
+<% end %>

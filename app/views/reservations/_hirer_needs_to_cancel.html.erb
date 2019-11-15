@@ -1,0 +1,8 @@
+<div class="employee-changed">
+  <div class="affect-poster">
+    <div><strong>Ask hirer to cancel instead</strong></div>
+    <div class="poster-text">Try sending message asking the hirer to cancel instead.</div>
+
+    <%= link_to 'Send message to hirer', inbox_path(id: @transaction.id), class: 'continue-btn' %>
+  </div>
+</div>

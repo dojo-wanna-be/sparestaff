@@ -687,6 +687,7 @@
             margin: 0;
             list-style: none;
             width: 585px;
+            position: relative;
 
             @media screen and (max-width: 992px) {
               width: 100%;
@@ -1259,7 +1260,7 @@
               text-decoration: none;
             }
 
-            &.AccountLeftMenuSelected {
+            &.selected-panel {
               font-weight: bold;
               color: #484848;
 
@@ -2213,6 +2214,7 @@
             margin: 0;
             list-style: none;
             width: 100%;
+            position: relative;
 
             .header-item {
               display: flex;

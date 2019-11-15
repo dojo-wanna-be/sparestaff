@@ -917,7 +917,8 @@
               margin: 0;
               list-style: none;
               width: 100%;
-
+              position: relative;
+              
               .header-item {
                 display: flex;
                 flex-direction: row;

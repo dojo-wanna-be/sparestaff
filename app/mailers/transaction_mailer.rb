@@ -3,11 +3,12 @@ class TransactionMailer < ApplicationMailer
 
   default :from => "noreply@sparestaff.com.au"
 
-  def request_to_hire_email_to_poster(transaction, listing, poster, hirer)
+  def request_to_hire_email_to_poster(transaction, listing, poster, hirer, message)
     @listing = listing
     @hirer = hirer
     @poster = poster
     @transaction = transaction
+    @message = message
     mail(to: poster.email, subject: "Pending Employee hiring request for #{listing.name}")
   end
 

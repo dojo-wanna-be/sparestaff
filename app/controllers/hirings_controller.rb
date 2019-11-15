@@ -1,17 +1,22 @@
 class HiringsController < ApplicationController
   include EmployeeListingsHelper
 
-  before_action :find_transaction, only: [:change_or_cancel,
-                                          :change_hiring,
-                                          :change_hiring_confirmation,
-                                          :changed_successfully,
-                                          :cancel_hiring,
-                                          :tell_poster,
-                                          :cancelled_successfully,
-                                          :show,
-                                          :get_receipt,
-                                          :receipt_details
-                                         ]
+  before_action :find_transaction, only:  [
+                                            :change_or_cancel,
+                                            :change_hiring,
+                                            :change_hiring_confirmation,
+                                            :changed_successfully,
+                                            :cancel_hiring,
+                                            :tell_poster,
+                                            :cancelled_successfully,
+                                            :show,
+                                            :get_receipt,
+                                            :receipt_details,
+                                            :accept,
+                                            :decline_request,
+                                            :decline
+                                          ]
+
   before_action :ensure_not_poster, only: [:change_hiring]
 
   def index
@@ -25,6 +30,75 @@ class HiringsController < ApplicationController
 
   def change_or_cancel
     @listing = @transaction.employee_listing
+  end
+
+  def accept
+    if @transaction.update_attributes(state: "accepted")
+      # Registration accepted mail to poster
+      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
+  end
+
+  def decline_request
+    @transaction.update_attribute(:reason, params[:reason])
+    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+    @conversation = if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.poster_id,
+                                            sender_id: current_user.id,
+                                            listing_id: @transaction.employee_listing_id
+                                          )
+    end
+    if params[:message_text].present?
+      message = @conversation.messages.build
+      message.content = params[:message_text]
+      message.sender_id = current_user.id
+      message.save
+    end
+  end
+
+  def decline
+    if @transaction.update_attribute(:state, "rejected")
+      # Registration rejected mail to poster
+      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+      @conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      if params[:message_text].present?
+        message = @conversation.messages.build
+        message.content = params[:message_text]
+        message.sender_id = current_user.id
+        message.save
+      end
+      redirect_to inbox_path(id: @transaction.id)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to inbox_path(id: @transaction.id)
+    end
   end
 
   def change_hiring
@@ -108,7 +182,7 @@ class HiringsController < ApplicationController
     unless request.patch?
       @listing = @transaction.employee_listing
     else
-      @transaction.update_attributes(reason: params[:reason])
+      @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer")
       redirect_to tell_poster_hiring_path(id: @transaction.id)
     end
   end
@@ -117,9 +191,9 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
     if request.patch?
       if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], state: "cancelled")
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
       else
-        @transaction.update_attributes(state: "cancelled")
+        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
       conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
       if conversation.present?
@@ -170,22 +244,6 @@ class HiringsController < ApplicationController
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
     @disabled_time = unavailable_time_slots(bookings)
-  end
-
-  def listing_approval
-    if params[state: "accepted"]
-      @old_transaction.update_attributes(state: "completed", status: false)
-
-      @transaction.update_attributes(state: "accepted", status: false)
-
-      # Transaction changed accepted mail to hirer
-      redirect_to root_path
-    elsif params[state: "rejected"]
-
-      @transaction.update_attributes(state: "rejected", status: false)
-      # Transaction changed rejected mail to hirer
-      redirect_to root_path
-    end
   end
 
   def get_receipt
