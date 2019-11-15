@@ -1,11 +1,11 @@
 <div class="reservation-order-box declined-box">
-  <div class="sub-title18"><b>Hiring confirmed. Cristiano Ronaldo starts work on Mon, 12th Feb 2019!</b></div>
+  <div class="sub-title18"><b>Hiring confirmed. <%= @listing.name %> starts work on <%= @transaction.start_date.strftime("%a, %dth %b %y") %>!</b></div>
   <br>
   <div>
-    <div>HirerDEF is available to answer any questions about the hiring.</div>
+    <div><%= @transaction.hirer.name %> is available to answer any questions about the hiring.</div>
     <br>
     <div class="btn-box">
-      <%= link_to "Change or Cancel", "javascript:;", class: "modal-white-btn" %>
+      <%= link_to "Change or Cancel", change_or_cancel_reservation_path(id: @transaction.id), class: "modal-white-btn" %>
     </div>
   </div>
 </div>

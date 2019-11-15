@@ -1,17 +1,22 @@
 class HiringsController < ApplicationController
   include EmployeeListingsHelper
 
-  before_action :find_transaction, only: [:change_or_cancel,
-                                          :change_hiring,
-                                          :change_hiring_confirmation,
-                                          :changed_successfully,
-                                          :cancel_hiring,
-                                          :tell_poster,
-                                          :cancelled_successfully,
-                                          :show,
-                                          :get_receipt,
-                                          :receipt_details
-                                         ]
+  before_action :find_transaction, only:  [
+                                            :change_or_cancel,
+                                            :change_hiring,
+                                            :change_hiring_confirmation,
+                                            :changed_successfully,
+                                            :cancel_hiring,
+                                            :tell_poster,
+                                            :cancelled_successfully,
+                                            :show,
+                                            :get_receipt,
+                                            :receipt_details,
+                                            :accept,
+                                            :decline_request,
+                                            :decline
+                                          ]
+
   before_action :ensure_not_poster, only: [:change_hiring]
 
   def index
@@ -25,32 +30,6 @@ class HiringsController < ApplicationController
 
   def change_or_cancel
     @listing = @transaction.employee_listing
-  end
-
-  def accept
-    if @transaction.update_attributes(state: "accepted")
-    conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
-    @conversation = if conversation.present?
-      conversation.first
-    else
-       Conversation.create!( receiver_id: @listing.poster.id,
-                                            sender_id: current_user.id,
-                                            listing_id: @listing.id
-                                          )
-    end
-    message = @conversation.messages.build
-    message.content = params[:message_text]
-    message.sender_id = current_user.id
-    message.save
-    redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
-  end
-
-  def decline_request
-    
-  end
-
-  def decline
-    
   end
 
   def change_hiring
@@ -196,22 +175,6 @@ class HiringsController < ApplicationController
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
     @disabled_time = unavailable_time_slots(bookings)
-  end
-
-  def listing_approval
-    if params[state: "accepted"]
-      @old_transaction.update_attributes(state: "completed", status: false)
-
-      @transaction.update_attributes(state: "accepted", status: false)
-
-      # Transaction changed accepted mail to hirer
-      redirect_to root_path
-    elsif params[state: "rejected"]
-
-      @transaction.update_attributes(state: "rejected", status: false)
-      # Transaction changed rejected mail to hirer
-      redirect_to root_path
-    end
   end
 
   def get_receipt

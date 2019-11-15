@@ -109,8 +109,10 @@ class TransactionsController < ApplicationController
     else
       # Payment code here
       @transaction.update_attribute(:state, "created")
+      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
+      message = conversation.messages.last
       TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
-      TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user).deliver!
+      TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
 
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     end

@@ -58,18 +58,33 @@ class Transaction < ApplicationRecord
                           "6 months" => 6
                         }
 
-  CANCELLATION_REASON = [
-                          "I no longer need to hire an employee",
-                          "My date to hire employee changed",
-                          "I made the hiring my mistake",
-                          "I have extenuating circumstance",
-                          "The poster needs to cancel",
-                          "I'm uncomfortable dealing with the poster or the employee",
-                          "The employee underperforms or does not meet my expectation",
-                          "The employee commited an act of serious misconduct",
-                          "Other"
-                        ]
-  DECLINE_REASON = [
+  HIRING_CANCELLATION_REASON =  [
+                                  "I no longer need to hire an employee",
+                                  "My date to hire employee changed",
+                                  "I made the hiring my mistake",
+                                  "I have extenuating circumstance",
+                                  "The poster needs to cancel",
+                                  "I'm uncomfortable dealing with the poster or the employee",
+                                  "The employee underperforms or does not meet my expectation",
+                                  "The employee commited an act of serious misconduct",
+                                  "Other"
+                                ]
+
+  RESERVATION_CANCELLATION_REASON = [
+                                      "My listed employee is no longer available",
+                                      "I’m looking for a different price or date and time",
+                                      "The hirer needs to cancel",
+                                      "The employee or I feel uncomfortable with the hirer",
+                                      "Other"
+                                    ]
+
+  EMPLOYEE_UNAVAILABLE_REASON = [
+                                  "I have an emergency",
+                                  "The employee is not available on these dates anymore",
+                                  "Another hirer is already hiring the employee on these dates"
+                                ]
+
+  DECLINE_REASON =  [
                       "My listing doesn't fit the Hirer's needs",
                       "I want a reservation with a different price, contract length, or start date",
                       "I'm uncomfortable with this reservation"

@@ -61,9 +61,6 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
-      patch :accept
-      patch :decline_request
-      patch :decline
       get :change_or_cancel
       get :get_receipt
       get :receipt_details
@@ -81,6 +78,9 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
+      patch :accept
+      patch :decline_request
+      patch :decline
       get :change_or_cancel
       match :change_reservation, via: [:get, :patch]
       match :change_reservation_confirmation, via: [:get, :patch]
