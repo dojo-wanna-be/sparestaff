@@ -74,7 +74,7 @@
       <li class="calc-item last-item">
         <span class="left"><%= f.check_box :is_withholding_tax, class: "tax-check" %> Tax withholding</span>
         <span class="right">
-          <span class="dollar-input-box">-$</span>
+          <span class="dollar-input-box">$</span>
           <%= f.number_field :tax_withholding_amount, placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
         </span>
       </li>
@@ -110,7 +110,7 @@
       </li>
       <li class="calc-item">
         <span class="left">Tax withholding</span>
-        <span class="right">-$<label id="ContractTaxPrice"> 0 </label></span>
+        <span class="right">$<label id="ContractTaxPrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left">Service fee</span>
