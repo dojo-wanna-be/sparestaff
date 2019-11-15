@@ -108,6 +108,7 @@
         <span class="left">$<label class="listing_weekend_price"> <%= employee_listing.weekend_price %> </label>&nbsp; x &nbsp;<label id="total_weekend_hours"> 0 &nbsp;</label> hours (weekend)</span>
         <span class="right">$<label id="hiring_total_weekend_price"> 0 </label> </span>
       </li>
+      <%= hidden_field_tag "total_tax_with_holding", '' %>
       <li class="calc-item">
         <span class="left">Tax withholding</span>
         <span class="right">$<label id="ContractTaxPrice"> 0 </label></span>

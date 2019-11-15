@@ -209,7 +209,7 @@ function validateAvailability(start_date, end_date, listing){
     var remainingWeekTax = checkTax(remainingWeeklyEarning)
 
     var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
-
+    $('#total_tax_with_holding').val(fullWeekTax);
     var serviceTax = ((service_tax * Math.floor(weekDiff)) + (.03 * (remainingWeeklyEarning - remainingWeekTax)))
     $('#ContractTaxPrice').html(-fullWeekTax);
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
