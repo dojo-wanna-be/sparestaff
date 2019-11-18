@@ -21,10 +21,10 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.each do |booking| %>
+      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
-          <span><%= booking.day.titleize %></span>
-          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+          <span><%= bookings.first.day.titleize %></span>
+          <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
         </div>
       <% end %>
     </div>
@@ -56,7 +56,7 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$<%= @transaction.service_fee%></span>
+        <span>$<%= @transaction.service_fee.round(2)%></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
@@ -81,7 +81,7 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$<%= @transaction.total_service_fee%></span>
+        <span>$<%= @transaction.total_service_fee.round(2)%></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
