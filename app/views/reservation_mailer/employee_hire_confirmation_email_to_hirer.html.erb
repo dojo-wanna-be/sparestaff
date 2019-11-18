@@ -25,8 +25,8 @@
 		<br />
 		<table style="width: 500px">
 			<tr>
-				<td style="width: 50%">Cristiano Ronaldo<br />
-				Senior IT Administrator</td>
+				<td style="width: 50%"><%= @listing.name %><br />
+				<%= @listing.title %></td>
 				<td>
 				<img alt="" src="../images/luca.png" class="Image200pxRight" /></td>
 			</tr>
@@ -38,9 +38,9 @@
 			</tr>
 			<tr>
 				<td style="width: 300px"><strong>From</strong><br />
-				Monday Feb 12, 2019</td>
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
 				<td style="text-align: right"><strong>To</strong><br />
-				Wednesday Apr 24, 2019</td>
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
@@ -52,7 +52,7 @@
 		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
 			<tr>
 				<td style="text-align: center">
-				<a class="WhiteLink12pt" href="../user-hiring/user-hiring.html">View Your Hirings</a></td>
+				<%= link_to "View Your Hirings", hirings_url, class: 'WhiteLink12pt' %>
 			</tr>
 		</table>
 				</td>
@@ -64,11 +64,11 @@
 			</tr>
 			<tr>
 				<td style="width: 300px">Weekly total payment</td>
-				<td style="text-align: right">$382.13</td>
+				<td style="text-align: right"><%= "$#{@transaction.amount + @transaction.service_fee}" %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px">Total employment contract</td>
-				<td style="text-align: right">$4,001.55</td>
+				<td style="text-align: right"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
@@ -77,7 +77,7 @@
 			</tr>
 			<tr>
 				<td style="width: 300px">
-				<h4>PosterABC is Poster</h4>
+				<h4><%= @poster.name %> is Poster</h4>
 				Contact PosterABC for further coordination.</td>
 				<td>
 				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
@@ -107,14 +107,6 @@
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><span style="color: #FF0000">Note to web deveopers:</span><br style="color: #FF0000" />
-		<span style="color: #FF0000">Email subject is same as Title of this 
-		page.<br />
-		Replace Cristiano Ronaldo with full name (first + last name) of 
-		employee.<br />
-		Replace PosterABC with full name of the Poster.</span></td>
 	</tr>
 </table>
 
