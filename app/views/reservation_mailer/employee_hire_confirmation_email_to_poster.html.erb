@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-au" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Employee hire confirmed for EmployeeXYZ</title>
+<link href="../sparestaff.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<table class="Padding80px" style="width: 100%">
+	<tr>
+		<td>&nbsp;&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<img alt="" class="LogoInEmail" src="../images/logo.png"/></td>
+	</tr>
+	<tr>
+		<td><br />
+		<h1>Your listed employee is hired!</h1>
+		<p>Work starts <%= @transaction.start_date.strftime("%b %d, %Y") %></p>
+		<table style="width: 550px">
+			<tr>
+				<td style="width: 50%"><%= @listing.name %><br />
+				<%= @listing.title %></td>
+				<td>
+				<img alt="" src="../images/luca.png" class="Image200pxRight" style="width: 200px" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<br />
+				<div class="GreyLine1Px"></div>				<br />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px"><strong>From</strong><br />
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+				<td style="text-align: right"><strong>To</strong><br />
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<%= link_to "View Your Hirings", hirings_url, class: 'WhiteLink12pt' %></td>
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">
+				<h4>Weekly payout</h4>
+				</td>
+				<td style="text-align: right">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></td>
+				<td style="text-align: right">$<%= @listing.weekday_price * @transaction.weekday_hours %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %> </td>
+				<td style="text-align: right">$<%= @listing.weekend_price * @transaction.weekend_hours %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px">Tax withholding</td>
+				<td style="text-align: right">-$<%= @transaction.tax_withholding_amount.round(2) %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px">Service fee</td>
+				<td style="text-align: right">$<%= @transaction.service_fee.round(2) %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br/>
+				<div class="GreyLine1Px"></div>				<br/>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px"><strong>Your weekly earning</strong></td>
+				<td style="text-align: right; font-size: 14pt;"><strong>$333.90</strong></td>
+			</tr>
+			<tr>
+				<td style="width: 300px"><strong>Total employment contract 
+				earning</strong></td>
+				<td style="text-align: right; font-size: 14pt;"><strong>$3,496.50</strong></td>
+			</tr>
+			<tr>
+				<td colspan="2"><p>7 days after employment contract starts, the 
+				payment method you supplied will be
+				credited. For details, see your transaction history.</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<h4>Cancellation fee</h4>
+				<p>Penalty applies if you cancel this contract.<br />
+				<a href="#">Learn more</a></p></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">
+				<h4>HirerDEF is Hirer</h4>
+				Contact HirerDEF for further coordination.</td>
+				<td>
+				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<a href="#" class="WhiteLink12pt">
+				Send message</a></td>
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<h4>Customer support&nbsp;</h4>
+				<p><a href="https://www.sparestaff.com.au/help">Visit Help 
+				Center</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td><span style="color: #FF0000">Note to web deveopers:</span><br style="color: #FF0000" />
+		<span style="color: #FF0000">Email subject is same as Title of this 
+		page.<br />
+		Replace Cristiano Ronaldo with full name (first + last name) of 
+		employee.<br />
+		Replace HirerDEF with full name of the Hirer.</span></td>
+	</tr>
+</table>
+
+</body>
+
+</html>

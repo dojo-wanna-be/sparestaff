@@ -14,4 +14,33 @@ class ReservationMailer < ApplicationMailer
     @poster = poster
     mail(to: poster.email, subject: "Reservation Change Request")
   end
+
+  def employee_hire_confirmation_email_to_hirer(listing, hirer, transaction)
+    @listing = listing
+    @transaction = transaction
+    @poster = @listing.poster
+    @hirer = hirer
+    mail(to: hirer.email, subject: "Employee hire confirmed for EmployeeXYZ")
+  end
+
+  def employee_hire_confirmation_email_to_poster(listing, poster, transaction)
+    @listing = listing
+    @transaction = transaction
+    @poster = poster
+    mail(to: poster.email, subject: "Employee hire confirmed for EmployeeXYZ")
+  end
+
+  def employee_hire_declined_email_to_Hirer(listing, hirer, transaction)
+    @listing = listing
+    @transaction = transaction
+    @hirer = hirer
+    mail(to: hirer.email, subject: "Employee hire request delined for EmployeeXYZ")
+  end
+
+  def employee_hire_declined_email_to_Poster(listing, poster, transaction)
+    @listing = listing
+    @transaction = transaction
+    @poster = poster
+    mail(to: poster.email, subject: "You declined a hire request")
+  end
 end

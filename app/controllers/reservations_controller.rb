@@ -35,6 +35,8 @@ class ReservationsController < ApplicationController
 
   def accept
     if @transaction.update_attributes(state: "accepted")
+       @listing = @transaction.employee_listing
+       hirer = User.find_by(id: @transaction.hirer_id)
       # Hiring accepted mail to hirer
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
@@ -51,6 +53,8 @@ class ReservationsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
+      ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver!
+      ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -79,6 +83,8 @@ class ReservationsController < ApplicationController
 
   def decline
     if @transaction.update_attribute(:state, "rejected")
+      @listing = @transaction.employee_listing
+      hirer = User.find_by(id: @transaction.hirer_id)
       # Hiring rejected mail to hirer
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
@@ -95,6 +101,8 @@ class ReservationsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
+      ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction).deliver!
+      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"

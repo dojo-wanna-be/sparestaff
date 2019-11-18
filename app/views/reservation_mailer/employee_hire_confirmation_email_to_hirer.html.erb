@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-au" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Employee hire confirmed for EmployeeXYZ</title>
+<link href="../sparestaff.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<table class="Padding80px" style="width: 100%">
+	<tr>
+		<td>&nbsp;&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<img alt="" class="LogoInEmail" src="../images/logo.png"/></td>
+	</tr>
+	<tr>
+		<td><br />
+		<h1>Your employee hire is confirmed</h1>
+		You're hiring <br />
+		<br />
+		<table style="width: 500px">
+			<tr>
+				<td style="width: 50%"><%= @listing.name %><br />
+				<%= @listing.title %></td>
+				<td>
+				<img alt="" src="../images/luca.png" class="Image200pxRight" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<br />
+				<div class="GreyLine1Px"></div>				<br />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px"><strong>From</strong><br />
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+				<td style="text-align: right"><strong>To</strong><br />
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<%= link_to "View Your Hirings", hirings_url, class: 'WhiteLink12pt' %>
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">Weekly total payment</td>
+				<td style="text-align: right"><%= "$#{@transaction.amount + @transaction.service_fee}" %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px">Total employment contract</td>
+				<td style="text-align: right"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">
+				<h4><%= @poster.name %> is Poster</h4>
+				Contact PosterABC for further coordination.</td>
+				<td>
+				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px"></div>				<br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<h4>Customer support&nbsp;</h4>
+				<p><a href="https://www.sparestaff.com.au/help">Visit Help 
+				Center</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

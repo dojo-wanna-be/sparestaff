@@ -37,15 +37,10 @@ class TransactionService
         total_weekends_price = listing.weekend_price.to_f * total_weekend_hours
 
         weekly_earning = weekdays_price + weekends_price
-        x = weekly_earning + 0.99
-        total_cents = number_of_weeks * 0.99
         total_earning = total_weekdays_price + total_weekends_price
-        x_total = total_weekdays_price + total_weekends_price + total_cents
-
-        tax_detail_hash = TaxDetail.tax_calculation(x)
-        weekly_tax_withholding = (tax_detail_hash[:a] * x) - tax_detail_hash[:b]
-
-        total_tax_withholding = (tax_detail_hash[:a] * x_total) - tax_detail_hash[:b]
+    
+        weekly_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i
+        total_tax_withholding = number_of_weeks * @params[:transaction][:tax_withholding_amount].to_i.abs
 
         if tx.frequency.eql?("weekly")
           tx.tax_withholding_amount = weekly_tax_withholding
