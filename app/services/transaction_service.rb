@@ -38,9 +38,11 @@ class TransactionService
 
         weekly_earning = weekdays_price + weekends_price
         total_earning = total_weekdays_price + total_weekends_price
-    
+
+        
         weekly_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i
-        total_tax_withholding = number_of_weeks * @params[:transaction][:tax_withholding_amount].to_i.abs
+        total_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i.abs
+
 
         if tx.frequency.eql?("weekly")
           tx.tax_withholding_amount = weekly_tax_withholding
