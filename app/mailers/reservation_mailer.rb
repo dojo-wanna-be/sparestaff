@@ -18,6 +18,7 @@ class ReservationMailer < ApplicationMailer
   def employee_hire_confirmation_email_to_hirer(listing, hirer, transaction)
     @listing = listing
     @transaction = transaction
+    @poster = @listing.poster
     @hirer = hirer
     mail(to: hirer.email, subject: "Employee hire confirmed for EmployeeXYZ")
   end

@@ -21,11 +21,11 @@
 	<tr>
 		<td><br />
 		<h1>Your listed employee is hired!</h1>
-		<p>Work starts 12th Feb 2019</p>
+		<p>Work starts <%= @transaction.start_date.strftime("%b %d, %Y") %></p>
 		<table style="width: 550px">
 			<tr>
-				<td style="width: 50%">EmployeeXYZ<br />
-				Senior IT Administrator</td>
+				<td style="width: 50%"><%= @listing.name %><br />
+				<%= @listing.title %></td>
 				<td>
 				<img alt="" src="../images/luca.png" class="Image200pxRight" style="width: 200px" /></td>
 			</tr>
@@ -37,9 +37,9 @@
 			</tr>
 			<tr>
 				<td style="width: 300px"><strong>From</strong><br />
-				Monday Feb 12, 2019</td>
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
 				<td style="text-align: right"><strong>To</strong><br />
-				Wednesday Apr 24, 2019</td>
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
@@ -51,7 +51,7 @@
 		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
 			<tr>
 				<td style="text-align: center">
-				<a class="WhiteLink12pt" href="../user-your-listings/user-your-reservations.html">View Hiring</a></td>
+				<%= link_to "View Your Hirings", hirings_url, class: 'WhiteLink12pt' %></td>
 			</tr>
 		</table>
 				</td>
@@ -68,20 +68,20 @@
 				<td style="text-align: right">&nbsp;</td>
 			</tr>
 			<tr>
-				<td style="width: 300px">$35.00 x 5 hours</td>
-				<td style="text-align: right">$175.00</td>
+				<td style="width: 300px">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></td>
+				<td style="text-align: right">$<%= @listing.weekday_price * @transaction.weekday_hours %></td>
 			</tr>
 			<tr>
-				<td style="width: 300px">$50.00 x 4 hours (weekend) </td>
-				<td style="text-align: right">$200.00</td>
+				<td style="width: 300px">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %> </td>
+				<td style="text-align: right">$<%= @listing.weekend_price * @transaction.weekend_hours %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px">Tax withholding</td>
-				<td style="text-align: right">-$4.00</td>
+				<td style="text-align: right">-$<%= @transaction.tax_withholding_amount.round(2) %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px">Service fee</td>
-				<td style="text-align: right">-$37.10</td>
+				<td style="text-align: right">$<%= @transaction.service_fee.round(2) %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br/>
