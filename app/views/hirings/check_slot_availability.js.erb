@@ -1,46 +1,12 @@
 $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transaction: @transaction, employee_listing: @employee_listing, start_date: @start_date, end_date: @end_date %>")
-  var isSunday = false;
-  var isMonday = false;
-  var isTuesday = false;
-  var isWednesday = false;
-  var isThursday = false;
-  var isFriday = false;
-  var isSaturday = false;
-
-  var totalSundays = 0;
-  var totalMondays = 0;
-  var totalTuesdays = 0;
-  var totalWednesdays = 0;
-  var totalThursdays = 0;
-  var totalFridays = 0;
-  var totalSaturdays = 0;
-
-  var totalSundayHours = 0;
-  var totalMondayHours = 0;
-  var totalTuesdayHours = 0;
-  var totalWednesdayHours = 0;
-  var totalThursdayHours = 0;
-  var totalFridayHours = 0;
-  var totalSaturdayHours = 0;
-
-  var sundayHour = 0;
-  var mondayHour = 0;
-  var tuesdayHour = 0;
-  var wednesdayHour = 0;
-  var thursdayHour = 0;
-  var fridayHour = 0;
-  var saturdayHour = 0;
-
-  var totalWeekdayHours = 0;
-  var totalWeekendHours = 0;
-
-  var hiring_weekday_price = 0;
-  var hiring_weekend_price = 0;
-
-  var listingID = "<%= @employee_listing.id %>";
-  var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>";
-  var listingWeekendPrice = "<%= @employee_listing.weekend_price %>";
-
+  sundayHour = <%= @sundayHour%>
+  mondayHour = <%= @mondayHour%>
+  tuesdayHour = <%= @tuesdayHour%>
+  wednesdayHour = <%= @wednesdayHour%>
+  thursdayHour = <%= @thursdayHour%>
+  fridayHour = <%= @fridayHour%>
+  saturdayHour = <%= @saturdayHour%>
+  cal_amount();
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
   }, "The value {0} must be less than {1}");
@@ -98,7 +64,7 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     }
   });
 
-  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+  function cal_amount(){
     totalSundays = 0;
     totalMondays = 0;
     totalTuesdays = 0;
@@ -135,6 +101,10 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
       setWeekdayHours();
       setWeekendHours();
     }
+  }
+
+  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+    cal_amount();
   });
 
   function validateAvailability(start_date, end_date, listing){
