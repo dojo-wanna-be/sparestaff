@@ -79,7 +79,7 @@
           </span>
           <span class="right">
             <span class="dollar-input-box">$</span>
-            <%= number_field_tag "transaction[tax_withholding_amount]", @old_transaction.tax_withholding_amount, placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
+            <%= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
             <!-- <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="transaction[tax_withholding_amount]" id="transaction_tax_withholding_amount"> -->
           </span>
         </li>
@@ -90,7 +90,7 @@
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="weeklyServicePrice"> <%= @old_transaction.total_service_fee %> </span> </span>
+          <span class="right">$<span id="weeklyServicePrice"> <%= @old_transaction.service_fee.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -100,7 +100,7 @@
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount + @old_transaction.service_fee %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount + @old_transaction.service_fee).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -127,12 +127,12 @@
 
         <li class="calc-item">
           <span class="left">Tax withholding</span>
-          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount %> </span> </span>
+          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="ContractServicePrice"> <%= @old_transaction.total_service_fee %> </span> </span>
+          <span class="right">$<span id="ContractServicePrice"> <%= @old_transaction.total_service_fee.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -142,7 +142,7 @@
 
         <li class="calc-item">
           <span class="left">Original total</span>
-          <span class="right">$<span id="OldContractTotalPrice"> <%= @old_transaction.total_amount + @old_transaction.total_service_fee %> </span> </span>
+          <span class="right">$<span id="OldContractTotalPrice"> <%= (@old_transaction.total_amount + @old_transaction.total_service_fee).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">

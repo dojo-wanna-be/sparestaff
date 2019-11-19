@@ -90,7 +90,7 @@
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="weeklyServicePrice"> <%= @old_transaction.service_fee %> </span> </span>
+          <span class="right">$<span id="weeklyServicePrice"> <%= @old_transaction.service_fee.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -100,7 +100,7 @@
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.amount + @old_transaction.service_fee %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount + @old_transaction.service_fee).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -127,12 +127,12 @@
 
         <li class="calc-item">
           <span class="left">Tax withholding</span>
-          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount %> </span> </span>
+          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="ContractServicePrice"> <%= @old_transaction.total_service_fee %> </span> </span>
+          <span class="right">$<span id="ContractServicePrice"> <%= @old_transaction.total_service_fee.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -142,7 +142,7 @@
 
         <li class="calc-item">
           <span class="left">Original total</span>
-          <span class="right">$<span id="OldContractTotalPrice"> <%= @old_transaction.total_amount + @old_transaction.total_service_fee %> </span> </span>
+          <span class="right">$<span id="OldContractTotalPrice"> <%= (@old_transaction.total_amount + @old_transaction.total_service_fee).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
