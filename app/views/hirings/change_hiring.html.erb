@@ -79,7 +79,7 @@
           </span>
           <span class="right">
             <span class="dollar-input-box">$</span>
-            <%= number_field_tag "transaction[tax_withholding_amount]", @old_transaction.tax_withholding_amount, placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
+            <%= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
             <!-- <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="transaction[tax_withholding_amount]" id="transaction_tax_withholding_amount"> -->
           </span>
         </li>
@@ -90,7 +90,7 @@
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="weeklyServicePrice"> 0 </span> </span>
+          <span class="right">$<span id="weeklyServicePrice"> <%= @old_transaction.service_fee %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -127,12 +127,12 @@
 
         <li class="calc-item">
           <span class="left">Tax withholding</span>
-          <span class="right">$<span id="ContractTaxPrice"> 0 </span> </span>
+          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">$<span id="ContractServicePrice"> 0 </span> </span>
+          <span class="right">$<span id="ContractServicePrice"> <%= @old_transaction.total_service_fee %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -261,14 +261,35 @@
     if ($(this).is(":checked")) {
       $("#tax-notice").hide();
       $("#new_withholding_tax").val("true");
+      calculateTax();
     } else {
       $("#tax-notice").show();
       $("#new_withholding_tax").val("false");
+      calculateWithoutTax();
     }
   });
 
+  function calculateWithoutTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price
+    var service_tax = 0.03 * weekly_earning
+    $("#transaction_tax_withholding_amount").val('0');
+    // $("#new_tax_withholding_amount").val('0');
+    $("#weeklyServicePrice").html(service_tax.toFixed(2))
+    var weekly_total_price = weekly_earning + service_tax
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+
+    var startDate = new Date($("#transaction_start_date").val());
+    var endDate = new Date($("#transaction_end_date").val());
+
+    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    $('#ContractTaxPrice').html('0');
+    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
+    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
+  }
+
   $("#transaction_tax_withholding_amount").on('keyup change', function () {
     $("#new_tax_withholding_amount").val($(this).val());
+    calculateTax();
   });
 
   $("#transaction_start_date, #transaction_end_date").on('change', function (){
@@ -305,7 +326,6 @@
         }
         i.setTime(i.getTime() + 1000*60*60*24);
       }
-
       setWeekdayHours();
       setWeekendHours();
     }
@@ -326,9 +346,19 @@
   }
 
   function calculateTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+    var tax = checkTax(weekly_earning)
+    var service_tax = (3 * (weekly_earning - tax)) / 100;
+    $("#transaction_tax_withholding_amount").val("-" + tax);
+    $("#weeklyServicePrice").html(service_tax.toFixed(2));
+    var weekly_total_price = weekly_earning - tax + service_tax;
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    totalEmploymentContract(tax, service_tax, weekly_total_price);
+  }
+
+  function checkTax(weekly_earning){
     var a = 0;
     var b = 0;
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price
     var x = weekly_earning + 0.99;
     if (x >= 0 && x <= 355){
       a = 0;
@@ -355,28 +385,49 @@
       a = 0.4700;
       b = 576.7885;
     }
-    var tax = (a * x) - b
-    var service_tax = 0.03 * (weekly_earning - tax)
-    $(".transaction_tax_withholding_amount").val(tax.toFixed(2));
-    $("#weeklyServicePrice").html(service_tax.toFixed(2))
-    var old_price = <%= @old_transaction.amount + @old_transaction.total_service_fee %>;
-    var weekly_total_price = weekly_earning - tax + service_tax
-    var diff = old_price - weekly_total_price
-    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
-    $("#weekly_total_price_difference").html(diff.toFixed(2));
-    totalEmploymentContract(tax, service_tax, weekly_total_price)
+    var tax = Math.round((a * x) - b);
+    return tax
   }
 
   function totalEmploymentContract(tax, service_tax, weekly_total_price){
     var startDate = new Date($("#transaction_start_date").val());
     var endDate = new Date($("#transaction_end_date").val());
-    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
-    var old_total_price = <%= @old_transaction.total_amount + @old_transaction.total_service_fee %>;
-    var diff = old_total_price - (weekly_total_price * weekDiff)
-    $('#ContractTaxPrice').html((tax * weekDiff).toFixed(2));
-    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
-    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
-    $("#ContractTotalPriceDifference").html(diff.toFixed(2));
+    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    var monday = 0;
+    var tuesday = 0;
+    var wednesday = 0;
+    var thursday = 0;
+    var friday = 0;
+    var saturday = 0;
+    var sunday = 0;
+    
+    if(totalMondays != 0)
+      monday = totalMondays - Math.floor(weekDiff)
+    if(totalTuesdays != 0)
+      tuesday = totalTuesdays - Math.floor(weekDiff)
+    if(totalWednesdays != 0)
+      wednesday = totalWednesdays - Math.floor(weekDiff)
+    if(totalThursdays != 0)
+      thursday = totalThursdays - Math.floor(weekDiff)
+    if(totalFridays != 0)
+      friday = totalFridays - Math.floor(weekDiff)
+    if(totalSaturdays != 0)
+      saturday = totalSaturdays - Math.floor(weekDiff)
+    if(totalSundays != 0)
+      sunday = totalSundays - Math.floor(weekDiff)
+
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour)
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour)
+
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+    var remainingWeekTax = checkTax(remainingWeeklyEarning)
+
+    var fullWeekTax = (tax * Math.floor(weekDiff)) + tax
+    $('#total_tax_with_holding').val(fullWeekTax);
+    var serviceTax = ((service_tax * Math.floor(weekDiff)) + (.03 * (remainingWeeklyEarning - remainingWeekTax)))
+    $('#ContractTaxPrice').html("-" + fullWeekTax);
+    $('#ContractServicePrice').html(serviceTax.toFixed(2));
+    $('#ContractTotalPrice').html(weekly_total_price * Math.ceil(weekDiff).toFixed(2));
   }
 
   function setWeekdayHours(){

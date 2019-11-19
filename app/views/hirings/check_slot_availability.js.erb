@@ -1,11 +1,11 @@
 $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transaction: @transaction, employee_listing: @employee_listing, start_date: @start_date, end_date: @end_date %>")
-  sundayHour = <%= @sundayHour%>
-  mondayHour = <%= @mondayHour%>
-  tuesdayHour = <%= @tuesdayHour%>
-  wednesdayHour = <%= @wednesdayHour%>
-  thursdayHour = <%= @thursdayHour%>
-  fridayHour = <%= @fridayHour%>
-  saturdayHour = <%= @saturdayHour%>
+  sundayHour = <%= @sundayHour.present? ? @sundayHour : 0 %>
+  mondayHour = <%= @mondayHour.present? ? @mondayHour : 0 %>
+  tuesdayHour = <%= @tuesdayHour.present? ? @tuesdayHour : 0 %>
+  wednesdayHour = <%= @wednesdayHour.present? ? @wednesdayHour : 0 %>
+  thursdayHour = <%= @thursdayHour.present? ? @thursdayHour : 0 %>
+  fridayHour = <%= @fridayHour.present? ? @fridayHour : 0 %>
+  saturdayHour = <%= @saturdayHour.present? ? @saturdayHour : 0 %>
   cal_amount();
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
@@ -78,7 +78,44 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     var startDate = new Date(start);
     var endDate = new Date(end);
     if (startDate < endDate){
-      validateAvailability(start, end, listingID);
+      for (var i = startDate; i <= endDate; ){
+        if (i.getDay() == 0){
+          totalSundays++;
+        }else if (i.getDay() == 1) {
+          totalMondays++;
+        }else if (i.getDay() == 2) {
+          totalTuesdays++;
+        }else if (i.getDay() == 3) {
+          totalWednesdays++;
+        }else if (i.getDay() == 4) {
+          totalThursdays++;
+        }else if (i.getDay() == 5) {
+          totalFridays++;
+        }else if (i.getDay() == 6) {
+          totalSaturdays++;
+        }
+        i.setTime(i.getTime() + 1000*60*60*24);
+      }
+      setWeekdayHours();
+      setWeekendHours();
+    }
+  }
+
+  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+    totalSundays = 0;
+    totalMondays = 0;
+    totalTuesdays = 0;
+    totalWednesdays = 0;
+    totalThursdays = 0;
+    totalFridays = 0;
+    totalSaturdays = 0;
+
+    var start = $("#transaction_start_date").val();
+    var end = $("#transaction_end_date").val();
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+    if (startDate < endDate){
+      validateAvailability(start, end, listingID, transactionID);
       for (var i = startDate; i <= endDate; ){
         if (i.getDay() == 0){
           totalSundays++;
@@ -101,30 +138,25 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
       setWeekdayHours();
       setWeekendHours();
     }
-  }
-
-  $("#transaction_start_date, #transaction_end_date").on('change', function (){
-    cal_amount();
   });
 
-  function validateAvailability(start_date, end_date, listing){
+  function validateAvailability(start_date, end_date, listing, transactionID){
     $.ajax({
-      url: "/transactions/check_slot_availability",
+      url: "/hirings/check_slot_availability",
       type: "GET",
       data : {
         start: start_date,
         end: end_date,
         listing_id: listing,
+        transaction_id: transactionID
       },
       dataType: "script",
     });
   }
 
-  function calculateTax(){
+  function checkTax(weekly_earning){
     var a = 0;
     var b = 0;
-
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var x = weekly_earning + 0.99;
     if (x >= 0 && x <= 355){
       a = 0;
@@ -151,24 +183,67 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
       a = 0.4700;
       b = 576.7885;
     }
-    var tax = (a * x) - b;
+    var tax = Math.round((a * x) - b);
+    return tax
+  }
+
+  
+  function calculateTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+    var tax = checkTax(weekly_earning)
     var service_tax = (3 * (weekly_earning - tax)) / 100;
-    $("#transaction_tax_withholding_amount").val(tax.toFixed(2));
+    $("#transaction_tax_withholding_amount").val(-tax);
     $("#weeklyServicePrice").html(service_tax.toFixed(2));
-    var weekly_total_price = weekly_earning - tax + service_tax;
+    var weekly_total_price = weekly_earning - Math.abs(tax) + service_tax;
     $("#weekly_total_price").html(weekly_total_price.toFixed(2));
-    totalEmploymentContract(tax, service_tax, weekly_total_price);
+    var oldPrice = parseFloat($('#old_weekly_total_price').html());
+    $('#weekly_total_price_difference').html((weekly_total_price - oldPrice).toFixed(2));
+    totalEmploymentContract(Math.abs(tax), service_tax, weekly_total_price);
   }
 
   function totalEmploymentContract(tax, service_tax, weekly_total_price){
     var startDate = new Date($("#transaction_start_date").val());
     var endDate = new Date($("#transaction_end_date").val());
-    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
-    $('#ContractTaxPrice').html((tax * weekDiff).toFixed(2));
-    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
-    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
-  }
+    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    var monday = 0;
+    var tuesday = 0;
+    var wednesday = 0;
+    var thursday = 0;
+    var friday = 0;
+    var saturday = 0;
+    var sunday = 0;
+    
+    if(totalMondays != 0)
+      monday = totalMondays - Math.floor(weekDiff)
+    if(totalTuesdays != 0)
+      tuesday = totalTuesdays - Math.floor(weekDiff)
+    if(totalWednesdays != 0)
+      wednesday = totalWednesdays - Math.floor(weekDiff)
+    if(totalThursdays != 0)
+      thursday = totalThursdays - Math.floor(weekDiff)
+    if(totalFridays != 0)
+      friday = totalFridays - Math.floor(weekDiff)
+    if(totalSaturdays != 0)
+      saturday = totalSaturdays - Math.floor(weekDiff)
+    if(totalSundays != 0)
+      sunday = totalSundays - Math.floor(weekDiff)
 
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour)
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour)
+
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+    var remainingWeekTax = checkTax(remainingWeeklyEarning)
+    var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
+    $('#total_tax_with_holding').val(fullWeekTax);
+    var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
+    var serviceTax = (service_tax * Math.floor(weekDiff)) + remainingServiceTax
+    $('#ContractTaxPrice').html(-fullWeekTax);
+    var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
+    $('#ContractServicePrice').html(serviceTax.toFixed(2));
+    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+    var totalOldPrice = parseFloat($('#OldContractTotalPrice').html());
+    $('#ContractTotalPriceDifference').html((((weekly_total_price * Math.floor(weekDiff)) + remainingPrice) - totalOldPrice).toFixed(2));
+  }
 
   function setWeekdayHours(){
     totalMondayHours = totalMondays * mondayHour;

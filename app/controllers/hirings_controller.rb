@@ -105,19 +105,17 @@ class HiringsController < ApplicationController
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
-      start_date = @transaction.start_date
-      end_date = @transaction.end_date
+      @start_date = @transaction.start_date
+      @end_date = @transaction.end_date
 
       transactions = @listing
                     .transactions
                     .where(state: "accepted")
-                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
                     .where.not(id: @old_transaction.id)
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
-      @start_date = Date.today
-      @end_date = Date.today
       @disabled_time = unavailable_time_slots(bookings)
     else
       listing = EmployeeListing.find(params[:transaction][:employee_listing_id])

@@ -525,7 +525,7 @@
 function calculateWithoutTax(){
   var weekly_earning = hiring_weekday_price + hiring_weekend_price
   var service_tax = 0.03 * weekly_earning
-  $("#transaction_tax_withholding_amount").val('0'); 
+  $("#transaction_tax_withholding_amount").val('0');
   $("#weeklyServicePrice").html(service_tax.toFixed(2))
   var weekly_total_price = weekly_earning + service_tax
   $("#weekly_total_price").html(weekly_total_price.toFixed(2));
@@ -641,7 +641,7 @@ function calculateWithoutTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var tax = checkTax(weekly_earning)
     var service_tax = (3 * (weekly_earning - tax)) / 100;
-    $("#transaction_tax_withholding_amount").val(-tax);
+    $("#transaction_tax_withholding_amount").val("-" + tax);
     $("#weeklyServicePrice").html(service_tax.toFixed(2));
     var weekly_total_price = weekly_earning - tax + service_tax;
     $("#weekly_total_price").html(weekly_total_price.toFixed(2));
@@ -717,7 +717,7 @@ function calculateWithoutTax(){
     var fullWeekTax = (tax * Math.floor(weekDiff)) + tax
     $('#total_tax_with_holding').val(fullWeekTax);
     var serviceTax = ((service_tax * Math.floor(weekDiff)) + (.03 * (remainingWeeklyEarning - remainingWeekTax)))
-    $('#ContractTaxPrice').html(-fullWeekTax);
+    $('#ContractTaxPrice').html("-" + fullWeekTax);
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
     $('#ContractTotalPrice').html(weekly_total_price * Math.ceil(weekDiff).toFixed(2));
   }
