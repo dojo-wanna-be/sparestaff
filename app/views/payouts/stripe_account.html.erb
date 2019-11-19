@@ -1,0 +1,90 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="account-section">
+  <div class="side_menu">
+    <ul class="tab-list">
+      <li class="tab-item">
+        <%= link_to 'Notifications', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Payment Methods', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <% is_payment = params[:controller].eql?("payouts")%>
+        <%= link_to 'Payout Preferences', '#', class: "#{ is_payment ? 'tab-link  active' : 'tab-link ' }" %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Transaction History', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Security', '#', class: 'tab-link' %>
+      </li>
+    </ul>
+  </div>
+  <div class="payout-prefrences-box">
+    <div  class="payout-box">
+      <div class="panel-header">
+        Add Payout Method
+      </div>
+      <div class="payout-box-content payout-method-step2">
+        
+        
+        <%= form_tag stripe_account_payouts_path, id: 'stripe_form',  method: :patch, class: 'form-horizontal', multipart: true do |f| %>
+          <div class='form-group'>
+            <%= label_tag :address, 'Address *' %>
+            <%= text_field_tag :address_line1, nil, required: true, class: 'form-control' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :city, 'City *' %>
+            <%= text_field_tag :address_city, nil, required: true, class: 'form-control' %>
+          </div>
+
+
+          <div class='form-group'>
+            <%= label_tag :state, 'State *' %>
+            <%= text_field_tag :address_state, nil, required: true, class: 'form-control'  %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :postal_code, 'Postal Code *' %>
+            <%= text_field_tag(:address_postal_code, nil, required: true, class: 'form-control') %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :date_of_birth, 'Date of birth *' %>
+            <%= text_field_tag :birth_date, nil, required: true, readonly: true, placeholder: 'dd/mm/yyyy', class: 'form-control dob custom-dob' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :account_number, 'Account holder name *' %>
+            <%= text_field_tag(:bank_holder_name, nil, required: true, class: 'form-control') %>
+          </div>
+          <div class='form-group'>
+            <%= label_tag :account_number, 'Account Number *' %>
+            <%= text_field_tag(:bank_account_number, nil, required: true, class: 'form-control') %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :routing_number, 'Rounting Number *' %>
+            <%= text_field_tag(:bank_routing_number, nil, required: true, class: 'form-control') %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :verification_file, 'Verification Document *' %>
+            <%= file_field_tag 'stripe_verification_file', required: true, accept: 'image/png,image/gif,image/jpeg' %>
+          </div>
+
+          <%= submit_tag "Submit", class: "btn btn-large btn-primary" %>
+        <% end %>
+
+        <div class="button-box">
+          <%= link_to '< Back', step_1_payouts_path, class: 'orange-text' %>
+          <%= link_to 'Next', stripe_account_payouts_path, class: 'modal-orange-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
