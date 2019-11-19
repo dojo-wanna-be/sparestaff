@@ -1,1 +1,81 @@
-step2
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="account-section">
+  <div class="side_menu">
+    <ul class="tab-list">
+      <li class="tab-item">
+        <%= link_to 'Notifications', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Payment Methods', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <% is_payment = params[:controller].eql?("payouts")%>
+        <%= link_to 'Payout Preferences', '#', class: "#{ is_payment ? 'tab-link  active' : 'tab-link ' }" %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Transaction History', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Security', '#', class: 'tab-link' %>
+      </li>
+    </ul>
+  </div>
+  <div class="payout-prefrences-box">
+    <div  class="payout-box">
+      <div class="panel-header">
+        Add Payout Method
+      </div>
+      <div class="payout-box-content payout-method-step2">
+        <div>Spare Staff releases payouts 24 hours after employment contract starts. The time it takes for the fund to appear in your account depends on your payout method.</div>
+
+        <div class="payout-list-box">
+          <div class="payout-list">
+            <div class="list-box one"><b>Method</b></div>
+            <div class="list-box two"><b>Get paid in</b></div>
+            <div class="list-box three"><b>Fees</b></div>
+            <div class="list-box four"><b>Details</b></div>
+          </div>
+
+          <div class="payout-list">
+            <div class="list-box one">
+              <input checked="checked" name="Radio1" type="radio" value="paypal">
+              PayPal
+            </div>
+            <div class="list-box two">
+              3-4 hours
+            </div>
+            <div class="list-box three">
+              May include PayPal withdrawal fees
+            </div>
+            <div class="list-box four">
+              Connect your existing PayPal account
+            </div>
+          </div>
+          <div class="payout-list">
+            <div class="list-box one">
+              <input checked="checked" name="Radio1" type="radio" value="paypal">
+              Bank Transfer
+            </div>
+            <div class="list-box two">
+              5-7 business days
+            </div>
+            <div class="list-box three">
+              No fees
+            </div>
+            <div class="list-box four">
+              Business day processing only; weekends and banking holidays may cause delays.
+            </div>
+          </div>
+        </div>
+
+        <div class="button-box">
+          <%= link_to '< Back', step_1_payouts_path, class: 'orange-text' %>
+          <%= link_to 'Next', step_1_payouts_path, class: 'modal-orange-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

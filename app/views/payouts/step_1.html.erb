@@ -1,1 +1,39 @@
-step1
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="account-section">
+  <div class="side_menu">
+    <ul class="tab-list">
+      <li class="tab-item">
+        <%= link_to 'Notifications', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Payment Methods', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <% is_payment = params[:controller].eql?("payouts")%>
+        <%= link_to 'Payout Preferences', '#', class: "#{ is_payment ? 'tab-link  active' : 'tab-link ' }" %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Transaction History', '#', class: 'tab-link' %>
+      </li>
+      <li class="tab-item">
+        <%= link_to 'Security', '#', class: 'tab-link' %>
+      </li>
+    </ul>
+  </div>
+  <div class="payout-prefrences-box">
+    <div  class="payout-box">
+      <div class="panel-header">
+        Payout Methods
+      </div>
+      <div class="payout-box-content">
+        <div><b>To get paid, you need to set up a payout method</b></div>
+        <p>When you receive a payment for a hiring, we call that payment to you a “payout”. Our secure payment system lets you set up your payout method and edit it here.</p>
+
+        <%= link_to 'Add Payout Method', step_2_payouts_path, class: 'modal-orange-btn' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

@@ -18,7 +18,8 @@
       <a id="Profile" class="sub-nav-link" href="../user-profile/user-profile-edit-profile.html">Profile</a>
     </li>
     <li class="nav-list-item">
-      <a id="Account" class="sub-nav-link" href="../user-account/user-account-notifications.html">Account</a>
+      <% is_payment = params[:controller].eql?("payouts")%>
+      <%= link_to 'Account', step_1_payouts_path, class: "#{ is_payment ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
   </ul>
 </div>
