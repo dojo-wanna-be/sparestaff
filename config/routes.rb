@@ -95,5 +95,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :payouts, only: [] do
+    collection do
+      get :step_1
+      get :step_2
+    end
+  end
+
   resources :inboxes
 end
