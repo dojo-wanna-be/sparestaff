@@ -35,9 +35,8 @@ class ReservationsController < ApplicationController
 
   def accept
     if @transaction.update_attributes(state: "accepted")
-       @listing = @transaction.employee_listing
-       hirer = User.find_by(id: @transaction.hirer_id)
-      # Hiring accepted mail to hirer
+      @listing = @transaction.employee_listing
+      hirer = User.find_by(id: @transaction.hirer_id)
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -85,7 +84,6 @@ class ReservationsController < ApplicationController
     if @transaction.update_attribute(:state, "rejected")
       @listing = @transaction.employee_listing
       hirer = User.find_by(id: @transaction.hirer_id)
-      # Hiring rejected mail to hirer
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
