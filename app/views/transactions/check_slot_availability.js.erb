@@ -134,7 +134,7 @@ function validateAvailability(start_date, end_date, listing){
   function calculateTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     checkTax(weekly_earning)
-    var service_tax = (3 * (weekly_earning - tax)) / 100;
+    var service_tax = 0.03 * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").val(-tax);
     $("#weeklyServicePrice").html(service_tax.toFixed(2));
     var weekly_total_price = weekly_earning - tax + service_tax;
@@ -202,36 +202,37 @@ function validateAvailability(start_date, end_date, listing){
     if(totalSundays != 0)
       sunday = totalSundays - Math.floor(weekDiff)
 
-    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour)
-    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour)
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
 
-    var remainingWeeklyEarning = (remainingWeekDayPrice * listingWeekdayPrice) + (remainingWeekendPrice * listingWeekendPrice)
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
     var remainingWeekTax = checkTax(remainingWeeklyEarning)
-
+    var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
+    var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
     var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
     $('#total_tax_with_holding').val(fullWeekTax);
-    var serviceTax = ((service_tax * Math.floor(weekDiff)) + (.03 * (remainingWeeklyEarning - remainingWeekTax)))
-    $('#ContractTaxPrice').html(-fullWeekTax);
+    var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
+    $('#ContractTaxPrice').html("-" + fullWeekTax);
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
-    $('#ContractTotalPrice').html(weekly_total_price * Math.ceil(weekDiff).toFixed(2));
+    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
   }
 
-function setWeekdayHours(){
-  totalMondayHours = totalMondays * mondayHour;
-  totalTuesdayHours = totalTuesdays * tuesdayHour;
-  totalWednesdayHours = totalWednesdays * wednesdayHour;
-  totalThursdayHours = totalThursdays * thursdayHour;
-  totalFridayHours = totalFridays * fridayHour;
-  weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
-  totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
-  $("#weekday_hours").html(weekday_hour);
-  hiring_weekday_price = weekday_hour * listingWeekdayPrice
-  $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
-  $("#total_weekday_hours").html(totalWeekdayHours);
-  hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
-  $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
-  calculateTax();
-}
+  function setWeekdayHours(){
+    totalMondayHours = totalMondays * mondayHour;
+    totalTuesdayHours = totalTuesdays * tuesdayHour;
+    totalWednesdayHours = totalWednesdays * wednesdayHour;
+    totalThursdayHours = totalThursdays * thursdayHour;
+    totalFridayHours = totalFridays * fridayHour;
+    weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
+    totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
+    $("#weekday_hours").html(weekday_hour);
+    hiring_weekday_price = weekday_hour * listingWeekdayPrice
+    $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
+    $("#total_weekday_hours").html(totalWeekdayHours);
+    hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
+    $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
+    calculateTax();
+  }
 
 function setWeekendHours(){
   totalSaturdayHours = totalSaturdays * saturdayHour;

@@ -228,8 +228,8 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
     if(totalSundays != 0)
       sunday = totalSundays - Math.floor(weekDiff)
 
-    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour)
-    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour)
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
 
     var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
     var remainingWeekTax = checkTax(remainingWeeklyEarning)
