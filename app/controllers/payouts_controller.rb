@@ -5,4 +5,10 @@ class PayoutsController < ApplicationController
 	def step_2
 		
 	end
+
+	def stripe_account
+		unless request.get?
+			
+		end
+	end
 end

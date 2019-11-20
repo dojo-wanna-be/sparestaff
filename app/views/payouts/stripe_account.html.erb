@@ -1,6 +1,8 @@
 <%= render partial: "employee_listings/user_settings_header" %>
 
 <div class="account-section">
+
+
   <div class="side_menu">
     <ul class="tab-list">
       <li class="tab-item">
@@ -23,6 +25,10 @@
   </div>
   <div class="payout-prefrences-box">
     <div  class="payout-box">
+      <input type="radio" name="radiogroup" id="individual" class="radiogroup legal_entity_type" value="individual"/>
+      Individual
+      <input type="radio" name="radiogroup" id="business" class="radiogroup legal_entity_type" value="company" />
+      Business
       <div class="panel-header">
         Add Payout Method
       </div>
@@ -30,9 +36,44 @@
         
         
         <%= form_tag stripe_account_payouts_path, id: 'stripe_form',  method: :patch, class: 'form-horizontal', multipart: true do |f| %>
+          <div class='form-group hidden' id="individual_info">
+            <div>
+              <%= label_tag :first_name, 'First Name (individual) *' %>
+              <%= text_field_tag :'legal_entity[first_name]', nil, required: true, class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :last_name, 'Surname Name (individual) *' %>
+              <%= text_field_tag :'legal_entity[last_name]', nil, required: true, class: 'form-control' %>
+            </div>
+          </div>
+          <div class='form-group hidden' id="business_info">
+            <div>
+              <%= label_tag :business_name, 'Business Name *' %>
+              <%= text_field_tag :'legal_entity[business_name]', nil, class: 'form-control', id: 'business_name' %>
+            </div>
+            <div>
+              <%= label_tag :business_first_name, 'First name of authorised representative *' %>
+              <%= text_field_tag :'legal_entity[first_name]', nil, class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :business_surname, 'Surname of authorised representative *' %>
+              <%= text_field_tag :'legal_entity[last_name]', nil, class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :abn, 'ABN *' %>
+              <%= text_field_tag :'legal_entity[business_tax_id]', nil, class: 'form-control', id: 'business_tax_id' %>
+            </div>
+            
+          </div>
+
           <div class='form-group'>
-            <%= label_tag :address, 'Address *' %>
-            <%= text_field_tag :address_line1, nil, required: true, class: 'form-control' %>
+            <%= label_tag :date_of_birth, 'Date of birth *' %>
+            <%= date_select 'legal_entity', 'dob', { order: [:day, :month, :year], prompt: true, start_year: 90.years.ago.year, end_year: 13.years.ago.year }, { class: 'form-control', required: true } %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :address, 'Street Address *' %>
+            <%= text_field_tag :'legal_entity[address][line1]', nil, required: true, class: 'form-control' %>
           </div>
 
           <div class='form-group'>
@@ -43,18 +84,20 @@
 
           <div class='form-group'>
             <%= label_tag :state, 'State *' %>
-            <%= text_field_tag :address_state, nil, required: true, class: 'form-control'  %>
+            <%= text_field_tag :'legal_entity[address][state]', nil, required: true, class: 'form-control'  %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :country, 'Country *' %>
+            <%= text_field_tag :address_city, nil, required: true, class: 'form-control' %>
           </div>
 
           <div class='form-group'>
             <%= label_tag :postal_code, 'Postal Code *' %>
-            <%= text_field_tag(:address_postal_code, nil, required: true, class: 'form-control') %>
+            <%= text_field_tag(:'legal_entity[address][postal_code]', nil, required: true, class: 'form-control') %>
           </div>
 
-          <div class='form-group'>
-            <%= label_tag :date_of_birth, 'Date of birth *' %>
-            <%= text_field_tag :birth_date, nil, required: true, readonly: true, placeholder: 'dd/mm/yyyy', class: 'form-control dob custom-dob' %>
-          </div>
+          
 
           <div class='form-group'>
             <%= label_tag :account_number, 'Account holder name *' %>
@@ -88,3 +131,19 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  $(".legal_entity_type").change(function(){
+    if($(this).val() == 'company'){
+      $('#individual_info').hide();
+      $("#business_info").show();
+      $('#business_name').attr('required', true);
+      $('#business_tax_id').attr('required', true);
+    }else{
+      $("#business_info").hide();
+      $('#individual_info').show();
+      $('#business_name').attr('required', false);
+      $('#business_tax_id').attr('required', false);
+    }
+  });
+</script>

@@ -39,7 +39,7 @@
 
           <div class="payout-list">
             <div class="list-box one">
-              <input checked="checked" name="Radio1" type="radio" value="paypal">
+              <input checked="checked" name="Radio1" type="radio" value="paypal" class='choose_payment_method' data-url="https://google.com">
               PayPal
             </div>
             <div class="list-box two">
@@ -54,7 +54,7 @@
           </div>
           <div class="payout-list">
             <div class="list-box one">
-              <input checked="checked" name="Radio1" type="radio" value="paypal">
+              <input checked="checked" name="Radio1" type="radio" value="stripe" class='choose_payment_method' data-url="<%= stripe_account_payouts_path %>">
               Bank Transfer
             </div>
             <div class="list-box two">
@@ -71,7 +71,7 @@
 
         <div class="button-box">
           <%= link_to '< Back', step_1_payouts_path, class: 'orange-text' %>
-          <%= link_to 'Next', step_1_payouts_path, class: 'modal-orange-btn' %>
+          <%= link_to 'Next', stripe_account_payouts_path, class: 'modal-orange-btn', id: 'next_chose_btn'%>
         </div>
       </div>
     </div>
@@ -79,3 +79,10 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  $('.choose_payment_method').change(function(e) {
+    const $this = $(this), $link = $("#next_chose_btn");
+    $link.attr("href", $this.attr("data-url"));
+  });
+</script>

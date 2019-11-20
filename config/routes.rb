@@ -99,6 +99,7 @@ Rails.application.routes.draw do
     collection do
       get :step_1
       get :step_2
+      get :stripe_account
     end
   end
 
