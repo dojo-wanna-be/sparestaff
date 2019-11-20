@@ -41,8 +41,9 @@
                 <%= image_tag 'envelope-icon.jpg' %>
                 Share Details
               <% end %>
-            <% else %>
-              <%= link_to cancel_hiring_path(id: transaction.id), method: :patch, confirm: 'Are you sure?', class: 'add_info' do %>
+            <% end %>
+            <% if transaction.state.eql?("created") %>
+              <%= link_to cancel_hiring_path(id: transaction.id), method: :patch, data: {confirm: 'Are you sure that you want to cancel the request? Any money transacted will be refunded.'}, class: 'add_info' do %>
                 <%= image_tag 'calendar-icon.jpg' %>
                 Cancel Request
               <% end %>
