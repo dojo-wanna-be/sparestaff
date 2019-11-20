@@ -14,7 +14,8 @@ class HiringsController < ApplicationController
                                             :receipt_details,
                                             :accept,
                                             :decline_request,
-                                            :decline
+                                            :decline,
+                                            :cancel
                                           ]
 
   before_action :ensure_not_poster, only: [:change_hiring]
@@ -189,6 +190,11 @@ class HiringsController < ApplicationController
       @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer")
       redirect_to tell_poster_hiring_path(id: @transaction.id)
     end
+  end
+
+  def cancel
+    @transaction.update_attributes(status: false, state: "cancelled", cancelled_at: Date.today)
+    redirect_to hirings_path
   end
 
   def tell_poster

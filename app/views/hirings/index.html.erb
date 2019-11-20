@@ -31,14 +31,21 @@
               Send Message
             <% end %>
 
-            <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
-              <%= image_tag 'calendar-icon.jpg' %>
-              Change or Cancel
-            <% end %>
+            <% if transaction.state.eql?("accepted") %>
+              <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
+                <%= image_tag 'calendar-icon.jpg' %>
+                Change or Cancel
+              <% end %>
 
-            <%= link_to 'javascript:;', class: 'add_info share-detail-link', data: {attribute: transaction.id} do %>
-              <%= image_tag 'envelope-icon.jpg' %>
-              Share Details
+              <%= link_to 'javascript:;', class: 'add_info share-detail-link', data: {attribute: transaction.id} do %>
+                <%= image_tag 'envelope-icon.jpg' %>
+                Share Details
+              <% end %>
+            <% else %>
+              <%= link_to cancel_hiring_path(id: transaction.id), method: :patch, confirm: 'Are you sure?', class: 'add_info' do %>
+                <%= image_tag 'calendar-icon.jpg' %>
+                Cancel Request
+              <% end %>
             <% end %>
           </div>
         </div>
