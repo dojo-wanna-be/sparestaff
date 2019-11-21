@@ -68,6 +68,24 @@
           text-align: unset;
         }
 
+        .indi-bus-tab {
+          display: flex;
+          flex-direction: row;
+          height: 30px;
+          margin-bottom: 15px;
+          align-items: center;
+
+          .both-box {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+
+            input {
+              margin-right: 6px;
+            }
+          }
+        }
+
         .payout-list-box {
           margin-top: 32px;
 

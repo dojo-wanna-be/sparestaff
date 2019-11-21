@@ -1,53 +1,64 @@
 class StripeAccount
-  def initialize(params, user)
+  def initialize(params, user, remote_ip)
     @params = params
     @user = user
+    @ip = remote_ip
   end
 
   def create
-    
+    if @params[:user_type].eql?("individual")
+      individual
+    elsif @params[:user_type].eql?("company")
+      company
+    else
+      return nil
+    end
   end
 
   def individual
-    binding.pry
+    file = File.new(@params[:stripe_verification_file].path) rescue nil
+    upload_result = upload_identity(file)
     begin
       @account = Stripe::Account.create(
         type: 'custom',
-        country: country,
-        email: user.primary_email.present? ? user.primary_email.address : nil,
+        country: 'AU',
+        email: @user.email,
         tos_acceptance: {
-          ip: ip,
+          ip: @ip,
           date: Time.now.to_i
         },
         business_type: 'individual',
         individual: {
-          first_name: params[:individual][:first_name],
-          last_name: params[:individual][:last_name],
-          phone: params[:phone],
+          first_name: @params[:first_name],
+          last_name: @params[:last_name],
+          email: @user.email,
+          # phone: @params[:phone],
           dob: {
-            year: params[:account]['dob(1i)'],
-            month: params[:account]['dob(2i)'],
-            day: params[:account]['dob(3i)']
+            year: @params[:dob]["(1i)"],
+            month: @params[:dob]["(2i)"],
+            day: @params[:dob]["(3i)"]
           },
           verification: {
-            document: upload_result.id,
+            document: {
+              front: upload_result.id
+            }
           },
           address: {
-            city: params[:address][:city],
-            line1: params[:address][:line1],
-            postal_code: params[:address][:postal_code],
-            state: params[:address][:state],
-            country: params[:address][:country]
+            city: @params[:city],
+            line1: @params[:address_line1],
+            postal_code: @params[:postal_code],
+            state: @params[:state],
+            country: @params[:country]
           }
         },
         external_account: {
           object: 'bank_account',
-          country: 'US',
-          currency: 'usd',
-          account_number: params[:bank_account_number],
-          account_holder_name: params[:bank_holder_name],
-          routing_number: params[:bank_routing_number],
-          account_holder_type: 'individual',
+          country: 'AU',
+          currency: 'aud',
+          account_number: @params[:bank_account_number],
+          account_holder_name: @params[:bank_holder_name],
+          routing_number: @params[:bank_routing_number],
+          account_holder_type: 'individual'
         }
       )
     rescue Exception => e
@@ -57,44 +68,42 @@ class StripeAccount
   end
 
   def company
-    binding.pry
+    file = File.new(@params[:stripe_verification_file].path) rescue nil
+    upload_result = upload_identity(file)
     begin
       @account = Stripe::Account.create(
         type: 'custom',
-        country: country,
-        email: user.primary_email.present? ? user.primary_email.address : nil,
+        country: 'AU',
+        email: @user.email,
         tos_acceptance: {
-          ip: ip,
+          ip: @ip,
           date: Time.now.to_i
         },
         business_type: 'company',
         company: {
-          name: params[:company][:name],
-          phone: params[:phone],
-          tax_id: params[:business_tax_id],
-          dob: {
-            year: params[:account]['dob(1i)'],
-            month: params[:account]['dob(2i)'],
-            day: params[:account]['dob(3i)']
-          },
+          name: @params[:business_name],
+          # phone: @params[:phone],
+          tax_id: @params[:business_tax_id],
           verification: {
-            document: upload_result.id,
+            document: {
+              front: upload_result.id
+            }
           },
           address: {
-            city: params[:address][:city],
-            line1: params[:address][:line1],
-            postal_code: params[:address][:postal_code],
-            state: params[:address][:state],
-            country: params[:address][:country]
+            city: @params[:city],
+            line1: @params[:address_line1],
+            postal_code: @params[:postal_code],
+            state: @params[:state],
+            country: @params[:country]
           }
         },
         external_account: {
           object: 'bank_account',
-          country: 'US',
-          currency: 'usd',
-          account_number: params[:bank_account_number],
-          account_holder_name: params[:bank_holder_name],
-          routing_number: params[:bank_routing_number],
+          country: 'AU',
+          currency: 'aud',
+          account_number: @params[:bank_account_number],
+          account_holder_name: @params[:bank_holder_name],
+          routing_number: @params[:bank_routing_number],
           account_holder_type: 'company',
         }
       )
@@ -107,11 +116,11 @@ class StripeAccount
   private
 
     def upload_identity(file)
-      Stripe::FileUpload.create(
+      Stripe::File.create(
         {
           purpose: 'identity_document',
           file: file
-        },
+        }
       )
     end
 end

@@ -81,6 +81,7 @@ class EmployeeListing < ApplicationRecord
 
   EMPLOYEE_STATES = [ "NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS" ]
   EMPLOYEE_COUNTRIES = [ "Australia" ]
+  EMPLOYEE_COUNTRIES_WITH_CODE = [ ["Australia", "AU"] ]
   EMPLOYEE_RESIDENCY_STATUSES = [ "Permanent Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas" ]
   EMPLOYEE_VERIFICATION_TYPES = [ "Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate",
                                   "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others" ]

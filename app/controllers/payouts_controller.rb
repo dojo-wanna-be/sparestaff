@@ -6,8 +6,15 @@ class PayoutsController < ApplicationController
 
 	def stripe_account
 		unless request.get?
-			binding.pry
-			StripeAccount.new(params, current_user).create
+			account = StripeAccount.new(params, current_user, request.remote_ip).create
+      if account.present?
+        current_user.update_attribute(:stripe_account_id, account.id)
+        flash[:notice] = "Account Created Successfully"
+        redirect_to root_path
+      else
+        flash[:error] = "Invalid Request"
+        redirect_to stripe_account_payouts_path
+      end
 		end
 	end
 end
