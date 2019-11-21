@@ -3,8 +3,8 @@ class TransactionsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :ensure_company_owner, except: [:check_slot_availability]
-  before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully]
-  before_action :ensure_not_poster, only: [:create, :initialized, :payment]
+  before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
+  before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_company, only: [:initialized, :payment]
 
   def create
@@ -97,26 +97,28 @@ class TransactionsController < ApplicationController
 
   def payment
     @employee_listing = @transaction.employee_listing
-    unless request.patch?
-      @slot = ""
-      all_bookings = @transaction.bookings
-      ListingAvailability::DAYS.map{|k,v| v}.each do |day|
-        booking = all_bookings.find_by(day: day)
-        if booking.present?
-          @slot = @slot + Transaction::DAYS_HASH[:"#{day.downcase}"] + " #{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}, "
-        end
+    @slot = ""
+    all_bookings = @transaction.bookings
+    ListingAvailability::DAYS.map{|k,v| v}.each do |day|
+      booking = all_bookings.find_by(day: day)
+      if booking.present?
+        @slot = @slot + Transaction::DAYS_HASH[:"#{day.downcase}"] + " #{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}, "
       end
-    else
-      # Payment code here
-      @transaction.update_attribute(:state, "created")
-      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
-      message = conversation.messages.last
-      TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
-      TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
-
-      redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     end
   end
+
+  def request_payment
+    @employee_listing = @transaction.employee_listing
+    # Payment code here
+    @transaction.update_attribute(:state, "created")
+    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
+    message = conversation.messages.last
+    TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
+    TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
+
+    redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
+  end
+
 
   def request_sent_successfully
     @employee_listing = @transaction.employee_listing
