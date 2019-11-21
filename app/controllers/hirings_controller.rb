@@ -42,9 +42,9 @@ class HiringsController < ApplicationController
         conversation.first
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
-                                            )
+                                sender_id: current_user.id,
+                                employee_listing_id: @transaction.employee_listing_id
+                              )
       end
       if params[:message_text].present?
         message = @conversation.messages.build
@@ -68,9 +68,9 @@ class HiringsController < ApplicationController
       conversation.first
     else
        Conversation.create!( receiver_id: @transaction.poster_id,
-                                            sender_id: current_user.id,
-                                            listing_id: @transaction.employee_listing_id
-                                          )
+                              sender_id: current_user.id,
+                              employee_listing_id: @transaction.employee_listing_id
+                            )
     end
     if params[:message_text].present?
       message = @conversation.messages.build
@@ -89,9 +89,9 @@ class HiringsController < ApplicationController
         conversation.first
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
-                                            )
+                                sender_id: current_user.id,
+                                employee_listing_id: @transaction.employee_listing_id
+                              )
       end
       if params[:message_text].present?
         message = @conversation.messages.build
@@ -99,8 +99,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction).deliver!
-      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver!
+      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -211,7 +211,7 @@ class HiringsController < ApplicationController
       else
         @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                                               sender_id: current_user.id,
-                                              listing_id: @listing.id
+                                              employee_listing_id: @listing.id
                                             )
       end
       message = @conversation.messages.build
