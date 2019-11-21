@@ -99,7 +99,7 @@ Rails.application.routes.draw do
     collection do
       get :step_1
       get :step_2
-      get :stripe_account
+      match :stripe_account, via: [:get, :patch]
     end
   end
 

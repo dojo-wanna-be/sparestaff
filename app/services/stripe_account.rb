@@ -9,6 +9,7 @@ class StripeAccount
   end
 
   def individual
+    binding.pry
     begin
       @account = Stripe::Account.create(
         type: 'custom',
@@ -51,11 +52,12 @@ class StripeAccount
       )
     rescue Exception => e
       @account = nil
-      @error = e.message # TODO: improve
+      @error = e.message
     end
   end
 
   def company
+    binding.pry
     begin
       @account = Stripe::Account.create(
         type: 'custom',
@@ -98,7 +100,7 @@ class StripeAccount
       )
     rescue Exception => e
       @account = nil
-      @error = e.message # TODO: improve
+      @error = e.message
     end
   end
 

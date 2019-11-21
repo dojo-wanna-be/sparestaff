@@ -25,7 +25,7 @@
   </div>
   <div class="payout-prefrences-box">
     <div  class="payout-box">
-      <input type="radio" name="radiogroup" id="individual" class="radiogroup legal_entity_type" value="individual"/>
+      <input type="radio" checked="true" name="radiogroup" id="individual" class="radiogroup legal_entity_type" value="individual"/>
       Individual
       <input type="radio" name="radiogroup" id="business" class="radiogroup legal_entity_type" value="company" />
       Business
@@ -36,7 +36,7 @@
         
         
         <%= form_tag stripe_account_payouts_path, id: 'stripe_form',  method: :patch, class: 'form-horizontal', multipart: true do |f| %>
-          <div class='form-group hidden' id="individual_info">
+          <div class='form-group' id="individual_info">
             <div>
               <%= label_tag :first_name, 'First Name (individual) *' %>
               <%= text_field_tag :'legal_entity[first_name]', nil, required: true, class: 'form-control' %>
@@ -131,6 +131,12 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+<style type="text/css">
+  .hidden{
+    display: none;
+  }
+</style>
 
 <script type="text/javascript">
   $(".legal_entity_type").change(function(){
