@@ -9,10 +9,4 @@ class PayoutsController < ApplicationController
 			
 		end
 	end
-
-	def stripe_account
-		unless request.get?
-			
-		end
-	end
 end
