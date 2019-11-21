@@ -23,6 +23,8 @@
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  company_id                 :integer
+#  stripe_account_id          :string
+#  stripe_customer_id         :string
 #
 # Indexes
 #

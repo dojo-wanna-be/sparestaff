@@ -85,3 +85,4 @@ gem "font-awesome-rails"
 gem 'allow_numeric'
 gem 'tagsinput-rails'
 gem 'stripe'
+gem 'figaro'
