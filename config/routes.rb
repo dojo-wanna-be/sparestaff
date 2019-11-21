@@ -49,7 +49,8 @@ Rails.application.routes.draw do
     end
     member do
       match :initialized, via: [:get, :patch]
-      match :payment, via: [:get, :patch]
+      get :payment
+      patch :request_payment
       get :request_sent_successfully
     end
   end
