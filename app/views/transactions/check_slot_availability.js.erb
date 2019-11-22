@@ -186,7 +186,6 @@ function validateAvailability(start_date, end_date, listing){
     var friday = 0;
     var saturday = 0;
     var sunday = 0;
-
     if(totalMondays != 0)
       monday = totalMondays - Math.floor(weekDiff)
     if(totalTuesdays != 0)
@@ -212,7 +211,7 @@ function validateAvailability(start_date, end_date, listing){
     var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
     $('#total_tax_with_holding').val(fullWeekTax);
     var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
-    $('#ContractTaxPrice').html("-" + fullWeekTax);
+    $('#ContractTaxPrice').html(fullWeekTax);
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
     $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
   }

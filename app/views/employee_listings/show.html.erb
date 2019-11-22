@@ -718,7 +718,7 @@ function calculateWithoutTax(){
     var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
     $('#total_tax_with_holding').val(fullWeekTax);
     var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
-    $('#ContractTaxPrice').html("-" + fullWeekTax);
+    $('#ContractTaxPrice').html(fullWeekTax);
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
     $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
   }
