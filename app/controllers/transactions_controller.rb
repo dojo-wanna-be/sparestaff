@@ -1,8 +1,8 @@
 class TransactionsController < ApplicationController
   include EmployeeListingsHelper
 
-  before_action :authenticate_user!
   before_action :ensure_company_owner, except: [:check_slot_availability]
+  before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_company, only: [:initialized, :payment]
@@ -109,14 +109,31 @@ class TransactionsController < ApplicationController
 
   def request_payment
     @employee_listing = @transaction.employee_listing
-    # Payment code here
-    @transaction.update_attribute(:state, "created")
-    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
-    message = conversation.messages.last
-    TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
-    TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
+    # Payment code
+    begin
+      stripe_token = params[:stripe_token]
+      card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
+      stripe_info = current_user.stripe_info
+      stripe_info.update_attributes(last_four_digits: card.last4, card_type: card.brand)
+      @transaction.update_attribute(:state, "created")
+      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
+      user_conversation = if conversation.present?
+        conversation.first
+      else
+         Conversation.create!(  receiver_id: @transaction.hirer_id,
+                                sender_id: @transaction.poster_id,
+                                listing_id: @transaction.employee_listing_id
+                              )
+      end
+      message = user_conversation.messages.last
+      # TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
+      # TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
 
-    redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
+      redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
+    rescue Exception => e
+      flash[:error] = e
+      redirect_to root_path
+    end
   end
 
 
@@ -168,6 +185,13 @@ class TransactionsController < ApplicationController
     unless current_user.is_owner? || current_user.is_hr?
       flash[:error] = "You are not authorised to hire an employee"
       redirect_to employee_index_path
+    end
+  end
+
+  def ensure_account_id
+    unless current_user.stripe_info.present? && current_user.stripe_info.stripe_account_id.present?
+      flash[:info] = "Please create an account first"
+      redirect_to stripe_account_payouts_path
     end
   end
 

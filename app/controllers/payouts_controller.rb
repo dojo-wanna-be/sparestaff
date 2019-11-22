@@ -8,7 +8,9 @@ class PayoutsController < ApplicationController
 		unless request.get?
 			account = StripeAccount.new(params, current_user, request.remote_ip).create
       if account.present?
-        current_user.update_attribute(:stripe_account_id, account.id)
+        stripe_info = current_user.stripe_info.present? ? current_user.stripe_info : current_user.build_stripe_info
+        stripe_info.stripe_account_id = account.id
+        stripe_info.save
         flash[:notice] = "Account Created Successfully"
         redirect_to root_path
       else
@@ -17,16 +19,4 @@ class PayoutsController < ApplicationController
       end
 		end
 	end
-
-
-	def update
-    new_card = params[:stripeToken]
-    begin
-      last = AddNewCardOnStripe.new(user: current_user, new_card: params[:stripeToken]).update
-      # current_user.update(last_4_of_card_on_file: last.last4, card_type: last.brand)
-      redirect_to root_path
-    rescue
-      redirect_to root_path
-    end
-  end
 end
