@@ -4,6 +4,7 @@
     <div class="custom-input-group">
       <label class="thin-label">Card info*</label>
       <%= text_field_tag :first_name, nil, placeholder: "Name on card", class: 'custom-field' %>
+      <%= hidden_field_tag "stripe_token", nil, id: "stripe_token" %>
     </div>
     <div id="card-element"></div>
     <div id="card-errors" role="alert"></div>
@@ -102,7 +103,6 @@
   var form = document.getElementById('payment-form');
   form.addEventListener('submit', function(event) {
     event.preventDefault();
-    debugger
     stripe.createToken(card).then(function(result) {
       if (result.error) {
         // Inform the user if there was an error
