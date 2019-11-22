@@ -49,9 +49,9 @@
     </div>
     <div class="right">
       <div>&nbsp;</div>
-      <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.weekday_hours}" %></div>
-      <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.weekend_hours}" %></div>
-      <div><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></div>
+      <div><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+      <div><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+      <div><%= "$-#{@transaction.tax_withholding_amount.round(2)}" %></div>
       <div>$<%= @transaction.service_fee.round(2) %></div>
     </div>
   </div>
@@ -61,7 +61,7 @@
       <span><b>Weekly Total</b></span>
     </div>
     <div class="right">
-      <span><b><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></b></span>
+      <span><b><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></b></span>
     </div>
   </div>
 
@@ -76,9 +76,9 @@
       </div>
       <div class="right">
         <div>&nbsp;</div>
-        <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></div>
-        <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></div>
-        <div><%= "-$#{@transaction.total_tax_withholding_amount.round(2)}" %></div>
+        <div><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></div>
+        <div><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></div>
+        <div><%= "$-#{@transaction.total_tax_withholding_amount.round(2)}" %></div>
         <div>$<%= @transaction.total_service_fee.round(2) %></div>
       </div>
     </div>

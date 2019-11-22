@@ -35,9 +35,8 @@ class ReservationsController < ApplicationController
 
   def accept
     if @transaction.update_attributes(state: "accepted")
-       @listing = @transaction.employee_listing
-       hirer = User.find_by(id: @transaction.hirer_id)
-      # Hiring accepted mail to hirer
+      @listing = @transaction.employee_listing
+      hirer = User.find_by(id: @transaction.hirer_id)
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -85,7 +84,6 @@ class ReservationsController < ApplicationController
     if @transaction.update_attribute(:state, "rejected")
       @listing = @transaction.employee_listing
       hirer = User.find_by(id: @transaction.hirer_id)
-      # Hiring rejected mail to hirer
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -133,19 +131,17 @@ class ReservationsController < ApplicationController
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
-      start_date = @transaction.start_date
-      end_date = @transaction.end_date
+      @start_date = @transaction.start_date
+      @end_date = @transaction.end_date
 
       transactions = @listing
                     .transactions
                     .where(state: "accepted")
-                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
                     .where.not(id: @old_transaction.id)
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
-      @start_date = Date.today
-      @end_date = Date.today
       @disabled_time = unavailable_time_slots(bookings)
     else
       listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
@@ -267,6 +263,9 @@ class ReservationsController < ApplicationController
 
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+    @transaction.bookings.group_by(&:day).each do |day, bookings|
+      instance_variable_set "@#{day}Hour".to_sym, (bookings.first.end_time - bookings.first.start_time) / 3600
+    end
     @disabled_time = unavailable_time_slots(bookings)
   end
 

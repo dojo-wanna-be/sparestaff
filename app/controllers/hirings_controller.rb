@@ -14,7 +14,8 @@ class HiringsController < ApplicationController
                                             :receipt_details,
                                             :accept,
                                             :decline_request,
-                                            :decline
+                                            :decline,
+                                            :cancel
                                           ]
 
   before_action :ensure_not_poster, only: [:change_hiring]
@@ -34,7 +35,8 @@ class HiringsController < ApplicationController
 
   def accept
     if @transaction.update_attributes(state: "accepted")
-      # Registration accepted mail to poster
+      @listing = @transaction.employee_listing
+      poster = User.find_by(id: @transaction.poster_id)
       conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -50,6 +52,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
+      HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver!
+      HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -78,7 +82,8 @@ class HiringsController < ApplicationController
 
   def decline
     if @transaction.update_attribute(:state, "rejected")
-      # Registration rejected mail to poster
+      @listing = @transaction.employee_listing
+      poster = User.find_by(id: @transaction.poster_id)
       conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -94,6 +99,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
+      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction).deliver!
+      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -105,19 +112,17 @@ class HiringsController < ApplicationController
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     unless request.patch?
-      start_date = @transaction.start_date
-      end_date = @transaction.end_date
+      @start_date = @transaction.start_date
+      @end_date = @transaction.end_date
 
       transactions = @listing
                     .transactions
                     .where(state: "accepted")
-                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
                     .where.not(id: @old_transaction.id)
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
-      @start_date = Date.today
-      @end_date = Date.today
       @disabled_time = unavailable_time_slots(bookings)
     else
       listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
@@ -187,6 +192,11 @@ class HiringsController < ApplicationController
     end
   end
 
+  def cancel
+    @transaction.update_attributes(status: false, state: "cancelled", cancelled_at: Date.today)
+    redirect_to hirings_path
+  end
+
   def tell_poster
     @listing = @transaction.employee_listing
     if request.patch?
@@ -243,6 +253,9 @@ class HiringsController < ApplicationController
 
     transaction_ids = transactions.pluck(:id)
     bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+    @transaction.bookings.group_by(&:day).each do |day, bookings|
+      instance_variable_set "@#{day}Hour".to_sym, (bookings.first.end_time - bookings.first.start_time) / 3600
+    end
     @disabled_time = unavailable_time_slots(bookings)
   end
 

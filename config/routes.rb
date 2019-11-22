@@ -65,6 +65,7 @@ Rails.application.routes.draw do
       patch :accept
       patch :decline_request
       patch :decline
+      patch :cancel
       get :change_or_cancel
       get :get_receipt
       get :receipt_details
