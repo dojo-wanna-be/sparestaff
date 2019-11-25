@@ -19,7 +19,7 @@ class StripeAccount
     file = File.new(@params[:stripe_verification_file].path) rescue nil
     upload_result = upload_identity(file)
     begin
-      @account = Stripe::Account.create(
+      account = Stripe::Account.create(
         type: 'custom',
         country: 'AU',
         email: @user.email,
@@ -61,9 +61,12 @@ class StripeAccount
           account_holder_type: 'individual'
         }
       )
+      stripe_info = @user.stripe_info.present? ? @user.stripe_info : @user.build_stripe_info
+      stripe_info.stripe_account_id = account.id
+      stripe_info.save
+      {message: "Account Created Successfully", success: true}
     rescue Exception => e
-      @account = nil
-      @error = e.message
+      {message: e.message, success: false} 
     end
   end
 
@@ -108,8 +111,7 @@ class StripeAccount
         }
       )
     rescue Exception => e
-      @account = nil
-      @error = e.message
+      e.message
     end
   end
 
