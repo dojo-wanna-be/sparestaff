@@ -90,12 +90,12 @@
 			</tr>
 			<tr>
 				<td style="width: 300px"><strong>Your weekly earning</strong></td>
-				<td style="text-align: right; font-size: 14pt;"><strong>$333.90</strong></td>
+				<td style="text-align: right; font-size: 14pt;"><strong>$<%= (@transaction.amount + @transaction.service_fee).round(2) %></strong></td>
 			</tr>
 			<tr>
 				<td style="width: 300px"><strong>Total employment contract 
 				earning</strong></td>
-				<td style="text-align: right; font-size: 14pt;"><strong>$3,496.50</strong></td>
+				<td style="text-align: right; font-size: 14pt;"><strong>$<%= @transaction.total_amount.round(2) %></strong></td>
 			</tr>
 			<tr>
 				<td colspan="2"><p>7 days after employment contract starts, the 
@@ -121,8 +121,8 @@
 			</tr>
 			<tr>
 				<td style="width: 300px">
-				<h4>HirerDEF is Hirer</h4>
-				Contact HirerDEF for further coordination.</td>
+				<h4><%= @hirer.name %> is Hirer</h4>
+				Contact <%= @hirer.name %> for further coordination.</td>
 				<td>
 				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
 			</tr>

@@ -76,7 +76,6 @@ class TransactionService
         tx.tax_withholding_amount = weekly_tax_withholding
         tx.amount = weekly_earning - weekly_tax_withholding
         tx.save
-        binding.pry
         return tx
       else
         ActiveRecord::RollBack
@@ -84,7 +83,6 @@ class TransactionService
       end
     end
     rescue Exception => e
-      binding.pry
       return nil
   end
 

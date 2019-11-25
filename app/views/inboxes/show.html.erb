@@ -95,7 +95,7 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.total_tax_withholding(@transaction.amount).round(2)}" %></span>
+        <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
@@ -103,7 +103,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
