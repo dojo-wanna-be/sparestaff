@@ -7,7 +7,7 @@ class PayoutsController < ApplicationController
 	def stripe_account
 		unless request.get?
 			account = StripeAccount.new(params, current_user, request.remote_ip).create
-      if account[:sucess]
+      if account[:success]
         flash[:notice] = account[:message]
         redirect_to root_path
       else
