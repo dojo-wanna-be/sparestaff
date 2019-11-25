@@ -152,7 +152,7 @@
                 <span class="link-text">&lt; <%= link_to "Back", step_2_employee_path(id: @employee_listing.id, back: true), data: {confirm: 'You are about to discard this unfinished listing and create a new one. You will need to re-enter all details, photos again. Are you sure?'}, class: 'link-text' %></span>
               <% end %>
 
-              <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
+              <%= f.submit "Save for later", formnovalidate: "formnovalidate", name: "save_later", value: "Save for later", class: "link-text" %>
 
               <%= f.submit "Continue", class: "continue-btn", id: 'employee_form_id' %>
             </div>

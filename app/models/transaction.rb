@@ -126,7 +126,33 @@ class Transaction < ApplicationRecord
   end
 
   def total_service_fee
-    (0.03 * total_amount)
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
+    (service_fee * full_week) + (remaining_price * 0.03)
+  end
+
+  def remaining_tax_withholding(amount)
+    if is_withholding_tax
+      tax_detail = TaxDetail.tax_calculation(amount)
+      (tax_detail[:a] * (amount + 0.99)) - tax_detail[:b]
+    else
+      0
+    end
+  end
+
+  def total_tax_withholding
+    if is_withholding_tax
+      full_week = start_date.upto(end_date).count.fdiv(7).floor
+      (tax_withholding_amount * full_week) + remaining_tax_withholding(amount)
+    else
+      0
+    end
+  end
+
+  def total_amount
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
+    ((amount + service_fee) * full_week) + remaining_price + (0.03 * remaining_price)
   end
 
   def get_beginning_day

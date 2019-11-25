@@ -18,47 +18,64 @@ class TransactionService
       if tx.save
         weekly_hours = create_bookings(tx, availability_slots)
         total_weekday_hours_per_week = weekly_hours[:monday_hours] + weekly_hours[:tuesday_hours] + weekly_hours[:wednesday_hours] + weekly_hours[:thursday_hours] + weekly_hours[:friday_hours]
-        total_weekday_hours = weekly_hours[:total_monday_hours] + weekly_hours[:total_tuesday_hours] + weekly_hours[:total_wednesday_hours] + weekly_hours[:total_thursday_hours] + weekly_hours[:total_friday_hours]
         total_weekend_hours_per_week = weekly_hours[:saturday_hours] + weekly_hours[:sunday_hours]
+        weekdays_price = listing.weekday_price.to_f * total_weekday_hours_per_week
+        weekends_price = listing.weekend_price.to_f * total_weekend_hours_per_week
+        weekly_earning = weekdays_price + weekends_price
+
+        total_weekday_hours = weekly_hours[:total_monday_hours] + weekly_hours[:total_tuesday_hours] + weekly_hours[:total_wednesday_hours] + weekly_hours[:total_thursday_hours] + weekly_hours[:total_friday_hours]
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
-        number_of_weeks = @start_date.upto(@end_date).count.fdiv(7).ceil
+        week_diff = @start_date.upto(@end_date).count.fdiv(7).floor
+        monday = 0;
+        tuesday = 0;
+        wednesday = 0;
+        thursday = 0;
+        friday = 0;
+        saturday = 0;
+        sunday = 0;
+        if weekly_hours[:no_of_mondays] > 0
+          monday = weekly_hours[:no_of_mondays] - week_diff
+        end
+        if weekly_hours[:no_of_tuesdays] > 0
+          tuesday = weekly_hours[:no_of_tuesdays] - week_diff
+        end
+        if weekly_hours[:no_of_wednesdays] > 0
+          wednesday = weekly_hours[:no_of_wednesdays] - week_diff
+        end
+        if weekly_hours[:no_of_thursdays] > 0
+          thursday = weekly_hours[:no_of_thursdays] - week_diff
+        end
+        if weekly_hours[:no_of_fridays] > 0
+          friday = weekly_hours[:no_of_fridays] - week_diff
+        end
+        if weekly_hours[:no_of_saturdays] > 0
+          saturday = weekly_hours[:no_of_saturdays] - week_diff
+        end
+        if weekly_hours[:no_of_sundays] > 0
+          sunday = weekly_hours[:no_of_sundays] - week_diff
+        end
 
+        remaining_weekday_price =  (monday * weekly_hours[:monday_hours] + tuesday * weekly_hours[:tuesday_hours] + wednesday * weekly_hours[:wednesday_hours] + thursday * weekly_hours[:thursday_hours] + friday * weekly_hours[:friday_hours]) * listing.weekday_price.to_f
+
+        remaining_weekend_price = (saturday * weekly_hours[:saturday_hours] + sunday * weekly_hours[:sunday_hours]) * listing.weekend_price.to_f
+
+        remaining_weekly_earning = remaining_weekday_price + remaining_weekend_price
+        if tx.is_withholding_tax
+          weekly_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i.abs
+        else
+          weekly_tax_withholding = 0
+        end
+
+        tx.remaining_amount = remaining_weekly_earning
         tx.weekday_hours = total_weekday_hours_per_week
         tx.weekend_hours = total_weekend_hours_per_week
 
         tx.total_weekday_hours = total_weekday_hours
         tx.total_weekend_hours = total_weekend_hours
-
-        weekdays_price = listing.weekday_price.to_f * total_weekday_hours_per_week
-        weekends_price = listing.weekend_price.to_f * total_weekend_hours_per_week
-
-        total_weekdays_price = listing.weekday_price.to_f * total_weekday_hours
-        total_weekends_price = listing.weekend_price.to_f * total_weekend_hours
-
-        weekly_earning = weekdays_price + weekends_price
-        total_earning = total_weekdays_price + total_weekends_price
-
-        
-        weekly_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i.abs
-        total_tax_withholding = @params[:total_tax_with_holding].to_i.abs
-
-        if tx.frequency.eql?("weekly")
-          tx.tax_withholding_amount = weekly_tax_withholding
-          tx.amount = weekly_earning - weekly_tax_withholding
-          tx.total_tax_withholding_amount = total_tax_withholding
-          tx.total_amount = total_earning - total_tax_withholding
-        elsif tx.frequency.eql?("fortnight")
-          fortnight_tax_withholding = 2 * weekly_tax_withholding
-          total_fortnight_tax_withholding = 2 * total_tax_withholding
-          tx.tax_withholding_amount = fortnight_tax_withholding
-          tx.amount = weekly_earning - fortnight_tax_withholding
-          tx.total_tax_withholding_amount = total_fortnight_tax_withholding
-          tx.total_amount = total_earning - total_fortnight_tax_withholding
-        end
-
+        tx.tax_withholding_amount = weekly_tax_withholding
+        tx.amount = weekly_earning - weekly_tax_withholding
         tx.save
-
         return tx
       else
         ActiveRecord::RollBack
@@ -79,6 +96,13 @@ class TransactionService
     thursday_hours = 0
     friday_hours = 0
     saturday_hours = 0
+    no_of_sundays = 0
+    no_of_mondays = 0
+    no_of_tuesdays = 0
+    no_of_wednesdays = 0
+    no_of_thursdays = 0
+    no_of_fridays = 0
+    no_of_saturdays = 0
     total_sunday_hours = 0
     total_monday_hours = 0
     total_tuesday_hours = 0
@@ -103,6 +127,7 @@ class TransactionService
         else
           sunday_hours = 0
           total_sunday_hours = 0
+          no_of_sundays = 0
         end
       end
 
@@ -121,6 +146,7 @@ class TransactionService
         else
           monday_hours = 0
           total_monday_hours = 0
+          no_of_mondays = 0
         end
       end
 
@@ -139,6 +165,7 @@ class TransactionService
         else
           tuesday_hours = 0
           total_tuesday_hours = 0
+          no_of_tuesdays = 0
         end
       end
 
@@ -157,6 +184,7 @@ class TransactionService
         else
           wednesday_hours = 0
           total_wednesday_hours = 0
+          no_of_wednesdays = 0
         end
       end
 
@@ -174,7 +202,8 @@ class TransactionService
           total_thursday_hours = thursday_hours * no_of_thursdays
         else
           thursday_hours = 0
-          total_thursday_hours
+          total_thursday_hours = 0
+          no_of_thursdays = 0
         end
       end
 
@@ -193,6 +222,7 @@ class TransactionService
         else
           friday_hours = 0
           total_friday_hours = 0
+          no_of_fridays = 0
         end
       end
 
@@ -211,6 +241,7 @@ class TransactionService
         else
           saturday_hours = 0
           total_saturday_hours = 0
+          no_of_saturdays = 0
         end
       end
     end
@@ -223,6 +254,13 @@ class TransactionService
       thursday_hours: thursday_hours,
       friday_hours: friday_hours,
       saturday_hours: saturday_hours,
+      no_of_sundays: no_of_sundays,
+      no_of_mondays: no_of_mondays,
+      no_of_tuesdays: no_of_tuesdays,
+      no_of_wednesdays: no_of_wednesdays,
+      no_of_thursdays: no_of_thursdays,
+      no_of_fridays: no_of_fridays,
+      no_of_saturdays: no_of_saturdays,
       total_sunday_hours: total_sunday_hours,
       total_monday_hours: total_monday_hours,
       total_tuesday_hours: total_tuesday_hours,
