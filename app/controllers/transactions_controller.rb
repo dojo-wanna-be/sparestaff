@@ -79,11 +79,11 @@ class TransactionsController < ApplicationController
     else
       @company.update(company_params)
       @transaction.update_attribute(:probationary_period, params[:transaction][:probationary_period])
-      if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
-        @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
+      if Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).present?
+        @conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).first
       else
-        @conversation = Conversation.create!( receiver_id: @employee_listing.poster.id,
-                                              sender_id: current_user.id,
+        @conversation = Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: @transaction.hirer_id,
                                               employee_listing_id: @employee_listing.id
                                             )
       end
