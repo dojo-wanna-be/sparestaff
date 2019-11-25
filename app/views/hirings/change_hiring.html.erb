@@ -127,7 +127,7 @@
 
         <li class="calc-item">
           <span class="left">Tax withholding</span>
-          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding_amount.round(2) %> </span> </span>
+          <span class="right">$<span id="ContractTaxPrice"> <%= @old_transaction.total_tax_withholding(@old_transaction.amount).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">

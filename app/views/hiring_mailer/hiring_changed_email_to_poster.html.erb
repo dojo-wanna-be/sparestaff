@@ -67,11 +67,11 @@
       </tr>
       <tr>
         <td><strong>New weekly payout</strong></td>
-        <td style="text-align: right"><strong><%= "$#{@transaction.amount + @transaction.service_fee}" %></strong></td>
+        <td style="text-align: right"><strong><%= "$#{@transaction.amount}" %></strong></td>
       </tr>
       <tr>
         <td>New employment contract total</td>
-        <td style="text-align: right"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+        <td style="text-align: right"><%= "$#{@transaction.total_amount}" %></td>
       </tr>
       <tr>
         <td colspan="2">&nbsp;<br />

@@ -178,7 +178,7 @@
           <div class="button-box">
             <span class="link-text">&lt; <%= link_to "Back", step_4_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
-            <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
+            <%= f.submit "Save for later", formnovalidate: "formnovalidate", name: "save_later", value: "Save for later", class: "link-text" %>
 
             <%= f.submit "Preview", class: "continue-btn prw_btn" %>
           </div>

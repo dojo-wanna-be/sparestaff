@@ -79,18 +79,18 @@ class TransactionsController < ApplicationController
     else
       @company.update(company_params)
       @transaction.update_attribute(:probationary_period, params[:transaction][:probationary_period])
-      if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
-        @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
-      else
-        @conversation = Conversation.create!( receiver_id: @employee_listing.poster.id,
-                                              sender_id: current_user.id,
-                                              employee_listing_id: @employee_listing.id
-                                            )
-      end
-      message = @conversation.messages.build
-      message.content = params[:message_text]
-      message.sender_id = current_user.id
-      message.save
+      # if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
+      #   @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
+      # else
+      #   @conversation = Conversation.create!( receiver_id: @employee_listing.poster.id,
+      #                                         sender_id: current_user.id,
+      #                                         employee_listing_id: @employee_listing.id
+      #                                       )
+      # end
+      # message = @conversation.messages.build
+      # message.content = params[:message_text]
+      # message.sender_id = current_user.id
+      # message.save
       redirect_to payment_transaction_path(id: @transaction.id)
     end
   end
