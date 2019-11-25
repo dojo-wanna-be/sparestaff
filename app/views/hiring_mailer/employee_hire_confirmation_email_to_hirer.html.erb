@@ -102,11 +102,11 @@
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">Weekly total payment</td>
-				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.amount + @transaction.service_fee}" %></td>
+				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.amount}" %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">Total employment contract</td>
-				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount}" %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />

@@ -78,14 +78,14 @@
         <div>&nbsp;</div>
         <div><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></div>
         <div><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></div>
-        <div><%= "-$#{@transaction.total_tax_withholding_amount.round(2)}" %></div>
+        <div><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></div>
         <div>$<%= @transaction.total_service_fee.round(2) %></div>
       </div>
     </div>
     <div class="devider">
       <div class="full-row">
         <span class="total"><b>Total</b></span>
-        <span class="value"><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
+        <span class="value"><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
       <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
     </div>

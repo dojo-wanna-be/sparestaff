@@ -41,11 +41,17 @@ class EmployeeListingsController < ApplicationController
     # elsif current_user.is_individual?
     #   @employee_listing = current_user.employee_listings
     # end
-    company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings : []
-    individual_listings = current_user.employee_listings.present? ? current_user.employee_listings : []
+    published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true) : []
+    published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.where(published: true) : []
 
-    @employee_listings = company_listings + individual_listings
-    @employee_listings = @employee_listings.sort_by{|e| e[:updated_at]}.reverse
+    published_employee_listings = published_company_listings + published_individual_listings
+    @published_listings = published_employee_listings.sort_by{|e| e[:updated_at]}.reverse
+
+    unpublished_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: false) : []
+    unpublished_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.where(published: false) : []
+
+    unpublished_employee_listings = unpublished_company_listings + unpublished_individual_listings
+    @unpublished_listings = unpublished_employee_listings.sort_by{|e| e[:updated_at]}.reverse
   end
 
   def new_listing_step_1
@@ -268,7 +274,7 @@ class EmployeeListingsController < ApplicationController
           UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver!
         end
 
-        UserMailer.listing_create_confirmation(current_user).deliver!
+        UserMailer.listing_create_confirmation(current_user, @employee_listing).deliver!
       end
     end
   end
