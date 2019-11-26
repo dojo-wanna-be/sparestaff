@@ -9,9 +9,6 @@
  
 </style>
 
-
-
-
 <table class="Padding80px" style="width: 100%">
   <tr>
     <td>&nbsp;&nbsp;</td>
@@ -74,11 +71,11 @@
       </tr>
       <tr>
         <td style="color: #484848;"><strong>New weekly total</strong></td>
-        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount}" %></strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
       </tr>
       <tr>
         <td style="color: #484848;">New employment contract total</td>
-        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount}" %></td>
+        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
       <tr>
         <td colspan="2" style="color:#484848;">&nbsp;<br />

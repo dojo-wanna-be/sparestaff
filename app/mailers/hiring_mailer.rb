@@ -8,10 +8,11 @@ class HiringMailer < ApplicationMailer
     mail(to: hirer.email, subject: "Hiring Change Request")
   end
 
-  def hiring_changed_email_to_poster(listing, poster, transaction)
+  def hiring_changed_email_to_poster(listing, poster, transaction, message)
     @listing = listing
     @transaction = transaction
     @poster = poster
+    @message = message
     mail(to: poster.email, subject: "Hiring Change Request")
   end
 

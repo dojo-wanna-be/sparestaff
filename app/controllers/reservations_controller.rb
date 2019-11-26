@@ -93,14 +93,15 @@ class ReservationsController < ApplicationController
                                               listing_id: @transaction.employee_listing_id
                                             )
       end
+      message = ""
       if params[:message_text].present?
         message = @conversation.messages.build
         message.content = params[:message_text]
         message.sender_id = current_user.id
         message.save
       end
-      ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction).deliver!
-      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction).deliver!
+      ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver!
+      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction, message).deliver!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -193,7 +194,17 @@ class ReservationsController < ApplicationController
     hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction).deliver!
+      conversation = Conversation.between(@transaction.poster_id, @transaction.hirer_id, @transaction.employee_listing_id)
+      if conversation.present?
+        @conversation = conversation.first
+      else
+        @conversation = Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: current_user.id,
+                                              listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      message = @conversation.messages.last
+      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction, message).deliver!
       ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver!
       redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
     end

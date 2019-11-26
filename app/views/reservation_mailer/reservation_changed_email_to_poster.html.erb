@@ -14,13 +14,13 @@
       <tr>
         <td colspan="2">
         <table>
-          <tr>
-            <td>
-            <strong>Message from Hirer:</strong><br />
-            Hello <%= @poster.name %>, I'd like to change this hiring date and 
-            time due to unforseen circumstances. Hope you'd get this 
-            message in time.</td>
-          </tr>
+          <% if @message.present? && @message.content.present? %>
+            <tr>
+              <td>
+              <strong>Message from Hirer:</strong><br />
+              <%= @message.content %></td>
+            </tr>
+          <% end %>
           <tr>
             <td>
             &nbsp;</td>

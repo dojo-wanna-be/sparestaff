@@ -14,13 +14,13 @@
       <tr>
         <td colspan="2">
         <table>
-          <tr>
-            <td>
-            <strong>Message from Hirer:</strong><br />
-            Hello <%= @poster.name %>, I'd like to change this hiring date and 
-            time due to unforseen circumstances. Hope you'd get this 
-            message in time.</td>
-          </tr>
+          <% if @message.present? && @message.content.present? %>
+            <tr>
+              <td>
+              <strong>Message from Hirer:</strong><br />
+              <%= @message.content %></td>
+            </tr>
+          <% end %>
           <tr>
             <td>
             &nbsp;</td>
@@ -67,11 +67,11 @@
       </tr>
       <tr>
         <td><strong>New weekly payout</strong></td>
-        <td style="text-align: right"><strong><%= "$#{@transaction.amount}" %></strong></td>
+        <td style="text-align: right"><strong><%= "$#{@transaction.amount.rpund(2)}" %></strong></td>
       </tr>
       <tr>
         <td>New employment contract total</td>
-        <td style="text-align: right"><%= "$#{@transaction.total_amount}" %></td>
+        <td style="text-align: right"><%= "$#{@transaction.total_amount.rpund(2)}" %></td>
       </tr>
       <tr>
         <td colspan="2">&nbsp;<br />
@@ -89,7 +89,7 @@
     <table class="ButtonOrange" align="center">
       <tr>
         <td style="text-align: center">
-        <a class="WhiteLink12pt" href="javascript:;">Accept or Decline</a></td>
+        <a class="WhiteLink12pt" href="<%= inbox_url(id: @transaction.id) %>">Accept or Decline</a></td>
       </tr>
     </table>
         </td>

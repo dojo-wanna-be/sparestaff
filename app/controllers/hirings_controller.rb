@@ -173,7 +173,17 @@ class HiringsController < ApplicationController
     if request.patch?
       @transaction.update_attribute(:state, "created")
       HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver!
-      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction).deliver!
+      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
+      if conversation.present?
+        @conversation = conversation.first
+      else
+        @conversation = Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: @transaction.poster_id,
+                                              employee_listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      message = @conversation.messages.last
+      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver!
       redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
