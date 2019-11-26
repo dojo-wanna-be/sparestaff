@@ -21,10 +21,10 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.each do |booking| %>
+      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
-          <span><%= booking.day.titleize %></span>
-          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+          <span><%= day.titleize %></span>
+          <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
         </div>
       <% end %>
     </div>
@@ -34,8 +34,7 @@
         <span class="grey-text">Probationary period</span>
       </div>
       <div class="order-item ">
-        <% company = @listing.poster.company %>
-        <div class="month1"><%= company.probationary_period.eql?(1) ? "#{company.probationary_period} month" : "#{company.probationary_period} months" %></div>
+        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
       </div>
     </div>
 
@@ -55,11 +54,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$11.13</span>
+        <span>$<%= @transaction.service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -76,15 +75,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.total_tax_withholding(@transaction.amount)}" %></span>
+        <span><%= "-$#{@transaction.total_tax_withholding}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$116.15</span>
+        <span>$<%= @transaction.total_service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
@@ -108,7 +107,7 @@
                 Total Fee
               </div>
               <div class="right-item">
-                $382.13
+                $<%= @transaction.amount.round(2) %>
               </div>
             </div>
             <div class="list-item">
@@ -116,7 +115,7 @@
                 Service fee
               </div>
               <div class="right-item">
-                -$11.13
+                -$<%= @transaction.service_fee.round(2) %>
               </div>
             </div>
             <div class="list-item grey-list-item">
@@ -124,18 +123,13 @@
                 <strong>Your Total Refund</strong>
               </div>
               <div class="right-item">
-                <strong>$371.00</strong>
+                <strong>$<%= (@transaction.amount - @transaction.service_fee).round(2) %></strong>
               </div>
             </div>
           </div>
           <% if @conversation.present? %>
             <div class="sub-title2">Your message to <%= @listing.poster.name %></div>
-            <div class="grey-text"><%= @conversation.messages.last.content %>
-              <br/>
-              <br/>
-              Regards
-              <br/>
-              James
+            <div class="grey-text"><%= @conversation.messages&.last&.content %>
             </div>
           <% end %>
 

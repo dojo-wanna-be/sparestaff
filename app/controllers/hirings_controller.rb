@@ -43,7 +43,7 @@ class HiringsController < ApplicationController
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
                                               sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
+                                              employee_listing_id: @transaction.employee_listing_id
                                             )
       end
       if params[:message_text].present?
@@ -69,7 +69,7 @@ class HiringsController < ApplicationController
     else
        Conversation.create!( receiver_id: @transaction.poster_id,
                                             sender_id: current_user.id,
-                                            listing_id: @transaction.employee_listing_id
+                                            employee_listing_id: @transaction.employee_listing_id
                                           )
     end
     if params[:message_text].present?
@@ -90,7 +90,7 @@ class HiringsController < ApplicationController
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
                                               sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
+                                              employee_listing_id: @transaction.employee_listing_id
                                             )
       end
       if params[:message_text].present?
@@ -211,7 +211,7 @@ class HiringsController < ApplicationController
       else
         @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                                               sender_id: current_user.id,
-                                              listing_id: @listing.id
+                                              employee_listing_id: @listing.id
                                             )
       end
       message = @conversation.messages.build
