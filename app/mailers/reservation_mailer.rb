@@ -44,6 +44,8 @@ class ReservationMailer < ApplicationMailer
     @listing = listing
     @transaction = transaction
     @poster = poster
+    @message = message
+    @hirer = transaction.hirer
     mail(to: poster.email, subject: "You declined a hire request")
   end
 end
