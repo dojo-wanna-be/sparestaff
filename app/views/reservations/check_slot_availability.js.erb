@@ -108,7 +108,7 @@ $("#transaction_start_date, #transaction_end_date").on('change', function (){
 
 function validateAvailability(start_date, end_date, listing, transaction){
   $.ajax({
-    url: "/hirings/check_slot_availability",
+    url: "/reservations/check_slot_availability",
     type: "GET",
     data : {
       start: start_date,

@@ -34,8 +34,7 @@
         <span class="grey-text">Probationary period</span>
       </div>
       <div class="order-item ">
-        <% company = @listing.poster.company %>
-        <div class="month1"><%= company.probationary_period.eql?(1) ? "#{company.probationary_period} month" : "#{company.probationary_period} months" %></div>
+        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
       </div>
     </div>
 
@@ -95,7 +94,7 @@
   <div class="right-detail cancel-hirings-right-detail">
     <div class="cancel-hirings-section">
       <h3 class="main-heading">Your Hiring Reservation Has Been Cancelled</h3>
-      <div>You and HirerDEF will receive an email confirmation from Spare Staff.</div>
+      <div>You and <%= @transaction.hirer.name %> will receive an email confirmation from Spare Staff.</div>
 
       <%= link_to "Return to Your Reservations", reservations_path, class: 'continue-btn' %>
 
