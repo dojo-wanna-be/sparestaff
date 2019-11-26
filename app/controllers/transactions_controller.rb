@@ -88,7 +88,7 @@ class TransactionsController < ApplicationController
                                             )
       end
       message = @conversation.messages.build
-      message.content = params[:message_text]
+      message.content = params[:message_text].present? ? params[:message_text] : ''
       message.sender_id = current_user.id
       message.save
       redirect_to payment_transaction_path(id: @transaction.id)
