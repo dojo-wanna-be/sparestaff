@@ -6,17 +6,7 @@
  body::-webkit-scrollbar { 
     display: none; 
   }  
-  .view_hiring:link{
-    text-decoration: none;       
-  }
-
-  .view_hiring:visited{ 
-    text-decoration: none;         
-  }
-
-  .view_hiring:hover{
-    text-decoration: underline;
-  }
+   
   .send_message:link{
     text-decoration: none;       
   }
@@ -27,19 +17,6 @@
 
   .send_message:hover{
     text-decoration: underline;
-  }
-
-  .learn_more:link{
-  	text-decoration: none;
-  	color:#f15927;
-  }
-  .learn_more:visited{
-  	text-decoration: none;
-  	color:#f15927;
-  }
-  .learn_more:hover{
-  	text-decoration: underline;
-  	color:#f15927;
   }
   .Visit:link{
     text-decoration: none;
@@ -80,16 +57,16 @@
 	<tr>
 		<td><br />
 		<h1 style="color: #484848;">Your hire request is declined</h1>
-		<p style="color: #484848;">We are sorry to tell you that your request to hire is declined <br />
+		<p style="color: #484848;">We are sorry to tell you that your request to hire is declined</p> <br />
 		<br />
-		<% if @message.present? && @message.content.present? %>
-			<table style="width: 500px">
-				<tr>
-					<td colspan="2"><table style="border:1px; border-style:solid; border-color:#E1E1E1;">
-								<tr>
-									<td style="padding:10px; color: #484848;"><%= @message.content %></td>
-								</tr>
-							</table>
+		<% if @message.present? %>
+		<table style="width: 500px">
+			<tr>
+				<td colspan="2"><table style="border:1px; border-style:solid; border-color:#E1E1E1;">
+							<tr>
+								<td style="padding:10px; color: #484848;"><%= @message.content %></td>
+							</tr>
+						</table>
 		<% end %>
 </td>
 			</tr>
@@ -99,7 +76,7 @@
 				&nbsp;</td>
 			</tr>
 			<tr>
-				<td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+				<td style="width: 50%;color: #484848;"><%= @listing.name %><br />
 				<%= @listing.title %></td>
 				<td>
 				<img alt="" src="http://localhost:3000/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
@@ -107,48 +84,49 @@
 			<tr>
 				<td colspan="2">
 				<br />
-				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px; color: #484848;"><strong>From</strong><br />
+				<td style="width: 300px;color: #484848;"><strong>From</strong><br />
 				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
-				<td style="text-align: right; color: #484848;"><strong>To</strong><br />
+				<td style="text-align: right;color: #484848;"><strong>To</strong><br />
 				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
-</td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
+
+               </td>
 			</tr>
 			<tr>
 				<td colspan="2">
 		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
 			<tr>
 				<td style="text-align: center">
-				<a class="send_message" href="#" style="color: #fff;">View Full Request</a></td>
+				<a class="send_message" href="../user-hiring/user-declined-hiring-send-message.html" style="color:#fff;">View Full Request</a></td>
 			</tr>
 		</table>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
-</td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
+                </td>
 			</tr>
 			<tr>
-				<td style="width: 300px; height: 33px; color: #484848;">Total weekly payment</td>
+				<td style="width: 300px; height: 33px;color: #484848;">Total weekly payment</td>
 				<td style="text-align: right; height: 33px; color: #484848;">$<%= (@transaction.amount + @transaction.service_fee).round(2) %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px; height: 33px; color: #484848;">Total employment 
 				contract</td>
-				<td style="text-align: right; height: 33px; color: #484848;">$<%= @transaction.total_amount.round(2) %></td>
+				<td style="text-align: right; height: 33px; color: #484848;">$<%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
-             </td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
+</td>
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">
@@ -156,12 +134,11 @@
 				Contact <%= @poster.name %> for further questions.</td>
 				<td>
 				<img alt="" src="http://localhost:3000/assets/zidane-profile.jpg" class="Image200pxRight" style="width: 200px;float:right;" /></td>
-
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
-            </td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
+</td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -184,7 +161,6 @@
 	<tr>
 		<td>&nbsp;</td>
 	</tr>
-
 </table>
 
 </body>

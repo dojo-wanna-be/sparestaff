@@ -43,7 +43,7 @@ class ReservationsController < ApplicationController
       else
          Conversation.create!( receiver_id: @transaction.hirer_id,
                                               sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
+                                              employee_listing_id: @transaction.employee_listing_id
                                             )
       end
       if params[:message_text].present?
@@ -69,7 +69,7 @@ class ReservationsController < ApplicationController
     else
        Conversation.create!( receiver_id: @transaction.hirer_id,
                                             sender_id: current_user.id,
-                                            listing_id: @transaction.employee_listing_id
+                                            employee_listing_id: @transaction.employee_listing_id
                                           )
     end
     if params[:message_text].present?
@@ -90,7 +90,7 @@ class ReservationsController < ApplicationController
       else
          Conversation.create!( receiver_id: @transaction.hirer_id,
                                               sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
+                                              employee_listing_id: @transaction.employee_listing_id
                                             )
       end
       message = ""
@@ -239,7 +239,7 @@ class ReservationsController < ApplicationController
       else
         @conversation = Conversation.create!( receiver_id: current_user.id,
                                               sender_id: @transaction.hirer_id,
-                                              listing_id: @listing.id
+                                              employee_listing_id: @listing.id
                                             )
       end
       message = @conversation.messages.build
