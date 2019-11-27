@@ -107,7 +107,7 @@
     <div class="cancel-hirings-section">
       <h3 class="main-heading">Cancel Hiring Reservation</h3>
 
-      <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+      <%= form_tag tell_hirer_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
 
         <div class="affect-poster">
           <span class="sub-title">Consider <%= @transaction.hirer.name %>’s plan before cancelling</span><br>

@@ -226,7 +226,6 @@ class ReservationsController < ApplicationController
 
   def tell_hirer
     @listing = @transaction.employee_listing
-    hirer = User.find_by(id: @transaction.hirer_id)
     if request.patch?
       if params[:reason]
         @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
@@ -247,7 +246,7 @@ class ReservationsController < ApplicationController
       message.sender_id = current_user.id
       message.save
       TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver!
-      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, hirer).deliver!
+      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver!
       redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
     end
   end
