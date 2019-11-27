@@ -21,7 +21,8 @@ class EmployeeListingsController < ApplicationController
                                       # :request_to_hire,
                                       :message_inbox,
                                       :user_dashboard,
-                                      :listing_deactivation]
+                                      :listing_deactivation
+                                    ]
 
   before_action :find_company, only: [:create_listing_step_2]
   skip_before_action :authenticate_user!, only: [:show]
@@ -42,13 +43,13 @@ class EmployeeListingsController < ApplicationController
     #   @employee_listing = current_user.employee_listings
     # end
     published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true) : []
-    published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.where(published: true) : []
+    published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.published : []
 
     published_employee_listings = published_company_listings + published_individual_listings
     @published_listings = published_employee_listings.sort_by{|e| e[:updated_at]}.reverse
 
     unpublished_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: false) : []
-    unpublished_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.where(published: false) : []
+    unpublished_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.unpublished : []
 
     unpublished_employee_listings = unpublished_company_listings + unpublished_individual_listings
     @unpublished_listings = unpublished_employee_listings.sort_by{|e| e[:updated_at]}.reverse
@@ -551,8 +552,16 @@ class EmployeeListingsController < ApplicationController
     )
   end
 
+  def deactivated
+    if @employee_listing.deactivated?
+      flash[:error] = "This listing is deactivated"
+      redirect_to root_path
+    end
+  end
+
   def find_listing
     @employee_listing = EmployeeListing.find(params[:id])
+    deactivated
     rescue Exception
       flash[:error] = "Couldn't find the Record"
       redirect_to employee_index_path
