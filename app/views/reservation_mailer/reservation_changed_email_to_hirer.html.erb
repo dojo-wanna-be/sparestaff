@@ -1,28 +1,65 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+  .send_message:link{
+    text-decoration: none;       
+  }
+
+  .send_message:visited{ 
+    text-decoration: none;         
+  }
+
+  .send_message:hover{
+    text-decoration: underline;
+  }
+
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+  
+</style>
+
 <table class="Padding80px" style="width: 100%">
   <tr>
     <td>&nbsp;&nbsp;</td>
   </tr>
   <tr>
     <td>
-    <img alt="" height="60" src="../../images/Spare-Staff-130x130.png" width="60" /></td>
+    <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/></td>
   </tr>
   <tr>
     <td><br />
-    <h1>Hiring change request</h1>
+    <h1 style="color: #484848;">Hiring change request</h1>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
-        <table>
+        <table style="width:100%;">
           <tr>
             <td>
             &nbsp;</td>
           </tr>
           <tr>
             <td>
-            <table style="height:40px; background-color: #E1E1E1;">
+            <table style="height:40px; background-color: #E1E1E1; width:100%;">
               <tr>
                 <td>
-                <h4>&nbsp;&nbsp; Employment Contract</h4>
+                <h4 style="color: #484848;">&nbsp;&nbsp; Employment Contract</h4>
                 </td>
               </tr>
             </table>
@@ -35,38 +72,38 @@
         </td>
       </tr>
       <tr>
-        <td style="width: 50%"><%= @listing.name %><br />
+        <td style="width: 50%;color: #484848;"><%= @listing.name %><br />
         <%= @listing.title %></td>
         <td>
-        <img alt="" src="../../images/luca.png" class="Image200pxRight" style="width: 200px" /></td>
+       <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
       </tr>
       <tr>
         <td colspan="2">
         <br />
-        <div class="GreyLine1Px"></div>       <br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
         </td>
       </tr>
       <tr>
-        <td style="width: 300px"><strong>From (new date)</strong><br />
+        <td style="width: 300px;color: #484848;"><strong>From (new date)</strong><br />
         <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
-        <td style="text-align: right"><strong>To (new date)</strong><br />
+        <td style="text-align:right; color: #484848;"><strong>To (new date)</strong><br />
         <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
       </tr>
       <tr>
         <td colspan="2"><br />
-        <div class="GreyLine1Px"></div>       <br />
-</td>
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+        </td>
       </tr>
       <tr>
-        <td><strong>New weekly total</strong></td>
-        <td style="text-align: right"><strong><%= "$#{@transaction.amount + @transaction.service_fee}" %></strong></td>
+        <td><strong style="color: #484848;">New weekly total</strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></strong></td>
       </tr>
       <tr>
-        <td>New employment contract total</td>
-        <td style="text-align: right"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+        <td style="color: #484848;">New employment contract total</td>
+        <td style="text-align:right; color: #484848;"><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></td>
       </tr>
       <tr>
-        <td colspan="2">&nbsp;<br />
+        <td colspan="2" style="color: #484848;">&nbsp;<br />
         If the poster accepts the request, we will immediately update the 
         contract and you will be refunded/charged the difference 
         between the new weekly total and the original weekly total. If the 

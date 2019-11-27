@@ -35,6 +35,22 @@ class TransactionMailer < ApplicationMailer
     mail(to: poster.email, subject: "Hiring Cancelled")
   end
 
+  def reservation_cancelled_email_to_poster(listing, poster, transaction)
+    @transaction = transaction
+    @listing = listing
+    @poster = poster
+    @hirer = transaction.hirer
+    mail(to: poster.email, subject: "Reservation Cancelled")
+  end
+
+  def reservation_cancelled_email_to_hirer(listing, poster, transaction, hirer)
+    @transaction = transaction
+    @listing = listing
+    @hirer = hirer
+    @poster = poster
+    mail(to: hirer.email, subject: "Reservation Cancelled")
+  end
+
   def send_hiring_details(transaction, email)
     @transaction = transaction
     mail(to: email, subject: "Hiring Details")
