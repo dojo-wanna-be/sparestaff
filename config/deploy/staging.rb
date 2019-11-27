@@ -5,15 +5,6 @@
 
 server '13.54.230.136', user: 'ubuntu', roles: %w{app db web}
 
-Rails.application.config.middleware.use ExceptionNotification::Rack,
-	email: {
-	  deliver_with: :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
-	  email_prefix: "[Error] ",
-	  sender_address: %{"Staging" <noreply@sparestaff.com.au>},
-	  exception_recipients: %w{anwar17ali@gmail.com},
-	  delivery_method: mail_delivery_method
-	}
-
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
