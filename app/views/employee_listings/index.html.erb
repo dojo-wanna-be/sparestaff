@@ -84,7 +84,7 @@
                     <div class="small_grey_text">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></div>
 
                     <div class="card-btns">
-                      <%= link_to "Finish The Listing", edit_employee_path(id: listing.id), class: 'finish-btn' %>
+                      <%= link_to "Finish The Listing", "/employee/#{listing.id}/step_#{listing.listing_step}", class: 'finish-btn' %>
                       <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
                     </div>
                   </div>
