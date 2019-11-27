@@ -159,6 +159,12 @@ class Transaction < ApplicationRecord
     Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
   end
 
+  def missed_earning
+    week_diff = start_date.upto(Date.today).count.fdiv(7).floor
+    full_week_payment = (amount + service_fee) * week_diff
+    Date.today > start_date ? total_amount - (full_week_payment + partial_hiring_fee) : total_amount
+  end
+
   def partial_hiring_fee
     weekday_hours = 0
     weekend_hours = 0
