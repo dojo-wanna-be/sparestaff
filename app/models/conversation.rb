@@ -20,7 +20,7 @@ class Conversation < ApplicationRecord
   belongs_to :sender, foreign_key: :sender_id, class_name: "User"
   belongs_to :receiver, foreign_key: :receiver_id, class_name: "User"
 
-  validates :sender_id, uniqueness: { scope: :receiver_id }
+  validates :sender_id, uniqueness: { scope: [:receiver_id, :employee_listing_id] }
 
   scope :between, -> (sender_id, receiver_id, employee_listing_id) do
     where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? )", sender_id, receiver_id, employee_listing_id, receiver_id, sender_id, employee_listing_id)
