@@ -11,7 +11,7 @@
 #
 # Indexes
 #
-#  index_conversations_on_receiver_id_and_sender_id  (receiver_id,sender_id) UNIQUE
+#  index_conversations_on_receiver_sender_employee_listing  (receiver_id,sender_id,employee_listing_id) UNIQUE
 #
 
 class Conversation < ApplicationRecord

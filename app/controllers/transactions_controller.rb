@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   include EmployeeListingsHelper
 
-  before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :ensure_company_owner, except: [:check_slot_availability]
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment]

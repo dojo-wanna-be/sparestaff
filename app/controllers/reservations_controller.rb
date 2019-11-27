@@ -2,6 +2,7 @@ class ReservationsController < ApplicationController
   include EmployeeListingsHelper
 
   before_action :ensure_poster, except: [:index]
+  skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :find_transaction, only: [
                                           :change_or_cancel,
                                           :change_reservation,
