@@ -37,6 +37,7 @@ class ReservationMailer < ApplicationMailer
     @transaction = transaction
     @hirer = hirer
     @message = message
+    @poster = transaction.poster
     mail(to: hirer.email, subject: "Employee hire request delined for #{listing.name}")
   end
 
