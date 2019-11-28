@@ -268,14 +268,14 @@ class EmployeeListingsController < ApplicationController
       if @employee_listing.published?
         user_admin = User.where(is_admin: true)
         if user_admin.present?
-          UserMailer.admin_listing_confirmation(user_admin).deliver!
+          UserMailer.admin_listing_confirmation(user_admin).deliver_later!
         end
 
         if @employee_listing.tfn.blank? || (@employee_listing.verification_front_image.blank? && @employee_listing.verification_back_image.blank?)
-          UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver!
+          UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver_later!
         end
 
-        UserMailer.listing_create_confirmation(current_user, @employee_listing).deliver!
+        UserMailer.listing_create_confirmation(current_user, @employee_listing).deliver_later!
       end
     end
   end

@@ -53,8 +53,8 @@ class ReservationsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver!
-      ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver!
+      ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
+      ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -101,8 +101,8 @@ class ReservationsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver!
-      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction, message).deliver!
+      ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
+      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -205,8 +205,8 @@ class ReservationsController < ApplicationController
                                             )
       end
       message = @conversation.messages.last
-      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction, message).deliver!
-      ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver!
+      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction, message).deliver_later!
+      ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver_later!
       redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
@@ -246,8 +246,8 @@ class ReservationsController < ApplicationController
       message.content = params[:message_text]
       message.sender_id = current_user.id
       message.save
-      TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver!
-      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver!
+      TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
+      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
       redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
     end
   end

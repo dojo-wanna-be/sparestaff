@@ -53,8 +53,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver!
-      HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
+      HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -100,8 +100,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver!
-      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver!
+      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver_later!
+      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -173,7 +173,7 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
       if conversation.present?
         @conversation = conversation.first
@@ -184,7 +184,7 @@ class HiringsController < ApplicationController
                                             )
       end
       message = @conversation.messages.last
-      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver!
+      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
       redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
@@ -229,8 +229,8 @@ class HiringsController < ApplicationController
       message.content = params[:message_text]
       message.sender_id = current_user.id
       message.save
-      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver!
-      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver!
+      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
       redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
     end
   end
@@ -245,7 +245,7 @@ class HiringsController < ApplicationController
 
   def send_details
     transaction = Transaction.find_by(id: params[:transaction_id])
-    TransactionMailer.send_hiring_details(transaction, params[:email]).deliver!
+    TransactionMailer.send_hiring_details(transaction, params[:email]).deliver_later!
     flash[:notice] = "Shared successfully"
     redirect_to hirings_path
   end
