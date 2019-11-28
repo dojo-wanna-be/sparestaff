@@ -2,31 +2,30 @@
 #
 # Table name: transactions
 #
-#  id                           :bigint           not null, primary key
-#  amount                       :float
-#  cancelled_at                 :date
-#  cancelled_by                 :integer
-#  end_date                     :date
-#  frequency                    :integer
-#  is_withholding_tax           :boolean          default(TRUE)
-#  probationary_period          :integer
-#  reason                       :text
-#  start_date                   :date
-#  state                        :integer
-#  status                       :boolean          default(TRUE)
-#  tax_withholding_amount       :float
-#  total_amount                 :float
-#  total_tax_withholding_amount :float            default(0.0)
-#  total_weekday_hours          :integer          default(0)
-#  total_weekend_hours          :integer          default(0)
-#  weekday_hours                :integer
-#  weekend_hours                :integer
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
-#  customer_id                  :string
-#  employee_listing_id          :bigint
-#  hirer_id                     :integer
-#  poster_id                    :integer
+#  id                     :bigint           not null, primary key
+#  amount                 :float
+#  cancelled_at           :date
+#  cancelled_by           :integer
+#  end_date               :date
+#  frequency              :integer
+#  is_withholding_tax     :boolean          default(TRUE)
+#  probationary_period    :integer
+#  reason                 :text
+#  remaining_amount       :float
+#  start_date             :date
+#  state                  :integer
+#  status                 :boolean          default(TRUE)
+#  tax_withholding_amount :float
+#  total_weekday_hours    :integer          default(0)
+#  total_weekend_hours    :integer          default(0)
+#  weekday_hours          :integer
+#  weekend_hours          :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  customer_id            :string
+#  employee_listing_id    :bigint
+#  hirer_id               :integer
+#  poster_id              :integer
 #
 # Indexes
 #
@@ -157,6 +156,12 @@ class Transaction < ApplicationRecord
 
   def get_beginning_day
     Date.today.beginning_of_week(("#{start_date.strftime("%A").downcase}").to_sym)
+  end
+
+  def missed_earning
+    week_diff = start_date.upto(Date.today).count.fdiv(7).floor
+    full_week_payment = (amount + service_fee) * week_diff
+    Date.today > start_date ? total_amount - (full_week_payment + partial_hiring_fee) : total_amount
   end
 
   def partial_hiring_fee

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_121922) do
+ActiveRecord::Schema.define(version: 2019_11_28_065138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,21 @@ ActiveRecord::Schema.define(version: 2019_11_20_121922) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receiver_id", "sender_id"], name: "index_conversations_on_receiver_id_and_sender_id", unique: true
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -177,6 +192,11 @@ ActiveRecord::Schema.define(version: 2019_11_20_121922) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "relevant_documents", force: :cascade do |t|
     t.bigint "employee_listing_id"
     t.datetime "created_at", null: false
@@ -192,6 +212,17 @@ ActiveRecord::Schema.define(version: 2019_11_20_121922) do
     t.string "time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stripe_infos", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_customer_id"
+    t.string "stripe_account_id"
+    t.string "last_four_digits"
+    t.string "card_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stripe_infos_on_user_id"
   end
 
   create_table "tax_details", force: :cascade do |t|
@@ -217,11 +248,10 @@ ActiveRecord::Schema.define(version: 2019_11_20_121922) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "tax_withholding_amount"
-    t.float "total_amount"
+    t.float "remaining_amount"
     t.text "reason"
     t.integer "weekday_hours"
     t.integer "weekend_hours"
-    t.float "total_tax_withholding_amount", default: 0.0
     t.integer "total_weekday_hours", default: 0
     t.integer "total_weekend_hours", default: 0
     t.integer "probationary_period"
@@ -265,5 +295,6 @@ ActiveRecord::Schema.define(version: 2019_11_20_121922) do
   add_foreign_key "listing_availabilities", "employee_listings"
   add_foreign_key "messages", "conversations"
   add_foreign_key "relevant_documents", "employee_listings"
+  add_foreign_key "stripe_infos", "users"
   add_foreign_key "transactions", "employee_listings"
 end
