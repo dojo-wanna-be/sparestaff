@@ -575,8 +575,14 @@
 
   $("#listing_transaction").submit(function(e){
     if ( isSunday || isMonday || isTuesday || isWednesday || isThursday || isFriday || isSaturday ) {
-      $("#timing_error").hide();
-      return true
+      if (<%= @listing.minimum_working_hours %> > (total_weekday_hours + totalWeekendHours)){
+        $("#total_hour_error").show();
+        return false
+      }else {
+        $("#timing_error").hide();
+        $("#total_hour_error").hide();
+        return true
+      }
     }else {
       $("#timing_error").show();
       return false

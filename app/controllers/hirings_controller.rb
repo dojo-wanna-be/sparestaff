@@ -23,7 +23,9 @@ class HiringsController < ApplicationController
 
   def index
     hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-    @hired_listing_transactions = hirer_transactions.includes(:employee_listing)
+    @hired_listing_transactions = hirer_transactions.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
+    @past_listing_transactions = hirer_transactions.where(state: [:expired, :completed]).includes(:employee_listing)
+    @declined_listing_transactions = hirer_transactions.where(state: "rejected").includes(:employee_listing)
   end
 
   def show

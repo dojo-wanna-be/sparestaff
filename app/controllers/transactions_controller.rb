@@ -37,23 +37,6 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
-
-        # week_day_bookings = transaction.week_day_bookings
-        # weekday_hours = 0
-        # week_day_bookings.each do |booking|
-        #   weekday_hours = weekday_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
-        # end
-
-        # week_end_bookings = transaction.week_end_bookings
-        # weekend_hours = 0
-        # week_end_bookings.each do |booking|
-        #   weekend_hours = weekend_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
-        # end
-
-        # week_day_earning = weekday_hours * transaction.employee_listing.weekday_price
-        # week_end_earning = weekend_hours * transaction.employee_listing.weekend_price
-        # total_weekly_earning = week_day_earning + week_end_earning
-
         redirect_to initialized_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"

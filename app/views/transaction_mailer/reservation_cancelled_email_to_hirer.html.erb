@@ -56,18 +56,18 @@
       <tr>
         <td style="width: 50%; color: #484848;" class="GreyBorderNoSize">Total Fee</td>
         <td style="text-align: right; color: #484848;" class="GreyBorderNoSize">
-        <%= "$#{@transaction.amount + @transaction.service_fee}" %></td>
+        <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></td>
       </tr>
       <tr>
         <td style="width: 50%; color: #484848;" class="GreyBorderNoSize">Service Fee</td>
         <td style="text-align: right; color: #484848;" class="GreyBorderNoSize">
-        <%= "-$#{@transaction.service_fee}" %></td>
+        <%= "-$#{@transaction.service_fee.round(2)}" %></td>
       </tr>
       <tr>
         <td style="width: 50%; color: #484848;" class="GreyBorderNoSize"><strong>Total 
         Refund</strong></td>
         <td style="text-align: right; color: #484848;" class="GreyBorderNoSize">
-        <strong><%= "$#{@transaction.amount}" %></strong></td>
+        <strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
       </tr>
       </table>
     &nbsp;<br />

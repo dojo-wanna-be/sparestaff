@@ -46,7 +46,8 @@ class Transaction < ApplicationRecord
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
   enum cancelled_by: { hirer: 0, poster: 1 }
 
-  SERVICE_FEE = 3
+  HIRER_SERVICE_FEE = 0.03
+  POSTER_SERVICE_FEE = 0.1
 
   PROBATIONARY_PERIOD = {
                           "1 month" => 1,
@@ -121,13 +122,23 @@ class Transaction < ApplicationRecord
   end
 
   def service_fee
-    (0.03 * amount)
+    (HIRER_SERVICE_FEE * amount)
   end
 
   def total_service_fee
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
-    (service_fee * full_week) + (remaining_price * 0.03)
+    (service_fee * full_week) + (remaining_price * HIRER_SERVICE_FEE)
+  end
+
+  def poster_service_fee
+    (POSTER_SERVICE_FEE * amount)
+  end
+
+  def poster_total_service_fee
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
+    (service_fee * full_week) + (remaining_price * POSTER_SERVICE_FEE)
   end
 
   def remaining_tax_withholding(amount)
@@ -151,7 +162,13 @@ class Transaction < ApplicationRecord
   def total_amount
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
-    ((amount + service_fee) * full_week) + remaining_price + (0.03 * remaining_price)
+    ((amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+  end
+
+  def poster_total_amount
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
+    ((amount + poster_service_fee) * full_week) + remaining_price + (POSTER_SERVICE_FEE * remaining_price)
   end
 
   def get_beginning_day
