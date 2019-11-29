@@ -30,6 +30,7 @@ class HiringsController < ApplicationController
 
   def show
     @listing = @transaction.employee_listing
+    @address = @transaction.address
   end
 
   def change_or_cancel
@@ -147,7 +148,7 @@ class HiringsController < ApplicationController
       availability_slots = ListingAvailability::TIME_SLOTS
 
       requested_booking_slot.each do |booking_day, booking_value|
-        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
           if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
             continue = false
             break
@@ -158,6 +159,12 @@ class HiringsController < ApplicationController
       if continue
         @new_transaction = TransactionService.new(params, current_user).create
         if @new_transaction.present?
+          @new_transaction.hirer_service_fee = @new_transaction.service_fee
+          @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
+          @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
+          @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
+
+          @new_transaction.save
           redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"
@@ -206,8 +213,18 @@ class HiringsController < ApplicationController
   end
 
   def cancel
-    @transaction.update_attributes(status: false, state: "cancelled", cancelled_at: Date.today)
-    redirect_to hirings_path
+    if @transaction.present?
+      if @transaction.state.eql?("created")
+        @transaction.destroy
+        redirect_to hirings_path
+      else
+        flash[:error] = "You cannot cancel the request"
+        redirect_to hirings_path
+      end
+    else
+      flash[:error] = "Record not found"
+      redirect_to hirings_path
+    end
   end
 
   def tell_poster

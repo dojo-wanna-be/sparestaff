@@ -20,10 +20,9 @@ class ReservationsController < ApplicationController
                                          ]
 
   def index
-    poster_transactions = Transaction.where(poster_id: current_user.id, state: ["accepted", "rejected", "created"]).order(updated_at: :desc)
-    @posted_listing_transactions = poster_transactions.includes(:employee_listing)
-    poster_completed_transactions = Transaction.where(poster_id: current_user.id, state: ["completed"]).order(updated_at: :desc)
-    @completed_listing_transactions = poster_completed_transactions.includes(:employee_listing)
+    poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+    @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
+    @completed_listing_transactions = poster_transactions.where("end_date < ?", Date.today).where(state: [:rejected, :cancelled, :expired, :completed]).includes(:employee_listing)
   end
 
   def show
@@ -69,22 +68,19 @@ class ReservationsController < ApplicationController
       conversation.first
     else
        Conversation.create!( receiver_id: @transaction.hirer_id,
-                                            sender_id: current_user.id,
-                                            employee_listing_id: @transaction.employee_listing_id
-                                          )
+                              sender_id: current_user.id,
+                              employee_listing_id: @transaction.employee_listing_id
+                            )
     end
-    if params[:message_text].present?
-      message = @conversation.messages.build
-      message.content = params[:message_text]
-      message.sender_id = current_user.id
-      message.save
-    end
+    message = @conversation.messages.build
+    message.content = params[:message_text].present? ? params[:message_text] : ""
+    message.sender_id = current_user.id
+    message.save
   end
 
   def decline
-    if @transaction.update_attribute(:state, "rejected")
+    if @transaction.update_attributes(state: "rejected", decline_reason_by_poster: params[:message_text])
       @listing = @transaction.employee_listing
-      hirer = User.find_by(id: @transaction.hirer_id)
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
       @conversation = if conversation.present?
         conversation.first
@@ -94,15 +90,9 @@ class ReservationsController < ApplicationController
                                               employee_listing_id: @transaction.employee_listing_id
                                             )
       end
-      message = ""
-      if params[:message_text].present?
-        message = @conversation.messages.build
-        message.content = params[:message_text]
-        message.sender_id = current_user.id
-        message.save
-      end
+      message = @conversation.messages&.last.present? ? @conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
-      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, hirer, @transaction, message).deliver_later!
+      ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -165,7 +155,7 @@ class ReservationsController < ApplicationController
       availability_slots = ListingAvailability::TIME_SLOTS
 
       requested_booking_slot.each do |booking_day, booking_value|
-        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
           if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
             continue = false
             break
@@ -177,6 +167,12 @@ class ReservationsController < ApplicationController
         hirer = User.find_by(id: @old_transaction.hirer_id)
         @new_transaction = TransactionService.new(params, hirer).create
         if @new_transaction.present?
+          @new_transaction.hirer_service_fee = @new_transaction.service_fee
+          @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
+          @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
+          @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
+
+          @new_transaction.save
           redirect_to change_reservation_confirmation_reservation_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"

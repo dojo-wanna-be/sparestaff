@@ -136,8 +136,8 @@
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
                 <div>-$<%= @transaction.tax_withholding_amount.round(2) %></div>
-                <div>$<%= @transaction.service_fee.round(2) %></div>
-                <div><b>$<%= (@transaction.amount + @transaction.service_fee).round(2) %></b></div>
+                <div>$<%= @transaction.poster_service_fee.round(2) %></div>
+                <div><b>-$<%= (@transaction.amount - @transaction.poster_service_fee).round(2) %></b></div>
               </div>
             </div>
 
@@ -156,8 +156,8 @@
                 <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
                 <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
-                <div>$<%= @transaction.total_service_fee.round(2) %></div>
-                <div><b>$<%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %></b></div>
+                <div>-$<%= @transaction.total_poster_service_fee.round(2) %></div>
+                <div><b>$<%= @transaction.poster_total_amount.round(2) %></b></div>
               </div>
             </div>
 

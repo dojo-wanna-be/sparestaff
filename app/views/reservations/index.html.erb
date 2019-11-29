@@ -36,6 +36,8 @@
                 <div class="list-box one"><span class="orange-text">Pending</span></div>
               <% elsif transaction.state.eql?("rejected") %>
                 <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+              <% elsif transaction.state.eql?("cancelled") %>
+                <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
               <% end %>
               <div class="list-box two">
                 <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
@@ -65,15 +67,17 @@
                   </div>
                   <div class="user-detail">
                     <b><%= transaction.hirer.name %></b><br>
-                    Contact: <%= transaction.hirer.company.name %><br>
-                    <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
-                    <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{3})(\d{3})$/)}" %>
+                    <% if transaction.state.eql?("accepted") %>
+                      Contact: <%= transaction.hirer.company.name %><br>
+                      <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                      <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{3})(\d{3})$/)}" %>
+                    <% end %>
                   </div>
                 </div>
               </div>
               <div class="list-box five">
                 <div>
-                  <%= "#{number_to_currency((transaction.total_amount + transaction.total_service_fee).round(2))} Total" %>
+                  <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                 </div>
                 <% if transaction.state.eql?("accepted") %>
                   <div>
@@ -89,6 +93,7 @@
                 <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
                   <div>
                     <%= link_to 'View invoices', 'javascript:;', class: 'orange-text' %>
+                    <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
                 <% if transaction.state.eql?("created") %>
@@ -122,7 +127,15 @@
 
             <% @completed_listing_transactions.each do |transaction| %>
               <div class="reservation-list">
-                <div class="list-box one"><span class="">Completed</span></div>
+                <% if transaction.state.eql?("completed") %>
+                  <div class="list-box one"><span class="">Completed</span></div>
+                <% elsif transaction.state.eql?("expired") %>
+                  <div class="list-box one"><span class="orange-text">Expired</span></div>
+                <% elsif transaction.state.eql?("rejected") %>
+                  <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+                <% elsif transaction.state.eql?("cancelled") %>
+                  <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
+                <% end %>
                 <div class="list-box two">
                   <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
                   <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
@@ -159,20 +172,13 @@
                 </div>
                 <div class="list-box five">
                   <div>
-                    <%= "#{number_to_currency((transaction.total_amount + transaction.total_service_fee).round(2))} Total" %>
-                  </div>
-                  <div>
-                    <%= link_to 'Print confirmation', hiring_path(id: transaction.id), class: 'orange-text' %>
-                  </div>
-                  <div>
-                    <%= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>
+                    <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                   </div>
                   <div>
                     <%= link_to 'Message history', 'javascript:;', class: 'orange-text' %>
                   </div>
                   <div>
-                    <%= link_to 'View invoices', 'javascript:;', class: 'orange-text' %>
-                    <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
+                    <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
                   </div>
                 </div>
               </div>

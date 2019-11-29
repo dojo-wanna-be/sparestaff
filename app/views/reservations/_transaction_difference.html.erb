@@ -45,22 +45,22 @@
 
     <li class="calc-item">
       <span class="left">Service fee</span>
-      <span class="right">$<span id="hiring_weekday_service_fee"> <%= @transaction.service_fee %> </span> </span>
+      <span class="right">-$<span id="hiring_weekday_service_fee"> <%= @transaction.poster_service_fee %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left">New weekly total</span>
-      <span class="right">$<span id="new_weekly_total_price"> <%= (@transaction.amount + @transaction.service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="new_weekly_total_price"> <%= (@transaction.amount - @transaction.poster_service_fee).round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left">Original weekly total</span>
-      <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount + @old_transaction.service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount - @old_transaction.poster_service_fee).round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left"><b>Weekly price difference</b></span>
-      <span class="right"><b>$<span id="weekly_total_price_difference"> <%= ((@transaction.amount + @transaction.service_fee) - (@old_transaction.amount + @old_transaction.service_fee)).round(2) %> </span> </b></span>
+      <span class="right"><b>$<span id="weekly_total_price_difference"> <%= ((@transaction.amount - @transaction.poster_service_fee) - (@old_transaction.amount - @old_transaction.poster_service_fee)).round(2) %> </span> </b></span>
     </li>
   </ul>
 
@@ -87,22 +87,22 @@
 
     <li class="calc-item">
       <span class="left">Service fee</span>
-      <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.total_service_fee %> </span> </span>
+      <span class="right">-$<span id="hiring_weekday_price"> <%= @transaction.total_poster_service_fee %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left">New total</span>
-      <span class="right">$<span id="hiring_weekday_price"> <%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.poster_total_amount.round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left">Original total</span>
-      <span class="right">$<span id="hiring_weekday_price"> <%= (@old_transaction.total_amount + @old_transaction.total_service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @old_transaction.poster_total_amount.round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left"><b>Price difference</b></span>
-      <span class="right"><b>$<span id="hiring_weekday_price"> <%= ((@transaction.total_amount + @transaction.total_service_fee) - (@old_transaction.total_amount + @old_transaction.total_service_fee)).round(2) %> </span> </b></span>
+      <span class="right"><b>$<span id="hiring_weekday_price"> <%= (@transaction.poster_total_amount - @old_transaction.poster_total_amount).round(2) %> </span> </b></span>
     </li>
 
     <li class="calc-item">

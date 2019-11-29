@@ -26,7 +26,7 @@ class TransactionsController < ApplicationController
     availability_slots = ListingAvailability::TIME_SLOTS
 
     requested_booking_slot.each do |booking_day, booking_value|
-      if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+      if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
         if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
           continue = false
           break
@@ -37,6 +37,12 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
+        transaction.hirer_service_fee = transaction.service_fee
+        transaction.hirer_total_service_fee = transaction.total_service_fee
+        transaction.poster_service_fee = transaction.poster_service_fee
+        transaction.poster_total_service_fee = transaction.poster_total_service_fee
+
+        transaction.save
         redirect_to initialized_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"
@@ -61,7 +67,9 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      @transaction.update_attribute(:probationary_period, params[:transaction][:probationary_period])
+      binding.pry
+      address = @transaction.build_address(address_params)
+      address.save
       if Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).present?
         @conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).first
       else
@@ -134,6 +142,18 @@ class TransactionsController < ApplicationController
       :post_code,
       :country,
       :contact_no
+    )
+  end
+
+  def address_params
+    params.require(:company).permit(
+      :address_1,
+      :address_2,
+      :city,
+      :state,
+      :post_code,
+      :country,
+      :probationary_period
     )
   end
 
