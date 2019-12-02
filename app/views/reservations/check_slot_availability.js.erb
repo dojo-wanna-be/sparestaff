@@ -59,9 +59,65 @@ $("#listing_transaction").validate({
 $("#transaction_is_withholding_tax").on('change click', function () {
   if ($(this).is(":checked")) {
     $("#tax-notice").hide();
+    $("#new_withholding_tax").val("true");
+    calculateTax();
   } else {
     $("#tax-notice").show();
+    $("#new_withholding_tax").val("false");
+    calculateWithoutTax();
   }
+});
+
+function calculateWithoutTax(){
+  var weekly_earning = hiring_weekday_price + hiring_weekend_price
+  var service_tax = 0.1 * weekly_earning
+  $("#transaction_tax_withholding_amount").val('0');
+  $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
+  $("#weeklyServicePrice").html(service_tax.toFixed(2))
+  var weeklyTotalPrice = weekly_earning - service_tax
+  $("#weekly_total_price").html(weeklyTotalPrice.toFixed(2));
+  var startDate = new Date($("#transaction_start_date").val());
+  var endDate = new Date($("#transaction_end_date").val());
+  var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+  $('#ContractTaxPrice').html('0');
+  var monday = 0;
+  var tuesday = 0;
+  var wednesday = 0;
+  var thursday = 0;
+  var friday = 0;
+  var saturday = 0;
+  var sunday = 0;
+  if(totalMondays != 0)
+    monday = totalMondays - Math.floor(weekDiff)
+  if(totalTuesdays != 0)
+    tuesday = totalTuesdays - Math.floor(weekDiff)
+  if(totalWednesdays != 0)
+    wednesday = totalWednesdays - Math.floor(weekDiff)
+  if(totalThursdays != 0)
+    thursday = totalThursdays - Math.floor(weekDiff)
+  if(totalFridays != 0)
+    friday = totalFridays - Math.floor(weekDiff)
+  if(totalSaturdays != 0)
+    saturday = totalSaturdays - Math.floor(weekDiff)
+  if(totalSundays != 0)
+    sunday = totalSundays - Math.floor(weekDiff)
+  var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+  var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
+  var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+  var remainingServiceTax = 0.1 * (remainingWeeklyEarning)
+  var remainingPrice = remainingWeeklyEarning + remainingServiceTax
+  var serviceTax = ((service_tax * Math.floor(weekDiff)) - remainingServiceTax)
+  $('#ContractServicePrice').html(serviceTax.toFixed(2));
+  $('#ContractTotalPrice').html(((weeklyTotalPrice * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+  var oldPrice = parseFloat($('#old_weekly_total_price').html());
+  $('#weekly_total_price_difference').html((weeklyTotalPrice - oldPrice).toFixed(2));
+  var totalOldPrice = parseFloat($('#OldContractTotalPrice').html());
+  $('#ContractTotalPriceDifference').html((((weeklyTotalPrice * Math.floor(weekDiff)) + remainingPrice) - totalOldPrice).toFixed(2));
+}
+
+$("#transaction_tax_withholding_amount").on('keyup change', function () {
+  $("#new_tax_withholding_amount").val($(this).val());
+  calculateTax();
 });
 
 function cal_amount(){
@@ -102,10 +158,6 @@ function cal_amount(){
   }
 }
 
-$("#transaction_start_date, #transaction_end_date").on('change', function (){
-  cal_amount();
-});
-
 function validateAvailability(start_date, end_date, listing, transaction){
   $.ajax({
     url: "/reservations/check_slot_availability",
@@ -123,12 +175,14 @@ function validateAvailability(start_date, end_date, listing, transaction){
 function calculateTax(){
   var weekly_earning = hiring_weekday_price + hiring_weekend_price;
   var tax = checkTax(weekly_earning)
-  var service_tax = (3 * (weekly_earning - tax)) / 100;
-  $("#transaction_tax_withholding_amount").val(-tax);
+  var service_tax = 0.1 * (weekly_earning - tax);
+  $("#transaction_tax_withholding_amount").val("-" + tax);
   $("#weeklyServicePrice").html(service_tax.toFixed(2));
-  var weekly_total_price = weekly_earning - Math.abs(tax) + service_tax;
-  $("#weekly_total_price").html(weekly_total_price.toFixed(2));
-  totalEmploymentContract(Math.abs(tax), service_tax, weekly_total_price);
+  var weeklyTotalPrice = weekly_earning - Math.abs(tax) - service_tax;
+  $("#weekly_total_price").html(weeklyTotalPrice.toFixed(2));
+  var oldPrice = parseFloat($('#old_weekly_total_price').html());
+  $('#weekly_total_price_difference').html((weeklyTotalPrice - oldPrice).toFixed(2));
+  totalEmploymentContract(Math.abs(tax), service_tax, weeklyTotalPrice);
 }
 
 function checkTax(weekly_earning){
@@ -164,7 +218,7 @@ function checkTax(weekly_earning){
   return tax
 }
 
-function totalEmploymentContract(tax, service_tax, weekly_total_price){
+function totalEmploymentContract(tax, service_tax, weeklyTotalPrice){
   var startDate = new Date($("#transaction_start_date").val());
   var endDate = new Date($("#transaction_end_date").val());
   var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
@@ -175,7 +229,7 @@ function totalEmploymentContract(tax, service_tax, weekly_total_price){
   var friday = 0;
   var saturday = 0;
   var sunday = 0;
-  
+
   if(totalMondays != 0)
     monday = totalMondays - Math.floor(weekDiff)
   if(totalTuesdays != 0)
@@ -198,14 +252,14 @@ function totalEmploymentContract(tax, service_tax, weekly_total_price){
   var remainingWeekTax = checkTax(remainingWeeklyEarning)
   var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
   $('#total_tax_with_holding').val(fullWeekTax);
-  var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
+  var remainingServiceTax = 0.1 * (remainingWeeklyEarning - remainingWeekTax)
   var serviceTax = (service_tax * Math.floor(weekDiff)) + remainingServiceTax
-  $('#ContractTaxPrice').html(-fullWeekTax);
-  var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
+  $('#ContractTaxPrice').html(fullWeekTax);
+  var remainingPrice = remainingWeeklyEarning - remainingWeekTax - remainingServiceTax
   $('#ContractServicePrice').html(serviceTax.toFixed(2));
-  $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+  $('#ContractTotalPrice').html(((weeklyTotalPrice * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
   var totalOldPrice = parseFloat($('#OldContractTotalPrice').html());
-  $('#ContractTotalPriceDifference').html((((weekly_total_price * Math.floor(weekDiff)) + remainingPrice) - totalOldPrice).toFixed(2));
+  $('#ContractTotalPriceDifference').html((((weeklyTotalPrice * Math.floor(weekDiff)) + remainingPrice) - totalOldPrice).toFixed(2));
 }
 
 function setWeekdayHours(){
@@ -365,4 +419,8 @@ $("#listing_transaction").submit(function(e){
     $("#timing_error").show();
     return false
   }
+});
+
+$('.toggle-total-employement').click(function(){
+  $('.total-employement-list').toggle();
 });

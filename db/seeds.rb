@@ -34,5 +34,5 @@ if TaxDetail.count < 1
 end
 
 if CancellationPolicy.count < 1
-  CancellationPolicy.create(after_cancellation_hours: 24, before_cancellation_hours: 48)
+  CancellationPolicy.create(accepted_state_cancellation_hours: 24, pending_state_cancellation_hours: 48)
 end
