@@ -2,30 +2,35 @@
 #
 # Table name: transactions
 #
-#  id                     :bigint           not null, primary key
-#  amount                 :float
-#  cancelled_at           :date
-#  cancelled_by           :integer
-#  end_date               :date
-#  frequency              :integer
-#  is_withholding_tax     :boolean          default(TRUE)
-#  probationary_period    :integer
-#  reason                 :text
-#  remaining_amount       :float
-#  start_date             :date
-#  state                  :integer
-#  status                 :boolean          default(TRUE)
-#  tax_withholding_amount :float
-#  total_weekday_hours    :integer          default(0)
-#  total_weekend_hours    :integer          default(0)
-#  weekday_hours          :integer
-#  weekend_hours          :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  customer_id            :string
-#  employee_listing_id    :bigint
-#  hirer_id               :integer
-#  poster_id              :integer
+#  id                       :bigint           not null, primary key
+#  amount                   :float
+#  cancelled_at             :date
+#  cancelled_by             :integer
+#  decline_reason_by_poster :text
+#  end_date                 :date
+#  frequency                :integer
+#  hirer_service_fee        :float
+#  hirer_total_service_fee  :float
+#  is_withholding_tax       :boolean          default(TRUE)
+#  poster_service_fee       :float
+#  poster_total_service_fee :float
+#  probationary_period      :integer
+#  reason                   :text
+#  remaining_amount         :float
+#  start_date               :date
+#  state                    :integer
+#  status                   :boolean          default(TRUE)
+#  tax_withholding_amount   :float
+#  total_weekday_hours      :integer          default(0)
+#  total_weekend_hours      :integer          default(0)
+#  weekday_hours            :integer
+#  weekend_hours            :integer
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  customer_id              :string
+#  employee_listing_id      :bigint
+#  hirer_id                 :integer
+#  poster_id                :integer
 #
 # Indexes
 #
@@ -42,11 +47,13 @@ class Transaction < ApplicationRecord
   belongs_to :poster, class_name: "User", foreign_key: "poster_id"
   has_many :bookings, dependent: :destroy
   has_many :stripe_payment
+  has_one :address, dependent: :destroy
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
   enum cancelled_by: { hirer: 0, poster: 1 }
 
-  SERVICE_FEE = 3
+  HIRER_SERVICE_FEE = 0.03
+  POSTER_SERVICE_FEE = 0.1
 
   PROBATIONARY_PERIOD = {
                           "1 month" => 1,
@@ -121,13 +128,25 @@ class Transaction < ApplicationRecord
   end
 
   def service_fee
-    (0.03 * amount)
+    (HIRER_SERVICE_FEE * amount)
   end
 
   def total_service_fee
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
-    (service_fee * full_week) + (remaining_price * 0.03)
+    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+    (service_fee * full_week) + (remaining_price * HIRER_SERVICE_FEE)
+  end
+
+  def poster_service_fee
+    (POSTER_SERVICE_FEE * amount)
+  end
+
+  def poster_total_service_fee
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+    (poster_service_fee * full_week) + (remaining_price * POSTER_SERVICE_FEE)
   end
 
   def remaining_tax_withholding(amount)
@@ -150,8 +169,16 @@ class Transaction < ApplicationRecord
 
   def total_amount
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    remaining_price = remaining_amount - remaining_tax_withholding(remaining_amount)
-    ((amount + service_fee) * full_week) + remaining_price + (0.03 * remaining_price)
+    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+    ((amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+  end
+
+  def poster_total_amount
+    full_week = start_date.upto(end_date).count.fdiv(7).floor
+    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+    ((amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
   end
 
   def get_beginning_day
@@ -160,8 +187,8 @@ class Transaction < ApplicationRecord
 
   def missed_earning
     week_diff = start_date.upto(Date.today).count.fdiv(7).floor
-    full_week_payment = (amount + service_fee) * week_diff
-    Date.today > start_date ? total_amount - (full_week_payment + partial_hiring_fee) : total_amount
+    full_week_payment = (amount - poster_service_fee) * week_diff
+    Date.today > start_date ? poster_total_amount - (full_week_payment + partial_hiring_fee) : poster_total_amount
   end
 
   def partial_hiring_fee

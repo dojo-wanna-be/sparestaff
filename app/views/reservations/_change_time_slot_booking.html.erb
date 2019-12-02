@@ -1,5 +1,5 @@
 <div class="hiring-time-box">
-  <%= form_for transaction, url: change_hiring_hiring_path(id: transaction.id), method: :patch, :html => { :id => "listing_transaction" } do |f| %>
+  <%= form_for transaction, url: change_reservation_reservation_path(id: transaction.id), method: :patch, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
     <%= f.hidden_field :frequency, value: transaction.frequency %>
     <%= f.hidden_field :is_withholding_tax, value: transaction.is_withholding_tax, id: "new_withholding_tax" %>
@@ -61,5 +61,6 @@
     </div>
 
     <%= f.submit "Continue", class: 'continue-btn' %>
+    <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= employee_listing.minimum_working_hours %></label>
   <% end %>
 </div>

@@ -21,10 +21,10 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.each do |booking| %>
+      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
-          <span><%= booking.day.titleize %></span>
-          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+          <span><%= day.titleize %></span>
+          <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
         </div>
       <% end %>
     </div>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="order-details">
-      <h3 class="sub-title">Weekly payment</h3>
+      <h3 class="sub-title">Weekly payout</h3>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
         <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
@@ -54,11 +54,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$11.13</span>
+        <span>-$<%= @transaction.poster_service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount}" %></b></span>
+        <span><b><%= "$#{@transaction.amount - @transaction.poster_service_fee}" %></b></span>
       </div>
     </div>
 
@@ -75,15 +75,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.total_tax_withholding(@transaction.amount)}" %></span>
+        <span><%= "-$#{@transaction.total_tax_withholding}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$116.15</span>
+        <span>-$<%= @transaction.total_poster_service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span><b><%= "$#{@transaction.poster_total_amount.round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
@@ -98,7 +98,7 @@
           Hourly total,<br>
           minus tax withholding,<br>
           minus service fee</div><div class="divTableCell PaddingBottom10px ">
-          <span class="GreyText18Px TextLineThrough">$2,188.80</span></div>
+          <span class="GreyText18Px TextLineThrough">$<%= @transaction.missed_earning.round(2) %></span></div>
       </div>
     </div>
   </div>
@@ -107,16 +107,16 @@
     <div class="cancel-hirings-section">
       <h3 class="main-heading">Cancel Hiring Reservation</h3>
 
-      <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+      <%= form_tag tell_hirer_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
 
         <div class="affect-poster">
-          <span class="sub-title">Consider HirerDEF’s plan before cancelling</span><br>
+          <span class="sub-title">Consider <%= @transaction.hirer.name %>’s plan before cancelling</span><br>
           Cancelling hiring reservation now can disrupt their plan and have serious implication on their business and work flow.
           <br>
-          HirerDEF will be refunded the hiring reservation cost for the time that the Employee has not worked.
+          <%= @transaction.hirer.name %> will be refunded the hiring reservation cost for the time that the Employee has not worked.
         </div>
 
-        <div class="custom-label">Tell HirerDEF why you need to cancel</div>
+        <div class="custom-label">Tell <%= @transaction.hirer.name %> why you need to cancel</div>
 
         <%= text_area_tag "message_text" %>
         The hiring reservation will be cancelled immediately.

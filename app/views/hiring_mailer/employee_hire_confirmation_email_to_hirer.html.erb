@@ -42,7 +42,7 @@
 <head>
 <meta content="en-au" http-equiv="Content-Language" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Employee hire confirmed for EmployeeXYZ</title>
+<title>Employee hire confirmed for <%= @listing.name %></title>
 <link href="../sparestaff.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -54,7 +54,7 @@
 	</tr>
 	<tr>
 		<td>
-		<img alt="" class="LogoInEmail" src="http://localhost:3000/assets/logo.png" style="height: 30px;"/>
+		<img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/>
 	</tr>
 	<tr>
 		<td><br />
@@ -66,7 +66,7 @@
 				<td style="width: 50%; color: #484848;"><%= @listing.name %><br />
 				<%= @listing.title %></td>
 				<td>
-				 <img alt="" src="http://localhost:3000/assets/luca.png" class="Image200pxRight" style="width:200px; float:right;"/></td>
+				 <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width:200px; float:right;"/></td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -102,11 +102,11 @@
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">Weekly total payment</td>
-				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.amount}" %></td>
+				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.amount.round(2)}" %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">Total employment contract</td>
-				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount}" %></td>
+				<td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount.round(2)}" %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
@@ -118,7 +118,7 @@
 				<h4><%= @poster.name %> is Poster</h4>
 				Contact <%= @poster.name %> for further coordination.</td>
 				<td>
-				<img alt="" src="http://localhost:3000/assets/zidane-profile.jpg" style="width:200px; float:right;" class="Image200pxRight"></td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" style="width:200px; float:right;" class="Image200pxRight"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />

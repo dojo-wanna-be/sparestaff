@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   include EmployeeListingsHelper
 
+  skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :ensure_company_owner, except: [:check_slot_availability]
   before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
@@ -26,7 +27,7 @@ class TransactionsController < ApplicationController
     availability_slots = ListingAvailability::TIME_SLOTS
 
     requested_booking_slot.each do |booking_day, booking_value|
-      if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+      if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
         if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
           continue = false
           break
@@ -37,23 +38,12 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
+        transaction.hirer_service_fee = transaction.service_fee
+        transaction.hirer_total_service_fee = transaction.total_service_fee
+        transaction.poster_service_fee = transaction.poster_service_fee
+        transaction.poster_total_service_fee = transaction.poster_total_service_fee
 
-        # week_day_bookings = transaction.week_day_bookings
-        # weekday_hours = 0
-        # week_day_bookings.each do |booking|
-        #   weekday_hours = weekday_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
-        # end
-
-        # week_end_bookings = transaction.week_end_bookings
-        # weekend_hours = 0
-        # week_end_bookings.each do |booking|
-        #   weekend_hours = weekend_hours + availability_slots[(availability_slots.index(booking.start_time.strftime("%H:%M")))...(availability_slots.index(booking.end_time.strftime("%H:%M")))].count
-        # end
-
-        # week_day_earning = weekday_hours * transaction.employee_listing.weekday_price
-        # week_end_earning = weekend_hours * transaction.employee_listing.weekend_price
-        # total_weekly_earning = week_day_earning + week_end_earning
-
+        transaction.save
         redirect_to initialized_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"
@@ -78,19 +68,21 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      @transaction.update_attribute(:probationary_period, params[:transaction][:probationary_period])
-      # if Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).present?
-      #   @conversation = Conversation.between(current_user.id, @employee_listing.poster.id, @employee_listing.id).first
-      # else
-      #   @conversation = Conversation.create!( receiver_id: @employee_listing.poster.id,
-      #                                         sender_id: current_user.id,
-      #                                         employee_listing_id: @employee_listing.id
-      #                                       )
-      # end
-      # message = @conversation.messages.build
-      # message.content = params[:message_text]
-      # message.sender_id = current_user.id
-      # message.save
+      binding.pry
+      address = @transaction.build_address(address_params)
+      address.save
+      if Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).present?
+        @conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).first
+      else
+        @conversation = Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: @transaction.hirer_id,
+                                              employee_listing_id: @employee_listing.id
+                                            )
+      end
+      message = @conversation.messages.build
+      message.content = params[:message_text].present? ? params[:message_text] : ''
+      message.sender_id = current_user.id
+      message.save
       redirect_to payment_transaction_path(id: @transaction.id)
     end
   end
@@ -125,9 +117,8 @@ class TransactionsController < ApplicationController
                               )
       end
       message = user_conversation.messages.last
-      # TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
-      # TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
-      PaymentWorker.perform_at(@transaction.start_date, @transaction.id, @transaction.frequency)
+      TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
+      TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     rescue Exception => e
       flash[:error] = e
@@ -169,6 +160,18 @@ class TransactionsController < ApplicationController
       :post_code,
       :country,
       :contact_no
+    )
+  end
+
+  def address_params
+    params.require(:company).permit(
+      :address_1,
+      :address_2,
+      :city,
+      :state,
+      :post_code,
+      :country,
+      :probationary_period
     )
   end
 

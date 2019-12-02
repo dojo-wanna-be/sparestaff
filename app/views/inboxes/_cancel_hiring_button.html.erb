@@ -1,0 +1,9 @@
+<div class="reservation-order-box">
+  <div class="sub-title18"><b>You requested to hire this employee</b></div>
+  <br>
+  <div>Payment is only processed if Poster accepts your request. Poster has 48 hours to accept or decline your request. Send messages if you have any further questions. If you need to make changes to this hiring, cancel this request and create a new one instead.</div>
+  <br>
+  <div class="btn-box">
+    <%= link_to "Cancel Request", cancel_hiring_path(id: @transaction.id), method: :patch, data: {confirm: 'Are you sure that you want to cancel the request? Any money transacted will be refunded.'}, class: "modal-orange-btn" %>
+  </div>
+</div>

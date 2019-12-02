@@ -21,10 +21,10 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.each do |booking| %>
+      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
-          <span><%= booking.day.titleize %></span>
-          <span><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></span>
+          <span><%= day.titleize %></span>
+          <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
         </div>
       <% end %>
     </div>
@@ -34,13 +34,12 @@
         <span class="grey-text">Probationary period</span>
       </div>
       <div class="order-item ">
-        <% company = @listing.poster.company %>
-        <div class="month1"><%= company.probationary_period.eql?(1) ? "#{company.probationary_period} month" : "#{company.probationary_period} months" %></div>
+        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
       </div>
     </div>
 
     <div class="order-details">
-      <h3 class="sub-title">Weekly payment</h3>
+      <h3 class="sub-title">Weekly payout</h3>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
         <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
@@ -51,15 +50,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.tax_withholding_amount}" %></span>
+        <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$11.13</span>
+        <span>-$<%= @transaction.poster_service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount - @transaction.poster_service_fee).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -76,15 +75,15 @@
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
-        <span><%= "-$#{@transaction.total_tax_withholding(@transaction.amount)}" %></span>
+        <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span>$116.15</span>
+        <span>-$<%= @transaction.total_poster_service_fee.round(2) %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
@@ -95,7 +94,7 @@
   <div class="right-detail cancel-hirings-right-detail">
     <div class="cancel-hirings-section">
       <h3 class="main-heading">Your Hiring Reservation Has Been Cancelled</h3>
-      <div>You and HirerDEF will receive an email confirmation from Spare Staff.</div>
+      <div>You and <%= @transaction.hirer.name %> will receive an email confirmation from Spare Staff.</div>
 
       <%= link_to "Return to Your Reservations", reservations_path, class: 'continue-btn' %>
 

@@ -9,16 +9,13 @@
  
 </style>
 
-
-
-
 <table class="Padding80px" style="width: 100%">
   <tr>
     <td>&nbsp;&nbsp;</td>
   </tr>
   <tr>
     <td>
-    <img alt=""  src="http://localhost:3000/assets/logo.png" style="height: 30px;" /></td>
+    <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
 
   </tr>
   <tr>
@@ -53,7 +50,7 @@
         <td style="width: 50%; color:#484848;"><%= @listing.name %><br />
         <%= @listing.title %></td>
         <td>
-        <img alt="" src="http://localhost:3000/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
       </tr>
       <tr>
         <td colspan="2">
@@ -74,11 +71,11 @@
       </tr>
       <tr>
         <td style="color: #484848;"><strong>New weekly total</strong></td>
-        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount}" %></strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
       </tr>
       <tr>
         <td style="color: #484848;">New employment contract total</td>
-        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount}" %></td>
+        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
       <tr>
         <td colspan="2" style="color:#484848;">&nbsp;<br />

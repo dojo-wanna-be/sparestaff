@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: cancellation_policies
+#
+#  id                        :bigint           not null, primary key
+#  after_cancellation_hours  :integer          default(0)
+#  before_cancellation_hours :integer          default(0)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  before_cancellation_hours: 1
+  after_cancellation_hours: 1
+
+two:
+  before_cancellation_hours: 1
+  after_cancellation_hours: 1

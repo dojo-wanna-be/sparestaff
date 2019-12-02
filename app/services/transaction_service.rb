@@ -27,13 +27,13 @@ class TransactionService
         total_weekend_hours = weekly_hours[:total_saturday_hours] + weekly_hours[:total_sunday_hours]
 
         week_diff = @start_date.upto(@end_date).count.fdiv(7).floor
-        monday = 0;
-        tuesday = 0;
-        wednesday = 0;
-        thursday = 0;
-        friday = 0;
-        saturday = 0;
-        sunday = 0;
+        monday = 0
+        tuesday = 0
+        wednesday = 0
+        thursday = 0
+        friday = 0
+        saturday = 0
+        sunday = 0
         if weekly_hours[:no_of_mondays] > 0
           monday = weekly_hours[:no_of_mondays] - week_diff
         end

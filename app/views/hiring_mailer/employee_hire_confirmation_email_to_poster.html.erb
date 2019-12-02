@@ -66,7 +66,7 @@
 <head>
 <meta content="en-au" http-equiv="Content-Language" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Employee hire confirmed for EmployeeXYZ</title>
+<title>Employee hire confirmed for <%= @listing.name %></title>
 <link href="../sparestaff.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -78,7 +78,7 @@
 	</tr>
 	<tr>
 		<td>
-		 <img alt=""  src="http://localhost:3000/assets/logo.png" style="height: 30px;" /></td>
+		 <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
 	</tr>
 	<tr>
 		<td><br />
@@ -89,12 +89,12 @@
 				<td style="width: 50%; color: #484848;"><%= @listing.name %><br />
 				<%= @listing.title %></td>
 				<td>
-				 <img alt="" src="http://localhost:3000/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+				 <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
 			</tr>
 			<tr>
 				<td colspan="2">
 				<br />
-				<div class="GreyLine1Px"></div>				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> 	<br />
 				</td>
 			</tr>
 			<tr>
@@ -152,12 +152,12 @@
 			</tr>
 			<tr>
 				<td style="width: 300px;color: #484848"><strong>Your weekly earning</strong></td>
-				<td style="text-align: right; font-size: 14pt; color: #484848;"><strong>$<%= (@transaction.amount).round(2) %></strong></td>
+				<td style="text-align: right; font-size: 14pt; color: #484848;"><strong>$<%= @transaction.amount.round(2) %></strong></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;color: #484848;"><strong>Total employment contract 
 				earning</strong></td>
-				<td style="text-align: right; font-size: 14pt;color: #484848;"><strong>$<%= (@transaction.total_amount).round(2) %></strong></td>
+				<td style="text-align: right; font-size: 14pt;color: #484848;"><strong>$<%= @transaction.total_amount.round(2) %></strong></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="color: #484848;"><p>7 days after employment contract starts, the 
@@ -186,7 +186,8 @@
 				<h4><%= @hirer.name %> is Hirer</h4>
 				Contact <%= @hirer.name %> for further coordination.</td>
 				<td>
-				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
+				
+				<img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" class="Image200pxRight" style="width: 200px;float:right;" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />

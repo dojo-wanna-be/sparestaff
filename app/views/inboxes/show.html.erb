@@ -120,12 +120,18 @@
   </div>
 
   <div class="right-detail">
-    <% if @transaction.state.eql?("created") %>
-      <%= render partial: "accept_or_decline_option" %>
-    <% elsif @transaction.state.eql?("accepted") %>
-      <%= render partial: "change_or_cancel_option" %>
-    <% elsif @transaction.state.eql?("rejected") %>
-      <%= render partial: "declined_info" %>
+    <% if current_user == @transaction.poster %>
+      <% if @transaction.state.eql?("created") %>
+        <%= render partial: "accept_or_decline_option" %>
+      <% elsif @transaction.state.eql?("accepted") %>
+        <%= render partial: "change_or_cancel_option" %>
+      <% elsif @transaction.state.eql?("rejected") %>
+        <%= render partial: "declined_info" %>
+      <% end %>
+    <% elsif current_user == @transaction.hirer %>
+      <% if @transaction.state.eql?("created") %>
+        <%= render partial: "cancel_hiring_button" %>
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -53,7 +53,9 @@
 #
 
 class EmployeeListing < ApplicationRecord
-  default_scope { where(deactivated: false) }
+  scope :active, -> { where(deactivated: false) }
+  scope :published, -> { where(published: true) }
+  scope :unpublished, -> { where(published: false) }
 
   attr_accessor :other_weekday_price
   attr_accessor :other_weekend_price

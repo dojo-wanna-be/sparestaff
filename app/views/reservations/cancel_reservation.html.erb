@@ -41,7 +41,7 @@
     <% end %>
 
     <div class="order-details">
-      <h3 class="sub-title">Weekly payment</h3>
+      <h3 class="sub-title">Weekly payout</h3>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
         <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
@@ -56,11 +56,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span><%= "$#{@transaction.service_fee.round(2)}" %></span>
+        <span><%= "-$#{@transaction.poster_service_fee.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount - @transaction.poster_service_fee).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -81,11 +81,11 @@
       </div>
       <div class="order-item space-bottom">
         <span>Service fee</span>
-        <span><%= "$#{@transaction.total_service_fee.round(2)}" %></span>
+        <span><%= "-$#{@transaction.total_poster_service_fee.round(2)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
+        <span><b><%= "$#{@transaction.poster_total_amount.round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
@@ -100,7 +100,7 @@
           Hourly total,<br>
           minus tax withholding,<br>
           minus service fee</div><div class="divTableCell PaddingBottom10px ">
-          <span class="GreyText18Px TextLineThrough">$2,188.80</span></div>
+          <span class="GreyText18Px TextLineThrough">$<%= @transaction.missed_earning.round(2) %></span></div>
       </div>
     </div>
   </div>

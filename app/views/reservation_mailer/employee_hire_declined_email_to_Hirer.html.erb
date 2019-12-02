@@ -1,10 +1,69 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+  .view_hiring:link{
+    text-decoration: none;       
+  }
+
+  .view_hiring:visited{ 
+    text-decoration: none;         
+  }
+
+  .view_hiring:hover{
+    text-decoration: underline;
+  }
+  .send_message:link{
+    text-decoration: none;       
+  }
+
+  .send_message:visited{ 
+    text-decoration: none;         
+  }
+
+  .send_message:hover{
+    text-decoration: underline;
+  }
+
+  .learn_more:link{
+  	text-decoration: none;
+  	color:#f15927;
+  }
+  .learn_more:visited{
+  	text-decoration: none;
+  	color:#f15927;
+  }
+  .learn_more:hover{
+  	text-decoration: underline;
+  	color:#f15927;
+  }
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 <meta content="en-au" http-equiv="Content-Language" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Employee hire request delined for EmployeeXYZ</title>
+<title>Employee hire request delined for <%= @listing.name %></title>
 <link href="../sparestaff.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -16,23 +75,22 @@
 	</tr>
 	<tr>
 		<td>
-		<img alt="" class="LogoInEmail" src="../images/logo.png"/></td>
+		<img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
 	</tr>
 	<tr>
 		<td><br />
-		<h1>Your hire request is declined</h1>
-		We are sorry to tell you that your request to hire is declined <br />
+		<h1 style="color: #484848;">Your hire request is declined</h1>
+		<p style="color: #484848;">We are sorry to tell you that your request to hire is declined <br />
 		<br />
-		<table style="width: 500px">
-			<tr>
-				<td colspan="2"><table style="border:1px; border-style:solid; border-color:#E1E1E1;">
-							<tr>
-								<td style="padding:10px;">Hello James, sorry the 
-								employee is away and unavailable to work during 
-								the time you requested. I hope you will find 
-								another one soon.</td>
-							</tr>
-						</table>
+		<% if @message.present? && @message.content.present? %>
+			<table style="width: 500px">
+				<tr>
+					<td colspan="2"><table style="border:1px; border-style:solid; border-color:#E1E1E1;">
+								<tr>
+									<td style="padding:10px; color: #484848;"><%= @message.content %></td>
+								</tr>
+							</table>
+		<% end %>
 </td>
 			</tr>
 			<tr>
@@ -41,26 +99,26 @@
 				&nbsp;</td>
 			</tr>
 			<tr>
-				<td style="width: 50%">Cristiano Ronaldo<br />
-				Experienced IT Engineer</td>
+				<td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+				<%= @listing.title %></td>
 				<td>
-				<img alt="" src="../images/luca.png" class="Image200pxRight" /></td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
 			</tr>
 			<tr>
 				<td colspan="2">
 				<br />
-				<div class="GreyLine1Px"></div>				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px"><strong>From</strong><br />
-				Monday Feb 12, 2019</td>
-				<td style="text-align: right"><strong>To</strong><br />
-				Wednesday Apr 24, 2019</td>
+				<td style="width: 300px; color: #484848;"><strong>From</strong><br />
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+				<td style="text-align: right; color: #484848;"><strong>To</strong><br />
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px"></div>				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
 </td>
 			</tr>
 			<tr>
@@ -68,46 +126,47 @@
 		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
 			<tr>
 				<td style="text-align: center">
-				<a class="WhiteLink12pt" href="../user-hiring/user-declined-hiring-send-message.html">View Full Request</a></td>
+				<a class="send_message" href="#" style="color: #fff;">View Full Request</a></td>
 			</tr>
 		</table>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px"></div>				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
 </td>
 			</tr>
 			<tr>
-				<td style="width: 300px; height: 33px;">Total weekly payment</td>
-				<td style="text-align: right; height: 33px;">$382.13</td>
+				<td style="width: 300px; height: 33px; color: #484848;">Total weekly payment</td>
+				<td style="text-align: right; height: 33px; color: #484848;">$<%= (@transaction.amount + @transaction.service_fee).round(2) %></td>
 			</tr>
 			<tr>
-				<td style="width: 300px; height: 33px;">Total employment 
+				<td style="width: 300px; height: 33px; color: #484848;">Total employment 
 				contract</td>
-				<td style="text-align: right; height: 33px;">$4,001.55</td>
+				<td style="text-align: right; height: 33px; color: #484848;">$<%= @transaction.total_amount.round(2) %></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px"></div>				<br />
-</td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+             </td>
 			</tr>
 			<tr>
-				<td style="width: 300px">
-				<h4>PosterABC is Poster</h4>
-				Contact PosterABC for further questions.</td>
+				<td style="width: 300px; color: #484848;">
+				<h4><%= @poster.name %> is Poster</h4>
+				Contact <%= @poster.name %> for further questions.</td>
 				<td>
-				<img alt="" src="../images/zidane-profile.jpg" width="500" class="Image200pxRight" /></td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+
 			</tr>
 			<tr>
 				<td colspan="2"><br />
-				<div class="GreyLine1Px"></div>				<br />
-</td>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+            </td>
 			</tr>
 			<tr>
 				<td colspan="2">
-				<h4>Customer support&nbsp;</h4>
-				<p><a href="https://www.sparestaff.com.au/help">Visit Help 
+				<h4 style="color: #484848;">Customer support&nbsp;</h4>
+				<p><a href="https://www.sparestaff.com.au/help" class="Visit">Visit Help 
 				Center</a></p>
 				</td>
 			</tr>
@@ -125,14 +184,7 @@
 	<tr>
 		<td>&nbsp;</td>
 	</tr>
-	<tr>
-		<td><span style="color: #FF0000">Note to web deveopers:</span><br style="color: #FF0000" />
-		<span style="color: #FF0000">Email subject is same as Title of this 
-		page.<br />
-		Replace Cristiano Ronaldo with full name (first + last name) of 
-		employee.<br />
-		Replace PosterABC with full name of the Poster.</span></td>
-	</tr>
+
 </table>
 
 </body>

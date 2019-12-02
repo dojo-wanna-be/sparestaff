@@ -72,7 +72,7 @@
                     </div>
                   </div>
                   <div class="list-box five">
-                    <%= "#{number_to_currency((transaction.total_amount + transaction.total_service_fee).round(2))} Total" %><br>
+                    <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %><br>
                     <%#= link_to 'Print confirmation', reservation_path(id: transaction.id), class: 'orange-text' %>
                     <br>
                     <%#= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>

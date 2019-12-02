@@ -1,36 +1,59 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+ 
+ 
+ .accept_decline:link{
+    text-decoration: none;    
+  }
+
+  .accept_decline:visited{ 
+    text-decoration: none;      
+  }
+
+  .accept_decline:hover{
+    text-decoration: underline;
+  }
+</style>
+
 <table class="Padding80px" style="width: 100%">
   <tr>
     <td>&nbsp;&nbsp;</td>
   </tr>
   <tr>
     <td>
-    <img alt="" height="60" src="../../images/Spare-Staff-130x130.png" width="60" /></td>
+    <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/>
   </tr>
   <tr>
     <td><br />
-    <h1>Hiring change request</h1>
-    <p>The Hirer has submited a change request to this hiring.</p>
+    <h1 style="color:#484848;">Hiring change request</h1>
+    <p style="color: #484848;">The Hirer has submited a change request to this hiring.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
-        <table>
-          <tr>
-            <td>
-            <strong>Message from Hirer:</strong><br />
-            Hello <%= @poster.name %>, I'd like to change this hiring date and 
-            time due to unforseen circumstances. Hope you'd get this 
-            message in time.</td>
-          </tr>
+        <table style="width:100%;">
+          <% if @message.present? && @message.content.present? %>
+            <tr>
+              <td>
+              <strong>Message from Hirer:</strong><br />
+              <%= @message.content %></td>
+            </tr>
+          <% end %>
           <tr>
             <td>
             &nbsp;</td>
           </tr>
           <tr>
             <td>
-            <table style="height:40px; background-color: #E1E1E1;">
+            <table style="height:40px; background-color: #E1E1E1; width: 100%;">
               <tr>
                 <td>
-                <h4>&nbsp;&nbsp; Employment Contract</h4>
+                <h4 style="color: #484848;">&nbsp;&nbsp; Employment Contract</h4>
                 </td>
               </tr>
             </table>
@@ -43,53 +66,55 @@
         </td>
       </tr>
       <tr>
-        <td style="width: 50%"><%= @listing.name %><br />
+        <td style="width: 50%; color: #484848;"><%= @listing.name %><br />
         <%= @listing.title %></td>
         <td>
-        <img alt="" src="../../images/luca.png" class="Image200pxRight" style="width: 200px" /></td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width:200px; float:right;"/></td>
       </tr>
       <tr>
         <td colspan="2">
         <br />
-        <div class="GreyLine1Px"></div>       <br />
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
         </td>
       </tr>
       <tr>
-        <td style="width: 300px"><strong>From (new date)</strong><br />
+        <td style="width: 300px; color: #484848;"><strong>From (new date)</strong><br />
         <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
-        <td style="text-align: right"><strong>To (new date)</strong><br />
+        <td style="text-align: right; color: #484848;"><strong>To (new date)</strong><br />
         <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
       </tr>
       <tr>
         <td colspan="2"><br />
-        <div class="GreyLine1Px"></div>       <br />
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
 </td>
       </tr>
       <tr>
-        <td><strong>New weekly payout</strong></td>
-        <td style="text-align: right"><strong><%= "$#{@transaction.amount + @transaction.service_fee}" %></strong></td>
+        <td style="color: #484848;"><strong>New weekly payout</strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount + @transaction.service_fee}" %></strong></td>
       </tr>
       <tr>
-        <td>New employment contract total</td>
-        <td style="text-align: right"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+        <td style="color: #484848;">New employment contract total</td>
+        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
       </tr>
       <tr>
-        <td colspan="2">&nbsp;<br />
+        <td colspan="2" style="color: #484848;">&nbsp;<br />
         If you accept the request, we will immediately update the 
         contract and your new weekly payout will be updated accordingly. If you 
         choose to decline or don't respond, the contract will remain unchanged.</td>
       </tr>
       <tr>
         <td colspan="2"><br />
-        <div class="GreyLine1Px"></div>       <br />
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
 </td>
       </tr>
       <tr>
         <td colspan="2">
-    <table class="ButtonOrange" align="center">
+    <table class="ButtonOrange" align="center" style="background-color: #F15927; width: 180px;
+    height: 40px;
+    border-radius: 3px;">
       <tr>
         <td style="text-align: center">
-        <%= link_to "Accept or Decline", inbox_url(id: @transaction.id), class: "WhiteLink12pt" %></td>
+        <%= link_to "Accept or Decline", inbox_url(id: @transaction.id), class: "accept_decline", style: "color:#fff" %></td>
       </tr>
     </table>
         </td>

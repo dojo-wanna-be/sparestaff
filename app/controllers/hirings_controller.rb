@@ -19,14 +19,18 @@ class HiringsController < ApplicationController
                                           ]
 
   before_action :ensure_not_poster, only: [:change_hiring]
+  skip_before_action :authenticate_user!, only: [:check_slot_availability]
 
   def index
     hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-    @hired_listing_transactions = hirer_transactions.includes(:employee_listing)
+    @hired_listing_transactions = hirer_transactions.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
+    @past_listing_transactions = hirer_transactions.where(state: [:expired, :completed]).includes(:employee_listing)
+    @declined_listing_transactions = hirer_transactions.where(state: "rejected").includes(:employee_listing)
   end
 
   def show
     @listing = @transaction.employee_listing
+    @address = @transaction.address
   end
 
   def change_or_cancel
@@ -42,9 +46,9 @@ class HiringsController < ApplicationController
         conversation.first
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
-                                            )
+                                sender_id: current_user.id,
+                                employee_listing_id: @transaction.employee_listing_id
+                              )
       end
       if params[:message_text].present?
         message = @conversation.messages.build
@@ -52,8 +56,9 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver!
-      HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
+      HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      PaymentWorker.perform_at(@transaction.start_date, @transaction.id, @transaction.frequency)
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -68,9 +73,9 @@ class HiringsController < ApplicationController
       conversation.first
     else
        Conversation.create!( receiver_id: @transaction.poster_id,
-                                            sender_id: current_user.id,
-                                            listing_id: @transaction.employee_listing_id
-                                          )
+                              sender_id: current_user.id,
+                              employee_listing_id: @transaction.employee_listing_id
+                            )
     end
     if params[:message_text].present?
       message = @conversation.messages.build
@@ -89,9 +94,9 @@ class HiringsController < ApplicationController
         conversation.first
       else
          Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
-                                            )
+                                sender_id: current_user.id,
+                                employee_listing_id: @transaction.employee_listing_id
+                              )
       end
       if params[:message_text].present?
         message = @conversation.messages.build
@@ -99,8 +104,8 @@ class HiringsController < ApplicationController
         message.sender_id = current_user.id
         message.save
       end
-      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction).deliver!
-      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction).deliver!
+      HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver_later!
+      HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
@@ -144,7 +149,7 @@ class HiringsController < ApplicationController
       availability_slots = ListingAvailability::TIME_SLOTS
 
       requested_booking_slot.each do |booking_day, booking_value|
-        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present?
+        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
           if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
             continue = false
             break
@@ -155,6 +160,12 @@ class HiringsController < ApplicationController
       if continue
         @new_transaction = TransactionService.new(params, current_user).create
         if @new_transaction.present?
+          @new_transaction.hirer_service_fee = @new_transaction.service_fee
+          @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
+          @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
+          @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
+
+          @new_transaction.save
           redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"
@@ -172,8 +183,18 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver!
-      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction).deliver!
+      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
+      if conversation.present?
+        @conversation = conversation.first
+      else
+        @conversation = Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: @transaction.poster_id,
+                                              employee_listing_id: @transaction.employee_listing_id
+                                            )
+      end
+      message = @conversation.messages.last
+      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
       redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end
@@ -193,8 +214,18 @@ class HiringsController < ApplicationController
   end
 
   def cancel
-    @transaction.update_attributes(status: false, state: "cancelled", cancelled_at: Date.today)
-    redirect_to hirings_path
+    if @transaction.present?
+      if @transaction.state.eql?("created")
+        @transaction.destroy
+        redirect_to hirings_path
+      else
+        flash[:error] = "You cannot cancel the request"
+        redirect_to hirings_path
+      end
+    else
+      flash[:error] = "Record not found"
+      redirect_to hirings_path
+    end
   end
 
   def tell_poster
@@ -211,15 +242,15 @@ class HiringsController < ApplicationController
       else
         @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                                               sender_id: current_user.id,
-                                              listing_id: @listing.id
+                                              employee_listing_id: @listing.id
                                             )
       end
       message = @conversation.messages.build
       message.content = params[:message_text]
       message.sender_id = current_user.id
       message.save
-      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver!
-      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver!
+      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
       redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
     end
   end
@@ -234,7 +265,7 @@ class HiringsController < ApplicationController
 
   def send_details
     transaction = Transaction.find_by(id: params[:transaction_id])
-    TransactionMailer.send_hiring_details(transaction, params[:email]).deliver!
+    TransactionMailer.send_hiring_details(transaction, params[:email]).deliver_later!
     flash[:notice] = "Shared successfully"
     redirect_to hirings_path
   end

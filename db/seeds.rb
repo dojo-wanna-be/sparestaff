@@ -32,3 +32,7 @@ if TaxDetail.count < 1
   t6 = TaxDetail.create(weekly_earning: 1730 , a: 0.3450 , b: 161.9808)
   t7 = TaxDetail.create(weekly_earning: 3461 , a: 0.4700 , b: 239.8654)
 end
+
+if CancellationPolicy.count < 1
+  CancellationPolicy.create(after_cancellation_hours: 24, before_cancellation_hours: 48)
+end
