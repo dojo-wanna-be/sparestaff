@@ -109,7 +109,6 @@ class TransactionsController < ApplicationController
 
   def request_payment
     @employee_listing = @transaction.employee_listing
-    # Payment code
     begin
       stripe_token = params[:stripe_token]
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
@@ -128,7 +127,7 @@ class TransactionsController < ApplicationController
       message = user_conversation.messages.last
       # TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver!
       # TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver!
-
+      PaymentWorker.perform_at(@transaction.start_date, @transaction.id, @transaction.frequency)
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     rescue Exception => e
       flash[:error] = e

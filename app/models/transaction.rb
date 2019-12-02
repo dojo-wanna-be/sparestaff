@@ -41,7 +41,7 @@ class Transaction < ApplicationRecord
   belongs_to :hirer, class_name: "User", foreign_key: "hirer_id"
   belongs_to :poster, class_name: "User", foreign_key: "poster_id"
   has_many :bookings, dependent: :destroy
-
+  has_many :stripe_payment
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
   enum cancelled_by: { hirer: 0, poster: 1 }
@@ -175,5 +175,9 @@ class Transaction < ApplicationRecord
       end
     end
     (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
+  end
+
+  def accepted
+    state == 'accepted' ? true : false
   end
 end
