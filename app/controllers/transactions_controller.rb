@@ -68,7 +68,6 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      binding.pry
       address = @transaction.build_address(address_params)
       address.save
       if Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).present?

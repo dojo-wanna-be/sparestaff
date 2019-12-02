@@ -128,6 +128,9 @@ class HiringsController < ApplicationController
 
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      @transaction.bookings.group_by(&:day).each do |day, bookings|
+        instance_variable_set "@#{day}Hour".to_sym, (bookings.first.end_time - bookings.first.start_time) / 3600
+      end
       @disabled_time = unavailable_time_slots(bookings)
     else
       listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
