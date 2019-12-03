@@ -8,6 +8,7 @@
 #  updated_at      :datetime         not null
 #  conversation_id :bigint
 #  sender_id       :integer
+#  transaction_id  :integer
 #
 # Indexes
 #
