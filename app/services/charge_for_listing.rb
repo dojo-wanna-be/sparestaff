@@ -1,6 +1,6 @@
 class ChargeForListing
 	
-	attr_reader transaction_id
+	attr_reader :transaction_id
 
 	def initialize(transaction_id)
 		@transaction_id = transaction_id
