@@ -407,7 +407,7 @@ $(".saturday_time_slot").change(function(){
 
 $("#listing_transaction").submit(function(e){
   if ( isSunday || isMonday || isTuesday || isWednesday || isThursday || isFriday || isSaturday ) {
-    if (<%= @employee_listing.minimum_working_hours %> > (total_weekday_hours + totalWeekendHours)){
+    if (<%= @employee_listing.minimum_working_hours %> > (sundayHour + mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour + saturdayHour)){
       $("#total_hour_error").show();
       return false
     }else {
