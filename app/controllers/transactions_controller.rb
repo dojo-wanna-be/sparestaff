@@ -69,19 +69,7 @@ class TransactionsController < ApplicationController
     else
       @company.update(company_params)
       address = @transaction.build_address(address_params)
-      address.save
-      if Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).present?
-        @conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id).first
-      else
-        @conversation = Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: @transaction.hirer_id,
-                                              employee_listing_id: @employee_listing.id
-                                            )
-      end
-      message = @conversation.messages.build
-      message.content = params[:message_text].present? ? params[:message_text] : ''
-      message.sender_id = current_user.id
-      message.save
+      create_message
       redirect_to payment_transaction_path(id: @transaction.id)
     end
   end
@@ -106,16 +94,7 @@ class TransactionsController < ApplicationController
       stripe_info = current_user.stripe_info
       stripe_info.update_attributes(last_four_digits: card.last4, card_type: card.brand)
       @transaction.update_attribute(:state, "created")
-      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
-      user_conversation = if conversation.present?
-        conversation.first
-      else
-         Conversation.create!(  receiver_id: @transaction.hirer_id,
-                                sender_id: @transaction.poster_id,
-                                listing_id: @transaction.employee_listing_id
-                              )
-      end
-      message = user_conversation.messages.last
+      message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
@@ -216,4 +195,23 @@ class TransactionsController < ApplicationController
       redirect_to employee_index_path
     end
   end
+
+  def find_or_create_conversation
+    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id)
+    if conversation.present?
+      conversation.first
+    else
+      Conversation.create!( receiver_id: @transaction.poster_id,
+                                              sender_id: @transaction.hirer_id,
+                                              employee_listing_id: @employee_listing.id
+                                            )
+    end
+  end
+
+  def create_message
+    conversation = find_or_create_conversation
+    conversation.update_attributes(read: false)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id, transaction_id: @transaction.id)
+  end
+
 end

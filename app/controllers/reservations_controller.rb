@@ -37,21 +37,7 @@ class ReservationsController < ApplicationController
     if @transaction.update_attributes(state: "accepted")
       @listing = @transaction.employee_listing
       hirer = User.find_by(id: @transaction.hirer_id)
-      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
-      @conversation = if conversation.present?
-        conversation.first
-      else
-         Conversation.create!( receiver_id: @transaction.hirer_id,
-                                              sender_id: current_user.id,
-                                              employee_listing_id: @transaction.employee_listing_id
-                                            )
-      end
-      if params[:message_text].present?
-        message = @conversation.messages.build
-        message.content = params[:message_text]
-        message.sender_id = current_user.id
-        message.save
-      end
+      create_message
       ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
       ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
@@ -63,34 +49,14 @@ class ReservationsController < ApplicationController
 
   def decline_request
     @transaction.update_attribute(:reason, params[:reason])
-    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
-    @conversation = if conversation.present?
-      conversation.first
-    else
-       Conversation.create!( receiver_id: @transaction.hirer_id,
-                              sender_id: current_user.id,
-                              employee_listing_id: @transaction.employee_listing_id
-                            )
-    end
-    message = @conversation.messages.build
-    message.content = params[:message_text].present? ? params[:message_text] : ""
-    message.sender_id = current_user.id
-    message.save
+    create_message
   end
 
   def decline
     if @transaction.update_attributes(state: "rejected", decline_reason_by_poster: params[:message_text])
       @listing = @transaction.employee_listing
       conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
-      @conversation = if conversation.present?
-        conversation.first
-      else
-         Conversation.create!( receiver_id: @transaction.hirer_id,
-                                              sender_id: current_user.id,
-                                              employee_listing_id: @transaction.employee_listing_id
-                                            )
-      end
-      message = @conversation.messages&.last.present? ? @conversation.messages.last : ""
+      message = find_or_create_conversation.messages&.last.present? ? @conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.id)
@@ -194,16 +160,7 @@ class ReservationsController < ApplicationController
     hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
       @transaction.update_attribute(:state, "created")
-      conversation = Conversation.between(@transaction.poster_id, @transaction.hirer_id, @transaction.employee_listing_id)
-      if conversation.present?
-        @conversation = conversation.first
-      else
-        @conversation = Conversation.create!( receiver_id: @transaction.hirer_id,
-                                              sender_id: current_user.id,
-                                              listing_id: @transaction.employee_listing_id
-                                            )
-      end
-      message = @conversation.messages.last
+      message = find_or_create_conversation.messages.last
       ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver_later!
       redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
@@ -232,19 +189,7 @@ class ReservationsController < ApplicationController
       else
         @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
-      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @listing.id)
-      if conversation.present?
-        @conversation = conversation.first
-      else
-        @conversation = Conversation.create!( receiver_id: current_user.id,
-                                              sender_id: @transaction.hirer_id,
-                                              employee_listing_id: @listing.id
-                                            )
-      end
-      message = @conversation.messages.build
-      message.content = params[:message_text]
-      message.sender_id = current_user.id
-      message.save
+      create_message
       TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
       TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
       redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
@@ -293,6 +238,24 @@ class ReservationsController < ApplicationController
 
   def find_transaction
     @transaction = Transaction.find_by(id: params[:id])
+  end
+
+  def find_or_create_conversation
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+    if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: current_user.id,
+                                              employee_listing_id: @transaction.employee_listing_id
+                                            )
+    end
+  end
+
+  def create_message
+    conversation = find_or_create_conversation
+    conversation.update_attributes(read: false)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id, transaction_id: @transaction.id)
   end
 
   def ensure_poster
