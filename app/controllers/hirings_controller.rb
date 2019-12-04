@@ -58,7 +58,7 @@ class HiringsController < ApplicationController
       end
       HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
       HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-      PaymentWorker.perform_at(@transaction.start_date, @transaction.id, @transaction.frequency)
+      PaymentWorker.perform_at(@transaction.start_date.to_s, @transaction.id, @transaction.frequency)
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
