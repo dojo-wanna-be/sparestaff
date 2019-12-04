@@ -17,7 +17,7 @@
 
   <body>
     <%= render 'toastr_rails/flash' %>
-    <% unless params[:action].eql?("initialized") %>
+    <% unless params[:controller].eql?("transactions") %>
       <%= render partial: "layouts/header" %>
     <% end %>
     <%= yield %>

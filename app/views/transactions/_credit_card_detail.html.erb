@@ -24,16 +24,13 @@
     </div> -->
 
     <div class="joint-group">
-      <!-- <div class="custom-input-group">
+      <div class="custom-input-group">
         <label class="thin-label">Billing info*</label>
-        <%#= text_field_tag :zip_code, nil, placeholder: "Zip code", class: 'custom-field' %>
-      </div> -->
+        <%= text_field_tag :zip_code, nil, placeholder: "Zip code", class: 'custom-field' %>
+      </div>
       <div class="custom-input-group">
         <label class="thin-label">Billing country*</label>
-        <select class="custom-field">
-          <option>Credit Card</option>
-          <option>PayPal</option>
-        </select>
+        <%= select_tag :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES_WITH_CODE), class: "custom-field" %>
       </div>
     </div>
     <div class="custom-input-group">
