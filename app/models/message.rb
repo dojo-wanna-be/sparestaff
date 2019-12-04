@@ -22,4 +22,5 @@
 class Message < ApplicationRecord
   belongs_to :conversation
   belongs_to :sender, class_name: "User", foreign_key: "sender_id"
+  belongs_to :employee_listing_transaction, class_name: "Transaction", foreign_key: "transaction_id", optional: true
 end

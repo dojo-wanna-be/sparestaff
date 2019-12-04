@@ -4,7 +4,8 @@
       <%= link_to "Dashboard", user_dashboard_employee_index_path, id: "Dashboard", class: "sub-nav-link" %>
     </li>
     <li class="nav-list-item">
-      <%= link_to "Inbox", message_inbox_employee_index_path, id: "Inbox", class: "sub-nav-link" %>
+      <% is_inbox_page = params[:controller].eql?("inboxes") %>
+      <%= link_to "Inbox", inboxes_path, id: "Inbox", class: "#{ is_inbox_page ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
       <% is_listing_page = params[:controller].eql?("employee_listings") || params[:controller].eql?("reservations") %>
@@ -15,7 +16,7 @@
       <%= link_to "Your Hirings", hirings_path, id: "YourListings", class: "#{ is_hiring ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <a id="Profile" class="sub-nav-link" href="../user-profile/user-profile-edit-profile.html">Profile</a>
+      <a id="Profile" class="sub-nav-link" href="#">Profile</a>
     </li>
     <li class="nav-list-item">
       <% is_payment = params[:controller].eql?("payouts")%>
