@@ -90,11 +90,11 @@
       </tr>
       <tr>
         <td style="color: #484848;"><strong>New weekly payout</strong></td>
-        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount + @transaction.service_fee}" %></strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></strong></td>
       </tr>
       <tr>
         <td style="color: #484848;">New employment contract total</td>
-        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %></td>
+        <td style="text-align: right; color: #484848;"><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></td>
       </tr>
       <tr>
         <td colspan="2" style="color: #484848;">&nbsp;<br />
