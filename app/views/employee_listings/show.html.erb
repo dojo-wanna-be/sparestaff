@@ -908,4 +908,50 @@
       return false
     }
   });
+
+  // var date = new Date();
+  // var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  // // set end date to max one year period:
+  // var end = new Date(new Date().setYear(date.getFullYear()+1));
+
+  // $('#transaction_start_date').datepicker({
+  //   format: "dd/mm/yyyy",
+  //   startDate : date,
+  //   endDate   : end
+  // // update "transaction_end_date" defaults whenever "transaction_start_date" changes
+  // }).on('changeDate', function(){
+  //   // set the "transaction_end_date" start to not be later than "transaction_start_date" ends:
+  //   $('#transaction_end_date').datepicker('setStartDate', new Date($(this).val()));
+  // }); 
+
+  // $('#transaction_end_date').datepicker({
+  //   format: "dd/mm/yyyy",
+  //   startDate : date,
+  //   endDate   : end
+  // // update "transaction_start_date" defaults whenever "transaction_end_date" changes
+  // }).on('changeDate', function(){
+  //   // set the "transaction_start_date" end to not be later than "transaction_end_date" starts:
+  //   $('#transaction_start_date').datepicker('setEndDate', new Date($(this).val()));
+  // });
+
+  // $(document).ready(function() {
+  //   var date = new Date();
+  //   var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  //   $('#transaction_start_date').datepicker({
+  //     format: "dd/mm/yyyy",
+  //     todayHighlight: true,
+  //     startDate: today,
+  //     autoclose: true
+  //   });
+
+  //   $('#transaction_end_date').datepicker({
+  //     format: "dd/mm/yyyy",
+  //     todayHighlight: true,
+  //     startDate: today,
+  //     autoclose: true
+  //   });
+
+  //   $('#transaction_start_date, #transaction_end_date').datepicker('setDate', today);
+  // });
 </script>
