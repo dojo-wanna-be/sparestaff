@@ -36,7 +36,7 @@ class ChargeForListing
 			if frequency == 'weekly'
 	      PaymentWorker.perform_at(Date.today + 7.days, transaction_id, "weekly") if Date.today + 6.days < transaction.end_time
 	    elsif frequency == 'fortnight'
-	      PaymentWorker.perform_at(Date.today + 14.days, transaction_id, "fortnight") Date.today + 13.days < transaction.end_time
+	      PaymentWorker.perform_at(Date.today + 14.days, transaction_id, "fortnight") if Date.today + 13.days < transaction.end_time
 	    end	
 			if frequency == 'weekly'
 				diff = (transaction.end_date - Date.today).to_i > 6 ? 7 : (transaction.end_date - Date.today).to_i + 1
