@@ -20,9 +20,9 @@ class AddNewCardOnStripe
         email: user.email,
         source: stripe_token,
       )
-      stripe_info.update(stripe_customer_id: customer.id)
+
+      StripeInfo.create(stripe_customer_id: customer.id, last_four_digits:  customer.sources.data.last.last4, card_type:  customer.sources.data.last.brand)
     end
-    
     return customer && customer.sources.data.last 
   end
 end

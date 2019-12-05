@@ -103,8 +103,7 @@ class TransactionsController < ApplicationController
     begin
       stripe_token = params[:stripe_token]
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
-      stripe_info = current_user.stripe_info
-      stripe_info.update_attributes(last_four_digits: card.last4, card_type: card.brand)
+      
       @transaction.update_attribute(:state, "created")
       conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
       user_conversation = if conversation.present?
