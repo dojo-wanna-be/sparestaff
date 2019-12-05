@@ -124,8 +124,11 @@
       </li>
     </ul>
     <%= link_to 'Contact Poster', 'javascript:;', class: 'request-btn contact-poster' %>
-
-    <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
+    <% if employee_listing.poster.stripe_info.present? && employee_listing.poster.stripe_info.stripe_account_id.present? %>
+      <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
+    <% else %>
+     You can't hire until poster setup a stripe account.
+    <% end %>
     <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= @employee_listing.minimum_working_hours %></label>
     <p class="thin-text">You won't be charged yet. You will not pay the Total employment contract upfront. It's your choice to pay weekly or fortnightly.</p>
 
