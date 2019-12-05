@@ -41,14 +41,14 @@ class HiringsController < ApplicationController
     if @transaction.update_attributes(state: "accepted")
       @listing = @transaction.employee_listing
       poster = User.find_by(id: @transaction.poster_id)
-      create_message
+      message = create_message
       HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
       HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       PaymentWorker.perform_at(@transaction.start_date, @transaction.id, @transaction.frequency)
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
@@ -64,10 +64,10 @@ class HiringsController < ApplicationController
       create_message
       HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver_later!
       HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver_later!
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
@@ -265,7 +265,7 @@ class HiringsController < ApplicationController
     end
   end
 
-  def find_or_create_conversation(current_user)
+  def find_or_create_conversation
     conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
     if conversation.present?
       conversation.first
@@ -277,7 +277,7 @@ class HiringsController < ApplicationController
     end
   end
 
-  def create_message(current_user, message)
+  def create_message
     conversation = find_or_create_conversation
     conversation.update_attributes(read: false)
     message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id, transaction_id: @transaction.id)

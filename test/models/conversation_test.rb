@@ -9,6 +9,7 @@
 #  employee_listing_id :integer
 #  receiver_id         :integer
 #  sender_id           :integer
+#  transaction_id      :integer
 #
 # Indexes
 #

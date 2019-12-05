@@ -40,10 +40,10 @@ class ReservationsController < ApplicationController
       create_message
       ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
       ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
@@ -59,10 +59,10 @@ class ReservationsController < ApplicationController
       message = find_or_create_conversation.messages&.last.present? ? @conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
@@ -76,12 +76,12 @@ class ReservationsController < ApplicationController
   #     @transaction.update_attribute(:state, "accepted")
 
         # Transaction changed accepted mail to hirer
-  #     redirect_to inbox_path(id: @transaction.id)
+  #     redirect_to inbox_path(id: @transaction.conversation.id)
   #   elsif params[state: "rejected"]
 
   #     @transaction.update_attributes(state: "rejected", status: false)
         # Transaction changed rejected mail to hirer
-  #     redirect_to inbox_path(id: @old_transaction.id)
+  #     redirect_to inbox_path(id: @old_transaction.conversation.id)
   #   end
   # end
 

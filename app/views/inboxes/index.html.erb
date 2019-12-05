@@ -7,7 +7,7 @@
   </select>
   <div class="inbox_container ">
     <% @conversations.each do |conversation| %>
-      <%= link_to inbox_path(id: conversation.messages.last.transaction_id), class: 'messages' do %>
+      <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
         <div class="logo">
           <%= image_tag 'luca2.jpg', alt: '' %>
         </div>

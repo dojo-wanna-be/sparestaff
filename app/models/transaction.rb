@@ -47,7 +47,7 @@ class Transaction < ApplicationRecord
   belongs_to :poster, class_name: "User", foreign_key: "poster_id"
   has_many :bookings, dependent: :destroy
   has_many :stripe_payments
-  has_many :messages, dependent: :destroy
+  has_one :conversation, dependent: :destroy
   has_one :address, dependent: :destroy
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }

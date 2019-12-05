@@ -9,6 +9,7 @@
 #  employee_listing_id :integer
 #  receiver_id         :integer
 #  sender_id           :integer
+#  transaction_id      :integer
 #
 # Indexes
 #
@@ -20,6 +21,7 @@ class Conversation < ApplicationRecord
   belongs_to :employee_listing
   belongs_to :sender, foreign_key: :sender_id, class_name: "User"
   belongs_to :receiver, foreign_key: :receiver_id, class_name: "User"
+  belongs_to :employee_listing_transaction, class_name: "Transaction", foreign_key: "transaction_id", optional: true
 
   validates :sender_id, uniqueness: { scope: [:receiver_id, :employee_listing_id] }
 
