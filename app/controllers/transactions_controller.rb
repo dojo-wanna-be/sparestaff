@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :ensure_company_owner, except: [:check_slot_availability]
-  before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
+  #before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_company, only: [:initialized, :payment]
@@ -189,12 +189,12 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def ensure_account_id
-    unless current_user.stripe_info.present? && current_user.stripe_info.stripe_account_id.present?
-      flash[:info] = "Please create an account first"
-      redirect_to stripe_account_payouts_path
-    end
-  end
+  # def ensure_account_id
+  #   unless current_user.stripe_info.present? && current_user.stripe_info.stripe_account_id.present?
+  #     flash[:info] = "Please create an account first"
+  #     redirect_to stripe_account_payouts_path
+  #   end
+  # end
 
   def ensure_not_poster
     if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
