@@ -11,6 +11,7 @@ class InboxesController < ApplicationController
   end
 
   def send_message
+    #message = @conversation.messages.new(content: params[:message], sender_id: current_user.id)
   end
 
   private
