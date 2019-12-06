@@ -8,6 +8,12 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
+  resources :stripe_webhook, only: [] do
+    collection do
+      post :handle_stripe_webhook
+    end
+  end
+
   resources :home, :path => "home", :as => "home", only: [] do
     collection do
       get :email_availability

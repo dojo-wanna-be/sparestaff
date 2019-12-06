@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :ensure_company_owner, except: [:check_slot_availability]
-  before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
+  #before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_company, only: [:initialized, :payment]
@@ -91,8 +91,7 @@ class TransactionsController < ApplicationController
     begin
       stripe_token = params[:stripe_token]
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
-      stripe_info = current_user.stripe_info
-      stripe_info.update_attributes(last_four_digits: card.last4, card_type: card.brand)
+      
       @transaction.update_attribute(:state, "created")
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
@@ -168,12 +167,12 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def ensure_account_id
-    unless current_user.stripe_info.present? && current_user.stripe_info.stripe_account_id.present?
-      flash[:info] = "Please create an account first"
-      redirect_to stripe_account_payouts_path
-    end
-  end
+  # def ensure_account_id
+  #   unless current_user.stripe_info.present? && current_user.stripe_info.stripe_account_id.present?
+  #     flash[:info] = "Please create an account first"
+  #     redirect_to stripe_account_payouts_path
+  #   end
+  # end
 
   def ensure_not_poster
     if params[:transaction].present? && params[:transaction][:employee_listing_id].present?

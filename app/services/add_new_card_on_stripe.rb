@@ -1,5 +1,4 @@
 class AddNewCardOnStripe
-  attr_reader :user, :stripe_token
 
   def initialize(options)
     @user = options[:user]
@@ -9,7 +8,7 @@ class AddNewCardOnStripe
   def update
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     customer = nil
-    stripe_info = user.stripe_info
+    stripe_info = @user.stripe_info
     begin
       customer = Stripe::Customer.retrieve(stripe_info.stripe_customer_id)
       customer.source = stripe_token
@@ -20,9 +19,13 @@ class AddNewCardOnStripe
         email: user.email,
         source: stripe_token,
       )
-      stripe_info.update(stripe_customer_id: customer.id)
+      create_stripe_info(customer.sources.data.last)
     end
-    
-    return customer && customer.sources.data.last 
+    return customer && customer.sources.data.last
   end
+
+  def create_stripe_info(customer)
+    StripeInfo.create(user_id: @user.id, stripe_customer_id: customer.id, last_four_digits:  customer.last4, card_type:  customer.brand)
+  end
+
 end
