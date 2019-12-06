@@ -3,7 +3,7 @@
 <div class="message-container">
   <select name="Select1" class="selt">
     <option selected="selected">All Messages (<%= @conversations.count %>)</option>
-    <option>Unread (2)</option>
+    <option>Unread (<%= @conversations.where(read: false).count %>)</option>
   </select>
   <div class="inbox_container ">
     <% @conversations.each do |conversation| %>
