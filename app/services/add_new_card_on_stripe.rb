@@ -6,26 +6,28 @@ class AddNewCardOnStripe
   end
 
   def update
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     customer = nil
     stripe_info = @user.stripe_info
     begin
-      customer = Stripe::Customer.retrieve(stripe_info.stripe_customer_id)
-      customer.source = stripe_token
+      customer = Stripe::Customer.retrieve(stripe_info&.stripe_customer_id)
+      customer.source = @stripe_token
       customer.save
+      card = customer.sources.data.last
+      stripe_info.update_attributes(last_four_digits: card.last4, card_type: card.brand)
     rescue Stripe::InvalidRequestError => e
       # Customer not found, create a new customer
       customer = Stripe::Customer.create(
-        email: user.email,
-        source: stripe_token,
+        email: @user.email,
+        source: @stripe_token,
       )
-      create_stripe_info(customer.sources.data.last)
+       create_stripe_info(customer)
     end
-    return customer && customer.sources.data.last
+    return customer
   end
 
   def create_stripe_info(customer)
-    StripeInfo.create(user_id: @user.id, stripe_customer_id: customer.id, last_four_digits:  customer.last4, card_type:  customer.brand)
+    card = customer.sources.data.last
+    StripeInfo.create(user_id: @user.id, stripe_customer_id: customer.id, last_four_digits: card.last4, card_type: card.brand)
   end
 
 end

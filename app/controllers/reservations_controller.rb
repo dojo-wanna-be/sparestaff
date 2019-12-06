@@ -247,7 +247,8 @@ class ReservationsController < ApplicationController
     else
        Conversation.create!( receiver_id: @transaction.hirer_id,
                                               sender_id: current_user.id,
-                                              employee_listing_id: @transaction.employee_listing_id
+                                              employee_listing_id: @transaction.employee_listing_id,
+                                              transaction_id: @transaction.id
                                             )
     end
   end
@@ -255,7 +256,7 @@ class ReservationsController < ApplicationController
   def create_message
     conversation = find_or_create_conversation
     conversation.update_attributes(read: false)
-    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id, transaction_id: @transaction.id)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
   end
 
   def ensure_poster
@@ -278,4 +279,5 @@ class ReservationsController < ApplicationController
       redirect_to employee_index_path
     end
   end
+  
 end

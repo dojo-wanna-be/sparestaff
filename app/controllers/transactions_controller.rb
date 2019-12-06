@@ -201,16 +201,17 @@ class TransactionsController < ApplicationController
       conversation.first
     else
       Conversation.create!( receiver_id: @transaction.poster_id,
-                                              sender_id: @transaction.hirer_id,
-                                              employee_listing_id: @employee_listing.id
-                                            )
+                            sender_id: @transaction.hirer_id,
+                            employee_listing_id: @employee_listing.id,
+                            transaction_id: @transaction.id
+                          )
     end
   end
 
   def create_message
     conversation = find_or_create_conversation
     conversation.update_attributes(read: false)
-    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id, transaction_id: @transaction.id)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
   end
 
 end
