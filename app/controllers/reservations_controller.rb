@@ -295,6 +295,25 @@ class ReservationsController < ApplicationController
     @transaction = Transaction.find_by(id: params[:id])
   end
 
+  def find_or_create_conversation
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+    if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.hirer_id,
+                                              sender_id: current_user.id,
+                                              employee_listing_id: @transaction.employee_listing_id,
+                                              transaction_id: @transaction.id
+                                            )
+    end
+  end
+
+  def create_message
+    conversation = find_or_create_conversation
+    conversation.update_attributes(read: false)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+  end
+
   def ensure_poster
     if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
       employee_listing = EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
@@ -315,4 +334,5 @@ class ReservationsController < ApplicationController
       redirect_to employee_index_path
     end
   end
+  
 end

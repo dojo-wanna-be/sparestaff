@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_28_065138) do
+ActiveRecord::Schema.define(version: 2019_12_05_070037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,19 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.integer "post_code"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_addresses_on_transaction_id"
+  end
+
   create_table "bookings", force: :cascade do |t|
     t.integer "day"
     t.time "start_time"
@@ -45,6 +58,13 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.datetime "updated_at", null: false
     t.date "booking_date"
     t.index ["transaction_id"], name: "index_bookings_on_transaction_id"
+  end
+
+  create_table "cancellation_policies", force: :cascade do |t|
+    t.integer "pending_state_cancellation_hours", default: 0
+    t.integer "accepted_state_cancellation_hours", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "classifications", force: :cascade do |t|
@@ -74,22 +94,9 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.integer "employee_listing_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["receiver_id", "sender_id"], name: "index_conversations_on_receiver_id_and_sender_id", unique: true
-  end
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+    t.boolean "read", default: false
+    t.integer "transaction_id"
+    t.index ["receiver_id", "sender_id", "employee_listing_id"], name: "index_conversations_on_receiver_sender_employee_listing", unique: true
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -192,11 +199,6 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
-  create_table "payments", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "relevant_documents", force: :cascade do |t|
     t.bigint "employee_listing_id"
     t.datetime "created_at", null: false
@@ -222,7 +224,20 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.string "card_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
     t.index ["user_id"], name: "index_stripe_infos_on_user_id"
+  end
+
+  create_table "stripe_payments", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.string "stripe_charge_id"
+    t.float "amount", default: 0.0
+    t.float "poster_service_fee", default: 0.0
+    t.boolean "capture", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["transaction_id"], name: "index_stripe_payments_on_transaction_id"
   end
 
   create_table "tax_details", force: :cascade do |t|
@@ -257,6 +272,11 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.integer "probationary_period"
     t.integer "cancelled_by"
     t.date "cancelled_at"
+    t.text "decline_reason_by_poster"
+    t.float "hirer_service_fee"
+    t.float "hirer_total_service_fee"
+    t.float "poster_service_fee"
+    t.float "poster_total_service_fee"
     t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
   end
 
@@ -281,13 +301,12 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_admin", default: false
-    t.string "stripe_customer_id"
-    t.string "stripe_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "transactions"
   add_foreign_key "bookings", "transactions"
   add_foreign_key "employee_listing_slots", "employee_listings"
   add_foreign_key "employee_listing_slots", "slots"
@@ -296,5 +315,6 @@ ActiveRecord::Schema.define(version: 2019_11_28_065138) do
   add_foreign_key "messages", "conversations"
   add_foreign_key "relevant_documents", "employee_listings"
   add_foreign_key "stripe_infos", "users"
+  add_foreign_key "stripe_payments", "transactions"
   add_foreign_key "transactions", "employee_listings"
 end

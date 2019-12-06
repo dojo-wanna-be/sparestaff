@@ -783,114 +783,101 @@
 
   $(".monday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_1_start_time").val() != '' && $("#transaction_booking_attributes_1_end_time").val() != '') && ($("#transaction_booking_attributes_1_start_time").val() < $("#transaction_booking_attributes_1_end_time").val())) {
-      mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
-      isMonday = true;
+      if(totalMondays != 0){
+        mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
+        setWeekdayHours();
+        isMonday = true;
+      }
     }else {
       mondayHour = 0;
       totalMondayHours = 0;
       isMonday = false;
     }
-
-    setWeekdayHours();
-    // if (!isMonday) {
-    //   alert('monday empty');
-    // }
   });
 
   $(".tuesday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_2_start_time").val() != '' && $("#transaction_booking_attributes_2_end_time").val() != '') && ($("#transaction_booking_attributes_2_start_time").val() < $("#transaction_booking_attributes_2_end_time").val())) {
-      tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
-      isTuesday = true;
+      if(totalTuesdays != 0){
+        tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
+        setWeekdayHours();
+        isTuesday = true;
+      }
+      
     }else {
       tuesdayHour = 0;
       totalTuesdayHours = 0;
       isTuesday = false;
     }
-
-    setWeekdayHours();
-    // if (!isTuesday) {
-    //   alert('tuesday empty');
-    // }
   });
 
   $(".wednesday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_3_start_time").val() != '' && $("#transaction_booking_attributes_3_end_time").val() != '') && ($("#transaction_booking_attributes_3_start_time").val() < $("#transaction_booking_attributes_3_end_time").val())) {
-      wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
-      isWednesday = true;
+      if(totalWednesdays != 0){
+        wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
+        isWednesday = true;
+        setWeekdayHours();
+      }
     }else {
       wednesdayHour = 0;
       totalWednesdayHours = 0;
       isWednesday = false;
     }
-
-    setWeekdayHours();
-    // if (!isWednesday) {
-    //   alert('wednesday empty');
-    // }
   });
 
   $(".thursday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_4_start_time").val() != '' && $("#transaction_booking_attributes_4_end_time").val() != '') && ($("#transaction_booking_attributes_4_start_time").val() < $("#transaction_booking_attributes_4_end_time").val())) {
-      thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
-      isThursday = true;
+      if(totalThursdays != 0){
+        thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
+        isThursday = true;
+        setWeekdayHours();
+      }
     }else {
       thursdayHour = 0;
       totalThursdayHours = 0;
       isThursday = false;
     }
-
-    setWeekdayHours();
-    // if (!isThursday) {
-    //   alert('thursday empty');
-    // }
   });
 
   $(".friday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_5_start_time").val() != '' && $("#transaction_booking_attributes_5_end_time").val() != '') && ($("#transaction_booking_attributes_5_start_time").val() < $("#transaction_booking_attributes_5_end_time").val())) {
-      fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
-      isFriday = true;
+      if(totalFridays != 0){
+        fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
+        isFriday = true;
+        setWeekdayHours();
+      }
     }else {
       fridayHour = 0;
       totalFridayHours = 0;
       isFriday = false;
     }
-
-    setWeekdayHours();
-    // if (!isFriday) {
-    //   alert('friday empty');
-    // }
   });
 
   $(".sunday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
-      sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
-      isSunday = true;
+      if(totalSundays != 0){
+        sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
+        isSunday = true;
+        setWeekendHours();
+      }
     }else {
       sundayHour = 0;
       totalSundayHours = 0;
       isSunday = false;
     }
-
-    setWeekendHours();
-    // if (!isSunday) {
-    //   alert('sunday empty');
-    // }
   });
 
   $(".saturday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
-      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
-      isSaturday = true;
+      if(totalSundays != 0){
+        saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
+        isSaturday = true;
+        setWeekendHours();
+      }
     }else {
       saturdayHour = 0;
       totalSaturdayHours = 0;
       isSaturday = false;
     }
-
-    setWeekendHours();
-    // if (!isSaturday) {
-    //   alert('saturday empty');
-    // }
   });
 
   $("#listing_transaction").submit(function(e){
