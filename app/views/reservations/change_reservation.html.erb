@@ -58,33 +58,78 @@
         </div>
       </div>
 
-      <ul class="calculation-list">
+      <div class="new-weekly-payout">
+        <div class="toggle-new-weekly-payout">New weekly payout</div>
+
+        <ul class="calculation-list new-weekly-payout-list">
+          <li class="calc-item">
+            <span class="left">
+              Hourly total
+            </span>
+            <span class="right">$<span id=""> 410.00 </span> </span>
+          </li>
+          <li class="calc-item">
+            <span class="left">
+              Tax withholding
+            </span>
+            <span class="right">-$<span id="hiring_total_weekend_price"> 11.00 </span> </span>
+          </li>
+
+          <li class="calc-item">
+            <span class="left">Service fee</span>
+            <span class="right">-$<span id="ContractTaxPrice"> 39.90 </span> </span>
+          </li>
+
+          <li class="calc-item">
+            <span class="left">New weekly payout</span>
+            <span class="right">$<span id="ContractTotalPrice"> 359.10 </span> </span>
+          </li>
+        </ul>
+
+        <ul class="calculation-list">
+          <li class="calc-item">
+            <span class="left">
+              Original weekly payout
+            </span>
+            <span class="right">$<span id="">333.90</span> </span>
+          </li>
+
+          <li class="calc-item">
+            <span class="left">
+              <b>Weekly price difference</b>
+            </span>
+            <span class="right"><b>$<span id="">25.20</span></b> </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- <ul class="calculation-list">
         <li class="calc-item">
           <span class="left">
-            $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @old_transaction.weekday_hours %> &nbsp;</span> hours
+            $<span class="listing_weekday_price"><%#= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%#= @old_transaction.weekday_hours %> &nbsp;</span> hours
           </span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekday_price.to_f * @old_transaction.weekday_hours %> </span> </span>
+          <span class="right">$<span id="hiring_weekday_price"> <%#= @listing.weekday_price.to_f * @old_transaction.weekday_hours %> </span> </span>
         </li>
         <li class="calc-item">
           <span class="left">
-            $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @old_transaction.weekend_hours %> &nbsp;</span> hours (weekend)
+            $<span class="listing_weekend_price"><%#= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%#= @old_transaction.weekend_hours %> &nbsp;</span> hours (weekend)
           </span>
-          <span class="right">$<span id="hiring_weekend_price"> <%= @listing.weekend_price.to_f * @old_transaction.weekend_hours %> </span> </span>
+          <span class="right">$<span id="hiring_weekend_price"> <%#= @listing.weekend_price.to_f * @old_transaction.weekend_hours %> </span> </span>
         </li>
 
         <li class="calc-item last-item">
           <span class="left">
-            <%= check_box_tag "transaction[is_withholding_tax]", @old_transaction.is_withholding_tax, @old_transaction.is_withholding_tax, class: "tax-check" %> Tax withholding
-            <!-- <input class="tax-check" type="checkbox" value="1" checked="checked" name="transaction[is_withholding_tax]" id="transaction_is_withholding_tax"> -->
+            <%#= check_box_tag "transaction[is_withholding_tax]", @old_transaction.is_withholding_tax, @old_transaction.is_withholding_tax, class: "tax-check" %> Tax withholding
+            
           </span>
           <span class="right">
             <span class="dollar-input-box">$</span>
-            <% if @old_transaction.is_withholding_tax %>
-              <%= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
-            <% else %>
-              <%= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount", disabled: "disabled" %>
-            <% end %>
-            <!-- <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="transaction[tax_withholding_amount]" id="transaction_tax_withholding_amount"> -->
+            <%# if @old_transaction.is_withholding_tax %>
+              <%#= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
+            <%# else %>
+              <%#= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount", disabled: "disabled" %>
+            <%# end %>
+            
           </span>
         </li>
 
@@ -94,7 +139,7 @@
 
         <li class="calc-item">
           <span class="left">Service fee</span>
-          <span class="right">-$<span id="weeklyServicePrice"> <%= @old_transaction.poster_service_fee.round(2) %> </span> </span>
+          <span class="right">-$<span id="weeklyServicePrice"> <%#= @old_transaction.poster_service_fee.round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
@@ -104,14 +149,14 @@
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount - @old_transaction.poster_service_fee).round(2) %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%#= (@old_transaction.amount - @old_transaction.poster_service_fee).round(2) %> </span> </span>
         </li>
 
         <li class="calc-item">
           <span class="left"><b>Weekly price difference</b></span>
           <span class="right"><b>$<span id="weekly_total_price_difference"> 0 </span> </b></span>
         </li>
-      </ul>
+      </ul> -->
 
       <div class="toggle-total-employement">Total employment contract</div>
 
@@ -668,6 +713,10 @@
 
   $('.toggle-total-employement').click(function(){
     $('.total-employement-list').toggle();
+  });
+
+  $('.toggle-new-weekly-payout').click(function(){
+    $('.new-weekly-payout-list').toggle();
   });
 </script>
 
