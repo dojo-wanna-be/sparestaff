@@ -197,7 +197,7 @@ class HiringsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
+    conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
     end
@@ -266,7 +266,7 @@ class HiringsController < ApplicationController
   end
 
   def find_or_create_conversation
-    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
+    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
     if conversation.present?
       conversation.first
     else

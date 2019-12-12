@@ -55,7 +55,7 @@ class ReservationsController < ApplicationController
   def decline
     if @transaction.update_attributes(state: "rejected", decline_reason_by_poster: params[:message_text])
       @listing = @transaction.employee_listing
-      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
       message = find_or_create_conversation.messages&.last.present? ? @conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
@@ -198,7 +198,7 @@ class ReservationsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @listing.id)
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
     end
@@ -241,7 +241,7 @@ class ReservationsController < ApplicationController
   end
 
   def find_or_create_conversation
-    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.employee_listing_id)
+    conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
     if conversation.present?
       conversation.first
     else

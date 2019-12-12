@@ -196,7 +196,7 @@ class TransactionsController < ApplicationController
   end
 
   def find_or_create_conversation
-    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @employee_listing.id)
+    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.id)
     if conversation.present?
       conversation.first
     else

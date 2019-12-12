@@ -10,7 +10,7 @@ class InboxesController < ApplicationController
     @listing = @conversation.employee_listing
   end
 
-  def send_message
+  def create
     #message = @conversation.messages.new(content: params[:message], sender_id: current_user.id)
   end
 

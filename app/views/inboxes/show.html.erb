@@ -1,5 +1,4 @@
 <%= render partial: "employee_listings/user_settings_header" %>
-
 <% if @transaction.present? %>
   <div class="change-or-hiring-section">
     <div class="left-detail">
@@ -134,6 +133,7 @@
           <%= render partial: "cancel_hiring_button" %>
         <% end %>
       <% end %>
+      <%= render partial: "message" %>
     </div>
   </div>
 
@@ -145,5 +145,5 @@
     });
   </script>
 <% else %>
-  <h1> Conversation code here </h1>
+   <%= render partial: "message" %>
 <% end %>
