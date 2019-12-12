@@ -1088,12 +1088,108 @@
               }
             }
           }
+
+        }
+
+        .weekly-price {
+          .padding_b10 {
+            padding: 0 0 10px;
+
+            &:last-child {
+              padding: 0
+            }
+          }
+
+          label {
+            margin: 0;
+          }
+
+          .calculation-list {
+            padding: 0;
+            margin: 10px 0 0;
+            list-style: none;
+
+            .calc-item {
+              border-bottom: 1px solid #e4e4e4;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: flex-start;
+              padding: 25px 0;
+              text-align: center;
+
+              &.last-calc-item {
+                border: none
+              }
+
+              .left {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                flex-direction: column;
+
+                .tax-check {
+                  margin-right: 10px;
+                }
+              }
+              .right {
+
+                .calc-input-box {
+                  position: relative;
+                  width: 150px;
+
+                  .currency-sign {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    display: flex;
+                    align-items: center;
+                    left: 8px;
+                  }
+
+                  .input-value {
+                    width: 100%;
+                    padding: 0 5px 0 25px;
+                    text-align: right;
+                    height: 40px;
+
+                    &::-webkit-input-placeholder {
+                      color: #484848;
+                    }
+                    &::-moz-placeholder {
+                      color: #484848;
+                    }
+                    &:-ms-input-placeholder {
+                      color: #484848;
+                    }
+                    &:-moz-placeholder {
+                      color: #484848;
+                    }
+
+                    &:focus {
+                      outline: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .text-area-box {
+            margin: 0 0 40px;
+
+            .border_box {
+              width: 100%;
+              height: 94px;
+              box-sizing: border-box;
+            }
+          }
         }
 
         .continue-btn {
           width: 180px !important;
           height: 40px;
-          margin-top: 22px;
+          margin: 22px 0 20px;
           border-radius: 3px;
           background-color: #F15927;
           border: none;
@@ -1229,6 +1325,40 @@
         }
         .right {
           text-align: right;
+        }
+      }
+
+      .new-weekly-payout {
+
+        .toggle-new-weekly-payout {
+          font-size: 11pt;
+          color: #F15927;
+          cursor: pointer;
+          margin-top: 20px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .calculation-list {
+
+          &.new-weekly-payout-list {
+            display: none;
+            padding: 0 0 0 20px;
+
+            @media screen and (max-width: 767px) {
+              padding: 0 0 0 10px;
+            }
+          }
+
+          & + .calculation-list {
+            margin: 0;
+
+            .calc-item {
+              padding: 20px 0;
+            }
+          }
         }
       }
 

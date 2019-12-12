@@ -98,7 +98,7 @@
                 <% end %>
                 <% if transaction.state.eql?("created") %>
                   <div>
-                    <%= link_to 'Accept or Decline', inbox_path(id: transaction.id), class: 'orange-text' %>
+                    <%= link_to 'Accept or Decline', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                   </div>
                 <% end %>
                 <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>

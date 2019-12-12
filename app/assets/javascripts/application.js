@@ -20,5 +20,6 @@
 //= require allow_numeric
 //= require jquery.tagsinput
 //= require activestorage
+//= require bootstrap-datepicker
 //= require turbolinks
 //= require_tree .

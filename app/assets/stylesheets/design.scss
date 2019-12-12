@@ -1008,7 +1008,9 @@
         }
 
         .logo-img {
-          height: 50px;
+          height: 20px;
+          float: left;
+          filter: grayscale(100%);
 
           @media screen and (max-width: 767px) {
             height: 70px;

@@ -81,7 +81,7 @@
                     <br>
                     <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                     <br>
-                    <%#= link_to 'Accept or Decline', inbox_path(id: transaction.id), class: 'orange-text' %>
+                    <%#= link_to 'Accept or Decline', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                   </div>
                 </div>
 

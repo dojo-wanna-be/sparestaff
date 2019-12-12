@@ -41,75 +41,33 @@ class HiringsController < ApplicationController
     if @transaction.update_attributes(state: "accepted")
       @listing = @transaction.employee_listing
       poster = User.find_by(id: @transaction.poster_id)
-      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
-      @conversation = if conversation.present?
-        conversation.first
-      else
-         Conversation.create!( receiver_id: @transaction.poster_id,
-                                sender_id: current_user.id,
-                                employee_listing_id: @transaction.employee_listing_id
-                              )
-      end
-      if params[:message_text].present?
-        message = @conversation.messages.build
-        message.content = params[:message_text]
-        message.sender_id = current_user.id
-        message.save
-      end
+      message = create_message
       HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
       HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       PaymentWorker.perform_at(@transaction.start_date.to_s, @transaction.id, @transaction.frequency)
       redirect_to inbox_path(id: @transaction.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
   def decline_request
     @transaction.update_attribute(:reason, params[:reason])
-    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
-    @conversation = if conversation.present?
-      conversation.first
-    else
-       Conversation.create!( receiver_id: @transaction.poster_id,
-                              sender_id: current_user.id,
-                              employee_listing_id: @transaction.employee_listing_id
-                            )
-    end
-    if params[:message_text].present?
-      message = @conversation.messages.build
-      message.content = params[:message_text]
-      message.sender_id = current_user.id
-      message.save
-    end
+    create_message
   end
 
   def decline
     if @transaction.update_attribute(:state, "rejected")
       @listing = @transaction.employee_listing
       poster = User.find_by(id: @transaction.poster_id)
-      conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.employee_listing_id)
-      @conversation = if conversation.present?
-        conversation.first
-      else
-         Conversation.create!( receiver_id: @transaction.poster_id,
-                                sender_id: current_user.id,
-                                employee_listing_id: @transaction.employee_listing_id
-                              )
-      end
-      if params[:message_text].present?
-        message = @conversation.messages.build
-        message.content = params[:message_text]
-        message.sender_id = current_user.id
-        message.save
-      end
+      create_message
       HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver_later!
       HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver_later!
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
 
@@ -187,16 +145,7 @@ class HiringsController < ApplicationController
     if request.patch?
       @transaction.update_attribute(:state, "created")
       HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-      conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.employee_listing_id)
-      if conversation.present?
-        @conversation = conversation.first
-      else
-        @conversation = Conversation.create!( receiver_id: @transaction.hirer_id,
-                                              sender_id: @transaction.poster_id,
-                                              employee_listing_id: @transaction.employee_listing_id
-                                            )
-      end
-      message = @conversation.messages.last
+      message = find_or_create_conversation.messages.last
       HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
       redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
     end
@@ -239,19 +188,7 @@ class HiringsController < ApplicationController
       else
         @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
-      conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
-      if conversation.present?
-        @conversation = conversation.first
-      else
-        @conversation = Conversation.create!( receiver_id: @listing.poster.id,
-                                              sender_id: current_user.id,
-                                              employee_listing_id: @listing.id
-                                            )
-      end
-      message = @conversation.messages.build
-      message.content = params[:message_text]
-      message.sender_id = current_user.id
-      message.save
+      create_message
       TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
       redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
@@ -260,7 +197,7 @@ class HiringsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    conversation = Conversation.between(current_user.id, @listing.poster.id, @listing.id)
+    conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
     end
@@ -327,4 +264,24 @@ class HiringsController < ApplicationController
       redirect_to employee_index_path
     end
   end
+
+  def find_or_create_conversation
+    conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+    if conversation.present?
+      conversation.first
+    else
+       Conversation.create!( receiver_id: @transaction.poster_id,
+                              sender_id: current_user.id,
+                              employee_listing_id: @transaction.employee_listing_id,
+                              transaction_id: @transaction.id
+                              )
+    end
+  end
+
+  def create_message
+    conversation = find_or_create_conversation
+    conversation.update_attributes(read: false)
+    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+  end
+
 end

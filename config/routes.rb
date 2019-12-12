@@ -23,7 +23,6 @@ Rails.application.routes.draw do
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
       get :user_dashboard
-      get :inbox, path: "message_inbox", as: "message_inbox"
       get :getting_started, path: "getting_started", as: "getting_started"
       get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists
