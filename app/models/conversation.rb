@@ -22,13 +22,10 @@ class Conversation < ApplicationRecord
   belongs_to :sender, foreign_key: :sender_id, class_name: "User"
   belongs_to :receiver, foreign_key: :receiver_id, class_name: "User"
   belongs_to :employee_listing_transaction, class_name: "Transaction", foreign_key: "transaction_id", optional: true
-
   validates :sender_id, uniqueness: { scope: [:receiver_id, :employee_listing_id, :transaction_id] }
-
   scope :between, -> (sender_id, receiver_id, transaction_id) do
-    where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ?) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ? )", sender_id, receiver_id, employee_listing_id, receiver_id, sender_id, transaction_id)
+    where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ? )", sender_id, receiver_id, transaction_id, receiver_id, sender_id, transaction_id)
   end
-
   def opposed_user(user)
     user == receiver ? sender : receiver
   end

@@ -6,8 +6,8 @@ class InboxesController < ApplicationController
   end
 
   def show
-    @transaction = @conversation.employee_listing_transaction
-    @listing = @conversation.employee_listing
+    @transaction = Transaction.find_by(id: params[:id])
+    @listing = @transaction.employee_listing
   end
 
   def create
