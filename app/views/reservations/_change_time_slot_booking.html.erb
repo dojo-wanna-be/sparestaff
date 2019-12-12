@@ -63,9 +63,59 @@
           <% end %>
         </ul>
       </div>
+
+
+    </div>
+
+    <div class="weekly-price">
+      <div class="Text22px">Weekly price</div>
+      <div class="GreyText14Px">This is the amount hirer needs to pay weekly</div>
+
+      <ul class="calculation-list">
+        <li class="calc-item">
+          <span class="left">
+            <div>Hourly total</div>
+            <div class="GreyText14Px">$35 x 6 hours</div>
+            <div class="GreyText14Px">$50 x 4 hours (weekend)</div>
+            <div class="GreyText14Px">Adjustment: $0.00</div>
+          </span>
+          <span class="right">
+            <div class="calc-input-box"> 
+              <span class="currency-sign">$</span> 
+              <input type="text" name="price" placeholder="410.00" class="input-value" > 
+            </div>
+          </span>
+        </li>
+
+        <li class="calc-item">
+          <span class="left">
+            <div class="padding_b10">Tax withholding</div>
+            <div class="padding_b10">Service fee</div>
+          </span>
+          <span class="right">
+            <div class="padding_b10">-$<span id="">11.00</span></div>
+            <div class="padding_b10">$<span id="">11.97</span></div> 
+          </span>
+        </li>
+
+        <li class="calc-item last-calc-item">
+          <span class="left">
+            <div class="padding_b10"><b>Hirer weekly reservation total</b></div>
+          </span>
+          <span class="right">
+            <div class="padding_b10">$<span id="">410.97</span></div> 
+          </span>
+        </li>
+        <div class="text-area-box">
+          <label>Message to Hirer (optional)</label>
+          <textarea cols="20" name="TextArea1" rows="4" class="border_box"></textarea>
+        </div>
+      </ul>
+
     </div>
 
     <%= f.submit "Continue", class: 'continue-btn' %>
     <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= employee_listing.minimum_working_hours %></label>
+
   <% end %>
 </div>
