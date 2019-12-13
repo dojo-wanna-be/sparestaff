@@ -1186,6 +1186,20 @@
           }
         }
 
+        .message__box {
+          label {
+            margin: 0;
+          }
+
+          textarea {
+            height: 94px;
+
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+
         .continue-btn {
           width: 180px !important;
           height: 40px;
