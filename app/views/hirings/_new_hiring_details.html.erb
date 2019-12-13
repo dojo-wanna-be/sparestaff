@@ -2,6 +2,23 @@
 
 <div class="date-detail"><%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
 
+<div class="day-timing-box">
+  <div class="timing-box-row">
+    <div class="">Monday</div>
+    <div class="">09:00 - 12:00</div>
+  </div>
+  
+  <div class="timing-box-row">
+    <div>Tuesday</div>
+    <div class="">14:00 - 17:00</div>
+  </div>
+
+  <div class="timing-box-row">
+    <div>Saturday</div>
+    <div class="">12:00 - 16:00</div>
+  </div>
+</div>
+
 <div class="total-hour"><%= "#{@transaction.total_weekday_hours + @transaction.total_weekend_hours} Hour Total" %></div>
 
 <p class="original-through-text">Original: <span class="through-text"><%= "#{@old_transaction.start_date.strftime("%d %b %Y")} - #{@old_transaction.end_date.strftime("%d %b %Y")}" %> <br> <%= "#{@old_transaction.total_weekday_hours + @old_transaction.total_weekend_hours} Hour Total" %></span></p>
