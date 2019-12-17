@@ -143,7 +143,7 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
-      @transaction.update_attribute(:state, "created")
+      @transaction.update_attributes(state: "created", request_by: 'hirer')
       HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       message = find_or_create_conversation.messages.last
       HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!

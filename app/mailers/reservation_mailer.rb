@@ -1,18 +1,18 @@
 class ReservationMailer < ApplicationMailer
   default :from => "noreply@sparestaff.com.au"
 
-  def reservation_changed_email_to_hirer(listing, hirer, transaction)
+  def reservation_changed_email_to_hirer(listing, hirer, transaction, message)
     @listing = listing
     @transaction = transaction
     @hirer = hirer
+    @message = message
     mail(to: hirer.email, subject: "Reservation Change Request")
   end
 
-  def reservation_changed_email_to_poster(listing, poster, transaction, message)
+  def reservation_changed_email_to_poster(listing, poster, transaction)
     @listing = listing
     @transaction = transaction
     @poster = poster
-    @message = message
     mail(to: poster.email, subject: "Reservation Change Request")
   end
 

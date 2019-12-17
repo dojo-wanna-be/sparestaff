@@ -161,10 +161,10 @@ class ReservationsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
-      @transaction.update_attribute(:state, "created")
+      @transaction.update_attributes(state: "created", request_by: 'poster')
       message = find_or_create_conversation.messages.last
-      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction, message).deliver_later!
-      ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction).deliver_later!
+      ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction).deliver_later!
+      ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction, message).deliver_later!
       redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
     end
   end

@@ -145,7 +145,9 @@
           <%= render partial: "declined_info" %>
         <% end %>
       <% elsif current_user == @transaction.hirer %>
-        <% if @transaction.state.eql?("created") %>
+        <% if @transaction.state.eql?("created") && @transaction.request_by.eql?('poster') %>
+          <%= render partial: "accept_or_decline_option" %>
+        <% else %>
           <%= render partial: "cancel_hiring_button" %>
         <% end %>
       <% end %>
