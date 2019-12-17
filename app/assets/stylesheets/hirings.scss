@@ -1131,6 +1131,14 @@
                 .tax-check {
                   margin-right: 10px;
                 }
+
+                .GreyText14Px {
+                  color: #767676;
+
+                  span {
+                    color: #767676;
+                  }
+                }
               }
               .right {
 
@@ -1332,12 +1340,19 @@
 
         .toggle-new-weekly-payout {
           font-size: 11pt;
-          color: #F15927;
           cursor: pointer;
           margin-top: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
 
-          &:hover {
-            text-decoration: underline;
+          .toogle-text-left {
+            color: #F15927;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
 

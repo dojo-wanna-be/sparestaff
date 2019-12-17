@@ -129,7 +129,11 @@ class Transaction < ApplicationRecord
   end
 
   def service_fee
-    (HIRER_SERVICE_FEE * amount)
+    if is_withholding_tax
+      (HIRER_SERVICE_FEE * (amount - tax_withholding_amount))
+    else
+      (HIRER_SERVICE_FEE * amount)
+    end
   end
 
   def total_service_fee
@@ -140,7 +144,11 @@ class Transaction < ApplicationRecord
   end
 
   def poster_service_fee
-    (POSTER_SERVICE_FEE * amount)
+    if is_withholding_tax
+      (POSTER_SERVICE_FEE * (amount - tax_withholding_amount))
+    else
+      (POSTER_SERVICE_FEE * amount)
+    end
   end
 
   def poster_total_service_fee
@@ -162,7 +170,7 @@ class Transaction < ApplicationRecord
   def total_tax_withholding
     if is_withholding_tax
       full_week = start_date.upto(end_date).count.fdiv(7).floor
-      (tax_withholding_amount * full_week) + remaining_tax_withholding(amount)
+      (tax_withholding_amount * full_week) + remaining_tax_withholding(remaining_amount)
     else
       0
     end
@@ -172,14 +180,14 @@ class Transaction < ApplicationRecord
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
     remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    ((amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+    ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
   end
 
   def poster_total_amount
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
     remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    ((amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
+    ((amount - tax_withholding_amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
   end
 
   def get_beginning_day
@@ -188,7 +196,7 @@ class Transaction < ApplicationRecord
 
   def missed_earning
     week_diff = start_date.upto(Date.today).count.fdiv(7).floor
-    full_week_payment = (amount - poster_service_fee) * week_diff
+    full_week_payment = (amount - tax_withholding_amount - poster_service_fee) * week_diff
     Date.today > start_date ? poster_total_amount - (full_week_payment + partial_hiring_fee) : poster_total_amount
   end
 
@@ -203,6 +211,14 @@ class Transaction < ApplicationRecord
       end
     end
     (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
+  end
+
+  def hirer_weekly_amount
+    (amount - tax_withholding_amount + service_fee).round(2)
+  end
+
+  def poster_weekly_amount
+    (amount - tax_withholding_amount - poster_service_fee).round(2)
   end
 
   def accepted

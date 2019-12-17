@@ -6,7 +6,7 @@
     <%= f.hidden_field :tax_withholding_amount, value: transaction.tax_withholding_amount, id: "new_tax_withholding_amount" %>
     <%= f.hidden_field :probationary_period, value: transaction.probationary_period, id: "new_probationary_period" %>
     <%= hidden_field_tag "total_tax_with_holding", '' %>
-
+    <%= hidden_field_tag "adjustment_amount"%>
     <div class="available-box">
       <div class="date-box">
         <div class="date-sec">
@@ -75,14 +75,15 @@
         <li class="calc-item">
           <span class="left">
             <div>Hourly total</div>
-            <div class="GreyText14Px">$35 x 6 hours</div>
-            <div class="GreyText14Px">$50 x 4 hours (weekend)</div>
-            <div class="GreyText14Px">Adjustment: $0.00</div>
+            <div class="GreyText14Px">$<span class="listing_weekday_price"><%= employee_listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= transaction.weekday_hours %> &nbsp;</span> hours</div>
+            <!-- <div >$35 x 6 hours</div> -->
+            <div class="GreyText14Px">$<%= employee_listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= transaction.weekend_hours %> &nbsp;</span> hours (weekend)</div>
+            <div class="GreyText14Px">Adjustment: $<span id="left_adjustment_amount"></span></div>
           </span>
           <span class="right">
             <div class="calc-input-box"> 
               <span class="currency-sign">$</span> 
-              <input type="text" name="price" placeholder="410.00" class="input-value" > 
+              <%= f.text_field :amount, class: "input-value right_weekly_hourly_total", value: @weekly_hourly_total, required: true%>
             </div>
           </span>
         </li>
@@ -93,8 +94,8 @@
             <div class="padding_b10">Service fee</div>
           </span>
           <span class="right">
-            <div class="padding_b10">-$<span id="">11.00</span></div>
-            <div class="padding_b10">$<span id="">11.97</span></div> 
+            <div class="padding_b10">-$<span id="transaction_tax_withholding_amount"><%= transaction.tax_withholding_amount %></span></div>
+            <div class="padding_b10">$<span id="weeklyServicePrice"><%= transaction.poster_service_fee.round(2) %></span></div> 
           </span>
         </li>
 
@@ -103,7 +104,7 @@
             <div class="padding_b10"><b>Hirer weekly reservation total</b></div>
           </span>
           <span class="right">
-            <div class="padding_b10">$<span id="">410.97</span></div> 
+            <div class="padding_b10">$<span id="weekly_total_price">0</span></div> 
           </span>
         </li>
         <div class="text-area-box">

@@ -55,26 +55,24 @@ class TransactionService
         if weekly_hours[:no_of_sundays] > 0
           sunday = weekly_hours[:no_of_sundays] - week_diff
         end
-
         remaining_weekday_price =  (monday * weekly_hours[:monday_hours] + tuesday * weekly_hours[:tuesday_hours] + wednesday * weekly_hours[:wednesday_hours] + thursday * weekly_hours[:thursday_hours] + friday * weekly_hours[:friday_hours]) * listing.weekday_price.to_f
 
         remaining_weekend_price = (saturday * weekly_hours[:saturday_hours] + sunday * weekly_hours[:sunday_hours]) * listing.weekend_price.to_f
 
         remaining_weekly_earning = remaining_weekday_price + remaining_weekend_price
-        if tx.is_withholding_tax
-          weekly_tax_withholding = @params[:transaction][:tax_withholding_amount].to_i.abs
+        weekly_tax_withholding = if tx.is_withholding_tax
+          @params[:transaction][:tax_withholding_amount].to_i.abs
         else
-          weekly_tax_withholding = 0
+          0
         end
-
         tx.remaining_amount = remaining_weekly_earning
         tx.weekday_hours = total_weekday_hours_per_week
         tx.weekend_hours = total_weekend_hours_per_week
-
         tx.total_weekday_hours = total_weekday_hours
         tx.total_weekend_hours = total_weekend_hours
         tx.tax_withholding_amount = weekly_tax_withholding
-        tx.amount = weekly_earning - weekly_tax_withholding
+        tx.amount = weekly_earning
+        tx.adjustment = @params[:adjustment_amount] if @params[:adjustment_amount].present?
         tx.save
         return tx
       else

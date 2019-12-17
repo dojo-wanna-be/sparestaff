@@ -100,7 +100,7 @@
 
         <li class="calc-item">
           <span class="left">Original weekly total</span>
-          <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount + @old_transaction.service_fee).round(2) %> </span> </span>
+          <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.hirer_weekly_amount %> </span> </span>
         </li>
 
         <li class="calc-item">

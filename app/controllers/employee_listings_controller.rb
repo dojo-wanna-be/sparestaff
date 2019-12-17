@@ -286,12 +286,12 @@ class EmployeeListingsController < ApplicationController
         redirect_to preview_employee_path(id: @employee_listing.id)
       end
     else
-      start_date = Date.today
-      end_date = Date.today
+      @start_date = @employee_listing.start_publish_date > Date.today ? @employee_listing.start_publish_date : Date.today
+      @end_date = @start_date
 
       transactions = @employee_listing
                     .transactions
-                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", start_date, end_date, start_date, end_date)
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
       
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)

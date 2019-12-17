@@ -88,6 +88,8 @@ class ReservationsController < ApplicationController
   def change_reservation
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
+    @weekly_hourly_total = (@listing.weekday_price.to_f * @old_transaction.total_weekday_hours + @listing.weekend_price.to_f * @old_transaction.total_weekend_hours)
+    @weekly_payout = @weekly_hourly_total - @old_transaction.tax_withholding_amount - @old_transaction.poster_service_fee.round(2)
     unless request.patch?
       @start_date = @transaction.start_date
       @end_date = @transaction.end_date
@@ -209,7 +211,6 @@ class ReservationsController < ApplicationController
     @start_date = params[:start].to_date
     @end_date = params[:end].to_date
     @transaction = Transaction.find(params[:transaction_id])
-
     transactions = @employee_listing
                     .transactions
                     .where(state: "accepted")
@@ -260,15 +261,13 @@ class ReservationsController < ApplicationController
   end
 
   def ensure_poster
-    if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
-      employee_listing = EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
+    employee_listing = if params[:transaction].present? && params[:transaction][:employee_listing_id].present?
+      EmployeeListing.find_by(id: params[:transaction][:employee_listing_id])
     elsif params[:id].present?
-      employee_listing = Transaction.find_by(id: params[:id]).employee_listing
-    else
-      flash[:error] = "Invalid request"
-      redirect_to employee_index_path
+      Transaction.find_by(id: params[:id]).employee_listing
+    elsif params[:listing_id].present?
+      EmployeeListing.find_by(id: params[:listing_id])
     end
-
     if employee_listing.present?
       unless current_user == employee_listing.poster
         flash[:error] = "Invalid request"

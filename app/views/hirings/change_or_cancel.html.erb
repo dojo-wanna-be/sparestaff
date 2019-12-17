@@ -60,7 +60,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></b></span>
+        <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
       </div>
     </div>
 
@@ -85,7 +85,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
