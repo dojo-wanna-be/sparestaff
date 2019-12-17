@@ -803,6 +803,21 @@
         margin-top: 2px;
       }
 
+      .day-timing-box {
+        margin: 16px 0 22px;
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+
+        .timing-box-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 0 10px;
+        }
+      }
+
       .total-hour {
         font-size: 14px;
         color: #767676;
@@ -1190,6 +1205,20 @@
               width: 100%;
               height: 94px;
               box-sizing: border-box;
+            }
+          }
+        }
+
+        .message__box {
+          label {
+            margin: 0;
+          }
+
+          textarea {
+            height: 94px;
+
+            &:focus {
+              outline: none;
             }
           }
         }
