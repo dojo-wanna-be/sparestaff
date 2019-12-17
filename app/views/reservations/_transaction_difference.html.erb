@@ -40,7 +40,7 @@
 
     <li class="calc-item">
       <span class="left">Tax withholding</span>
-      <span class="right">$<span id="tax_withholding_price"> <%= @transaction.tax_withholding_amount %> </span> </span>
+      <span class="right">-$<span id="tax_withholding_price"> <%= @transaction.tax_withholding_amount %> </span> </span>
     </li>
 
     <li class="calc-item">
@@ -50,17 +50,17 @@
 
     <li class="calc-item">
       <span class="left">New weekly total</span>
-      <span class="right">$<span id="new_weekly_total_price"> <%= (@transaction.amount - @transaction.poster_service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="new_weekly_total_price"> <%= @transaction.poster_weekly_amount %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left">Original weekly total</span>
-      <span class="right">$<span id="old_weekly_total_price"> <%= (@old_transaction.amount - @old_transaction.poster_service_fee).round(2) %> </span> </span>
+      <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.poster_weekly_amount.round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">
       <span class="left"><b>Weekly price difference</b></span>
-      <span class="right"><b>$<span id="weekly_total_price_difference"> <%= ((@transaction.amount - @transaction.poster_service_fee) - (@old_transaction.amount - @old_transaction.poster_service_fee)).round(2) %> </span> </b></span>
+      <span class="right"><b>$<span id="weekly_total_price_difference"> <%= (@transaction.poster_weekly_amount - @old_transaction.poster_weekly_amount).round(2) %> </span> </b></span>
     </li>
   </ul>
 

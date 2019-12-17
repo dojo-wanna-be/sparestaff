@@ -20,7 +20,7 @@
 
       <div class="review_hiring_details">
         <h1 class="main-heading">Does this look right?</h1>
-        <%= render partial: "hirings/new_hiring_details" %>
+        <%= render partial: "reservations/new_hiring_details" %>
         <div class="inline-btn-box">
           <%= link_to 'Back', '#', class: 'back-btn' %>
           <%= form_tag change_reservation_confirmation_reservation_path(id: @transaction.id), method: :patch do %>
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <%= render partial: "hirings/transaction_difference" %>
+    <%= render partial: "reservations/transaction_difference" %>
 
   </div>
 
