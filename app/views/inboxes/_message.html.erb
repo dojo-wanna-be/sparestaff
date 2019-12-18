@@ -1,5 +1,5 @@
 <div class="message-chat-block">
-  <%= form_for Message.new, url: inboxes_path(@transaction), remote: true, method: :post do |f|%>
+  <%= form_for Message.new, url: inboxes_path(@conversation), remote: true, method: :post do |f|%>
     <div class="message-chat-block__box right_user_direction">
       <div class="message__conversation">
         <%= f.text_area :content, cols: 20, rows: 5 %>
@@ -25,5 +25,5 @@
     </strong> 
     to learn more about the benefits of hiring through Spare Staff.
   </div>
-  <%= render partial: 'text_message' %>
+  <%= render partial: 'text_message', locals: {messages: @messages} %>
 </div>

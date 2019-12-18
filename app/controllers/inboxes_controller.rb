@@ -8,9 +8,11 @@ class InboxesController < ApplicationController
   def show
     @transaction = Transaction.find_by(id: params[:id])
     @listing = @transaction.employee_listing
+    @messages = @conversation.messages.order(created_at: :DESC)
   end
 
   def create
+    #binding.pry
     #message = @conversation.messages.new(content: params[:message], sender_id: current_user.id)
   end
 
