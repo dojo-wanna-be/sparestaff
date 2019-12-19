@@ -1,11 +1,11 @@
 <div class="message-chat-block">
-  <%= form_for Message.new, url: inboxes_path(@conversation), remote: true, method: :post do |f|%>
+  <%= form_for Message.new, url: inboxes_path, remote: true, method: :post do |f|%>
     <div class="message-chat-block__box right_user_direction">
       <div class="message__conversation">
         <%= f.text_area :content, cols: 20, rows: 5 %>
+        <%= hidden_field_tag :id, @conversation.id %>
         <div class="message-chat-block__box--btn-box">
           <%= f.submit "Send Message", class: 'message-btn' %>
-          <%#= link_to 'Send Message', 'javascript:;', class: 'message-btn' %>
         </div>
       </div>
       <div class="message-user-box">
@@ -25,5 +25,7 @@
     </strong> 
     to learn more about the benefits of hiring through Spare Staff.
   </div>
-  <%= render partial: 'text_message', locals: {messages: @messages} %>
+  <div id="message_container">
+    <%= render partial: 'text_message', locals: {messages: @messages} %>
+  </div>
 </div>

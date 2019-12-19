@@ -125,7 +125,9 @@
         <span class="right"><b>$<label id="ContractTotalPrice"> 0 </label></b></span>
       </li>
     </ul>
-    <%= link_to 'Contact Poster', 'javascript:;', class: 'request-btn contact-poster' %>
+    <%if current_user %>
+      <%= link_to 'Contact Poster', inbox_path(@employee_listing.id), class: 'request-btn contact-poster' %>
+    <% end %>
     <% if employee_listing.poster.stripe_info.present? && employee_listing.poster.stripe_info.stripe_account_id.present? %>
       <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
     <% else %>

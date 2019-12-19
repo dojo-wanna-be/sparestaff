@@ -1,142 +1,9 @@
 <%= render partial: "employee_listings/user_settings_header" %>
 <% if @transaction.present? %>
   <div class="change-or-hiring-section">
-    <div class="left-detail">
-      <div><b>About this Hirer</b></div>
-      <br/>
-      <div class="text-allign-center">
-        <% if @listing.profile_picture.present? %>
-          <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
-        <% else %>
-          <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
-        <% end %>
-        <div class=""><b><%= @transaction.hirer.name %></b></div>
-        <div class="grey-text"><%= "#{@transaction.hirer.company.city} #{@transaction.hirer.company.state} #{@transaction.hirer.company.post_code}, #{@transaction.hirer.company.country}" %></div>
-        <div class="grey-text">3 Verifications | 25 Reviews</div>
-      </div>
-      <br/>
-      <div class="">
-        <div><b>Hiring details</b></div>
-        <br />
-        <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
-        <div><%= @listing.name %></div>
-      </div>
-
-      <div class="order-details first-order">
-        <div class="order-item">
-          <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
-          <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
-          <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
-        </div>
-        <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
-        <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-        <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
-          <div class="order-item space-bottom">
-            <span><%= bookings.first.day.titleize %></span>
-            <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
-          </div>
-        <% end %>
-      </div>
-
-      <% if @transaction.probationary_period.present? %>
-        <div class="order-details">
-          <div class="order-item space-bottom">
-            <span class="grey-text">Probationary period</span>
-          </div>
-          <div class="order-item ">
-            <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="order-details">
-        <div class="order-item space-bottom">
-          <span class="grey-text">Address</span>
-        </div>
-        <div class="order-item ">
-          <div class="month1"><%= "#{@listing.address_1} #{@listing.city} #{@listing.state} #{@listing.post_code} #{@listing.country}" %></div>
-        </div>
-      </div>
-
-      <div class="order-details">
-        <h3 class="sub-title">Weekly payment</h3>
-        <div class="order-item space-bottom">
-          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
-          <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
-          <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span>Tax withholding</span>
-          <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span>Service fee</span>
-          <% if current_user == @transaction.poster %>
-            <span>-$<%= @transaction.poster_service_fee.round(2) %></span>
-          <% else %>
-            <span>$<%= @transaction.service_fee.round(2) %></span>
-          <% end %>
-        </div>
-        <div class="order-item space-bottom">
-          <span><b>Weekly total</b></span>
-          <% if current_user == @transaction.poster %>
-            <span><b>$<%= @transaction.poster_weekly_amount %></b></span>
-          <% else %>
-            <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="toggle-payment-detail">Total employment contract</div>
-
-      <div class="order-details show-payment-box">
-        <div class="order-item space-bottom">
-          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
-          <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
-          <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span>Tax withholding</span>
-          <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
-        </div>
-        <div class="order-item space-bottom">
-          <span>Service fee</span>
-          <% if current_user == @transaction.poster %>
-            <span>-$<%= @transaction.poster_total_service_fee.round(2) %></span>
-          <% else %>
-            <span>$<%= @transaction.total_service_fee.round(2) %></span>
-          <% end %>
-        </div>
-        <div class="order-item space-bottom">
-          <span><b>Total</b></span>
-          <% if current_user == @transaction.poster %>
-            <span><b><%= "$#{(@transaction.poster_total_amount).round(2)}" %></b></span>
-          <% else %>
-            <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
-          <% end %>
-        </div>
-
-        <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
-      </div>
-
-      <div class="order-details">
-        <h3 class="sub-title">Always communicate through Spare Staff</h3>
-        <div class="grey-text">
-          To protect your payment, never transfer money or communicate outside of Spare Staff website or app.
-        </div>
-        <br/>
-        <%= link_to 'Learn more', '#', class: 'orange-text learn-more' %>
-      </div>
-    </div>
-
-    <div class="right-detail">
-      <% if current_user == @transaction.poster %>
+    <% if current_user == @transaction.poster %>
+      <%= render partial: 'hirer'%>
+      <div class="right-detail">
         <% if @transaction.state.eql?("created") %>
           <%= render partial: "accept_or_decline_option" %>
         <% elsif @transaction.state.eql?("accepted") %>
@@ -144,24 +11,73 @@
         <% elsif @transaction.state.eql?("rejected") %>
           <%= render partial: "declined_info" %>
         <% end %>
-      <% elsif current_user == @transaction.hirer %>
+        <div id="top_message_container">
+          <%= render partial: "message" %>  
+        </div>
+      </div>
+    <% elsif current_user == @transaction.hirer %>
+      <%= render partial: 'poster'%>
+      <div class="right-detail">
         <% if @transaction.state.eql?("created") && @transaction.request_by.eql?('poster') %>
           <%= render partial: "accept_or_decline_option" %>
         <% else %>
           <%= render partial: "cancel_hiring_button" %>
         <% end %>
-      <% end %>
-      <%= render partial: "message" %>
-    </div>
+        <div id="top_message_container">
+          <%= render partial: "message" %>  
+        </div>
+      </div>
+    <% end%>
   </div>
-
   <%= render partial: "layouts/footer" %>
-
   <script type="text/javascript">
     $('.toggle-payment-detail').click(function(){
       $('.show-payment-box').toggle();
     });
   </script>
 <% else %>
-   <%= render partial: "message" %>
+  <div class="change-or-hiring-section">
+    <div class="left-detail">
+      <div class="text-allign-center">
+        <% if @listing.profile_picture.present? %>
+          <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+        <% end %>
+        <div class="">
+          <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'GreyLink', target: "_blank"  %>
+        </div>
+        <div class=""><%= @listing.name %></div>
+        <span class="GreyText-abc">Poster: <%= @listing.poster.name %></span>
+        <div class="Text14px PaddingTop10px">
+          <%= image_tag "star-rating.png", class: "star-rating" %> 28 reviews
+        </div>
+      </div>
+      <br/>
+      <div class="order-details first-order">
+        <div class="order-item">
+          <span><b>Availability</b></span>
+        </div>
+        <% @listing.listing_availabilities.each do |availability|%>
+          <% unless availability.not_available? %>
+            <div class="order-item space-bottom table-box">
+              <span><%= availability.day.titleize %></span>
+              <span><%= availability.start_time.strftime("%I:%M") %> - <%= availability.end_time.strftime("%I:%M") %></span>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="order-item asking-box">
+          <span><b>Asking Wage</b></span>
+        </div>
+        <div class="order-item space-bottom from-box">
+          <span>From $<%= minimum_price(@listing).present? ? minimum_price(@listing) : 0 %> per hour</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-detail" id="top_message_container">
+      <%= render partial: "message" %>
+    </div>
+  </div>
 <% end %>
