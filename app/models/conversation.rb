@@ -26,6 +26,9 @@ class Conversation < ApplicationRecord
   scope :between, -> (sender_id, receiver_id, transaction_id) do
     where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.transaction_id = ? )", sender_id, receiver_id, transaction_id, receiver_id, sender_id, transaction_id)
   end
+  scope :between_listing, -> (sender_id, receiver_id, employee_listing_id) do
+    where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? )", sender_id, receiver_id, employee_listing_id, receiver_id, sender_id, employee_listing_id)
+  end
   def opposed_user(user)
     user == receiver ? sender : receiver
   end

@@ -8,11 +8,16 @@ class InboxesController < ApplicationController
   def show
     if(params[:from].present?)
       @listing = EmployeeListing.find(params[:id])
-      @conversation = Conversation.create!( receiver_id: @listing.poster.id,
+      @conversation = Conversation.between_listing(current_user.id, @listing.poster.id, @listing.id).last
+      if(@conversation.present?)
+        @messages = @conversation.messages.order(created_at: :DESC)
+      else
+        @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                     sender_id: current_user.id,
                     employee_listing_id: @listing.id
                   )
-      @messages = []
+        @messages = []
+      end
       redirect_to inbox_path(id: @conversation.id) 
     else
       @transaction = @conversation.employee_listing_transaction
