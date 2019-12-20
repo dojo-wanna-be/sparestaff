@@ -126,7 +126,7 @@
       </li>
     </ul>
     <%if current_user %>
-      <%= link_to 'Contact Poster', inbox_path(@employee_listing.id), class: 'request-btn contact-poster' %>
+      <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'request-btn contact-poster' %>
     <% end %>
     <% if employee_listing.poster.stripe_info.present? && employee_listing.poster.stripe_info.stripe_account_id.present? %>
       <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
