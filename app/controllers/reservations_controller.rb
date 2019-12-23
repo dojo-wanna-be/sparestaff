@@ -55,8 +55,8 @@ class ReservationsController < ApplicationController
   def decline
     if @transaction.update_attributes(state: "rejected", decline_reason_by_poster: params[:message_text])
       @listing = @transaction.employee_listing
-      conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
-      message = find_or_create_conversation.messages&.last.present? ? @conversation.messages.last : ""
+      conversation = find_or_create_conversation
+      message = conversation.messages&.last.present? ? @conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.conversation.id)
@@ -162,7 +162,8 @@ class ReservationsController < ApplicationController
     hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
       @transaction.update_attributes(state: "created", request_by: 'poster')
-      message = find_or_create_conversation.messages.last
+      conversation = find_or_create_conversation
+      message = conversation.messages.last
       ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction).deliver_later!
       ReservationMailer.reservation_changed_email_to_hirer(@listing, hirer, @transaction, message).deliver_later!
       redirect_to changed_successfully_reservation_path(id: @transaction.id, old_id: @old_transaction.id)
