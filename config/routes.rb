@@ -106,6 +106,7 @@ Rails.application.routes.draw do
     collection do
       get :step_1
       get :step_2
+      get :payouts_method
       match :stripe_account, via: [:get, :patch]
     end
   end

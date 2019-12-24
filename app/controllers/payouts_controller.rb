@@ -4,6 +4,8 @@ class PayoutsController < ApplicationController
 
 	def step_2; end
 
+	def payouts_method; end
+
 	def stripe_account
 		unless request.get?
 			account = StripeAccount.new(params, current_user, request.remote_ip).create
