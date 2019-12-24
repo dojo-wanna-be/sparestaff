@@ -20,7 +20,7 @@ class AddNewCardOnStripe
         email: @user.email,
         source: @stripe_token,
       )
-       create_stripe_info(customer)
+      create_stripe_info(customer)
     end
     return customer
   end

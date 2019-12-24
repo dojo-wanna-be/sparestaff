@@ -4,6 +4,7 @@
     <div class="custom-input-group">
       <label class="thin-label">Card info*</label>
       <%= text_field_tag :first_name, nil, placeholder: "Name on card", class: 'custom-field' %>
+      <label id="first_name-error" class="error" for="first_name">This field is required.</label>
       <%= hidden_field_tag "stripe_token", nil, id: "stripe_token" %>
     </div>
     <div id="card-element"></div>
@@ -26,7 +27,8 @@
     <div class="joint-group">
       <div class="custom-input-group">
         <label class="thin-label">Billing info*</label>
-        <%= text_field_tag :zip_code, nil, placeholder: "Zip code", class: 'custom-field' %>
+        <%= text_field_tag :zip_code, nil, placeholder: "Zip code", class: 'custom-field', minLength: 4, maxLength: 4, :onkeypress=> "return isNumberKey(event)" %>
+        <label id="zip_code-error" class="error" for="zip_code">This field is required.</label>
       </div>
       <div class="custom-input-group">
         <label class="thin-label">Billing country*</label>
@@ -53,6 +55,8 @@
 <% end %>
 <script type="text/javascript">
   // Create a Stripe client
+  var isValid = false;
+  $('.error').hide();
   var stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
 
   // Create an instance of Elements
@@ -78,7 +82,7 @@
   };
 
   // Create an instance of the card Element
-  var card = elements.create('card', {style: style});
+  var card = elements.create('card', {hidePostalCode: true, style: style});
 
   // Add an instance of the card Element into the `card-element` <div>
   card.mount('#card-element');
@@ -107,21 +111,45 @@
         errorElement.textContent = result.error.message;
       } else {
         $("#stripe_token").val(result.token.id)
-        form.submit();
+        if(handleValidation()){
+          form.submit();
+        }       
       }
     });
   });
 
-  // $(document).ready(function() {
-  //   $("#payment-form").validate({
-  //     rules: {
-  //       "address_line1" : {required: true },
-  //       "address_city"  : {required: true},
-  //       "address_state" : {required: true},
-  //       "address_zip"   : {required: true},
-  //       "address_country": {required: true}
-  //     },
-     
-  //   });
-  // });
+  function isNumberKey(evt)
+  {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+         alert("Please Enter Only Numeric Value:");
+         return false;
+     }
+     return true;
+  }
+
+  function handleValidation() {
+    var formIsValid = true;
+    if($("#first_name").val() == ''){
+      $('#first_name-error').show();
+      formIsValid = false
+    }
+    if($("#zip_code").val() == '' || ($("#zip_code").val().length < 4)){
+      $('#zip_code-error').show();
+      formIsValid = false
+    }
+    return formIsValid;
+  }
+
+  $("#first_name, #zip_code").keyup(function(event){
+    if(event.target.name == 'first_name'&& event.target.value.length > 2)
+      $('#first_name-error').hide();
+    if(event.target.name == 'zip_code'&& event.target.value.length == 4)
+      $('#zip_code-error').hide();
+  });
+
+  function hideError(event){
+    
+  }
+
 </script>

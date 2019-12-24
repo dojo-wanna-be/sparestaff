@@ -102,11 +102,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :payouts, only: [] do
+  resources :payouts, only: [:create] do
     collection do
       get :step_1
       get :step_2
-      match :stripe_account, via: [:get, :patch]
+      get :stripe_account
     end
   end
 
