@@ -102,7 +102,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :payouts, only: [:create] do
+  resources :payouts, only: [:create, :index] do
     collection do
       get :step_1
       get :step_2

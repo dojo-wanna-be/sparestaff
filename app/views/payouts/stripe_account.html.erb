@@ -1,28 +1,7 @@
 <%= render partial: "employee_listings/user_settings_header" %>
 
 <div class="account-section">
-
-
-  <div class="side_menu">
-    <ul class="tab-list">
-      <li class="tab-item">
-        <%= link_to 'Notifications', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Payment Methods', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <% is_payment = params[:controller].eql?("payouts")%>
-        <%= link_to 'Payout Preferences', '#', class: "#{ is_payment ? 'tab-link  active' : 'tab-link ' }" %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Transaction History', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Security', '#', class: 'tab-link' %>
-      </li>
-    </ul>
-  </div>
+  <%= render partial: 'payout_side_bar'%>
   <div class="payout-prefrences-box">
     <div  class="payout-box">
       <div class="panel-header">

@@ -1,26 +1,7 @@
 <%= render partial: "employee_listings/user_settings_header" %>
 
 <div class="account-section">
-  <div class="side_menu">
-    <ul class="tab-list">
-      <li class="tab-item">
-        <%= link_to 'Notifications', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Payment Methods', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <% is_payment = params[:controller].eql?("payouts")%>
-        <%= link_to 'Payout Preferences', '#', class: "#{ is_payment ? 'tab-link  active' : 'tab-link ' }" %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Transaction History', '#', class: 'tab-link' %>
-      </li>
-      <li class="tab-item">
-        <%= link_to 'Security', '#', class: 'tab-link' %>
-      </li>
-    </ul>
-  </div>
+  <%= render partial: 'payout_side_bar'%>
   <div class="payout-prefrences-box">
     <div class="payout-box">
       <div class="panel-header">
@@ -28,35 +9,41 @@
       </div>
       <div class="payout-box-content payout-method-box-content">
         <div class="payout-method-box">
-          <div class="method-box">
-            <div class="card-no-and-date">
-              <div class="card-no">AMEX xxxxxxxxxxx3007</div>
-              <div class="card-date">03/19</div>
+          <% if @stripe_account.present? %>
+            <div class="method-box">
+              <div class="card-no-and-date">
+                <div class="card-no">xxxxxxxxxxx<%= @stripe_account.external_accounts.data.first.last4 %></div>
+                <div class="card-date"><%= @payment_method.created_at.strftime("%m/%y") %></div>
+              </div>
+              <div class="payouts-btn">
+                <div><%#= link_to 'Default', 'javascript:;', class: 'card-btn-link default-set' %></div>
+                <div><%#= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
+              </div>
             </div>
-            <div class="payouts-btn">
-              <div><%= link_to 'Default', 'javascript:;', class: 'card-btn-link default-set' %></div>
-              <div><%= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
-            </div>
-          </div>
+          <% else %>
 
-          <div class="method-box">
+          <!-- <div class="method-box">
             <div class="card-no-and-date">
               <div class="card-no">PayPal</div>
               <div class="card-date">mypaypal@gmail.com</div>
             </div>
             <div class="payouts-btn">
-              <div><%= link_to 'Set Default', 'javascript:;', class: 'card-btn-link' %></div>
-              <div><%= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
+              <div><%#= link_to 'Set Default', 'javascript:;', class: 'card-btn-link' %></div>
+              <div><%#= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="method-box add-method-box">
-            <div class="add-method">
-              <div class="add">+</div>
-              <div>Add payment method</div>
+          <%= link_to step_1_payouts_path do %>
+            <div class="method-box add-method-box">
+              <div class="add-method">
+                <div class="add">+</div>
+                <div>Add payment method</div>
+              </div>
             </div>
-          </div>
+          <% end %>
+        <% end %>
         </div>
+
         <div class="align-left">Remember: Spare Staff will never ask you to wire money.</div>
       </div>
     </div>
