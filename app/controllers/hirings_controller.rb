@@ -151,6 +151,7 @@ class HiringsController < ApplicationController
 
   def change_hiring_confirmation
     @listing = @transaction.employee_listing
+    @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
       @transaction.update_attributes(state: "created", request_by: 'hirer')
