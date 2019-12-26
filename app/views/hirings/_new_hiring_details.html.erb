@@ -3,14 +3,16 @@
 <div class="date-detail"><%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
 
 <div class="day-timing-box">
-	<% ListingAvailability.days.each do |day| %>
-	  <% booking = @bookings.find_by(day: day[0]) %>
-  	<% if booking.present? %>
-	    <div class="timing-box-row">
-	      <div class=""><%= booking.day.titleize %></div>
-	      <div class=""><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></div>
-	    </div>
-  	<% end %>
+	<% if @bookings.present? %>
+		<% ListingAvailability.days.each do |day| %>
+		  <% booking = @bookings.find_by(day: day[0]) %>
+	  	<% if booking.present? %>
+		    <div class="timing-box-row">
+		      <div class=""><%= booking.day.titleize %></div>
+		      <div class=""><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></div>
+		    </div>
+	  	<% end %>
+		<% end %>
 	<% end %>
 </div>
 
