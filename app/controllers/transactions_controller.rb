@@ -68,7 +68,8 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      address = @transaction.build_address(address_params)
+      @transaction.update_attributes(probationary_period: params[:transaction][:probationary_period])
+      address = @transaction.build_address(address_params).save
       create_message
       redirect_to payment_transaction_path(id: @transaction.id)
     end
@@ -94,8 +95,8 @@ class TransactionsController < ApplicationController
       
       @transaction.update_attribute(:state, "created")
       message = find_or_create_conversation.messages.last
-      TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
+      TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     rescue Exception => e
       flash[:error] = e
@@ -130,12 +131,6 @@ class TransactionsController < ApplicationController
     params.require(:company).permit(
       :name,
       :acn,
-      :address_1,
-      :address_2,
-      :city,
-      :state,
-      :post_code,
-      :country,
       :contact_no
     )
   end
@@ -147,8 +142,7 @@ class TransactionsController < ApplicationController
       :city,
       :state,
       :post_code,
-      :country,
-      :probationary_period
+      :country
     )
   end
 

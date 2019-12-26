@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       get :change_or_cancel
       get :get_receipt
       get :receipt_details
+      delete :destroy_transaction
       match :change_hiring, via: [:get, :patch]
       match :change_hiring_confirmation, via: [:get, :patch]
       get :changed_successfully

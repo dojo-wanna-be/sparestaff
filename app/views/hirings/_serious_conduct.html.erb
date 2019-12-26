@@ -29,48 +29,7 @@
 
       <div class="under-title">If you cancel now, you'll receive refund for remaining days in hiring contract that you've paid up to. The Poster will receive payment for work that the Employee has done up to today full day. Spare Staff service fee is not refundable.</div>
 
-      <div class="calculation-list">
-        <div class="list-item">
-          <div class="left-item">
-            Total Fee
-          </div>
-          <div class="right-item">
-            <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Partial hiring fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.partial_hiring_fee.round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Tax withholding
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.tax_withholding_amount.round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Service fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.service_fee.round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item grey-list-item">
-          <div class="left-item">
-            <strong>Your Total Refund</strong>
-          </div>
-          <div class="right-item">
-            <strong><%= "$#{(@transaction.amount - @transaction.partial_hiring_fee).round(2)}" %></strong>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'refund_amount' %>
 
       <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
 

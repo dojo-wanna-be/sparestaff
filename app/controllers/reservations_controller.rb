@@ -56,7 +56,7 @@ class ReservationsController < ApplicationController
     if @transaction.update_attributes(state: "rejected", decline_reason_by_poster: params[:message_text])
       @listing = @transaction.employee_listing
       conversation = find_or_create_conversation
-      message = conversation.messages&.last.present? ? @conversation.messages.last : ""
+      message = conversation.messages&.last.present? ? conversation.messages.last : ""
       ReservationMailer.employee_hire_declined_email_to_Poster(@listing, current_user, @transaction, message).deliver_later!
       ReservationMailer.employee_hire_declined_email_to_Hirer(@listing, @transaction.hirer, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.conversation.id)

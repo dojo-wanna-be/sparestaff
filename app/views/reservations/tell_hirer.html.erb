@@ -10,7 +10,7 @@
       <% end %>
       <div class="sub-title"><%= @listing.title %></div>
       <div><%= @listing.name %></div>
-      <div class="grey-text"><%= "Poster: #{@listing.poster.name}" %></div>
+      <div class="grey-text"><%= "Hirer: #{@transaction.hirer.name}" %></div>
     </div>
 
     <div class="order-details first-order">
@@ -34,7 +34,13 @@
         <span class="grey-text">Probationary period</span>
       </div>
       <div class="order-item ">
-        <div class="month1"><%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %></div>
+        <div class="month1">
+          <% if @transaction.probationary_period.present? %>
+            <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+          <% else %>
+            NA
+          <% end %>
+        </div>
       </div>
     </div>
 
@@ -86,7 +92,7 @@
         <span><b><%= "$#{@transaction.poster_total_amount.round(2)}" %></b></span>
       </div>
 
-      <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
+      <div class="text-center grey-text detail-bot-text">You will not recieve the Total employment contract upfront. You will recieve payout weekly.</div>
     </div>
     <br>
     <div class="GreyLine1Px"></div>

@@ -15,7 +15,8 @@ class HiringsController < ApplicationController
                                             :accept,
                                             :decline_request,
                                             :decline,
-                                            :cancel
+                                            :cancel,
+                                            :destroy_transaction
                                           ]
 
   before_action :ensure_not_poster, only: [:change_hiring]
@@ -31,6 +32,15 @@ class HiringsController < ApplicationController
   def show
     @listing = @transaction.employee_listing
     @address = @transaction.address
+  end
+
+  def destroy_transaction
+    if(@transaction.destroy)
+      redirect_to change_hiring_hiring_path(params[:old_id])
+    else
+      flash[:error] = "Something went to wrong"
+      redirect_to change_hiring_confirmation_hiring_path(id: params[:id], old_id: params[:old_id])
+    end
   end
 
   def change_or_cancel

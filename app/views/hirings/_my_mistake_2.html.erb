@@ -8,32 +8,7 @@
 
       <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
 
-      <div class="calculation-list">
-        <div class="list-item">
-          <div class="left-item">
-            Total Fee
-          </div>
-          <div class="right-item">
-            <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Service fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.service_fee.round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item grey-list-item">
-          <div class="left-item">
-            <strong>Your Total Refund</strong>
-          </div>
-          <div class="right-item">
-            <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'refund_amount' %>
 
       <div class="custom-label">Tell <%= @transaction.poster.name %> why you need to cancel</div>
 

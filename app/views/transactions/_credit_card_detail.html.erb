@@ -51,8 +51,10 @@
 
   <div class="button-box">
     <button class="continue-btn">Request to hire</button>
+    <%= link_to 'Back', initialized_transaction_path(@transaction.id), class: 'continue-btn' %>
   </div>
 <% end %>
+
 <script type="text/javascript">
   // Create a Stripe client
   var isValid = false;

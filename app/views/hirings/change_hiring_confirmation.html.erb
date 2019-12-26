@@ -22,7 +22,7 @@
         <h1 class="main-heading">Does this look right?</h1>
         <%= render partial: "hirings/new_hiring_details" %>
         <div class="inline-btn-box">
-          <%= link_to 'Back', '#', class: 'back-btn' %>
+          <%= link_to 'Back', destroy_transaction_hiring_path(@transaction.id, old_id: params[:old_id]), method: :delete, class: 'back-btn' %>
           <%= form_tag change_hiring_confirmation_hiring_path(id: @transaction.id), method: :patch do %>
             <%= hidden_field_tag "old_id", @old_transaction.id %>
             <%= submit_tag "Send Request", class: "continue-btn" %>

@@ -1,0 +1,26 @@
+<div class="calculation-list">
+  <div class="list-item">
+    <div class="left-item">
+      Total Fee
+    </div>
+    <div class="right-item">
+      $<%= @transaction.hirer_weekly_amount %>
+    </div>
+  </div>
+  <div class="list-item">
+    <div class="left-item">
+      Service fee
+    </div>
+    <div class="right-item">
+      -$<%=  @transaction.service_fee.round(2) %>
+    </div>
+  </div>
+  <div class="list-item grey-list-item">
+    <div class="left-item">
+      <strong>Your Total Refund</strong>
+    </div>
+    <div class="right-item">
+      <strong>$<%= (@transaction.hirer_weekly_amount - @transaction.service_fee).round  %></strong>
+    </div>
+  </div>
+</div>

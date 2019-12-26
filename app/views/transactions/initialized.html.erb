@@ -31,17 +31,17 @@
 
               <div class="custom-input-group">
                 <label class="thin-label">Address line 1</label>
-                <%= f.text_field :address_1, value: nil, placeholder: "Full address is not shown to poster until hiring request is accepted", class: 'custom-field' %>
+                <%= f.text_field :address_1, value: address_1, placeholder: "Full address is not shown to poster until hiring request is accepted", class: 'custom-field' %>
               </div>
 
               <div class="custom-input-group">
                 <label class="thin-label">Address line 2 <span class="thin-text">(optional)</span></label>
-                <%= f.text_field :address_2, value: nil, class: 'custom-field' %>
+                <%= f.text_field :address_2, value: address_2, class: 'custom-field' %>
               </div>
 
               <div class="custom-input-group">
                 <label class="thin-label">Suburb/City</label>
-                <%= f.text_field :city, value: nil, class: 'custom-field half-field' %>
+                <%= f.text_field :city, value: city, class: 'custom-field half-field' %>
               </div>
 
               <div class="joint-group">

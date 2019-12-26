@@ -21,6 +21,7 @@ class InboxesController < ApplicationController
       redirect_to inbox_path(id: @conversation.id) 
     else
       @transaction = @conversation.employee_listing_transaction
+      @address = @transaction.address
       @listing = @conversation.employee_listing
       @messages = @conversation.messages.order(created_at: :DESC)
     end
