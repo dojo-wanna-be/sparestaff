@@ -2,7 +2,7 @@
 <% if @transaction.present? %>
   <div class="change-or-hiring-section">
     <% if current_user == @transaction.poster %>
-      <%= render partial: 'hirer'%>
+      <%= render partial: 'poster'%>
       <div class="right-detail">
         <% if @transaction.state.eql?("created") %>
           <%= render partial: "accept_or_decline_option" %>
@@ -16,7 +16,7 @@
         </div>
       </div>
     <% elsif current_user == @transaction.hirer %>
-      <%= render partial: 'poster'%>
+      <%= render partial: 'hirer'%>
       <div class="right-detail">
         <% if @transaction.state.eql?("created") && @transaction.request_by.eql?('poster') %>
           <%= render partial: "accept_or_decline_option" %>
