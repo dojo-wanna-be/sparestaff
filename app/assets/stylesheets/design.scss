@@ -1011,10 +1011,6 @@
           height: 20px;
           float: left;
           filter: grayscale(100%);
-
-          @media screen and (max-width: 767px) {
-            height: 70px;
-          }
         }
       }
 

@@ -4,6 +4,8 @@ class PayoutsController < ApplicationController
 
 	def step_2; end
 
+	def payouts_method; end
+
 	def stripe_account; end
 
 	def create
@@ -15,5 +17,6 @@ class PayoutsController < ApplicationController
       @error = @account[:message]
       render action: "stripe_account"
     end
+
 	end
 end

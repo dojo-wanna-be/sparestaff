@@ -107,6 +107,7 @@ Rails.application.routes.draw do
       get :step_1
       get :step_2
       get :stripe_account
+      get :payouts_method
     end
   end
 
