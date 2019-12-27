@@ -14,4 +14,4 @@
 <div class="total-hour"><%= "#{@transaction.total_weekday_hours + @transaction.total_weekend_hours} Hour Total" %></div>
 
 <p class="original-through-text">Original: <span class="through-text"><%= "#{@old_transaction.start_date.strftime("%d %b %Y")} - #{@old_transaction.end_date.strftime("%d %b %Y")}" %> <br> <%= "#{@old_transaction.total_weekday_hours + @old_transaction.total_weekend_hours} Hour Total" %></span></p>
-<div>If <%= @transaction.hirer.name %> agrees to the changes, they'll be charged $<%= (@transaction.poster_total_amount - @old_transaction.poster_total_amount).round(2) %> and your new payout will be @transaction.poster_total_amount.</div>
+<div>If <%= @transaction.hirer.name %> agrees to the changes, they'll be charged $<%= (@transaction.poster_total_amount - @old_transaction.poster_total_amount).round(2) %> and your new payout will be <%= @transaction.poster_total_amount %>.</div>
