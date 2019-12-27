@@ -16,7 +16,8 @@ class ReservationsController < ApplicationController
                                           :decline_request,
                                           :decline,
                                           :reservations_view_invoice_list,
-                                          :write_a_review
+                                          :write_a_review,
+                                          :destroy_transaction
                                          ]
 
   def index
@@ -27,6 +28,15 @@ class ReservationsController < ApplicationController
 
   def show
     @listing = @transaction.employee_listing
+  end
+
+  def destroy_transaction
+    if(@transaction.destroy)
+      redirect_to change_reservation_reservation_path(params[:old_id])
+    else
+      flash[:error] = "Something went to wrong"
+      redirect_to change_reservation_confirmation_reservation_path(id: params[:id], old_id: params[:old_id])
+    end
   end
 
   def change_or_cancel

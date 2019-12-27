@@ -95,6 +95,7 @@ Rails.application.routes.draw do
       patch :decline_request
       patch :decline
       get :change_or_cancel
+      delete :destroy_transaction
       match :change_reservation, via: [:get, :patch]
       match :change_reservation_confirmation, via: [:get, :patch]
       get :changed_successfully
@@ -113,4 +114,5 @@ Rails.application.routes.draw do
   end
 
   resources :inboxes
+
 end
