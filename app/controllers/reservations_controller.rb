@@ -172,6 +172,7 @@ class ReservationsController < ApplicationController
 
   def changed_successfully
     @listing = @transaction.employee_listing
+     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
   end
 
