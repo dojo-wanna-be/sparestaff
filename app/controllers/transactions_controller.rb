@@ -38,12 +38,12 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
-        transaction.hirer_service_fee = transaction.service_fee
-        transaction.hirer_total_service_fee = transaction.total_service_fee
-        transaction.poster_service_fee = transaction.poster_service_fee
-        transaction.poster_total_service_fee = transaction.poster_total_service_fee
+        # transaction.hirer_service_fee = transaction.service_fee
+        # transaction.hirer_total_service_fee = transaction.total_service_fee
+        # transaction.poster_service_fee = transaction.poster_service_fee
+        # transaction.poster_total_service_fee = transaction.poster_total_service_fee
 
-        transaction.save
+        # transaction.save
         redirect_to initialized_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"

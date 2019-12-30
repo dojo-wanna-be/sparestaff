@@ -131,12 +131,12 @@ class HiringsController < ApplicationController
       if continue
         @new_transaction = TransactionService.new(params, current_user).create
         if @new_transaction.present?
-          @new_transaction.hirer_service_fee = @new_transaction.service_fee
-          @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
-          @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
-          @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
+          # @new_transaction.hirer_service_fee = @new_transaction.service_fee
+          # @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
+          # @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
+          # @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
 
-          @new_transaction.save
+          # @new_transaction.save
           redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"
