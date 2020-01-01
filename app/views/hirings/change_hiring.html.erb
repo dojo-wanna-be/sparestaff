@@ -417,6 +417,7 @@
     var tax = checkTax(weekly_earning)
     var service_tax = 0.03 * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").val("-" + tax);
+    $("#new_tax_withholding_amount").val(tax)
     $("#weeklyServicePrice").html(service_tax.toFixed(2));
     var weeklyTotalPrice = weekly_earning - Math.abs(tax) + service_tax;
     $("#weekly_total_price").html(weeklyTotalPrice.toFixed(2));
