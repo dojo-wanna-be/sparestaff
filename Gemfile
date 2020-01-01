@@ -90,4 +90,8 @@ gem 'sidekiq'
 gem 'sidekiq-scheduler'
 gem 'paypal-sdk-rest'
 gem 'exception_notification'
+gem 'geocoder'
+gem 'ransack', '~> 2.1'
+gem 'will_paginate'
 gem 'bootstrap-datepicker-rails'
+

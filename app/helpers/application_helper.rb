@@ -6,4 +6,9 @@ module ApplicationHelper
 	def listing_end_date(employee_listing)
 		employee_listing.end_publish_date
 	end
+
+	def listing_data
+    default = [ ['Enter keywords', ''] ]
+    default + EmployeeListing.all.pluck(:title, :id)
+  end
 end

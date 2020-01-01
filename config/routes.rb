@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   }
 
   root to: "home#index"
+  post '/', to: 'home#index'
 
   resources :stripe_webhook, only: [] do
     collection do
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   resources :home, :path => "home", :as => "home", only: [] do
     collection do
       get :email_availability
+      get :keyword_search
     end
   end
 

@@ -80,6 +80,12 @@ class EmployeeListing < ApplicationRecord
   validates_attachment_content_type :verification_front_image, content_type: /\Aimage\/.*\z/
   has_attached_file :verification_back_image
   validates_attachment_content_type :verification_back_image, content_type: /\Aimage\/.*\z/
+  geocoded_by :address
+  after_validation :geocode
+  def address
+    [address_1, address_2, city, state, country, post_code].compact.join(', ')
+  end
+
 
   EMPLOYEE_STATES = [ "NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS" ]
   EMPLOYEE_COUNTRIES = [ "Australia" ]
