@@ -26,5 +26,5 @@
       <% end %>
     <% end %>
   </div>
-  <%= will_paginate @employee_listings %>
+  <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
 </div>

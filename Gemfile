@@ -94,4 +94,5 @@ gem 'geocoder'
 gem 'ransack', '~> 2.1'
 gem 'will_paginate'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-will_paginate'
 

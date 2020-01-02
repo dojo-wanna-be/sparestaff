@@ -4,6 +4,10 @@
 
     <% if @employee_listings.present? %>
       <%= render partial: "featured_listings" %>
+    <% else%>
+    	<div class="featured-listings-box">
+  			<h1 class="featured-heading">Record not found.</h1>
+  		</div>
     <% end %>
 
     <%= render partial: "services_offered" %>
