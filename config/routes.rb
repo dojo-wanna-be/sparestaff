@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   }
 
   root to: "home#index"
-  post '/', to: 'home#index'
 
   resources :stripe_webhook, only: [] do
     collection do

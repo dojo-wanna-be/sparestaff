@@ -5,7 +5,7 @@
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <div class="search-box">
   <h1 class="search-heading">Find employees</h1>
-  <%= form_tag root_path, method: :post do |f| %>
+  <%= form_tag root_path, method: :get do |f| %>
     <div class="search-form">
       <div class="form-box">
         <div class="search-form">
@@ -13,7 +13,7 @@
           <div class="classification-dropdown">
             <div class="acrrodian-dropdown">
               <div class="accordian-drop-btn">
-                Any Classification 
+                <span id="select-classification"> Any Classification </span>
                 <span>
                   <svg class="_1BytwqT _3thDXAk" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1024 1024" focusable="false"><path d="M945 305l78 67-510 524L3 372l75-69 435 451 432-449z"></path></svg>
                 </span>
@@ -26,14 +26,20 @@
                   <% @classifications.each do |classification| %>
                     <li class="filter-parent-list-item">
                       <div class="custom-checkbox">
-                        <%= check_box_tag 'parent[]', classification.id, false, id: "parent_#{classification.id}" %>
+                        <%= check_box_tag 'parent[]', classification.id, false, id: "parent_#{classification.id}", class: 'parent', data: {name: classification.name} %>
                         <label for="parent_<%= classification.id %>"><%= classification.name %></label>
                         <% if classification.sub_classifications.present? %>
                           <ul class="filter-child-list">
+                            <li class="filter-child-list-item">
+                              <div class="custom-checkbox">
+                                <%= check_box_tag "all[]", 'all', false, id: "all_#{classification.id}", data: { id: classification.id } %>
+                                <label for="all_<%= classification.id %>"> All <%= classification.name %></label>
+                              </div>
+                            </li>
                             <% classification.sub_classifications.each do |sc| %>
                               <li class="filter-child-list-item">
                                 <div class="custom-checkbox">
-                                  <%= check_box_tag 'child[]', sc.id, false, id: "child_#{sc.id}" %>
+                                  <%= check_box_tag 'child[]', sc.id, false, id: "child_#{sc.id}", class: "checkbox_#{classification.id}" %>
                                   <label for="child_<%= sc.id %>"><%= sc.name%></label>
                                 </div>
                               </li>
@@ -95,9 +101,23 @@
 
   $(function() {
     $("input[type='checkbox']").change(function () {
+      
+        noOfSelect = $('.parent:checkbox:checked').length
+        if(noOfSelect == 0)
+          $('#select-classification').text('Any Classification')
+        else if(noOfSelect == 1)
+          $('#select-classification').text($('.parent:checkbox:checked').attr("data-name"))
+        else
+          $('#select-classification').text(noOfSelect + " Classifications")
+      
       if(!this.checked)
         $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked); 
     });
+
+    $("#all_1").change(function(){
+      id = $(this).attr("data-id")
+      $('.checkbox_'+id).prop('checked', this.checked);
+    })
   });
 
   $( function() {

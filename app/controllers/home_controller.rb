@@ -4,11 +4,7 @@ class HomeController < ApplicationController
   def index
     @user = User.new
     listings = EmployeeListing.active.published.order(updated_at: :desc)
-    @employee_listings = if request.get?
-                          listings.all
-                        else
-                          find_employee_listings(listings)
-                        end
+    @employee_listings = find_employee_listings(listings)
     @employee_listings = @employee_listings.paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
   end
