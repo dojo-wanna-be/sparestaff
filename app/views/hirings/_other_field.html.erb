@@ -4,35 +4,13 @@
     <div class="my-mistake">
       <div class="title-main">Your Refund Summary</div>
       <div><b>This listing has cancellation policy</b></div>
+      <% unless (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 1 <= Date.today) %>
+        <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
+      <% else %>
+        <div class="under-title">f you cancel now, you'll receive a full refund.</div>
+      <% end %>
 
-      <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
-
-      <div class="calculation-list">
-        <div class="list-item">
-          <div class="left-item">
-            Total Fee
-          </div>
-          <div class="right-item">
-            <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Service fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.service_fee.round(2)}" %>
-          </div>
-        </div>
-        <div class="list-item grey-list-item">
-          <div class="left-item">
-            <strong>Your Total Refund</strong>
-          </div>
-          <div class="right-item">
-            <strong><%= "$#{@transaction.amount.round(2)}" %></strong>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'refund_amount' %>
 
       <div class="affect-poster">
         Please tell us why you're cancelling<br>

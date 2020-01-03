@@ -131,7 +131,7 @@ class HiringsController < ApplicationController
       if continue
         @new_transaction = TransactionService.new(params, current_user).create
         if @new_transaction.present?
-          # @new_transaction.hirer_service_fee = @new_transaction.service_fee
+          #@new_transaction.start_date = @old_transaction.start_date
           # @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
           # @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
           # @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
@@ -155,6 +155,7 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     if request.patch?
       @transaction.update_attributes(state: "created", request_by: 'hirer')
+      HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
       HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       message = find_or_create_conversation.messages.last
       HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
