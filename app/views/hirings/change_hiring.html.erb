@@ -17,7 +17,11 @@
           <%= link_to '2. Confirm request', "javascript:;", class: 'item-logo' %>
         </li>
       </ul>
-
+      <% if (@transaction.state.eql?("accepted") && @transaction.start_date <= Date.today)%>
+        <p>
+          This hiring has already started. You can request changes. PosterABC needs to respond before the next billing cycle - 5th Mar 2019. If PosterABC accepts, this hiring will be marked as completed on the 4th Mar 2019 and a new hiring with new details below will start from the 5th Mar 2019.
+        </p>
+      <% end %>
       <%#= render partial: "employee_listings/review_hire_details" %>
       <div class="review_hiring_details">
         <h1 class="main-heading">What do you want to change?</h1>
@@ -50,7 +54,7 @@
       <div class="user-right-box">
         <div class="left">
           <span><b>From</b></span>
-          <div><%= @old_transaction.start_date.strftime("%A %b %d, %Y") %></div>
+          <div><%= @old_transaction.get_beginning_day.strftime("%A %b %d, %Y") %></div>
         </div>
         <div class="right">
           <span><b>To</b></span>
