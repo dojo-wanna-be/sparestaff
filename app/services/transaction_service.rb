@@ -58,7 +58,6 @@ class TransactionService
         remaining_weekday_price =  (monday * weekly_hours[:monday_hours] + tuesday * weekly_hours[:tuesday_hours] + wednesday * weekly_hours[:wednesday_hours] + thursday * weekly_hours[:thursday_hours] + friday * weekly_hours[:friday_hours]) * listing.weekday_price.to_f
 
         remaining_weekend_price = (saturday * weekly_hours[:saturday_hours] + sunday * weekly_hours[:sunday_hours]) * listing.weekend_price.to_f
-
         remaining_weekly_earning = remaining_weekday_price + remaining_weekend_price
         weekly_tax_withholding = if tx.is_withholding_tax
           @params[:transaction][:tax_withholding_amount].to_i.abs
