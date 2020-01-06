@@ -1,0 +1,384 @@
+<%= stylesheet_link_tag 'daterangepicker.css'%>
+<%= javascript_include_tag 'daterangepicker.min'%>
+<%= javascript_include_tag 'moment.min'%>
+
+<div class="search_filter-box">
+  <div class="comman-dropdown">
+    <div class="date-dropdown custom-drop-btn">Dates</div>
+    <div class="date-area field-area">
+      <div class="small-text">Select when you want to hire</div>
+      <input class="daterange-input" type="text" name="daterange" value="" />
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="comman-dropdown">
+    <div class="work_type-dropdown custom-drop-btn">Work types</div>
+    <div class="work_type-area field-area">
+      <div class="checkbox-filter">
+        <div class="checkbox-field-box">
+          <input type="checkbox" id="checkbox1" class="custom-input">
+          <label for="checkbox1" class="custom-label">Full time</label>
+        </div>
+        <div class="checkbox-field-box">
+          <input type="checkbox" id="checkbox2" class="custom-input">
+          <label for="checkbox2" class="custom-label">Part time</label>
+        </div>
+        <div class="checkbox-field-box">
+          <input type="checkbox" id="checkbox3" class="custom-input">
+          <label for="checkbox3" class="custom-label">Casual</label>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="comman-dropdown">
+    <div class="price-dropdown custom-drop-btn">Price</div>
+    <div class="price-area field-area">
+      <div class="price-filter">
+        <div class="price-filter-select-row">
+          <div>Minimum hourly rate</div>
+          <select name="" class="price-filter-select">
+            <option>$0/Hour</option>
+            <option>$10/Hour</option>
+          </select>
+        </div>
+        <div class="price-filter-select-row">
+          <div>Maximum hourly rate</div>
+          <select name="" class="price-filter-select">
+            <option>$0/Hour</option>
+            <option>$10/Hour</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="comman-dropdown">
+    <div class="instant_hire-dropdown custom-drop-btn">Instant Hire</div>
+    <div class="instant_hire-area field-area">
+      <div class="filter-heading">Instant Hire</div>
+      <div class="instant-checkbox-row">
+        <label class="instant-label">Listings that you can hire without waiting for Poster approval</label>
+        <input name="" type="checkbox" class="custom-instant-checkbox">
+      </div>
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="comman-dropdown">
+    <div class="more_filter-dropdown custom-drop-btn">More filters</div>
+    <div class="more_filter-area field-area">
+      <div class="small-text">Please select all that is required then Apply</div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Residency status</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Permanent resident/Citizen</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Family/Partner Visa</label>
+          </div>
+        </div>
+
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Student Visa</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Other Visas</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Gender</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Male</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Female</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Required to have own vehicle?</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Required</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Not required</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Age</h6>
+        <div class="filters_list-item select-filter-item">
+          <div class="filter-item">
+            <label class="filter-label">Minimum</label>
+            <select name="" class="filter-min-max-select">
+              <option selected="selected">--</option>
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label class="filter-label">Maximum</label>
+            <select name="" class="filter-min-max-select">
+              <option selected="selected">--</option>
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Must have photos?</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Required</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Not required</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Availability</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Monday</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Friday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Tuesday</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Saturday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Wednesday</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Sunday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Thursday</label>
+          </div>
+          <div class="filter-item">
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Language</h6>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">English</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Hindi</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Korean</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Thai</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Chinese-mandarin</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">French</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Russian</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Vietnamese</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Chinese-cantonese</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Dutch</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">German</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Burmese</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Spanish</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Italian</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Portugese</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Indonesian</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Arabic</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Japanese</label>
+          </div>
+          <div class="filter-item">
+            <input name="" type="checkbox" class="filter-checkbox">
+            <label class="filter-label">Turkish</label>
+          </div>
+          <div class="filter-item">
+           
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('input[name="daterange"]').daterangepicker({
+      opens: 'left'
+    }, function(start, end, label) {
+      console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    });
+  });
+
+
+  $('.date-dropdown').click(function(e) {
+    $('.date-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".date-area, .date-dropdown").length) {
+      $("body").find(".date-area").hide();
+    }
+  });
+
+  $('.work_type-dropdown').click(function(e) {
+    $('.work_type-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".work_type-area, .work_type-dropdown").length) {
+      $("body").find(".work_type-area").hide();
+    }
+  });
+
+  $('.price-dropdown').click(function(e) {
+    $('.price-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".price-area, .price-dropdown").length) {
+      $("body").find(".price-area").hide();
+    }
+  });
+
+  $('.instant_hire-dropdown').click(function(e) {
+    $('.instant_hire-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".instant_hire-area, .instant_hire-dropdown").length) {
+      $("body").find(".instant_hire-area").hide();
+    }
+  });
+
+  $('.more_filter-dropdown').click(function(e) {
+    $('.more_filter-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".more_filter-area, .more_filter-dropdown").length) {
+      $("body").find(".more_filter-area").hide();
+    }
+  });
+</script>
+</script>

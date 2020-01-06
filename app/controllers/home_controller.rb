@@ -27,6 +27,14 @@ class HomeController < ApplicationController
     render json: @listings.pluck(:id, :title)
   end
 
+  def employee_search
+    @user = User.new
+    listings = EmployeeListing.active.published.order(updated_at: :desc)
+    @employee_listings = find_employee_listings(listings)
+    @employee_listings = @employee_listings.paginate(:page => params[:page], :per_page => 4)
+    @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
+  end
+
   private
     def find_employee_listings(listings)
       @listings = listings

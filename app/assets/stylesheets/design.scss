@@ -773,104 +773,108 @@
           line-height: 1.2;
         }
       }
+    }
+  }
+}
 
-      .featured-listings {
-        display: flex;
-        flex-direction: row;
-       // justify-content: space-between;
-        align-items: flex-start;
-        margin-top: 32px;
+//** Featured Listing **//
+
+.featured-listings {
+  display: flex;
+  flex-direction: row;
+ // justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 32px;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  @media screen and (width: 1024px) {
+    justify-content: space-between;
+  }
+
+  .licting-card-link {
+    color: #484848;
+    margin-right: 86px;
+    padding: 5px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+
+    &:hover {
+      text-decoration: none;
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+    }
+    @media screen and (max-width: 767px) {
+      margin-right: 0px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+      padding: 5px;
+      width: 100%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      margin-right: 0;
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+      margin-bottom: 20px;
+    }
+
+    .listing-card {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 300px;
+      }
+
+      .listing-img {
+        height: 200px;
+        width: 200px;
 
         @media screen and (max-width: 767px) {
-          flex-direction: column;
-          margin-top: 20px;
+          width: 100%;
+          height: 160px;
         }
-        @media screen and (min-width: 768px) and (max-width: 1024px) {
-          flex-wrap: wrap;
-          justify-content: space-around;
-        }
-        @media screen and (width: 1024px) {
-          justify-content: space-between;
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          width: 300px;
         }
 
-        .licting-card-link {
-          color: #484848;
-          margin-right: 86px;
-          padding: 5px;
-          padding-bottom: 10px;
-          border-radius: 5px;
+        .card-image {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
 
-          &:hover {
-            text-decoration: none;
-            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
-          }
+      .listing-details {
+        margin-top: 22px;
+
+        @media screen and (max-width: 767px) {
+          margin-top: 12px;
+        }
+
+        .rating {
           @media screen and (max-width: 767px) {
-            margin-right: 0px;
-            margin-bottom: 18px;
-            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
-            padding: 5px;
-            width: 100%;
+            margin-top: 5px;
           }
-          @media screen and (min-width: 768px) and (max-width: 1024px) {
-            margin-right: 0;
-            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
-            margin-bottom: 20px;
-          }
-
-          .listing-card {
-            width: 200px;
-            display: flex;
-            flex-direction: column;
-
-            @media screen and (max-width: 767px) {
-              width: 100%;
-            }
-            @media screen and (min-width: 768px) and (max-width: 992px) {
-              width: 300px;
-            }
-
-            .listing-img {
-              height: 200px;
-              width: 200px;
-
-              @media screen and (max-width: 767px) {
-                width: 100%;
-                height: 160px;
-              }
-              @media screen and (min-width: 768px) and (max-width: 992px) {
-                width: 300px;
-              }
-
-              .card-image {
-                height: 100%;
-                width: 100%;
-                object-fit: cover;
-              }
-            }
-
-            .listing-details {
-              margin-top: 22px;
-
-              @media screen and (max-width: 767px) {
-                margin-top: 12px;
-              }
-
-              .rating {
-                @media screen and (max-width: 767px) {
-                  margin-top: 5px;
-                }
-                .rating-img {
-                  height: 14px;
-                  vertical-align: baseline;
-                }
-              }
-            }
+          .rating-img {
+            height: 14px;
+            vertical-align: baseline;
           }
         }
       }
     }
   }
 }
+
+//** Featured Listing **//
 
 .employe-hiring-box {
   margin-top: 30px;

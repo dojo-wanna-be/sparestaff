@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     collection do
       get :email_availability
       get :keyword_search
+      get :employee_search
     end
   end
 
