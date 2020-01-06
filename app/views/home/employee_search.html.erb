@@ -1,31 +1,27 @@
-<div class="homapage-section">
-  <div class="inner-homepage">
+<div class="employee_search-section">
+  <div class="employee_search-section-inner">
     <div class="search-box">
-      <h1 class="search-heading">Find employees</h1>
       <%= render partial: "employee_search_bar" %>
+
+      <%= render partial: "subbar_search_filter" %>
     </div>
+    
+    <div class="small-text">Available workforce in <b>Chippendale</b> and surrounding suburbs</div>
 
     <% if @employee_listings.present? %>
       <div class="featured-listings-box">
-        <h1 class="featured-heading">You might be interested in</h1>
-
         <div class="featured-listings">
           <%= render partial: "featured_listings" %>
         </div>
         <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
       </div>
     <% else%>
-    	<div class="featured-listings-box">
-  			<h1 class="featured-heading">Record not found.</h1>
-  		</div>
+      <div class="featured-listings-box">
+        <h1 class="featured-heading">Record not found.</h1>
+      </div>
     <% end %>
 
-    <%= render partial: "services_offered" %>
-
-    <%= render partial: "how_it_works" %>
   </div>
-
-  <%= render partial: "list_an_employee" %>
 </div>
 
 <%= render partial: "layouts/footer" %>
