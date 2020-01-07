@@ -7,11 +7,7 @@
     <div class="date-dropdown custom-drop-btn">Dates</div>
     <div class="date-area field-area">
       <div class="small-text">Select when you want to hire</div>
-      <input class="daterange-input" type="text" name="daterange" value="" />
-      <div class="filter-footer">
-        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
-        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
-      </div>
+      <input type="text" name="daterange" class="daterange-input" value="" />
     </div>
   </div>
 
@@ -66,7 +62,7 @@
     </div>
   </div>
 
-  <div class="comman-dropdown">
+  <!-- <div class="comman-dropdown">
     <div class="instant_hire-dropdown custom-drop-btn">Instant Hire</div>
     <div class="instant_hire-area field-area">
       <div class="filter-heading">Instant Hire</div>
@@ -75,11 +71,11 @@
         <input name="" type="checkbox" class="custom-instant-checkbox">
       </div>
       <div class="filter-footer">
-        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
-        <%= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
+        <%#= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link' %>
+        <%#= link_to 'Apply', 'javascript:;', class: 'filter-link' %>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="comman-dropdown">
     <div class="more_filter-dropdown custom-drop-btn">More filters</div>
@@ -324,11 +320,29 @@
 <script type="text/javascript">
   $(function() {
     $('input[name="daterange"]').daterangepicker({
-      opens: 'left'
+      opens: 'left',
+      locale: { format: "DD-MM-YYYY" },
     }, function(start, end, label) {
-      console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+      debugger
+      start_date = start.format('MM-DD-YYYY')
+      end_date = end.format('MM-DD-YYYY')
+      dateRangeFilter(start_date, end_date)
+      // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
   });
+
+  function dateRangeFilter(start_date, end_date) {
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/verification_front',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
 
 
   $('.date-dropdown').click(function(e) {

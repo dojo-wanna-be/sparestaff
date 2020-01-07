@@ -27,7 +27,7 @@ class HomeController < ApplicationController
     render json: @listings.pluck(:id, :title)
   end
 
-  def employee_search
+  def search
     @user = User.new
     listings = EmployeeListing.active.published.order(updated_at: :desc)
     @employee_listings = find_employee_listings(listings)
