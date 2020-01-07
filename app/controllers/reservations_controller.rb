@@ -50,6 +50,8 @@ class ReservationsController < ApplicationController
       create_message
       ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
       ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
+      ChargeForListing.new(@transaction.id).charge_first_time   
+      PaymentWorker.perform_at((@transaction.start_date + 1.week).to_s, @transaction.id, @transaction.frequency)
       redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
@@ -148,12 +150,6 @@ class ReservationsController < ApplicationController
         hirer = User.find_by(id: @old_transaction.hirer_id)
         @new_transaction = TransactionService.new(params, hirer).create
         if @new_transaction.present?
-          # @new_transaction.hirer_service_fee = @new_transaction.service_fee
-          # @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
-          # @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
-          # @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
-
-          # @new_transaction.save
           redirect_to change_reservation_confirmation_reservation_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
           flash[:error] = "Please check your selected dates and slotes and try again"

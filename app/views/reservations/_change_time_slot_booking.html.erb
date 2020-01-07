@@ -3,7 +3,7 @@
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
     <%= f.hidden_field :frequency, value: transaction.frequency %>
     <%= f.hidden_field :is_withholding_tax, value: transaction.is_withholding_tax, id: "new_withholding_tax" %>
-    <%= f.hidden_field :tax_withholding_amount, value: transaction.tax_withholding_amount, id: "new_tax_withholding_amount" %>
+    <%= f.hidden_field :tax_withholding_amount, value: transaction.tax_withholding_amount %>
     <%= f.hidden_field :probationary_period, value: transaction.probationary_period, id: "new_probationary_period" %>
     <%= hidden_field_tag "total_tax_with_holding", '' %>
     <%= hidden_field_tag "adjustment_amount"%>
@@ -15,7 +15,7 @@
             <%= f.date_field :start_date, value: start_date < Date.today ? Date.today : start_date, min: Date.today %>
           <% else %>
             <%= transaction.start_date.strftime("%d/%m/%Y") %>
-            <%= f.hidden_field :start_date, value: Date.today %>
+            <%= f.hidden_field :start_date, value: transaction.next_payment %>
           <% end %>
           <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
         </div>
