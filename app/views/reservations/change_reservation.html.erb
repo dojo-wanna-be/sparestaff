@@ -54,7 +54,7 @@
             <% if Date.today < @old_transaction.start_date %>
               <%= @old_transaction.start_date.strftime("%A %b %d, %Y") %>
             <% else %>
-              <%= @old_transaction.next_payment.strftime("%A %b %d, %Y") %>
+              <%= transaction_time(@old_transaction) %>
             <% end %>
             </div>
         </div>

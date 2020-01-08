@@ -65,6 +65,10 @@
 
           .classification-dropdown {
             position: relative;
+            @media screen and (max-width: 767px) {
+              margin-bottom: 10px;
+            }
+
             .acrrodian-dropdown {
               .accordian-drop-btn {
                 position: relative;
@@ -83,6 +87,10 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
               }
             }
 
@@ -103,6 +111,10 @@
               transition: all .25s cubic-bezier(.02,1.505,.745,1.235);
               -webkit-overflow-scrolling: touch;
               height: 385px;
+
+              @media screen and (max-width: 767px) {
+                width: 100%;
+              }
 
               .filter-panel {
                 .filter-parent-list {
@@ -273,6 +285,10 @@
         justify-content: flex-start;
         margin: 22px 0;
 
+        @media screen and (max-width: 767px) {
+          justify-content: space-around;
+        }
+
         .comman-dropdown {
           position: relative;
 
@@ -290,6 +306,9 @@
             &:hover {
               box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
             }
+            @media screen and (max-width: 767px) {
+              margin: 0 0 6px;
+            }
           }
 
           .field-area {
@@ -297,12 +316,23 @@
             margin-top: 10px;
             padding: 10px;
             display: none;
-            background: white;
+            background: #fff;
             border: 1px #e4e4e4 solid;
             font-size: 10pt;
             min-width: 272px;
+            z-index: 10;
+
+            @media screen and (max-width: 767px) {
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+            }
 
             &.date-area {
+              @media screen and (max-width: 767px) {
+                left: 0;
+                right: 0;
+                margin: auto;
+              }
+
               .daterange-input {
                 width: 100%;
                 height: 36px;
@@ -311,6 +341,11 @@
             }
 
             &.work_type-area {
+              @media screen and (max-width: 767px) {
+                left: -100%;
+                right: -100%;
+                margin: auto auto;
+              }
               .checkbox-filter {
                 margin-bottom: 15px;
 
@@ -336,6 +371,11 @@
             }
 
             &.price-area {
+              @media screen and (max-width: 767px) {
+                right: 0;
+                margin: auto;
+              }
+
               .price-filter {
                 margin-bottom: 15px;
 
@@ -356,6 +396,12 @@
 
             &.instant_hire-area {
               width: 322px;
+
+              @media screen and (max-width: 767px) {
+                left: 0;
+                margin: auto;
+                width: 100%;
+              }
 
               .filter-heading {
                 font-size: 22px;
@@ -386,6 +432,15 @@
               width: 522px;
               font-size: 10pt;
 
+              @media screen and (max-width: 767px) {
+                right: 0;
+                margin: auto;
+                width: 100%;
+              }
+              @media screen and (min-width: 768px) and (max-width: 1024px) {
+                right: 0;
+              }
+
               .small-text {
                 color: #808080;
               }
@@ -412,17 +467,39 @@
                   height: 26px;
                   margin-bottom: 5px;
 
+                  @media screen and (max-width: 767px) {
+                    margin: 0;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    height: auto;
+                  }
+
                   &.filters_list-item-language {
                     .filter-item {
                       width: 33.33%;
+                      @media screen and (max-width: 767px) {
+                        width: 100%;
+                      }
                     }
                   }
                   &.select-filter-item {
                     height: 40px;
+                    @media screen and (max-width: 767px) {
+                      height: auto;
+
+                      .filter-item {
+                        justify-content: space-between;
+                      }
+                    }
 
                     .filter-min-max-select {
                       width: 80px;
                       margin: 0 0 5px 25px;
+
+                      @media screen and (max-width: 767px) {
+                        margin: 0;
+                        height: 30px
+                      }
                     }
                   }
 
@@ -431,6 +508,11 @@
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+
+                    @media screen and (max-width: 767px) {
+                      width: 100%;
+                      margin-bottom: 10px;
+                    }
 
                     .filter-checkbox {
                       height: auto;
