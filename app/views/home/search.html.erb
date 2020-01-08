@@ -1,17 +1,19 @@
 <div class="employee_search-section">
   <div class="employee_search-section-inner">
     <div class="search-box">
-      <%= render partial: "employee_search_bar" %>
+      <%= form_tag(search_home_index_path, method: :get, id: 'search_form', remote: true)do %>
+        <%= render partial: "employee_search_bar" %>
 
-      <%= render partial: "subbar_search_filter" %>
+        <%= render partial: "subbar_search_filter" %>
+      <% end %>
     </div>
     
     <div class="small-text">Available workforce in <b>Chippendale</b> and surrounding suburbs</div>
 
     <% if @employee_listings.present? %>
       <div class="featured-listings-box">
-        <div class="featured-listings">
-          <%= render partial: "featured_listings" %>
+        <div class="featured-listings" id="listing_div">
+          <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
         </div>
         <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
       </div>
@@ -25,3 +27,13 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+
+<script type="text/javascript">
+  $(function () {
+    $('.pagination a').click(function () {
+      $.get(this.href, null, null, 'script');
+      return false;
+    });
+  });
+</script>

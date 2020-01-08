@@ -10,7 +10,7 @@
         <h1 class="featured-heading">You might be interested in</h1>
 
         <div class="featured-listings">
-          <%= render partial: "featured_listings" %>
+          <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
         </div>
         <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
       </div>
