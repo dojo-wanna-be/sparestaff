@@ -93,7 +93,7 @@ class HiringsController < ApplicationController
                     .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
                     .where.not(id: @old_transaction.id)
-
+      
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
       @transaction.bookings.group_by(&:day).each do |day, bookings|
@@ -210,6 +210,7 @@ class HiringsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
+    StripeRefundAmount.new(@transaction).stripe_refund_ammount
     conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first

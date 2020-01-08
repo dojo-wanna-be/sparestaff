@@ -38,7 +38,6 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
-        
         redirect_to initialized_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"
