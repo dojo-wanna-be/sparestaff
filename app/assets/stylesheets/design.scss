@@ -553,6 +553,10 @@
 
           .classification-dropdown {
             position: relative;
+            @media screen and (max-width: 767px) {
+              margin-bottom: 10px;
+            }
+
             .acrrodian-dropdown {
               .accordian-drop-btn {
                 position: relative;
@@ -571,6 +575,10 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
               }
             }
 
@@ -591,6 +599,10 @@
               transition: all .25s cubic-bezier(.02,1.505,.745,1.235);
               -webkit-overflow-scrolling: touch;
               height: 385px;
+
+              @media screen and (max-width: 767px) {
+                width: 100%;
+              }
 
               .filter-panel {
                 .filter-parent-list {
@@ -804,6 +816,7 @@
     padding: 5px;
     padding-bottom: 10px;
     border-radius: 5px;
+    height: 375px;
 
     &:hover {
       text-decoration: none;
@@ -1640,3 +1653,38 @@
 }
 
 /** RESET PASSWORD PAGE END CSS **/
+
+
+//** Pagination CSS **//
+
+.pagination-lg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 0;
+
+  .pagination {
+    margin: 0;
+
+    .page-item {
+      &.active {
+        .page-link {
+          background-color: #f15827;
+          border-color: #f15827;
+        }
+      }
+
+      .page-link {
+        font-size: 16px;
+        line-height: 1;
+        padding: 0.1em 1em;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+//** Pagination CSS End **//
