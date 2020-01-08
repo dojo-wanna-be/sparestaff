@@ -2,7 +2,9 @@
   <div class="inner-homepage">
     <div class="search-box">
       <h1 class="search-heading">Find employees</h1>
-      <%= render partial: "employee_search_bar" %>
+      <%= form_tag(search_home_index_path, method: :get)do %>
+        <%= render partial: "employee_search_bar" %>
+      <% end %>
     </div>
 
     <% if @employee_listings.present? %>
@@ -10,7 +12,7 @@
         <h1 class="featured-heading">You might be interested in</h1>
 
         <div class="featured-listings">
-          <%= render partial: "featured_listings" %>
+          <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
         </div>
         <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
       </div>

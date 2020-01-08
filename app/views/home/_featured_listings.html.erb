@@ -1,23 +1,25 @@
-<% @employee_listings.each do |listing| %>
-  <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
-    <div class="listing-card">
-      <div class="listing-img">
-        <% if listing.profile_picture.present? %>
-          <%= image_tag listing.profile_picture.url, class: 'card-image' %>
-        <% else %>
-          <%= image_tag 'no-image.jpg', class: 'card-image' %>
-        <% end %>
-      </div>
-      <div class="listing-details">
-        <div><b><%= listing.title %></b></div>
-        <div><%= listing.name %></div>
-        <div><%= "$#{minimum_price(listing)} per hour" %></div>
-        <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
-        <div class="rating">
-          <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-          <span>28</span>
+<div class="featured-listings" >
+  <% listings.each do |listing| %>
+    <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
+      <div class="listing-card">
+        <div class="listing-img">
+          <% if listing.profile_picture.present? %>
+            <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'card-image' %>
+          <% end %>
+        </div>
+        <div class="listing-details">
+          <div><b><%= listing.title %></b></div>
+          <div><%= listing.name %></div>
+          <div><%= "$#{minimum_price(listing)} per hour" %></div>
+          <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+          <div class="rating">
+            <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+            <span>28</span>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

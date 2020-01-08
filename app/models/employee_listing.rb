@@ -101,7 +101,11 @@ class EmployeeListing < ApplicationRecord
                           ["I am the employee and I have found a job elsewhere", 2], ["It's a duplicated listing", 3],
                           ["I have law, confidentiality or policy concerns", 4], ["It takes too much effort", 5],
                           ["I'm a job seeker but I'm not comfortable listing myself for hiring here", 6], ["None of these", 7] ]
-
+  HOURLY_RATES = [ ["$10 / Hour", 10.0], ["$20 / Hour", 20.0], ["$30 / Hour", 30.0], ["$40 / Hour", 40.0], ["$50 / Hour", 50.0], ["$60 / Hour", 60.0],
+              ["$70 / Hour", 70.0], ["$80 / Hour", 80.0], ["$90 / Hour", 90.0], ["$100 / Hour", 100.0], ["$150 / Hour", 150.0], ["$200 / Hour", 200.0],
+              ["$250 / Hour", 250.0], ["$300 / Hour", 300.0], ["$350 / Hour", 350.0], ["$400 / Hour", 400.0], ["$450 / Hour", 450.0], ["$500 / Hour", 500.0] ]
+  
+  AGE = [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] 
   def poster
     lister_type.eql?("User") ? self.lister : self.lister.creator
   end

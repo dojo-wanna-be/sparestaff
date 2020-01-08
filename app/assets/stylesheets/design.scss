@@ -796,6 +796,7 @@
   flex-direction: row;
  // justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
   margin-top: 32px;
 
   @media screen and (max-width: 767px) {
@@ -813,6 +814,7 @@
   .licting-card-link {
     color: #484848;
     margin-right: 86px;
+    margin-bottom: 20px;
     padding: 5px;
     padding-bottom: 10px;
     border-radius: 5px;
