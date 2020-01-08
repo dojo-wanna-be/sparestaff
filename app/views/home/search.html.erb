@@ -11,15 +11,13 @@
       <div class="small-text">Available workforce in <b><%= params[:city] %></b> and surrounding suburbs</div>
     <% end %>
     <% if @employee_listings.present? %>
-      <div class="featured-listings-box">
-        <div class="featured-listings" id="listing_div">
-          <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
-        </div>
+      <div class="featured-listings-box" id="listing_div">
+        <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
         <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
       </div>
     <% else%>
       <div class="featured-listings-box">
-        <h1 class="featured-heading">Record not found.</h1>
+        <%= render 'not_record'%>
       </div>
     <% end %>
 
