@@ -31,7 +31,7 @@ class HomeController < ApplicationController
     @user = User.new
     listings = EmployeeListing.active.published.order(updated_at: :desc)
     @employee_listings = find_employee_listings(listings)
-    @employee_listings = @employee_listings.paginate(:page => params[:page], :per_page => 1)
+    @employee_listings = @employee_listings.paginate(:page => params[:page], :per_page => 16)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
   end
 

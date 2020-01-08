@@ -7,9 +7,9 @@
         <%= render partial: "subbar_search_filter" %>
       <% end %>
     </div>
-    
-    <div class="small-text">Available workforce in <b>Chippendale</b> and surrounding suburbs</div>
-
+    <% if params[:city].present? %>
+      <div class="small-text">Available workforce in <b><%= params[:city] %></b> and surrounding suburbs</div>
+    <% end %>
     <% if @employee_listings.present? %>
       <div class="featured-listings-box">
         <div class="featured-listings" id="listing_div">

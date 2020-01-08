@@ -52,8 +52,9 @@
           </div>
         </div>
         <%= text_field_tag "location", "", placeholder: "Enter suburb, city, or region", class: 'location-field', id: "searchTextField", onFocus: "initializeAutocomplete()" %>
-        <input type="hidden" name="latitude" id="latitude" placeholder="Latitude" value="" >
-        <input type="hidden" name="longitude" id="longitude" placeholder="Longitude" value="" >
+        <input type="hidden" name="latitude" id="latitude" value="" >
+        <input type="hidden" name="longitude" id="longitude" value="" >
+        <input type="hidden" name="city" id="city" value="" >
         <%= submit_tag "Search", class: "search-btn" %>
       </div>
     </div>
@@ -91,6 +92,7 @@
       var place = autocomplete.getPlace();
       var lat = place.geometry.location.lat();
       var lng = place.geometry.location.lng();
+      $("#city").val(place.name);
       $("#latitude").val(lat);
       $("#longitude").val(lng);
     });

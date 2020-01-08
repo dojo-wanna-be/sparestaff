@@ -51,7 +51,7 @@
           <%= select_tag :miximum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
         </div>
       </div>
-      <p id="price_error"></p>
+      <p id="price_error" class="global_error"></p>
       <div class="filter-footer">
         <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link reset_price_filter' %>
         <%= submit_tag "Apply", class: "filter-link price_submit_btn" %>
@@ -129,7 +129,7 @@
             <%= select_tag 'maximun_age', options_for_select(EmployeeListing::AGE), {include_blank: 'Select Any', class: 'filter-min-max-select more_filter'}  %>
           </div>
         </div>
-        <p id="age_error"></p>
+        <p id="age_error" class="global_error"></p>
       </div>
 
       <div class="filters_list">
@@ -291,24 +291,6 @@
 
 <script type="text/javascript">
 
-  var start_date;
-  var end_date;
-  var work_type;
-  var min_hour;
-  var max_hour;
-  var resident_status;
-  var gender;
-  var is_vechile;
-  var min_age;
-  var max_age;
-  var is_photo;
-  var is_monday;
-  var is_tuesday;
-  var is_Wednesday
-  var is_Thursday;
-  var is_Friday;
-  var is_Saturday;
-  var is_Sunday;
   $(function() {
     $('input[name="daterange"]').daterangepicker({
       opens: 'left',
@@ -317,10 +299,9 @@
     }, function(start, end, label) {
       $('#start_date').val(start.format('DD/MM/YYYY'))
       $('#end_date').val(end.format('DD/MM/YYYY'))
-      var elem = document.getElementById('search_form') // or $('#myform')[0] with jQuery
+      var elem = document.getElementById('search_form')
       Rails.fire(elem, 'submit');
       $(".search_form").submit();
-      // listinfFilter();
       // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
   });
@@ -370,27 +351,7 @@
     $('#maximun_age').prop('selectedIndex',0);
     var elem = document.getElementById('search_form');
     Rails.fire(elem, 'submit');
-  })  
-
-  function listinfFilter(){
-    var url = window.location.href
-    var f_data = {
-        start_date: start_date,
-        end_date: end_date,
-        work_type: work_type,
-        min_hour: min_hour,
-        max_hour: max_hour,
-        resident_status: resident_status
-      }
-    debugger
-    $.ajax({
-      url: url,
-      type: 'GET',
-      data: f_data,
-      dataType: 'json'
-    })
-  }
-
+  })
 
   $('.date-dropdown').click(function(e) {
     $('.date-area').toggle();
@@ -402,7 +363,7 @@
     }
   });
 
-  $('.work_type-dropdown').click(function(e) {
+  $('.work_type-dropdown, #work_type_submit').click(function(e) {
     $('.work_type-area').toggle();
   })
 
@@ -412,11 +373,7 @@
     }
   });
 
-  $('#work_type_submit').click(function(e) {
-    $('.work_type-area').toggle();
-  })
-
-  $('.price-dropdown').click(function(e) {
+  $('.price-dropdown, .price_submit_btn').click(function(e) {
     $('.price-area').toggle();
   })
 
@@ -426,17 +383,13 @@
     }
   });
 
-  $('.instant_hire-dropdown').click(function(e) {
-    $('.instant_hire-area').toggle();
-  })
-
   $(document).click(function(event) {
     if (!$(event.target).closest(".instant_hire-area, .instant_hire-dropdown").length) {
       $("body").find(".instant_hire-area").hide();
     }
   });
 
-  $('.more_filter-dropdown').click(function(e) {
+  $('.more_filter-dropdown, .more_filter_btn').click(function(e) {
     $('.more_filter-area').toggle();
   })
 

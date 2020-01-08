@@ -2,7 +2,9 @@
   <div class="inner-homepage">
     <div class="search-box">
       <h1 class="search-heading">Find employees</h1>
-      <%= render partial: "employee_search_bar" %>
+      <%= form_tag(search_home_index_path, method: :get)do %>
+        <%= render partial: "employee_search_bar" %>
+      <% end %>
     </div>
 
     <% if @employee_listings.present? %>
