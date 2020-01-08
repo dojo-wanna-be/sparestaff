@@ -19,7 +19,7 @@
       <%= render partial: 'hirer'%>
       <div class="right-detail">
         <% if @transaction.state.eql?("created") && @transaction.request_by.eql?('poster') %>
-          <%= render partial: "accept_or_decline_option" %>
+          <%= render partial: "hirer_accept_or_decline_option" %>
         <% else %>
           <%= render partial: "cancel_hiring_button" %>
         <% end %>

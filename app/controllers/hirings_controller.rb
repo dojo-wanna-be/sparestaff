@@ -55,7 +55,7 @@ class HiringsController < ApplicationController
       HiringMailer.employee_hire_confirmation_email_to_poster(@listing, poster, @transaction).deliver_later!
       HiringMailer.employee_hire_confirmation_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       ChargeForListing.new(@transaction.id).charge_first_time   
-      redirect_to inbox_path(id: @transaction.id)
+      redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"
       redirect_to inbox_path(id: @transaction.conversation.id)
@@ -71,7 +71,8 @@ class HiringsController < ApplicationController
     if @transaction.update_attribute(:state, "rejected")
       @listing = @transaction.employee_listing
       poster = User.find_by(id: @transaction.poster_id)
-      create_message
+      conversation = find_or_create_conversation
+      message = conversation.messages&.last.present? ? conversation.messages.last : ""
       HiringMailer.employee_hire_declined_email_to_Poster(@listing, poster, @transaction, message).deliver_later!
       HiringMailer.employee_hire_declined_email_to_Hirer(@listing, current_user, @transaction, message).deliver_later!
       redirect_to inbox_path(id: @transaction.conversation.id)

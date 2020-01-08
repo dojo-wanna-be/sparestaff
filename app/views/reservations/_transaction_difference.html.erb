@@ -42,10 +42,10 @@
       <span class="left">Tax withholding</span>
       <span class="right">-$<span id="tax_withholding_price"> <%= @transaction.tax_withholding_amount %> </span> </span>
     </li>
-
+    
     <li class="calc-item">
       <span class="left">Service fee</span>
-      <span class="right">-$<span id="hiring_weekday_service_fee"> <%= @transaction.poster_service_fee %> </span> </span>
+      <span class="right">-$<span id="hiring_weekday_service_fee"> <%= @transaction.poster_service_fee.round(2) %> </span> </span>
     </li>
 
     <li class="calc-item">

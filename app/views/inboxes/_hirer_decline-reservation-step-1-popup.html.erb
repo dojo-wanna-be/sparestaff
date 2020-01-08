@@ -1,4 +1,4 @@
-<div class="modal custom-modal" id="decline-reservation-step-1-popup">
+<div class="modal custom-modal" id="hirer_decline-reservation-step-1-popup">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -9,8 +9,8 @@
       <div class="modal-body">
         <div class="custom-modal-inner">
           <div class="title-modal">Decline this request</div>
-          <%= form_tag decline_request_reservation_path(id: @transaction.id), method: :patch, class: "form-modal", remote: true, id: "decline_hiring_form" do |f| %>
-          <label class="label-modal">Type optional message to Hirer</label>
+          <%= form_tag decline_request_hiring_path(id: @transaction.id), method: :patch, class: "form-modal", remote: true, id: "decline_hiring_form" do |f| %>
+          <label class="label-modal">Type optional message to poster</label>
           <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
           <div class="select-box">
             <label class="label-modal">Why are you declining this request? (required)</label>

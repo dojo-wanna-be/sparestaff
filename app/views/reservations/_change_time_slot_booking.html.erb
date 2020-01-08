@@ -15,7 +15,7 @@
             <%= f.date_field :start_date, value: start_date < Date.today ? Date.today : start_date, min: Date.today %>
           <% else %>
             <%= transaction.start_date.strftime("%d/%m/%Y") %>
-            <%= f.hidden_field :start_date, value: transaction_time(transaction)%>
+            <%= f.hidden_field :start_date, value: Date.parse(transaction_time(transaction)).strftime("%Y-%m-%d")%>
           <% end %>
           <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
         </div>

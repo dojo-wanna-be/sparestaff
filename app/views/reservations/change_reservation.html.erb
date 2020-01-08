@@ -54,7 +54,7 @@
             <% if Date.today < @old_transaction.start_date %>
               <%= @old_transaction.start_date.strftime("%A %b %d, %Y") %>
             <% else %>
-              <%= transaction_time(@old_transaction) %>
+              <%= Date.parse(transaction_time(@old_transaction)).strftime("%A %b %d, %Y")%>
             <% end %>
             </div>
         </div>
@@ -276,7 +276,6 @@
     totalThursdays = 0;
     totalFridays = 0;
     totalSaturdays = 0;
-
     var start = $("#transaction_start_date").val();
     var end = $("#transaction_end_date").val();
     var startDate = new Date(start);
