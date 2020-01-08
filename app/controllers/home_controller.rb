@@ -52,14 +52,14 @@ class HomeController < ApplicationController
       @listings = @listings.includes(:languages).where(languages: {language: params[:language]}) if params[:language].present?
 
       if params[:minimun_age].present? && params[:maximum_age].present?
-        min_year = Time.current.year - params[:minimun_age]
-        max_year = Time.current.year - params[:maximum_age]
+        min_year = Time.current.year - params[:minimun_age].to_i
+        max_year = Time.current.year - params[:maximum_age].to_i
         @listings = @listings.where("birth_year between ? AND ?", min_year, max_year)
       elsif params[:minimun_age].present?
-        min_year = Time.current.year - params[:minimun_age]
+        min_year = Time.current.year - params[:minimun_age].to_i
         @listings = @listings.where("birth_year <= ?", min_year)
       elsif params[:maximum_age].present?
-        max_year = Time.current.year - params[:maximum_age]
+        max_year = Time.current.year - params[:maximum_age].to_i
         @listings = @listings.where("birth_year >= ?", max_year)
       end
       if(params[:profile_picture].present?)
