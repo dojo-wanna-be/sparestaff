@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
   def index
     poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
     @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
-    @completed_listing_transactions = poster_transactions.where("end_date < ?", Date.today).where(state: [:rejected, :cancelled, :expired, :completed]).includes(:employee_listing)
+    @completed_listing_transactions = poster_transactions.where(state: [:cancelled, :completed]).includes(:employee_listing)
   end
 
   def show
@@ -49,6 +49,10 @@ class ReservationsController < ApplicationController
 
   def accept
     if @transaction.update_attributes(state: "accepted")
+      if(@transaction.old_transaction.present?)
+        old_transaction = Transaction.find(@transaction.old_transaction)
+        old_transaction.update_attributes(state: "completed", status: false)
+      end
       @listing = @transaction.employee_listing
       hirer = User.find_by(id: @transaction.hirer_id)
       create_message
@@ -171,7 +175,7 @@ class ReservationsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     hirer = User.find_by(id: @old_transaction.hirer_id)
     if request.patch?
-      @transaction.update_attributes(state: "created", request_by: 'poster')
+      @transaction.update_attributes(state: "created", request_by: 'poster', old_transaction: params[:old_id])
       conversation = find_or_create_conversation
       message = conversation.messages.last
       ReservationMailer.reservation_changed_email_to_poster(@listing, current_user, @transaction).deliver_later!
