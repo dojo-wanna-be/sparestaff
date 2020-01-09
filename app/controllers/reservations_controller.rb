@@ -32,7 +32,11 @@ class ReservationsController < ApplicationController
 
   def destroy_transaction
     if(@transaction.destroy)
-      redirect_to change_reservation_reservation_path(params[:old_id])
+      if(request.xhr?)
+        render js: "window.location = '#{root_path}'"
+      else
+        redirect_to change_reservation_reservation_path(params[:old_id])
+      end
     else
       flash[:error] = "Something went to wrong"
       redirect_to change_reservation_confirmation_reservation_path(id: params[:id], old_id: params[:old_id])

@@ -3,7 +3,7 @@
     <div class="left_request_section">
       <ul class="logo-list">
         <li class="logo-list-item">
-          <%= link_to '' do %>
+          <%= link_to destroy_transaction_reservation_path(@transaction.id, old_id: params[:old_id]), method: :delete, remote: true do %>
             <%= image_tag 'logo.png', class: 'logo_img' %>
           <% end %>
         </li>
