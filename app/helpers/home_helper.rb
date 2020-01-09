@@ -8,7 +8,7 @@ module HomeHelper
 	end
 
 	def checked_child(classification_id)
-		if params[:parent].present?
+		if params[:child].present?
 			params[:child].include?(classification_id.to_s) ? true : false
 		else
 			false
