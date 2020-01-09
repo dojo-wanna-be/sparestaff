@@ -24,7 +24,7 @@
                 <% @classifications.each do |classification| %>
                   <li class="filter-parent-list-item">
                     <div class="custom-checkbox">
-                      <%= check_box_tag 'parent[]', classification.id, false, id: "parent_#{classification.id}", class: 'parent', data: {name: classification.name} %>
+                      <%= check_box_tag 'parent[]', classification.id, checked_parent(classification.id), id: "parent_#{classification.id}", class: 'parent', data: {name: classification.name} %>
                       <label for="parent_<%= classification.id %>"><%= classification.name %></label>
                       <% if classification.sub_classifications.present? %>
                         <ul class="filter-child-list">
@@ -37,7 +37,7 @@
                           <% classification.sub_classifications.each do |sc| %>
                             <li class="filter-child-list-item">
                               <div class="custom-checkbox">
-                                <%= check_box_tag 'child[]', sc.id, false, id: "child_#{sc.id}", class: "checkbox_#{classification.id}" %>
+                                <%= check_box_tag 'child[]', sc.id, checked_child(sc.id), id: "child_#{sc.id}", class: "checkbox_#{classification.id}" %>
                                 <label for="child_<%= sc.id %>"><%= sc.name%></label>
                               </div>
                             </li>
