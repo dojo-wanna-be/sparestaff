@@ -169,6 +169,7 @@
 </div>
 
 <script>
+  var jQuery_1_7_0 = $.noConflict(true);
   var isSunday = false;
   var isMonday = false;
   var isTuesday = false;
@@ -212,7 +213,6 @@
   var listingWeekdayPrice = "<%= @listing.weekday_price %>"
   var listingWeekendPrice = "<%= @listing.weekend_price %>"
   cal_amount();
-
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
   }, "The value {0} must be less than {1}");
