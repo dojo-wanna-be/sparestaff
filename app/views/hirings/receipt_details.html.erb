@@ -107,7 +107,7 @@
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
                 <div>-$<%= (@transaction.tax_withholding_amount).round(2) %></div>
                 <div>$<%= @transaction.service_fee.round(2) %></div>
-                <div><b>$<%= (@transaction.amount + @transaction.service_fee).round(2) %></b></div>
+                <div><b>$<%= @transaction.hirer_weekly_amount %></b></div>
               </div>
             </div>
 
@@ -127,7 +127,7 @@
                 <div>$<%= (@listing.weekend_price * @transaction.total_weekend_hours).round(2) %></div>
                 <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
                 <div>$<%= @transaction.total_service_fee.round(2) %></div>
-                <div><b>$<%= (@transaction.total_amount + @transaction.total_service_fee).round(2) %></b></div>
+                <div><b>$<%= @transaction.total_amount.round(2) %></b></div>
               </div>
             </div>
 
@@ -141,24 +141,24 @@
           <h6 class="charges-heading"><b>Charges</b></h6>
           <ul class="calculation-list">
             <li class="calc-item">
-              <span class="left">$35 x 5 hours</span>
-              <span class="right">$<label id="">175.00</label></span>
+              <span class="left">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></span>
+              <span class="right"><label id="">$<%= @listing.weekday_price * @transaction.weekday_hours %></label></span>
             </li>
             <li class="calc-item">
-              <span class="left">$50.00 x 4 hours (weekend)</span>
-              <span class="right">$<label id="">200.00</label></span>
+              <span class="left">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></span>
+              <span class="right"><label id="">$<%= @listing.weekend_price * @transaction.weekend_hours %></label></span>
             </li>
             <li class="calc-item">
               <span class="left">Tax withholding</span>
-              <span class="right">-$<label id="">4.00</label></span>
+              <span class="right">-$<label id=""><%= (@transaction.tax_withholding_amount).round(2) %></label></span>
             </li>
             <li class="calc-item">
               <span class="left">Service fee (includes VAT)</span>
-              <span class="right">$<label id="">11.13</label></span>
+              <span class="right">$<label id=""><%= @transaction.service_fee.round(2) %></label></span>
             </li>
             <li class="calc-item last-item">
               <span class="left"><b>Total</b></span>
-              <span class="right"><b>$<label id="">382.13</label></b></span>
+              <span class="right"><b>$<label id=""><%= @transaction.hirer_weekly_amount %></label></b></span>
             </li>
           </ul>
 
@@ -171,10 +171,10 @@
           <ul class="calculation-list">
             <li class="calc-item payment-item">
               <span class="left">
-                Payment with MasterCard ···· 3007 </br>
-                <span class="TextGrey">Tue, 26 Feb 2019</span>
+                Payment with  <%= @transaction.hirer.stripe_info.card_type%> ....<%= @transaction.hirer.stripe_info.last_four_digits%> </br>
+                <span class="TextGrey"><%= @transaction.start_date.strftime("%d-%h-%Y") %></span>
               </span>
-              <span class="right">$<label id="">382.13</label></span>
+              <span class="right">$<label id=""><%= @transaction.hirer_weekly_amount %></label></span>
             </li>
           </ul>
         </div>

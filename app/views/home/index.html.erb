@@ -10,24 +10,29 @@
     <% if @employee_listings.present? %>
       <div class="featured-listings-box">
         <h1 class="featured-heading">You might be interested in</h1>
-
-        <div class="featured-listings">
+        <div class="featured-listings sort_paginate_ajax" id="featured-listings">
           <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
-        </div>
-        <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
+        </div>    
       </div>
     <% else%>
-    	<div class="featured-listings-box">
-  			<h1 class="featured-heading">Record not found.</h1>
-  		</div>
+      <div class="featured-listings-box">
+        <h1 class="featured-heading">Record not found.</h1>
+      </div>
     <% end %>
 
     <%= render partial: "services_offered" %>
 
     <%= render partial: "how_it_works" %>
   </div>
-
-  <%= render partial: "list_an_employee" %>
+    <%= render partial: "list_an_employee" %>
 </div>
 
 <%= render partial: "layouts/footer" %>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+</script>

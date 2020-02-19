@@ -2,12 +2,10 @@
 <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-
   <div class="search-form">
     <div class="form-box">
       <div class="search-form">
-        <%= text_field_tag "keyword_search", "", placeholder: "Enter keywords", class: 'enter-keyword' %>
+        <%= text_field_tag "keyword_search", params[:keyword_search], placeholder: "Enter keywords", class: 'enter-keyword' %>
         <div class="classification-dropdown">
           <div class="acrrodian-dropdown">
             <div class="accordian-drop-btn">
@@ -17,7 +15,6 @@
               </span>
             </div>
           </div>
-
           <div class="accordian-field-area">
             <div class="filter-panel">
               <ul class="filter-parent-list">
@@ -51,7 +48,7 @@
             </div>
           </div>
         </div>
-        <%= text_field_tag "location", "", placeholder: "Enter suburb, city, or region", class: 'location-field', id: "searchTextField", onFocus: "initializeAutocomplete()" %>
+        <%= text_field_tag "location", params[:location], placeholder: "Enter suburb, city, or region", class: 'location-field', id: "searchTextField", onFocus: "initializeAutocomplete()" %>
         <input type="hidden" name="latitude" id="latitude" value="" >
         <input type="hidden" name="longitude" id="longitude" value="" >
         <input type="hidden" name="city" id="city" value="" >
@@ -59,25 +56,20 @@
       </div>
     </div>
   </div>
-
-
 <script type="text/javascript">
   $('.accordian-drop-btn').click(function(e) {
     $('.accordian-field-area').toggle();
   })
-
   $(document).click(function(event) {
     if (!$(event.target).closest(".accordian-field-area, .accordian-drop-btn").length) {
       $("body").find(".accordian-field-area").hide();
     }
   });
-
   // function initialize() {
   //   var input = document.getElementById('searchTextField');
   //   new google.maps.places.Autocomplete(input);
   // }
   // google.maps.event.addDomListener(window, 'load', initialize);
-
   function initializeAutocomplete(){
     var input = document.getElementById('searchTextField');
     // var options = {
@@ -85,9 +77,7 @@
     //   componentRestrictions: {country: "IN"}
     // };
     var options = {}
-
     var autocomplete = new google.maps.places.Autocomplete(input, options);
-
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
       var lat = place.geometry.location.lat();
@@ -97,10 +87,8 @@
       $("#longitude").val(lng);
     });
   }
-
   $(function() {
     $("input[type='checkbox']").change(function () {
-      
         noOfSelect = $('.parent:checkbox:checked').length
         if(noOfSelect == 0)
           $('#select-classification').text('Any Classification')
@@ -108,17 +96,14 @@
           $('#select-classification').text($('.parent:checkbox:checked').attr("data-name"))
         else
           $('#select-classification').text(noOfSelect + " Classifications")
-      
       if(!this.checked)
-        $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked); 
+        $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
     });
-
     $("#all_1").change(function(){
       id = $(this).attr("data-id")
       $('.checkbox_'+id).prop('checked', this.checked);
     })
   });
-
   $( function() {
     $( "#keyword_search" ).autocomplete({
       source: function( request, response ) {
@@ -140,7 +125,6 @@
       },
       minLength: 2,
       select: function( event, ui ) {
-        
       }
     } );
   } );

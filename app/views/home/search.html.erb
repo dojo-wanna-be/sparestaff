@@ -7,13 +7,14 @@
         <%= render partial: "subbar_search_filter" %>
       <% end %>
     </div>
-    <% if params[:city].present? %>
-      <div class="small-text">Available workforce in <b><%= params[:city] %></b> and surrounding suburbs</div>
+    <% if params[:location].present? %>
+      <div class="small-text">Available workforce in <b><%= params[:location] %></b> and surrounding suburbs</div>
     <% end %>
     <% if @employee_listings.present? %>
-      <div class="featured-listings-box" id="listing_div">
-        <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
-        <%= will_paginate @employee_listings, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer, class: 'pagination-lg' %>
+      <div class="featured-listings-box">
+          <div class="featured-listings sort_paginate_ajax" id="listing_div">
+            <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
+          </div>
       </div>
     <% else%>
       <div class="featured-listings-box">

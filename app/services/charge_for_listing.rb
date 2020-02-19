@@ -63,7 +63,7 @@ class ChargeForListing
 			hirer = transaction.hirer
 			poster = transaction.poster
 			Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-			cutsomer_id = customer = Stripe::Customer.retrieve(poster.stripe_info.stripe_customer_id).id
+			cutsomer_id = customer = Stripe::Customer.retrieve(hirer.stripe_info.stripe_customer_id).id
 			amount = total_amount(transaction, from)
 			fee = poster_service_fee(amount)
 			poster_fee = amount - fee
@@ -74,7 +74,7 @@ class ChargeForListing
 			  currency:    'aud',
 			  capture: false,
 			  destination: {
-	        account: hirer.stripe_info.stripe_account_id,
+	        account: poster.stripe_info.stripe_account_id,
 	        amount: (poster_fee*100).to_i
 	      }
 			)

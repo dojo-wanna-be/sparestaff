@@ -38,7 +38,7 @@ class EmployeeListingsController < ApplicationController
     # elsif current_user.is_individual?
     #   @employee_listing = current_user.employee_listings
     # end
-    published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true) : []
+    published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true, deactivated: false) : []
     published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.published : []
 
     published_employee_listings = published_company_listings + published_individual_listings

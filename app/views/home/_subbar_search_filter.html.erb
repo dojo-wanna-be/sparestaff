@@ -48,7 +48,7 @@
         </div>
         <div class="price-filter-select-row">
           <div>Maximum hourly rate</div>
-          <%= select_tag :miximum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
+          <%= select_tag :maximum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
         </div>
       </div>
       <p id="price_error" class="global_error"></p>
@@ -314,14 +314,14 @@
   
   $('.reset_price_filter').click(function(e) {
     $('#minimum_rate').prop('selectedIndex',0);
-    $('#miximum_rate').prop('selectedIndex',0);
+    $('#maximum_rate').prop('selectedIndex',0);
     var elem = document.getElementById('search_form');
     Rails.fire(elem, 'submit');
   });
 
-  $('#minimum_rate, #miximum_rate').change(function(e){
-    if($('#minimum_rate').val() != "" && $('#miximum_rate').val() != ""){
-      if(parseInt($('#minimum_rate').val()) >= parseInt($('#miximum_rate').val())){
+  $('#minimum_rate, #maximum_rate').change(function(e){
+    if($('#minimum_rate').val() != "" && $('#maximum_rate').val() != ""){
+      if(parseInt($('#minimum_rate').val()) >= parseInt($('#maximum_rate').val())){
         $("#price_error").html("Minimum rate must be greater")
         $(".price_submit_btn").attr('disabled', true)
       }

@@ -796,7 +796,7 @@
   flex-direction: row;
  // justify-content: space-between;
   align-items: flex-start;
-  flex-wrap: wrap;
+ // flex-wrap: wrap;
   margin-top: 32px;
 
   @media screen and (max-width: 767px) {
@@ -809,6 +809,7 @@
   }
   @media screen and (width: 1024px) {
     justify-content: space-between;
+    flex-wrap: initial;
   }
 
   .licting-card-link {
@@ -831,8 +832,13 @@
       padding: 5px;
       width: 100%;
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
+    @media screen and (min-width: 768px) and (max-width: 992px) {
       margin-right: 0;
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+      margin-bottom: 20px;
+    }
+    @media screen and (width: 1024px) {
+      margin-right: 35px;
       box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
       margin-bottom: 20px;
     }
@@ -1659,7 +1665,7 @@
 
 //** Pagination CSS **//
 
-.pagination-lg {
+.will_pagination_box {
   display: flex;
   justify-content: center;
   align-items: center;

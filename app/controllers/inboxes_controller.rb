@@ -2,7 +2,7 @@ class InboxesController < ApplicationController
   before_action :find_conversation, only: [:show, :create]
 
   def index
-    @conversations = Conversation.includes(:messages).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
+    @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
   end
 
   def show

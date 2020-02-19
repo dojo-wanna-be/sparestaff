@@ -146,12 +146,12 @@
             </div>
             <% start_date = @transaction.start_date %>
             <% (start_date..Date.today).each do |date| %>
-              <% if start_date < Date.today %>
+              <% if start_date <= Date.today %>
                 <div class="divTableRow">
                   <div class="divTableCell">
-                    <%= link_to "103", receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
+                    <%= link_to @transaction.id, receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
                   </div>
-                  <div class="divTableCell">$<%= (@transaction.amount + @transaction.service_fee).round(2) %></div>
+                  <div class="divTableCell">$<%= @transaction.hirer_weekly_amount %></div>
                   <div class="divTableCell"><%= date.strftime("%d-%h-%Y") %></div>
                 </div>
               <% end %>

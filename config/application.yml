@@ -1,2 +1,3 @@
 STRIPE_PUBLIC_KEY: "pk_test_xZIveffJKeFpnqGFt70TtuME"
 STRIPE_SECRET_KEY: "sk_test_x4ZpNxrsZRGXthcsRZeWkgZr"
+GEOCODER_API_KEY: "AIzaSyCnazXBDrqlOy4ffUHMZjgzHKe_NgezXhw"

@@ -44,7 +44,7 @@ class HomeController < ApplicationController
       @listings = @listings.ransack(start_publish_date_lteq: params[:start_date].to_date, end_publish_date_gteq: params[:end_date].to_date).result(distinct: true) if params[:start_date].present? && params[:end_date].present?
       @listings = @listings.includes(:employee_listing_slots).where(employee_listing_slots: {slot_id: params[:slot]}) if params[:slot].present?
       @listings = @listings.where("weekday_price >= ? OR weekend_price >= ? OR holiday_price >= ?", params[:minimum_rate], params[:minimum_rate], params[:minimum_rate]) if params[:minimum_rate].present?
-      @listings = @listings.where("weekday_price <= ? OR weekend_price <= ? OR holiday_price <= ?", params[:minimum_rate], params[:minimum_rate], params[:minimum_rate]) if params[:maximum_rate].present?
+      @listings = @listings.where("weekday_price <= ? OR weekend_price <= ? OR holiday_price <= ?", params[:maximum_rate], params[:maximum_rate], params[:maximum_rate]) if params[:maximum_rate].present?
       @listings = @listings.where(residency_status: params[:residency_status]) if params[:residency_status].present?
       @listings = @listings.where(gender: params[:gender]) if params[:gender].present?
       @listings = @listings.where(has_vehicle: params[:has_vehicle]) if params[:has_vehicle].present?
