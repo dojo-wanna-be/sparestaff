@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_05_070037) do
+ActiveRecord::Schema.define(version: 2020_01_09_093755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,7 +96,6 @@ ActiveRecord::Schema.define(version: 2019_12_05_070037) do
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
     t.integer "transaction_id"
-    t.index ["receiver_id", "sender_id", "employee_listing_id"], name: "index_conversations_on_receiver_sender_employee_listing", unique: true
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -163,6 +162,8 @@ ActiveRecord::Schema.define(version: 2019_12_05_070037) do
     t.boolean "deactivated", default: false
     t.integer "deactivation_reason", default: 7
     t.text "deactivation_feedback"
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "employee_skills", force: :cascade do |t|
@@ -208,6 +209,32 @@ ActiveRecord::Schema.define(version: 2019_12_05_070037) do
     t.bigint "document_file_size"
     t.datetime "document_updated_at"
     t.index ["employee_listing_id"], name: "index_relevant_documents_on_employee_listing_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "public_review"
+    t.text "private_review"
+    t.integer "friendliness", default: 0
+    t.integer "punctuality", default: 0
+    t.integer "professionalism", default: 0
+    t.integer "knowledge_skill", default: 0
+    t.integer "communication", default: 0
+    t.integer "management_skill", default: 0
+    t.integer "overall_experience", default: 0
+    t.boolean "recommend", default: false
+    t.text "sparsestaff_message"
+    t.integer "environment", default: 0
+    t.integer "suitability", default: 0
+    t.integer "satisfaction", default: 0
+    t.string "review_type"
+    t.bigint "user_id"
+    t.bigint "employee_listing_id"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_listing_id"], name: "index_reviews_on_employee_listing_id"
+    t.index ["transaction_id"], name: "index_reviews_on_transaction_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "slots", force: :cascade do |t|
@@ -273,10 +300,9 @@ ActiveRecord::Schema.define(version: 2019_12_05_070037) do
     t.integer "cancelled_by"
     t.date "cancelled_at"
     t.text "decline_reason_by_poster"
-    t.float "hirer_service_fee"
-    t.float "hirer_total_service_fee"
-    t.float "poster_service_fee"
-    t.float "poster_total_service_fee"
+    t.float "adjustment"
+    t.string "request_by"
+    t.integer "old_transaction"
     t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
   end
 
@@ -314,6 +340,9 @@ ActiveRecord::Schema.define(version: 2019_12_05_070037) do
   add_foreign_key "listing_availabilities", "employee_listings"
   add_foreign_key "messages", "conversations"
   add_foreign_key "relevant_documents", "employee_listings"
+  add_foreign_key "reviews", "employee_listings"
+  add_foreign_key "reviews", "transactions"
+  add_foreign_key "reviews", "users"
   add_foreign_key "stripe_infos", "users"
   add_foreign_key "stripe_payments", "transactions"
   add_foreign_key "transactions", "employee_listings"

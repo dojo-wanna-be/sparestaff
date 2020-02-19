@@ -1,19 +1,31 @@
 <%= render partial: "employee_listings/user_settings_header" %>
-
+<% @conversation = @transaction.conversation %>
+<% @messages = @conversation.messages.order(created_at: :DESC) %>
 
 <div class="reservation-change-or-cancel">
   <div class="main-heading">Change or cancel <%= @transaction.hirer.name %>'s hiring reservation</div>
   <div class="gray-text"><%= @listing.title %> - <%= @listing.name %> | <%= @transaction.start_date.strftime("%d %h %Y") %> - <%= @transaction.end_date.strftime("%d %h %Y") %>, <%= @transaction.total_weekday_hours + @transaction.total_weekend_hours %> Hour Total | <%= @listing.city %> <%= @listing.state %> <%= @listing.post_code %></div>
 
   <div class="change-or-cancel-row">
-    <div class="change-or-cancel-box">
-      <%= link_to '#' do %>
-        <%= image_tag 'change-icon.png', class: 'Height30px' %>
-      <% end %>
-      <%= link_to 'Change Hiring Reservation', change_reservation_reservation_path(id: @transaction.id), class: 'GreyLink22Px' %>
-      <div>Change hiring dates, work timetable, hours, or prices.</div>
-      <%= link_to 'Change Reservation', change_reservation_reservation_path(id: @transaction.id), class: 'transparent-continue-btn' %>
-    </div>
+    <% if @transaction.employee_listing.poster == @current_user %>
+      <div class="change-or-cancel-box">
+        <%= link_to '#' do %>
+          <%= image_tag 'change-icon.png', class: 'Height30px' %>
+        <% end %>
+        <%= link_to 'Ask Hirer To Make Changes', 'javascript:void(0)', class: 'GreyLink22Px show_message_box' %>
+        <div>Hirer can change hiring dates, work timetable, hours. You can ask Hirer to make changes.</div>
+        <%= link_to 'Message Hirer', 'javascript:void(0)', class: 'transparent-continue-btn show_message_box' %>
+      </div>
+    <% else %>
+      <div class="change-or-cancel-box">
+        <%= link_to '#' do %>
+          <%= image_tag 'change-icon.png', class: 'Height30px' %>
+        <% end %>
+        <%= link_to 'Change Hiring Reservation', change_reservation_reservation_path(id: @transaction.id), class: 'GreyLink22Px' %>
+        <div>Change hiring dates, work timetable, hours, or prices.</div>
+        <%= link_to 'Change Reservation', change_reservation_reservation_path(id: @transaction.id), class: 'transparent-continue-btn' %>
+      </div>
+    <% end %>
 
     <div class="change-or-cancel-box">
       <%= link_to '#' do %>
@@ -24,8 +36,10 @@
       option. Penalty may apply.</div>
       <%= link_to 'Cancel Reservation', cancel_reservation_reservation_path(id: @transaction.id), class: 'transparent-continue-btn' %>
     </div>
-
   </div>
+  <div class="show_box">
+      <%= render partial: "inboxes/message" %>
+    </div>
 </div>
 
 <%= render partial: "layouts/footer" %>
@@ -34,4 +48,8 @@
   $('.toggle-payment-detail').click(function(){
     $('.show-payment-box').toggle();
   });
+  $('.show_box').hide();
+  $('.show_message_box').click(function(){
+    $('.show_box').show();
+  })
 </script>

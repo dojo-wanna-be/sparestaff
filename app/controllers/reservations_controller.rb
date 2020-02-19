@@ -216,6 +216,7 @@ class ReservationsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
+    StripeRefundAmount.new(@transaction).stripe_refund_ammount
     conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
