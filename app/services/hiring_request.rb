@@ -7,7 +7,7 @@ class HiringRequest
   def check_request
     transaction = Transaction.find(@id)
     if(transaction.state.eql?('created'))
-      transaction.update_attributes(state: expired)
+      transaction.update_attributes(state: :expired)
     end
   end
 end
