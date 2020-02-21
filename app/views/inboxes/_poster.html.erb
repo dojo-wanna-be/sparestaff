@@ -18,7 +18,6 @@
     <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
     <div><%= @listing.name %></div>
   </div>
-
   <div class="order-details first-order">
     <div class="order-item">
       <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>

@@ -1673,7 +1673,11 @@
 
   .pagination {
     margin: 0;
-
+    display: -webkit-box;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
     .page-item {
       &.active {
         .page-link {

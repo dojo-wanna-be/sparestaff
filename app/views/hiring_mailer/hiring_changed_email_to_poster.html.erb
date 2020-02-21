@@ -43,8 +43,8 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">Hiring change request</h1>
-    <p style="color: #484848;">The Hirer has submited a change request to this hiring.</p>
+    <h1 style="color: #484848;">Hiring change</h1>
+    <p style="color: #484848;">The Hirer has submited a change to this hiring.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
@@ -108,6 +108,7 @@
         <td style="color: #484848;">New employment contract total</td>
         <td style="text-align: right"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
+    <% if false %>
       <tr>
         <td colspan="2" style="color: #484848;">&nbsp;<br />
         If you accept the request, we will immediately update the 
@@ -144,4 +145,5 @@
   <tr>
     <td>&nbsp;</td>
   </tr>
+  <% end %>
 </table>

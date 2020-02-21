@@ -54,7 +54,7 @@
       <div class="user-right-box">
         <div class="left">
           <span><b>From</b></span>
-          <div><%= @old_transaction.get_beginning_day.strftime("%A %b %d, %Y") %></div>
+          <div><%= @old_transaction.start_date.strftime("%A %b %d, %Y") %></div>
         </div>
         <div class="right">
           <span><b>To</b></span>
@@ -83,6 +83,7 @@
           </span>
           <span class="right">
             <span class="dollar-input-box">$</span>
+            
             <%= number_field_tag "transaction[tax_withholding_amount]", "-#{@old_transaction.tax_withholding_amount}", placeholder: "-4.00", class: "calc-value transaction_tax_withholding_amount" %>
             <!-- <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="transaction[tax_withholding_amount]" id="transaction_tax_withholding_amount"> -->
           </span>

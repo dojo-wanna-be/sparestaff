@@ -101,7 +101,7 @@ class HiringsController < ApplicationController
                     .transactions
                     .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
-                    .where.not(id: @old_transaction.id)
+                    .where.not(id: @old_transaction&.id)
       
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
@@ -162,13 +162,36 @@ class HiringsController < ApplicationController
     @listing = @transaction.employee_listing
     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
+    refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
+    refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
-      @transaction.update_attributes(state: "created", request_by: 'hirer', old_transaction: params[:old_id])
-      HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
-      HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-      message = find_or_create_conversation.messages.last
-      HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
-      redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+			begin
+		    ChargeForListing.new(@transaction.id).charge_first_time
+		    begin
+			    refund = Stripe::Refund.create({
+					  charge: refund_charge_id,
+					  amount: (refund_amount*100).to_i,
+					})
+			  rescue => e
+			    # Some other error; display an error message.
+			    flash[:error] = e.error.message
+			  end
+		    # No exceptions were raised; Set our success message.
+		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+      	HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
+      	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      	message = find_or_create_conversation.messages.last
+      	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+		    flash[:notice] = 'Card charged successfully.'
+      	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+		  	
+		  rescue Stripe::CardError => e
+		    # CardError; display an error message.
+		    flash[:notice] = e.error.message
+		  rescue => e
+		    # Some other error; display an error message.
+		    flash[:error] = e.error.message
+		  end
     end
   end
 
@@ -265,6 +288,10 @@ class HiringsController < ApplicationController
 
   def find_transaction
     @transaction = Transaction.find_by(id: params[:id])
+  end
+
+  def old_transaction
+    Transaction.find_by(id: @transaction&.old_transaction)
   end
 
   def ensure_not_poster

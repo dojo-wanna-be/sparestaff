@@ -65,11 +65,12 @@ class ChargeForListing
 			Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 			cutsomer_id = customer = Stripe::Customer.retrieve(hirer.stripe_info.stripe_customer_id).id
 			amount = total_amount(transaction, from)
+			amount_with_hirer_service_fee = amount + (amount * 0.03)
 			fee = poster_service_fee(amount)
 			poster_fee = amount - fee
 			charge = Stripe::Charge.create(
 			  customer:    cutsomer_id,
-			  amount:    (amount*100).to_i,
+			  amount:    (amount_with_hirer_service_fee * 100).to_i,
 			  description: description(transaction),
 			  currency:    'aud',
 			  capture: false,

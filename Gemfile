@@ -92,7 +92,8 @@ gem 'paypal-sdk-rest'
 gem 'exception_notification'
 gem 'geocoder'
 gem 'ransack', '~> 2.1'
-gem 'will_paginate'
+#gem 'will_paginate'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-will_paginate'
+
 
