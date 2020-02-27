@@ -159,39 +159,45 @@ class HiringsController < ApplicationController
   end
 
   def change_hiring_confirmation
+    binding.pry
     @listing = @transaction.employee_listing
     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
     refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
-    refund_amount = @old_transaction.hirer_weekly_amount
+    #refund_amount = @old_transaction.hirer_weekly_amount
+    refund_amount = @old_transaction.amount + @old_transaction.service_fee
     if request.patch?
-			begin
-		    ChargeForListing.new(@transaction.id).charge_first_time
-		    begin
-			    refund = Stripe::Refund.create({
-					  charge: refund_charge_id,
-					  amount: (refund_amount*100).to_i,
-					})
-			  rescue => e
-			    # Some other error; display an error message.
-			    flash[:error] = e.error.message
-			  end
-		    # No exceptions were raised; Set our success message.
-		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
-      	HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
-      	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-      	message = find_or_create_conversation.messages.last
-      	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
-		    flash[:notice] = 'Card charged successfully.'
-      	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
-		  	
-		  rescue Stripe::CardError => e
-		    # CardError; display an error message.
-		    flash[:notice] = e.error.message
-		  rescue => e
-		    # Some other error; display an error message.
-		    flash[:error] = e.error.message
-		  end
+      if @transaction.start_date > Date.today
+  			begin
+  		    ChargeForListing.new(@transaction.id).charge_first_time
+  		    begin
+  			    refund = Stripe::Refund.create({
+  					  charge: refund_charge_id,
+  					  amount: (refund_amount*100).to_i,
+  					})
+  			  rescue => e
+  			    # Some other error; display an error message.
+  			    flash[:error] = e.error.message
+  			  end
+  		    # No exceptions were raised; Set our success message.
+  		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+        	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
+        	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+        	message = find_or_create_conversation.messages.last
+        	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+  		    flash[:notice] = 'Card charged successfully.'
+        	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+  		  	
+  		  rescue Stripe::CardError => e
+  		    # CardError; display an error message.
+  		    flash[:notice] = e.error.message
+  		  rescue => e
+  		    # Some other error; display an error message.
+  		    flash[:error] = e.error.message
+  		  end
+      else
+
+      end
     end
   end
 

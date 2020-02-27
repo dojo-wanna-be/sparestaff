@@ -211,32 +211,6 @@ ActiveRecord::Schema.define(version: 2020_01_09_093755) do
     t.index ["employee_listing_id"], name: "index_relevant_documents_on_employee_listing_id"
   end
 
-  create_table "reviews", force: :cascade do |t|
-    t.text "public_review"
-    t.text "private_review"
-    t.integer "friendliness", default: 0
-    t.integer "punctuality", default: 0
-    t.integer "professionalism", default: 0
-    t.integer "knowledge_skill", default: 0
-    t.integer "communication", default: 0
-    t.integer "management_skill", default: 0
-    t.integer "overall_experience", default: 0
-    t.boolean "recommend", default: false
-    t.text "sparsestaff_message"
-    t.integer "environment", default: 0
-    t.integer "suitability", default: 0
-    t.integer "satisfaction", default: 0
-    t.string "review_type"
-    t.bigint "user_id"
-    t.bigint "employee_listing_id"
-    t.bigint "transaction_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_listing_id"], name: "index_reviews_on_employee_listing_id"
-    t.index ["transaction_id"], name: "index_reviews_on_transaction_id"
-    t.index ["user_id"], name: "index_reviews_on_user_id"
-  end
-
   create_table "slots", force: :cascade do |t|
     t.string "time_slot"
     t.datetime "created_at", null: false
@@ -340,9 +314,6 @@ ActiveRecord::Schema.define(version: 2020_01_09_093755) do
   add_foreign_key "listing_availabilities", "employee_listings"
   add_foreign_key "messages", "conversations"
   add_foreign_key "relevant_documents", "employee_listings"
-  add_foreign_key "reviews", "employee_listings"
-  add_foreign_key "reviews", "transactions"
-  add_foreign_key "reviews", "users"
   add_foreign_key "stripe_infos", "users"
   add_foreign_key "stripe_payments", "transactions"
   add_foreign_key "transactions", "employee_listings"

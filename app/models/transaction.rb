@@ -214,7 +214,6 @@ class Transaction < ApplicationRecord
   end
 
   def hirer_weekly_amount
-    
     (amount - tax_withholding_amount + service_fee).round(2)
   end
 
