@@ -43,8 +43,8 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">Hiring change</h1>
-    <p style="color: #484848;">The Hirer has submited a change to this hiring.</p>
+    <h1 style="color: #484848;">Hiring changed by Hirer</h1>
+    <p style="color: #484848;">The Hirer has changed this hiring.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
@@ -107,6 +107,10 @@
       <tr>
         <td style="color: #484848;">New employment contract total</td>
         <td style="text-align: right"><%= "$#{@transaction.total_amount.round(2)}" %></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="color: #484848;">&nbsp;<br />
+        Hiring change takes effect immediately. This hiring has been updated with new details. Please contact Hirer for any questions.</td>
       </tr>
     <% if false %>
       <tr>
