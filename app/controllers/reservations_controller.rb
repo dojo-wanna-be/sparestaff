@@ -59,7 +59,7 @@ class ReservationsController < ApplicationController
       ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
       ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
       ChargeForListing.new(@transaction.id).charge_first_time   
-      PaymentWorker.perform_at((@transaction.start_date + 1.week).to_s, @transaction.id, @transaction.frequency)
+      PaymentWorker.perform_at((@transaction.start_date + 1.week).to_datetime, @transaction.id, @transaction.frequency)
       redirect_to inbox_path(id: @transaction.conversation.id)
     else
       flash[:error] = "Something went wrong"

@@ -159,13 +159,12 @@ class HiringsController < ApplicationController
   end
 
   def change_hiring_confirmation
-    binding.pry
     @listing = @transaction.employee_listing
     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
     refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
-    #refund_amount = @old_transaction.hirer_weekly_amount
     refund_amount = @old_transaction.amount + @old_transaction.service_fee
+    #refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
       if @transaction.start_date > Date.today
   			begin
@@ -196,7 +195,31 @@ class HiringsController < ApplicationController
   		    flash[:error] = e.error.message
   		  end
       else
-
+        if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly"
+          @old_transaction.update(end_date: @old_transaction.start_date + 6.days)
+          @transaction.update(start_date: @old_transaction.start_date + 1.week)
+          PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
+          @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+          #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
+          HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+          message = find_or_create_conversation.messages.last
+          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+          flash[:success] = "Success! Your changes will be applied at your next cycle."
+        elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 14 && @old_transaction.frequency == "fortnight"
+          @old_transaction.update(end_date: @old_transaction.start_date + 13.days)
+          @transaction.update(start_date: @old_transaction.start_date + 2.weeks)
+          PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
+          @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+          #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
+          HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+          message = find_or_create_conversation.messages.last
+          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
+          flash[:success] = "Success! Your changes will be applied at your next cycle."
+        else
+          flash[:error] = "Sorry! You can not change your hiring."
+        end
       end
     end
   end
