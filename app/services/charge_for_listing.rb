@@ -69,7 +69,7 @@ class ChargeForListing
       fee = poster_service_fee(amount)
       poster_fee = amount - fee
       charge = Stripe::Charge.create(
-        customer:    cutsomer_id,
+        customer:  cutsomer_id,
         amount:    (amount_with_hirer_service_fee * 100).to_i,
         description: description(transaction),
         currency:    'aud',
