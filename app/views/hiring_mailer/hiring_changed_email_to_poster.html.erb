@@ -108,7 +108,7 @@
         <td style="color: #484848;">New employment contract total</td>
         <td style="text-align: right"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
-      <% if @transaction.start_date <= Date.today %>
+      <% if @old_transaction.start_date <= Date.today %>
         <tr>
           <td colspan="2" style="color: #484848;">&nbsp;<br />
             New hiring details will start from next <%= transaction_time(@transaction)%>. Please contact <%= @transaction.hirer.name %> for any questions.

@@ -364,11 +364,10 @@ class HiringsController < ApplicationController
   end
 
   def ensure_repeat_tx
-    if @transaction.old_transaction.present?
+    @old_transaction = Transaction.find_by(id: params[:old_id])
+    if @old_transaction.old_transaction.present?
       flash[:error] = "You can not change again your hiring for now try after sometime!!!"
-      return false
-    else
-      return true
+      redirect_to root_path
     end
   end
 end

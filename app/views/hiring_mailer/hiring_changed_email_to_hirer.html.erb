@@ -77,7 +77,7 @@
         <td style="color: #484848;">New employment contract total</td>
         <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
-        <% if @transaction.start_date < Date.today %>
+        <% if @old_transaction.start_date <= Date.today %>
           <tr>
             <td colspan="2" style="color:#484848;">&nbsp;<br />
             This is confirmation that your hiring change has been processed with new details and you will pay next weekly total from <%= transaction_time(@transaction)%>.</td>
