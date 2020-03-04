@@ -17,13 +17,13 @@ class StripeRefundAmount
       #     @transaction.hirer_weekly_amount
       #   end
       if @transaction.start_date > Date.today
-        @amount = @transaction.hirer_weekly_amount
+        @amount = @transaction.amount + @transaction.amount * 0.03
         refund = Stripe::Refund.create({
           charge: @charge_id,
           amount: (@amount*100).to_i,
         })
       elsif @transaction.start_date == Date.today
-        @amount = @transaction.hirer_weekly_amount
+        @amount = @transaction.amount + @transaction.amount * 0.03
         day = Date.today.strftime("%A").downcase
         service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
         if @transaction.bookings.where(day: day).blank?
@@ -88,7 +88,7 @@ class StripeRefundAmount
           end
         end
       else
-        @amount = @transaction.hirer_weekly_amount
+        @amount = @transaction.amount + @transaction.amount * 0.03
         if @transaction.frequency == "weekly"
           if diff < 7
             amount = 0

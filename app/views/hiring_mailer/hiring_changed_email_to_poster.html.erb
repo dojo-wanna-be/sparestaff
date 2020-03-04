@@ -43,7 +43,7 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">Hiring changed by Hirer</h1>
+    <h1 style="color: #484848;">Hiring changed by <%= @transaction.hirer.name %></h1>
     <p style="color: #484848;">The Hirer has changed this hiring.</p>
     <table style="width: 500px">
       <tr>
@@ -108,10 +108,18 @@
         <td style="color: #484848;">New employment contract total</td>
         <td style="text-align: right"><%= "$#{@transaction.total_amount.round(2)}" %></td>
       </tr>
-      <tr>
-        <td colspan="2" style="color: #484848;">&nbsp;<br />
-        Hiring change takes effect immediately. This hiring has been updated with new details. Please contact Hirer for any questions.</td>
-      </tr>
+      <% if @transaction.start_date <= Date.today %>
+        <tr>
+          <td colspan="2" style="color: #484848;">&nbsp;<br />
+            New hiring details will start from next <%= transaction_time(@transaction)%>. Please contact <%= @transaction.hirer.name %> for any questions.
+          </td>
+        </tr>
+      <% else %>
+        <tr>
+          <td colspan="2" style="color: #484848;">&nbsp;<br />
+          Hiring change takes effect immediately. This hiring has been updated with new details. Please contact <%= @transaction.hirer.name %> for any questions.</td>
+        </tr>
+      <% end %>
     <% if false %>
       <tr>
         <td colspan="2" style="color: #484848;">&nbsp;<br />
