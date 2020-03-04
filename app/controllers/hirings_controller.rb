@@ -18,7 +18,7 @@ class HiringsController < ApplicationController
                                             :cancel,
                                             :destroy_transaction
                                           ]
-
+  before_action :ensure_repeat_tx, only: [:change_hiring_confirmation]
   before_action :ensure_not_poster, only: [:change_hiring]
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
 
@@ -363,4 +363,12 @@ class HiringsController < ApplicationController
     message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
   end
 
+  def ensure_repeat_tx
+    if @transaction.old_transaction.present?
+      flash[:error] = "You can not change again your hiring for now try after sometime!!!"
+      return false
+    else
+      return true
+    end
+  end
 end
