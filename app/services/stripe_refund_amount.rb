@@ -191,8 +191,6 @@ class StripeRefundAmount
         })
       end
       #end
-    else
-      flash[:error] = "Can't be cancelled"
     end
   end
 

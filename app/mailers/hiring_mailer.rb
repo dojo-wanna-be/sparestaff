@@ -5,7 +5,7 @@ class HiringMailer < ApplicationMailer
     @listing = listing
     @transaction = transaction
     @hirer = hirer
-    mail(to: hirer.email, subject: "Hiring Change Request")
+    mail(to: hirer.email, subject: "Hiring Change confirmation")
   end
 
   def hiring_changed_email_to_poster(listing, poster, transaction, message)
@@ -13,7 +13,7 @@ class HiringMailer < ApplicationMailer
     @transaction = transaction
     @poster = poster
     @message = message
-    mail(to: poster.email, subject: "Hiring Change Request")
+    mail(to: poster.email, subject: "Hiring changed by Hirer")
   end
 
   def employee_hire_confirmation_email_to_hirer(listing, hirer, transaction)

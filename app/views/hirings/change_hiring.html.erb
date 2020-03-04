@@ -18,8 +18,11 @@
         </li>
       </ul>
        <%if (@transaction.state.eql?("accepted") && @transaction.start_date <= Date.today)%>
-        <p>
+        <!-- <p>
           This hiring has already started. You can request changes. <%= @transaction.poster.name %> needs to respond before the next billing cycle - <%= transaction_time(@transaction)%>. If <%= @transaction.poster.name %> accepts, this hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%=transaction_time(@transaction)%>.
+        </p> -->
+        <p>
+          This hiring has already started. Changes will take affect from next billing cycle. This hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%= transaction_time(@transaction) %>.
         </p>
       <%end %>
       <%#= render partial: "employee_listings/review_hire_details" %>
@@ -113,15 +116,17 @@
           <span class="right"><b>$<span id="weekly_total_price_difference"> 0 </span> </b></span>
         </li>
       </ul>
-
-      <div class="toggle-total-employement">Total employment contract</div>
-
+      <% if false %>
+        <div class="toggle-total-employement">Total employment contract</div>
+      <% end %>
       <ul class="calculation-list total-employement-list">
         <li class="calc-item">
           <span class="left">
             $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="total_weekday_hours"> <%= @old_transaction.total_weekday_hours %> &nbsp;</span> hours
           </span>
-          <span class="right">$<span id="hiring_total_weekday_price"> <%= @listing.weekday_price.to_f * @old_transaction.total_weekday_hours %> </span> </span>
+          <span class="right">$<span id="hiring_total_weekday_price"> 
+            <%= @listing.weekday_price.to_f * @old_transaction.total_weekday_hours %> 
+          </span> </span>
         </li>
         <li class="calc-item">
           <span class="left">
@@ -168,7 +173,19 @@
     </div>
   </div>
 </div>
-
+<script type="text/javascript">
+  $("#transaction_is_withholding_tax").on('change click', function () {
+    if ($(this).is(":checked")) {
+      $("#tax-notice").hide();
+      $("#new_withholding_tax").val("true");
+      calculateTax();
+    } else {
+      $("#tax-notice").show();
+      $("#new_withholding_tax").val("false");
+      calculateWithoutTax();
+    }
+  });
+</script>
 <script>
   var jQuery_1_7_0 = $.noConflict(true);
   var isSunday = false;
@@ -260,18 +277,6 @@
       "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
       "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
       "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
-    }
-  });
-
-  $("#transaction_is_withholding_tax").on('change click', function () {
-    if ($(this).is(":checked")) {
-      $("#tax-notice").hide();
-      $("#new_withholding_tax").val("true");
-      calculateTax();
-    } else {
-      $("#tax-notice").show();
-      $("#new_withholding_tax").val("false");
-      calculateWithoutTax();
     }
   });
 
