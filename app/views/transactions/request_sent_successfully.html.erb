@@ -1,0 +1,53 @@
+<div class="hiring_request_sent_section">
+  <ul class="logo-list">
+    <li class="logo-list-item">
+      <%= link_to '' do %>
+        <%= image_tag 'logo.png', class: 'logo_img' %>
+      <% end %>
+    </li>
+  </ul>
+
+  <div class="left-hiring-request">
+    <h1 class="main-heading">Hiring Request Sent</h1>
+    <div>This is not a confirmed hiring - at least not yet. You'll get a response within 48 hours.</div>
+    <div class="user-pro-box">
+      <div class="left-name-box"><%= @employee_listing.name %><br>
+      <%= @employee_listing.title %></div>
+      <div class="right-img-box">
+        <% if @employee_listing.profile_picture.present? %>
+          <%= image_tag @employee_listing.profile_picture.url, class: 'Image200pxRight' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'Image200pxRight' %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="user-pro-box">
+      <div>
+        <span><b>From</b></span>
+        </br>
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %>
+      </div>
+      <div>
+        <span><b>To</b></span>
+        </br>
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %>
+      </div>
+    </div>
+
+    <div class="user-pro-box">
+      You won't be charged until your hiring is confirmed by <%= @employee_listing.poster.name %>.
+    </div>
+
+    <%= link_to "View Your Hirings", hirings_path, class: 'veiw-hiring-btn' %>
+
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <a class="spare-link" href="https://www.sparestaff.com.au/copyright">© Spare Staff</a>
+    </div>
+  </div>
+</div>
+
+

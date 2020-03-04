@@ -1,0 +1,31 @@
+<div class="message-chat-block">
+  <%= form_for Message.new, url: inboxes_path, remote: true, method: :post do |f|%>
+    <div class="message-chat-block__box right_user_direction">
+      <div class="message__conversation">
+        <%= f.text_area :content, cols: 20, rows: 5 %>
+        <%= hidden_field_tag :id, @conversation.id %>
+        <div class="message-chat-block__box--btn-box">
+          <%= f.submit "Send Message", class: 'message-btn' %>
+        </div>
+      </div>
+      <div class="message-user-box">
+        <%= image_tag 'alex-profile.jpg', class: 'message-user-box__img' %>
+      </div>
+    </div>
+  <% end %>
+  <div class="gray-mid-text-block">
+    <div class="gray-line"></div>
+    <div class="mid-text">SAFETY TIP</div>
+    <div class="gray-line"></div>
+  </div>
+  <div class="safety-sub-text grey-text">For your safety and protection, only communicate and pay directly through Spare Staff.<br>
+    Visit our 
+    <strong>
+      <%= link_to 'Help Center', 'javascript:;', class: 'LightGreyLink14px' %>
+    </strong> 
+    to learn more about the benefits of hiring through Spare Staff.
+  </div>
+  <div id="message_container">
+    <%= render partial: 'inboxes/text_message', locals: {messages: @messages} %>
+  </div>
+</div>

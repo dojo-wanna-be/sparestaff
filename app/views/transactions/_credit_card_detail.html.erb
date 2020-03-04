@@ -1,0 +1,157 @@
+<%= form_tag request_payment_transaction_path, id: 'payment-form', method: :patch do |f| %>
+  <div class="credit-card-detail">
+    <div class="card-errors"></div>
+    <div class="custom-input-group">
+      <label class="thin-label">Card info*</label>
+      <%= text_field_tag :first_name, nil, placeholder: "Name on card", class: 'custom-field' %>
+      <label id="first_name-error" class="error" for="first_name">This field is required.</label>
+      <%= hidden_field_tag "stripe_token", nil, id: "stripe_token" %>
+    </div>
+    <div id="card-element"></div>
+    <div id="card-errors" role="alert"></div>
+
+    <!-- <div class="custom-input-group">
+      
+      <%#= text_field_tag :card_number, nil, placeholder: "Card number", class: 'custom-field card-number', data: {stripe: "number"} %>
+    </div> -->
+
+    <!-- <div class="joint-group">
+      <div class="custom-input-group">
+        <%#= text_field_tag :card_verification, nil, placeholder: "MM/YY", class: 'custom-field card_expiry_date', data: {stripe: "number"} %>
+      </div>
+      <div class="custom-input-group">
+        <%#= text_field_tag :cvv, nil, placeholder: "CVV", class: 'custom-field card-cvc', data: {stripe: "card-cvc"} %>
+      </div>
+    </div> -->
+
+    <div class="joint-group">
+      <div class="custom-input-group">
+        <label class="thin-label">Billing info*</label>
+        <%= text_field_tag :zip_code, nil, placeholder: "Zip code", class: 'custom-field', minLength: 4, maxLength: 4, :onkeypress=> "return isNumberKey(event)" %>
+        <label id="zip_code-error" class="error" for="zip_code">This field is required.</label>
+      </div>
+      <div class="custom-input-group">
+        <label class="thin-label">Billing country*</label>
+        <%= select_tag :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES_WITH_CODE), class: "custom-field" %>
+      </div>
+    </div>
+    <div class="custom-input-group">
+      <label class="thin-label">Redeem a Coupon</label>
+      <%= text_field_tag :address_1, nil, placeholder: "", class: 'custom-field' %>
+    </div>
+
+    <div class="italic-text"><em >*required details</em></div>
+
+    <h2 class="com-nor-heading">Cancellation policy</h2>
+
+    <p>Cancel up to 24 hours before contract start date time and get a full refund (minus service fees). Cancel within 24 hours of contract start date time and the first day is non-refundable. Service fees are refunded if cancellation happens before contract start date time and within 48 hours of booking.</p>
+
+    <h2 class="com-nor-heading">I agree to <span><%= link_to 'Cancellation Policy', 'https://www.sparestaff.com.au/cancellation-policy', target: "_blank", class: 'bold-link' %></span>, and <span><%= link_to 'Hirer Refund Policy', 'https://www.sparestaff.com.au/hirer-refund-policy', target: "_blank", class: 'bold-link' %></span>. I also agree to pay the weekly total amount shown, which includes Service Fees.</h2>
+  </div>
+
+  <div class="button-box">
+    <button class="continue-btn">Request to hire</button>
+    <%= link_to 'Back', initialized_transaction_path(@transaction.id), class: 'continue-btn' %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  // Create a Stripe client
+  var isValid = false;
+  $('.error').hide();
+  var stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
+
+  // Create an instance of Elements
+  var elements = stripe.elements();
+
+  // Custom styling can be passed to options when creating an Element.
+  // (Note that this demo uses a wider set of styles than the guide below.)
+  var style = {
+    base: {
+      color: '#32325d',
+      lineHeight: '18px',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    }
+  };
+
+  // Create an instance of the card Element
+  var card = elements.create('card', {hidePostalCode: true, style: style});
+
+  // Add an instance of the card Element into the `card-element` <div>
+  card.mount('#card-element');
+
+  // Handle real-time validation errors from the card Element.
+  card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+      $("#submit_button").attr('disabled', true);
+    } else {
+      displayError.textContent = '';
+      $("#submit_button").attr('disabled', false);
+      $("#submit_button").text('Submit');
+    }
+  });
+
+  // Handle form submission
+  var form = document.getElementById('payment-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        $("#stripe_token").val(result.token.id)
+        if(handleValidation()){
+          form.submit();
+        }       
+      }
+    });
+  });
+
+  function isNumberKey(evt)
+  {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+         alert("Please Enter Only Numeric Value:");
+         return false;
+     }
+     return true;
+  }
+
+  function handleValidation() {
+    var formIsValid = true;
+    if($("#first_name").val() == ''){
+      $('#first_name-error').show();
+      formIsValid = false
+    }
+    if($("#zip_code").val() == '' || ($("#zip_code").val().length < 4)){
+      $('#zip_code-error').show();
+      formIsValid = false
+    }
+    return formIsValid;
+  }
+
+  $("#first_name, #zip_code").keyup(function(event){
+    if(event.target.name == 'first_name'&& event.target.value.length > 2)
+      $('#first_name-error').hide();
+    if(event.target.name == 'zip_code'&& event.target.value.length == 4)
+      $('#zip_code-error').hide();
+  });
+
+  function hideError(event){
+    
+  }
+
+</script>

@@ -1,0 +1,55 @@
+<div class="why-not-available">
+  <h3 class="comman-heading">Why is the employee not available?</h3>
+
+  <% Transaction::EMPLOYEE_UNAVAILABLE_REASON.each_with_index do |reason, index| %>
+    <div class="cancellation_reason">
+      <%= radio_button_tag "employee_reason", reason, false, id: "employee_reason#{index+1}", class: "employee_cancellation_reasons" %>
+      <%= reason %>
+    </div>
+  <% end %>
+
+  <div id="employee_reason_1_form" class="employee_cancellation_reason_forms hidden">
+    <%= render partial: "emergency" %>
+  </div>
+  <div id="employee_reason_2_form" class="employee_cancellation_reason_forms hidden">
+    <%= render partial: "unavailable_days" %>
+  </div>
+  <div id="employee_reason_3_form" class="employee_cancellation_reason_forms hidden">
+    <%= render partial: "timing_conflicts" %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(".employee_cancellation_reasons").click(function(){
+    var reason_id = $(this).attr("id");
+    if (reason_id === "employee_reason1") {
+      $(".employee_cancellation_reason_forms").hide();
+      $("#employee_reason_1_form").show();
+    } else if (reason_id === "employee_reason2") {
+      $(".employee_cancellation_reason_forms").hide();
+      $("#employee_reason_2_form").show();
+    } else if (reason_id === "employee_reason3") {
+      $(".employee_cancellation_reason_forms").hide();
+      $("#employee_reason_3_form").show();
+    } else if (reason_id === "employee_reason4") {
+      $(".employee_cancellation_reason_forms").hide();
+      $("#employee_reason_4_form").show();
+    } else if (reason_id === "employee_reason5") {
+      $(".employee_cancellation_reason_forms").hide();
+      $("#employee_reason_5_form").show();
+    }
+  });
+
+  $(".cancellation_reason_form").validate({
+    focusInvalid: false,
+    rules: {
+      'employee_reason': {
+        required:{
+          depends: function(element){
+            return $("#reason1").is(":checked");
+          }
+        }
+      }
+    }
+  });
+</script>

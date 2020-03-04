@@ -1,0 +1,46 @@
+<div class="modal custom-modal" id="hirer_decline-reservation-step-1-popup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%#= image_tag "cross.jpg", class: 'close-img' %></button>
+      </div> -->
+
+      <div class="modal-body">
+        <div class="custom-modal-inner">
+          <div class="title-modal">Decline this request</div>
+          <%= form_tag decline_request_hiring_path(id: @transaction.id), method: :patch, class: "form-modal", remote: true, id: "decline_hiring_form" do |f| %>
+          <label class="label-modal">Type optional message to poster</label>
+          <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
+          <div class="select-box">
+            <label class="label-modal">Why are you declining this request? (required)</label>
+            <%= select_tag "reason", options_for_select(Transaction::DECLINE_REASON), {include_blank: 'Please select a reason', class: 'FullWidth'} %>
+          </div>
+
+          <!-- <div class="Text14px">
+            <%#= check_box_tag :term, nil, false, id: "term", class: 'VerticalAlignMiddle' %>
+            By checking this box, I agree to
+            the <span><%#= link_to 'Hirer Refund Policy Terms', '#', class: 'orange-text Text14px' %></span>, and
+            <span><%#= link_to 'Terms of Service', '#', class: 'Text14px orange-text' %></span>.
+          </div> -->
+
+          <div class="modal-btn-box" >
+            <%= submit_tag "Next", class: 'modal-orange-btn accept_declined' %>
+            <%= link_to 'Close', 'javascript:;', class: 'modal-white-btn', data: { dismiss: "modal" } %>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#decline_hiring_form").validate({
+      rules: {
+        "reason": {required: true},
+      }
+    });
+  });
+</script>

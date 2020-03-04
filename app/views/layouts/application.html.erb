@@ -11,11 +11,15 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://js.stripe.com/v3/"></script>
+    <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery.AreYouSure/1.9.0/jquery.are-you-sure.min.js' %>
   </head>
 
   <body>
     <%= render 'toastr_rails/flash' %>
-    <%= render partial: "layouts/header" %>
+    <% unless params[:controller].eql?("transactions") %>
+      <%= render partial: "layouts/header" %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

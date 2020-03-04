@@ -1,17 +1,19 @@
-<div class="featured-listings-box">
-  <h1 class="featured-heading">You might be interested in</h1>
-
-  <div class="featured-listings">
-    <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
+<div class="featured-listings" >
+  <% listings.each do |listing| %>
+    <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
       <div class="listing-card">
         <div class="listing-img">
-          <%= image_tag "professional-3.png", alt: "", class: "card-image" %>
+          <% if listing.profile_picture.present? %>
+            <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'card-image' %>
+          <% end %>
         </div>
         <div class="listing-details">
-          <div><b>Senior IT Administrator</b></div>
-          <div>Cristiano Ronaldo</div>
-          <div>$35 per hour</div>
-          <div>Chippendale NSW 2008</div>
+          <div><b><%= listing.title %></b></div>
+          <div><%= listing.name %></div>
+          <div><%= "$#{minimum_price(listing)} per hour" %></div>
+          <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
           <div class="rating">
             <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
             <span>28</span>
@@ -19,59 +21,9 @@
         </div>
       </div>
     <% end %>
-
-    <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
-      <div class="listing-card">
-        <div class="listing-img">
-          <%= image_tag "professional-1.png", alt: "", class: "card-image" %>
-        </div>
-        <div class="listing-details">
-          <div><b>Office Admin</b></div>
-          <div>Lionel Messi</div>
-          <div>$25 per hour</div>
-          <div>Sydney NSW 2000</div>
-          <div class="rating">
-            <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-            <span>35</span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
-      <div class="listing-card">
-        <div class="listing-img">
-          <%= image_tag "professional-4.png", alt: "", class: "card-image" %>
-        </div>
-        <div class="listing-details">
-          <div><b>Accountant</b></div>
-          <div>Wayne Rooney</div>
-          <div>$25 per hour</div>
-          <div>Sydney NSW 2000</div>
-          <div class="rating">
-            <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-            <span>12</span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
-      <div class="listing-card">
-        <div class="listing-img">
-          <%= image_tag "professional-2.png", alt: "", class: "card-image" %>
-        </div>
-        <div class="listing-details">
-          <div><b>Experienced Barista</b></div>
-          <div>Zlatan Ibrahimovic</div>
-          <div>$20 per hour</div>
-          <div>North Sydney NSW 2060</div>
-          <div class="rating">
-            <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-            <span>No reviews yet</span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
+  <% end %>
+</div>  
+<div class="will_pagination_box">
+  <%= js_will_paginate @employee_listings %>
 </div>
+

@@ -32,14 +32,14 @@
             </div>
 
             <div class="custom-input-group">
-              <label class="custom-label">Employee skills and experience</label>
-              <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).to_sentence %>
+              <label class="custom-label">Skills <br/> <span class="thin-text">Help Hirers find the Employee by showcasing all of the his/her skills (e.g. Word, Excel, MYOB, PHP, Java, Web Design, Full Stack Developer, etc). Start typing and hit Enter to add a skill in.</span></label>
+              <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).join(', ') %>
               <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
             </div>
 
             <div class="custom-input-group">
               <div class="profile_picture">
-                <label class="custom-label">Profile Picture</label>
+                <label class="custom-label">Profile Picture <span class="thin-text">(required, this is what Hirers first see in search results)</span></label>
                 <div class="image-group">
                   <div class="box-img">
                     <div class="upload-file" id="profile_picture_container">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="custom-input-group step-4-multiple-img">
-              <label class="custom-label">Photos or relevant documents of your employee <span class="thin-text">(optional but recommended)</span></label>
+              <label class="custom-label">Additional photos or relevant documents of your employee <span class="thin-text">(optional but recommended)</span></label>
 
               <div class="multiple-image-group">
                 <div class="box-img">
@@ -92,6 +92,8 @@
             <div class="bulb-box bulb-box-bottom step-4-bulb ">
               <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
               <br />
+              Add as many skills as you can in. This helps demonstrate the employee's technical ability and help employers to search and find the employee easily.<br />
+              <br />
               Employees are valuable assets of an organization and the key to success. A company is represented by its employees and every company wants to know who they are hiring.<br />
               <br />
               First impression is the most lasting. A great photo will more likely attract Hirers' attention.<br />
@@ -101,7 +103,7 @@
             <div class="button-box">
               <span class="link-text">&lt; <%= link_to "Back", step_3_employee_path(id: @employee_listing.id, back: true), class: 'link-text' %></span>
 
-              <%= f.submit "Save for later", name: "save_later", value: "Save for later", class: "link-text" %>
+              <%= f.submit "Save for later", formnovalidate: "formnovalidate", name: "save_later", value: "Save for later", class: "link-text" %>
 
               <%= f.submit "Continue", class: "continue-btn cont_step" %>
             </div>
@@ -120,6 +122,8 @@
 
       <div class="bulb-box bulb-box-bottom step-4-bulb ">
         <%= image_tag "light-bulb.png", alt: "", class: 'bulb-img' %>
+        <br />
+        Add as many skills as you can in. This helps demonstrate the employee's technical ability and help employers to search and find the employee easily.<br />
         <br />
         Employees are valuable assets of an organization and the key to success. A company is represented by its employees and every company wants to know who they are hiring.<br />
         <br />

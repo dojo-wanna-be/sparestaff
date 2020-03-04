@@ -1,22 +1,26 @@
 <div class="sub_navbar">
   <ul class="sub-nav-list">
     <li class="nav-list-item">
-      <a id="Dashboard" class="sub-nav-link" href="../user-dashboard/user-dashboard.html">Dashboard</a>
+      <%= link_to "Dashboard", user_dashboard_employee_index_path, id: "Dashboard", class: "sub-nav-link" %>
     </li>
     <li class="nav-list-item">
-      <a id="Inbox" class="sub-nav-link" href="../messages/user-inbox.html">Inbox</a>
+      <% is_inbox_page = params[:controller].eql?("inboxes") %>
+      <%= link_to "Inbox", inboxes_path, id: "Inbox", class: "#{ is_inbox_page ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <%= link_to "Your Listings", employee_index_path, id: "YourListings", class: "sub-nav-link active" %>
+      <% is_listing_page = params[:controller].eql?("employee_listings") || params[:controller].eql?("reservations") %>
+      <%= link_to "Your Listings", employee_index_path, id: "YourListings", class: "#{ is_listing_page ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <a id="YourHirings" class="sub-nav-link" href="../user-hiring/user-hiring.html">Your Hirings</a>
+      <% is_hiring = params[:controller].eql?("hirings") %>
+      <%= link_to "Your Hirings", hirings_path, id: "YourListings", class: "#{ is_hiring ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <a id="Profile" class="sub-nav-link" href="../user-profile/user-profile-edit-profile.html">Profile</a>
+      <a id="Profile" class="sub-nav-link" href="#">Profile</a>
     </li>
     <li class="nav-list-item">
-      <a id="Account" class="sub-nav-link" href="../user-account/user-account-notifications.html">Account</a>
+      <% is_payment = params[:controller].eql?("payouts")%>
+      <%= link_to 'Account', step_1_payouts_path, class: "#{ is_payment ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
   </ul>
 </div>

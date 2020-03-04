@@ -1,0 +1,112 @@
+<div class="right_request_section">
+  <div class="user-right-box">
+    <div class="name-box">
+      <span class="Text22px"><%= @listing.title %></span>
+      <%= @listing.name %>
+    </div>
+    <div class="image-box">
+      <% if @listing.profile_picture.present? %>
+        <%= image_tag @listing.profile_picture.url, class: 'Image100pxRight' %>
+      <% else %>
+        <%= image_tag 'no-image.jpg', class: 'Image100pxRight' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="user-right-box">
+    <div class="left">
+      <span><b>From</b></span>
+      <div><%= @transaction.start_date.strftime("%A %b %d, %Y") %></div>
+    </div>
+    <div class="right">
+      <span><b>To</b></span>
+      <div><%= @transaction.end_date.strftime("%A %b %d, %Y") %></div>
+    </div>
+  </div>
+
+  <ul class="calculation-list">
+    <li class="calc-item">
+      <span class="left">
+        $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @transaction.weekday_hours %> &nbsp;</span> hours
+      </span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekday_price.to_f * @transaction.weekday_hours %> </span> </span>
+    </li>
+    <li class="calc-item">
+      <span class="left">
+        $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @transaction.weekend_hours %> &nbsp;</span> hours (weekend)
+      </span>
+      <span class="right">$<span id="hiring_weekend_price"> <%= @listing.weekend_price.to_f * @transaction.weekend_hours %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">Tax withholding</span>
+      <span class="right">-$<span id="tax_withholding_price"> <%= @transaction.tax_withholding_amount %> </span> </span>
+    </li>
+    
+    <li class="calc-item">
+      <span class="left">Service fee</span>
+      <span class="right">-$<span id="hiring_weekday_service_fee"> <%= @transaction.poster_service_fee.round(2) %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">New weekly total</span>
+      <span class="right">$<span id="new_weekly_total_price"> <%= @transaction.poster_weekly_amount %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">Original weekly total</span>
+      <span class="right">$<span id="old_weekly_total_price"> <%= @old_transaction.poster_weekly_amount.round(2) %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left"><b>Weekly price difference</b></span>
+      <span class="right"><b>$<span id="weekly_total_price_difference"> <%= (@transaction.poster_weekly_amount - @old_transaction.poster_weekly_amount).round(2) %> </span> </b></span>
+    </li>
+  </ul>
+
+  <div class="toggle-total-employement">Total employment contract</div>
+
+  <ul class="calculation-list total-employement-list">
+    <li class="calc-item">
+      <span class="left">
+        $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @transaction.total_weekday_hours %> &nbsp;</span> hours
+      </span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekday_price.to_f * @transaction.total_weekday_hours %> </span> </span>
+    </li>
+    <li class="calc-item">
+      <span class="left">
+        $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @transaction.total_weekend_hours %> &nbsp;</span> hours (weekend)
+      </span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekend_price.to_f * @transaction.total_weekend_hours %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">Tax withholding</span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.total_tax_withholding %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">Service fee</span>
+      <span class="right">-$<span id="hiring_weekday_price"> <%= @transaction.poster_total_service_fee.round(2) %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">New total</span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @transaction.poster_total_amount.round(2) %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left">Original total</span>
+      <span class="right">$<span id="hiring_weekday_price"> <%= @old_transaction.poster_total_amount.round(2) %> </span> </span>
+    </li>
+
+    <li class="calc-item">
+      <span class="left"><b>Price difference</b></span>
+      <span class="right"><b>$<span id="hiring_weekday_price"> <%= (@transaction.poster_total_amount - @old_transaction.poster_total_amount).round(2) %> </span> </b></span>
+    </li>
+
+    <li class="calc-item">
+      <span>You will not pay the Total employment contract upfront. You chose to pay weekly.</span>
+    </li>
+  </ul>
+</div>

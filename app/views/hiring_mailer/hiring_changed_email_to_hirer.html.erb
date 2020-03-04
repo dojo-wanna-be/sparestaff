@@ -1,0 +1,101 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+ 
+</style>
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color:#484848;">Hiring change confirmation</h1>
+    <table style="width: 500px">
+      <tr>
+        <td colspan="2">
+        <table style="width: 100%;">
+          <tr>
+            <td>
+            &nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+            <table style="height:40px; background-color: #E1E1E1; width:100%;">
+              <tr>
+                <td>
+                <h4 style="color: #484848;">&nbsp;&nbsp; Employment Contract</h4>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 50%; color:#484848;"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px; color: #484848;"><strong>From (new date)</strong><br />
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+        <td style="text-align: right; color: #484848;"><strong>To (new date)</strong><br />
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+</td>
+      </tr>
+      <tr>
+        <td style="color: #484848;"><strong>New weekly total</strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
+      </tr>
+      <tr>
+        <td style="color: #484848;">New employment contract total</td>
+        <td style="text-align: right; color: #484848;"><%= "$#{@transaction.total_amount.round(2)}" %></td>
+      </tr>
+        <% if @old_transaction.start_date <= Date.today %>
+          <tr>
+            <td colspan="2" style="color:#484848;">&nbsp;<br />
+            This is confirmation that your hiring change has been processed with new details and you will pay next weekly total from <%= transaction_time(@old_transaction)%>.</td>
+         </tr>
+        <% else %>
+          <tr>
+            <td colspan="2" style="color:#484848;">&nbsp;<br />
+            This is confirmation that your hiring change has been processed with new details and you have be refunded/charged the difference between the new weekly total and the original weekly total.</td>
+          </tr>
+        <% end %>
+      </table>
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

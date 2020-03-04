@@ -1,13 +1,131 @@
-<div class="search-box">
-  <h1 class="search-heading">Find employees</h1>
-
-  <div class="form-box">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOlkC4itU5q5ovsmQWKzGzydS5zIDBRZE&sensor=FALSE&libraries=places"></script>
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <div class="search-form">
+    <div class="form-box">
       <div class="search-form">
-        <%= text_field_tag "Text1", "", placeholder: "Enter keywords", class: 'enter-keyword' %>
-        <%= select_tag "Select1", options_for_select([["Any classification"], ["Accounting"], ["All Accounting"], ["Accounts Officers/Clerks"], ["Accounts Payable"]], ["Any classification"]), include_blank: "", class: 'select-field' %>
-        <%= text_field_tag "Text2", "", placeholder: "Enter suburb, city, or region", class: 'location-field' %>
-        <%= link_to "Search", "#", class: "search-btn" %>
+        <%= text_field_tag "keyword_search", params[:keyword_search], placeholder: "Enter keywords", class: 'enter-keyword' %>
+        <div class="classification-dropdown">
+          <div class="acrrodian-dropdown">
+            <div class="accordian-drop-btn">
+              <span id="select-classification"> Any Classification </span>
+              <span>
+                <svg class="_1BytwqT _3thDXAk" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1024 1024" focusable="false"><path d="M945 305l78 67-510 524L3 372l75-69 435 451 432-449z"></path></svg>
+              </span>
+            </div>
+          </div>
+          <div class="accordian-field-area">
+            <div class="filter-panel">
+              <ul class="filter-parent-list">
+                <% @classifications.each do |classification| %>
+                  <li class="filter-parent-list-item">
+                    <div class="custom-checkbox">
+                      <%= check_box_tag 'parent[]', classification.id, checked_parent(classification.id), id: "parent_#{classification.id}", class: 'parent', data: {name: classification.name} %>
+                      <label for="parent_<%= classification.id %>"><%= classification.name %></label>
+                      <% if classification.sub_classifications.present? %>
+                        <ul class="filter-child-list">
+                          <li class="filter-child-list-item">
+                            <div class="custom-checkbox">
+                              <%= check_box_tag "all[]", 'all', false, id: "all_#{classification.id}", data: { id: classification.id } %>
+                              <label for="all_<%= classification.id %>"> All <%= classification.name %></label>
+                            </div>
+                          </li>
+                          <% classification.sub_classifications.each do |sc| %>
+                            <li class="filter-child-list-item">
+                              <div class="custom-checkbox">
+                                <%= check_box_tag 'child[]', sc.id, checked_child(sc.id), id: "child_#{sc.id}", class: "checkbox_#{classification.id}" %>
+                                <label for="child_<%= sc.id %>"><%= sc.name%></label>
+                              </div>
+                            </li>
+                          <% end %>
+                        </ul>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <%= text_field_tag "location", params[:location], placeholder: "Enter suburb, city, or region", class: 'location-field', id: "searchTextField", onFocus: "initializeAutocomplete()" %>
+        <input type="hidden" name="latitude" id="latitude" value="" >
+        <input type="hidden" name="longitude" id="longitude" value="" >
+        <input type="hidden" name="city" id="city" value="" >
+        <%= submit_tag "Search", class: "search-btn" %>
       </div>
+    </div>
   </div>
-
-</div>
+<script type="text/javascript">
+  $('.accordian-drop-btn').click(function(e) {
+    $('.accordian-field-area').toggle();
+  })
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".accordian-field-area, .accordian-drop-btn").length) {
+      $("body").find(".accordian-field-area").hide();
+    }
+  });
+  // function initialize() {
+  //   var input = document.getElementById('searchTextField');
+  //   new google.maps.places.Autocomplete(input);
+  // }
+  // google.maps.event.addDomListener(window, 'load', initialize);
+  function initializeAutocomplete(){
+    var input = document.getElementById('searchTextField');
+    // var options = {
+    //   types: ['(regions)'],
+    //   componentRestrictions: {country: "IN"}
+    // };
+    var options = {}
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      var place = autocomplete.getPlace();
+      var lat = place.geometry.location.lat();
+      var lng = place.geometry.location.lng();
+      $("#city").val(place.name);
+      $("#latitude").val(lat);
+      $("#longitude").val(lng);
+    });
+  }
+  $(function() {
+    $("input[type='checkbox']").change(function () {
+        noOfSelect = $('.parent:checkbox:checked').length
+        if(noOfSelect == 0)
+          $('#select-classification').text('Any Classification')
+        else if(noOfSelect == 1)
+          $('#select-classification').text($('.parent:checkbox:checked').attr("data-name"))
+        else
+          $('#select-classification').text(noOfSelect + " Classifications")
+      if(!this.checked)
+        $(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+    });
+    $("#all_1").change(function(){
+      id = $(this).attr("data-id")
+      $('.checkbox_'+id).prop('checked', this.checked);
+    })
+  });
+  $( function() {
+    $( "#keyword_search" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "/home/keyword_search",
+          dataType: "json",
+          data: {
+            term: request.term
+          },
+          success: function( data ) {
+            response( $.map( data, function(item) {
+              return {
+                label: item[1],
+                value: item[1]
+              }
+            }));
+          }
+        } );
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+      }
+    } );
+  } );
+  </script>

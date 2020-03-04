@@ -1,0 +1,20 @@
+<div class="reservation-order-box">
+  <div class="sub-title18"><b><%= @transaction.hirer.name %> requested to hire <%= @listing.name %></b></div>
+  <br>
+  <div>Respond promptly to maintain your response rate. You
+  can confirm their hiring request by accepting their
+  request. Send messages if you have any further
+  questions.</div>
+  <br>
+  <div class="btn-box">
+    <%= link_to "Accept", "javascript:;", class: "modal-orange-btn", data: {toggle: "modal", target: "#accept-reservation-popup" } %>
+
+    <%= link_to "Decline", "javascript:;", class: "modal-white-btn", data: {toggle: "modal", target: "#decline-reservation-step-1-popup" } %>
+  </div>
+
+  <!-- popup -->
+  <%= render partial: "inboxes/accept-reservation-popup" %>
+  <%= render partial: "inboxes/decline-reservation-step-1-popup" %>
+  <%= render partial: "inboxes/decline-reservation-step-2-popup" %>
+  <!-- popup -->
+</div>

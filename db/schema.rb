@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_110515) do
+ActiveRecord::Schema.define(version: 2020_01_09_093755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,37 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.integer "post_code"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_addresses_on_transaction_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer "day"
+    t.time "start_time"
+    t.time "end_time"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "booking_date"
+    t.index ["transaction_id"], name: "index_bookings_on_transaction_id"
+  end
+
+  create_table "cancellation_policies", force: :cascade do |t|
+    t.integer "pending_state_cancellation_hours", default: 0
+    t.integer "accepted_state_cancellation_hours", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "classifications", force: :cascade do |t|
     t.integer "parent_classification_id"
     t.string "name"
@@ -55,6 +86,16 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.string "contact_no"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer "receiver_id"
+    t.integer "sender_id"
+    t.integer "employee_listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "read", default: false
+    t.integer "transaction_id"
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -100,12 +141,12 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "available_in_holidays", default: false
-    t.decimal "weekday_price"
-    t.decimal "holiday_price"
+    t.decimal "weekday_price", default: "0.0"
+    t.decimal "holiday_price", default: "0.0"
     t.integer "minimum_working_hours"
     t.date "start_publish_date"
     t.date "end_publish_date"
-    t.decimal "weekend_price"
+    t.decimal "weekend_price", default: "0.0"
     t.string "profile_picture_file_name"
     t.string "profile_picture_content_type"
     t.bigint "profile_picture_file_size"
@@ -118,6 +159,19 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.string "verification_back_image_content_type"
     t.bigint "verification_back_image_file_size"
     t.datetime "verification_back_image_updated_at"
+    t.boolean "deactivated", default: false
+    t.integer "deactivation_reason", default: 7
+    t.text "deactivation_feedback"
+    t.float "latitude"
+    t.float "longitude"
+  end
+
+  create_table "employee_skills", force: :cascade do |t|
+    t.string "skill_name"
+    t.bigint "employee_listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_listing_id"], name: "index_employee_skills_on_employee_listing_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -133,7 +187,17 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.bigint "employee_listing_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "not_available", default: false
     t.index ["employee_listing_id"], name: "index_listing_availabilities_on_employee_listing_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "sender_id"
+    t.bigint "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "relevant_documents", force: :cascade do |t|
@@ -151,6 +215,69 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
     t.string "time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stripe_infos", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_customer_id"
+    t.string "stripe_account_id"
+    t.string "last_four_digits"
+    t.string "card_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["user_id"], name: "index_stripe_infos_on_user_id"
+  end
+
+  create_table "stripe_payments", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.string "stripe_charge_id"
+    t.float "amount", default: 0.0
+    t.float "poster_service_fee", default: 0.0
+    t.boolean "capture", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["transaction_id"], name: "index_stripe_payments_on_transaction_id"
+  end
+
+  create_table "tax_details", force: :cascade do |t|
+    t.integer "weekly_earning"
+    t.float "a"
+    t.float "b"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.float "amount"
+    t.bigint "employee_listing_id"
+    t.boolean "status", default: true
+    t.integer "state"
+    t.boolean "is_withholding_tax", default: true
+    t.integer "frequency"
+    t.integer "hirer_id"
+    t.integer "poster_id"
+    t.string "customer_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "tax_withholding_amount"
+    t.float "remaining_amount"
+    t.text "reason"
+    t.integer "weekday_hours"
+    t.integer "weekend_hours"
+    t.integer "total_weekday_hours", default: 0
+    t.integer "total_weekend_hours", default: 0
+    t.integer "probationary_period"
+    t.integer "cancelled_by"
+    t.date "cancelled_at"
+    t.text "decline_reason_by_poster"
+    t.float "adjustment"
+    t.string "request_by"
+    t.integer "old_transaction"
+    t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -179,8 +306,15 @@ ActiveRecord::Schema.define(version: 2019_10_14_110515) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "transactions"
+  add_foreign_key "bookings", "transactions"
   add_foreign_key "employee_listing_slots", "employee_listings"
   add_foreign_key "employee_listing_slots", "slots"
+  add_foreign_key "employee_skills", "employee_listings"
   add_foreign_key "listing_availabilities", "employee_listings"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "relevant_documents", "employee_listings"
+  add_foreign_key "stripe_infos", "users"
+  add_foreign_key "stripe_payments", "transactions"
+  add_foreign_key "transactions", "employee_listings"
 end

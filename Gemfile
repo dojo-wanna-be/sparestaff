@@ -26,7 +26,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -59,6 +59,7 @@ group :development do
   gem 'pry-rails'
   gem 'letter_opener'
   gem 'annotate'
+  gem 'rubocop', require: false
 end
 
 group :test do
@@ -83,3 +84,16 @@ gem 'bootstrap', '~> 4.3.1'
 gem "font-awesome-rails"
 gem 'allow_numeric'
 gem 'tagsinput-rails'
+gem 'stripe'
+gem 'figaro'
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+gem 'paypal-sdk-rest'
+gem 'exception_notification'
+gem 'geocoder'
+gem 'ransack', '~> 2.1'
+#gem 'will_paginate'
+gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-will_paginate'
+
+

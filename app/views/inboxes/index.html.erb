@@ -1,0 +1,37 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="message-container">
+  <select name="Select1" class="selt">
+    <option selected="selected">All Messages (<%= @conversations.count %>)</option>
+    <option>Unread (<%= @conversations.where(read: false).count %>)</option>
+  </select>
+  <div class="inbox_container ">
+    <% @conversations.each do |conversation| %>
+      <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
+        <div class="logo">
+          <%= image_tag 'luca2.jpg', alt: '' %>
+        </div>
+        <div class="day_date">
+          <span><%= conversation.sender.name %></span><br>
+          <span><%= conversation.updated_at.strftime("%d %h %Y") %></span>
+        </div>
+        <div class="notify_msg">
+          <% unless conversation.read? %>
+            <strong><%= conversation&.messages&.last&.content %></strong>
+          <% else %>
+            <span><%= conversation&.messages&.last&.content %></span>
+          <% end %>
+          <p class="sm_text"><%= conversation.employee_listing.title %>, <%= conversation.employee_listing.name %>, <%= conversation.employee_listing.city %> <%= conversation.employee_listing.state %>, <%= conversation.employee_listing.country %></p>
+        </div>
+        <div class="price">
+          <% if  conversation.employee_listing_transaction.present? %>
+            <span class="green"><%conversation.employee_listing_transaction.state%></span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

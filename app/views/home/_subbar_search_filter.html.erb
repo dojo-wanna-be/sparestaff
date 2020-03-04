@@ -1,0 +1,410 @@
+<%= stylesheet_link_tag 'daterangepicker.css'%>
+<%= javascript_include_tag 'daterangepicker.min'%>
+<%= javascript_include_tag 'moment.min'%>
+
+<div class="search_filter-box">
+  <div class="comman-dropdown">
+    <div class="date-dropdown custom-drop-btn">Dates</div>
+    <div class="date-area field-area">
+      <div class="small-text">Select when you want to hire</div>
+      <input type="text" name="daterange" class="daterange-input" value="" />
+      <%= hidden_field_tag "start_date", '' %>
+      <%= hidden_field_tag "end_date", '' %>
+    </div>
+  </div>
+
+  
+  <div class="comman-dropdown">
+    <div class="work_type-dropdown custom-drop-btn">Work types</div>
+    <div class="work_type-area field-area">
+      <div class="checkbox-filter">
+        <div class="checkbox-field-box">
+          <%= check_box_tag 'slot[]', '1', false, class: "custom-input work_type"%>
+          <label for="checkbox1" class="custom-label">Full time</label>
+        </div>
+        <div class="checkbox-field-box">
+          <%= check_box_tag 'slot[]', '2', false, class: "custom-input work_type"%>
+          <label for="checkbox2" class="custom-label">Part time</label>
+        </div>
+        <div class="checkbox-field-box">
+          <%= check_box_tag 'slot[]', '3', false, class: "custom-input work_type"%>
+          <label for="checkbox3" class="custom-label">Casual</label>
+        </div>
+      </div>
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link work_type_filter' %>
+        <%= submit_tag "Apply", class: "filter-link", id: "work_type_submit"%>
+      </div>
+    </div>
+  </div>
+  
+  <div class="comman-dropdown">
+    <div class="price-dropdown custom-drop-btn">Price</div>
+    <div class="price-area field-area">
+      <div class="price-filter">
+        <div class="price-filter-select-row">
+          <div>Minimum hourly rate</div>
+          <%= select_tag :minimum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
+        </div>
+        <div class="price-filter-select-row">
+          <div>Maximum hourly rate</div>
+          <%= select_tag :maximum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
+        </div>
+      </div>
+      <p id="price_error" class="global_error"></p>
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link reset_price_filter' %>
+        <%= submit_tag "Apply", class: "filter-link price_submit_btn" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="comman-dropdown">
+    <div class="more_filter-dropdown custom-drop-btn">More filters</div>
+    <div class="more_filter-area field-area">
+      <div class="small-text">Please select all that is required then Apply</div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Residency status</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'residency_status[]', 'Permanent Resident/Citizen', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Permanent resident/Citizen</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'residency_status[]', 'Family/Partner Visa', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Family/Partner Visa</label>
+          </div>
+        </div>
+
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'residency_status[]', 'Student Visa', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Student Visa</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'residency_status[]', 'Other Visas', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Other Visas</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Gender</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'gender[]', 'male', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Male</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'gender[]', 'female', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Female</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Required to have own vehicle?</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'has_vehicle[]', true, false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Required</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'has_vehicle[]', false, false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Not required</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Age</h6>
+        <div class="filters_list-item select-filter-item">
+          <div class="filter-item">
+            <label class="filter-label">Minimum</label>
+            <%= select_tag 'minimun_age', options_for_select(EmployeeListing::AGE), {include_blank: 'Select Any', class: 'filter-min-max-select more_filter'} %>
+          </div>
+          <div class="filter-item">
+            <label class="filter-label">Maximum</label>
+            <%= select_tag 'maximun_age', options_for_select(EmployeeListing::AGE), {include_blank: 'Select Any', class: 'filter-min-max-select more_filter'}  %>
+          </div>
+        </div>
+        <p id="age_error" class="global_error"></p>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Must have photos?</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'profile_picture[photo_required]', true, false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Required</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'profile_picture[not_required]', false, false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Not required</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Availability</h6>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'monday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Monday</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'friday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Friday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'tuesday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Tuesday</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'saturday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Saturday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'wednesday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Wednesday</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'sunday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Sunday</label>
+          </div>
+        </div>
+        <div class="filters_list-item">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'thursday', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Thursday</label>
+          </div>
+          <div class="filter-item">
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="filters_list">
+        <h6 class="filter-list-heading">Language</h6>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'English', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">English</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Hindi', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Hindi</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Korean', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Korean</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Thai', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Thai</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Chinese Mandarin', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Chinese-mandarin</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'French', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">French</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Russian', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Russian</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'language[]', 'Vietnamese', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Vietnamese</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Chinese Cantonese', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Chinese-cantonese</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Dutch', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Dutch</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'German', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">German</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Burmese', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Burmese</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Spanish', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Spanish</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Italian', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Italian</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Portugese', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Portugese</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Indonesian', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Indonesian</label>
+          </div>
+        </div>
+        <div class="filters_list-item filters_list-item-language">
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Arabic', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Arabic</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Japanese', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Japanese</label>
+          </div>
+          <div class="filter-item">
+            <%= check_box_tag 'availability[]', 'Turkish', false, class: "filter-checkbox more_filter"%>
+            <label class="filter-label">Turkish</label>
+          </div>
+          <div class="filter-item">
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link reset_more_filter' %>
+        <%= submit_tag "Apply", class: "filter-link more_filter_btn" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $(function() {
+    $('input[name="daterange"]').daterangepicker({
+      opens: 'left',
+      startDate: new Date(),
+      locale: { format: "DD/MM/YYYY" },
+    }, function(start, end, label) {
+      $('#start_date').val(start.format('DD/MM/YYYY'))
+      $('#end_date').val(end.format('DD/MM/YYYY'))
+      var elem = document.getElementById('search_form')
+      Rails.fire(elem, 'submit');
+      $(".search_form").submit();
+      // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    });
+  });
+
+  $('.work_type_filter').click(function(e) {
+    $('.work_type').prop('checked', false);
+    var elem = document.getElementById('search_form');
+    Rails.fire(elem, 'submit');
+  });
+  
+  $('.reset_price_filter').click(function(e) {
+    $('#minimum_rate').prop('selectedIndex',0);
+    $('#maximum_rate').prop('selectedIndex',0);
+    var elem = document.getElementById('search_form');
+    Rails.fire(elem, 'submit');
+  });
+
+  $('#minimum_rate, #maximum_rate').change(function(e){
+    if($('#minimum_rate').val() != "" && $('#maximum_rate').val() != ""){
+      if(parseInt($('#minimum_rate').val()) >= parseInt($('#maximum_rate').val())){
+        $("#price_error").html("Minimum rate must be greater")
+        $(".price_submit_btn").attr('disabled', true)
+      }
+      else{
+        $("#price_error").html("")
+        $(".price_submit_btn").attr('disabled', false)
+      }
+    }
+    else if($('#minimum_rate').val() == ""){
+      $("#price_error").html("")
+      $(".price_submit_btn").attr('disabled', false)
+    }
+  });
+
+  $('#minimun_age, #maximun_age').change(function(e){
+    if($('#minimun_age').val() != "" && $('#maximun_age').val() != ""){
+      if(parseInt($('#minimun_age').val()) >= parseInt($('#maximun_age').val())){
+        $("#age_error").html("Minimum age must be greater")
+        $(".more_filter_btn").attr('disabled', true)
+      }
+      else{
+        $("#age_error").html("")
+        $(".more_filter_btn").attr('disabled', false)
+      }
+    }
+    else if($('#minimun_age').val() == ""){
+      $("#age_error").html("")
+      $(".more_filter_btn").attr('disabled', false)
+    }
+  });
+
+  $('.reset_more_filter').click(function(e) {
+    $('.more_filter').prop('checked', false);
+    $('#minimun_age').prop('selectedIndex',0);
+    $('#maximun_age').prop('selectedIndex',0);
+    var elem = document.getElementById('search_form');
+    Rails.fire(elem, 'submit');
+  })
+
+  $('.date-dropdown').click(function(e) {
+    $('.date-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".date-area, .date-dropdown").length) {
+      $("body").find(".date-area").hide();
+    }
+  });
+
+  $('.work_type-dropdown, #work_type_submit').click(function(e) {
+    $('.work_type-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".work_type-area, .work_type-dropdown").length) {
+      $("body").find(".work_type-area").hide();
+    }
+  });
+
+  $('.price-dropdown, .price_submit_btn').click(function(e) {
+    $('.price-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".price-area, .price-dropdown").length) {
+      $("body").find(".price-area").hide();
+    }
+  });
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".instant_hire-area, .instant_hire-dropdown").length) {
+      $("body").find(".instant_hire-area").hide();
+    }
+  });
+
+  $('.more_filter-dropdown, .more_filter_btn').click(function(e) {
+    $('.more_filter-area').toggle();
+  })
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest(".more_filter-area, .more_filter-dropdown").length) {
+      $("body").find(".more_filter-area").hide();
+    }
+  });
+</script>
+</script>

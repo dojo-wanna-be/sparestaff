@@ -1,0 +1,159 @@
+<link rel="stylesheet" type="text/css" href="http://safemode.com.au/fonts/CircularStdBook.svg#CircularStdBook">
+
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+ <table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <br />
+      <h1 style="color:#484848;">Your request was sent</h1>
+      <p style="color: #484848;">This is not a confirmed hiring. You'll get a response within 48 hours.</p><br />
+      <br />
+      <table style="width: 500px">
+        <tr>
+          <td style="width: 50%; color:#484848;"><%= @listing.name %><br />
+            <%= @listing.title %>
+          </td>
+          <td>
+            <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight"  style="width:200px; float:right;"/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+            <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 300px; color:#484848;"><strong>From</strong><br />
+            <%= @transaction.start_date.strftime("%A %b %d, %Y") %>
+          </td>
+          <td style="text-align: right; color:#484848;"><strong>To</strong><br />
+            <%= @transaction.end_date.strftime("%A %b %d, %Y") %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+             <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="color:#484848;">You won't be charged until your hiring is 
+            confirmed
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+             <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table class="ButtonOrange" align="center" style="background-color: #F15927; border-radius: 3px; height: 40px; width:180px;margin-bottom:5px;">
+              <tr>
+                <td style="text-align: center">
+                  <a class="WhiteLink12pt" href="<%= hirings_url %>" style=" color: #fff; text-decoration: none;">View Your Hiring</a>
+              </tr>
+            </table>
+            <br />
+            <table class="GreyBorder" align="center" style="width: 180px; height: 50px; border: 1px;border-color: #C0C0C0; border-style: solid;">
+              <tr>
+                <td style="text-align: center">
+                  <a class="OrangeLink12ptNoUnderline" href="<%= inbox_url(id: @transaction.id) %>" style="color:#f15927;font-size:12pt; text-decoration: none;">Cancel Request</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+            <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 300px; color:#484848;">Total weekly payment</td>
+          <td style="text-align: right; color:#484848;"><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+             <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 300px; color:#484848;">
+            <h4><%= @poster.name %> is Poster</h4>
+            Contact <%= @poster.name %> for further coordination.
+          </td>
+          <td>
+            <img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg"  class="Image200pxRight" style="width:200px; float: right;"/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+             <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h4 style="color:#484848;"> Customer support&nbsp;</h4>
+            <p><a href="https://www.sparestaff.com.au/help" class="Visit">Visit Help 
+              Center</a>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 300px">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+      <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

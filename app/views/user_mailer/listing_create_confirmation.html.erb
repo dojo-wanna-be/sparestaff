@@ -32,7 +32,7 @@
         <table style="width: 180px; height: 50px; background-color: #F15927">
           <tr>
             <td style="text-align: center">
-              <%= link_to 'Manage your listing', "javascript:;", style: "font-size:12pt; color:white;" %>
+              <%= link_to 'Manage your listing', edit_employee_url(@listing.id), style: "font-size:12pt; color:white;" %>
             </td>
           </tr>
         </table>
@@ -43,7 +43,7 @@
         These details are not shared to the public and only shared to Hirer
         after you have accepted a hiring request.<br />
         <br />
-        <a href="javascript:;">
+        <a href="<%= edit_employee_url(@listing.id) %>">
         Add TFN &amp; Photo ID</a><br />
         <br />
         <strong>Add more photos.</strong> Employees represent companies and
@@ -51,7 +51,7 @@
         first impression with a great professional photo to significantly
         increase your chance of getting a hiring request.<br />
         <br />
-        <a href="javascript:;">
+        <a href="<%= edit_employee_url(@listing.id) %>">
         Add photos</a><br />
 
         <br />

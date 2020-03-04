@@ -1,5 +1,6 @@
 class EmployeeListingsController < ApplicationController
-  before_action :authenticate_user!
+  include EmployeeListingsHelper
+
   before_action :find_listing, only: [:new_listing_step_2,
                                       :create_listing_step_2,
                                       :new_listing_step_3,
@@ -18,9 +19,15 @@ class EmployeeListingsController < ApplicationController
                                       :edit,
                                       :update,
                                       # :request_to_hire,
-                                      :listing_deactivation]
+                                      :user_dashboard,
+                                      :listing_deactivation
+                                    ]
 
   before_action :find_company, only: [:create_listing_step_2]
+  skip_before_action :authenticate_user!, only: [:show]
+
+  def user_dashboard
+  end
 
   def getting_started
   end
@@ -31,11 +38,17 @@ class EmployeeListingsController < ApplicationController
     # elsif current_user.is_individual?
     #   @employee_listing = current_user.employee_listings
     # end
-    company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings : []
-    individual_listings = current_user.employee_listings.present? ? current_user.employee_listings : []
+    published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true, deactivated: false) : []
+    published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.published : []
 
-    @employee_listings = company_listings + individual_listings
-    @employee_listings = @employee_listings.sort_by{|e| e[:updated_at]}.reverse
+    published_employee_listings = published_company_listings + published_individual_listings
+    @published_listings = published_employee_listings.sort_by{|e| e[:updated_at]}.reverse
+
+    unpublished_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: false) : []
+    unpublished_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.unpublished : []
+
+    unpublished_employee_listings = unpublished_company_listings + unpublished_individual_listings
+    @unpublished_listings = unpublished_employee_listings.sort_by{|e| e[:updated_at]}.reverse
   end
 
   def new_listing_step_1
@@ -251,19 +264,43 @@ class EmployeeListingsController < ApplicationController
       if @employee_listing.published?
         user_admin = User.where(is_admin: true)
         if user_admin.present?
-          UserMailer.admin_listing_confirmation(user_admin).deliver!
+          UserMailer.admin_listing_confirmation(user_admin).deliver_later!
         end
 
         if @employee_listing.tfn.blank? || (@employee_listing.verification_front_image.blank? && @employee_listing.verification_back_image.blank?)
-          UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver!
+          UserMailer.tfn_and_photo_verification(current_user, @employee_listing).deliver_later!
         end
 
-        UserMailer.listing_create_confirmation(current_user).deliver!
+        UserMailer.listing_create_confirmation(current_user, @employee_listing).deliver_later!
       end
     end
   end
 
   def show
+    @user = current_user ? current_user : User.new
+    unless @employee_listing.published?
+      flash[:error] = "Please publish this listing first"
+      if @employee_listing.listing_step < 6
+        redirect_to "/employee/#{@employee_listing.id}/step_#{@employee_listing.listing_step}"
+      else
+        redirect_to preview_employee_path(id: @employee_listing.id)
+      end
+    else
+      @start_date = @employee_listing.start_publish_date > Date.today ? @employee_listing.start_publish_date : Date.today
+      @end_date = @start_date
+
+      transactions = @employee_listing
+                    .transactions
+                    .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
+      
+      transaction_ids = transactions.pluck(:id)
+      bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      @disabled_time = unavailable_time_slots(bookings)
+
+      @transaction = @employee_listing.transactions.build
+      @avalibilities = @employee_listing.listing_availabilities
+      @slots = @employee_listing.slots.pluck(:time_slot).to_sentence
+    end
   end
 
   def edit
@@ -511,8 +548,16 @@ class EmployeeListingsController < ApplicationController
     )
   end
 
+  def deactivated
+    if @employee_listing.deactivated?
+      flash[:error] = "This listing is deactivated"
+      redirect_to root_path
+    end
+  end
+
   def find_listing
     @employee_listing = EmployeeListing.find(params[:id])
+    deactivated
     rescue Exception
       flash[:error] = "Couldn't find the Record"
       redirect_to employee_index_path

@@ -1,0 +1,193 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="reservation-section">
+  <div class="inner-reservation-section">
+    <div class="left-reservation-panel">
+      <ul class="panel-list">
+        <li class="panel-item">
+          <%= link_to "Your Listings", employee_index_path, id: "YourListingsLeftMenu", class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Your Reservations", reservations_path, class: 'panel-link selected-panel' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Add New Listing", step_1_employee_index_path, class: 'listing-btn' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right-reservation-panel">
+      <div class="reservation-box">
+        <div class="right-panel-header">Upcoming Reservations</div>
+        <div class="reservation-list-box">
+          <div class="reservation-list">
+            <div class="list-box one"><b>Status</b></div>
+            <div class="list-box two"><b>Dates, Hours, Location</b></div>
+            <div class="list-box three"><b>Hired Employee</b></div>
+            <div class="list-box four"><b>Hirer</b></div>
+            <div class="list-box five"><b>Details</b></div>
+          </div>
+
+          <% @posted_listing_transactions.each do |transaction| %>
+            <div class="reservation-list">
+              <% if transaction.state.eql?("accepted") %>
+                <div class="list-box one"><span class="green-text">Accepted</span></div>
+              <% elsif transaction.state.eql?("created") %>
+                <div class="list-box one"><span class="orange-text">Pending</span></div>
+              <% elsif transaction.state.eql?("rejected") %>
+                <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+              <% elsif transaction.state.eql?("cancelled") %>
+                <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
+              <% end %>
+              <div class="list-box two">
+                <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
+                <%= transaction.hirer.company.address_1 %> <br>
+                <%= "#{transaction.hirer.company.city} #{transaction.hirer.company.state} #{transaction.hirer.company.post_code}" %>
+              </div>
+              <div class="list-box three">
+                <div class="image-box">
+                  <div class="user-image">
+                    <% if transaction.employee_listing.profile_picture.present? %>
+                      <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                    <% else %>
+                      <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                    <% end %>
+                  </div>
+                  <div class="user-detail">
+                    <b><%= transaction.employee_listing.title %></b><br>
+                    <%= transaction.employee_listing.name %>
+                  </div>
+                </div>
+              </div>
+              <div class="list-box four">
+                <div class="image-box">
+                  <div class="user-image">
+                    <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                  </div>
+                  <div class="user-detail">
+                    <b><%= transaction.hirer.name %></b><br>
+                    <% if transaction.state.eql?("accepted") %>
+                      Contact: <%= transaction.hirer.company.name %><br>
+                      <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                      <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{3})(\d{3})$/)}" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="list-box five">
+                <div>
+                  <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
+                </div>
+                <% if transaction.state.eql?("accepted") %>
+                  <div>
+                    <%= link_to 'Print confirmation', reservation_path(id: transaction.id), class: 'orange-text' %>
+                  </div>
+                  <div>
+                    <%= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>
+                  </div>
+                <% end %>
+                <div>
+                  <%= link_to 'Message history', 'javascript:;', class: 'orange-text' %>
+                </div>
+                <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
+                  <div>
+                    <%= link_to 'View invoices', 'javascript:;', class: 'orange-text' %>
+                    <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
+                  </div>
+                <% end %>
+                <% if transaction.state.eql?("created") %>
+                  <div>
+                    <%= link_to 'Accept or Decline', inbox_path(id: transaction.conversation&.id), class: 'orange-text' %>
+                  </div>
+                <% end %>
+                <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
+                  <div>
+                    <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
+                    <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @completed_listing_transactions.present? %>
+        <div class="reservation-box">
+          <div class="right-panel-header">Past Reservations</div>
+          <div class="reservation-list-box">
+            <div class="reservation-list">
+              <div class="list-box one"><b>Status</b></div>
+              <div class="list-box two"><b>Dates, Hours, Location</b></div>
+              <div class="list-box three"><b>Hired Employee</b></div>
+              <div class="list-box four"><b>Hirer</b></div>
+              <div class="list-box five"><b>Details</b></div>
+            </div>
+
+            <% @completed_listing_transactions.each do |transaction| %>
+              <div class="reservation-list">
+                <% if transaction.state.eql?("completed") %>
+                  <div class="list-box one"><span class="">Completed</span></div>
+                <% elsif transaction.state.eql?("expired") %>
+                  <div class="list-box one"><span class="orange-text">Expired</span></div>
+                <% elsif transaction.state.eql?("rejected") %>
+                  <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+                <% elsif transaction.state.eql?("cancelled") %>
+                  <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
+                <% end %>
+                <div class="list-box two">
+                  <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                  <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
+                  <%= transaction.hirer.company.address_1 %> <br>
+                  <%= "#{transaction.hirer.company.city} #{transaction.hirer.company.state} #{transaction.hirer.company.post_code}" %>
+                </div>
+                <div class="list-box three">
+                  <div class="image-box">
+                    <div class="user-image">
+                      <% if transaction.employee_listing.profile_picture.present? %>
+                        <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                      <% else %>
+                        <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                      <% end %>
+                    </div>
+                    <div class="user-detail">
+                      <b><%= transaction.employee_listing.title %></b><br>
+                      <%= transaction.employee_listing.name %>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-box four">
+                  <div class="image-box">
+                    <div class="user-image">
+                      <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                    </div>
+                    <div class="user-detail">
+                      <b><%= transaction.hirer.name %></b><br>
+                      Contact: <%= transaction.hirer.company.name %><br>
+                      <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                      <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-box five">
+                  <div>
+                    <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
+                  </div>
+                  <div>
+                    <%= link_to 'Message history', 'javascript:;', class: 'orange-text' %>
+                  </div>
+                  <div>
+                    <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

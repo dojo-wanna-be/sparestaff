@@ -1,0 +1,48 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+ </style>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <table style="width: 500px; padding-left: 80px;">
+      <tr>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <% if Rails.env == "staging" %>
+            <%= image_tag "https://staging.sparestaff.com.au/assets/logo.png", height: "30px", alt: "" %>
+          <% else %>
+            <%= image_tag "https://sparestaff.com.au/assets/logo.png", width: "60", height: "30px", alt: "" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td style="color: #484848;"><br />
+        You have received following details.<br />
+        <br />
+
+        <br />
+        <br />
+        The Spare Staff Team <br />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </body>
+</html>

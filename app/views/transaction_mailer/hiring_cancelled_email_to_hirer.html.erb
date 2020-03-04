@@ -1,0 +1,86 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+   
+  </style>
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <a href="https://www.sparestaff.com.au/">
+    <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color: #484848;">Hiring Cancelled</h1>
+    <br />
+    <table style="width: 500px;">
+      <tr>
+        <td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td style="text-align: right">
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+       </td>
+      </tr>
+      <tr>
+        <td style="width: 50%; color: #484848;"><strong>From</strong><br />
+        <%= @transaction.start_date.strftime("%d %b %Y") %></td>
+        <td style="text-align: right; color: #484848;">
+        <strong>To</strong><br />
+        <%= @transaction.end_date.strftime("%d %b %Y") %></td>
+      </tr>
+      </table>
+    <h3 style="color: #484848;">Refund Details</h3>
+    <table style="width: 500px;">
+      <tr>
+        <td style="color: #484848;">The refund will be issued to your original payment method 
+        automatically. Please allow 3-5 business days for the refund to 
+        be cleared by financial institutions.</td>
+      </tr>
+      </table>
+    <br />
+    <table style="width: 500px;height: 50px;border: 1px; border-color: #C0C0C0;border-style: solid;" class="GreyBorder" cellpadding="15px">
+      <tr style="height: 23px;">
+        <td style="width: 50%; color: #484848;padding: 0;width: 50%;border-bottom: 1px solid #c0c0c0;
+    border-right: 1px solid #c0c0c0;" class="GreyBorderNoSize">Total Fee</td>
+
+        <td style="text-align: right; color: #484848;text-align: right;padding: 0;width: 50%;border-bottom: 1px solid #c0c0c0;" class="GreyBorderNoSize">
+        <%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></td>
+      </tr>
+      <tr style="height: 23px;">
+        <td style="width: 50%;color: #484848;width: 50%;padding: 0;border-bottom: 1px solid #c0c0c0;
+       border-right: 1px solid #c0c0c0;" class="GreyBorderNoSize">Service Fee</td>
+        
+        <td style="text-align: right; color: #484848;text-align: right;width: 50%;border-bottom: 1px solid #c0c0c0; padding: 0;" class="GreyBorderNoSize">
+        <%= "-$#{@transaction.service_fee.round(2)}" %></td>
+      </tr>
+      <tr style="height: 23px;">
+        <td style="width: 50%; color: #484848;width: 50%;padding: 0; border-right: 1px solid #c0c0c0;" class="GreyBorderNoSize"><strong>Total 
+        Refund</strong></td>
+
+        <td style="text-align: right; color: #484848;text-align: right; padding: 0;" class="GreyBorderNoSize">
+        <strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
+      </tr>
+      </table>
+    &nbsp;<br />
+&nbsp;<br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

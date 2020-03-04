@@ -1,0 +1,235 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+  .view_hiring:link{
+    text-decoration: none;       
+  }
+
+  .view_hiring:visited{ 
+    text-decoration: none;         
+  }
+
+  .view_hiring:hover{
+    text-decoration: underline;
+  }
+  .send_message:link{
+    text-decoration: none;       
+  }
+
+  .send_message:visited{ 
+    text-decoration: none;         
+  }
+
+  .send_message:hover{
+    text-decoration: underline;
+  }
+
+  .learn_more:link{
+  	text-decoration: none;
+  	color:#f15927;
+  }
+  .learn_more:visited{
+  	text-decoration: none;
+  	color:#f15927;
+  }
+  .learn_more:hover{
+  	text-decoration: underline;
+  	color:#f15927;
+  }
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-au" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Employee hire confirmed for <%= @listing.name %></title>
+<link href="../sparestaff.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<table class="Padding80px" style="width: 100%">
+	<tr>
+		<td>&nbsp;&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+	</tr>
+	<tr>
+		<td><br />
+		<h1 style="color: #484848;">Your listed employee is hired!</h1>
+		<p style="color: #484848;">Work starts <%= @transaction.start_date.strftime("%b %d, %Y") %></p>
+		<table style="width: 550px">
+			<tr>
+				<td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+				<%= @listing.title %></td>
+				<td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;"><strong>From</strong><br />
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+				<td style="text-align: right; color: #484848;"><strong>To</strong><br />
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<%= link_to "View Your Hirings", hirings_url, class: 'view_hiring' ,style: 'color:#fff' %></td>
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">
+				<h4 style="color: #484848;">Weekly payout</h4>
+				</td>
+				<td style="text-align: right">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 300px;color: #484848;">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></td>
+				<td style="text-align: right; color: #484848;">$<%= @listing.weekday_price * @transaction.weekday_hours %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %> </td>
+				<td style="text-align: right; color: $484848;">$<%= @listing.weekend_price * @transaction.weekend_hours %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;">Tax withholding</td>
+				<td style="text-align: right; color: #484848;">-$<%= @transaction.tax_withholding_amount.round(2) %></td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;">Service fee</td>
+				<td style="text-align: right; color: #484848;">-$<%= @transaction.poster_service_fee.round(2) %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br/>
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;"><strong>Your weekly earning</strong></td>
+				<td style="text-align: right; font-size: 14pt; color: #484848;"><strong>$<%= @transaction.poster_weekly_amount %></strong></td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;"><strong>Total employment contract 
+				earning</strong></td>
+				<td style="text-align: right; font-size: 14pt; color: #484848;"><strong>$<%= @transaction.poster_total_amount.round(2) %></strong></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="color: #484848;"><p>7 days after employment contract starts, the 
+				payment method you supplied will be
+				credited. For details, see your transaction history.</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="color: #484848;">
+				<h4>Cancellation fee</h4>
+				<p>Penalty applies if you cancel this contract.<br />
+				<a href="#" class="learn_more">Learn more</a></p></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;">
+				<h4><%= @hirer.name %> is Hirer</h4>
+				Contact <%= @hirer.name %> for further coordination.</td>
+				<td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<a href="#" class="send_message" style="color: #fff;">
+				Send message</a></td>
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+            </td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<h4 style="color: #484848;">Customer support&nbsp;</h4>
+				<p><a href="https://www.sparestaff.com.au/help" class="Visit">Visit Help 
+				Center</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+
+</table>
+
+</body>
+
+</html>

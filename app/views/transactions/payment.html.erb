@@ -1,0 +1,58 @@
+
+<div class="request_hire-section">
+  <div class="comman-inner-both">
+    <div class="left_request_section">
+      <%= render partial: "payment_steps_header" %>
+
+      <div class="confirm_and_pay">
+        <h1 class="main-heading">Confirm and payment</h1>
+        <p>You won't be charged until <%= @employee_listing.poster.name %> has accepted your hiring request. <%= @employee_listing.poster.name %> has 48 hours to respond to your request.</p>
+        <div class="request-form-box">
+          <div class="custom-field-box">
+
+            <div class="custom-input-group">
+              <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
+              <%= select_tag "payment_mode", options_for_select([["Credit Card", "credit_card"], ["PayPal", "paypal"]]), class: "custom-field" %>
+            </div>
+
+            <div class="credit_card_detail">
+              <%= render partial: "credit_card_detail" %>
+            </div>
+
+            <div class="login_paypal_box">
+              <%= render partial: "login_paypal_box" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= render partial: "right_listing_details" %>
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright', class: 'spare-link'%>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#payment_mode").change(function () {
+    var payment_mode = $(this).val();
+    if (payment_mode === "credit_card"){
+      $(".credit_card_detail").show();
+      $(".login_paypal_box").hide();
+    }else{
+      $(".credit_card_detail").hide();
+      $(".login_paypal_box").show();
+    }
+  });
+</script>
+
+<style type="text/css">
+  .login_paypal_box{
+    display: none;
+  }
+</style>
+

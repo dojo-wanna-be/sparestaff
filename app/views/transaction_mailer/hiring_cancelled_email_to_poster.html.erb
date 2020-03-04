@@ -1,0 +1,55 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+</style>
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <a href="https://www.sparestaff.com.au/">
+    <img alt="" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+  </tr>
+  <tr>
+    <td><br />
+    <table style="width: 800px">
+      <tr>
+        <td style="color: #484848; font-size: 13.5pt;">Hi <%= @poster.name %>,<br />
+        <br />
+        We regret to inform you that your Hirer - <%= @hirer.name %> cancelled 
+        hiring 
+        for <%= @listing.name %> from <%= @transaction.start_date.strftime("%d-%b-%Y") %> to <%= @transaction.end_date.strftime("%d-%b-%Y") %>. Per your cancellation 
+    policy, your payout
+    has been updated to $0.00 AUD. The Hirer was refunded.<br />
+        <br />
+    This payout will be released 24 hours after the contract start date. You can 
+    review the
+    updated payout in your Transaction History.<br />
+        <br />
+    Your calendar has also been updated to show that the previously booked 
+    dates are
+    now available.<br />
+        <br />
+    Regards,<br />
+    The Spare Staff Team<br />
+        <br />
+    P.S. We know getting a cancellation is disappointing. But hirings 
+    rarely get
+    cancelled, so don’t worry, this isn’t likely to happen
+    often!</td>
+      </tr>
+    </table>
+    <br />
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

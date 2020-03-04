@@ -1,0 +1,26 @@
+<div class="hire_an_employee_box">
+  <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+    <%= hidden_field_tag "reason", "I'm uncomfortable dealing with the poster or the employee" %>
+
+    <div class="my-mistake">
+      <div class="title-main">Your Refund Summary</div>
+      <div><b>This listing has cancellation policy</b></div>
+
+      <% unless (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 1 <= Date.today) %>
+        <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
+      <% else %>
+        <div class="under-title">If you cancel now, you'll receive a full refund.</div>
+      <% end %>
+
+      <%= render partial: 'refund_amount' %>
+
+      <div class="custom-label">Tell <%= @transaction.poster.name %> why you need to cancel</div>
+
+      <%= text_area_tag "message_text" %>
+
+      <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
+
+      <div class="small-grey-text">Cancellation is effective immediately</div>
+    </div>
+  <% end %>
+</div>

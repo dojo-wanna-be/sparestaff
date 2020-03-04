@@ -1,0 +1,161 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+   
+  .accept_decline:link{
+    text-decoration: none;       
+  }
+
+  .accept_decline:visited{ 
+    text-decoration: none;         
+  }
+
+  .accept_decline:hover{
+    text-decoration: underline;
+  }
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color: #484848;">Hiring changed by <%= @transaction.hirer.name %></h1>
+    <p style="color: #484848;">The Hirer has changed this hiring.</p>
+    <table style="width: 500px">
+      <tr>
+        <td colspan="2">
+        <table style="width:100%;">
+          <% if @message.present? && @message.content.present? %>
+            <tr>
+              <td style="color: #484848;">
+              <strong>Message from Hirer:</strong><br />
+              <%= @message.content %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td>
+            &nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+            <table style="height:40px; background-color: #E1E1E1; width:100%;">
+              <tr>
+                <td>
+                <h4 style="color: #484848;">&nbsp;&nbsp; Employment Contract</h4>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px; color: #484848;"><strong>From (new date)</strong><br />
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+        <td style="text-align: right; color: #484848;"><strong>To (new date)</strong><br />
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+</td>
+      </tr>
+      <tr>
+        <td style="color: #484848;"><strong>New weekly payout</strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
+      </tr>
+      <tr>
+        <td style="color: #484848;">New employment contract total</td>
+        <td style="text-align: right"><%= "$#{@transaction.total_amount.round(2)}" %></td>
+      </tr>
+      <% if @old_transaction.start_date <= Date.today %>
+        <tr>
+          <td colspan="2" style="color: #484848;">&nbsp;<br />
+            New hiring details will start from next <%= @transaction_time %>. Please contact <%= @transaction.hirer.name %> for any questions.
+          </td>
+        </tr>
+      <% else %>
+        <tr>
+          <td colspan="2" style="color: #484848;">&nbsp;<br />
+          Hiring change takes effect immediately. This hiring has been updated with new details. Please contact <%= @transaction.hirer.name %> for any questions.</td>
+        </tr>
+      <% end %>
+    <% if false %>
+      <tr>
+        <td colspan="2" style="color: #484848;">&nbsp;<br />
+        If you accept the request, we will immediately update the 
+        contract and your new weekly payout will be updated accordingly. If you 
+        choose to decline or don't respond, the contract will remain unchanged.</td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+    <table class="ButtonOrange" align="center" style="background-color:#F15927;width: 180px;
+    height: 40px;border-radius: 3px;">
+      <tr>
+        <td style="text-align: center">
+        <a class="accept_decline" href="<%= inbox_url(id: @transaction.id) %>" style="color: #fff;">Accept or Decline</a></td>
+      </tr>
+    </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+</td>
+      </tr>
+      </table>
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <% end %>
+</table>

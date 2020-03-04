@@ -1,7 +1,8 @@
 class UserMailer < ApplicationMailer
   default :from => "noreply@sparestaff.com.au"
 
-  def listing_create_confirmation(user)
+  def listing_create_confirmation(user, listing)
+    @listing = listing
 		mail(to: user.email, subject: "Congrats, your listing is published!")
   end
 

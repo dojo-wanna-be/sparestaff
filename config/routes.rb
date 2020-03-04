@@ -8,15 +8,23 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
+  resources :stripe_webhook, only: [] do
+    collection do
+      post :handle_stripe_webhook
+    end
+  end
+
   resources :home, :path => "home", :as => "home", only: [] do
     collection do
       get :email_availability
+      get :keyword_search
+      get :search
     end
   end
 
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
-      get :request_to_hire, path: "request_to_hire", as: "request_to_hire"
+      get :user_dashboard
       get :getting_started, path: "getting_started", as: "getting_started"
       get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists
@@ -41,4 +49,72 @@ Rails.application.routes.draw do
       patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
     end
   end
+
+  resources :transactions, only: [:create] do
+    collection do
+      get :check_slot_availability
+    end
+    member do
+      match :initialized, via: [:get, :patch]
+      get :payment
+      patch :request_payment
+      get :request_sent_successfully
+    end
+  end
+
+  resources :hirings, only: [:index, :show] do
+    collection do
+      get :cancelled_successfully
+      patch :send_details
+      get :check_slot_availability
+    end
+    member do
+      patch :accept
+      patch :decline_request
+      patch :decline
+      patch :cancel
+      get :change_or_cancel
+      get :get_receipt
+      get :receipt_details
+      delete :destroy_transaction
+      match :change_hiring, via: [:get, :patch]
+      match :change_hiring_confirmation, via: [:get, :patch]
+      get :changed_successfully
+      match :cancel_hiring, via: [:get, :patch]
+      match :tell_poster, via: [:get, :patch]
+    end
+  end
+
+  resources :reservations, only: [:index, :show] do
+    collection do
+      get :cancelled_successfully
+      get :check_slot_availability
+      get :reservations_view_invoice_list
+      get :write_a_review
+    end
+    member do
+      patch :accept
+      patch :decline_request
+      patch :decline
+      get :change_or_cancel
+      delete :destroy_transaction
+      match :change_reservation, via: [:get, :patch]
+      match :change_reservation_confirmation, via: [:get, :patch]
+      get :changed_successfully
+      match :cancel_reservation, via: [:get, :patch]
+      match :tell_hirer, via: [:get, :patch]
+    end
+  end
+
+  resources :payouts, only: [:create, :index] do
+    collection do
+      get :step_1
+      get :step_2
+      get :stripe_account
+      get :payouts_method
+    end
+  end
+
+  resources :inboxes
+
 end

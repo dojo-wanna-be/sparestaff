@@ -3,26 +3,31 @@
 # Table name: users
 #
 #  id                         :bigint           not null, primary key
-#  email                      :string           default(""), not null
-#  encrypted_password         :string           default(""), not null
-#  reset_password_token       :string
-#  reset_password_sent_at     :datetime
-#  remember_created_at        :datetime
+#  allow_marketing_promotions :boolean          default(FALSE)
+#  confirmation_sent_at       :datetime
 #  confirmation_token         :string
 #  confirmed_at               :datetime
-#  confirmation_sent_at       :datetime
-#  unconfirmed_email          :string
+#  email                      :string           default(""), not null
+#  encrypted_password         :string           default(""), not null
 #  first_name                 :string
+#  is_admin                   :boolean          default(FALSE)
 #  last_name                  :string
-#  company_id                 :integer
-#  user_type                  :integer
-#  allow_marketing_promotions :boolean          default(FALSE)
-#  provider                   :string
-#  uid                        :string
 #  phone_number               :string
+#  provider                   :string
+#  remember_created_at        :datetime
+#  reset_password_sent_at     :datetime
+#  reset_password_token       :string
+#  uid                        :string
+#  unconfirmed_email          :string
+#  user_type                  :integer
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
-#  is_admin                   :boolean          default(FALSE)
+#  company_id                 :integer
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
 class User < ApplicationRecord
@@ -32,7 +37,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
   belongs_to :company, optional: true
-  has_many :employee_listings, as: :lister
+  has_many :employee_listings, as: :lister, dependent: :destroy
+  has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
+  has_many :messages, class_name: "Message", foreign_key: "sender_id"
+  has_one :stripe_info
+
   enum user_type: { owner: 0, hr: 1 }
 
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
@@ -56,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def is_individual?
-    user_type.eql?(nil) && !self.company.present? && self.employee_listings.present?
+    user_type.eql?(nil) && self.company.blank? && self.employee_listings.present?
   end
 
   def is_owner?

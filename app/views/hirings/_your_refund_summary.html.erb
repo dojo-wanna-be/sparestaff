@@ -1,0 +1,20 @@
+<div class="hire_an_employee_box">
+  <%= form_tag cancel_hiring_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
+    <%= hidden_field_tag "reason", "I no longer need to hire an employee" %>
+
+    <div class="FullWidth">
+      <div class="title-main">Your Refund Summary</div>
+      <div><b>This listing has cancellation policy</b></div>
+
+      <% unless (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 1 <= Date.today) %>
+        <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
+      <% else %>
+        <div class="under-title">If you cancel now, you'll receive a full refund.</div>
+      <% end %>
+
+      <%= render partial: 'refund_amount' %>
+
+      <%= submit_tag "Next Step", class: 'continue-btn' %>
+    </div>
+  <% end %>
+</div>

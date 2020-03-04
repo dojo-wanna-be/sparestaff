@@ -1,0 +1,219 @@
+/******CANCEL HIRINGS CSS******/
+
+.cancel-hirings-section {
+  display: flex;
+  flex-direction: column;
+
+  .calculation-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 42px;
+
+    .list-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e4e4e4;
+      height: 42px;
+
+      &:first-child {
+        border-top: 1px solid #e4e4e4;
+      }
+
+      &.grey-list-item {
+        background-color: #f2f2f2;
+      }
+
+      .left-item {
+        padding-left: 20px;
+      }
+
+      .right-item {
+        padding-right: 20px;
+      }
+    }
+  }
+
+  .title-main {
+    font-size: 22px;
+    display: inline-block;
+    padding-bottom: 20px;
+  }
+
+  .continue-btn {
+   // width: 180px !important;
+    height: 40px;
+    margin-top: 22px;
+    border-radius: 3px;
+    background-color: #F15927;
+    border: none;
+    color: #fff !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 0 34px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #d75227;
+    }
+
+    @media screen and (max-width: 767px) {
+      margin-top: 10;
+     // width: 110px;
+    }
+  }
+
+  .main-heading {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 22px 0;
+
+    @media screen and (max-width: 767px) {
+      font-size: 22px;
+    }
+  }
+
+  .comman-heading {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 0 17px;
+  }
+
+  .small-grey-text {
+    font-size: 14px;
+    color: #767676;
+    margin-top: 17px;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 5px;
+    }
+  }
+
+  .sub-title {
+    font-size: 22px;
+    display: inline-block;
+    padding-bottom: 10px;
+  }
+
+  .custom-label {
+    font-size: 18px;
+    display: inline-block;
+    padding-bottom: 5px;
+
+    @media screen and (max-width: 767px) {
+      font-size: 16px;
+    }
+
+    & + #message_text {
+      border: 1px silver solid;
+      font-size: 12pt;
+      color: #484848;
+      padding: 10px;
+      width: 100%;
+      min-height: 112px;
+    }
+  }
+
+  .affect-poster {
+    margin-top: 3px;
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1.5px solid #dce0e0;
+  }
+
+  .custom-area {
+    border: 1px silver solid;
+    font-size: 12pt;
+    color: #484848;
+    padding: 10px;
+  }
+
+  .cancellation_reason {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 38px;
+
+    input {
+      margin: -1px 13px 0px 5px;
+    }
+  }
+
+  /** step ONE **/
+
+  .hire_an_employee_box {
+    margin-top: 50px;
+
+    form {
+      width: 100%;
+
+      .under-title {
+        margin: 23px 0 40px;
+      }
+    }
+  }
+
+  /** CANCEL SUCCESSFULLY**/
+
+  .cancel-successfully {
+    margin-top: 47px;
+
+    .sub-title2 {
+      font-size: 18px;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .grey-text {
+      font-size: 16px;
+      color: #767676;
+      margin-bottom: 50px;
+    }
+  }
+
+  /** STEP TWO **/
+
+  .employee-changed {
+    .affect-poster {
+      margin-top: 45px;
+
+      @media screen and (max-width: 767px) {
+        float: left;
+
+        .continue-btn {
+          margin-top: 15px;
+        }
+      }
+
+      .poster-text {
+        padding-bottom: 17px;
+        border-bottom: 1px solid #e4e4e4;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  /** STEP Four **/
+
+  .circumstance-box {
+    margin-top: 50px;
+
+    .affect-poster {
+      .sub-title {
+        font-size: 18px;
+      }
+    }
+  }
+
+  /** STEP Five **/
+  .need-to-cancel {
+    margin-top: 50px;
+  }
+}
+
+/******CANCEL HIRINGS END CSS******/

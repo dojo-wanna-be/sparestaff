@@ -45,7 +45,7 @@
       }
 
       .logo-list {
-        padding: 0 0 0 48px;
+        padding: 0;
         margin: 0px 0 0 -95px;
         display: flex;
         flex-direction: row;
@@ -54,13 +54,11 @@
         align-items: center;
 
         @media screen and (max-width: 767px) {
-          padding: 0;
           margin: 0;
           flex-direction: column;
           align-items: flex-start;
         }
         @media screen and (min-width: 768px) and (max-width: 1024px) {
-          padding: 0;
           margin: 0;
         }
 
@@ -220,6 +218,12 @@
             @media screen and (max-width: 767px) {
               width: 100%;
             }
+          }
+
+          & + .error {
+            margin: 4px 0 0;
+            color: #ff0000;
+            font-size: 14px;
           }
         }
 
