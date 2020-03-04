@@ -1,10 +1,12 @@
 class HiringMailer < ApplicationMailer
+  include HiringsHelper
   default :from => "noreply@sparestaff.com.au"
 
   def hiring_changed_email_to_hirer(listing, hirer, transaction)
     @listing = listing
     @transaction = transaction
     @old_transaction = Transaction.find_by(id: @transaction.old_transaction)
+    @transaction_time = transaction_time(@old_transaction)
     @hirer = hirer
     mail(to: hirer.email, subject: "Hiring Change confirmation")
   end
@@ -13,6 +15,7 @@ class HiringMailer < ApplicationMailer
     @listing = listing
     @transaction = transaction
     @old_transaction = Transaction.find_by(id: @transaction.old_transaction)
+    @transaction_time = transaction_time(@old_transaction)
     @poster = poster
     @message = message
     mail(to: poster.email, subject: "Hiring changed by Hirer")

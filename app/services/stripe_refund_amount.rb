@@ -52,9 +52,9 @@ class StripeRefundAmount
                 amount = ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekday_price.to_f
               end
             end
-            amount = (amount + @transaction.service_fee - @transaction.tax_withholding_amount).round(2)
+            amount = (amount + @transaction.service_fee).round(2)
             
-            poster_recieve = (amount - @transaction.tax_withholding_amount - @transaction.poster_service_fee).round(2)
+            poster_recieve = (amount - (amount * 10/100)).round(2)
             refund = Stripe::Refund.create({
               charge: @charge_id,
               amount: (@amount*100).to_i,
@@ -172,9 +172,9 @@ class StripeRefundAmount
             amount
           end
         end
-        amoun_with_service_fee = (@transaction.service_fee + amount - @transaction.tax_withholding_amount).round(2)
+        amoun_with_service_fee = (@transaction.service_fee + amount).round(2)
         amoun_with_service_fee = 0.50 if amoun_with_service_fee < 0.50
-        poster_recieve = (amount - @transaction.tax_withholding_amount - @transaction.poster_service_fee).round(2)
+        poster_recieve = (amount - (amount * 10/100)).round(2)
         charge = Stripe::Charge.create(
           customer:  cutsomer_id,
           amount:    (amoun_with_service_fee * 100).to_i,

@@ -80,7 +80,7 @@
         <% if @old_transaction.start_date <= Date.today %>
           <tr>
             <td colspan="2" style="color:#484848;">&nbsp;<br />
-            This is confirmation that your hiring change has been processed with new details and you will pay next weekly total from <%= transaction_time(@transaction)%>.</td>
+            This is confirmation that your hiring change has been processed with new details and you will pay next weekly total from <%= transaction_time(@old_transaction)%>.</td>
          </tr>
         <% else %>
           <tr>

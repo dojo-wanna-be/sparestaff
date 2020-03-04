@@ -111,7 +111,7 @@
       <% if @old_transaction.start_date <= Date.today %>
         <tr>
           <td colspan="2" style="color: #484848;">&nbsp;<br />
-            New hiring details will start from next <%= transaction_time(@transaction)%>. Please contact <%= @transaction.hirer.name %> for any questions.
+            New hiring details will start from next <%= @transaction_time %>. Please contact <%= @transaction.hirer.name %> for any questions.
           </td>
         </tr>
       <% else %>
