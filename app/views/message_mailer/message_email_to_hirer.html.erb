@@ -43,13 +43,17 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">You have a new message</h1>
-    <p style="color: #484848;">The Poster send you a message.</p>
+    <h1 style="color: #484848;">You have a new message from Poster</h1>
+    <% if @receiver.user_type == "hr" || @receiver.user_type == "nil" %>
+      <p style="color: #484848;">The <%= @sender.name%> send you a message.</p>
+    <% else %>
+      <p style="color: #484848;">The <%= @receiver.name%> send you a message.</p>
+    <% end %>  
     <table style="width: 500px">
       <tr>
         <td colspan="2">
         <table style="width:100%;">
-          <% if @message.present? && @message.content.present? %>
+          <% if @message.present? && @message.content.present? %> 
             <tr>
               <td style="color: #484848;">
               <strong>Message from Poster:</strong><br />

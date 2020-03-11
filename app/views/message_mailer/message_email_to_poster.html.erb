@@ -43,8 +43,12 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">You have a new message</h1>
-    <p style="color: #484848;">The Hirer send you a message.</p>
+    <h1 style="color: #484848;">You have a new message from Hirer</h1>
+    <% if @receiver.user_type == "hr" && @sender.user_type == "nil" %>
+      <p style="color: #484848;">The <%= @receiver.name %> send you a message.</p>
+    <% else %>
+      <p style="color: #484848;">The <%= @sender.name %> send you a message.</p>
+    <% end %>  
     <table style="width: 500px">
       <tr>
         <td colspan="2">

@@ -12,9 +12,11 @@ class MessageMailer < ApplicationMailer
 	    end	
 	end
 
-	def message_email_to_poster(message, poster)
+	def message_email_to_poster(message, poster, sender, receiver)
 		@message = message
 		@poster = poster
+		@sender = sender
+		@receiver = receiver
 		mail(to: poster.email, subject: "Hirer send you a message")
 	end
 end	

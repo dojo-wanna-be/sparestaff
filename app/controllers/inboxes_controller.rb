@@ -34,7 +34,7 @@ class InboxesController < ApplicationController
     @receiver = @conversation.receiver
     if message.save
       if current_user.user_type == "hr"
-        MessageMailer.message_email_to_poster(message, @listing.poster).deliver_now!
+        MessageMailer.message_email_to_poster(message, @listing.poster, @sender, @receiver).deliver_now!
       else
         MessageMailer.message_email_to_hirer(message, @sender, @receiver).deliver_now!
       end
