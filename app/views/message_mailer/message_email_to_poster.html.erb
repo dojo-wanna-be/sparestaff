@@ -1,0 +1,79 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+   
+  .accept_decline:link{
+    text-decoration: none;       
+  }
+
+  .accept_decline:visited{ 
+    text-decoration: none;         
+  }
+
+  .accept_decline:hover{
+    text-decoration: underline;
+  }
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <img alt=""  src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;" /></td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color: #484848;">You have a new message from Hirer</h1>
+    <% if @receiver.user_type == "hr" && @sender.user_type == "nil" %>
+      <p style="color: #484848;">The <%= @receiver.name %> send you a message.</p>
+    <% else %>
+      <p style="color: #484848;">The <%= @sender.name %> send you a message.</p>
+    <% end %>  
+    <table style="width: 500px">
+      <tr>
+        <td colspan="2">
+        <table style="width:100%;">
+          <% if @message.present? && @message.content.present? %>
+            <tr>
+              <td style="color: #484848;">
+              <strong>Message from Hirer:</strong><br />
+              <%= @message.content %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td>
+            &nbsp;</td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+    </table>  
+      <tr>
+        <td colspan="2">
+        <br />
+        <div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div>  <br />
+        </td>
+      </tr>
+    </td>
+  </tr>
+</table>

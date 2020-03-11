@@ -213,13 +213,13 @@ class Transaction < ApplicationRecord
     (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
   end
 
-  # def hirer_weekly_amount
-  #   (amount - tax_withholding_amount + service_fee).round(2)
-  # end
-
   def hirer_weekly_amount
-    (amount + service_fee).round(2)
+    (amount - tax_withholding_amount + service_fee).round(2)
   end
+
+  # def hirer_weekly_amount/
+  #   (amount + service_fee).round(2)
+  # end
 
   def poster_weekly_amount
     (amount - tax_withholding_amount - poster_service_fee).round(2)

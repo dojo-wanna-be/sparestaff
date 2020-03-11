@@ -172,7 +172,7 @@ class StripeRefundAmount
             amount
           end
         end
-        amoun_with_service_fee = (@transaction.service_fee + amount).round(2)
+        amoun_with_service_fee = (amount + amount * 0.03).round(2)
         amoun_with_service_fee = 0.50 if amoun_with_service_fee < 0.50
         poster_recieve = (amount - (amount * 10/100)).round(2)
         charge = Stripe::Charge.create(

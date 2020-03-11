@@ -29,7 +29,15 @@ class InboxesController < ApplicationController
 
   def create
     message = @conversation.messages.new(content: params[:message][:content], sender_id: current_user.id)
+    @listing = @conversation.employee_listing
+    @sender = @conversation.sender
+    @receiver = @conversation.receiver
     if message.save
+      if current_user.user_type == "hr"
+        MessageMailer.message_email_to_poster(message, @listing.poster, @sender, @receiver).deliver_now!
+      else
+        MessageMailer.message_email_to_hirer(message, @sender, @receiver).deliver_now!
+      end
       @messages = @conversation.messages.order(created_at: :DESC)
     end
   end
@@ -39,5 +47,4 @@ class InboxesController < ApplicationController
   def find_conversation
     @conversation = Conversation.find_by(id: params[:id])
   end
-  
 end
