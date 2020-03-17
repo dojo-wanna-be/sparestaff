@@ -17,7 +17,7 @@
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to inboxes_path, class: "nav-link message" do %>
-              <span>Message</span><span class="badge">2</span>
+              <span>Message</span><span class="badge"><%=@conversationsc.count%></span>
             <% end %>
           </li>
         <% end %>
@@ -30,6 +30,7 @@
             <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
               <span class="dropdown_toggle">
                 <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+                <%#= image_tag(current_user.avatar.url(:thumb)) %>
                 <%#= current_user.name  %>
               </span>
             <% end %>

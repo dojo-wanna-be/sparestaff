@@ -138,9 +138,17 @@ class Transaction < ApplicationRecord
 
   def total_service_fee
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
-    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    (service_fee * full_week) + (remaining_price * HIRER_SERVICE_FEE)
+    if full_week == 0
+      if is_withholding_tax
+        (HIRER_SERVICE_FEE * (amount - tax_withholding_amount))
+      else
+        (HIRER_SERVICE_FEE * amount)
+      end
+    else
+      transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+      remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+      (service_fee * full_week) + (remaining_price * HIRER_SERVICE_FEE)
+    end
   end
 
   def poster_service_fee
@@ -153,9 +161,13 @@ class Transaction < ApplicationRecord
 
   def poster_total_service_fee
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
-    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    (poster_service_fee * full_week) + (remaining_price * POSTER_SERVICE_FEE)
+    if full_week == 0
+      poster_service_fee
+    else
+      transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+      remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+      (poster_service_fee * full_week) + (remaining_price * POSTER_SERVICE_FEE)
+    end
   end
 
   def remaining_tax_withholding(amount)
@@ -170,7 +182,11 @@ class Transaction < ApplicationRecord
   def total_tax_withholding
     if is_withholding_tax
       full_week = start_date.upto(end_date).count.fdiv(7).floor
-      (tax_withholding_amount * full_week) + remaining_tax_withholding(remaining_amount)
+      if full_week == 0
+        tax_withholding_amount
+      else
+        (tax_withholding_amount * full_week) + remaining_tax_withholding(remaining_amount)
+      end
     else
       0
     end
@@ -178,16 +194,24 @@ class Transaction < ApplicationRecord
 
   def total_amount
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
-    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+    if full_week == 0
+      hirer_weekly_amount
+    else
+      transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+      remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+      ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+    end
   end
 
   def poster_total_amount
     full_week = start_date.upto(end_date).count.fdiv(7).floor
-    transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
-    remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-    ((amount - tax_withholding_amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
+    if full_week == 0
+      poster_weekly_amount
+    else
+      transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
+      remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
+      ((amount - tax_withholding_amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
+    end
   end
 
   def get_beginning_day

@@ -13,7 +13,7 @@
             <label class="label-modal">Type optional message to Hirer</label>
             <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
             <div class="Text14px">
-              <%= check_box_tag :term, nil, false, id: "term", class: 'VerticalAlignMiddle' %>
+              <%= check_box_tag :term, nil, false, id: "term", class: 'VerticalAlignMiddle', required: true %>
               By checking this box, I agree to
               the <span><%= link_to 'Hirer Refund Policy Terms', 'javascript:;', class: 'orange-text Text14px' %></span>, and
               <span><%= link_to 'Terms of Service', 'javascript:;', class: 'Text14px orange-text' %></span>.

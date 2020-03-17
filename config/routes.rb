@@ -115,6 +115,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :inboxes
+  resources :inboxes do
+    collection do
+      get :unread
+    end
+  end
 
 end

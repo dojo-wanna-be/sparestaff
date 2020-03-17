@@ -3,9 +3,9 @@
 <div class="message-container">
   <select name="Select1" class="selt">
     <option selected="selected">All Messages (<%= @conversations.count %>)</option>
-    <option>Unread (<%= @conversations.where(read: false).count %>)</option>
+    <option val="unread">Unread (<%= @conversations.where(read: false).count %>)</option>
   </select>
-  <div class="inbox_container ">
+  <div class="inbox_container" id="conversation_list">
     <% @conversations.each do |conversation| %>
       <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
         <div class="logo">
@@ -16,7 +16,7 @@
           <span><%= conversation.updated_at.strftime("%d %h %Y") %></span>
         </div>
         <div class="notify_msg">
-          <% unless conversation.read? %>
+          <% unless conversation.is_read(@current_user) %>
             <strong><%= conversation&.messages&.last&.content %></strong>
           <% else %>
             <span><%= conversation&.messages&.last&.content %></span>
@@ -35,3 +35,15 @@
 </div>
 
 <%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  $(".selt").change(function(){
+    val = $(this).val().includes("Unread")
+    if (val == true) {data = "unread"} else { data = "read"}
+    $.ajax({
+      url: "<%= unread_inboxes_path %>",
+      type: 'GET',
+      data: {"message" : data}
+    })
+  })
+</script>

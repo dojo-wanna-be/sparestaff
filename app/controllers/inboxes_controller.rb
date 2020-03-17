@@ -1,5 +1,6 @@
 class InboxesController < ApplicationController
   before_action :find_conversation, only: [:show, :create]
+  before_action :read_conversation, only: [:show]
 
   def index
     @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
@@ -21,7 +22,7 @@ class InboxesController < ApplicationController
       redirect_to inbox_path(id: @conversation.id) 
     else
       @transaction = @conversation.employee_listing_transaction
-      @address = @transaction.address
+      @address = @transaction.try(:address)
       @listing = @conversation.employee_listing
       @messages = @conversation.messages.order(created_at: :DESC)
     end
@@ -40,11 +41,25 @@ class InboxesController < ApplicationController
       end
       @messages = @conversation.messages.order(created_at: :DESC)
     end
+    @conversation.update(read: false)
+  end
+
+  def unread
+    @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
+    if params[:message] == "unread"
+      @conversations = @conversations.where(read: false)
+    else
+      @conversations
+    end
   end
 
   private
 
   def find_conversation
     @conversation = Conversation.find_by(id: params[:id])
+  end
+
+  def read_conversation
+    @conversation.update(read: true) if @conversation.present?
   end
 end

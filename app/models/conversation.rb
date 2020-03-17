@@ -32,4 +32,8 @@ class Conversation < ApplicationRecord
   def opposed_user(user)
     user == receiver ? sender : receiver
   end
+
+  def is_read(user)
+    user == sender ? true : self.read
+  end
 end

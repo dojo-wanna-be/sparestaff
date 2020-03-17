@@ -53,14 +53,13 @@
   <div id="PayoutSummary">
     <br>
     <span class="Text22pxPaddingBottom20px">Your Payout Summary</span><br>
-    If you cancel now, you'll receive your next payout for the work that the Employee has done up to the hour before this cancellation, minus Spare 
-    Staff service fees.<br><br>
-    If the Employee plans to complete work for today for Hirer, you should cancel after the final hour of today and before the next working day of this hiring.<br>
+    If you cancel now, you'll receive your next payout for the work that the Employee has done up to yesterday, minus Spare Staff service fees.<br><br>
+    If the Employee plans to complete work for today for Hirer, you should cancel tomarrow.<br>
     <br>
     <div class="calculation-list">
       <div class="list-item">
         <div class="left-item">
-          $<%= @listing.weekday_price %> x 0 hours
+          $<%= @listing.weekday_price %> x <%@%> hours
         </div>
         <div class="right-item">
           $0.00
@@ -87,7 +86,7 @@
           Service fee
         </div>
         <div class="right-item">
-          -$0.00
+          -<%%>
         </div>
       </div>
       <div class="list-item grey-list-item">
@@ -96,7 +95,7 @@
         </div>
         <div class="right-item">
           <strong>
-            $0.00
+            <%%>
           </strong>
         </div>
       </div>
