@@ -89,4 +89,6 @@ class HomeController < ApplicationController
       end
     end
 
+    def get_distance
+    end
 end

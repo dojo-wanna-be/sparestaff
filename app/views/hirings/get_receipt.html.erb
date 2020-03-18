@@ -144,18 +144,14 @@
               <div class="divTableCell Width150Px">Amount</div>
               <div class="divTableCell">Date</div>
             </div>
-            <% start_date = @transaction.start_date %>
-            <% (start_date..Date.today).each do |date| %>
-              <% if start_date <= Date.today %>
-                <div class="divTableRow">
-                  <div class="divTableCell">
-                    <%= link_to @transaction.id, receipt_details_hiring_path(id: @transaction.id), :target => "_blank" %>
-                  </div>
-                  <div class="divTableCell">$<%= @transaction.hirer_weekly_amount %></div>
-                  <div class="divTableCell"><%= date.strftime("%d-%h-%Y") %></div>
+            <% @transaction.payment_receipts.each do |receipt| %>
+              <div class="divTableRow">
+                <div class="divTableCell">
+                  <%= link_to receipt.id, receipt_details_hiring_path(id: receipt.id), :target => "_blank" %>
                 </div>
-              <% end %>
-              <% start_date += 7 %>
+                <div class="divTableCell">$<%= receipt.tx_price %></div>
+                <div class="divTableCell"><%= receipt.start_date.strftime("%d-%h-%Y") %></div>
+              </div>
             <% end %>
           </div>
         </div>

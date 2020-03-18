@@ -31,7 +31,7 @@
               <span class="dropdown_toggle">
                 <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
                 <%#= image_tag(current_user.avatar.url(:thumb)) %>
-                <%#= current_user.name  %>
+                <%= current_user.name  %>
               </span>
             <% end %>
             <%= render partial: "layouts/user_icon_menu_box" %>

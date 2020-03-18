@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_123513) do
+ActiveRecord::Schema.define(version: 2020_03_17_092025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,16 @@ ActiveRecord::Schema.define(version: 2020_03_11_123513) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
+  create_table "payment_receipts", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.float "tx_price"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_payment_receipts_on_transaction_id"
+  end
+
   create_table "relevant_documents", force: :cascade do |t|
     t.bigint "employee_listing_id"
     t.datetime "created_at", null: false
@@ -317,6 +327,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_123513) do
   add_foreign_key "employee_skills", "employee_listings"
   add_foreign_key "listing_availabilities", "employee_listings"
   add_foreign_key "messages", "conversations"
+  add_foreign_key "payment_receipts", "transactions"
   add_foreign_key "relevant_documents", "employee_listings"
   add_foreign_key "stripe_infos", "users"
   add_foreign_key "stripe_payments", "transactions"
