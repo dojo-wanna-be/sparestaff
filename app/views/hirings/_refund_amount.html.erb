@@ -39,7 +39,7 @@
         Total Fee
       </div>
       <div class="right-item">
-        $<%= @transaction.hirer_weekly_amount %>
+        $<%= @mid_cancel_amount %>
       </div>
     </div>
     <div class="list-item">
@@ -59,7 +59,7 @@
       <% if (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 2 >= Date.today) %>
         <strong>$<%= @transaction.hirer_weekly_amount %></strong>
       <% else %>
-        <strong>$<%= @transaction.hirer_weekly_amount - @transaction.service_fee %></strong>
+        <strong>$<%= @mid_cancel_amount - @transaction.service_fee %></strong>
       <% end %>
     </div>
   </div>

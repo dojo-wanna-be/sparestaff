@@ -17,7 +17,9 @@ class ReservationsController < ApplicationController
                                           :decline,
                                           :reservations_view_invoice_list,
                                           :write_a_review,
-                                          :destroy_transaction
+                                          :destroy_transaction,
+                                          :find_hours_weekday_or_weekend,
+                                          :already_start_refund_hours
                                          ]
 
   def index
@@ -191,6 +193,22 @@ class ReservationsController < ApplicationController
   end
 
   def cancel_reservation
+    if @transaction.start_date > Date.today
+      @weekday_amount = 0
+      @weekend_amount = 0
+      amount =  0
+    elsif @transaction.start_date == Date.today
+      @weekday_amount = 0
+      @weekend_amount = 0
+      amount = 0
+    else
+      already_start_refund_hours
+      @weekday_amount = @weekday_hours * @transaction.employee_listing.weekday_price.to_f
+      @weekend_amount = @weekend_hours * @transaction.employee_listing.weekend_price.to_f
+      amount =  StripeRefundAmount.new(@transaction).already_start_refund_amont
+    end
+    @poster_service_fee = amount * 0.1
+    @poster_recieve = (amount - (amount * 0.1) - @transaction.tax_withholding_amount).round(2)
     unless request.patch?
       @listing = @transaction.employee_listing
     else
@@ -296,4 +314,45 @@ class ReservationsController < ApplicationController
     end
   end
   
+  def already_start_refund_hours
+    diff = (Date.today - @transaction.start_date).to_i
+    if @transaction.frequency == "weekly"
+      if diff < 7
+        work_days = (@transaction.start_date...Date.today).to_a
+        find_hours_weekday_or_weekend(work_days)
+      else
+        count_days = diff % 7
+        work_days = (Date.today - count_days.days...Date.today).to_a
+        find_hours_weekday_or_weekend(work_days)
+      end
+    elsif @transaction.frequency == "fortnight"
+      if diff < 14
+        work_days = (@transaction.start_date...Date.today).to_a
+        find_hours_weekday_or_weekend(work_days)
+      else
+        count_days = diff % 14
+        work_days = (Date.today - count_days.days...Date.today).to_a
+        find_hours_weekday_or_weekend(work_days)
+      end
+    end
+  end
+
+  def find_hours_weekday_or_weekend(work_days)
+    @weekday_hours = 0
+    @weekend_hours = 0
+    work_days.each do |workday|
+      day = workday.strftime("%A").downcase
+      if ["sunday","saturday"].include?(day)
+        unless @transaction.bookings.where(day: day).blank?
+          @weekend_hours = @weekend_hours + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600)
+        end
+      else
+        unless @transaction.bookings.where(day: day).blank?
+          @weekday_hours = @weekday_hours + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600)
+        end
+      end
+    end
+    @weekday_hours
+    @weekend_hours
+  end
 end

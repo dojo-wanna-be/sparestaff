@@ -231,6 +231,11 @@ class HiringsController < ApplicationController
   end
 
   def cancel_hiring
+    @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
+                            @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
+                          else
+                            @transaction.amount
+                          end
     unless request.patch?
       @listing = @transaction.employee_listing
     else
