@@ -162,7 +162,7 @@
             </li>
           </ul>
 
-          <div>* The Service Fee includes VAT charges when applicable. <span><%= link_to 'Download VAT Receipt', '#', class: 'TextGrey' %></span></div>
+          <div>* The Service Fee includes VAT charges when applicable. <span><%= link_to 'Download VAT Receipt', vat_invoice_details_hiring_path(id: @transaction.id), class: 'TextGrey' %></span></div>
         </div>
 
         <div class="charges-box">

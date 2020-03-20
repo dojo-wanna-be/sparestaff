@@ -89,95 +89,13 @@ class StripeRefundAmount
         end
       else
         @amount = @transaction.amount + @transaction.amount * 0.03
-        if @transaction.frequency == "weekly"
-          if diff < 7
-            amount = 0
-            work_days = (@transaction.start_date..Date.today).to_a
-            work_days.each do |workday|
-              day = workday.strftime("%A").downcase
-              if ["sunday","saturday"].include?(day)
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekend_price.to_f
-                end
-              else
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekday_price.to_f
-                end
-              end
-            end
-            amount
-          else
-            count_days = diff % 7
-            amount = 0
-            work_days = (Date.today - count_days.days..Date.today).to_a
-            work_days.each do |workday|
-              day = workday.strftime("%A").downcase
-              if ["sunday","saturday"].include?(day)
-                unless @transaction.bookings.where(day: day).blank?
-                amount = amount + (
-                    (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                    ) * @transaction.employee_listing.weekend_price.to_f
-                end
-              else
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + (
-                      (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                      ) * @transaction.employee_listing.weekday_price.to_f
-                end
-              end
-            end
-            amount
-          end 
-        elsif @transaction.frequency == "fortnight"
-          if diff < 14
-            amount = 0
-            work_days = (@transaction.start_date..Date.today).to_a
-            work_days.each do |workday|
-              day = workday.strftime("%A").downcase
-              if ["sunday","saturday"].include?(day)
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + (
-                      (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                      ) * @transaction.employee_listing.weekend_price.to_f
-                end
-              else
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + (
-                      (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                      ) * @transaction.employee_listing.weekday_price.to_f
-                end
-              end
-            end
-            amount
-          else
-            count_days = diff % 14
-            amount = 0
-            work_days = (Date.today - count_days.days..Date.today).to_a
-            work_days.each do |workday|
-              day = workday.strftime("%A").downcase
-              if ["sunday","saturday"].include?(day)
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + (
-                      (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                      ) * @transaction.employee_listing.weekend_price.to_f
-                end
-              else
-                unless @transaction.bookings.where(day: day).blank?
-                  amount = amount + (
-                      (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
-                      ) * @transaction.employee_listing.weekday_price.to_f
-                end
-              end
-            end
-            amount
-          end
-        end
-        amoun_with_service_fee = (amount + amount * 0.03).round(2)
-        amoun_with_service_fee = 0.50 if amoun_with_service_fee < 0.50
-        poster_recieve = (amount - (amount * 10/100)).round(2)
+        amount = already_start_refund_amont
+        amount_with_service_fee = (amount + (@transaction.amount * 0.03)).round(2)
+        amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50
+        poster_recieve = (amount - (amount * 10/100) - @transaction.tax_withholding_amount).round(2)
         charge = Stripe::Charge.create(
           customer:  cutsomer_id,
-          amount:    (amoun_with_service_fee * 100).to_i,
+          amount:    (amount_with_service_fee * 100).to_i,
           currency:  'aud',
           capture: true,
           destination: {
@@ -196,5 +114,92 @@ class StripeRefundAmount
 
   def poster_service_fee amount
     amount * 0.1
+  end
+
+  def already_start_refund_amont
+    diff = (Date.today - @transaction.start_date).to_i
+    if @transaction.frequency == "weekly"
+      if diff < 7
+        amount = 0
+        work_days = (@transaction.start_date...Date.today).to_a
+        work_days.each do |workday|
+          day = workday.strftime("%A").downcase
+          if ["sunday","saturday"].include?(day)
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekend_price.to_f
+            end
+          else
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekday_price.to_f
+            end
+          end
+        end
+        amount
+      else
+        count_days = diff % 7
+        amount = 0
+        work_days = (Date.today - count_days.days...Date.today).to_a
+        work_days.each do |workday|
+          day = workday.strftime("%A").downcase
+          if ["sunday","saturday"].include?(day)
+            unless @transaction.bookings.where(day: day).blank?
+            amount = amount + (
+                (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                ) * @transaction.employee_listing.weekend_price.to_f
+            end
+          else
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + (
+                  (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                  ) * @transaction.employee_listing.weekday_price.to_f
+            end
+          end
+        end
+        amount
+      end
+    elsif @transaction.frequency == "fortnight"
+      if diff < 14
+        amount = 0
+        work_days = (@transaction.start_date...Date.today).to_a
+        work_days.each do |workday|
+          day = workday.strftime("%A").downcase
+          if ["sunday","saturday"].include?(day)
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + (
+                  (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                  ) * @transaction.employee_listing.weekend_price.to_f
+            end
+          else
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + (
+                  (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                  ) * @transaction.employee_listing.weekday_price.to_f
+            end
+          end
+        end
+        amount
+      else
+        count_days = diff % 14
+        amount = 0
+        work_days = (Date.today - count_days.days...Date.today).to_a
+        work_days.each do |workday|
+          day = workday.strftime("%A").downcase
+          if ["sunday","saturday"].include?(day)
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + (
+                  (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                  ) * @transaction.employee_listing.weekend_price.to_f
+            end
+          else
+            unless @transaction.bookings.where(day: day).blank?
+              amount = amount + (
+                  (@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600
+                  ) * @transaction.employee_listing.weekday_price.to_f
+            end
+          end
+        end
+        amount
+      end
+    end
   end
 end

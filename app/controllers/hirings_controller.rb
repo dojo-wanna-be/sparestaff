@@ -231,6 +231,11 @@ class HiringsController < ApplicationController
   end
 
   def cancel_hiring
+    @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
+                            @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
+                          else
+                            @transaction.amount
+                          end
     unless request.patch?
       @listing = @transaction.employee_listing
     else
@@ -311,6 +316,20 @@ class HiringsController < ApplicationController
 
   def receipt_details
     @listing = @transaction.employee_listing
+  end
+
+  def vat_invoice_details
+    @receipt = PaymentReceipt.find_by(id: params[:id])
+    @transaction = Transaction.find_by(id: @receipt.transaction_id)
+    @total_service_fee = @transaction.service_fee
+    @base_service_fee = (@total_service_fee / 1.1)
+    @vat = (@base_service_fee * 10/100)
+    pdf = WickedPdf.new.pdf_from_string(            #1
+    render_to_string('vat_invoice_details', layout: false))  #2
+    send_data(pdf,                                  #3
+      filename: 'vat_invoice_details.pdf',                     #4
+      type: 'application/pdf',                      #5
+      disposition: 'attachment')
   end
 
   private

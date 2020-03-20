@@ -14,6 +14,9 @@
           <div><%= listing.name %></div>
           <div><%= "$#{listing.weekday_price} per hour" %></div>
           <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+          <% if params[:commit] == "Search" %>
+            <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:city]%></div>
+          <% end %>
           <div class="rating">
             <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
             <span>28</span>

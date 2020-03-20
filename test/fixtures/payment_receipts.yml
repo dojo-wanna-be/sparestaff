@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tx_id: 1
+  start_date: 2020-03-17
+  end_date: 2020-03-17
+  tx_price: 1.5
+
+two:
+  tx_id: 1
+  start_date: 2020-03-17
+  end_date: 2020-03-17
+  tx_price: 1.5
