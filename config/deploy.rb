@@ -42,4 +42,4 @@ set :rbenv_ruby, '2.6.2'
 
 set :sidekiq_role, :app 
 set :sidekiq_config, "#{current_path}/config/sidekiq.yml" 
-set :sidekiq_env, 'production'
+set :sidekiq_env, 'staging'
