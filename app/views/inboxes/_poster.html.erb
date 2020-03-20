@@ -2,8 +2,8 @@
   <div><b>About this Hirer</b></div>
   <br/>
   <div class="text-allign-center">
-    <% if @listing.profile_picture.present? %>
-      <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+    <% if @transaction.hirer.avatar.present? %>
+      <%= image_tag @transaction.hirer.avatar.url, class: 'pro-pic' %>
     <% else %>
       <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
     <% end %>

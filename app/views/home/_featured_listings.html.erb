@@ -12,7 +12,7 @@
         <div class="listing-details">
           <div><b><%= listing.title %></b></div>
           <div><%= listing.name %></div>
-          <div><%= "$#{minimum_price(listing)} per hour" %></div>
+          <div><%= "$#{listing.weekday_price} per hour" %></div>
           <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
           <div class="rating">
             <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
