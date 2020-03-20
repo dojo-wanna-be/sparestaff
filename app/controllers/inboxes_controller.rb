@@ -3,7 +3,7 @@ class InboxesController < ApplicationController
   before_action :read_conversation, only: [:show]
 
   def index
-    @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
+    @conversations = Conversation.where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id).order("updated_at desc")
   end
 
   def show
@@ -26,6 +26,7 @@ class InboxesController < ApplicationController
       @listing = @conversation.employee_listing
       @messages = @conversation.messages.order(created_at: :DESC)
     end
+    @unread_count = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct.count
   end
 
   def create
@@ -41,13 +42,12 @@ class InboxesController < ApplicationController
       end
       @messages = @conversation.messages.order(created_at: :DESC)
     end
-    @conversation.update(read: false)
   end
 
   def unread
     @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
     if params[:message] == "unread"
-      @conversations = @conversations.where(read: false)
+      @conversations = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct
     else
       @conversations
     end
@@ -60,6 +60,6 @@ class InboxesController < ApplicationController
   end
 
   def read_conversation
-    @conversation.update(read: true) if @conversation.present?
+    @conversation.unread_message(@current_user).update_all(read: true) if @conversation.present?
   end
 end

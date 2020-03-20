@@ -3,7 +3,7 @@
 <div class="message-container">
   <select name="Select1" class="selt">
     <option selected="selected">All Messages (<%= @conversations.count %>)</option>
-    <option val="unread">Unread (<%= @conversations.where(read: false).count %>)</option>
+    <option val="unread">Unread (<%= @unread_count %>)</option>
   </select>
   <div class="inbox_container" id="conversation_list">
     <% @conversations.each do |conversation| %>
@@ -16,10 +16,10 @@
           <span><%= conversation.updated_at.strftime("%d %h %Y") %></span>
         </div>
         <div class="notify_msg">
-          <% unless conversation.is_read(@current_user) %>
-            <strong><%= conversation&.messages&.last&.content %></strong>
+          <% if conversation.unread_msg_count(@current_user) > 0%>
+            <strong><%= conversation.messages.order("created_at desc").first.content rescue ''%></strong>
           <% else %>
-            <span><%= conversation&.messages&.last&.content %></span>
+            <span><%= conversation.messages.order("created_at desc").first.content rescue ''%></span>
           <% end %>
           <p class="sm_text"><%= conversation.employee_listing.title %>, <%= conversation.employee_listing.name %>, <%= conversation.employee_listing.city %> <%= conversation.employee_listing.state %>, <%= conversation.employee_listing.country %></p>
         </div>
