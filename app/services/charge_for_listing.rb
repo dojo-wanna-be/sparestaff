@@ -23,6 +23,8 @@ class ChargeForListing
 
   def captured_true(stripe_payment_id)
     transaction = Transaction.find(@transaction_id)
+    start_date = Date.today - (transaction.frequency.eql?("weekly") ? 7.days : 14.days)
+    end_date = Date.today - 1
     if transaction.accepted
       hirer = transaction.hirer
       poster = transaction.poster
@@ -32,6 +34,7 @@ class ChargeForListing
         charge = Stripe::Charge.retrieve(stripe_payment.stripe_charge_id)
         result = charge.capture
         stripe_payment.update_attributes(capture: true)
+        PaymentReceipt.create(transaction_id: transaction.id, start_date: start_date, end_date: end_date, tx_price: transaction.hirer_weekly_amount)
       rescue Stripe::CardError => e
         error = e.json_body[:error][:message]
       rescue Exception => e

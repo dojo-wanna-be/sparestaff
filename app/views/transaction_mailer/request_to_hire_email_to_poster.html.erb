@@ -130,7 +130,7 @@
         <h4>Potential earnings</h4>
         <p>Based on your rate of <%= "$#{minimum_price(@listing)}" %> per hour along with associated 
         fees, your potential total employment contract payout for this hiring is <strong>
-        <%= "$#{(@transaction.total_amount).round(2)}" %></strong></p>
+        <%= "$#{(@transaction.poster_total_amount).round(2)}" %></strong></p>
         </td>
       </tr>
       <tr>

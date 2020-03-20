@@ -1,5 +1,5 @@
 <% if @employee_listings.present? %>
-	$('#listing_div').html("<%= j render 'featured_listings', listings: @employee_listings %>")
+  $('#listing_div').html("<%= j render 'featured_listings', listings: @employee_listings %>")
 <% else %>
-	$('#listing_div').html("<%= j render 'not_record' %>")
+  $('#listing_div').html("<%= j render 'not_record' %>")
 <% end %>

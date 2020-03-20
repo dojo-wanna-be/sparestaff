@@ -53,25 +53,24 @@
   <div id="PayoutSummary">
     <br>
     <span class="Text22pxPaddingBottom20px">Your Payout Summary</span><br>
-    If you cancel now, you'll receive your next payout for the work that the Employee has done up to the hour before this cancellation, minus Spare 
-    Staff service fees.<br><br>
-    If the Employee plans to complete work for today for Hirer, you should cancel after the final hour of today and before the next working day of this hiring.<br>
+    If you cancel now, you'll receive your next payout for the work that the Employee has done up to yesterday, minus Spare Staff service fees.<br><br>
+    If the Employee plans to complete work for today for Hirer, you should cancel tomarrow.<br>
     <br>
     <div class="calculation-list">
       <div class="list-item">
         <div class="left-item">
-          $<%= @listing.weekday_price %> x 0 hours
+          $<%= @listing.weekday_price %> x <%= @weekday_hours %> hours
         </div>
         <div class="right-item">
-          $0.00
+          $<%= @weekday_amount %>
         </div>
       </div>
       <div class="list-item">
         <div class="left-item">
-          $<%= @listing.weekend_price %> x 0 hours (weekend)
+          $<%= @listing.weekend_price %> x <%= @weekend_hours %> hours (weekend)
         </div>
         <div class="right-item">
-          $0.00
+          $<%= @weekend_amount %>
         </div>
       </div>
       <div class="list-item">
@@ -79,7 +78,7 @@
           Tax withholding
         </div>
         <div class="right-item">
-          -$0.00
+          -$<%= @transaction.tax_withholding_amount %>
         </div>
       </div>
       <div class="list-item">
@@ -87,16 +86,16 @@
           Service fee
         </div>
         <div class="right-item">
-          -$0.00
+          -<%= @poster_service_fee %>
         </div>
       </div>
       <div class="list-item grey-list-item">
         <div class="left-item">
-          <strong>Your Next Payout</strong>
+          <strong>Your Payout</strong>
         </div>
         <div class="right-item">
           <strong>
-            $0.00
+            <%= @poster_recieve %>
           </strong>
         </div>
       </div>

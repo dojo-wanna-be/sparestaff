@@ -32,4 +32,12 @@ class Conversation < ApplicationRecord
   def opposed_user(user)
     user == receiver ? sender : receiver
   end
+
+  def unread_message(user)
+    messages.where(read: false).where.not(sender_id: user.id)
+  end
+
+  def unread_msg_count(user)
+    unread_message(user).size
+  end
 end

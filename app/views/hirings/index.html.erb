@@ -26,7 +26,7 @@
             <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
           </div>
           <div class="bottom_part">
-            <%= link_to 'javascript:;', class: 'add_info' do %>
+            <%= link_to inbox_path(id: transaction.conversation.id), class: 'add_info' do %>
               <%= image_tag 'send-message-icon.jpg' %>
               Send Message
             <% end %>

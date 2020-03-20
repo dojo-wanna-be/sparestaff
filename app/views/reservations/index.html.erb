@@ -42,8 +42,9 @@
               <div class="list-box two">
                 <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
                 <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
-                <%= transaction.hirer.company.address_1 %> <br>
-                <%= "#{transaction.hirer.company.city} #{transaction.hirer.company.state} #{transaction.hirer.company.post_code}" %>
+                <% if transaction.address.present? %>
+                <%= "#{transaction.address.address_1}" %> <br>
+                <%= "#{transaction.address.address_2} #{transaction.address.city} #{transaction.address.state} #{transaction.address.post_code}" %> <% end %>
               </div>
               <div class="list-box three">
                 <div class="image-box">
@@ -88,7 +89,7 @@
                   </div>
                 <% end %>
                 <div>
-                  <%= link_to 'Message history', 'javascript:;', class: 'orange-text' %>
+                  <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                 </div>
                 <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
                   <div>
@@ -175,7 +176,7 @@
                     <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                   </div>
                   <div>
-                    <%= link_to 'Message history', 'javascript:;', class: 'orange-text' %>
+                    <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                   </div>
                   <div>
                     <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>

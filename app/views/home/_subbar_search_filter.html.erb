@@ -33,7 +33,7 @@
       </div>
       <div class="filter-footer">
         <%= link_to 'Clear & apply', 'javascript:;', class: 'gray-link filter-link work_type_filter' %>
-        <%= submit_tag "Apply", class: "filter-link", id: "work_type_submit"%>
+        <%= submit_tag "Apply", class: "filter-link ", id: "work_type_submit"%>
       </div>
     </div>
   </div>
@@ -42,6 +42,9 @@
     <div class="price-dropdown custom-drop-btn">Price</div>
     <div class="price-area field-area">
       <div class="price-filter">
+        <tr>
+          <td colspan="2">(Weekday rate)</td>
+        </tr>
         <div class="price-filter-select-row">
           <div>Minimum hourly rate</div>
           <%= select_tag :minimum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
@@ -150,37 +153,37 @@
         <h6 class="filter-list-heading">Availability</h6>
         <div class="filters_list-item">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'monday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 1, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Monday</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'friday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 5, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Friday</label>
           </div>
         </div>
         <div class="filters_list-item">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'tuesday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 2, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Tuesday</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'saturday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 6, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Saturday</label>
           </div>
         </div>
         <div class="filters_list-item">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'wednesday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 3, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Wednesday</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'sunday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 0, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Sunday</label>
           </div>
         </div>
         <div class="filters_list-item">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'thursday', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'availability[]', 4, false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Thursday</label>
           </div>
           <div class="filter-item">
@@ -229,51 +232,51 @@
         </div>
         <div class="filters_list-item filters_list-item-language">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Chinese Cantonese', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Chinese Cantonese', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Chinese-cantonese</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Dutch', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Dutch', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Dutch</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'German', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'German', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">German</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Burmese', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Burmese', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Burmese</label>
           </div>
         </div>
         <div class="filters_list-item filters_list-item-language">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Spanish', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Spanish', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Spanish</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Italian', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Italian', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Italian</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Portugese', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Portugese', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Portugese</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Indonesian', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Indonesian', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Indonesian</label>
           </div>
         </div>
         <div class="filters_list-item filters_list-item-language">
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Arabic', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Arabic', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Arabic</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Japanese', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Japanese', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Japanese</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'availability[]', 'Turkish', false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'language[]', 'Turkish', false, class: "filter-checkbox more_filter"%>
             <label class="filter-label">Turkish</label>
           </div>
           <div class="filter-item">
@@ -406,5 +409,4 @@
       $("body").find(".more_filter-area").hide();
     }
   });
-</script>
 </script>

@@ -17,7 +17,7 @@
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to inboxes_path, class: "nav-link message" do %>
-              <span>Message</span><span class="badge">2</span>
+              <span>Message</span><span class="badge"><%=@unread_count%></span>
             <% end %>
           </li>
         <% end %>
@@ -29,7 +29,11 @@
           <li class="nav-item">
             <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
               <span class="dropdown_toggle">
-                <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+                <% if current_user.avatar.url.include?("missing") %>
+                  <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+                <% else %>
+                  <%= image_tag(current_user.avatar.url(:thumb), class: "ProfileIcon") %>
+                <% end %>
                 <%#= current_user.name  %>
               </span>
             <% end %>

@@ -36,6 +36,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
+  has_attached_file :avatar, styles: { medium: "300x300", thumb: "100x100" }
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+  validates_attachment_file_name :avatar, matches: [/png\Z/, /jpe?g\Z/]
+
   belongs_to :company, optional: true
   has_many :employee_listings, as: :lister, dependent: :destroy
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
