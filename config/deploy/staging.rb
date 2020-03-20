@@ -13,7 +13,7 @@ server '13.54.230.136', user: 'ubuntu', roles: %w{app db web}
 
 # role-based syntax
 # ==================
-
+role :app, %w{ubuntu@13.54.230.136} 
 # Defines a role with one or multiple servers. The primary server in each
 # group is considered to be the first unless any hosts have the primary
 # property set. Specify the username and a domain or IP for the server.
