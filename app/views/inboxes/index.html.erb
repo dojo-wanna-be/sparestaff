@@ -9,7 +9,11 @@
     <% @conversations.each do |conversation| %>
       <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
         <div class="logo">
-          <%= image_tag 'luca2.jpg', alt: '' %>
+          <% if conversation.sender.avatar.url.include?("missing") %>
+            <%= image_tag 'luca2.jpg', alt: '' %>
+          <% else %>
+            <%= image_tag(conversation.sender.avatar.url(:thumb), class: "ProfileIcon") %>
+          <% end %>
         </div>
         <div class="day_date">
           <span><%= conversation.sender.name %></span><br>
