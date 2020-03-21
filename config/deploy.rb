@@ -1,6 +1,6 @@
 current_path = "/home/ubuntu/apps/sparestaff-staging"
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.11.1"
+lock "~> 3.12.0"
 
 set :application, "sparestaff-staging"
 set :repo_url, "git@github.com:jamesspare/sparestaff.git"
@@ -39,7 +39,4 @@ set :keep_releases, 3
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 set :rbenv_ruby, '2.6.2'
-
-set :sidekiq_role, :app 
-set :sidekiq_config, "#{current_path}/config/sidekiq.yml" 
-set :sidekiq_env, 'staging'
+after :deploy, "sidekiq:restart"

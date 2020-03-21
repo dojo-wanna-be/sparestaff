@@ -34,7 +34,7 @@ gem 'redis', '~> 4.0'
 gem 'devise'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip", github: "thoughtbot/paperclip"
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
 gem 'toastr_rails'
@@ -78,7 +78,6 @@ gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-rails', '~> 1.2'
 gem 'capistrano-passenger', '~> 0.2.0'
 gem 'capistrano-rbenv', '~> 2.1'
-gem 'capistrano-sidekiq'
 
 gem 'rb-readline'
 gem 'bootstrap', '~> 4.3.1'
