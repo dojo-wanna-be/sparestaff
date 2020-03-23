@@ -180,6 +180,125 @@
           <%= f.submit "Save", class: 'continue_btn' %>
         </div>
       <% end %>
+
+      <!-- Photos Tab View -->
+      <br>
+      <div class="listed-box">
+        <div class="right-panel-header">
+          Profile Photo
+        </div>
+        <div class="listing-card-box photos_card">
+          <div class="custom-field-box">
+            <div class="user_profile_box">
+              <div class="user_box">
+                <%= image_tag 'Henry1.jpg', class: 'user_image' %>
+                <div class="bin_box">
+                  <%= image_tag 'bin-icon.jpg' %>
+                </div>
+              </div>
+              <div class="user_text">
+                <div>A profile photo about you is important to earn credibility and trust from other users in our community. Be sure to use a photo that does not include any personal or sensitive information you’d rather not show to the public.</div>
+                <%= link_to 'Upload a file from your computer', 'javascript:;', class: 'upload_file' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Photos Tab View -->
+
+      <!-- Trust and Verification Tab View -->
+      <br>
+      <div class="listed-box">
+        <div class="right-panel-header">
+          Verified Info
+        </div>
+        <div class="listing-card-box photos_card">
+          <div class="custom-field-box">
+           <div class="Verified_Info_box">
+              <h4 class="verified_heading">Email address</h4>
+              <div>You have confirmed your email: 
+              <strong>namutd@outlook.com</strong>. A confirmed email is 
+              important to allow us to securely communicate 
+              with you.</div>
+              <br>
+              <h4 class="verified_heading">Phone number</h4>
+              <div>Your number is only shared with another Spare 
+              Staff member once you have a confirmed hiring.</div>
+              <br>
+              <h4 class="verified_heading">Company Identification</h4>
+              <div>You’ve successfully provided company identification.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Trust and Verification Tab View -->
+
+      <!-- Reviews Tab View -->
+      <br>
+      <div class="review_tab_box">
+        <div class="tab_row">
+          <%= link_to 'Reviews about you', 'javascript:;', class: 'tab_a active about_you' %>
+          <%= link_to 'Reviews by you', 'javascript:;', class: 'tab_a by_you' %>
+        </div>
+        <br>
+
+        <div class="listed-box" id="ReviewsAboutYouBox">
+          <div class="right-panel-header">
+            Past Reviews About You
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <div class="">
+                  Reviews are written at the end of a hiring 
+                  through Spare Staff. Reviews you’ve received 
+                  will be visible both here and on your public 
+                  profile.
+                </div>
+                <br>
+                <div class="review_box">
+                  <div class="review_user_img">
+                    <%= image_tag 'Henry1.jpg', class: 'ProfileIcon60px' %>
+                    <br>
+                    <span class="GreyText14Px">UserDEF</span>
+                  </div>
+                  <div class="user_text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.
+                    <br>
+                    <br>
+                    <span class="GreyText16Px">June 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="listed-box" id="ReviewsByYouBox">
+          <div class="right-panel-header">
+            Past Reviews You've Written
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <div class="review_box">
+                  <div class="review_user_img">
+                    <%= image_tag 'luca.png', class: 'ProfileIcon60px' %>
+                    <br>
+                    <span class="GreyText14Px">UserDEF</span>
+                  </div>
+                  <div class="user_text">When you saw him you would think: this kid can't play ball. He's a dwarf, he's too fragile, too small. But immediately you'd realise that he was born different, that he was a phenomenon and that he was going to be something impressive.
+                    <br>
+                    <br>
+                    <span class="GreyText16Px">June 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Reviews Tab View -->
+
     </div>
   </div>
 </div>
@@ -243,3 +362,21 @@
 <%#= link_to "Back", '/' %>
 
 <%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  var selector = '.tab_row a';
+
+  $(selector).on('click', function(){
+      $(selector).removeClass('active');
+      $(this).addClass('active');
+  });
+
+  $('.about_you').click(function(){
+    $('#ReviewsByYouBox').hide();
+    $('#ReviewsAboutYouBox').show();
+  });
+  $('.by_you').click(function(){
+    $('#ReviewsAboutYouBox').hide();
+    $('#ReviewsByYouBox').show();
+  });
+</script>
