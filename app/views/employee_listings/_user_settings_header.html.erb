@@ -22,7 +22,7 @@
     </li>
     <li class="nav-list-item">
       <% is_payment = params[:controller].eql?("payouts")%>
-      <%= link_to 'Account', step_1_payouts_path, class: "#{ is_payment ? 'sub-nav-link active' : 'sub-nav-link' }" %>
+      <%= link_to 'Account', user_account_notification_payouts_path, class: "#{ is_payment ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
   </ul>
 </div>

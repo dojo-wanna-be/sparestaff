@@ -45,6 +45,7 @@ class User < ApplicationRecord
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
   has_many :messages, class_name: "Message", foreign_key: "sender_id"
   has_one :stripe_info
+  has_one :notification_setting
 
   enum user_type: { owner: 0, hr: 1 }
 
@@ -65,6 +66,8 @@ class User < ApplicationRecord
       user.first_name = auth.info.first_name
       user.last_name = auth.info.last_name
       user.skip_confirmation!
+      setting = sef.build_notification_setting
+      setting.save
     end
   end
 

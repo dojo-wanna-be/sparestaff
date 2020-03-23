@@ -1,10 +1,10 @@
 <div class="side_menu">
   <ul class="tab-list">
     <li class="tab-item">
-      <%= link_to 'Notifications', '#', class: 'tab-link' %>
+      <%= link_to 'Notifications', user_account_notification_payouts_path, class: "tab-link #{is_active_menu('index')}" %>
     </li>
     <li class="tab-item">
-      <%= link_to 'Payment Methods', payouts_path, class: "tab-link #{is_active_menu('index')}" %>
+      <%= link_to 'Payment Methods', payouts_path, class: "tab-link #{is_active_menu('payouts')}" %>
     </li>
     <li class="tab-item">
       <%= link_to 'Payout Preferences', step_1_payouts_path, class: "tab-link #{is_active_menu('step_1')}" %>

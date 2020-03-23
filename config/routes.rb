@@ -109,6 +109,7 @@ Rails.application.routes.draw do
 
   resources :payouts, only: [:create, :index] do
     collection do
+      get :user_account_notification
       get :step_1
       get :step_2
       get :stripe_account
