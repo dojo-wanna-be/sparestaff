@@ -34,7 +34,7 @@ gem 'redis', '~> 4.0'
 gem 'devise'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip", github: "thoughtbot/paperclip"
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
 gem 'toastr_rails'
@@ -97,5 +97,3 @@ gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-will_paginate'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-
-
