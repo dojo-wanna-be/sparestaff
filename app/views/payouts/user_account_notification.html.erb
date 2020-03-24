@@ -1,106 +1,110 @@
 <%= render partial: "employee_listings/user_settings_header" %>
 <%= render partial: 'payout_side_bar'%>
+<table>
+	<tr>
+		<td class="PaddingRightBottom20px">
+			<table class="UserAccountBox">
+				<tr>
+					<th>Messages</th>
+				</tr>
+				<tr>
+					<td class="UserAccountBoxContent">Receive messages from Posters and Hirers, including
+									hiring requests.<br /><br />
+						<div class="GreyLine1Px"></div>
+						<br />
+						<table class="PaddingBottom10px">
+							<tr>
+								<td style="width: 30px">
+									<input name="Checkbox1" type="checkbox" class="checkbox"/>
+								</td>
+								<td><strong>Email</strong></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
 
-<td class="PaddingRightBottom20px">
-	<table class="UserAccountBox">
-		<tr>
-			<th>Messages</th>
-		</tr>
-		<tr>
-			<td class="UserAccountBoxContent">Receive messages from Posters and Hirers, including 
-							hiring requests.<br /><br />
-				<div class="GreyLine1Px"></div>
-				<br />
-				<table class="PaddingBottom10px">
-					<tr>
-						<td style="width: 30px">
-							<input name="Checkbox1" type="checkbox" />
-						</td>
-						<td><strong>Email</strong></td>
+		<td class="PaddingRightBottom20px">
+			<table class="UserAccountBox">
+				<tr>
+					<th>Contact Information</th>
+				</tr>
+				<tr>
+					<td class="UserAccountBoxContent">This information can
+								be edited from your profile page.
+						<%= link_to 'Edit', edit_user_registration_path, class: 'nav-link' %>
+						<!-- <a href="../user-profile/user-profile-edit-profile.html">Edit  -->
+								Profile</a><br /><br />
+						<div class="GreyLine1Px"></div><br />
+							<table class="PaddingBottom10px">
+								<tr>
+									<td>Email</td>
+									<td style="text-align: right">
+										<%=current_user.email%></td>
+								</tr>
+								<tr>
+									<td>Phone number</td>
+										<td style="text-align: right"><%=current_user.phone_number%></td>
+								</tr>
+							</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+		<td valign="top">
+			&nbsp;</td>
 					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-</td>
-
-<td class="PaddingRightBottom20px">
-	<table class="UserAccountBox">
-		<tr>
-			<th>Contact Information</th>
-		</tr>
-		<tr>
-			<td class="UserAccountBoxContent">This information can 
-						be edited from your profile page.
-				<%= link_to 'Edit', edit_user_registration_path, class: 'nav-link' %>		
-				<!-- <a href="../user-profile/user-profile-edit-profile.html">Edit  -->
-						Profile</a><br /><br />
-				<div class="GreyLine1Px"></div><br />
-					<table class="PaddingBottom10px">
-						<tr>
-							<td>Email</td>
-							<td style="text-align: right">
-								<%=current_user.email%></td>
-						</tr>
-						<tr>
-							<td>Phone number</td>
-								<td style="text-align: right"><%=current_user.phone_number%></td>
-						</tr>
-					</table>
-			</td>
-		</tr>
-	</table>
-</td>
-<td valign="top">
-	&nbsp;</td>
-			</tr>
-			<tr>
-				<td>
-				&nbsp;</td>
-				<td>
-				&nbsp;</td>
-				<td class="PaddingRightBottom20px">
+					<tr>
+						<td>
+						&nbsp;</td>
+						<td>
+						&nbsp;</td>
+	<tr>
+		<td class="PaddingRightBottom20px">
 				<table class="UserAccountBox">
 					<tr>
 						<th>Promotions and Tips</th>
 					</tr>
 					<tr>
-						<td class="UserAccountBoxContent">Receive coupons, 
-						promotions, surveys, product updates, and inspiration 
-						from Spare Staff and its partners.<br />
-						<br />
-						<div class="GreyLine1Px"></div>						<br />
-						<table class="PaddingBottom10px">
-							<tr>
-								<td style="width: 30px">
-									<input name="Checkbox2" type="checkbox" />
-								</td>
-								<td><strong>Email</strong></td>
-							</tr>
-							<tr>
-								<td style="width: 30px">
-									<input name="Checkbox3" type="checkbox" /></td>
-								<td><strong>Phone calls</strong></td>
-							</tr>
-						</table>
+						<td class="UserAccountBoxContent">Receive coupons,
+								promotions, surveys, product updates, and inspiration
+								from Spare Staff and its partners.<br />
+								<br />
+								<div class="GreyLine1Px"></div><br />
+								<table class="PaddingBottom10px">
+									<tr>
+										<td style="width: 30px">
+											<input name="Checkbox2" type="checkbox" class="checkbox"/>
+										</td>
+										<td><strong>Email</strong></td>
+									</tr>
+									<tr>
+										<td style="width: 30px">
+											<input name="Checkbox3" type="checkbox" class="checkbox" /></td>
+										<td><strong>Phone calls</strong></td>
+									</tr>
+								</table>
 						</td>
 					</tr>
 				</table>
-				</td>
-				<td valign="top" style="width:30%">
-				&nbsp;</td>
-				<td valign="top">
-				&nbsp;</td>
-			</tr>
-			<tr>
-				<td>
-				&nbsp;</td>
-				<td>
-				&nbsp;</td>
+		</td>
+		<td valign="top" style="width:30%">
+			&nbsp;</td>
+		<td valign="top">
+		&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+			&nbsp;</td>
+		<td>
+			&nbsp;</td>
+	</tr>
 				<td class="PaddingRightBottom20px">
 				<table class="ButtonOrange90px" align="right">
 					<tr>
-						<td><a href="#">Save</a></td>
+						<td><a href="#" class="save_prefrence">Save</a></td>
 					</tr>
 				</table>
 				</td>
@@ -119,3 +123,17 @@
 	<tr>
 		<td>
 <%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+
+	$(".save_prefrence").click(function(){
+    val = $('.checkbox').val()
+    if (val == true) {data = "true"} else { data = "false"}
+    $.ajax({
+      url: "<%= change_prefrence_payouts_path %>",
+      type: 'PATCH',
+      data: {"message" : data}
+    })
+  })
+
+</script>

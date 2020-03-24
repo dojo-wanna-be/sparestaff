@@ -66,8 +66,6 @@ class User < ApplicationRecord
       user.first_name = auth.info.first_name
       user.last_name = auth.info.last_name
       user.skip_confirmation!
-      setting = sef.build_notification_setting
-      setting.save
     end
   end
 

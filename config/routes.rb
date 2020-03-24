@@ -114,6 +114,7 @@ Rails.application.routes.draw do
       get :step_2
       get :stripe_account
       get :payouts_method
+      patch :change_prefrence
     end
   end
 
