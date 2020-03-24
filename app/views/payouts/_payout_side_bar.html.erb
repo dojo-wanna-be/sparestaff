@@ -1,19 +1,19 @@
 <div class="left-panel">
   <ul class="panel-list">
     <li class="panel-item">
-      <%= link_to 'Notifications', user_account_notification_payouts_path, class: "panel-link selected-panel #{is_active_menu('index')}" %>
+      <%= link_to 'Notifications', user_account_notification_payouts_path, class: "panel-link #{is_active_menu('user_account_notification')}" %>
     </li>
     <li class="panel-item">
-      <%= link_to 'Payment Methods', payouts_path, class: "panel-link selected-panel #{is_active_menu('payouts')}" %>
+      <%= link_to 'Payment Methods', payouts_path, class: "panel-link #{is_active_menu('index')}" %>
     </li>
     <li class="panel-item">
-      <%= link_to "Payout Preferences", step_1_payouts_path, class: "panel-link selected-panel #{is_active_menu('step_1')}" %>
+      <%= link_to "Payout Preferences", step_1_payouts_path, class: "panel-link #{is_active_menu('step_1')}" %>
     </li>
     <li class="panel-item">
-      <%= link_to "Transaction History", 'javascript:;', class: "panel-link" %>
+      <%= link_to "Transaction History", transacion_history_payouts_path, class: "panel-link #{is_active_menu('transacion_history')}" %>
     </li>
     <li class="panel-item">
-      <%= link_to 'Security', 'javascript:;', class: 'panel-link' %>
+      <%= link_to 'Security', security_payouts_path, class: "panel-link #{is_active_menu('security')}" %>
     </li>
   </ul>
 </div>

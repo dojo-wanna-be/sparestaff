@@ -112,6 +112,8 @@ Rails.application.routes.draw do
       get :user_account_notification
       get :step_1
       get :step_2
+      get :transacion_history
+      get :security
       get :stripe_account
       get :payouts_method
       patch :change_prefrence

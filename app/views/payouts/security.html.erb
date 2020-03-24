@@ -1,0 +1,42 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="transaction_history_section">
+  <div class="inner-listings-section">
+    <%= render partial: 'payout_side_bar'%>
+    <div class="right-panel">
+      <div class="listed-box">
+        <div class="right-panel-header">Change Your Password</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <label class="custom-label">Old Password</label>
+                <input class="custom-field" type="text"  name="Old Password" aria-invalid="false">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label">Password</label>
+                <input class="custom-field" type="text"  name="Password" aria-invalid="false">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label">Confirm Password</label>
+                <input class="custom-field" type="text"  name="Confirm Password" aria-invalid="false">
+              </div>
+
+              <div>
+                <div style="text-align: right;" colspan="2" class="BorderBottom">
+                </div>
+              </div>
+              
+              <%= link_to 'Update Password', 'javascript:;', class: 'continue_btn' %>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= render partial: "layouts/footer" %>
