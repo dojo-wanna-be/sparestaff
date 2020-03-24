@@ -1,132 +1,97 @@
 <%= render partial: "employee_listings/user_settings_header" %>
-<%= render partial: 'payout_side_bar'%>
-<table>
-	<tr>
-		<td class="PaddingRightBottom20px">
-			<table class="UserAccountBox">
-				<tr>
-					<th>Messages</th>
-				</tr>
-				<tr>
-					<td class="UserAccountBoxContent">Receive messages from Posters and Hirers, including
-									hiring requests.<br /><br />
-						<div class="GreyLine1Px"></div>
-						<br />
-						<table class="PaddingBottom10px">
-							<tr>
-								<td style="width: 30px">
-									<input name="Checkbox1" type="checkbox" class="checkbox"/>
-								</td>
-								<td><strong>Email</strong></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
+<div class="user_accounts_section">
+  <div class="inner-listings-section">
+    <%= render partial: 'payout_side_bar'%>
 
-		<td class="PaddingRightBottom20px">
-			<table class="UserAccountBox">
-				<tr>
-					<th>Contact Information</th>
-				</tr>
-				<tr>
-					<td class="UserAccountBoxContent">This information can
-								be edited from your profile page.
-						<%= link_to 'Edit', edit_user_registration_path, class: 'nav-link' %>
-						<!-- <a href="../user-profile/user-profile-edit-profile.html">Edit  -->
-								Profile</a><br /><br />
-						<div class="GreyLine1Px"></div><br />
-							<table class="PaddingBottom10px">
-								<tr>
-									<td>Email</td>
-									<td style="text-align: right">
-										<%=current_user.email%></td>
-								</tr>
-								<tr>
-									<td>Phone number</td>
-										<td style="text-align: right"><%=current_user.phone_number%></td>
-								</tr>
-							</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-		<td valign="top">
-			&nbsp;</td>
-					</tr>
-					<tr>
-						<td>
-						&nbsp;</td>
-						<td>
-						&nbsp;</td>
-	<tr>
-		<td class="PaddingRightBottom20px">
-				<table class="UserAccountBox">
-					<tr>
-						<th>Promotions and Tips</th>
-					</tr>
-					<tr>
-						<td class="UserAccountBoxContent">Receive coupons,
-								promotions, surveys, product updates, and inspiration
-								from Spare Staff and its partners.<br />
-								<br />
-								<div class="GreyLine1Px"></div><br />
-								<table class="PaddingBottom10px">
-									<tr>
-										<td style="width: 30px">
-											<input name="Checkbox2" type="checkbox" class="checkbox"/>
-										</td>
-										<td><strong>Email</strong></td>
-									</tr>
-									<tr>
-										<td style="width: 30px">
-											<input name="Checkbox3" type="checkbox" class="checkbox" /></td>
-										<td><strong>Phone calls</strong></td>
-									</tr>
-								</table>
-						</td>
-					</tr>
-				</table>
-		</td>
-		<td valign="top" style="width:30%">
-			&nbsp;</td>
-		<td valign="top">
-		&nbsp;</td>
-	</tr>
-	<tr>
-		<td>
-			&nbsp;</td>
-		<td>
-			&nbsp;</td>
-	</tr>
-				<td class="PaddingRightBottom20px">
-				<table class="ButtonOrange90px" align="right">
-					<tr>
-						<td><a href="#" class="save_prefrence">Save</a></td>
-					</tr>
-				</table>
-				</td>
-				<td valign="top" style="width:30%">
-				&nbsp;</td>
-				<td valign="top">
-				&nbsp;</td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		&nbsp;</td>
-	</tr>
-	<tr>
-		<td>
+    <div class="right-panel">
+      <div class="listed-box">
+        <div class="right-panel-header">Messages</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div>Receive messages from Posters and Hirers, including hiring requests.</div>
+            <br>
+            <div class="GreyLine1Px"></div>
+            <br>
+            <div class="checkbox_field">
+              <div class="left_field">
+                <div style="width: 30px">
+                  <input name="Checkbox1" type="checkbox">
+                </div>
+                <div><strong>Email</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="listed-box contact_listed_box">
+        <div class="right-panel-header">Contact Information</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div>This information can be edited from your profile page. <span><%= link_to 'Edit Profile', edit_user_registration_path, class: 'spare_link' %></span></div>
+            <br>
+            <div class="GreyLine1Px"></div>
+            <br>
+            <div class="checkbox_field">
+              <div class="left_field">
+                Email
+              </div>
+              <div class="right_field">
+                <%=current_user.email%>
+              </div>
+            </div>
+            <div class="checkbox_field">
+              <div class="left_field">
+                Phone number
+              </div>
+              <div class="right_field">
+                <%=current_user.phone_number%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="end_save_box">
+        <div class="listed-box">
+          <div class="right-panel-header">Promotions and Tips</div>
+          <div class="listing-card-box">
+            <div class="listing-card">
+              <div>Receive coupons, promotions, surveys, product updates, and inspiration from Spare Staff and its partners.</div>
+              <br>
+              <div class="GreyLine1Px"></div>
+              <br>
+              <div class="checkbox_field">
+                <div class="left_field">
+                  <div style="width: 30px">
+                    <input name="Checkbox1" type="checkbox">
+                  </div>
+                  <div><strong>Email</strong></div>
+                </div>
+              </div>
+              <div class="checkbox_field">
+                <div class="left_field">
+                  <div style="width: 30px">
+                    <input name="Checkbox1" type="checkbox">
+                  </div>
+                  <div><strong>Phone calls</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= link_to 'Save', 'javascript:;', class: 'save_prefrence continue_btn' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <%= render partial: "layouts/footer" %>
 
 <script type="text/javascript">
 
-	$(".save_prefrence").click(function(){
+  $(".save_prefrence").click(function(){
     val = $('.checkbox').val()
     if (val == true) {data = "true"} else { data = "false"}
     $.ajax({
