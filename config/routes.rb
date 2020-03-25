@@ -29,6 +29,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users do
+    collection do
+      get :profile_photo
+      get :trust_and_verification
+    end
+  end
+
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
       get :user_dashboard

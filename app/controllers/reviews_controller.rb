@@ -39,6 +39,10 @@ class ReviewsController < ApplicationController
 		@transaction = Transaction.find_by(id: params[:id])
 	end
 
+	def profile_photo
+		@current_user = current_user
+	end
+
 	private
 	def reviews_params
 		params.require(:review).permit!

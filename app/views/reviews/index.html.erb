@@ -1,0 +1,122 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+
+<div class="employee_listings_section">
+  <div class="inner-listings-section">
+    <div class="left-panel">
+      <ul class="panel-list">
+        <li class="panel-item">
+          <%= link_to "Edit Profile", '#', class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Photos", '#', class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Trust and Verification", '#', class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Reviews", '#', class: 'panel-link selected-panel' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right-panel">
+      <!-- Reviews Tab View -->
+      <div class="review_tab_box">
+        <div class="tab_row">
+          <%= link_to 'Reviews about you', 'javascript:;', class: 'tab_a active about_you' %>
+          <%= link_to 'Reviews by you', 'javascript:;', class: 'tab_a by_you' %>
+        </div>
+        <br>
+
+        <div class="listed-box" id="ReviewsAboutYouBox">
+          <div class="right-panel-header">
+            Past Reviews About You
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <div class="">
+                  Reviews are written at the end of a hiring 
+                  through Spare Staff. Reviews you’ve received 
+                  will be visible both here and on your public 
+                  profile.
+                </div>
+                <br>
+                <% @reviews.each do |review| %>
+                  <% sender = User.find_by(id: review.sender_id)%>
+                  <% if review.receiver_id.eql?(current_user.id) %>
+                    <div class="review_box">
+                      <div class="review_user_img">
+                        <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+                        <br>
+                        <span class="GreyText14Px"><%= sender.name %></span>
+                      </div>
+                      <div class="user_text">
+                        <%= review.public_feedback %>
+                        <br>
+                        <br>
+                        <span class="GreyText16Px"><%= review.created_at.strftime("%B, %Y") %></span>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="listed-box" id="ReviewsByYouBox">
+          <div class="right-panel-header">
+            Past Reviews You've Written
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <% @reviews.each do |review| %>
+                  <% receiver = User.find_by(id: review.receiver_id)%>
+                  <% if review.sender_id.eql?(current_user.id) %>
+                    <div class="review_box">
+                      <div class="review_user_img">
+                        <%= image_tag receiver.avatar.url, class: 'ProfileIcon60px' %>
+                        <br>
+                        <span class="GreyText14Px"><%= receiver.name %></span>
+                      </div>
+                      <div class="user_text">
+                        <%= review.public_feedback %>
+                        <br>
+                        <br>
+                        <span class="GreyText16Px"><%= receiver.created_at.strftime("%B, %Y") %></span>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Reviews Tab View -->
+
+    </div>
+  </div>
+</div>
+<%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  var selector = '.tab_row a';
+
+  $(selector).on('click', function(){
+      $(selector).removeClass('active');
+      $(this).addClass('active');
+  });
+
+  $('.about_you').click(function(){
+    $('#ReviewsByYouBox').hide();
+    $('#ReviewsAboutYouBox').show();
+  });
+  $('.by_you').click(function(){
+    $('#ReviewsAboutYouBox').hide();
+    $('#ReviewsByYouBox').show();
+  });
+</script>

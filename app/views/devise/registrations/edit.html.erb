@@ -9,13 +9,13 @@
           <%= link_to "Edit Profile", '#', class: 'panel-link selected-panel' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Photos", '#', class: 'panel-link' %>
+          <%= link_to "Photos", profile_photo_users_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Trust and Verification", '#', class: 'panel-link' %>
+          <%= link_to "Trust and Verification", trust_and_verification_users_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Reviews", '#', class: 'panel-link' %>
+          <%= link_to "Reviews", reviews_path, class: 'panel-link' %>
         </li>
       </ul>
     </div>
@@ -183,59 +183,14 @@
 
       <!-- Photos Tab View -->
       <br>
-      <div class="listed-box">
-        <div class="right-panel-header">
-          Profile Photo
-        </div>
-        <div class="listing-card-box photos_card">
-          <div class="custom-field-box">
-            <div class="user_profile_box">
-              <div class="user_box">
-                <%= image_tag 'Henry1.jpg', class: 'user_image' %>
-                <div class="bin_box">
-                  <%= image_tag 'bin-icon.jpg' %>
-                </div>
-              </div>
-              <div class="user_text">
-                <div>A profile photo about you is important to earn credibility and trust from other users in our community. Be sure to use a photo that does not include any personal or sensitive information you’d rather not show to the public.</div>
-                <%= link_to 'Upload a file from your computer', 'javascript:;', class: 'upload_file' %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Photos Tab View -->
 
       <!-- Trust and Verification Tab View -->
-      <br>
-      <div class="listed-box">
-        <div class="right-panel-header">
-          Verified Info
-        </div>
-        <div class="listing-card-box photos_card">
-          <div class="custom-field-box">
-           <div class="Verified_Info_box">
-              <h4 class="verified_heading">Email address</h4>
-              <div>You have confirmed your email: 
-              <strong>namutd@outlook.com</strong>. A confirmed email is 
-              important to allow us to securely communicate 
-              with you.</div>
-              <br>
-              <h4 class="verified_heading">Phone number</h4>
-              <div>Your number is only shared with another Spare 
-              Staff member once you have a confirmed hiring.</div>
-              <br>
-              <h4 class="verified_heading">Company Identification</h4>
-              <div>You’ve successfully provided company identification.</div>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Trust and Verification Tab View -->
 
       <!-- Reviews Tab View -->
       <br>
-      <div class="review_tab_box">
+      <div class="review_tab_box hidden">
         <div class="tab_row">
           <%= link_to 'Reviews about you', 'javascript:;', class: 'tab_a active about_you' %>
           <%= link_to 'Reviews by you', 'javascript:;', class: 'tab_a by_you' %>

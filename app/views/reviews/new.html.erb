@@ -12,7 +12,7 @@
     <%= form_for @review, method: :post, id: "" do |f| %>
       <% if @transaction.poster.eql?(current_user) %>
         <p>Your review will be public on hirer's profile.</p>
-        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with HirerDEF? How was the work environment, culture, colleagues, benefits & perks?" %>
+        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with #{@transaction.hirer.name} How was the work environment, culture, colleagues, benefits & perks?" %>
 
         <div class="sub-title18">Private Feedback</div>
         <p>This feedback is just for the hirer. We won't make it public.</p>
