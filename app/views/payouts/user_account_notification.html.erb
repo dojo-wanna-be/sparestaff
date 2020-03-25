@@ -4,7 +4,7 @@
     <%= render partial: 'payout_side_bar'%>
     <div class="right-panel">
       <div class="listed-box">
-        <%= form_tag change_prefrence_payouts_path, method: :patch, remote: true, id: "user_prefrence_form" do |f| %>
+        <%= form_tag change_preference_payouts_path, method: :patch, remote: true, id: "user_prefrence_form" do |f| %>
           <div class="right-panel-header">Messages</div>
           <div class="listing-card-box">
             <div class="listing-card">
@@ -15,7 +15,8 @@
               <div class="checkbox_field">
                 <div class="left_field">
                   <div style="width: 30px">
-                    <%= check_box_tag "notification_about_receive_message", class: 'notification_checkbox' %>
+                    <%= hidden_field_tag :notification_about_receive_message, 'false' %>
+                    <%= check_box_tag :notification_about_receive_message, true, false, class: 'notification_checkbox' %>
                     <!-- <input name="Checkbox1" type="checkbox"> -->
                   </div>
                   <div><strong>Email</strong></div>
@@ -66,7 +67,8 @@
                   <div class="left_field">
                     <div style="width: 30px">
                       <!-- <input name="Checkbox1" type="checkbox"> -->
-                      <%= check_box_tag "notification_about_promotions_on_email", class: 'notification_checkbox' %>
+                    <%= hidden_field_tag :notification_about_promotions_on_email, 'false' %>
+                      <%= check_box_tag :notification_about_promotions_on_email, true, false,class: 'notification_checkbox' %>
                     </div>
                     <div><strong>Email</strong></div>
                   </div>
@@ -75,7 +77,8 @@
                   <div class="left_field">
                     <div style="width: 30px">
                       <!-- <input name="Checkbox1" type="checkbox"> -->
-                      <%= check_box_tag "notification_about_promotions_on_phone", class: 'notification_checkbox' %>
+                    <%= hidden_field_tag :notification_about_promotions_on_phone, 'false' %>
+                      <%= check_box_tag :notification_about_promotions_on_phone, true, false, class: 'notification_checkbox' %>
                     </div>
                     <div><strong>Phone calls</strong></div>
                   </div>
@@ -93,16 +96,3 @@
 
 <%= render partial: "layouts/footer" %>
 
-<!-- <script type="text/javascript"> -->
-
-  $(".save_prefrence").click(function(){
-    val = $('.checkbox').val()
-    if (val == true) {data = "true"} else { data = "false"}
-    $.ajax({
-      url: "<%= change_prefrence_payouts_path %>",
-      type: 'PATCH',
-      data: {"message" : data}
-    })
-  })
-
-<!-- </script> -->

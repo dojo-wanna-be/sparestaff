@@ -3,7 +3,6 @@ class InboxesController < ApplicationController
   before_action :read_conversation, only: [:show]
 
   def index
-    binding.pry
     @conversations = Conversation.where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id).order("updated_at desc")
   end
 

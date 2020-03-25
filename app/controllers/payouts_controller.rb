@@ -4,7 +4,14 @@ class PayoutsController < ApplicationController
 
   def step_2; end
 
-  def transacion_history; end
+  def transacion_history
+    poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+    @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
+    @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
+    # @completed_listing_transactions.each do |transaction|
+    #   @stripe_payments = transaction.stripe_payments
+    # end
+  end
 
   def security; end
 
@@ -30,25 +37,14 @@ class PayoutsController < ApplicationController
       end
   end
 
-  def change_prefrence
-    if params[:notification_about_receive_message].present?
-      val1 = true
-    else
-      val1 = false
-    end
-    if params[:notification_about_promotions_on_email].present?
-      val2 = true
-    else
-      val2 = false
-    end
-    if params[:notification_about_promotions_on_phone].present?
-      val3 = true
-    else
-      val3 = false
-    end
-    current_user.notification_setting.preferences["notification_about_receive_message"] = val1
-    current_user.notification_setting.preferences["notification_about_promotions_on_email"] = val2
-    current_user.notification_setting.preferences["notification_about_promotions_on_phone"] = val3
+  def change_preference
+    updated_preferences = {
+      notification_about_receive_message:      params[:notification_about_receive_message],
+      notification_about_promotions_on_email:  params[:notification_about_promotions_on_email],
+      notification_about_promotions_on_phone:  params[:notification_about_promotions_on_phone]
+    }
+      current_user.notification_setting.update(preferences: updated_preferences)
+      redirect_to payouts_path
   end
 
 end

@@ -17,13 +17,15 @@
                 <div style="width: 15%"><strong>Amount</strong></div>
                 <div><strong>Paid Out</strong></div>
               </div>
-              <div class="table_row">
-                <div style="width: 15%">26-02-2019</div>
-                <div style="width: 15%">Payout</div>
-                <div style="width: 40%">Transfer to PayPal</div>
-                <div style="width: 15%">&nbsp;</div>
-                <div><strong>$333.90</strong></div>
-              </div>
+              <% @completed_listing_transactions.each do |transaction| %>
+                <div class="table_row">
+                  <div style="width: 15%"><%= "#{transaction.end_date.strftime('%d %b %Y')}" %></div>
+                  <div style="width: 15%">Reservation</div>
+                  <div style="width: 40%"><%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %></div>
+                  <div style="width: 15%">&nbsp;</div>
+                  <div><strong><%="#{transaction.amount}"%></strong></div>
+                </div>
+              <% end %>
               <div class="table_row">
                 <a href="#" class="tab_btn">&lt;</a>
                 <a href="#" class="tab_btn">&gt;</a>
