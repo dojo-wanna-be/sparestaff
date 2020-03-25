@@ -23,4 +23,5 @@
 //= require activestorage
 //= require bootstrap-datepicker
 //= require turbolinks
+//= require jquery.raty
 //= require_tree .

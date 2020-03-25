@@ -1,0 +1,137 @@
+<style type="text/css">
+  * {
+  font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+  body::-webkit-scrollbar { 
+  display: none; 
+  }  
+  .send_message:link{
+  text-decoration: none;       
+  }
+  .send_message:visited{ 
+  text-decoration: none;         
+  }
+  .send_message:hover{
+  text-decoration: underline;
+  }
+  .Visit:link{
+  text-decoration: none;
+  color: #f15927;
+  }
+  .Visit:visited{ 
+  text-decoration: none;   
+  color: #f15927;
+  }
+  .Visit:hover{
+  text-decoration: underline;
+  }
+</style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="en-au" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Rate your experience with <%= @hirer.name %></title>
+    <link href="../sparestaff.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <table class="Padding80px" style="width: 100%">
+      <tr>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <br />
+          <h1>Rate your experience with HirerDEF</h1>
+          <table style="width: 500px">
+            <tr>
+              <td colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 50%; padding-bottom:20px"><%= @listing.name %><br />
+                <%= @listing.title %>
+              </td>
+              <td style="padding-bottom:20px">
+                <%= image_tag @listing.profile_picture.url , class: "Image100pxRight" %>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 50%"><strong>Hirer</strong>:<br />
+                <%= @hirer.name %>
+              </td>
+              <td>
+                <%= image_tag @hirer.avatar.url , class: "Image100pxRight" %>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <%= link_to write_a_review_reservations_url do %>
+                  <img alt="" height="105" src="https://staging.sparestaff.com.au/assets/rating.png" width="500" />
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><br /></td>
+            </tr>
+            <tr>
+              <td colspan="2">Your employee <%= @listing.name %> has 
+                just completed employment contract with <%= @hirer.name %>. Now, take a minute to reflect on the experience 
+                and share a quick review.<br />
+                <br />
+                You’ll have space to leave private feedback just for <%= @hirer.name %>, and public comments for future 
+                posters too.<br />
+                <br />
+                We won’t share any of your responses until after <%= @hirer.name %> leaves feedback too.<br />
+                <br />
+                Click on the star rating image above or
+                <%= link_to 'click here', new_review_url(tx_id: @transaction.id) %> to leave 
+                your review.<br />
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <br />
+                <div class="GreyLine1Px"></div>
+                <br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                The Spare Staff Team
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 300px">&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </body>
+</html>

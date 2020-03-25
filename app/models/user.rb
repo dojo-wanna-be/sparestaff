@@ -33,6 +33,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable
+  ratyrate_rater
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
@@ -45,6 +46,7 @@ class User < ApplicationRecord
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
   has_many :messages, class_name: "Message", foreign_key: "sender_id"
   has_one :stripe_info
+  has_many :reviews
 
   enum user_type: { owner: 0, hr: 1 }
 

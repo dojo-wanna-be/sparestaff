@@ -55,4 +55,20 @@ class TransactionMailer < ApplicationMailer
     @transaction = transaction
     mail(to: email, subject: "Hiring Details")
   end
+
+  def write_review_mail_to_poster(transaction)
+    @listing = transaction.employee_listing
+    @transaction = transaction
+    @poster = transaction.poster
+    @hirer = transaction.hirer
+    mail(to: @poster.email, subject: "Rate your experience with #{@hirer.name}")
+  end
+
+  def write_review_mail_to_hirer(transaction)
+    @listing = transaction.employee_listing
+    @transaction = transaction
+    @poster = transaction.poster
+    @hirer = transaction.hirer
+    mail(to: @hirer.email, subject: "Rate your experience with #{@poster.name}")
+  end
 end
