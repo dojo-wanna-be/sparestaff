@@ -3,7 +3,7 @@ namespace :notification_setting do
   task creating_notification_setting: :environment do
   	User.all.each do |u|
       setting = u.build_notification_setting
-			u.save
+			setting.save
 		end
   end
 end

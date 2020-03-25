@@ -31,5 +31,24 @@ class PayoutsController < ApplicationController
   end
 
   def change_prefrence
+    if params[:notification_about_receive_message].present?
+      val1 = true
+    else
+      val1 = false
+    end
+    if params[:notification_about_promotions_on_email].present?
+      val2 = true
+    else
+      val2 = false
+    end
+    if params[:notification_about_promotions_on_phone].present?
+      val3 = true
+    else
+      val3 = false
+    end
+    current_user.notification_setting.preferences["notification_about_receive_message"] = val1
+    current_user.notification_setting.preferences["notification_about_promotions_on_email"] = val2
+    current_user.notification_setting.preferences["notification_about_promotions_on_phone"] = val3
   end
+
 end
