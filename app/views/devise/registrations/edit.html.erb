@@ -1,55 +1,382 @@
-<h2>Edit <%= resource_name.to_s.humanize %> Profile</h2>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= render partial: "employee_listings/user_settings_header" %>
+
+
+<div class="employee_listings_section">
+  <div class="inner-listings-section">
+    <div class="left-panel">
+      <ul class="panel-list">
+        <li class="panel-item">
+          <%= link_to "Edit Profile", '#', class: 'panel-link selected-panel' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Photos", '#', class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Trust and Verification", '#', class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Reviews", '#', class: 'panel-link' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right-panel">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="listed-box">
+          <div class="right-panel-header">
+            Required
+          </div>
+          <div class="listing-card-box">
+            <div class="custom-field-box">
+              
+              <!-- <div class="custom-input-group">
+                <%#= f.label :email, class: 'custom-label' %>
+                <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              </div> -->
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+              <% end %>
+
+              <div class="custom-input-group">
+                <%= f.label :first_name, class: 'custom-label' %>
+                <%= f.text_field :first_name, autocomplete: "first_name", class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <%= f.label :last_name, class: 'custom-label' %>
+                <%= f.text_field :last_name, autocomplete: "last_name", class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Your Location</label>
+                <div class="error_field_box">
+                  <input class="custom-field" type="feild" name="" autocomplete="Location">
+                  <span class="error_message">Full address is not required.</span>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Your Email</label>
+                <div class="error_field_box">
+                  <input class="custom-field" type="feild" name="" autocomplete="">
+                  <span class="error_message">Your email is not shared to other users.</span>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Your Phone Number</label>
+                <div class="error_field_box">
+                  <input class="custom-field half_text_field" type="number" name="" autocomplete="phone_number">
+                  <span class="error_message">This is only shared to Hirer/Poster after hiring request is accepted. This is how we can all get in touch.</span>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Describe Yourself or Your Company</label>
+                <div class="error_field_box">
+                  <textarea cols="20" name="TextArea1" rows="5" class="custom_text_area"></textarea>
+                  <span class="error_message">Spare Staff is built on relationships. Help other people get to know you or your company. More details here give extra confidence and trust in our community.</span>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <%= f.label :password, class: 'custom-label' %>
+                <div class="error_field_box">
+                  <%= f.password_field :password, autocomplete: "new-password", class: 'custom-field' %>
+                  <% if @minimum_password_length %>
+                    <span class="error_message"><%= @minimum_password_length %> characters minimum</span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="custom-input-group">
+                <%= f.label :password_confirmation, class: 'custom-label' %>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <%= f.label :current_password , class: 'custom-label'%>
+                <%= f.password_field :current_password, autocomplete: "current-password", class: 'custom-field' %>
+              </div>
+
+              <div class="custom-input-group">
+                <%= f.label :upload_profile_picture, class: 'custom-label' %>
+                <%= f.file_field :avatar, class: 'custom-field' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="listed-box">
+          <div class="right-panel-header">
+            Only Required If You Are Representing A Company
+          </div>
+          <div class="listing-card-box">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <label class="custom-label" >Company Name</label>
+                <input class="custom-field" type="feild" name="Company Name" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >ACN/ABN</label>
+                <input class="custom-field half_text_field" type="feild" name="Company Name" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Your Role in Company</label>
+                <select name="Select4" class="custom-field half_text_field">
+                  <option>Not applicable</option>
+                  <option>HR Manager</option>
+                  <option>Director/Owner</option>
+                </select>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Company Address</label>
+                <input class="custom-field" type="feild" name="Company Address" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Address Line 2</label>
+                <input class="custom-field" type="feild" name="Address Line 2" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Suburb/City</label>
+                <input class="custom-field half_text_field" type="feild" name="Suburb/City" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >State</label>
+                <select name="Select5" class="custom-field half_text_field">
+                  <option selected="selected">NSW</option>
+                  <option>VIC</option>
+                  <option>QLD</option>
+                  <option>WA</option>
+                  <option>SA</option>
+                  <option>NT</option>
+                  <option>ACT</option>
+                  <option>TAS</option>
+                </select>
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Postcode</label>
+                <input class="custom-field half_text_field" type="feild" name="Suburb/City" autocomplete="">
+              </div>
+
+              <div class="custom-input-group">
+                <label class="custom-label" >Country</label>
+                <select name="Select6" class="custom-field half_text_field">
+                  <option selected="selected">Australia</option>
+                </select>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <%= f.submit "Save", class: 'continue_btn' %>
+        </div>
+      <% end %>
+
+      <!-- Photos Tab View -->
+      <br>
+      <div class="listed-box">
+        <div class="right-panel-header">
+          Profile Photo
+        </div>
+        <div class="listing-card-box photos_card">
+          <div class="custom-field-box">
+            <div class="user_profile_box">
+              <div class="user_box">
+                <%= image_tag 'Henry1.jpg', class: 'user_image' %>
+                <div class="bin_box">
+                  <%= image_tag 'bin-icon.jpg' %>
+                </div>
+              </div>
+              <div class="user_text">
+                <div>A profile photo about you is important to earn credibility and trust from other users in our community. Be sure to use a photo that does not include any personal or sensitive information you’d rather not show to the public.</div>
+                <%= link_to 'Upload a file from your computer', 'javascript:;', class: 'upload_file' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Photos Tab View -->
+
+      <!-- Trust and Verification Tab View -->
+      <br>
+      <div class="listed-box">
+        <div class="right-panel-header">
+          Verified Info
+        </div>
+        <div class="listing-card-box photos_card">
+          <div class="custom-field-box">
+           <div class="Verified_Info_box">
+              <h4 class="verified_heading">Email address</h4>
+              <div>You have confirmed your email: 
+              <strong>namutd@outlook.com</strong>. A confirmed email is 
+              important to allow us to securely communicate 
+              with you.</div>
+              <br>
+              <h4 class="verified_heading">Phone number</h4>
+              <div>Your number is only shared with another Spare 
+              Staff member once you have a confirmed hiring.</div>
+              <br>
+              <h4 class="verified_heading">Company Identification</h4>
+              <div>You’ve successfully provided company identification.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Trust and Verification Tab View -->
+
+      <!-- Reviews Tab View -->
+      <br>
+      <div class="review_tab_box">
+        <div class="tab_row">
+          <%= link_to 'Reviews about you', 'javascript:;', class: 'tab_a active about_you' %>
+          <%= link_to 'Reviews by you', 'javascript:;', class: 'tab_a by_you' %>
+        </div>
+        <br>
+
+        <div class="listed-box" id="ReviewsAboutYouBox">
+          <div class="right-panel-header">
+            Past Reviews About You
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <div class="">
+                  Reviews are written at the end of a hiring 
+                  through Spare Staff. Reviews you’ve received 
+                  will be visible both here and on your public 
+                  profile.
+                </div>
+                <br>
+                <div class="review_box">
+                  <div class="review_user_img">
+                    <%= image_tag 'Henry1.jpg', class: 'ProfileIcon60px' %>
+                    <br>
+                    <span class="GreyText14Px">UserDEF</span>
+                  </div>
+                  <div class="user_text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.
+                    <br>
+                    <br>
+                    <span class="GreyText16Px">June 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="listed-box" id="ReviewsByYouBox">
+          <div class="right-panel-header">
+            Past Reviews You've Written
+          </div>
+          <div class="listing-card-box photos_card">
+            <div class="custom-field-box">
+              <div class="review_user-box">
+                <div class="review_box">
+                  <div class="review_user_img">
+                    <%= image_tag 'luca.png', class: 'ProfileIcon60px' %>
+                    <br>
+                    <span class="GreyText14Px">UserDEF</span>
+                  </div>
+                  <div class="user_text">When you saw him you would think: this kid can't play ball. He's a dwarf, he's too fragile, too small. But immediately you'd realise that he was born different, that he was a phenomenon and that he was going to be something impressive.
+                    <br>
+                    <br>
+                    <span class="GreyText16Px">June 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Reviews Tab View -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <h2>Edit <%#= resource_name.to_s.humanize %> Profile</h2> -->
+<%#= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%#= render "devise/shared/error_messages", resource: resource %>
   <!-- <div class="field">
     <%#= f.label :email %><br />
     <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div> -->
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+  <%# if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <!-- <div>Currently waiting confirmation for: <%#= resource.unconfirmed_email %></div> -->
+  <%# end %>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autocomplete: "first_name" %>
+<!--   <div class="field">
+    <%#= f.label :first_name %><br />
+    <%#= f.text_field :first_name, autocomplete: "first_name" %>
   </div>
 
   <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name, autocomplete: "last_name" %>
+    <%#= f.label :last_name %><br />
+    <%#= f.text_field :last_name, autocomplete: "last_name" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
+    <%#= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%#= f.password_field :password, autocomplete: "new-password" %>
+    <%# if @minimum_password_length %>
       <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
+      <em><%#= @minimum_password_length %> characters minimum</em>
+    <%# end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%#= f.label :password_confirmation %><br />
+    <%#= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
+    <%#= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%#= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :upload_profile_picture %><br />
-    <%= f.file_field :avatar %>
+    <%#= f.label :upload_profile_picture %><br />
+    <%#= f.file_field :avatar %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%#= f.submit "Update" %>
   </div>
-<% end %>
+<%# end %>
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>Unhappy? <%#= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p> -->
 
-<%= link_to "Back", '/' %>
+<%#= link_to "Back", '/' %>
+
+<%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+  var selector = '.tab_row a';
+
+  $(selector).on('click', function(){
+      $(selector).removeClass('active');
+      $(this).addClass('active');
+  });
+
+  $('.about_you').click(function(){
+    $('#ReviewsByYouBox').hide();
+    $('#ReviewsAboutYouBox').show();
+  });
+  $('.by_you').click(function(){
+    $('#ReviewsAboutYouBox').hide();
+    $('#ReviewsByYouBox').show();
+  });
+</script>

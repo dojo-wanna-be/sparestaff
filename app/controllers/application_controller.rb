@@ -1,12 +1,11 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  before_action :conversationcount
+  before_action :unread_message_count
 
-  def conversationcount
+  def unread_message_count
     if current_user.present?
-    	@conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
-      @conversationsc = @conversations.where(read: false)
-      @conversationsc
+    # @unread_count = Message.joins(:conversation).where("read =? AND messages.sender_id !=? AND (conversations.sender_id =? OR conversations.receiver_id =?)", false, current_user.id, current_user.id, current_user.id).size
+      @unread_count = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct.count
     end
   end
   

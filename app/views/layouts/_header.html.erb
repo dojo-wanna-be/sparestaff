@@ -17,7 +17,7 @@
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to inboxes_path, class: "nav-link message" do %>
-              <span>Message</span><span class="badge"><%=@conversationsc.count%></span>
+              <span>Message</span><span class="badge"><%=@unread_count%></span>
             <% end %>
           </li>
         <% end %>

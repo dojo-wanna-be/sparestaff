@@ -81,3 +81,9 @@
     </div>
   </div>
 <% end %>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    c = "<%= @unread_count %>"
+    $(".badge").text(c)
+  });
+</script>
