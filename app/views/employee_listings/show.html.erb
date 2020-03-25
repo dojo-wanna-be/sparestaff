@@ -156,8 +156,9 @@
         <div class="review-box" id="Reviews">
           <div class="review-header">
             <div class="review-count">
-              25 Reviews
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <%= @reviews_all.count %> Reviews&nbsp;
+              <div class="reviews_all_star_profile" data-score ="<%= @reviews_all_star.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
             </div>
             <div class="search-review">
                <input name="Text1" type="text" placeholder="Search reviews" class="custom-input" />
@@ -170,13 +171,15 @@
               <div class="text-review">
                 Friendliness
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="friendliness_grade_profile" data-score ="<%= @friendliness_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Technical skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="knowledge_n_skills_profile" data-score ="<%= @knowledge_n_skills_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -185,13 +188,15 @@
               <div class="text-review">
                 Punctuality
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="punctuality_grade_profile" data-score ="<%= @punctuality_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Management skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="management_skill_grade_profile" data-score ="<%= @management_skill_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -200,69 +205,39 @@
               <div class="text-review">
                 Professionalism
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="professionalism_grade_profile" data-score ="<%= @professionalism_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Communication
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="communication_grade_profile" data-score ="<%= @communication_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
           </ul>
-
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
+          <% @reviews_all.each do |review| %>
+            <% tx = Transaction.find_by(id: review.transaction_id) %>
+            <div class="user-review">
+              <div class="user-detail">
+                <div class="user">
+                  <%= link_to '../users/user-profile.html', target: '_blank' do %>
+                    <%= image_tag tx.hirer.avatar.url, class: 'user-img' %>
+                  <% end %>
+                  <div class="name">
+                    <div><b><%= tx.hirer.name %></b></div>
+                    <div><%= review.created_at.strftime("%B, %Y") %></div>
+                  </div>
+                </div>
+                <div class="flag">
+                  <%= image_tag 'flag.png', class: 'FlagReview' %>
                 </div>
               </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
+              <p class="review-text"><%= review.public_feedback %></p>
             </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
+          <% end %>
 
           <div class="poster-box" id="Poster">
             <div class="poster-detail">
@@ -940,4 +915,12 @@
 
   //   $('#transaction_start_date, #transaction_end_date').datepicker('setDate', today);
   // });
+  $('.friendliness_grade_profile,.knowledge_n_skills_profile,.punctuality_grade_profile,.management_skill_grade_profile,.professionalism_grade_profile,.communication_grade_profile,.reviews_all_star_profile').raty({
+    readOnly: true,
+    score: function() {
+        return $(this).attr('data-score');
+      },
+    path: '/assets/'
+  });
+
 </script>
