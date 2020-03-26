@@ -50,6 +50,7 @@ class Transaction < ApplicationRecord
   has_one :conversation, dependent: :destroy
   has_one :address, dependent: :destroy
   has_many :payment_receipts
+  has_many :reviews, foreign_key: "transaction_id"
   enum frequency: { weekly: 0, fortnight: 1 }
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
   enum cancelled_by: { hirer: 0, poster: 1 }

@@ -34,7 +34,7 @@
                 <% else %>
                   <%= image_tag(current_user.avatar.url(:thumb), class: "ProfileIcon") %>
                 <% end %>
-                <%#= current_user.name  %>
+                <%= current_user.name  %>
               </span>
             <% end %>
             <%= render partial: "layouts/user_icon_menu_box" %>

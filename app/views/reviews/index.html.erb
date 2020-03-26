@@ -44,8 +44,9 @@
                 </div>
                 <br>
                 <% @reviews.each do |review| %>
+                  <% transaction = Transaction.find_by(id: review.transaction_id) %>
                   <% sender = User.find_by(id: review.sender_id)%>
-                  <% if review.receiver_id.eql?(current_user.id) %>
+                  <% if review.receiver_id.eql?(current_user.id) && (transaction.reviews.count.eql?(2) || transaction.end_date + 14.days <= Date.today) %>
                     <div class="review_box">
                       <div class="review_user_img">
                         <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>

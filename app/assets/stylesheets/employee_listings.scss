@@ -1,3 +1,15 @@
 // Place all the styles related to the employee_listings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.friendliness_grade_profile,.knowledge_n_skills_profile,.punctuality_grade_profile,.management_skill_grade_profile,.professionalism_grade_profile,.communication_grade_profile {
+	margin-top: -2px;
+	img {
+		width: 16px;
+	}
+}
+.reviews_all_star_profile {
+	margin-top: -2px;
+	img {
+		width: 19px;	
+	}
+}
