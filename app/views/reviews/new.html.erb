@@ -1,0 +1,324 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="write-a-review-section">
+  <div class="left-review-box">
+    <h2 class="main-heading">Rate & Review</h2>
+    <% if @transaction.poster.eql?(current_user) %>
+      <div class="sub-title18">Describe your experience with the hirer - <%= @transaction.hirer.name %> (required)</div>
+    <% else %>
+      <div class="sub-title18">Describe your experience with the poster - <%= @transaction.hirer.name %> and the employee - <%= @transaction.employee_listing.name %> (required)
+      </div>
+    <% end %>
+
+    <%= form_for @review, method: :post, id: "" do |f| %>
+      <% if @transaction.poster.eql?(current_user) %>
+        <p>Your review will be public on hirer's profile.</p>
+        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with #{@transaction.hirer.name} How was the work environment, culture, colleagues, benefits & perks?" %>
+
+        <div class="sub-title18">Private Feedback</div>
+        <p>This feedback is just for the hirer. We won't make it public.</p>
+        <%= f.text_area :private_feedback, class: "review-textarea", placeholder: "Thank the hirer for work opportunity or offer some tips to help them improve for next hiring." %>
+        <!-- <textarea name="TextArea3" class="review-textarea" cols="20" rows="1" placeholder="Thank the hirer for work opportunity or offer some tips to help them improve for next hiring."></textarea> -->
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Workplace Environment</div>
+          <div>Is it a good place to work at?</div>
+          <div>
+            <br>
+          <div class="work_environment_grade"></div>
+            <%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Suitability</div>
+          <div>Was the work suitable for the employee?</div>
+          <br>
+          <div class="suitability_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Communication</div>
+          <div>How clearly did the hirer communicate their plans, questions, concerns?</div>
+          <br>
+          <div class="communication_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Employee Satisfaction</div>
+          <div>Did the employee enjoy the work?</div>
+          <br>
+          <div class="employee_satisfaction_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Employee's and Your Overall Experience</div>
+          <div><%#= image_tag 'rating-selected.png', class: 'selected-star' %></div>
+          <div class="ex_star">
+            <div class="inline_stars">
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Terrible</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Bad</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Okay</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Good</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Great</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Would you recommend this hirer?</div>
+          <div>Your answer will not be posted on hirer profile.</div>
+          <div class="thumbs-box">
+            <div class="box">
+              <%= image_tag 'thumbs-down.png', class: 'thumbs-img' %>
+              <span class="answer">No</span>
+            </div>
+            <div class="box">
+              <%= image_tag 'thumbs-up.png', class: 'thumbs-img' %>
+              <span class="answer">Yes</span>
+            </div>
+          </div>
+        </div>
+        <%= hidden_field_tag 'review[overall_experience]' , "", class: "overall_experience" %>
+        <%= hidden_field_tag 'review[recommendation]' , "", class: "recommendation" %>
+        <%= hidden_field_tag 'review[transaction_id]' , @transaction.id %>
+        <div>
+          <%= submit_tag "Submit", class: 'submit-btn' %>
+          <%#= link_to 'Submit', '#', class: 'submit-btn' %>
+        </div>
+      <% else %>
+        <p>Your review will be public on poster's profile.</p>
+        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with PosterABC? How was the employee's skills, experience, teamwork collaboration, professionalism?" %>
+
+        <div class="sub-title18">Private Feedback</div>
+        <p>This feedback is just for the poster and the employee. We won't make it public.</p>
+        <%= f.text_area :private_feedback, class: "review-textarea", placeholder: "Thank the poster/employee for helping or offer some tips to help them improve for next hiring." %>
+        <!-- <textarea name="TextArea3" class="review-textarea" cols="20" rows="1" placeholder="Thank the hirer for work opportunity or offer some tips to help them improve for next hiring."></textarea> -->
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Friendliness</div>
+          <div>Was the employee friendly?</div>
+          <div>
+            <br>
+            <div class="friendliness_grade"></div>
+            <%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Punctuality</div>
+          <div>Was the employee always on-time?</div>
+          <br>
+          <div class="punctuality_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Professionalism</div>
+          <div>Overall attitude, accountability, teamwork, behaviour, presentability</div>
+          <br>
+          <div class="professionalism_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Knowledge & Skills</div>
+          <div>Was the employee skilful and knowledgeable at the job?</div>
+          <br>
+          <div class="knowledge_n_skills_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Communication</div>
+          <div>How well the employee communicate with others?</div>
+          <br>
+          <div class="communication_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Management Skills</div>
+          <div>Was the employee good at managing team, making decision?</div>
+          <br>
+          <div class="management_skill_grade"></div>
+          <div><%#= image_tag 'star-rating.png', class: 'review-star' %></div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Your Overall Experience</div>
+          <div><%#= image_tag 'rating-selected.png', class: 'selected-star' %></div>
+          <div class="ex_star">
+            <div class="inline_stars">
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Terrible</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Bad</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Okay</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Good</div>
+              </div>
+              <div class="star_container">
+                <%= image_tag 'blue_blank.png', class: "star_recommend_blank" %>
+                <%= image_tag 'blue_full.png', class: "star_recommend_full" %>
+                <div class="low_text">Great</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rate-and-review">
+          <div class="sub-title18">Would you recommend this employee?</div>
+          <div>Your answer will not be posted on employee profile.</div>
+          <div class="thumbs-box">
+            <div class="box">
+              <%= image_tag 'thumbs-down.png', class: 'thumbs-img' %>
+              <span class="answer">No</span>
+            </div>
+            <div class="box">
+              <%= image_tag 'thumbs-up.png', class: 'thumbs-img' %>
+              <span class="answer">Yes</span>
+            </div>
+          </div>
+        </div>
+        <%= hidden_field_tag 'review[overall_experience]' , "", class: "overall_experience" %>
+        <%= hidden_field_tag 'review[recommendation]' , "", class: "recommendation" %>
+        <%= hidden_field_tag 'review[transaction_id]' , @transaction.id %>
+        <div>
+          <%= submit_tag "Submit", class: 'submit-btn' %>
+          <%#= link_to 'Submit', '#', class: 'submit-btn' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="right-review-box">
+    <div class="right-user-box">
+      <div class="user-img-box">
+        <%= image_tag @transaction.employee_listing.profile_picture.url, class: 'user-img' %>
+      </div>
+
+      <div class="details-box">
+        <div><b>Employee:</b></div>
+        <div><%= @transaction.employee_listing.name %></div>
+        <div><%= @transaction.employee_listing.title %></div>
+      </div>
+
+      <div class="details-box">
+        <div><b>Hired:</b></div>
+        <div><%= @transaction.start_date %> - <%= @transaction.end_date %></div>
+      </div>
+      <% if @transaction.poster.eql?(current_user) %>
+        <div class="details-box">
+          <div><b>Hirer:</b></div>
+          <div><%= @transaction.hirer.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.hirer.avatar.url, class: 'Height100px' %>
+        </div>
+      <% else %>
+        <div class="details-box">
+          <div><b>Poster:</b></div>
+          <div><%= @transaction.poster.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.poster.avatar.url, class: 'Height100px' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<script>
+  $('.work_environment_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[work_environment_grade]'
+  });
+  $('.suitability_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[suitability_grade]'
+  });
+  $('.communication_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[communication_grade]'
+  });
+  $('.employee_satisfaction_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[employee_satisfaction_grade]'
+  });
+
+
+  $('.friendliness_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[friendliness_grade]'
+  });
+  $('.punctuality_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[punctuality_grade]'
+  });
+  $('.professionalism_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[professionalism_grade]'
+  });
+  $('.knowledge_n_skills_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[knowledge_n_skills_grade]'
+  });
+  $('.management_skill_grade').raty({
+    path: '/assets/',
+    scoreName: 'review[management_skill_grade]'
+  });
+
+  $('.star_recommend_blank').click(function(){
+    $(this).parent().addClass('selected');
+    $(this).parent().siblings().removeClass('selected');
+    save_value = $(this).parent().find('.low_text').text()
+    $('.overall_experience').val(save_value);
+  })
+  $('.star_recommend_full').click(function(){
+    $(this).parent().removeClass('selected');
+    $(this).parent().siblings().removeClass('selected');
+    $('.overall_experience').val('');
+  })
+  $('.thumbs-img').click(function(){
+    $(this).parent().addClass('active');
+    $(this).parent().siblings().removeClass('active');
+    save_value = $(this).parent().find('.answer').text()
+    $('.recommendation').val(save_value);
+  })
+</script>

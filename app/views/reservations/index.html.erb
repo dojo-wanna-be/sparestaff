@@ -104,7 +104,7 @@
                 <% end %>
                 <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
                   <div>
-                    <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
+                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                     <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
@@ -179,7 +179,7 @@
                     <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                   </div>
                   <div>
-                    <%= link_to 'Write a review', 'javascript:;', class: 'orange-text' %>
+                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                   </div>
                 </div>
               </div>

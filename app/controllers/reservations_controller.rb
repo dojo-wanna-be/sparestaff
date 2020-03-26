@@ -228,6 +228,8 @@ class ReservationsController < ApplicationController
       create_message
       TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
       TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
+      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_now
+      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_now
       redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
     end
   end

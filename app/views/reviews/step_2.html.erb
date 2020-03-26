@@ -1,0 +1,54 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="write-a-review-section">
+  <div class="left-review-box">
+    <%= form_for @review, url: review_path(@review.id), method: :patch, id: "" do |f| %>
+      <% if @transaction.poster.eql?(current_user) %>
+        <p>Is there anything you would like to tell Spare Staff about 
+        your experience with <%= @transaction.hirer.name %></p>
+        <%= f.text_area :spare_staff_experience, class: "review-textarea", placeholder: "This won't be shared with the Hirer" %>
+      <% else %>
+        <p>Is there anything you would like to tell Spare Staff about your experience hiring <%= @transaction.employee_listing.name %></p>
+        <%= f.text_area :spare_staff_experience, class: "review-textarea", placeholder: "This won't be shared with the Poster and the Employee" %>
+      <% end %>
+      <%= submit_tag "Next", class: 'submit-btn' %>
+    <% end %>
+  </div>
+
+  <div class="right-review-box">
+    <div class="right-user-box">
+      <div class="user-img-box">
+        <%= image_tag @transaction.employee_listing.profile_picture.url, class: 'user-img' %>
+      </div>
+
+      <div class="details-box">
+        <div><b>Employee:</b></div>
+        <div><%= @transaction.employee_listing.name %></div>
+        <div><%= @transaction.employee_listing.title %></div>
+      </div>
+
+      <div class="details-box">
+        <div><b>Hired:</b></div>
+        <div><%= @transaction.start_date %> - <%= @transaction.end_date %></div>
+      </div>
+      <% if @transaction.poster.eql?(current_user) %>
+        <div class="details-box">
+          <div><b>Hirer:</b></div>
+          <div><%= @transaction.hirer.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.hirer.avatar.url, class: 'Height100px' %>
+        </div>
+      <% else %>
+        <div class="details-box">
+          <div><b>Poster:</b></div>
+          <div><%= @transaction.poster.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.poster.avatar.url, class: 'Height100px' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

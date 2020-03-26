@@ -1,0 +1,53 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="write-a-review-section">
+  <div class="left-review-box">
+    <% if @transaction.poster.eql?(current_user) %>
+      <p style="font-size: 14pt">Thank you for reviewing</p>
+      <p>Thank you for your review. Your review will be visible on the 
+          Hirer's profile page after they complete their part of the 
+          review or when the review period ends (14 days after contract 
+          finishes).</p>
+    <% else %>
+      <p style="font-size: 14pt">Thank you for reviewing</p>
+      <p>Thank you for your review. Your review will be visible on the poster's profile page after they complete their part of the review or when the review period ends (14 days after contract finishes).</p>
+    <% end %>
+  </div>
+
+  <div class="right-review-box">
+    <div class="right-user-box">
+      <div class="user-img-box">
+        <%= image_tag @transaction.employee_listing.profile_picture.url, class: 'user-img' %>
+      </div>
+
+      <div class="details-box">
+        <div><b>Employee:</b></div>
+        <div><%= @transaction.employee_listing.name %></div>
+        <div><%= @transaction.employee_listing.title %></div>
+      </div>
+
+      <div class="details-box">
+        <div><b>Hired:</b></div>
+        <div><%= @transaction.start_date %> - <%= @transaction.end_date %></div>
+      </div>
+      <% if @transaction.poster.eql?(current_user) %>
+        <div class="details-box">
+          <div><b>Hirer:</b></div>
+          <div><%= @transaction.hirer.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.hirer.avatar.url, class: 'Height100px' %>
+        </div>
+      <% else %>
+        <div class="details-box">
+          <div><b>Poster:</b></div>
+          <div><%= @transaction.poster.name %></div>
+        </div>
+        <div class="details-box">
+          <%= image_tag @transaction.poster.avatar.url, class: 'Height100px' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

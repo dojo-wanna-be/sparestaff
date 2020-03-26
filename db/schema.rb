@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_061007) do
+ActiveRecord::Schema.define(version: 2020_03_24_101239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,29 @@ ActiveRecord::Schema.define(version: 2020_03_20_061007) do
     t.bigint "document_file_size"
     t.datetime "document_updated_at"
     t.index ["employee_listing_id"], name: "index_relevant_documents_on_employee_listing_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.integer "listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "public_feedback"
+    t.text "private_feedback"
+    t.float "work_environment_grade"
+    t.float "suitability_grade"
+    t.float "communication_grade"
+    t.float "employee_satisfaction_grade"
+    t.float "friendliness_grade"
+    t.float "punctuality_grade"
+    t.float "professionalism_grade"
+    t.float "knowledge_n_skills_grade"
+    t.float "management_skill_grade"
+    t.string "overall_experience"
+    t.string "recommendation"
+    t.integer "transaction_id"
+    t.text "spare_staff_experience"
   end
 
   create_table "slots", force: :cascade do |t|
