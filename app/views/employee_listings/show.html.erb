@@ -243,11 +243,11 @@
             <div class="poster-detail">
               <div class="left-detail">
                 <h2 class="poster-heading">Listed by <%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></h2>
-                <div>Wolli Creek, Australia. Joined in May 2016</div>
+                <div><%= @employee_listing.poster.location %> Joined in <%= @employee_listing.poster.created_at.strftime("%B, %Y") %></div>
 
                 <div class="both-box">
                   <div class="review">
-                    <div class="review-btn">180</div>
+                    <div class="review-btn"><%= @poster_reviews.count %></div>
                     Reviews
                   </div>
                   <div class="verfied">
@@ -259,16 +259,12 @@
               </div>
 
               <div class="right-img">
-                <%= link_to '#', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'poster-img' %>
+                <%= link_to user_path(@employee_listing.poster.id), target: '_blank' do %>
+                  <%= image_tag @employee_listing.poster.avatar.url, class: 'poster-img' %>
                 <% end %>
               </div>
             </div>
-
-            <p class="poster-text">A versatile attacker, Ronaldo is capable of playing on either wing as well as through the centre of the pitch,[411] and, while ostensibly right-footed, is very strong with both feet.[412] He ranks among the world's fastest footballers, both with and without the ball.[413] Tactically, Ronaldo has undergone several evolutions throughout his career. While at Sporting and during his first season at Manchester United, he was typically deployed as a traditional winger on the right side of midfield, where he regularly looked to deliver crosses into the penalty area. In this position, he was able to use his pace and acceleration, agility, and technical skills to take on opponents in one-on-one
-            situations. Ronaldo became noted for his dribbling and flair, often displaying an array of tricks and feints,[413][414] such as the step overs that became his
-            trademark.[415] Other comments Cristiano Ronaldo dos Santos Aveiro GOIH, ComM (born 5 February 1985) is a Portuguese professional footballer who plays as a forward for Spanish club Real Madrid and the Portugal national team. Often considered the best player in the world and widely regarded as one of the greatest of all time.
-            </p>
+            <p class="poster-text"><%= @employee_listing.poster.description %></p>
 
             <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
           </div>

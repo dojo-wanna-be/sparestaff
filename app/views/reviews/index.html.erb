@@ -48,11 +48,13 @@
                   <% sender = User.find_by(id: review.sender_id)%>
                   <% if review.receiver_id.eql?(current_user.id) && (transaction.reviews.count.eql?(2) || transaction.end_date + 14.days <= Date.today) %>
                     <div class="review_box">
-                      <div class="review_user_img">
-                        <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
-                        <br>
-                        <span class="GreyText14Px"><%= sender.name %></span>
-                      </div>
+                      <%= link_to user_path(sender.id) do %>
+                        <div class="review_user_img">
+                          <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+                          <br>
+                          <span class="GreyText14Px"><%= sender.name %></span>
+                        </div>
+                      <% end %>
                       <div class="user_text">
                         <%= review.public_feedback %>
                         <br>
@@ -78,11 +80,13 @@
                   <% receiver = User.find_by(id: review.receiver_id)%>
                   <% if review.sender_id.eql?(current_user.id) %>
                     <div class="review_box">
-                      <div class="review_user_img">
-                        <%= image_tag receiver.avatar.url, class: 'ProfileIcon60px' %>
-                        <br>
-                        <span class="GreyText14Px"><%= receiver.name %></span>
-                      </div>
+                      <%= link_to user_path(receiver.id) do %>
+                        <div class="review_user_img">
+                          <%= image_tag receiver.avatar.url, class: 'ProfileIcon60px' %>
+                          <br>
+                          <span class="GreyText14Px"><%= receiver.name %></span>
+                        </div>
+                      <% end %>
                       <div class="user_text">
                         <%= review.public_feedback %>
                         <br>

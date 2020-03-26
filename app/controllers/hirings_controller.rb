@@ -270,8 +270,8 @@ class HiringsController < ApplicationController
       create_message
       TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
       TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
-      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_now
-      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_now
+      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
+      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
       redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
     end
   end

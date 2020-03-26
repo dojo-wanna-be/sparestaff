@@ -286,6 +286,7 @@ class EmployeeListingsController < ApplicationController
     @professionalism_grade = @reviews_all.sum(:professionalism_grade)/2
     @communication_grade = @reviews_all.sum(:communication_grade)/2
     @reviews_all_star = @friendliness_grade + @knowledge_n_skills_grade + @punctuality_grade + @management_skill_grade + @professionalism_grade + @communication_grade
+    @poster_reviews = Review.where(receiver_id: @employee_listing.poster.id)
     unless @employee_listing.published?
       flash[:error] = "Please publish this listing first"
       if @employee_listing.listing_step < 6

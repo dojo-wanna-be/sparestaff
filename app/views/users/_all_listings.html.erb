@@ -19,16 +19,25 @@
               <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
             <% end %>
           <% end %>
-          <div class="rating">
-            <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-            <span>28</span>
-          </div>
+          <% if listing_all_reviews(listing.id).count > 0 %>
+            <div class="rating">
+              <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+              <%#= listing_star_rating(listing.id) %>
+              <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+              <span><%= listing_all_reviews(listing.id).count %></span>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>
   <% end %>
 </div>
-<div class="will_pagination_box">
-  <%= js_will_paginate @employee_listings %>
-</div>
-
+<script type="text/javascript">
+  $('.listing_star_rating').raty({
+    readOnly: true,
+    score: function() {
+        return $(this).attr('data-score');
+      },
+    path: '/assets/'
+  });
+</script>

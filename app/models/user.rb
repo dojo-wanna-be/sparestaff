@@ -46,6 +46,8 @@ class User < ApplicationRecord
   has_many :messages, class_name: "Message", foreign_key: "sender_id"
   has_one :stripe_info
   has_many :reviews
+  validates_presence_of :company
+  accepts_nested_attributes_for :company
 
   enum user_type: { owner: 0, hr: 1 }
 

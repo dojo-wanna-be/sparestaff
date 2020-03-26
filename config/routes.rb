@@ -33,6 +33,9 @@ Rails.application.routes.draw do
     collection do
       get :profile_photo
       get :trust_and_verification
+      get :show_all_listings
+      get :show_all_poster_reviews
+      get :show_all_hirer_reviews
     end
   end
 

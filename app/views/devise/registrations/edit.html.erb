@@ -30,10 +30,6 @@
           <div class="listing-card-box">
             <div class="custom-field-box">
               
-              <!-- <div class="custom-input-group">
-                <%#= f.label :email, class: 'custom-label' %>
-                <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
-              </div> -->
               <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                 <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
               <% end %>
@@ -51,7 +47,7 @@
               <div class="custom-input-group">
                 <label class="custom-label" >Your Location</label>
                 <div class="error_field_box">
-                  <input class="custom-field" type="feild" name="" autocomplete="Location">
+                  <%= f.text_field :location, class: 'custom-field' %>
                   <span class="error_message">Full address is not required.</span>
                 </div>
               </div>
@@ -59,7 +55,7 @@
               <div class="custom-input-group">
                 <label class="custom-label" >Your Email</label>
                 <div class="error_field_box">
-                  <input class="custom-field" type="feild" name="" autocomplete="">
+                  <%= f.email_field :email, class: 'custom-field' %>
                   <span class="error_message">Your email is not shared to other users.</span>
                 </div>
               </div>
@@ -67,8 +63,7 @@
               <div class="custom-input-group">
                 <label class="custom-label" >Your Phone Number</label>
                 <div class="error_field_box">
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'custom-field' %>
-                  <input class="custom-field half_text_field" type="number" name="" autocomplete="phone_number">
+                  <%= f.number_field :phone_number, class: 'custom-field half_text_field' %>
                   <span class="error_message">This is only shared to Hirer/Poster after hiring request is accepted. This is how we can all get in touch.</span>
                 </div>
               </div>
@@ -76,7 +71,7 @@
               <div class="custom-input-group">
                 <label class="custom-label" >Describe Yourself or Your Company</label>
                 <div class="error_field_box">
-                  <textarea cols="20" name="TextArea1" rows="5" class="custom_text_area"></textarea>
+                  <%= f.text_area :description, class: 'custom_text_area', rows: 5 %>
                   <span class="error_message">Spare Staff is built on relationships. Help other people get to know you or your company. More details here give extra confidence and trust in our community.</span>
                 </div>
               </div>
@@ -109,89 +104,68 @@
           </div>
         </div>
         <% if current_user.user_type.eql?("hr") %>
-          <div class="listed-box">
-            <div class="right-panel-header">
-              Only Required If You Are Representing A Company
-            </div>
-            <div class="listing-card-box">
-              <div class="custom-field-box">
-                <div class="custom-input-group">
-                  <label class="custom-label" >Company Name</label>
-                  <input class="custom-field" type="feild" name="Company Name" autocomplete="">
-                </div>
+          <%= f.fields_for(:company) do |company_form| %>
+            <div class="listed-box">
+              <div class="right-panel-header">
+                Only Required If You Are Representing A Company
+              </div>
+              <div class="listing-card-box">
+                <div class="custom-field-box">
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Company Name</label>
+                    <%= company_form.text_field :name, class: "custom-field" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >ACN/ABN</label>
-                  <input class="custom-field half_text_field" type="feild" name="Company Name" autocomplete="">
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >ACN/ABN</label>
+                    <%= company_form.text_field :acn, label: "Address" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Your Role in Company</label>
-                  <select name="Select4" class="custom-field half_text_field">
-                    <option>Not applicable</option>
-                    <option>HR Manager</option>
-                    <option>Director/Owner</option>
-                  </select>
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Your Role in Company</label>
+                    <%= company_form.select :role, options_for_select(Company::ROLE, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Company Address</label>
-                  <input class="custom-field" type="feild" name="Company Address" autocomplete="">
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Company Address</label>
+                    <%= company_form.text_field :address_1,  class: "custom-field" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Address Line 2</label>
-                  <input class="custom-field" type="feild" name="Address Line 2" autocomplete="">
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Address Line 2</label>
+                    <%= company_form.text_field :address_2,  class: "custom-field" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Suburb/City</label>
-                  <input class="custom-field half_text_field" type="feild" name="Suburb/City" autocomplete="">
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Suburb/City</label>
+                    <%= company_form.text_field :city,  class: "custom-field half_text_field" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >State</label>
-                  <select name="Select5" class="custom-field half_text_field">
-                    <option selected="selected">NSW</option>
-                    <option>VIC</option>
-                    <option>QLD</option>
-                    <option>WA</option>
-                    <option>SA</option>
-                    <option>NT</option>
-                    <option>ACT</option>
-                    <option>TAS</option>
-                  </select>
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >State</label>
+                    <%= company_form.select :state, options_for_select(Company::COMPANY_STATES, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Postcode</label>
-                  <input class="custom-field half_text_field" type="feild" name="Suburb/City" autocomplete="">
-                </div>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Postcode</label>
+                    <%= company_form.text_field :post_code,  class: "custom-field half_text_field" %>
+                  </div>
 
-                <div class="custom-input-group">
-                  <label class="custom-label" >Country</label>
-                  <select name="Select6" class="custom-field half_text_field">
-                    <option selected="selected">Australia</option>
-                  </select>
+                  <div class="custom-input-group">
+                    <label class="custom-label" >Country</label>
+                    <%= company_form.select :country, options_for_select(Company::EMPLOYEE_COUNTRIES, company_form.object.country), {}, {class: 'custom-field half-field'} %>
+                  </div>
+                  
                 </div>
-                
               </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
         <div class="actions">
           <%= f.submit "Save", class: 'continue_btn' %>
         </div>
       <% end %>
-
-      <!-- Photos Tab View -->
       <br>
-      <!-- Photos Tab View -->
-
-      <!-- Trust and Verification Tab View -->
-      <!-- Trust and Verification Tab View -->
-
-      <!-- Reviews Tab View -->
       <br>
       <div class="review_tab_box hidden">
         <div class="tab_row">
@@ -255,8 +229,6 @@
           </div>
         </div>
       </div>
-      <!-- Reviews Tab View -->
-
     </div>
   </div>
 </div>

@@ -67,7 +67,7 @@ a:active, a:visited, a:link {
 }
 
 a:hover{
-  text-decoration:underline;
+  text-decoration: none !important;
 }
 
 .HowItWorksNumber {
