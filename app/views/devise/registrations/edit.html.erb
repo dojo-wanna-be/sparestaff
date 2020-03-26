@@ -6,7 +6,7 @@
     <div class="left-panel">
       <ul class="panel-list">
         <li class="panel-item">
-          <%= link_to "Edit Profile", '#', class: 'panel-link selected-panel' %>
+          <%= link_to "Edit Profile", edit_user_registration_path, class: 'panel-link selected-panel' %>
         </li>
         <li class="panel-item">
           <%= link_to "Photos", profile_photo_users_path, class: 'panel-link' %>
@@ -103,63 +103,60 @@
             </div>
           </div>
         </div>
-        <% if current_user.user_type.eql?("hr") %>
-          <%= f.fields_for(:company) do |company_form| %>
-            <div class="listed-box">
-              <div class="right-panel-header">
-                Only Required If You Are Representing A Company
-              </div>
-              <div class="listing-card-box">
-                <div class="custom-field-box">
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Company Name</label>
-                    <%= company_form.text_field :name, class: "custom-field" %>
-                  </div>
+        <%= f.fields_for(:company) do |company_form| %>
+          <div class="listed-box">
+            <div class="right-panel-header">
+              Only Required If You Are Representing A Company
+            </div>
+            <div class="listing-card-box">
+              <div class="custom-field-box">
+                <div class="custom-input-group">
+                  <label class="custom-label" >Company Name</label>
+                  <%= company_form.text_field :name, class: "custom-field" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >ACN/ABN</label>
-                    <%= company_form.text_field :acn, label: "Address" %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >ACN/ABN</label>
+                  <%= company_form.text_field :acn, label: "Address" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Your Role in Company</label>
-                    <%= company_form.select :role, options_for_select(Company::ROLE, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >Your Role in Company</label>
+                  <%= company_form.select :role, options_for_select(Company::ROLE, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Company Address</label>
-                    <%= company_form.text_field :address_1,  class: "custom-field" %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >Company Address</label>
+                  <%= company_form.text_field :address_1,  class: "custom-field" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Address Line 2</label>
-                    <%= company_form.text_field :address_2,  class: "custom-field" %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >Address Line 2</label>
+                  <%= company_form.text_field :address_2,  class: "custom-field" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Suburb/City</label>
-                    <%= company_form.text_field :city,  class: "custom-field half_text_field" %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >Suburb/City</label>
+                  <%= company_form.text_field :city,  class: "custom-field half_text_field" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >State</label>
-                    <%= company_form.select :state, options_for_select(Company::COMPANY_STATES, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >State</label>
+                  <%= company_form.select :state, options_for_select(Company::COMPANY_STATES, company_form.object.state), {}, {class: 'custom-field half_text_field'} %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Postcode</label>
-                    <%= company_form.text_field :post_code,  class: "custom-field half_text_field" %>
-                  </div>
+                <div class="custom-input-group">
+                  <label class="custom-label" >Postcode</label>
+                  <%= company_form.text_field :post_code,  class: "custom-field half_text_field" %>
+                </div>
 
-                  <div class="custom-input-group">
-                    <label class="custom-label" >Country</label>
-                    <%= company_form.select :country, options_for_select(Company::EMPLOYEE_COUNTRIES, company_form.object.country), {}, {class: 'custom-field half-field'} %>
-                  </div>
-                  
+                <div class="custom-input-group">
+                  <label class="custom-label" >Country</label>
+                  <%= company_form.select :country, options_for_select(Company::EMPLOYEE_COUNTRIES, company_form.object.country), {}, {class: 'custom-field half-field'} %>
                 </div>
               </div>
             </div>
-          <% end %>
+          </div>
         <% end %>
         <div class="actions">
           <%= f.submit "Save", class: 'continue_btn' %>
