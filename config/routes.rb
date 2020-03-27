@@ -115,10 +115,10 @@ Rails.application.routes.draw do
       get :step_3
       get :step_4
       get :transacion_history
-      get :security
       get :stripe_account
       get :payouts_method
-      patch :change_preference
+      match :change_preference, via: [:get, :patch]
+      match :security, via: [:get, :patch]
     end
   end
 
