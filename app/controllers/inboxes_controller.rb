@@ -32,13 +32,26 @@ class InboxesController < ApplicationController
   def create
     message = @conversation.messages.new(content: params[:message][:content], sender_id: current_user.id)
     @listing = @conversation.employee_listing
-    @sender = @conversation.sender
-    @receiver = @conversation.receiver
+    # @sender = @conversation.sender
+    # @receiver = @conversation.receiver
     if message.save
-      if current_user.user_type == "hr"
-        MessageMailer.message_email_to_poster(message, @listing.poster, @sender, @receiver).deliver_now!
+      @sender = User.where(id: current_user.id)
+      if current_user.id.eql?(@conversation.sender_id)
+        @receiver = User.find(@conversation.receiver_id)
       else
-        MessageMailer.message_email_to_hirer(message, @sender, @receiver).deliver_now!
+        @receiver = User.find(@conversation.sender_id)
+      end
+      if current_user.user_type == "hr" && @receiver.user_type == "hr"
+        if @listing.poster.eql?(@sender.first)
+          MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
+        else
+          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+        end
+      elsif @sender.first.user_type == "hr"
+          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+      # elsif @listing.poster.eql?(@sender.first)
+      else
+        MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
     end

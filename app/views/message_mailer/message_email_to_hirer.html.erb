@@ -44,11 +44,7 @@
   <tr>
     <td><br />
     <h1 style="color: #484848;">You have a new message from Poster</h1>
-    <% if @receiver.user_type == "hr" || @receiver.user_type == "nil" %>
-      <p style="color: #484848;"><%= @sender.name.humanize%> send you a message.</p>
-    <% else %>
-      <p style="color: #484848;"><%= @receiver.name.humanize%> send you a message.</p>
-    <% end %>  
+      <p style="color: #484848;"><%= @sender.first.name.humanize%> send you a message.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">

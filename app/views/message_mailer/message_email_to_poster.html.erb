@@ -44,11 +44,7 @@
   <tr>
     <td><br />
     <h1 style="color: #484848;">You have a new message from Hirer</h1>
-    <% if @receiver.user_type == "hr" && @sender.user_type == "nil" %>
-      <p style="color: #484848;"><%= @receiver.name.capitalize%> send you a message.</p>
-    <% else %>
-      <p style="color: #484848;"><%= @sender.name.capitalize%> send you a message.</p>
-    <% end %>  
+      <p style="color: #484848;"><%= @sender.first.name.capitalize%> send you a message.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
