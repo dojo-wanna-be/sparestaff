@@ -22,8 +22,6 @@
           <% if listing_all_reviews(listing.id).count > 0 %>
             <div class="rating">
               <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
-              <%#= listing_star_rating(listing.id) %>
-              <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
               <span><%= listing_all_reviews(listing.id).count %></span>
             </div>
           <% end %>
@@ -38,6 +36,7 @@
     score: function() {
         return $(this).attr('data-score');
       },
-    path: '/assets/'
+    starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+    starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'
   });
 </script>

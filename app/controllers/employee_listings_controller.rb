@@ -1,5 +1,6 @@
 class EmployeeListingsController < ApplicationController
   include EmployeeListingsHelper
+  include ApplicationHelper
 
   before_action :find_listing, only: [:new_listing_step_2,
                                       :create_listing_step_2,
@@ -278,13 +279,13 @@ class EmployeeListingsController < ApplicationController
 
   def show
     @user = current_user ? current_user : User.new
-    @reviews_all = Review.where(listing_id: @employee_listing.id)
-    @friendliness_grade = @reviews_all.sum(:friendliness_grade)/2
-    @knowledge_n_skills_grade = @reviews_all.sum(:knowledge_n_skills_grade)/2
-    @punctuality_grade = @reviews_all.sum(:punctuality_grade)/2
-    @management_skill_grade = @reviews_all.sum(:management_skill_grade)/2
-    @professionalism_grade = @reviews_all.sum(:professionalism_grade)/2
-    @communication_grade = @reviews_all.sum(:communication_grade)/2
+    @reviews_all = listing_all_reviews(@employee_listing.id)
+    @friendliness_grade = friendliness_grade(@employee_listing.id)
+    @knowledge_n_skills_grade = knowledge_n_skills_grade(@employee_listing.id)
+    @punctuality_grade = punctuality_grade(@employee_listing.id)
+    @management_skill_grade = management_skill_grade(@employee_listing.id)
+    @professionalism_grade = professionalism_grade(@employee_listing.id)
+    @communication_grade = communication_grade(@employee_listing.id)
     @reviews_all_star = @friendliness_grade + @knowledge_n_skills_grade + @punctuality_grade + @management_skill_grade + @professionalism_grade + @communication_grade
     @poster_reviews = Review.where(receiver_id: @employee_listing.poster.id)
     unless @employee_listing.published?

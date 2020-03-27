@@ -6,16 +6,16 @@
     <div class="left-panel">
       <ul class="panel-list">
         <li class="panel-item">
-          <%= link_to "Edit Profile", '#', class: 'panel-link' %>
+          <%= link_to "Edit Profile", edit_user_registration_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Photos", '#', class: 'panel-link' %>
+          <%= link_to "Photos", profile_photo_users_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Trust and Verification", '#', class: 'panel-link' %>
+          <%= link_to "Trust and Verification", trust_and_verification_users_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Reviews", '#', class: 'panel-link selected-panel' %>
+          <%= link_to "Reviews", reviews_path, class: 'panel-link selected-panel' %>
         </li>
       </ul>
     </div>
