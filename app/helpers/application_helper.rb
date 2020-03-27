@@ -13,17 +13,34 @@ module ApplicationHelper
   end
 
   def listing_star_rating(listing_id)
-    reviews_all = listing_all_reviews(listing_id)
-    friendliness_grade = reviews_all.sum(:friendliness_grade)/2
-    knowledge_n_skills_grade = reviews_all.sum(:knowledge_n_skills_grade)/2
-    punctuality_grade = reviews_all.sum(:punctuality_grade)/2
-    management_skill_grade = reviews_all.sum(:management_skill_grade)/2
-    professionalism_grade = reviews_all.sum(:professionalism_grade)/2
-    communication_grade = reviews_all.sum(:communication_grade)/2
-    friendliness_grade + knowledge_n_skills_grade + punctuality_grade + management_skill_grade + professionalism_grade + communication_grade
+    (friendliness_grade(listing_id) + knowledge_n_skills_grade(listing_id) + punctuality_grade(listing_id) + management_skill_grade(listing_id) + professionalism_grade(listing_id) + communication_grade(listing_id))/6
+  end
+
+  def friendliness_grade(listing_id)
+    listing_all_reviews(listing_id).sum(:friendliness_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:friendliness_grade)/listing_all_reviews(listing_id).count : 0
+  end
+
+  def knowledge_n_skills_grade(listing_id)
+    knowledge_n_skills_grade = listing_all_reviews(listing_id).sum(:knowledge_n_skills_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:knowledge_n_skills_grade)/listing_all_reviews(listing_id).count : 0
+  end
+
+  def punctuality_grade(listing_id)
+    punctuality_grade = listing_all_reviews(listing_id).sum(:punctuality_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:punctuality_grade)/listing_all_reviews(listing_id).count : 0
+  end
+
+  def management_skill_grade(listing_id)
+    management_skill_grade = listing_all_reviews(listing_id).sum(:management_skill_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:management_skill_grade)/listing_all_reviews(listing_id).count : 0
+  end
+
+  def professionalism_grade(listing_id)
+    professionalism_grade = listing_all_reviews(listing_id).sum(:professionalism_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:professionalism_grade)/listing_all_reviews(listing_id).count : 0
+  end
+
+  def communication_grade(listing_id)
+    communication_grade = listing_all_reviews(listing_id).sum(:communication_grade)/listing_all_reviews(listing_id).count > 0 ? listing_all_reviews(listing_id).sum(:communication_grade)/listing_all_reviews(listing_id).count : 0
   end
 
   def listing_all_reviews(listing_id)
-    reviews_all = Review.where(listing_id: listing_id)
+    Review.where(listing_id: listing_id).where.not(friendliness_grade: nil,knowledge_n_skills_grade: nil,punctuality_grade: nil,management_skill_grade: nil, professionalism_grade: nil, communication_grade: nil)
   end
 end

@@ -171,14 +171,14 @@
               <div class="text-review">
                 Friendliness
               </div>
-              <div class="friendliness_grade_profile" data-score ="<%= @friendliness_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @friendliness_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Technical skills
               </div>
-              <div class="knowledge_n_skills_profile" data-score ="<%= @knowledge_n_skills_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @knowledge_n_skills_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
@@ -188,14 +188,14 @@
               <div class="text-review">
                 Punctuality
               </div>
-              <div class="punctuality_grade_profile" data-score ="<%= @punctuality_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @punctuality_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Management skills
               </div>
-              <div class="management_skill_grade_profile" data-score ="<%= @management_skill_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @management_skill_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
@@ -205,14 +205,14 @@
               <div class="text-review">
                 Professionalism
               </div>
-              <div class="professionalism_grade_profile" data-score ="<%= @professionalism_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @professionalism_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Communication
               </div>
-              <div class="communication_grade_profile" data-score ="<%= @communication_grade.round(0) %>"></div>
+              <div class="listing_star_rating" data-score ="<%= @communication_grade.round(0) %>"></div>
               <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
@@ -223,7 +223,7 @@
             <div class="user-review">
               <div class="user-detail">
                 <div class="user">
-                  <%= link_to '../users/user-profile.html', target: '_blank' do %>
+                  <%= link_to user_path(tx.hirer.id), target: '_blank' do %>
                     <%= image_tag tx.hirer.avatar.url, class: 'user-img' %>
                   <% end %>
                   <div class="name">
@@ -911,12 +911,12 @@
 
   //   $('#transaction_start_date, #transaction_end_date').datepicker('setDate', today);
   // });
-  $('.friendliness_grade_profile,.knowledge_n_skills_profile,.punctuality_grade_profile,.management_skill_grade_profile,.professionalism_grade_profile,.communication_grade_profile,.reviews_all_star_profile').raty({
+  $('.listing_star_rating').raty({
     readOnly: true,
     score: function() {
         return $(this).attr('data-score');
       },
-    path: '/assets/'
+    path: 'https://staging.sparestaff.com.au/assets/'
   });
 
 </script>
