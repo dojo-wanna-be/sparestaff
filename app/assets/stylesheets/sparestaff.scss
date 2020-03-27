@@ -2736,4 +2736,41 @@ a.BackendLeftMenuSelected {
 .distance_search {
   color: #f15927;
 }
+.hidden {
+  display: none;
+}
+.ex_star {
+  .inline_stars {
+    display: flex;
+    .star_container {
+      padding: 15px 10px 10px 15px;
+      text-align: center;
+      img {
+        width: 45px;
+        margin-bottom: 12px;
+      }
+      .low_text {
+        font-weight: 100;
+        font-size: 13px;
+        color: lightgrey;
+      }
+      &.selected {
+        .star_recommend_blank {
+          display: none;
+        }
+        .star_recommend_full {
+          display: block;
+        }
+      }
+      .star_recommend_full {
+        display: none;
+      }
+    }
+  }
+}
+.box.active {
+  .answer {
+    color: #28a597;
+  }
+}
 /* End of Separator line with text at middle */

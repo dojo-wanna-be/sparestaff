@@ -1,6 +1,6 @@
 GIT
-  remote: git://github.com/thoughtbot/paperclip.git
-  revision: 15f85a88394d2d90295527349d9b1460c7d327b0
+  remote: https://github.com/thoughtbot/paperclip.git
+  revision: e3f7493b4cc954405a0209d26933830333ae2869
   specs:
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
@@ -264,6 +264,7 @@ GEM
       activesupport (>= 5.2.1)
       i18n
       polyamorous (= 2.3.2)
+    ratyrate (1.2.2.alpha)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -396,7 +397,7 @@ DEPENDENCIES
   geocoder
   jbuilder (~> 2.5)
   jquery-form-rails
-  jquery-rails
+  jquery-rails (~> 4.3, >= 4.3.1)
   jquery-validation-rails
   letter_opener
   listen (>= 3.0.5, < 3.2)
@@ -408,6 +409,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.3)
   ransack (~> 2.1)
+  ratyrate
   rb-readline
   redis (~> 4.0)
   rubocop

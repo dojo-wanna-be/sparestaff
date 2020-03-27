@@ -40,8 +40,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     super
+    current_user.company.update(company_params) if current_user.user_type.eql?("hr")
   end
 
+  def company_params
+    params.require(:user).require(:company_attributes).permit(
+      :name,
+      :acn,
+      :role,
+      :address_1,
+      :address_2,
+      :city,
+      :state,
+      :post_code,
+      :country,
+      :contact_no
+    )
+  end
   # DELETE /resource
   # def destroy
   #   super
@@ -66,7 +81,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name,:last_name,
-       :email,:password,:password_confirmation, :avatar])
+       :email,:password,:password_confirmation, :avatar, :phone_number, :description, :location])
   end
 
   # The path used after sign up.

@@ -1,0 +1,3 @@
+STRIPE_PUBLIC_KEY: "pk_xxxxxxxxxxxxxxx"
+STRIPE_SECRET_KEY: "sk_xxxxxxxxxxxxxxx"
+GEOCODER_API_KEY: "AIxxxxxxxxxxxxxxxxx"

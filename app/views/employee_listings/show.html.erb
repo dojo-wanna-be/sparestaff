@@ -156,8 +156,9 @@
         <div class="review-box" id="Reviews">
           <div class="review-header">
             <div class="review-count">
-              25 Reviews
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <%= @reviews_all.count %> Reviews&nbsp;
+              <div class="reviews_all_star_profile" data-score ="<%= @reviews_all_star.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
             </div>
             <div class="search-review">
                <input name="Text1" type="text" placeholder="Search reviews" class="custom-input" />
@@ -170,13 +171,15 @@
               <div class="text-review">
                 Friendliness
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="friendliness_grade_profile" data-score ="<%= @friendliness_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Technical skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="knowledge_n_skills_profile" data-score ="<%= @knowledge_n_skills_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -185,13 +188,15 @@
               <div class="text-review">
                 Punctuality
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="punctuality_grade_profile" data-score ="<%= @punctuality_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Management skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="management_skill_grade_profile" data-score ="<%= @management_skill_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -200,79 +205,49 @@
               <div class="text-review">
                 Professionalism
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="professionalism_grade_profile" data-score ="<%= @professionalism_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Communication
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="communication_grade_profile" data-score ="<%= @communication_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
           </ul>
-
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
+          <% @reviews_all.each do |review| %>
+            <% tx = Transaction.find_by(id: review.transaction_id) %>
+            <div class="user-review">
+              <div class="user-detail">
+                <div class="user">
+                  <%= link_to '../users/user-profile.html', target: '_blank' do %>
+                    <%= image_tag tx.hirer.avatar.url, class: 'user-img' %>
+                  <% end %>
+                  <div class="name">
+                    <div><b><%= tx.hirer.name %></b></div>
+                    <div><%= review.created_at.strftime("%B, %Y") %></div>
+                  </div>
+                </div>
+                <div class="flag">
+                  <%= image_tag 'flag.png', class: 'FlagReview' %>
                 </div>
               </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
+              <p class="review-text"><%= review.public_feedback %></p>
             </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
+          <% end %>
 
           <div class="poster-box" id="Poster">
             <div class="poster-detail">
               <div class="left-detail">
                 <h2 class="poster-heading">Listed by <%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></h2>
-                <div>Wolli Creek, Australia. Joined in May 2016</div>
+                <div><%= @employee_listing.poster.location %> Joined in <%= @employee_listing.poster.created_at.strftime("%B, %Y") %></div>
 
                 <div class="both-box">
                   <div class="review">
-                    <div class="review-btn">180</div>
+                    <div class="review-btn"><%= @poster_reviews.count %></div>
                     Reviews
                   </div>
                   <div class="verfied">
@@ -284,16 +259,12 @@
               </div>
 
               <div class="right-img">
-                <%= link_to '#', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'poster-img' %>
+                <%= link_to user_path(@employee_listing.poster.id), target: '_blank' do %>
+                  <%= image_tag @employee_listing.poster.avatar.url, class: 'poster-img' %>
                 <% end %>
               </div>
             </div>
-
-            <p class="poster-text">A versatile attacker, Ronaldo is capable of playing on either wing as well as through the centre of the pitch,[411] and, while ostensibly right-footed, is very strong with both feet.[412] He ranks among the world's fastest footballers, both with and without the ball.[413] Tactically, Ronaldo has undergone several evolutions throughout his career. While at Sporting and during his first season at Manchester United, he was typically deployed as a traditional winger on the right side of midfield, where he regularly looked to deliver crosses into the penalty area. In this position, he was able to use his pace and acceleration, agility, and technical skills to take on opponents in one-on-one
-            situations. Ronaldo became noted for his dribbling and flair, often displaying an array of tricks and feints,[413][414] such as the step overs that became his
-            trademark.[415] Other comments Cristiano Ronaldo dos Santos Aveiro GOIH, ComM (born 5 February 1985) is a Portuguese professional footballer who plays as a forward for Spanish club Real Madrid and the Portugal national team. Often considered the best player in the world and widely regarded as one of the greatest of all time.
-            </p>
+            <p class="poster-text"><%= @employee_listing.poster.description %></p>
 
             <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
           </div>
@@ -940,4 +911,12 @@
 
   //   $('#transaction_start_date, #transaction_end_date').datepicker('setDate', today);
   // });
+  $('.friendliness_grade_profile,.knowledge_n_skills_profile,.punctuality_grade_profile,.management_skill_grade_profile,.professionalism_grade_profile,.communication_grade_profile,.reviews_all_star_profile').raty({
+    readOnly: true,
+    score: function() {
+        return $(this).attr('data-score');
+      },
+    path: '/assets/'
+  });
+
 </script>

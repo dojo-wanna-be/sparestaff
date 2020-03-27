@@ -22,7 +22,7 @@ class Company < ApplicationRecord
 
   COMPANY_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS"]
   EMPLOYEE_COUNTRIES = ["Australia"]
-
+  ROLE = ["Not applicable", "HR Manager", "Director/Owner"]
   def creator
     users.where.not(user_type: nil).first
   end

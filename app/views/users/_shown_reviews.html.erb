@@ -1,0 +1,17 @@
+<% reviews.each do |review| %>
+  <% sender = User.find_by(id: review.sender_id)%>
+  <div class="review_box">
+    <%= link_to user_path(sender.id) do %>
+      <div class="review_user_img">
+        <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+        <br>
+        <span class="GreyText14Px"><%= sender.name %></span>
+      </div>
+    <% end %>
+    <div class="user_text"><%= review.public_feedback %>
+      <br>
+      <br>
+      <span class="GreyText16Px"><%= review.created_at.strftime("%B, %Y") %></span>
+    </div>
+  </div>
+<% end %>

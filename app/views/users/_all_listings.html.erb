@@ -1,0 +1,43 @@
+<div class="featured-listings" >
+  <% listings.each do |listing| %>
+    <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
+      <div class="listing-card">
+        <div class="listing-img">
+          <% if listing.profile_picture.present? %>
+            <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'card-image' %>
+          <% end %>
+        </div>
+        <div class="listing-details">
+          <div><b><%= listing.title %></b></div>
+          <div><%= listing.name %></div>
+          <div><%= "$#{listing.weekday_price} per hour" %></div>
+          <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+          <% if params[:commit] == "Search" %>
+            <% if params[:location].present? %>
+              <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
+            <% end %>
+          <% end %>
+          <% if listing_all_reviews(listing.id).count > 0 %>
+            <div class="rating">
+              <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+              <%#= listing_star_rating(listing.id) %>
+              <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+              <span><%= listing_all_reviews(listing.id).count %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $('.listing_star_rating').raty({
+    readOnly: true,
+    score: function() {
+        return $(this).attr('data-score');
+      },
+    path: '/assets/'
+  });
+</script>
