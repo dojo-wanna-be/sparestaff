@@ -17,14 +17,18 @@ class PayoutsController < ApplicationController
       @stripe_payments = @stripe_payments.order("created_at desc")
     else
       poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
-      @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
-      @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
+      @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled, :completed]).includes(:employee_listing)
+      # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
       @posted_listing_transactions.each do |transaction|
         @stripe_payments = transaction.stripe_payments
         @bookings = transaction.bookings
       end
-      @bookings = @bookings.order("booking_date desc")
-      @stripe_payments = @stripe_payments.order("created_at desc")
+      if @bookings.present?
+        @bookings = @bookings.order("booking_date desc")
+      end
+      if @stripe_payments.present?
+        @stripe_payments = @stripe_payments.order("created_at desc")
+      end
     end
   end
 
