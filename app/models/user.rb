@@ -45,12 +45,10 @@ class User < ApplicationRecord
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
   has_many :messages, class_name: "Message", foreign_key: "sender_id"
   has_one :stripe_info
-<<<<<<< HEAD
   has_one :notification_setting
-=======
   has_many :reviews
   accepts_nested_attributes_for :company
->>>>>>> 19db9dec01791f8fac42797cf6f2b1535550a30a
+
 
   enum user_type: { owner: 0, hr: 1 }
 
