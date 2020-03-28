@@ -39,8 +39,8 @@ class PayoutsController < ApplicationController
   def index
     @payment_method = current_user.stripe_info
     begin
-      @stripe_account = Stripe::Account.retrieve('acct_1FolrxE4u5g7rNqu') if(@payment_method.present?  && @payment_method.stripe_account_id)
-    rescue e
+      @stripe_account = Stripe::Account.retrieve(@payment_method.stripe_account_id) if (@payment_method.present?  && @payment_method.stripe_account_id)
+    rescue => e
       @stripe_account = nil
     end
   end
@@ -59,26 +59,11 @@ class PayoutsController < ApplicationController
   end
 
   def change_preference
-    if params[:notification_about_receive_message].eql?("true")
-      val1 = true
-    else
-      val1 = false
-    end
-    if params[:notification_about_promotions_on_email].eql?("true")
-      val2 = true
-    else
-      val2 = false
-    end
-    if params[:notification_about_promotions_on_phone].eql?("true")
-      val3 = true
-    else
-      val3 = false
-    end
     updated_preferences = {
-      notification_about_receive_message:      val1,
-      notification_about_promotions_on_email:  val2,
-      notification_about_promotions_on_phone:  val3
+      notification_about_receive_message:      params[:notification_about_receive_message].eql?("on"),
+      notification_about_promotions_on_email:  params[:notification_about_promotions_on_email].eql?("on"),
+      notification_about_promotions_on_phone:  params[:notification_about_promotions_on_phone].eql?("on")
     }
-      current_user.notification_setting.update(preferences: updated_preferences)
+    current_user.notification_setting.update(preferences: updated_preferences)
   end
 end

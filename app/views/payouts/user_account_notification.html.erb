@@ -5,94 +5,91 @@
     <div class="right-panel">
       <div class="listed-box">
         <%= form_tag change_preference_payouts_path, method: :patch, remote: true, id: "user_prefrence_form" do |f| %>
-          <div class="right-panel-header">Messages</div>
+        <div class="right-panel-header">Messages</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div>Receive messages from Posters and Hirers, including hiring requests.</div>
+            <br>
+            <div class="GreyLine1Px"></div>
+            <br>
+            <div class="checkbox_field">
+              <div class="left_field">
+                <div style="width: 30px">
+                  <%#= hidden_field_tag :notification_about_receive_message, 'false' %>
+                  <%= check_box_tag :notification_about_receive_message,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_receive_message"] ? true : false) %>
+                  <!-- <input name="Checkbox1" type="checkbox"> -->
+                </div>
+                <div><strong>Email</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="listed-box contact_listed_box">
+        <div class="right-panel-header">Contact Information</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div>This information can be edited from your profile page. <span><%= link_to 'Edit Profile', edit_user_registration_path, class: 'spare_link' %></span></div>
+            <br>
+            <div class="GreyLine1Px"></div>
+            <br>
+            <div class="checkbox_field">
+              <div class="left_field">
+                Email
+              </div>
+              <div class="right_field">
+                <%=current_user.email%>
+              </div>
+            </div>
+            <div class="checkbox_field">
+              <div class="left_field">
+                Phone number
+              </div>
+              <div class="right_field">
+                <%=current_user.phone_number%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="end_save_box">
+        <div class="listed-box">
+          <div class="right-panel-header">Promotions and Tips</div>
           <div class="listing-card-box">
             <div class="listing-card">
-              <div>Receive messages from Posters and Hirers, including hiring requests.</div>
+              <div>Receive coupons, promotions, surveys, product updates, and inspiration from Spare Staff and its partners.</div>
               <br>
               <div class="GreyLine1Px"></div>
               <br>
               <div class="checkbox_field">
                 <div class="left_field">
                   <div style="width: 30px">
-                    <%= hidden_field_tag :notification_about_receive_message, 'false' %>
-                    <%= check_box_tag :notification_about_receive_message, true, false, class: 'notification_checkbox' %>
                     <!-- <input name="Checkbox1" type="checkbox"> -->
+                    <%= check_box_tag :notification_about_promotions_on_email,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_promotions_on_email"] ? true : false) %>
+                    <%#= hidden_field_tag :notification_about_promotions_on_email, 'false' %>
+                    <%#= check_box_tag :notification_about_promotions_on_email, true, false,class: 'notification_checkbox' %>
                   </div>
                   <div><strong>Email</strong></div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="listed-box contact_listed_box">
-          <div class="right-panel-header">Contact Information</div>
-          <div class="listing-card-box">
-            <div class="listing-card">
-              <div>This information can be edited from your profile page. <span><%= link_to 'Edit Profile', edit_user_registration_path, class: 'spare_link' %></span></div>
-              <br>
-              <div class="GreyLine1Px"></div>
-              <br>
               <div class="checkbox_field">
                 <div class="left_field">
-                  Email
-                </div>
-                <div class="right_field">
-                  <%=current_user.email%>
-                </div>
-              </div>
-              <div class="checkbox_field">
-                <div class="left_field">
-                  Phone number
-                </div>
-                <div class="right_field">
-                  <%=current_user.phone_number%>
+                  <div style="width: 30px">
+                    <!-- <input name="Checkbox1" type="checkbox"> -->
+                    <%#= hidden_field_tag :notification_about_promotions_on_phone, 'false' %>
+                    <%#= check_box_tag :notification_about_promotions_on_phone, true, false, class: 'notification_checkbox' %>
+                    <%= check_box_tag :notification_about_promotions_on_phone,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_promotions_on_phone"] ? true : false) %>
+                  </div>
+                  <div><strong>Phone calls</strong></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="end_save_box">
-          <div class="listed-box">
-            <div class="right-panel-header">Promotions and Tips</div>
-            <div class="listing-card-box">
-              <div class="listing-card">
-                <div>Receive coupons, promotions, surveys, product updates, and inspiration from Spare Staff and its partners.</div>
-                <br>
-                <div class="GreyLine1Px"></div>
-                <br>
-                <div class="checkbox_field">
-                  <div class="left_field">
-                    <div style="width: 30px">
-                      <!-- <input name="Checkbox1" type="checkbox"> -->
-                    <%= hidden_field_tag :notification_about_promotions_on_email, 'false' %>
-                      <%= check_box_tag :notification_about_promotions_on_email, true, false,class: 'notification_checkbox' %>
-                    </div>
-                    <div><strong>Email</strong></div>
-                  </div>
-                </div>
-                <div class="checkbox_field">
-                  <div class="left_field">
-                    <div style="width: 30px">
-                      <!-- <input name="Checkbox1" type="checkbox"> -->
-                    <%= hidden_field_tag :notification_about_promotions_on_phone, 'false' %>
-                      <%= check_box_tag :notification_about_promotions_on_phone, true, false, class: 'notification_checkbox' %>
-                    </div>
-                    <div><strong>Phone calls</strong></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <%= submit_tag "Save", class: 'save_prefrence continue_btn' %>
+        <%= submit_tag "Save", class: 'save_prefrence continue_btn' %>
         <% end %>
       </div>
     </div>
   </div>
 </div>
-
-
 <%= render partial: "layouts/footer" %>
-
