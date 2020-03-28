@@ -4,7 +4,7 @@ class PayoutsController < ApplicationController
 
   def step_2; end
 
-  def transacion_history
+  def transaction_history
     if current_user.user_type.eql?("hr")
       hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
       @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
@@ -19,9 +19,11 @@ class PayoutsController < ApplicationController
       poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
       @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled, :completed]).includes(:employee_listing)
       # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
-      @posted_listing_transactions.each do |transaction|
-        @stripe_payments = transaction.stripe_payments
-        @bookings = transaction.bookings
+      if !@posted_listing_transactions.blank?
+        @posted_listing_transactions.each do |transaction|
+          @stripe_payments = transaction.stripe_payments
+          @bookings = transaction.bookings
+        end
       end
       if @bookings.present?
         @bookings = @bookings.order("booking_date desc")
@@ -33,7 +35,16 @@ class PayoutsController < ApplicationController
   end
 
   def security
-    current_user.update(password: params[:new_password])
+    if request.method.eql?("POST")
+      if current_user.valid_password?(params[:old_password])
+        current_user.update(password: params[:new_password])
+        flash[:success] = "Password updated successfully!"
+        redirect_to root_path
+      else
+        flash[:error] = "Current password is blank or Invalid!"
+        redirect_to security_payouts_path
+      end
+    end
   end
 
   def index

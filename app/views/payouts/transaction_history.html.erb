@@ -20,13 +20,13 @@
               <% if current_user.user_type != "hr" %>
                 <% @posted_listing_transactions.each do |transaction| %>
                   <% @stripe_payments.each do |payments| %>
-                  <div class="table_row">
-                    <div style="width: 15%"><%= "#{payments.created_at.strftime('%d %b %Y')}" %></div>
-                    <div style="width: 15%">Reservation</div>
-                    <div style="width: 40%"><%= "#{transaction.start_date.strftime('%d %b %Y')} - #{(transaction.start_date + 6.days).strftime('%d %b %Y')}" %></div>
-                    <div style="width: 15%"><%="#{payments.poster_service_fee}"%></div>
-                    <div><strong>&nbsp;</strong></div>
-                  </div>
+                    <div class="table_row">
+                      <div style="width: 15%"><%= "#{payments.created_at.strftime('%d %b %Y')}" %></div>
+                      <div style="width: 15%">Reservation</div>
+                      <div style="width: 40%"><%= "#{transaction.start_date.strftime('%d %b %Y')} - #{(transaction.start_date + 6.days).strftime('%d %b %Y')}" %></div>
+                      <div style="width: 15%"><%="#{payments.poster_service_fee}"%></div>
+                      <div><strong>&nbsp;</strong></div>
+                    </div>
                   <% end %>
                 <% end %>
               <% end %>

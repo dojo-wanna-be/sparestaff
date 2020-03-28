@@ -4,7 +4,7 @@
     <%= render partial: 'payout_side_bar'%>
     <div class="right-panel">
       <div class="listed-box">
-       <%= form_tag security_payouts_path, method: :patch, remote: true, id: "user_prefrence_form" do |f| %>
+       <%= form_tag(security_payouts_path, id: "user_prefrence_form") do %>
           <div class="right-panel-header">Change Your Password</div>
             <div class="listing-card-box">
               <div class="listing-card">
