@@ -53,7 +53,7 @@
         padding-top: 15px;
         margin-top: 10px;
         border-top: 1px solid #e4e4e4;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
       }
 
@@ -133,8 +133,17 @@
   flex-direction: row;
   padding: 22px 0 22px 20px;
 
+  @media screen and (max-width: 767px) {
+    padding: 22px 12px;
+    flex-direction: column;
+  }
+
   .admin_left_panel {
     width: 155px;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
 
     .left_panel_list {
       display: flex;
@@ -165,6 +174,14 @@
     display: flex;
     flex-direction: column;
 
+    @media screen and (max-width: 767px) {
+      border-top: 1px solid #e4e4e4;
+      padding: 20px 0 0;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      width: calc(100% - 155px);
+    }
+
     .step_heading {
       color: #484848;
       line-height: 1.4;
@@ -183,29 +200,95 @@
         justify-content: flex-start;
         align-items: center;
 
+        @media screen and (max-width: 767px) {
+          flex-direction: column;
+        }
+
+        select {
+          @media screen and (max-width: 767px) {
+            width: 100%;
+
+            & + button {
+              width: 150px;
+              margin: 0 0 15px;
+            }
+          }
+        }
+
         .search_input {
           width: 400px;
           height: 40px;
           margin: 0 21px 0 0;
           border: 1px silver solid;
           padding-left: 5px;
+
+          @media screen and (max-width: 767px) {
+            width: 100%;
+            margin: 0 0 10px;
+          }
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            width: 330px;
+          }  
         }
 
         .search_btn {
           width: 100px;
           height: 40px;
           margin: 0 20px 0 0;
+
+          @media screen and (max-width: 767px) {
+            margin: 0 0 15px;
+          }
         }
 
         .from_date {
           width: 224px;
+
+          @media screen and (max-width: 767px) {
+            width: 100%;
+            margin: 0 0 15px;
+
+            .Width125Px {
+              width: 100%;
+            }
+          }
         }
         .to_date {
           width: 197px;
+
+          @media screen and (max-width: 767px) {
+            width: 100%;
+            margin: 0 0 15px;
+
+            .Width125Px {
+              width: 100%;
+            }
+
+            & + div {
+              width: 100%;
+              
+              select {
+                width: 100%;
+              }
+            }
+          }
         }
 
         .spare_link {
           margin: 0 0 0 115px;
+
+          @media screen and (max-width: 767px) {
+            margin: 0;
+          }
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            margin: 0;
+          }
+
+          &.export_csv {
+            @media screen and (max-width: 767px) {
+              margin: 15px  0 0;
+            }
+          }
         }
       }
 
@@ -216,6 +299,11 @@
         font-size: 14px;
         margin: 17px 0 0 0;
 
+        @media screen and (max-width: 1024px) {
+          overflow: hidden;
+          overflow-x: auto;
+        }
+
         .csv_table_row {
           display: flex;
           flex-direction: row;
@@ -224,6 +312,10 @@
           border-bottom: 1px #e4e4e4 solid;
           height: 40px;
           padding: 0  5px;
+
+          @media screen and (max-width: 1024px) {
+            width: 1000px;
+          }
 
           &.gray_bg {
             background-color: #f2f2f2;
@@ -241,6 +333,10 @@
         align-items: center;
         margin: 54px 0 15px;
 
+        @media screen and (max-width: 767px) {
+          justify-content: space-around;
+        }
+
         .pagi_btn {
           width: 30px;
           height: 30px;
@@ -253,6 +349,10 @@
           color: #f15927;
           text-decoration: none;
           margin: 0 20px 0 0;
+
+          @media screen and (max-width: 767px) {
+            margin: 0;
+          }
 
           &.prev_next {
             border: 1px solid #f15927;
