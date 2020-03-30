@@ -1,0 +1,28 @@
+<header class="fixed-header admin_header">
+  <nav class="navbar navbar-expand-md navbar-dark new-header">
+    <%= link_to '/', class: 'navbar-brand' do %>
+      <%= image_tag 'Spare-Staff-130x130.png', class: 'logo-img' %>
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav navbar-right custom-right-navbar">
+        <li class="nav-item">
+          <div>Welcome James Nguyen</div>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'View Site', '', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to ' Change Password', '', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Log Out', '', class: 'nav-link' %>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

@@ -16,6 +16,9 @@
       <%= link_to "Account Settings", step_1_payouts_path %>
     </li>
     <li class="menu-item">
+      <%= link_to "Admin", admin_panel_home_index_path, target: '_blank' %>
+    </li>
+    <li class="menu-item">
       <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
     </li>
   </ul>
