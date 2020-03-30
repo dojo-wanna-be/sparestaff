@@ -6,31 +6,42 @@ class PayoutsController < ApplicationController
 
   def transaction_history
     if current_user.user_type.eql?("hr")
-      hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-      @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
-      @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
-      @hirer_hiring_transactions.each do |transaction|
-        @stripe_payments = transaction.stripe_payments
-        @bookings = transaction.bookings
+      @hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
+      total_payout = 0
+      @hirer_transactions.each do |tx|
+        total_payout += tx.stripe_payments.where(capture: true).sum(:amount)
       end
-      @bookings = @bookings.order("booking_date desc")
-      @stripe_payments = @stripe_payments.order("created_at desc")
+      @total_payout = total_payout
+      # @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
+      # @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
+      # @hirer_hiring_transactions.each do |transaction|
+      #   @stripe_payments = transaction.stripe_payments
+      #   @bookings = transaction.bookings
+      # end
+      # @bookings = @bookings.order("booking_date desc")
+      # @stripe_payments = @stripe_payments.order("created_at desc")
     else
-      poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
-      @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled, :completed]).includes(:employee_listing)
+      @poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+      total_payout = 0
+      @poster_transactions.each do |tx|
+        total_payout += tx.stripe_payments.where(capture: true).sum(:poster_service_fee)
+      end
+      binding.pry
+      @total_payout = total_payout
+      @posted_listing_transactions = @poster_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :created, :cancelled]).includes(:employee_listing)
       # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
-      if !@posted_listing_transactions.blank?
-        @posted_listing_transactions.each do |transaction|
-          @stripe_payments = transaction.stripe_payments
-          @bookings = transaction.bookings
-        end
-      end
-      if @bookings.present?
-        @bookings = @bookings.order("booking_date desc")
-      end
-      if @stripe_payments.present?
-        @stripe_payments = @stripe_payments.order("created_at desc")
-      end
+      # if !@posted_listing_transactions.blank?
+      #   @posted_listing_transactions.each do |transaction|
+      #     @stripe_payments = transaction.stripe_payments
+      #     @bookings = transaction.bookings
+      #   end
+      # end
+      # if @bookings.present?
+      #   @bookings = @bookings.order("booking_date desc")
+      # end
+      # if @stripe_payments.present?
+      #   @stripe_payments = @stripe_payments.order("created_at desc")
+      # end
     end
   end
 
