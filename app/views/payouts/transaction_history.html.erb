@@ -8,7 +8,6 @@
         <div class="listing-card-box">
           <div class="listing-card">
             <div style="font-size: 18pt">Paid out: $<%= @total_payout %> AUD</div>
-
             <div class="payout_table">
               <div class="table_row">
                 <div style="width: 15%"><strong>Date</strong></div>
@@ -17,61 +16,13 @@
                 <div style="width: 15%"><strong>Amount</strong></div>
                 <div><strong>Paid Out</strong></div>
               </div>
-              <% if current_user.user_type != "hr" %>
-                <% @poster_transactions.each do |transaction| %>
-                  <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
-                    <% if payment.capture %>
-                      <div class="table_row">
-                        <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
-                        <div style="width: 15%">Payout</div>
-                        <div style="width: 40%">Transfer to Account</div>
-                        <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
-                        <div><strong>&nbsp;<%="#{payment.poster_service_fee}"%></strong></div>
-                      </div>
-                      <div class="table_row">
-                        <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
-                        <div style="width: 15%">Reservation</div>
-                        <% if transaction.frequency.eql?("weekly") %>
-                          <div style="width: 40%"><%= "#{(payment.created_at - 1.week).strftime('%d %b %Y')} - #{(payment.created_at - 1.days).strftime('%d %b %Y')}" %></div>
-                        <% else %>
-                          <div style="width: 40%"><%= "#{(payment.created_at - 2.week).strftime('%d %b %Y')} - #{(payment.created_at - 1.days).strftime('%d %b %Y')}" %></div>
-                        <% end %>
-                        <div style="width: 15%"><%="#{payment.poster_service_fee}"%></div>
-                        <div><strong>&nbsp;</strong></div>
-                      </div>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              <% else %>
-                <% @hirer_transactions.each do |transaction| %>
-                  <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
-                    <% if payment.capture %>
-                      <div class="table_row">
-                        <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
-                        <div style="width: 15%">Payout</div>
-                        <div style="width: 40%">Transfer to Account</div>
-                        <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
-                        <div><strong>&nbsp;<%="#{payment.poster_service_fee}"%></strong></div>
-                      </div>
-                      <div class="table_row">
-                        <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
-                        <div style="width: 15%">Reservation</div>
-                        <% if transaction.frequency.eql?("weekly") %>
-                          <div style="width: 40%"><%= "#{(payment.created_at - 1.week).strftime('%d %b %Y')} - #{(payment.created_at - 1.days).strftime('%d %b %Y')}" %></div>
-                        <% else %>
-                          <div style="width: 40%"><%= "#{(payment.created_at - 2.week).strftime('%d %b %Y')} - #{(payment.created_at - 1.days).strftime('%d %b %Y')}" %></div>
-                        <% end %>
-                        <div style="width: 15%"><%="#{payment.poster_service_fee}"%></div>
-                        <div><strong>&nbsp;</strong></div>
-                      </div>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              <% end %>
-              <div class="table_row">
+              <div class="sort_paginate_ajax">
+                <%= render partial: "poster_payouts" %>
+              </div>
+              <!-- <div class="table_row">
                 <a href="#" class="tab_btn">&lt;</a>
                 <a href="#" class="tab_btn">&gt;</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -82,26 +33,21 @@
         <div class="listing-card-box">
           <div class="listing-card">
             <div style="font-size: 18pt">Pending payouts: $653.90 AUD</div>
-
             <div class="payout_table">
               <div class="table_row">
                 <div style="width: 15%"><strong>Date</strong></div>
                 <div style="width: 15%"><strong>Type</strong></div>
                 <div style="width: 40%"><strong>Details</strong></div>
-                <div style="width: 15%"><strong>Amount</strong></div>
-                <div><strong>Paid Out</strong></div>
+                <div style="width: 15%"><strong>Pay to</strong></div>
+                <div><strong>Amount</strong></div>
               </div>
-              <div class="table_row">
-                <div style="width: 15%">26-02-2019</div>
-                <div style="width: 15%">Payout</div>
-                <div style="width: 40%">Transfer to PayPal</div>
-                <div style="width: 15%">&nbsp;</div>
-                <div><strong>$333.90</strong></div>
+              <div class="sort_paginate_ajax1">
+                <%= render partial: "upcoming_poster_payouts" %>
               </div>
-              <div class="table_row">
+              <!-- <div class="table_row">
                 <a href="#" class="tab_btn">&lt;</a>
                 <a href="#" class="tab_btn">&gt;</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -109,6 +55,4 @@
     </div>
   </div>
 </div>
-
-
 <%= render partial: "layouts/footer" %>

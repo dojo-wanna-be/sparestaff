@@ -1,0 +1,5 @@
+<% if params[:request_from].eql?("past_poster") %>
+  $('.sort_paginate_ajax').html("<%= escape_javascript(render("poster_payouts") )%>")
+<% else %>
+  $('.sort_paginate_ajax1').html("<%= escape_javascript(render("upcoming_poster_payouts") )%>")
+<% end %>

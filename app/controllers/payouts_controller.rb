@@ -1,17 +1,18 @@
 class PayoutsController < ApplicationController
-
+  include WillPaginateHelper
   def step_1; end
 
   def step_2; end
 
   def transaction_history
     if current_user.user_type.eql?("hr")
-      @hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
+      @hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc).paginate(:page => params[:page], :per_page => 8)
       total_payout = 0
       @hirer_transactions.each do |tx|
         total_payout += tx.stripe_payments.where(capture: true).sum(:amount)
       end
       @total_payout = total_payout
+      @upcoming_hirer_transactions = @hirer_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
       # @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
       # @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
       # @hirer_hiring_transactions.each do |transaction|
@@ -21,14 +22,13 @@ class PayoutsController < ApplicationController
       # @bookings = @bookings.order("booking_date desc")
       # @stripe_payments = @stripe_payments.order("created_at desc")
     else
-      @poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
+      @poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc).paginate(:page => params[:page], :per_page => 8)
       total_payout = 0
       @poster_transactions.each do |tx|
         total_payout += tx.stripe_payments.where(capture: true).sum(:poster_service_fee)
       end
-      binding.pry
       @total_payout = total_payout
-      @posted_listing_transactions = @poster_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :created, :cancelled]).includes(:employee_listing)
+      @upcoming_poster_transactions = @poster_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
       # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
       # if !@posted_listing_transactions.blank?
       #   @posted_listing_transactions.each do |transaction|
