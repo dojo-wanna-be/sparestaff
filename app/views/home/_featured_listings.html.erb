@@ -1,5 +1,5 @@
 <div class="featured-listings" >
-  <% listings.each do |listing| %>
+  <% listings.each_with_index do |listing, index| %>
     <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
       <div class="listing-card">
         <div class="listing-img">
@@ -20,8 +20,9 @@
             <% end %>
           <% end %>
           <div class="rating">
-            <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-            <span>28</span>
+            <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+            <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+            <span><%= listing_all_reviews(listing.id).count %></span>
           </div>
         </div>
       </div>

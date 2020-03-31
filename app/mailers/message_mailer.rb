@@ -5,18 +5,13 @@ class MessageMailer < ApplicationMailer
 		@message = message
 		@receiver = receiver
 		@sender = sender
-		if @receiver.user_type == "hr"
-			mail(to: receiver.email, subject: "Poster send you a message")
-	    else
-	    	mail(to: sender.email, subject: "Poster send you a message")
-	    end	
+		mail(to: @receiver.email, subject: "Poster send you a message")
 	end
 
-	def message_email_to_poster(message, poster, sender, receiver)
+	def message_email_to_poster(message, sender, receiver)
 		@message = message
-		@poster = poster
 		@sender = sender
 		@receiver = receiver
-		mail(to: poster.email, subject: "Hirer send you a message")
+		mail(to: @receiver.email, subject: "Hirer send you a message")
 	end
 end	
