@@ -35,13 +35,13 @@
   </div>
 
   <div class="admin_right_panel">
-    <div class="step_heading">Users</div>
+    <!-- <div class="step_heading">Users</div>
 
     <div class="right_step user">
       <div class="search_row">
         <input name="Text1" class="search_input" type="text" placeholder="Search by ID, name, email, or company name">
         <button class="search_btn">Search</button>
-        <%= link_to 'Show all', '', class: 'spare_link' %>
+        <%#= link_to 'Show all', '', class: 'spare_link' %>
       </div>
 
       <div class="search_row">
@@ -79,7 +79,7 @@
         <div>Displaying 1 - 2 of 2 accepted users and 0 
         suspended users</div>
         &nbsp;
-        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+        <%#= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
       </div>
 
       <div class="csv_table">
@@ -103,12 +103,12 @@
             <input name="Checkbox2" type="checkbox" class="checkbox_input">
           </div>
           <div class="Width50Px">
-            <%= link_to '193', '#', class: 'spare_link', target: '_blank' %>
+            <%#= link_to '193', '#', class: 'spare_link', target: '_blank' %>
           </div>
           <div class="Width100Px">James</div>
           <div class="Width100Px">Nguyen</div>
           <div class="Width200Px">
-            <%= link_to 'james@james.com.au', '#', class: 'spare_link' %>
+            <%#= link_to 'james@james.com.au', '#', class: 'spare_link' %>
           </div>
           <div class="Width100Px">HR Manager</div>
           <div class="Width150Px">James company</div>
@@ -127,7 +127,59 @@
         <a href="#" class="pagi_btn">4</a>
         <a href="#" class="pagi_btn prev_next">&gt;</a>
       </div>
+    </div> -->
 
+
+    <div class="email_user_box">
+      <div class="step_heading">Email Users</div>
+
+      <div>
+        <p>
+          Who do you want to email?<br>
+          <select name="WhoToEmail" class="FullWidth">
+            <option selected="selected">All users</option>
+            <option>Users who have posted at least one listing</option>
+            <option>Users who have not posted any listing</option>
+            <option>Users who have posted at least one listing but haven't added their payment details
+            </option>
+          </select>
+        </p>
+        <p>
+          Use existing template<br>
+          <select class="FullWidth" name="D1">
+            <option selected="selected">None</option>
+            <option>Template 1</option>
+            <option>Template 2</option>
+          </select>
+        </p>
+        <p>
+          Email subject<br>
+          <input name="Text1" class="FullWidth" type="text">
+        </p>
+        <p>
+          Email content<br>
+          <span class="TextGray14px">[FirstName] will be replaced by the 
+          actual first name of each recipient. HTML tags are allowed.</span>
+          <br>
+          <textarea name="TextArea1" class="FullWidth Height300px">Hello [FirstName],
+          </textarea>
+        </p>
+        <p>
+          <button class="Width80Px">Send</button>
+          <span class="PaddingLeft20px PaddingRight20px">or</span>
+          <%= link_to 'Send as a 
+          test email to yourself', '#', class: 'spare_link' %>
+        </p>
+        <p>
+          <input name="Checkbox1" type="checkbox" class="Height15px VerticalAlignMiddle"> 
+          Save this message as a template
+        </p>
+        <p>
+          Template name:<br>
+          <input name="Text2" class="FullWidth" type="text">
+        </p>
+      </div>
     </div>
+
   </div>
 </div>
