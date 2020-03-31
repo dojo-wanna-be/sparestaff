@@ -7,8 +7,7 @@
         <div class="right-panel-header">Completed Payouts</div>
         <div class="listing-card-box">
           <div class="listing-card">
-            <div style="font-size: 18pt">Paid out: $1,227.80 AUD</div>
-
+            <div style="font-size: 18pt">Paid out: $<%= @total_payout %> AUD</div>
             <div class="payout_table">
               <div class="table_row">
                 <div style="width: 15%"><strong>Date</strong></div>
@@ -17,23 +16,13 @@
                 <div style="width: 15%"><strong>Amount</strong></div>
                 <div><strong>Paid Out</strong></div>
               </div>
-              <% if current_user.user_type != "hr" %>
-                <% @posted_listing_transactions.each do |transaction| %>
-                  <% @stripe_payments.each do |payments| %>
-                  <div class="table_row">
-                    <div style="width: 15%"><%= "#{payments.created_at.strftime('%d %b %Y')}" %></div>
-                    <div style="width: 15%">Reservation</div>
-                    <div style="width: 40%"><%= "#{transaction.start_date.strftime('%d %b %Y')} - #{(transaction.start_date + 6.days).strftime('%d %b %Y')}" %></div>
-                    <div style="width: 15%"><%="#{payments.poster_service_fee}"%></div>
-                    <div><strong>&nbsp;</strong></div>
-                  </div>
-                  <% end %>
-                <% end %>
-              <% end %>
-              <div class="table_row">
+              <div class="sort_paginate_ajax">
+                <%= render partial: "poster_payouts" %>
+              </div>
+              <!-- <div class="table_row">
                 <a href="#" class="tab_btn">&lt;</a>
                 <a href="#" class="tab_btn">&gt;</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -44,26 +33,21 @@
         <div class="listing-card-box">
           <div class="listing-card">
             <div style="font-size: 18pt">Pending payouts: $653.90 AUD</div>
-
             <div class="payout_table">
               <div class="table_row">
                 <div style="width: 15%"><strong>Date</strong></div>
                 <div style="width: 15%"><strong>Type</strong></div>
                 <div style="width: 40%"><strong>Details</strong></div>
-                <div style="width: 15%"><strong>Amount</strong></div>
-                <div><strong>Paid Out</strong></div>
+                <div style="width: 15%"><strong>Pay to</strong></div>
+                <div><strong>Amount</strong></div>
               </div>
-              <div class="table_row">
-                <div style="width: 15%">26-02-2019</div>
-                <div style="width: 15%">Payout</div>
-                <div style="width: 40%">Transfer to PayPal</div>
-                <div style="width: 15%">&nbsp;</div>
-                <div><strong>$333.90</strong></div>
+              <div class="sort_paginate_ajax1">
+                <%= render partial: "upcoming_poster_payouts" %>
               </div>
-              <div class="table_row">
+              <!-- <div class="table_row">
                 <a href="#" class="tab_btn">&lt;</a>
                 <a href="#" class="tab_btn">&gt;</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -71,6 +55,4 @@
     </div>
   </div>
 </div>
-
-
 <%= render partial: "layouts/footer" %>

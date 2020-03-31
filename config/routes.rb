@@ -131,11 +131,11 @@ Rails.application.routes.draw do
       get :step_2
       get :step_3
       get :step_4
-      get :transacion_history
+      get :transaction_history
       get :stripe_account
       get :payouts_method
-      match :change_preference, via: [:get, :patch]
-      match :security, via: [:get, :patch]
+      match :change_preference, via: [:post, :patch]
+      match :security, via: [:get, :post]
     end
   end
 

@@ -103,6 +103,7 @@ class StripeRefundAmount
             amount: (poster_recieve*100).to_i
           }
         )
+        StripePayment.create!(transaction_id: @transaction.id, amount: amount, poster_service_fee: poster_recieve, stripe_charge_id: charge.id)
         refund = Stripe::Refund.create({
           charge: @charge_id,
           amount: (@amount*100).to_i,

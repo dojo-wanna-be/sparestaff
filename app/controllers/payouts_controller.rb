@@ -1,46 +1,68 @@
 class PayoutsController < ApplicationController
-
+  include WillPaginateHelper
   def step_1; end
 
   def step_2; end
 
-  def transacion_history
+  def transaction_history
     if current_user.user_type.eql?("hr")
-      hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-      @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
-      @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
-      @hirer_hiring_transactions.each do |transaction|
-        @stripe_payments = transaction.stripe_payments
-        @bookings = transaction.bookings
+      @hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc).paginate(:page => params[:page], :per_page => 8)
+      total_payout = 0
+      @hirer_transactions.each do |tx|
+        total_payout += tx.stripe_payments.where(capture: true).sum(:amount)
       end
-      @bookings = @bookings.order("booking_date desc")
-      @stripe_payments = @stripe_payments.order("created_at desc")
+      @total_payout = total_payout
+      @upcoming_hirer_transactions = @hirer_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
+      # @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
+      # @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
+      # @hirer_hiring_transactions.each do |transaction|
+      #   @stripe_payments = transaction.stripe_payments
+      #   @bookings = transaction.bookings
+      # end
+      # @bookings = @bookings.order("booking_date desc")
+      # @stripe_payments = @stripe_payments.order("created_at desc")
     else
-      poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
-      @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled, :completed]).includes(:employee_listing)
+      @poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc).paginate(:page => params[:page], :per_page => 8)
+      total_payout = 0
+      @poster_transactions.each do |tx|
+        total_payout += tx.stripe_payments.where(capture: true).sum(:poster_service_fee)
+      end
+      @total_payout = total_payout
+      @upcoming_poster_transactions = @poster_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
       # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
-      @posted_listing_transactions.each do |transaction|
-        @stripe_payments = transaction.stripe_payments
-        @bookings = transaction.bookings
-      end
-      if @bookings.present?
-        @bookings = @bookings.order("booking_date desc")
-      end
-      if @stripe_payments.present?
-        @stripe_payments = @stripe_payments.order("created_at desc")
-      end
+      # if !@posted_listing_transactions.blank?
+      #   @posted_listing_transactions.each do |transaction|
+      #     @stripe_payments = transaction.stripe_payments
+      #     @bookings = transaction.bookings
+      #   end
+      # end
+      # if @bookings.present?
+      #   @bookings = @bookings.order("booking_date desc")
+      # end
+      # if @stripe_payments.present?
+      #   @stripe_payments = @stripe_payments.order("created_at desc")
+      # end
     end
   end
 
   def security
-    current_user.update(password: params[:new_password])
+    if request.method.eql?("POST")
+      if current_user.valid_password?(params[:old_password])
+        current_user.update(password: params[:new_password])
+        flash[:success] = "Password updated successfully!"
+        redirect_to root_path
+      else
+        flash[:error] = "Current password is blank or Invalid!"
+        redirect_to security_payouts_path
+      end
+    end
   end
 
   def index
     @payment_method = current_user.stripe_info
     begin
-      @stripe_account = Stripe::Account.retrieve('acct_1FolrxE4u5g7rNqu') if(@payment_method.present?  && @payment_method.stripe_account_id)
-    rescue e
+      @stripe_account = Stripe::Account.retrieve(@payment_method.stripe_account_id) if (@payment_method.present?  && @payment_method.stripe_account_id)
+    rescue => e
       @stripe_account = nil
     end
   end
@@ -59,26 +81,11 @@ class PayoutsController < ApplicationController
   end
 
   def change_preference
-    if params[:notification_about_receive_message].eql?("true")
-      val1 = true
-    else
-      val1 = false
-    end
-    if params[:notification_about_promotions_on_email].eql?("true")
-      val2 = true
-    else
-      val2 = false
-    end
-    if params[:notification_about_promotions_on_phone].eql?("true")
-      val3 = true
-    else
-      val3 = false
-    end
     updated_preferences = {
-      notification_about_receive_message:      val1,
-      notification_about_promotions_on_email:  val2,
-      notification_about_promotions_on_phone:  val3
+      notification_about_receive_message:      params[:notification_about_receive_message].eql?("on"),
+      notification_about_promotions_on_email:  params[:notification_about_promotions_on_email].eql?("on"),
+      notification_about_promotions_on_phone:  params[:notification_about_promotions_on_phone].eql?("on")
     }
-      current_user.notification_setting.update(preferences: updated_preferences)
+    current_user.notification_setting.update(preferences: updated_preferences)
   end
 end
