@@ -71,9 +71,11 @@
             <div class="three-box">
               <div class="three-box-left">
                 <div>
-                  <%= "#{@listing.address_1}" %>
-                  <%= "#{@listing.city} #{@listing.state} #{@listing.post_code}" %>
-                  <%= "#{@listing.country}" %>
+                  <% if @transaction.address.present? %>
+                    <%= "#{@transaction.address.address_1}" %>
+                    <%= "#{@transaction.address.city} #{@transaction.address.state} #{@transaction.address.post_code}" %>
+                    <%= "#{@transaction.address.country}" %>
+                  <% end %> 
                 </div>
               </div>
               <div class="three-box-middle">
