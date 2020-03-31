@@ -29,7 +29,18 @@
     <% end %>
   <% end %>
 </div>
-<div class="will_pagination_box">
+<div class="will_pagination_box changes">
   <%= js_will_paginate @employee_listings %>
 </div>
-
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.listing_star_rating').raty({
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        },
+        starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+        starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'
+    });
+  });
+</script>

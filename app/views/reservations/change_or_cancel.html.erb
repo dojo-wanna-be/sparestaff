@@ -12,9 +12,9 @@
         <%= link_to '#' do %>
           <%= image_tag 'change-icon.png', class: 'Height30px' %>
         <% end %>
-        <%= link_to 'Ask Hirer To Make Changes', 'javascript:void(0)', class: 'GreyLink22Px show_message_box' %>
+        <%= link_to 'Ask Hirer To Make Changes', inboxes_path, class: 'GreyLink22Px show_message_boxd' %>
         <div>Hirer can change hiring dates, work timetable, hours. You can ask Hirer to make changes.</div>
-        <%= link_to 'Message Hirer', 'javascript:void(0)', class: 'transparent-continue-btn show_message_box' %>
+        <%= link_to 'Message Hirer', inboxes_path, class: 'transparent-continue-btn show_message_boxd' %>
       </div>
     <% else %>
       <div class="change-or-cancel-box">
