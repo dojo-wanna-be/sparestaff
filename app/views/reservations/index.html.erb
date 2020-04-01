@@ -42,9 +42,10 @@
               <div class="list-box two">
                 <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
                 <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
-                <% if transaction.address.present? %>
-                <%= "#{transaction.address.address_1}" %> <br>
-                <%= "#{transaction.address.address_2} #{transaction.address.city} #{transaction.address.state} #{transaction.address.post_code}" %> <% end %>
+                <%# if transaction.address.present? %>
+                <%#= "#{transaction.address.address_1}" %> <br>
+                <%#= "#{transaction.address.address_2} #{transaction.address.city} #{transaction.address.state} #{transaction.address.post_code}" %> <%# end %>
+                <%= transaction.hirer.company.city if transaction.hirer.company.present? %>
               </div>
               <div class="list-box three">
                 <div class="image-box">

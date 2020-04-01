@@ -147,7 +147,7 @@
             <% @transaction.payment_receipts.each do |receipt| %>
               <div class="divTableRow">
                 <div class="divTableCell">
-                  <%= link_to receipt.id, receipt_details_hiring_path(id: receipt.id), :target => "_blank" %>
+                  <%= link_to receipt.id, receipt_details_hiring_path(id: @transaction, receipt_id: receipt.id), :target => "_blank" %>
                 </div>
                 <div class="divTableCell">$<%= receipt.tx_price %></div>
                 <div class="divTableCell"><%= receipt.start_date.strftime("%d-%h-%Y") %></div>

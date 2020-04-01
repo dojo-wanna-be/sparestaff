@@ -317,11 +317,12 @@ class HiringsController < ApplicationController
   end
 
   def receipt_details
+    @receipt = PaymentReceipt.find_by(id: params[:receipt_id])
     @listing = @transaction.employee_listing
   end
 
   def vat_invoice_details
-    @receipt = PaymentReceipt.find_by(id: params[:id])
+    @receipt = PaymentReceipt.find_by(id: params[:receipt_id])
     @transaction = Transaction.find_by(id: @receipt.transaction_id)
     @total_service_fee = @transaction.service_fee
     @base_service_fee = (@total_service_fee / 1.1)
