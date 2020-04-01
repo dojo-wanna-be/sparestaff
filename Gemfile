@@ -47,7 +47,11 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  gem 'factory_girl_rails', '~> 4.5'
+  gem 'capybara', '~> 2.5'
 end
+gem 'simplecov', require: false, group: :test
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
@@ -64,10 +68,13 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  #gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'shoulda-matchers', '~> 3.0', require: false
+  gem 'database_cleaner', '~> 1.5'
+  gem 'faker', '~> 1.6.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -96,5 +103,5 @@ gem 'ransack', '~> 2.1'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-will_paginate'
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+# gem 'wkhtmltopdf-binary'
 gem 'ratyrate'
