@@ -1,4 +1,5 @@
 class InboxesController < ApplicationController
+  before_action :authenticate_user!, only: [:show]
   before_action :find_conversation, only: [:show, :create]
   before_action :read_conversation, only: [:show]
 
