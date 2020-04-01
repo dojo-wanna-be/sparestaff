@@ -64,10 +64,17 @@
               <div class="list-box four">
                 <div class="image-box">
                   <div class="user-image">
-                    <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                    <%= link_to user_path(transaction.hirer.id) do %>
+                      <%= image_tag transaction.hirer.avatar.url, class: 'ProfileIcon' %>
+                    <% end %>
                   </div>
                   <div class="user-detail">
-                    <b><%= transaction.hirer.name %></b><br>
+                    <b>
+                      <%= link_to user_path(transaction.hirer.id) do %>
+                        <span><%= transaction.hirer.name %></span>
+                        <% end %>
+                    </b>
+                    <br>
                     <% if transaction.state.eql?("accepted") %>
                       Contact: <%= transaction.hirer.company.name %><br>
                       <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
@@ -161,10 +168,17 @@
                 <div class="list-box four">
                   <div class="image-box">
                     <div class="user-image">
-                      <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                      <%= link_to user_path(transaction.hirer.id) do %>
+                        <%= image_tag transaction.hirer.avatar.url, class: 'ProfileIcon' %>
+                      <% end %>
                     </div>
                     <div class="user-detail">
-                      <b><%= transaction.hirer.name %></b><br>
+                      <b>
+                        <%= link_to user_path(transaction.hirer.id) do %>
+                          <span><%= transaction.hirer.name %></span>
+                          <% end %>
+                      </b>
+                      <br>
                       Contact: <%= transaction.hirer.company.name %><br>
                       <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
                       <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>

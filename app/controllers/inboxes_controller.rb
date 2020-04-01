@@ -10,13 +10,17 @@ class InboxesController < ApplicationController
     if(params[:from].present?)
       @listing = EmployeeListing.find(params[:id])
       @conversation = Conversation.between_listing(current_user.id, @listing.poster.id, @listing.id).last
-      if(@conversation.present?)
+      if false#(@conversation.present?)
         @messages = @conversation.messages.order(created_at: :DESC)
       else
-        @conversation = Conversation.create!( receiver_id: @listing.poster.id,
+        begin
+          @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                     sender_id: current_user.id,
                     employee_listing_id: @listing.id
                   )
+        rescue => e
+          flash[:error] = e.message
+        end
         @messages = []
       end
       redirect_to inbox_path(id: @conversation.id) 
