@@ -48,17 +48,18 @@ class InboxesController < ApplicationController
       end
       if current_user.user_type == "hr" && @receiver.user_type == "hr"
         if @listing.poster.eql?(@sender.first)
-          MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
         else
-          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
         end
       elsif @sender.first.user_type == "hr"
-          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
       # elsif @listing.poster.eql?(@sender.first)
       else
-        MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
+        MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
+      flash[:notice] = "Message sent successfully."
     end
   end
 

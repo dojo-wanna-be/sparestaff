@@ -4,6 +4,7 @@
       <div class="message__conversation">
         <%= f.text_area :content, cols: 20, rows: 5 %>
         <%= hidden_field_tag :id, @conversation.id %>
+        <div class="message-blank-error hidden">Your Message Field is blank.</div>
         <div class="message-error"> You can't send this message. It contains Email/URL/Contact.</div>
         <div class="message-chat-block__box--btn-box">
           <%= f.submit "Send Message", class: 'message-btn' %>
@@ -33,20 +34,28 @@
 
 <script type="text/javascript">
   $("#new_message").submit(function() {
-    var email = new RegExp("/^[A-Z0-9._%\-\+\~\/]+@([A-Z0-9-]+\.)+[A-Z]+$/i");
-    var contact = new RegExp("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$");
-    var url = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?");
-    var addres = new RegExp("^(\d+) ?([A-Za-z](?= ))? (.*?) ([^ ]+?) ?((?<= )APT)? ?((?<= )\d*)?$");
-    var message = $("#message_content").val();
-    var arr = message.split(' ');
-    for (var i = 0; i < arr.length; i++) {
-      if (email.test(arr[i]) || contact.test(arr[i]) || url.test(arr[i]) || addres.test(arr[i])) {
-        $('.message-error').show();
-        return false;
+    if ($("#message_content").val() == "") {
+      $('.message-blank-error').show();
+          return false;
+    }
+    else {
+      $('.message-blank-error').hide();
+      var email = new RegExp("/^[A-Z0-9._%\-\+\~\/]+@([A-Z0-9-]+\.)+[A-Z]+$/i");
+      // var contact = new RegExp("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$");
+      var contact = new RegExp("((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}");
+      var url = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?");
+      var addres = new RegExp("^(\d+) ?([A-Za-z](?= ))? (.*?) ([^ ]+?) ?((?<= )APT)? ?((?<= )\d*)?$");
+      var message = $("#message_content").val();
+      var arr = message.split(' ');
+      for (var i = 0; i < arr.length; i++) {
+        if (email.test(arr[i]) || contact.test(arr[i]) || url.test(arr[i]) || addres.test(arr[i])) {
+          $('.message-error').show();
+          return false;
+        }
+        else {
+          $('.message-error').hide();
+        }
       }
-      else {
-        $('.message-error').hide();
-      }   
     }
   })
 </script>
