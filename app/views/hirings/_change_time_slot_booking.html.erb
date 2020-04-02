@@ -36,7 +36,6 @@
             <div class="from-text">From</div>
             <div class="to-text">To</div>
           </li>
-
           <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>

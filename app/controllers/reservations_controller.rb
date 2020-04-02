@@ -208,7 +208,12 @@ class ReservationsController < ApplicationController
       amount =  StripeRefundAmount.new(@transaction).already_start_refund_amont
     end
     @poster_service_fee = amount * 0.1
-    @poster_recieve = (amount - (amount * 0.1) - @transaction.tax_withholding_amount).round(2)
+    @poster_recieve = 
+                if amount > 0
+                 (amount - (amount * 0.1) - @transaction.tax_withholding_amount).round(2)
+                else
+                  0
+                end
     unless request.patch?
       @listing = @transaction.employee_listing
     else

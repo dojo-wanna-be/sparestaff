@@ -1,0 +1,2 @@
+class StripeRefundReceipt < ApplicationRecord
+end

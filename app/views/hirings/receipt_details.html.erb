@@ -162,7 +162,7 @@
             </li>
           </ul>
 
-          <div>* The Service Fee includes VAT charges when applicable. <span><%= link_to 'Download VAT Receipt', vat_invoice_details_hiring_path(id: @transaction.id), class: 'TextGrey' %></span></div>
+          <div>* The Service Fee includes VAT charges when applicable. <span><%= link_to 'Download VAT Receipt', vat_invoice_details_hiring_path(id: @transaction.id, receipt_id: @receipt.id), class: 'TextGrey' %></span></div>
         </div>
 
         <div class="charges-box">
@@ -171,7 +171,7 @@
           <ul class="calculation-list">
             <li class="calc-item payment-item">
               <span class="left">
-                Payment with  <%= @transaction.hirer.stripe_info.card_type%> ....<%= @transaction.hirer.stripe_info.last_four_digits%> </br>
+                Payment with  <%= @transaction.hirer.stripe_info.card_type %> ....<%= @transaction.hirer.stripe_info.last_four_digits %> </br>
                 <span class="TextGrey"><%= @transaction.start_date.strftime("%d-%h-%Y") %></span>
               </span>
               <span class="right">$<label id=""><%= @transaction.hirer_weekly_amount %></label></span>
