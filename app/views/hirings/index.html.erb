@@ -15,7 +15,11 @@
             <% elsif transaction.state.eql?("cancelled") %>
               <div class="TextCancelled">
                 <strong>Cancelled</strong>&nbsp;&nbsp;
-                You cancelled this hiring.
+                <% if transaction.cancelled_by.eql?("hirer") %>
+                  You cancelled this hiring.
+                <% else %>
+                  <%=transaction.poster.name%> cancelled this hiring.
+                <% end %>
               </div>
             <% end %>
             <h2 class="order_listing_title"><%= transaction.employee_listing.title %></h2>
@@ -30,7 +34,9 @@
               <%= image_tag 'send-message-icon.jpg' %>
               Send Message
             <% end %>
-
+            <% if transaction.state.eql?("cancelled") %>
+              <%= link_to 'Write Review', new_review_url(tx_id: transaction.id), class: 'add_info review-link ' %>
+            <% end %>
             <% if transaction.state.eql?("accepted") %>
               <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
                 <%= image_tag 'calendar-icon.jpg' %>

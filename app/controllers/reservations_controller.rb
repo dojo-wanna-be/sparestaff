@@ -294,7 +294,9 @@ class ReservationsController < ApplicationController
   def create_message
     conversation = find_or_create_conversation
     # conversation.update_attributes(read: false)
-    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    if params[:message_text] != ""
+      message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    end
   end
 
   def ensure_poster
