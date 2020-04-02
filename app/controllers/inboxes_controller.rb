@@ -40,7 +40,6 @@ class InboxesController < ApplicationController
     # @sender = @conversation.sender
     # @receiver = @conversation.receiver
     if message.save
-      # flash[:notice] = "Here is my flash notice"
       @sender = User.where(id: current_user.id)
       if current_user.id.eql?(@conversation.sender_id)
         @receiver = User.find(@conversation.receiver_id)
@@ -60,6 +59,7 @@ class InboxesController < ApplicationController
         MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
+      flash[:notice] = "Message sent successfully."
     end
   end
 
