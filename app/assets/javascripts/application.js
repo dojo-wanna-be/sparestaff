@@ -17,11 +17,11 @@
 
 //= require rails-ujs
 //= require toastr_rails
-//= require jquery.validate
 //= require allow_numeric
 //= require jquery.tagsinput
 //= require activestorage
 //= require bootstrap-datepicker
 //= require turbolinks
+//= require jquery.validate
 //= require jquery.raty
 //= require_tree .

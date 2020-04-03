@@ -19,7 +19,7 @@
       </ul>
        <%if (@transaction.state.eql?("accepted") && @transaction.start_date <= Date.today)%>
         <!-- <p>
-          This hiring has already started. You can request changes. <%= @transaction.poster.name %> needs to respond before the next billing cycle - <%= transaction_time(@transaction)%>. If <%= @transaction.poster.name %> accepts, this hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%=transaction_time(@transaction)%>.
+          This hiring has already started. You can request changes. <%#= @transaction.poster.name %> needs to respond before the next billing cycle - <%= transaction_time(@transaction)%>. If <%#= @transaction.poster.name %> accepts, this hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%=transaction_time(@transaction)%>.
         </p> -->
         <p>
           This hiring has already started. Changes will take affect from next billing cycle. This hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%= transaction_time(@transaction) %>.
@@ -186,6 +186,7 @@
     }
   });
 </script>
+<%= javascript_include_tag 'jquery' %>
 <script>
   var jQuery_1_7_0 = $.noConflict(true);
   var isSunday = false;
@@ -212,13 +213,13 @@
   var totalFridayHours = 0;
   var totalSaturdayHours = 0;
 
-  var sundayHour = <%= @sundayHour.present? ? @sundayHour : 0 %>
-  var mondayHour = <%= @mondayHour.present? ? @mondayHour : 0 %>
-  var tuesdayHour = <%= @tuesdayHour.present? ? @tuesdayHour : 0 %>
-  var wednesdayHour = <%= @wednesdayHour.present? ? @wednesdayHour : 0 %>
-  var thursdayHour = <%= @thursdayHour.present? ? @thursdayHour : 0 %>
-  var fridayHour = <%= @fridayHour.present? ? @fridayHour : 0 %>
-  var saturdayHour = <%= @saturdayHour.present? ? @saturdayHour : 0 %>
+  var sundayHour = <%= @sundayHour.present? ? @sundayHour : 0 %>;
+  var mondayHour = <%= @mondayHour.present? ? @mondayHour : 0 %>;
+  var tuesdayHour = <%= @tuesdayHour.present? ? @tuesdayHour : 0 %>;
+  var wednesdayHour = <%= @wednesdayHour.present? ? @wednesdayHour : 0 %>;
+  var thursdayHour = <%= @thursdayHour.present? ? @thursdayHour : 0 %>;
+  var fridayHour = <%= @fridayHour.present? ? @fridayHour : 0 %>;
+  var saturdayHour = <%= @saturdayHour.present? ? @saturdayHour : 0 %>;
 
   var totalWeekdayHours = 0;
   var totalWeekendHours = 0;

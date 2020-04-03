@@ -55,7 +55,6 @@ module EmployeeListingsHelper
   end
 
   def unavailable_time_slots(bookings)
-    #123binding.pry
     availability_slots = ListingAvailability::TIME_SLOTS
 
     sunday_start_bookings = []
