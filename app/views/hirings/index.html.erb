@@ -30,9 +30,11 @@
             <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
           </div>
           <div class="bottom_part">
-            <%= link_to inbox_path(id: transaction.conversation.id), class: 'add_info' do %>
-              <%= image_tag 'send-message-icon.jpg' %>
-              Send Message
+            <% if transaction&.conversation %>
+              <%= link_to inbox_path(id: transaction&.conversation&.id), class: 'add_info' do %>
+                <%= image_tag 'send-message-icon.jpg' %>
+                Send Message
+              <% end %>
             <% end %>
             <% if transaction.state.eql?("cancelled") %>
               <%= link_to 'Write Review', new_review_url(tx_id: transaction.id), class: 'add_info review-link ' %>
@@ -67,7 +69,6 @@
         </div>
       </div>
     <% end %>
-
     <% if @past_listing_transactions.present? %>
       <h1 class="order_listing_heading">Past Hiring</h1>
 
