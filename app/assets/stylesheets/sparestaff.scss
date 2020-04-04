@@ -2773,5 +2773,17 @@ a.BackendLeftMenuSelected {
     color: #28a597;
   }
 }
+.zero_opc {
+  opacity: 0;
+}
+.absolute_data {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+.main_pos {
+  position: relative;
+}
 
 /* End of Separator line with text at middle */

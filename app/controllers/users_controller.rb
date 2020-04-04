@@ -1,10 +1,21 @@
 class UsersController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :profile_photo
   before_action :find_user, only: [:show,
                                     :show_all_listings,
                                     :show_all_poster_reviews,
                                     :show_all_hirer_reviews]
   def profile_photo
+    @user_profile = User.new
     @current_user = current_user
+    if request.post?
+      @current_user.update(params.require(:user).permit(:avatar))
+    end
+  end
+
+  def destroy_profile_photo
+    @user = current_user
+    @user.avatar.destroy
+    @user.save
   end
 
   def trust_and_verification
