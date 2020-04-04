@@ -41,7 +41,7 @@
           Service fee
         </div>
         <div class="right-item">
-          -$<%= @poster_service_fee %>
+          -$<%= @poster_service_fee.round(2) %>
         </div>
       </div>
       <div class="list-item grey-list-item">
@@ -50,7 +50,7 @@
         </div>
         <div class="right-item">
           <strong>
-            <%= @poster_recieve %>
+            <%= @poster_recieve.round(2) %>
           </strong>
         </div>
       </div>
