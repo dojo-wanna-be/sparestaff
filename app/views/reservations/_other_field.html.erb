@@ -32,8 +32,9 @@
         <div class="left-item">
           Tax withholding
         </div>
+
         <div class="right-item">
-          -$<%= @transaction.tax_withholding_amount %>
+          -$<%= @poster_recieve > 0 ? @transaction.tax_withholding_amount : 0 %>
         </div>
       </div>
       <div class="list-item">
@@ -41,7 +42,7 @@
           Service fee
         </div>
         <div class="right-item">
-          -$<%= @poster_service_fee.round(2) %>
+          -$<%= @poster_recieve > 0 ? @poster_service_fee.round(2) : 0 %>
         </div>
       </div>
       <div class="list-item grey-list-item">
