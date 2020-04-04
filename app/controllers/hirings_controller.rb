@@ -230,11 +230,16 @@ class HiringsController < ApplicationController
   end
 
   def cancel_hiring
-    @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
-                            @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
-                          else
-                            @transaction.amount
-                          end
+    # @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
+    #                         @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
+    #                       else
+    #                         0
+    #                       end
+    mid_cancel_amount = StripeRefundAmount.new(@transaction).already_start_refund_amont
+    previus_charge_amount = (@transaction.amount - @transaction.tax_withholding_amount) + @transaction.service_fee
+    new_charge_amount_with_service_fee = ((mid_cancel_amount - @transaction.tax_withholding_amount) + @transaction.service_fee).round(2)
+    new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50
+    @total_amount = previus_charge_amount - new_charge_amount_with_service_fee
     unless request.patch?
       @listing = @transaction.employee_listing
     else
@@ -278,6 +283,7 @@ class HiringsController < ApplicationController
   def cancelled_successfully
     @listing = @transaction.employee_listing
     StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first

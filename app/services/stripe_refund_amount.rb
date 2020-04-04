@@ -95,16 +95,26 @@ class StripeRefundAmount
         amount_with_service_fee = ((amount - @transaction.tax_withholding_amount) + @transaction.service_fee).round(2)
         amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50
         poster_recieve = (amount - @transaction.tax_withholding_amount - (amount * 10/100)).round(2)
-        charge = Stripe::Charge.create(
-          customer:  cutsomer_id,
-          amount:    (amount_with_service_fee * 100).to_i,
-          currency:  'aud',
-          capture: true,
-          destination: {
-            account: poster.stripe_info.stripe_account_id,
-            amount: (poster_recieve*100).to_i
-          }
-        )
+        with_destination = poster_recieve > 0
+        if with_destination
+          charge = Stripe::Charge.create(
+            customer:  cutsomer_id,
+            amount:    (amount_with_service_fee * 100).to_i,
+            currency:  'aud',
+            capture: true,
+            destination: {
+              account: poster.stripe_info.stripe_account_id,
+              amount: (poster_recieve*100).to_i
+            }
+          )
+        else
+          charge = Stripe::Charge.create(
+            customer:  cutsomer_id,
+            amount:    (amount_with_service_fee * 100).to_i,
+            currency:  'aud',
+            capture: true
+          )
+        end
         StripePayment.create!(transaction_id: @transaction.id, amount: amount, poster_service_fee: poster_recieve, stripe_charge_id: charge.id)
         refund = Stripe::Refund.create({
           charge: @charge_id,

@@ -104,10 +104,10 @@
           <div class="calculation-list">
             <div class="list-item">
               <div class="left-item">
-                Total Fee
+                Total Fees
               </div>
               <div class="right-item">
-                $<%= @transaction.amount.round(2) %>
+                $<%= (@refund_receipt.amount + @refund_receipt.service_fee).round(2) %>
               </div>
             </div>
             <div class="list-item">
@@ -123,7 +123,7 @@
                 <strong>Your Total Refund</strong>
               </div>
               <div class="right-item">
-                <strong>$<%= (@transaction.amount - @transaction.service_fee).round(2) %></strong>
+                <strong>$<%= (@refund_receipt.amount).round(2) %></strong>
               </div>
             </div>
           </div>
