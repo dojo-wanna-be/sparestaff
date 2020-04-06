@@ -15,7 +15,11 @@
             <% elsif transaction.state.eql?("cancelled") %>
               <div class="TextCancelled">
                 <strong>Cancelled</strong>&nbsp;&nbsp;
-                You cancelled this hiring.
+                <% if transaction.cancelled_by.eql?("hirer") %>
+                  You cancelled this hiring.
+                <% else %>
+                  <%=transaction.poster.name%> cancelled this hiring.
+                <% end %>
               </div>
             <% end %>
             <h2 class="order_listing_title"><%= transaction.employee_listing.title %></h2>
@@ -26,11 +30,15 @@
             <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
           </div>
           <div class="bottom_part">
-            <%= link_to inbox_path(id: transaction.conversation.id), class: 'add_info' do %>
-              <%= image_tag 'send-message-icon.jpg' %>
-              Send Message
+            <% if transaction&.conversation %>
+              <%= link_to inbox_path(id: transaction&.conversation&.id), class: 'add_info' do %>
+                <%= image_tag 'send-message-icon.jpg' %>
+                Send Message
+              <% end %>
             <% end %>
-
+            <% if transaction.state.eql?("cancelled") %>
+              <%= link_to 'Write Review', new_review_url(tx_id: transaction.id), class: 'add_info review-link ' %>
+            <% end %>
             <% if transaction.state.eql?("accepted") %>
               <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
                 <%= image_tag 'calendar-icon.jpg' %>
@@ -61,7 +69,6 @@
         </div>
       </div>
     <% end %>
-
     <% if @past_listing_transactions.present? %>
       <h1 class="order_listing_heading">Past Hiring</h1>
 
@@ -74,7 +81,7 @@
               <% else %>
                 <%= image_tag 'no-image.jpg', class: 'card_profile_background_image' %>
               <% end %>
-              <%= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
+              <%#= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
             </div>
             <div class="card_content">
               <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
@@ -84,7 +91,8 @@
               <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
               <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
               <div class="review_part">
-                <%= image_tag 'star-rating.png', class: 'review-img' %>
+                <span class="listing_star_rating" data-score ="<%= listing_star_rating(hiring.employee_listing.id).round(0) %>"></span>
+                <%#= image_tag 'star-rating.png', class: 'review-img' %>
                 <% if hiring.state.eql?("completed") %>
                   <%= link_to 'Write a Review', new_review_url(tx_id: hiring.id), class: 'review-link ' %>
                 <% end %>
@@ -144,4 +152,14 @@
     $("#shareDetailsModal").modal();
     $("#transaction_hidden_field").val(transaction_id);
   })
+  $(document).ready(function() {
+    $('.listing_star_rating').raty({
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        },
+        starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+        starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'
+    });
+  });
 </script>

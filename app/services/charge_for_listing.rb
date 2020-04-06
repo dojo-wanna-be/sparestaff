@@ -68,9 +68,9 @@ class ChargeForListing
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
       cutsomer_id = customer = Stripe::Customer.retrieve(hirer.stripe_info.stripe_customer_id).id
       amount = total_amount(transaction, from)
-      amount_with_hirer_service_fee = amount + (amount * 0.03)
-      fee = poster_service_fee(amount)
-      poster_fee = amount - fee
+      amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
+      fee = poster_service_fee(amount - transaction.tax_withholding_amount)
+      poster_fee = amount - transaction.tax_withholding_amount - fee
       charge = Stripe::Charge.create(
         customer:  cutsomer_id,
         amount:    (amount_with_hirer_service_fee * 100).to_i,
@@ -82,7 +82,8 @@ class ChargeForListing
           amount: (poster_fee*100).to_i
         }
       )
-      StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id)
+      StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
+        # Some other error; display an error message.
     end
 
     def poster_service_fee amount

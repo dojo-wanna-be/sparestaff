@@ -102,7 +102,6 @@ class HiringsController < ApplicationController
                     .where(state: "accepted")
                     .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?", @start_date, @end_date, @start_date, @end_date)
                     .where.not(id: @old_transaction&.id)
-      
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
       @transaction.bookings.group_by(&:day).each do |day, bookings|
@@ -231,11 +230,16 @@ class HiringsController < ApplicationController
   end
 
   def cancel_hiring
-    @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
-                            @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
-                          else
-                            @transaction.amount
-                          end
+    # @mid_cancel_amount = if @transaction.amount > StripeRefundAmount.new(@transaction).already_start_refund_amont
+    #                         @transaction.amount - StripeRefundAmount.new(@transaction).already_start_refund_amont 
+    #                       else
+    #                         0
+    #                       end
+    mid_cancel_amount = StripeRefundAmount.new(@transaction).already_start_refund_amont
+    previus_charge_amount = (@transaction.amount - @transaction.tax_withholding_amount) + @transaction.service_fee
+    new_charge_amount_with_service_fee = ((mid_cancel_amount - @transaction.tax_withholding_amount) + @transaction.service_fee).round(2)
+    new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50
+    @total_amount = previus_charge_amount - new_charge_amount_with_service_fee
     unless request.patch?
       @listing = @transaction.employee_listing
     else
@@ -279,6 +283,7 @@ class HiringsController < ApplicationController
   def cancelled_successfully
     @listing = @transaction.employee_listing
     StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
@@ -317,11 +322,12 @@ class HiringsController < ApplicationController
   end
 
   def receipt_details
+    @receipt = PaymentReceipt.find_by(id: params[:receipt_id])
     @listing = @transaction.employee_listing
   end
 
   def vat_invoice_details
-    @receipt = PaymentReceipt.find_by(id: params[:id])
+    @receipt = PaymentReceipt.find_by(id: params[:receipt_id])
     @transaction = Transaction.find_by(id: @receipt.transaction_id)
     @total_service_fee = @transaction.service_fee
     @base_service_fee = (@total_service_fee / 1.1)
@@ -381,7 +387,9 @@ class HiringsController < ApplicationController
   def create_message
     conversation = find_or_create_conversation
     # conversation.update_attributes(read: false)
-    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    if params[:message_text] != ""
+      message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    end
   end
 
   def ensure_repeat_tx

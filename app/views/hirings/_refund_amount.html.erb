@@ -39,7 +39,7 @@
         Total Fee
       </div>
       <div class="right-item">
-        $<%= @mid_cancel_amount %>
+        $<%= (@total_amount + @transaction.service_fee).round(2)  %>
       </div>
     </div>
     <div class="list-item">
@@ -47,7 +47,7 @@
         Service fee
       </div>
       <div class="right-item">
-        -$<%= @transaction.service_fee.round(2) %>
+        -$<%= @total_amount > 0 ? @transaction.service_fee.round(2) : 0 %>
       </div>
     </div>
   <% end %>
@@ -57,9 +57,9 @@
     </div>
     <div class="right-item">
       <% if (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 2 >= Date.today) %>
-        <strong>$<%= @transaction.hirer_weekly_amount %></strong>
+        <strong>$<%= (@transaction.hirer_weekly_amount).round(2) %></strong>
       <% else %>
-        <strong>$<%= @mid_cancel_amount - @transaction.service_fee %></strong>
+        <strong>$<%= (@total_amount).round(2) %></strong>
       <% end %>
     </div>
   </div>

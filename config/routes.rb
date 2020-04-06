@@ -31,11 +31,12 @@ Rails.application.routes.draw do
 
   resources :users do
     collection do
-      get :profile_photo
+      match :profile_photo, via: [:get, :post]
       get :trust_and_verification
       get :show_all_listings
       get :show_all_poster_reviews
       get :show_all_hirer_reviews
+      get :destroy_profile_photo
     end
   end
 

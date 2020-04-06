@@ -238,19 +238,15 @@
                 height: 222px;
                 padding: 10px 0;
                 position: relative;
-
+                &:hover {
+                  .bin_box {
+                    display: block
+                  }
+                }
                 .user_image {
                   height: 100%;
                   width: 100%;
                   border-radius: 50%;
-                  cursor: pointer;
-
-                  &:hover {
-                    & + .bin_box {
-                      display: block
-                    }
-                  }
-
                 }
 
                 .bin_box {
@@ -258,7 +254,7 @@
                   top: 0;
                   left: 0;
                   display: none;
-
+                  cursor: pointer;
                   img {
                     height: 30px;
                   }

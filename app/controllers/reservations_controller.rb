@@ -207,8 +207,13 @@ class ReservationsController < ApplicationController
       @weekend_amount = @weekend_hours * @transaction.employee_listing.weekend_price.to_f
       amount =  StripeRefundAmount.new(@transaction).already_start_refund_amont
     end
-    @poster_service_fee = amount * 0.1
-    @poster_recieve = (amount - (amount * 0.1) - @transaction.tax_withholding_amount).round(2)
+    @poster_service_fee = (amount - @transaction.tax_withholding_amount) * 0.1
+    @poster_recieve = 
+                if amount > 0
+                 (amount - @transaction.tax_withholding_amount - ((amount - @transaction.tax_withholding_amount) * 0.1)).round(2)
+                else
+                  0
+                end
     unless request.patch?
       @listing = @transaction.employee_listing
     else
@@ -294,7 +299,9 @@ class ReservationsController < ApplicationController
   def create_message
     conversation = find_or_create_conversation
     # conversation.update_attributes(read: false)
-    message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    if params[:message_text] != ""
+      message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
+    end
   end
 
   def ensure_poster

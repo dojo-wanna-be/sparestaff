@@ -1,4 +1,5 @@
 class InboxesController < ApplicationController
+  before_action :authenticate_user!, only: [:show]
   before_action :find_conversation, only: [:show, :create]
   before_action :read_conversation, only: [:show]
 
@@ -10,13 +11,17 @@ class InboxesController < ApplicationController
     if(params[:from].present?)
       @listing = EmployeeListing.find(params[:id])
       @conversation = Conversation.between_listing(current_user.id, @listing.poster.id, @listing.id).last
-      if(@conversation.present?)
+      if false#(@conversation.present?)
         @messages = @conversation.messages.order(created_at: :DESC)
       else
-        @conversation = Conversation.create!( receiver_id: @listing.poster.id,
+        begin
+          @conversation = Conversation.create!( receiver_id: @listing.poster.id,
                     sender_id: current_user.id,
                     employee_listing_id: @listing.id
                   )
+        rescue => e
+          flash[:error] = e.message
+        end
         @messages = []
       end
       redirect_to inbox_path(id: @conversation.id) 
@@ -43,17 +48,18 @@ class InboxesController < ApplicationController
       end
       if current_user.user_type == "hr" && @receiver.user_type == "hr"
         if @listing.poster.eql?(@sender.first)
-          MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
         else
-          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
         end
       elsif @sender.first.user_type == "hr"
-          MessageMailer.message_email_to_poster(message,@sender,@receiver).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
       # elsif @listing.poster.eql?(@sender.first)
       else
-        MessageMailer.message_email_to_hirer(message,@sender,@receiver).deliver_now!
+        MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
+      #flash[:notice] = "Message sent successfully."
     end
   end
 
