@@ -38,6 +38,9 @@
       <% end %>
     <% end %>
   <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @upcoming_poster_transactions, :previous_label => "<", :next_label => ">" %>
+  </div>
 <% else %>
   <% @upcoming_hirer_transactions.each do |transaction| %>
     <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
@@ -63,11 +66,10 @@
       <% end %>
     <% end %>
   <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @upcoming_hirer_transactions, :previous_label => "<", :next_label => ">" %>
+  </div>
 <% end %>
-
-<div class="will_pagination_box1">
-  <%= js_will_paginate @upcoming_poster_transactions, :previous_label => "<", :next_label => ">" %>
-</div>
 <script type="text/javascript">
   $(function() {
     $(".sort_paginate_ajax1 th a, .sort_paginate_ajax1 .pagination a").on("click", function(){
