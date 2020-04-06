@@ -22,7 +22,7 @@ FactoryGirl.define do
   factory :transaction do
      amount 35.0
      status true
-     state "completed"
+     state "accepted"
      is_withholding_tax true
      frequency "weekly"
      customer_id nil
@@ -45,6 +45,36 @@ FactoryGirl.define do
      request_by nil
      old_transaction nil
   end
+
+ #  id: 594,
+ # amount: 89.78,
+ # employee_listing_id: 3,
+ # status: true,
+ # state: "created",
+ # is_withholding_tax: true,
+ # frequency: "weekly",
+ # hirer_id: 1,
+ # poster_id: 2,
+ # customer_id: nil,
+ # start_date: Sat, 04 Apr 2020,
+ # end_date: Thu, 07 May 2020,
+ # created_at: Sat, 04 Apr 2020 07:15:41 UTC +00:00,
+ # updated_at: Sat, 04 Apr 2020 07:16:11 UTC +00:00,
+ # tax_withholding_amount: 0.0,
+ # remaining_amount: 89.78,
+ # reason: nil,
+ # weekday_hours: 1,
+ # weekend_hours: 0,
+ # total_weekday_hours: 5,
+ # total_weekend_hours: 0,
+ # probationary_period: 1,
+ # cancelled_by: nil,
+ # cancelled_at: nil,
+ # decline_reason_by_poster: nil,
+ # adjustment: nil,
+ # request_by: nil,
+ # old_transaction: nil>
+
 
   factory :company do
      name "test game"
@@ -76,7 +106,7 @@ FactoryGirl.define do
   factory :user do
     first_name  'test'
     last_name   'john'
-    email       'testspare@gmail.com'
+    email       'newtest@gmail.com'
     password     '123456'
     password_confirmation '123456'
   end  
