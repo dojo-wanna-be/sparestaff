@@ -108,7 +108,7 @@ Rails.application.configure do
       deliver_with: :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
       email_prefix: "[Error] ",
       sender_address: %{"Sparestaff Staging" <noreply@sparestaff.com.au>},
-      exception_recipients: %w{shadab.malik096r@gmail.com},
+      exception_recipients: %w{shadabmalik096r@gmail.com},
       delivery_method: :smtp
     }
 end
