@@ -11,7 +11,11 @@
         </div>
       </div>
       <div class="message-user-box">
-        <%= image_tag 'alex-profile.jpg', class: 'message-user-box__img' %>
+        <% if current_user.avatar.present? %>
+          <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+        <% end %>
       </div>
     </div>
   <% end %>

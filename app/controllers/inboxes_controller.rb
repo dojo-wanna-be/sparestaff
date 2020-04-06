@@ -59,7 +59,7 @@ class InboxesController < ApplicationController
         MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
-      flash[:notice] = "Message sent successfully."
+      #flash[:notice] = "Message sent successfully."
     end
   end
 

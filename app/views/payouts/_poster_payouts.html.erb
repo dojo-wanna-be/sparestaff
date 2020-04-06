@@ -30,41 +30,40 @@
       <% end %>
     <% end %>
   <% end %>
-  <% else %>
-    <% @hirer_transactions.each do |transaction| %>
-      <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
-        <% if payment.capture %>
-          <div class="table_row">
-            <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-            <div style="width: 15%">Payout</div>
-            <div style="width: 40%">Transfer from Account</div>
-            <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
-            <div><strong>&nbsp;<%="#{payment.amount}"%></strong></div>
-          </div>
-          <div class="table_row">
-            <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-            <div style="width: 15%">Reservation</div>
-            <% if transaction.frequency.eql?("weekly") %>
-              <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
-                <br>
-                <%= transaction.hirer.name %>
-              </div>
-            <% else %>
-              <div style="width: 40%"><%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
-                <br>
-                <%= transaction.hirer.name %>
-              </div>
-            <% end %>
-            <div style="width: 15%"><%="#{payment.amount}"%></div>
-            <div><strong>&nbsp;</strong></div>
-          </div>
-        <% end %>
+<% else %>
+  <% @hirer_transactions.each do |transaction| %>
+    <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
+      <% if payment.capture %>
+        <div class="table_row">
+          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+          <div style="width: 15%">Payout</div>
+          <div style="width: 40%">Transfer from Account</div>
+          <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
+          <div><strong>&nbsp;<%="#{payment.amount}"%></strong></div>
+        </div>
+        <div class="table_row">
+          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+          <div style="width: 15%">Reservation</div>
+          <% if transaction.frequency.eql?("weekly") %>
+            <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
+              <br>
+              <%= transaction.hirer.name %>
+            </div>
+          <% else %>
+            <div style="width: 40%"><%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
+              <br>
+              <%= transaction.hirer.name %>
+            </div>
+          <% end %>
+          <div style="width: 15%"><%="#{payment.amount}"%></div>
+          <div><strong>&nbsp;</strong></div>
+        </div>
       <% end %>
     <% end %>
   <% end %>
+<% end %>
 <div class="will_pagination_box1">
 	<%= js_will_paginate @poster_transactions, :previous_label => "<", :next_label => ">" %>
-  <%#= js_will_paginate @poster_transactions %>
 </div>
 <script type="text/javascript">
   $(function() {
