@@ -49,7 +49,7 @@
       <tr>
         <td colspan="2">
         <table style="width:100%;">
-          <% if @message.present? && @message.content.present? %>
+          <% if false#@message.present? && @message.content.present? %>
             <tr>
               <td style="color: #484848;">
               <strong>Message from Hirer:</strong><br />
@@ -102,7 +102,7 @@
       </tr>
       <tr>
         <td style="color: #484848;"><strong>New weekly payout</strong></td>
-        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{(@transaction.amount - @transaction.tax_withholding_amount - @transaction.poster_service_fee).round(2)}" %></strong></td>
       </tr>
       <tr>
         <td style="color: #484848;">New employment contract total</td>

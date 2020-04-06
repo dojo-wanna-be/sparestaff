@@ -118,7 +118,6 @@ class HiringsController < ApplicationController
                         params[:transaction][:start_date], params[:transaction][:end_date],
                         params[:transaction][:start_date], params[:transaction][:end_date])
                       .where.not(id: @old_transaction.id)
-
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
       booked_timings = unavailable_time_slots(bookings)
