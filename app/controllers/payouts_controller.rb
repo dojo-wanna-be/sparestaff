@@ -13,6 +13,11 @@ class PayoutsController < ApplicationController
       end
       @total_payout = total_payout
       @upcoming_hirer_transactions = @hirer_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
+      pending_total_payout = 0
+      @upcoming_hirer_transactions.each do |tx|
+        pending_total_payout += tx.stripe_payments.where(capture: false).sum(:amount)
+      end
+      @pending_total_payout = pending_total_payout
       # @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
       # @completed_hiring_transactions = hirer_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
       # @hirer_hiring_transactions.each do |transaction|
@@ -29,6 +34,11 @@ class PayoutsController < ApplicationController
       end
       @total_payout = total_payout
       @upcoming_poster_transactions = @poster_transactions.where("end_date >= ?", Date.today).where(state: [:accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 8)
+      pending_total_payout = 0
+      @upcoming_poster_transactions.each do |tx|
+        pending_total_payout += tx.stripe_payments.where(capture: false).sum(:amount)
+      end
+      @pending_total_payout = pending_total_payout
       # @completed_listing_transactions = poster_transactions.where(state: [:cancelled,:completed]).includes(:employee_listing)
       # if !@posted_listing_transactions.blank?
       #   @posted_listing_transactions.each do |transaction|
