@@ -24,7 +24,8 @@
           <% end %>
           <br>
           <%= tx.hirer.name %>
-          <%#= "#{(payment.created_at + 1.week).strftime('%d %b %Y')} - #{(payment.created_at + 1.day).strftime('%d %b %Y')}" %></div>
+          <%#= "#{(payment.created_at + 1.week).strftime('%d %b %Y')} - #{(payment.created_at + 1.day).strftime('%d %b %Y')}" %>
+        </div>
       <% else %>
         <div style="width: 40%"><%= "#{(payment.created_at + 2.week).strftime('%d %b')} - #{(payment.created_at + 1.day).strftime('%d %b, %Y')}" %>
           <br>
@@ -43,7 +44,7 @@
     <% tx = Transaction.find_by(id: payment.transaction_id) %>
     <div class="table_row">
       <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
-      <div style="width: 15%">Reservation</div>
+      <div style="width: 15%">Hiring</div>
       <% if tx.frequency.eql?("weekly") %>
         <div style="width: 40%"><%= "#{(payment.created_at - 1.week).strftime('%d %b')} - #{(payment.created_at - 1.days).strftime('%d %b, %Y')}" %>
           <br>
