@@ -6,7 +6,7 @@ class MessageMailer < ApplicationMailer
 		@receiver = receiver
 		@sender = sender
 		@conversation = conversation
-		mail(to: @receiver.email, subject: "Poster send you a message")
+		mail(to: @receiver.email, subject: "You have a new message")
 	end
 
 	def message_email_to_poster(message, sender, receiver,conversation)
@@ -14,6 +14,6 @@ class MessageMailer < ApplicationMailer
 		@sender = sender
 		@receiver = receiver
 		@conversation = conversation
-		mail(to: @receiver.email, subject: "Hirer send you a message")
+		mail(to: @receiver.email, subject: "You have a new message")
 	end
 end	
