@@ -1,70 +1,67 @@
 <% if current_user.user_type != "hr" %>
-  <% @poster_transactions.each do |transaction| %>
-    <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
-      <% if payment.capture %>
-        <div class="table_row">
-          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-          <div style="width: 15%">Payout</div>
-          <div style="width: 40%">Transfer to Account</div>
-          <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
-          <div><strong>&nbsp;<%="#{payment.poster_service_fee}"%></strong></div>
+  <% @captured_stripe_payments.each do |payment| %>
+    <% tx = Transaction.find_by(id: payment.transaction_id) %>
+    <div class="table_row">
+      <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+      <div style="width: 15%">Payout</div>
+      <div style="width: 40%">Transfer to Account</div>
+      <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
+      <div><strong>&nbsp;<%="#{payment.poster_service_fee}"%></strong></div>
+    </div>
+    <div class="table_row">
+      <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+      <div style="width: 15%">Reservation</div>
+      <% if tx.frequency.eql?("weekly") %>
+        <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(tx.end_date > payment.updated_at ? payment.updated_at - 1.days : tx.end_date).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
         </div>
-        <div class="table_row">
-          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-          <div style="width: 15%">Reservation</div>
-          <% if transaction.frequency.eql?("weekly") %>
-            <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(transaction.end_date > payment.updated_at ? payment.updated_at - 1.days : transaction.end_date).strftime('%d %b, %Y')}" %>
-              <br>
-              <%= transaction.hirer.name %>
-            </div>
-          <% else %>
-            <div style="width: 40%">
-              <%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(transaction.end_date > payment.updated_at ? payment.updated_at - 1.days : transaction.end_date).strftime('%d %b, %Y')}" %>
-              <br>
-              <%= transaction.hirer.name %>
-            </div>
-          <% end %>
-          <div style="width: 15%"><%="#{payment.poster_service_fee}"%></div>
-          <div><strong>&nbsp;</strong></div>
+      <% else %>
+        <div style="width: 40%">
+          <%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(tx.end_date > payment.updated_at ? payment.updated_at - 1.days : tx.end_date).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
         </div>
       <% end %>
-    <% end %>
+      <div style="width: 15%"><%="#{payment.poster_service_fee}"%></div>
+      <div><strong>&nbsp;</strong></div>
+    </div>
   <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @captured_stripe_payments, :previous_label => "<", :next_label => ">" %>
+  </div>
 <% else %>
-  <% @hirer_transactions.each do |transaction| %>
-    <% transaction.stripe_payments.order("updated_at desc").each do |payment| %>
-      <% if payment.capture %>
-        <div class="table_row">
-          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-          <div style="width: 15%">Payout</div>
-          <div style="width: 40%">Transfer from Account</div>
-          <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
-          <div><strong>&nbsp;<%="#{payment.amount}"%></strong></div>
+  <% @captured_stripe_payments.each do |payment| %>
+    <% tx = Transaction.find_by(id: payment.transaction_id) %>
+    <div class="table_row">
+      <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+      <div style="width: 15%">Payout</div>
+      <div style="width: 40%">Transfer from Account</div>
+      <div style="width: 15%"><%#="#{payment.poster_service_fee}"%></div>
+      <div><strong>&nbsp;<%="#{payment.amount}"%></strong></div>
+    </div>
+    <div class="table_row">
+      <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
+      <div style="width: 15%">Reservation</div>
+      <% if tx.frequency.eql?("weekly") %>
+        <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
         </div>
-        <div class="table_row">
-          <div style="width: 15%"><%= "#{payment.updated_at.strftime('%d-%m-%Y')}" %></div>
-          <div style="width: 15%">Reservation</div>
-          <% if transaction.frequency.eql?("weekly") %>
-            <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
-              <br>
-              <%= transaction.hirer.name %>
-            </div>
-          <% else %>
-            <div style="width: 40%"><%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
-              <br>
-              <%= transaction.hirer.name %>
-            </div>
-          <% end %>
-          <div style="width: 15%"><%="#{payment.amount}"%></div>
-          <div><strong>&nbsp;</strong></div>
+      <% else %>
+        <div style="width: 40%"><%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
         </div>
       <% end %>
-    <% end %>
+      <div style="width: 15%"><%="#{payment.amount}"%></div>
+      <div><strong>&nbsp;</strong></div>
+    </div>
   <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @captured_stripe_payments, :previous_label => "<", :next_label => ">" %>
+  </div>
 <% end %>
-<div class="will_pagination_box1">
-	<%= js_will_paginate @poster_transactions, :previous_label => "<", :next_label => ">" %>
-</div>
 <script type="text/javascript">
   $(function() {
     $(".sort_paginate_ajax2 th a, .sort_paginate_ajax2 .pagination a").on("click", function(){

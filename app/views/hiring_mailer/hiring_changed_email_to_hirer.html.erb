@@ -71,7 +71,7 @@
       </tr>
       <tr>
         <td style="color: #484848;"><strong>New weekly total</strong></td>
-        <td style="text-align: right; color: #484848;"><strong><%= "$#{@transaction.amount.round(2)}" %></strong></td>
+        <td style="text-align: right; color: #484848;"><strong><%= "$#{(@transaction.amount - @transaction.tax_withholding_amount + @transaction.service_fee).round(2)}" %></strong></td>
       </tr>
       <tr>
         <td style="color: #484848;">New employment contract total</td>

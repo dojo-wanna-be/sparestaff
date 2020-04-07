@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="message-user-box">
-        <% if message.conversation.sender.avatar.present? %>
-          <%= image_tag message.conversation.sender.avatar.url, class: 'message-user-box__img' %>
+        <% if message.sender.avatar.present? %>
+          <%= image_tag message.sender.avatar.url, class: 'message-user-box__img' %>
         <% else %>
           <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
         <% end %>
