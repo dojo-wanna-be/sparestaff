@@ -46,6 +46,35 @@ FactoryGirl.define do
      old_transaction nil
   end
 
+ # amount: nil,
+ # employee_listing_id: 2,
+ # status: true,
+ # state: "initialized",
+ # is_withholding_tax: true,
+ # frequency: "weekly",
+ # hirer_id: 1,
+ # poster_id: 2,
+ # customer_id: nil,
+ # start_date: Mon, 06 Apr 2020,
+ # end_date: Tue, 21 Apr 2020,
+ # created_at: Mon, 06 Apr 2020 06:51:08 UTC +00:00,
+ # updated_at: Mon, 06 Apr 2020 06:51:08 UTC +00:00,
+ # tax_withholding_amount: nil,
+ # remaining_amount: nil,
+ # reason: nil,
+ # weekday_hours: nil,
+ # weekend_hours: nil,
+ # total_weekday_hours: 0,
+ # total_weekend_hours: 0,
+ # probationary_period: nil,
+ # cancelled_by: nil,
+ # cancelled_at: nil,
+ # decline_reason_by_poster: nil,
+ # adjustment: nil,
+ # request_by: nil,
+ # old_transaction: nil>
+
+
  #  id: 594,
  # amount: 89.78,
  # employee_listing_id: 3,

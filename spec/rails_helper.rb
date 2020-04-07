@@ -13,6 +13,14 @@ end
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  config.before(:each) do
+    @stripe_test_helper = StripeMock.create_test_helper
+    StripeMock.start
+  end
+  config.before(:each) do
+    @stripe_test_helper = StripeMock.create_test_helper
+    StripeMock.start
+  end
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
