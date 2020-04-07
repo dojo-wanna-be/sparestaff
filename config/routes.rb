@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get :email_availability
       get :keyword_search
       get :search
+      get :admin_panel
     end
   end
 

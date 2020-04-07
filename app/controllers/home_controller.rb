@@ -1,6 +1,10 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!
 
+  def admin_panel
+    render layout: "admin_layout"
+  end
+
   def index
     @user = User.new
     listings = EmployeeListing.active.published.order(updated_at: :desc)
