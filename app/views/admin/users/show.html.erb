@@ -1,0 +1,191 @@
+<%#= render partial: "employee_listings/user_settings_header" %>
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Users
+  </div>
+</div>
+<div class="admin_panle_body">
+	<%= render partial: "layouts/admin/left_hand_navigation" %>
+	<div class="change-or-hiring-section">
+	  <div class="left-detail">
+	    <div class="text-allign-center">
+	      <%= image_tag @person.avatar.url, class: 'pro-pic' %>
+	    </div>
+	    <div class="order-details first-order">
+	      <div class="order-item PaddingBottom10px">
+	        <span>
+	          <%= image_tag 'reviews1.png', class: 'Height20px PaddingRight10px' %>
+	          <%= link_to "#{@reviews.count} reviews", reviews_path, class: 'GreyLink12pt' %>
+	        </span>
+	      </div>
+	      <div class="order-item PaddingBottom10px">
+	        <span>
+	          <%= image_tag 'trust.png', class: 'Height20px PaddingRight10px' %>
+	          <span>Verified</span>
+	        </span>
+	      </div>
+	      <br>
+	      <div class="order-item asking-box">
+	        <span><b><%= @person.name %> provided</b></span>
+	      </div>
+	      <br>
+	      <% unless @person.email %>
+	        <div class="order-item space-bottom">
+	          <span>
+	            <%= image_tag 'check-box-open.png', class: 'Height20px PaddingRight10px' %>
+	            <span>Email address</span>
+	          </span>
+	        </div>
+	      <% end %>
+	      <% unless @person.phone_number %>
+	        <div class="order-item space-bottom">
+	          <span>
+	            <%= image_tag 'check-box-open.png', class: 'Height20px PaddingRight10px' %>
+	            <span>Phone number</span>
+	          </span>
+	        </div>
+	      <% end %>
+	      <div class="order-item space-bottom">
+	        <span>
+	          <%= image_tag 'check-box-open.png', class: 'Height20px PaddingRight10px' %>
+	          <span>Government ID</span>
+	        </span>
+	      </div>
+	      <div class="order-item space-bottom">
+	        <span>
+	          <%= image_tag 'check-box-open.png', class: 'Height20px PaddingRight10px' %>
+	          <span>Business registration</span>
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="right-detail">
+	    <div class="profile_details_right">
+	      <div class="Text32pxPadding15px">Hi, I'm <%= @person.name %></div>
+	      <%= @person.location %> Joined in <%= @person.created_at.strftime("%B, %Y")%>.<br>
+	      <br>
+	      <div class="GreyLine1Px"></div>
+	      <% if @person.description %>
+	        <br>
+	        <p><%= @person.description %><br><br>
+	        </p>
+	        <div class="GreyLine1Px"></div>
+	      <% end %>
+	      <br>
+	      <div class="user_listings">
+	        <div class="Text22px TextStrong"><%= @person.name %>'s listings</div>
+	        <div class="featured-listingsx sort_paginate_ajax" id="featured-listings">
+	          <%#= render partial: "all_listings", locals: {listings: @employee_listings} %>
+	        </div>
+	        <% if @employee_listings.count > @employee_listings.per_page %>
+	          <%= link_to show_all_listings_users_path(id: @person.id), remote: true do %>
+	            <div class="toggle_listing">Show all <%= @employee_listings.count %> listings</div>
+	          <% end %>
+	        <% end %>
+	        <div class="GreyLine1Px"></div>
+	        <br>
+	      </div>
+	      <div class="review_box">
+	        <div class="Text22px TextStrong"><%= @reviews.count %> reviews</div>
+	        <div class="review_tab_box">
+	          <div class="tab_row">
+	            <a class="tab_a about_you active" href="javascript:;">From posters</a>
+	            <a class="tab_a by_you" href="javascript:;">From hirers</a>
+	          </div>
+	          <br>
+	          <div class="review_user-box poster_reviews" id="ReviewsAboutYouBox">
+	            <% if @reviews_by_poster.blank? %>
+	              <div class="no_result">There is no reviews from poster!</div>
+	              <br>
+	            <% else %>
+	              <% @reviews_by_poster.first(5).each do |review| %>
+	                <% sender = User.find_by(id: review.sender_id)%>
+	                <div class="review_box">
+	                  <%= link_to user_path(sender.id) do %>
+	                    <div class="review_user_img">
+	                      <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+	                      <br>
+	                      <span class="GreyText14Px"><%= sender.name %></span>
+	                    </div>
+	                  <% end %>
+	                  <div class="user_text"><%= review.public_feedback %>
+	                    <br>
+	                    <br>
+	                    <span class="GreyText16Px"><%= review.created_at.strftime("%B, %Y") %></span>
+	                  </div>
+	                </div>
+	              <% end %>
+	              <% if @reviews_by_poster.count > 5 %>
+	                <div class="review_box">
+	                  <%= link_to 'Show more reviews', show_all_poster_reviews_users_path(id: @person.id), class: 'TextOrange', remote: true %>
+	                </div>
+	              <% end %>
+	            <% end %>
+	          </div>
+	          <div class="review_user-box hirer_reviews" id="ReviewsByYouBox">
+	            <% if @reviews_by_hirer.blank? %>
+	              <div class="no_result">There is no reviews from hirer!</div>
+	              <br>
+	            <% else %>
+	              <% @reviews_by_hirer.first(5).each do |review| %>
+	                <% sender = User.find_by(id: review.sender_id)%>
+	                <div class="review_box">
+	                  <%= link_to user_path(sender.id) do %>
+	                    <div class="review_user_img">
+	                      <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+	                      <br>
+	                      <span class="GreyText14Px"><%= sender.name %></span>
+	                    </div>
+	                  <% end %>
+	                  <div class="user_text"><%= review.public_feedback %>
+	                    <br>
+	                    <br>
+	                    <span class="GreyText16Px"><%= review.created_at.strftime("%B, %Y") %></span>
+	                  </div>
+	                </div>
+	              <% end %>
+	              <% if @reviews_by_hirer.count > 5 %>
+	                <div class="review_box">
+	                  <%= link_to 'Show more reviews', show_all_hirer_reviews_users_path(id: @person.id) , class: 'TextOrange', remote: true %>
+	                </div>
+	              <% end %>
+	            <% end %>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="GreyLine1Px"></div>
+	      <br>
+	      <br>
+	      <%= link_to 'Report this profile', '#', class: 'TextOrange' %>
+	    </div>
+	  </div>
+	</div>
+</div>
+<%= render partial: "layouts/footer" %>
+<script type="text/javascript">
+  // $('.toggle_listing').click(function(){
+  //   $('.AllListings').toggleClass('toggle_listing');
+  // });
+  var selector = '.tab_row a';
+  $(selector).on('click', function(){
+      $(selector).removeClass('active');
+      $(this).addClass('active');
+  });
+  $('.about_you').click(function(){
+    $('#ReviewsByYouBox').hide();
+    $('#ReviewsAboutYouBox').show();
+  });
+  $('.by_you').click(function(){
+    $('#ReviewsAboutYouBox').hide();
+    $('#ReviewsByYouBox').show();
+  });
+</script>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+</script>

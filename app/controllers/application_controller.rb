@@ -15,4 +15,10 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
+  def ensure_is_admin
+    unless current_user.is_admin?
+      flash[:error] = "Only Adminstration enter in this area!"
+      redirect_to root_path and return
+    end
+  end
 end

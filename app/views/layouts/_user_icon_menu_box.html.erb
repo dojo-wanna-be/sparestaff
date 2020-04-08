@@ -15,6 +15,11 @@
     <li class="menu-item">
       <%= link_to "Account Settings", user_account_notification_payouts_path %>
     </li>
+    <% if current_user.is_admin %>
+      <li class="menu-item">
+        <%= link_to "Admin", '/admin', target: '_blank' %>
+      </li>
+    <% end %>
     <li class="menu-item">
       <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
     </li>

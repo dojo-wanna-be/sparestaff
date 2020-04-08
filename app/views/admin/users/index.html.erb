@@ -1,0 +1,105 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Users
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Users</div>
+
+    <div class="right_step user">
+      <div class="search_row">
+        <input name="Text1" class="search_input" type="text" placeholder="Search by ID, name, email, or company name">
+        <button class="search_btn">Search</button>
+        <%#= link_to 'Show all', '', class: 'spare_link' %>
+      </div>
+
+      <div class="search_row">
+        <div class="from_date">
+          Joined From (optional)<br>
+          <input name="Text2" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="to_date">
+          Joined To (optional)<br>
+          <input name="Text3" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
+        </div>
+        <div>
+          Show per page<br>
+          <select class="" name="D1">
+            <option value="50" selected="selected">50
+            </option>
+            <option>100</option>
+            <option>200</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search_row">
+        <select class="" name="Multiple">
+          <option selected="selected" value="Multiple selection action">Multiple selection action</option>
+          <option value="delete_selected">Delete selected accounts
+          </option>
+          <option>Suspend selected accounts</option>
+        </select>
+        &nbsp;&nbsp;<button class="Width50Px">Go</button>
+        &nbsp; 0 of 12 selected
+      </div>
+
+      <div class="search_row">
+        <div>Displaying 1 - 2 of 2 accepted users and 0 
+        suspended users</div>
+        &nbsp;
+        <%#= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+      </div>
+
+      <div class="csv_table">
+        <div class="csv_table_row gray_bg">
+          <div class="Width30Px">
+            <input name="Checkbox1" type="checkbox" class="checkbox_input">
+          </div>
+          <div class="Width50Px">ID</div>
+          <div class="Width100Px">First name</div>
+          <div class="Width100Px">Last name</div>
+          <div class="Width200Px">Email</div>
+          <div class="Width100Px">Role</div>
+          <div class="Width150Px">Company</div>
+          <div class="Width100Px">Date joined</div>
+          <div class="Width100Px">Last login</div>
+          <div class="Width100Px">Is suspended</div>
+          <div class="Width80Px">Is admin</div>
+        </div>
+        <div class="csv_table_row">
+          <div class="Width30Px">
+            <input name="Checkbox2" type="checkbox" class="checkbox_input">
+          </div>
+          <div class="Width50Px">
+            <%#= link_to '193', '#', class: 'spare_link', target: '_blank' %>
+          </div>
+          <div class="Width100Px">James</div>
+          <div class="Width100Px">Nguyen</div>
+          <div class="Width200Px">
+            <%#= link_to 'james@james.com.au', '#', class: 'spare_link' %>
+          </div>
+          <div class="Width100Px">HR Manager</div>
+          <div class="Width150Px">James company</div>
+          <div class="Width100Px">July 14, 2018</div>
+          <div class="Width100Px">July 14, 2018</div>
+          <div class="Width100Px">No</div>
+          <div class="Width80Px">No</div>
+        </div>
+      </div>
+
+      <div class="pagination_box">
+        <a href="#" class="pagi_btn prev_next">&lt;</a>
+        <a href="#" class="pagi_btn selected_btn">1</a>
+        <a href="#" class="pagi_btn">2</a>
+        <a href="#" class="pagi_btn">3</a>
+        <a href="#" class="pagi_btn">4</a>
+        <a href="#" class="pagi_btn prev_next">&gt;</a>
+      </div>
+    </div>
+  </div>
+</div>

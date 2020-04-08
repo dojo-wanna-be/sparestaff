@@ -1,0 +1,63 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Users
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="email_user_box">
+      <div class="step_heading">Email Users</div>
+
+      <div>
+        <p>
+          Who do you want to email?<br>
+          <select name="WhoToEmail" class="FullWidth">
+            <option selected="selected">All users</option>
+            <option>Users who have posted at least one listing</option>
+            <option>Users who have not posted any listing</option>
+            <option>Users who have posted at least one listing but haven't added their payment details
+            </option>
+          </select>
+        </p>
+        <p>
+          Use existing template<br>
+          <select class="FullWidth" name="D1">
+            <option selected="selected">None</option>
+            <option>Template 1</option>
+            <option>Template 2</option>
+          </select>
+        </p>
+        <p>
+          Email subject<br>
+          <input name="Text1" class="FullWidth" type="text">
+        </p>
+        <p>
+          Email content<br>
+          <span class="TextGray14px">[FirstName] will be replaced by the 
+          actual first name of each recipient. HTML tags are allowed.</span>
+          <br>
+          <textarea name="TextArea1" class="FullWidth Height300px">Hello [FirstName],
+          </textarea>
+        </p>
+        <p>
+          <button class="Width80Px">Send</button>
+          <span class="PaddingLeft20px PaddingRight20px">or</span>
+          <%= link_to 'Send as a 
+          test email to yourself', '#', class: 'spare_link' %>
+        </p>
+        <p>
+          <input name="Checkbox1" type="checkbox" class="Height15px VerticalAlignMiddle"> 
+          Save this message as a template
+        </p>
+        <p>
+          Template name:<br>
+          <input name="Text2" class="FullWidth" type="text">
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
