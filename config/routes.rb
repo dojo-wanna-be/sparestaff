@@ -13,6 +13,11 @@ Rails.application.routes.draw do
         get :emails
       end
     end
+    resources :hirings do
+      collection do
+        get :search
+      end
+    end
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do

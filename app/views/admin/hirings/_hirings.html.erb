@@ -1,0 +1,47 @@
+<div class="csv_table">
+  <div class="csv_table_row gray_bg">
+          <!-- <div class="Width30Px">
+            <input name="Checkbox1" type="checkbox" class="checkbox_input">
+          </div> -->
+   	<div class="Width50Px">ID</div>
+    <div class="Width150Px">Listing Title</div>
+    <div class="Width150Px">Employee</div>
+    <div class="Width150Px">Hirer</div>
+    <div class="Width150Px">Poster</div>
+    <div class="Width150Px">Classification</div>
+    <div class="Width100Px">Started</div>
+    <div class="Width100Px">Status</div>
+    <div class="Width100Px">Hiring Fee</div>
+    <div class="Width100Px">Hirer Fee</div>
+    <div class="Width100Px">Poster Fee</div>
+  </div>
+  <% @hirings_transactions.each do |transaction| %>
+    <div class="csv_table_row">
+          <!-- <div class="Width30Px">
+            <input name="Checkbox2" type="checkbox" class="checkbox_input">
+          </div> -->
+      <div class="Width50Px">
+        <%#= link_to '193', '#', class: 'spare_link', target: '_blank' %>
+      </div>
+      <div class="Width150Px"><%=transaction.poster.employee_listings.first.title%></div>
+      <div class="Width150Px"><%=transaction.poster.employee_listings.first.name%></div>
+            <!-- <div class="Width100Px">
+              <%#= link_to 'james@james.com.au', '#', class: 'spare_link' %>
+            </div> -->
+      <div class="Width150Px"><%=transaction.hirer.name%></div>
+      <div class="Width150Px"><%=transaction.poster.name%></div>
+      <% if transaction.poster.employee_listings.first.classification.present?%>
+      <div class="Width150Px"><%=transaction.poster.employee_listings.first.classification.name%></div>
+      <% end %>
+      <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
+      <div class="Width100Px"><%=transaction.state%></div>
+      <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
+      <div class="Width100Px">$<%=transaction.total_service_fee.round(2)%></div>
+      <div class="Width100Px">$<%=transaction.poster_total_service_fee.round(2)%></div>
+    </div>
+  <%end%>
+</div>
+<div class="will_pagination_box changes">
+  <%= js_will_paginate @hirings_transactions %>
+</div>
+

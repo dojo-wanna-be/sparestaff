@@ -1,0 +1,25 @@
+<div class="search_row">
+  <%= text_field_tag "keyword_search", params[:keyword_search], placeholder: "Search by ID, listing title, employee, hirer, or poster", class: 'search_input' %>
+      <%= submit_tag "Search", class: "search-btn" %>
+  <%#= link_to 'Show all', '', class: 'spare_link' %>
+</div>
+<div class="search_row">
+  <div class="from_date">
+    Started From (optional)<br>
+    <%= date_field_tag "start_date", '',class: "Width125Px", placeholder: "dd/mm/yyyy" %>
+  </div>
+  <div class="to_date">
+    Started To (optional)<br>
+    <%= date_field_tag "end_date", '' , class: "Width125Px", placeholder: "dd/mm/yyyy" %>
+  </div>
+  <div>
+    Show per page<br>
+    <%= select_tag :show_per_page, options_for_select([ "50", "100", "200" ], "50")%>
+  </div>
+</div>
+
+<div class="search_row">
+  <div>Displaying 1 - 2 of 2 in total</div>
+    &nbsp;
+    <%#= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+</div>
