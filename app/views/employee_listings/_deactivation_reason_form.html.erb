@@ -1,4 +1,4 @@
-<%= form_for @employee_listing, url: deactivate_employee_path, method: :patch, :html => { :id => "listing_deactivation" } do |f| %>
+<%= form_for @employee_listing, url: deactivate_employee_path(@employee_listing.id), method: :patch, :html => { :id => "listing_deactivation" } do |f| %>
   <%= hidden_field_tag "id", @employee_listing.id %>
   <%= hidden_field_tag "edit", "deactivation_feedback" %>
 

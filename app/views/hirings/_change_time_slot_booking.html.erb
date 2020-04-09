@@ -72,6 +72,6 @@
 
     <%= f.submit "Continue", class: 'continue-btn' %>
     <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= employee_listing.minimum_working_hours %></label>
-    <%= link_to "Cancel", change_or_cancel_hiring_path %>
+    <%= link_to "Cancel", change_or_cancel_hiring_path(@transaction.id) %>
   <% end %>
 </div>
