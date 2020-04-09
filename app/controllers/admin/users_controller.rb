@@ -13,9 +13,40 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def index
+    q = {:first_name_or_last_name_or_email_cont_any => params[:q]}
+    @users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q]).result(distinct: true)
+    @users = User.all.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 2)
   end
 
   def emails
+  end
+
+  def suspend_or_make_admin_user
+    @person = User.find_by(id: params[:id])
+    if params[:check_type].eql?("suspend_user")
+      @user_type = "suspend_user"
+      @person.update_column(:is_suspended, params[:checked])
+    elsif params[:check_type].eql?("make_admin")
+      @user_type = "make_admin"
+      @person.update_column(:is_admin, params[:checked])
+    else
+      @person.update_column(:deleted_at, Date.today)
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:success] = "Updated successfully!"
+      redirect_to '/admin'
+    else
+      flash[:error] = @user.errors.full_messages
+      render 'edit'
+    end
   end
 
   def show_all_listings
@@ -48,5 +79,20 @@ class Admin::UsersController < Admin::AdminBaseController
 
   def find_user
     @person = User.find_by(id: params[:id])
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :location,
+      :email,
+      :password,
+      :phone_number,
+      :description,
+      :avatar
+    )
   end
 end

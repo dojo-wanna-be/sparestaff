@@ -11,16 +11,16 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav navbar-right custom-right-navbar">
         <li class="nav-item">
-          <div>Welcome James Nguyen</div>
+          <div>Welcome <%= current_user.name %></div>
         </li>
         <li class="nav-item">
           <%= link_to 'View Site', '', class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to ' Change Password', '', class: 'nav-link' %>
+          <%= link_to ' Change Password', edit_user_registration_path(is_admin: "admin"), class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Log Out', '', class: 'nav-link' %>
+          <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
         </li>
       </ul>
     </div>

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get :emails
+        post :suspend_or_make_admin_user
       end
     end
     get '' => "users#index"
