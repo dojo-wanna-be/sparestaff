@@ -16,7 +16,7 @@
               <div class="left_field">
                 <div style="width: 30px">
                   <%#= hidden_field_tag :notification_about_receive_message, 'false' %>
-                  <%= check_box_tag :notification_about_receive_message,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_receive_message"] ? true : false) %>
+                  <%= check_box_tag :notification_about_receive_message,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.present? && current_user.notification_setting.preferences["notification_about_receive_message"] ? true : false) %>
                   <!-- <input name="Checkbox1" type="checkbox"> -->
                 </div>
                 <div><strong>Email</strong></div>
@@ -65,7 +65,7 @@
                 <div class="left_field">
                   <div style="width: 30px">
                     <!-- <input name="Checkbox1" type="checkbox"> -->
-                    <%= check_box_tag :notification_about_promotions_on_email,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_promotions_on_email"] ? true : false) %>
+                    <%= check_box_tag :notification_about_promotions_on_email,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.present? && current_user.notification_setting.preferences["notification_about_promotions_on_email"] ? true : false) %>
                     <%#= hidden_field_tag :notification_about_promotions_on_email, 'false' %>
                     <%#= check_box_tag :notification_about_promotions_on_email, true, false,class: 'notification_checkbox' %>
                   </div>
@@ -78,7 +78,7 @@
                     <!-- <input name="Checkbox1" type="checkbox"> -->
                     <%#= hidden_field_tag :notification_about_promotions_on_phone, 'false' %>
                     <%#= check_box_tag :notification_about_promotions_on_phone, true, false, class: 'notification_checkbox' %>
-                    <%= check_box_tag :notification_about_promotions_on_phone,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.preferences["notification_about_promotions_on_phone"] ? true : false) %>
+                    <%= check_box_tag :notification_about_promotions_on_phone,nil, nil, class: 'notification_checkbox' , checked: (current_user.notification_setting.present? && current_user.notification_setting.preferences["notification_about_promotions_on_phone"] ? true : false) %>
                   </div>
                   <div><strong>Phone calls</strong></div>
                 </div>
