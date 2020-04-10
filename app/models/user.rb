@@ -32,10 +32,10 @@
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, :trackable
+  # :lockable, :timeoutable,
   default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+         :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 
   has_attached_file :avatar, styles: { medium: "300x300", thumb: "100x100" }
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

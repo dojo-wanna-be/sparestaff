@@ -1,6 +1,6 @@
 <% if @user_type.eql?("suspend_user") %>
   $('.suspend_user_<%= @person.id %>').text("<%= @person.is_suspended ? 'Yes' : 'No' %>")
-<% elseif @user_type.eql?("make_admin") %>
+<% elsif @user_type.eql?("make_admin") %>
   $('.admin_user_<%= @person.id %>').text("<%= @person.is_admin ? 'Yes' : 'No' %>")
 <% end %>
 var toastContent = $('<span>Updated Successfully.</span>');

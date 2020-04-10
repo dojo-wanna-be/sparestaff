@@ -13,12 +13,39 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def index
-    q = {:first_name_or_last_name_or_email_cont_any => params[:q]}
-    @users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q]).result(distinct: true)
-    @users = User.all.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 2)
+    if params[:search_fields].present?
+      @q = User.search(params[:q])
+      users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q][:first_name_or_last_name_or_email_cont_any], id_in: params[:q][:first_name_or_last_name_or_email_cont_any], m: 'or').result(distinct: true)
+      @users = users.ransack(created_at_gteq: params[:q][:created_at_gteq], created_at_lteq: params[:q][:created_at_lteq]).result(distinct: true).paginate(:page => params[:page], :per_page => params[:per_page])
+    else
+      # if params[:search_fields].present?
+      #   # users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+      #   # if users.blank?
+      #   #   users = User.ransack(id_eq: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+      #   # end
+      #   # if users.blank?
+      #   #   user_ids = Company.ransack(name_cont_any: params[:q], m: 'or').result(distinct: true).collect(&:user_ids).flatten
+      #   #   users = User.where(id: user_ids).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+      #   #   #users = Company.ransack(name_cont_any: params[:q], m: 'or').result(distinct: true).collect(&:users).flatten.sort_by{|e| e[:created_at]}.page(params[:per_page]).total_pages
+      #   #   # @users = Company.ransack(name_cont_any: "adware", m: 'or').result(distinct: true).collect(&:users).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+      #   # end
+      #   # @users = users
+      # end
+      @q = User.search(params[:q])
+      @users = User.all.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
+    end
   end
 
   def emails
+  end
+
+  def suspend_or_delete
+    users = User.where(id: params[:ids])
+    if params[:select_action].eql?("delete_selected")
+      users.update(deleted_at: Date.today)
+    else
+      users.update(is_suspended: true)
+    end
   end
 
   def suspend_or_make_admin_user
