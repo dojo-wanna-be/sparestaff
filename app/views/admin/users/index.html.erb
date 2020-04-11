@@ -11,39 +11,7 @@
     <div class="step_heading">Users</div>
 
     <div class="right_step user">
-      <%= search_form_for @q, url: admin_users_path, method: :get do |f| %>
-        <div class="search_row">
-          <!-- <input name="q" class="search_input" type="text" placeholder="Search by ID, name, email, or company name" value=""> -->
-          <%#= text_field_tag 'q',params[:q], placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
-          <%= f.search_field :first_name_or_last_name_or_email_cont_any, placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
-          <button class="search_btn">Search</button>
-          <%#= link_to 'Show all', '', class: 'spare_link' %>
-        </div>
-
-        <div class="search_row">
-          <div class="from_date">
-            Joined From (optional)<br>
-            <%= f.search_field :created_at_gteq, value: params[:q].present? ? params[:q][:created_at_gteq] : nil,class: 'Width125Px datepicker_calender', 'datepicker' => true ,data: {"date-format" => "yyyy-mm-dd"}, placeholder: "dd/mm/yyyy" %>
-            <!-- <input name="join_start_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
-          </div>
-          <div class="to_date">
-            Joined To (optional)<br>
-            <%= f.search_field :created_at_lteq, value: params[:q].present? ? params[:q][:created_at_lteq] : nil, class: 'Width125Px datepicker_calender', 'datepicker' => true,data: {"date-format" => "yyyy-mm-dd"}, placeholder: "dd/mm/yyyy" %>
-            <!-- <input name="join_end_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
-          </div>
-          <div>
-            Show per page<br>
-            <select class="" name="per_page">
-              <option value="50" selected="selected">50
-              </option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-            </select>
-          </div>
-        </div>
-        <%= hidden_field_tag 'search_fields', 'search' %>
-      <% end %>
-
+      <%= render partial: "admin/users/search_form", locals: {action_url: admin_users_path} %>
       <div class="search_row">
         <select class="multiple_select" name="Multiple">
           <option>Multiple selection action</option>

@@ -53,7 +53,9 @@
       <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
       <div class="Width100Px">$<%=transaction.total_service_fee.round(2)%></div>
       <div class="Width100Px">$<%=transaction.poster_total_service_fee.round(2)%></div>
-      <div class="Width150Px"><%= link_to 'View Pending Charges'%></div>
+      <div class="Width150Px">
+        <!-- <a class="nav-link" data-toggle="modal" data-target="#loginModal" href="javascript:;">Log in</a> -->
+        <%= link_to 'View Pending Charges', 'javascript:;', data: {target: "#pending_details_#{transaction.id}", toggle: "modal" }%></div>
     </div>
   <%end%>
 </div>
@@ -61,3 +63,31 @@
   <%= js_will_paginate @hirings_transactions %>
 </div>
 
+
+
+
+
+
+
+
+
+
+<% @hirings_transactions.each do |transaction| %>
+  <div class="modal custom-modal" id="pending_details_<%= transaction.id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="facebook-login">
+            <%= transaction.id %>
+            <%#= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path, class: 'facebook-btn' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

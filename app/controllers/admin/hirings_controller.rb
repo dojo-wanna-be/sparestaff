@@ -21,7 +21,6 @@ class Admin::HiringsController < Admin::AdminBaseController
   # end
 
   def search
-    binding.pry
     q = {}
     if params[:keyword_search].present?
       q[:employee_listings_id_or_employee_listings_name_or_employee_listings_poster_name_or_employee_listings_title_eq] = params[:keyword_search]
