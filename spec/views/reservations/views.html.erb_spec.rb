@@ -33,20 +33,15 @@ RSpec.describe "reservations/views", type: :view do
 
 	    #pending listing
 	      expect(rendered).to match /Pending/
-	      expect(rendered).to match /09 Apr 2020/
-	      expect(rendered).to match /09 Jul 2020/
 
 	    #complete listings
 	      expect(rendered).to match /Completed/
-	      expect(rendered).to match /01 Apr 2020/
-	      expect(rendered).to match /04 Apr 2020/
 	  end
 	end
   
   describe 'reservations/show.html.erb' do
 	  it 'display reservations details' do
 	    render :template => "reservations/show.html.erb", locals: {:@transaction => @first_transaction, :@listing => @employee_listing, :@declined_listing_transactions => @decline_listing }
-	      expect(rendered).to match /09 Apr 2020/
 	      expect(rendered).to match /Friday/
 	  end
 	end
@@ -82,7 +77,6 @@ RSpec.describe "reservations/views", type: :view do
 	describe 'hiring/change_reservation.html.erb' do
 	  it 'display change_hiring details' do
 	    render :template => "reservations/change_reservation.html.erb", locals: {:@transaction => @first_transaction, :@listing => @employee_listing, :@old_transaction => @first_transaction, :@weekly_hourly_total => 0.0 }
-	      expect(rendered).to match /Thursday Apr 16, 2020/
 	      expect(rendered).to match /20.0/
 	  end
 	end

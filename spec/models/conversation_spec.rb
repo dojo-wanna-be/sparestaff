@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Conversation, type: :model do
  
   before(:each) do
-  	@sender = FactoryGirl.create(:user)
+  	@sender = FactoryGirl.create(:user, email: "sender@gmail.com")
     @receiver = FactoryGirl.create(:user, email: "receiver@sparestaff.com")
     @lister = FactoryGirl.create(:company)
     @employee_listing = FactoryGirl.create(:employee_listing, lister_id: @lister.id)

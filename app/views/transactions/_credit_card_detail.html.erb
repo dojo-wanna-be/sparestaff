@@ -1,4 +1,4 @@
-<%= form_tag request_payment_transaction_path, id: 'payment-form', method: :patch do |f| %>
+<%= form_tag request_payment_transaction_path(@transaction.id), id: 'payment-form', method: :patch do |f| %>
   <div class="credit-card-detail">
     <div class="card-errors"></div>
     <div class="custom-input-group">

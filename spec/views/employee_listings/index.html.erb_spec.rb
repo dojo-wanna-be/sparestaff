@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "employee_listings/index", type: :view do
+RSpec.describe "employee_listings/views", type: :view do
 
   before(:each) do
   	@published_listing = Array.new

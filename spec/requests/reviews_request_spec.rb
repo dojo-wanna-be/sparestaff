@@ -38,8 +38,19 @@ RSpec.describe ReviewsController, type: :controller do
 
 	  it "has a 200 status code" do
 	    post :create, params: {review: {transaction_id: @transaction.id, sender_id: @poster.id, receiver_id: @hirer.id, listing_id: @employee_listing.id, public_feedback: "", private_feedback: "", work_environment_grade: nil, communication_grade: nil, employee_satisfaction_grade: nil, friendliness_grade: nil, punctuality_grade: nil, professionalism_grade: nil, knowledge_n_skills_grade: nil, management_skill_grade: nil, overall_experience: "Good", recommendation: "No Yet", spare_staff_experience: "" }}
-	    # expect(response.success?).to eq(true)
-    	# expect(response.status).to eq(200)
+      @review = Review.last
+      if @review.present?
+        get :step_2, params: {id: @review.id}
+        if (response.status == 200) # ater step_2 it goes to update
+          patch :update, params: {id: @review.id, review: {spare_staff_experience: "I my very happy with this client"} }
+
+          #after successfully updatation it goes to last_step 
+          get :last_step, params: {id: @review.transaction_id} if (response.status == 302)
+
+          expect(response.success?).to eq(true)
+          expect(response.status).to eq(200)
+        end
+      end
     end
   end
   

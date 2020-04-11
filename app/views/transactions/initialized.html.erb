@@ -8,7 +8,7 @@
         <h2 class="comman-heading">Where does <%= @employee_listing.name %> need to work?</h2>
 
         <div class="request-form-box">
-          <%= form_for @company, url: initialized_transaction_path, method: :patch, multipart: true do |f| %>
+          <%= form_for @company, url: initialized_transaction_path(@transaction.id), method: :patch, multipart: true do |f| %>
             <%= hidden_field_tag "id", @employee_listing.id %>
             <%= hidden_field_tag "company_id", @company.id %>
 

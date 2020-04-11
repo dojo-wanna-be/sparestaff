@@ -4,7 +4,7 @@ RSpec.describe PayoutsController, type: :controller do
  
   before(:each) do
     @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com", password: "12345678", password_confirmation: "12345678")
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -39,8 +39,8 @@ RSpec.describe PayoutsController, type: :controller do
   describe "POST security/:id" do
 	  it "check password security" do
 	  	post :security, params: {old_password: "12345678", new_password: "adware@123"}
-	  	expect(response.success?).to eq(true)
-    	expect(response.status).to eq(200)
+      expect(flash[:success]).to eq("Password updated successfully!")
+      response.should redirect_to(root_path)
 	  end
   end
 

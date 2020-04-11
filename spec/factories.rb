@@ -1,5 +1,25 @@
 FactoryGirl.define do
 
+
+  factory :review  do
+     created_at Date.today
+     updated_at Date.today
+     public_feedback ""
+     private_feedback ""
+     work_environment_grade nil
+     suitability_grade nil
+     communication_grade nil
+     employee_satisfaction_grade nil
+     friendliness_grade nil
+     punctuality_grade nil
+     professionalism_grade nil
+     knowledge_n_skills_grade nil
+     management_skill_grade nil
+     overall_experience "Terrible"
+     recommendation "No"
+     spare_staff_experience "not happy"
+  end
+
   factory :listing_availability do
      start_time Date.today
      end_time 1.month.from_now
@@ -19,10 +39,10 @@ FactoryGirl.define do
      booking_date 2.days.from_now
   end
 
-  factory :transaction do
+  factory :transaction do             
      amount 35.0
      status true
-     state "accepted"
+     state "created"
      is_withholding_tax true
      frequency "weekly"
      customer_id nil
@@ -142,7 +162,7 @@ FactoryGirl.define do
 
   factory :employee_listing do
 		 classification_id 100
-		 title "test bugs "
+		 title "test bugs"
 		 first_name "james"
 		 last_name "clark"
 		 tfn "5656"
@@ -158,7 +178,7 @@ FactoryGirl.define do
 		 verification_type "Australian Driver Licence"
 		 gender "male"
 		 has_vehicle false
-		 skill_description "vbb"
+		 skill_description "Test skill_description in sparestaff"
 		 optional_comments ""
 		 published true
 		 lister_type "Company"

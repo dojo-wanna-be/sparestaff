@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   before(:each) do
-    @user = FactoryGirl.build(:user)
+    @user = FactoryGirl.build(:user, email: "testgrip@gmail.com")
   end
 
   it "is valid with valid attributes" do

@@ -111,8 +111,8 @@ RSpec.describe HiringsController, type: :controller do
   end
     
   before(:each) do
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
   	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -165,24 +165,6 @@ RSpec.describe HiringsController, type: :controller do
 	      old_transaction.update_attributes(state: "completed", status: false)
 	    end
 	  end
-    
-    it 'if transaction accepted mail send to poster' do
-		  ActiveJob::Base.queue_adapter = :test
-		  expect {
-      HiringMailer.employee_hire_confirmation_email_to_poster(@employee_listing, @poster, @transaction).deliver_later!	     
-		  }.to have_enqueued_job.on_queue('mailers')
-  		mail = ActionMailer::Base.deliveries.first
-  		expect(mail.to[0]).to eq @poster.email
-		end
-
-		it 'if transaction accepted mail send to hirer' do
-		  ActiveJob::Base.queue_adapter = :test
-		  expect {
-      HiringMailer.employee_hire_confirmation_email_to_hirer(@employee_listing, @hirer, @transaction).deliver_later!	     
-		  }.to have_enqueued_job.on_queue('mailers')
-  		mail = ActionMailer::Base.deliveries.last
-  		expect(mail.to[0]).to eq (@hirer.email)
-		end
 
     it "create charge after accept transactio" do
       charge_first_time(@transaction.id)
@@ -191,81 +173,22 @@ RSpec.describe HiringsController, type: :controller do
 
   describe 'decline_request when current user hirer' do 
     it 'create message ater update decline reason' do
-      @transaction.update_attribute(:reason, "Hirer decline hiring request")
-      create_message
-      expect(Message.last.content).to eq("Hiring has been declined by Hirer")
-      expect(response.success?).to eq(true)
+      patch :decline_request, params: {id: @transaction.id, reason: "I want to decline now", message_text: "I want not work with yo",:format => "text/html"}
+      if response.success?
+        patch :decline, params: {id: @transaction.id, message_text: "I want not work with this employee"}
+        response.should redirect_to(inbox_path(id: Transaction.last.conversation.id))
+      end
     end
-
-    it "Ater successfully submit decline , it goes to Hiring#decline/:id" do
-    	@transaction.update_attribute(:state, "rejected")
-      message = create_message
-    # Mail goes to poster
-      ActiveJob::Base.queue_adapter = :test
-		  expect {
-      HiringMailer.employee_hire_declined_email_to_Poster(@employee_listing, @poster, @transaction, message).deliver_later!	     
-		  }.to have_enqueued_job.on_queue('mailers')
-  		mail = ActionMailer::Base.deliveries.first
-  		expect(mail.to[0]).to eq @poster.email
-
-  	#Mail goes to hirer
-  	  ActiveJob::Base.queue_adapter = :test
-		  expect {
-      HiringMailer.employee_hire_declined_email_to_Hirer(@employee_listing, @hirer, @transaction, message).deliver_later!	     
-		  }.to have_enqueued_job.on_queue('mailers')
-  		mail = ActionMailer::Base.deliveries.last
-  		expect(mail.to[0]).to eq @hirer.email
-    end
-
   end
 
-  describe "Hirer cancelled hiring" do 
- 		
- 		it "when hirer cancel the hiring" do
-     patch :tell_poster, params: {id: @transaction.id}
-	    if expect(request.patch?).to eq(true)
-        @transaction.update_attributes(reason: "I want to cancel hiring now", cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
-        message = create_message
-        expect(message.present?).to eq(true)
-      
-        #Mail goes to poster
-	        ActiveJob::Base.queue_adapter = :test
-				  expect {
-          TransactionMailer.hiring_cancelled_email_to_poster(@employee_listing, @employee_listing.poster, @transaction, controller.current_user).deliver_later!	     
-				  }.to have_enqueued_job.on_queue('mailers')
-		  		mail = ActionMailer::Base.deliveries.first
-		  		expect(mail.to[0]).to eq @poster.email 
-
-		  	#Mail goes to hirer
-		  	  ActiveJob::Base.queue_adapter = :test
-				  expect {
-          TransactionMailer.hiring_cancelled_email_to_hirer(@employee_listing, controller.current_user, @transaction).deliver_later!	     
-				  }.to have_enqueued_job.on_queue('mailers')
-		  		mail = ActionMailer::Base.deliveries.last
-		  		expect(mail.to[0]).to eq @hirer.email
-
-        #Mail goes to poster for review
-          ActiveJob::Base.queue_adapter = :test
-          expect {
-          TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!      
-          }.to have_enqueued_job.on_queue('mailers')
-          mail = ActionMailer::Base.deliveries.first
-          expect(mail.to[0]).to eq @poster.email
-
-        #Mail goes to hirer for review
-          ActiveJob::Base.queue_adapter = :test
-          expect {
-          TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!       
-          }.to have_enqueued_job.on_queue('mailers')
-          mail = ActionMailer::Base.deliveries.last
-          expect(mail.to[0]).to eq @hirer.email      
-	    end
- 		end
-
-    it "Ater successfully cancel it goes to hiring#cancelled_successfully" do
-      get :cancelled_successfully, params: {id: @transaction.id, current_user: controller.current_user}
-      expect(response.success?).to eq(true)
-      expect(response.status).to eq(200)
+  describe "Cancel hiring" do
+    it "when hirer cancel the hiring scheduled" do
+      patch :tell_poster, params: {id: @transaction.id, reason: "I wnat to cancel hiring now"}
+      if (response.should redirect_to cancelled_successfully_hirings_path(id: Transaction.last.id))
+        get :cancelled_successfully, params: {id: Transaction.last.id}
+        expect(response.success?).to eq(true)
+        expect(response.status).to eq(200)
+      end
     end
   end
 
@@ -276,9 +199,9 @@ RSpec.describe HiringsController, type: :controller do
       patch :change_hiring, params: {id: @transaction.id, transaction: {employee_listing_id: @transaction.employee_listing, start_date: Date.today + 1.day, end_date:  3.months.from_now, booking_attributes: {"0"=>{"start_time"=>"05:00", "end_time"=>"13:00"}, "1"=>{"start_time"=>"09:00", "end_time"=>"15:00"}, "2"=>{"start_time"=>"12:00", "end_time"=>"15:00"}, "3"=>{"start_time"=>"09:00", "end_time"=>"19:00"}, "4"=>{"start_time"=>"08:00", "end_time"=>"19:00"}, "5"=>{"start_time"=>"08:00", "end_time"=>"16:00"}, "6"=>{"start_time"=>"", "end_time"=>""}} }}
       @new_transaction = Transaction.last
       if @new_transaction.present?
-        get :change_hiring_confirmation, params: {id: @new_transaction.id, old_id: @new_transaction.id - 1}
+        get :change_hiring_confirmation, params: {id: @new_transaction.id, old_id: @transaction.id}
       expect(response.success?).to eq(true)
-      expect(response.success?).to eq(true)
+      expect(response.status).to eq(200)
       end
     end
   end

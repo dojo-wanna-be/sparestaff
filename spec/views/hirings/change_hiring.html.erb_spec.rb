@@ -18,9 +18,8 @@ RSpec.describe "hirings/change_hiring", type: :view do
   end
 
   describe 'hiring/change_hiring.html.erb' do
-	  it 'display change_hiring details' do
+	  it 'display change hiring details' do
 	    render :template => "hirings/change_hiring.html.erb", locals: {:@transaction => @transaction, :@listing => @employee_listing, :@old_transaction => @transaction }
-	      expect(rendered).to match /Thursday Apr 09, 2020/
 	      expect(rendered).to match /20.0/
 	  end
 	end
