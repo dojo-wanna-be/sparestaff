@@ -14,6 +14,7 @@
     <div class="Width100Px">Hiring Fee</div>
     <div class="Width100Px">Hirer Fee</div>
     <div class="Width100Px">Poster Fee</div>
+    <div class="Width150Px">Action</div>
   </div>
   <% @hirings_transactions.each do |transaction| %>
     <div class="csv_table_row">
@@ -31,13 +32,28 @@
       <div class="Width150Px"><%=transaction.hirer.name%></div>
       <div class="Width150Px"><%=transaction.poster.name%></div>
       <% if transaction.poster.employee_listings.first.classification.present?%>
-      <div class="Width150Px"><%=transaction.poster.employee_listings.first.classification.name%></div>
+        <div class="Width150Px"><%=transaction.poster.employee_listings.first.classification.name%></div>
+      <% else %>
+        <div class="Width150Px"></div>
       <% end %>
       <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
-      <div class="Width100Px"><%=transaction.state%></div>
+      <% if transaction.state.eql?("initialized") %>
+        <div class="Width100Px">Pending</div>
+      <% elsif transaction.state.eql?("accepted") %>
+        <div class="Width100Px">Accepted</div>
+      <% elsif transaction.state.eql?("rejected") %>
+        <div class="Width100Px">Decline</div>
+      <% elsif transaction.state.eql?("completed") %>
+        <div class="Width100Px">Completed</div>
+      <% elsif transaction.state.eql?("cancelled") %>
+        <div class="Width100Px">Cancelled</div>
+      <% elsif transaction.state.eql?("expired") %>
+        <div class="Width100Px">Expired</div>
+      <% end %>
       <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
       <div class="Width100Px">$<%=transaction.total_service_fee.round(2)%></div>
       <div class="Width100Px">$<%=transaction.poster_total_service_fee.round(2)%></div>
+      <div class="Width150Px"><%= link_to 'View Pending Charges'%></div>
     </div>
   <%end%>
 </div>
