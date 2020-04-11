@@ -13,6 +13,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     self.resource = User.new(sign_up_params)
     self.resource.save
+    setting = resource.build_notification_setting
+    setting.save
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
