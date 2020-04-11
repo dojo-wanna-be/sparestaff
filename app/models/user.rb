@@ -56,7 +56,7 @@ class User < ApplicationRecord
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
 
   def active_for_authentication?
-    super && self.is_suspended.eql?(false) # i.e. super && self.is_active
+    is_suspended.eql?(false) # i.e. super && self.is_active
   end
 
   def inactive_message

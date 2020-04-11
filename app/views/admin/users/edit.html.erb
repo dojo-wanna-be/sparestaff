@@ -73,7 +73,7 @@
               <div class="custom-input-group">
                 <%= f.label :password, class: 'custom-label' %>
                 <div class="error_field_box">
-                  <%= f.password_field :password, autocomplete: "new-password", class: 'custom-field', required: true %>
+                  <%= f.password_field :password, autocomplete: "new-password", class: 'custom-field' %>
                   <% if @minimum_password_length %>
                     <span class="error_message"><%= @minimum_password_length %> characters minimum</span>
                   <% end %>

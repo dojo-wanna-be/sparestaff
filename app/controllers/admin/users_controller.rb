@@ -66,6 +66,7 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def update
+    params[:user].delete(:password) if params[:user][:password].blank?
     @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "Updated successfully!"
