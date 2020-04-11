@@ -185,10 +185,10 @@
   });
   $('.checkbox_input_all').click(function(){
     if ($(this).is(':checked')) {
-      $('.checkbox_input').attr('checked', true)
+      $('.checkbox_input').prop('checked', true)
     }
     else {
-      $('.checkbox_input').attr('checked', false)
+      $('.checkbox_input').prop('checked', false)
     }
   })
   $('.gobutton').click(function(){
