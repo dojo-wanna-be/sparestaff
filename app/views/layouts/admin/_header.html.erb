@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav navbar-right custom-right-navbar">
         <li class="nav-item">
-          <div>Welcome James Nguyen</div>
+          <div>Welcome <%= current_user.name %></div>
         </li>
         <li class="nav-item">
           <%= link_to 'View Site', '', class: 'nav-link' %>

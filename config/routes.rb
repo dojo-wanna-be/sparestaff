@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get :emails
+        post :suspend_or_make_admin_user
+        get :suspend_or_delete
       end
     end
     resources :hirings do

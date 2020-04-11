@@ -127,7 +127,10 @@
 //** Admin Sub Header End Css **//
 
 //** Admin Panel Css **//
-
+.main_table_container {
+  width: 100%;
+  overflow: scroll;
+}
 .admin_panle_body {
   display: flex;
   flex-direction: row;
@@ -139,7 +142,7 @@
   }
 
   .admin_left_panel {
-    width: 155px;
+    width: 16%;
 
     @media screen and (max-width: 767px) {
       width: 100%;
@@ -173,13 +176,13 @@
   .admin_right_panel {
     display: flex;
     flex-direction: column;
-
+    width: 84%;
     @media screen and (max-width: 767px) {
       border-top: 1px solid #e4e4e4;
       padding: 20px 0 0;
     }
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: calc(100% - 155px);
+    @media screen and (max-width: 768px) {
+      width: 100%;
     }
 
     .step_heading {
@@ -295,13 +298,13 @@
       .csv_table {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 1280px;
         font-size: 14px;
         margin: 17px 0 0 0;
 
         @media screen and (max-width: 1024px) {
-          overflow: hidden;
-          overflow-x: auto;
+          //overflow: hidden;
+          //overflow-x: auto;
         }
 
         .csv_table_row {
@@ -312,10 +315,7 @@
           border-bottom: 1px #e4e4e4 solid;
           height: 40px;
           padding: 0  5px;
-
-          @media screen and (max-width: 1024px) {
-            width: 1000px;
-          }
+          width: 100%;
 
           &.gray_bg {
             background-color: #f2f2f2;
@@ -323,6 +323,11 @@
 
           .checkbox_input {
             height: 10px;
+          }
+          div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
@@ -337,7 +342,7 @@
           justify-content: space-around;
         }
 
-        .pagi_btn {
+        a,span,em {
           width: 30px;
           height: 30px;
           border: 1px solid #c0c0c0;
@@ -357,7 +362,7 @@
           &.prev_next {
             border: 1px solid #f15927;
           }
-          &.selected_btn {
+          &.current {
             background-color: #f15927;
             border: 1px solid #f15927;
             color: #fff;

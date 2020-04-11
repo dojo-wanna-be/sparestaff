@@ -11,95 +11,201 @@
     <div class="step_heading">Users</div>
 
     <div class="right_step user">
-      <div class="search_row">
-        <input name="Text1" class="search_input" type="text" placeholder="Search by ID, name, email, or company name">
-        <button class="search_btn">Search</button>
-        <%#= link_to 'Show all', '', class: 'spare_link' %>
-      </div>
+      <%= search_form_for @q, url: admin_users_path, method: :get do |f| %>
+        <div class="search_row">
+          <!-- <input name="q" class="search_input" type="text" placeholder="Search by ID, name, email, or company name" value=""> -->
+          <%#= text_field_tag 'q',params[:q], placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
+          <%= f.search_field :first_name_or_last_name_or_email_cont_any, placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
+          <button class="search_btn">Search</button>
+          <%#= link_to 'Show all', '', class: 'spare_link' %>
+        </div>
+
+        <div class="search_row">
+          <div class="from_date">
+            Joined From (optional)<br>
+            <%= f.search_field :created_at_gteq, value: params[:q].present? ? params[:q][:created_at_gteq] : nil,class: 'Width125Px datepicker_calender', 'datepicker' => true ,data: {"date-format" => "yyyy-mm-dd"}, placeholder: "dd/mm/yyyy" %>
+            <!-- <input name="join_start_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
+          </div>
+          <div class="to_date">
+            Joined To (optional)<br>
+            <%= f.search_field :created_at_lteq, value: params[:q].present? ? params[:q][:created_at_lteq] : nil, class: 'Width125Px datepicker_calender', 'datepicker' => true,data: {"date-format" => "yyyy-mm-dd"}, placeholder: "dd/mm/yyyy" %>
+            <!-- <input name="join_end_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
+          </div>
+          <div>
+            Show per page<br>
+            <select class="" name="per_page">
+              <option value="50" selected="selected">50
+              </option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+        </div>
+        <%= hidden_field_tag 'search_fields', 'search' %>
+      <% end %>
 
       <div class="search_row">
-        <div class="from_date">
-          Joined From (optional)<br>
-          <input name="Text2" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
-        </div>
-        <div class="to_date">
-          Joined To (optional)<br>
-          <input name="Text3" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
-        </div>
-        <div>
-          Show per page<br>
-          <select class="" name="D1">
-            <option value="50" selected="selected">50
-            </option>
-            <option>100</option>
-            <option>200</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="search_row">
-        <select class="" name="Multiple">
-          <option selected="selected" value="Multiple selection action">Multiple selection action</option>
+        <select class="multiple_select" name="Multiple">
+          <option>Multiple selection action</option>
           <option value="delete_selected">Delete selected accounts
           </option>
-          <option>Suspend selected accounts</option>
+          <option value="suspend_selected">Suspend selected accounts</option>
         </select>
-        &nbsp;&nbsp;<button class="Width50Px">Go</button>
-        &nbsp; 0 of 12 selected
+        &nbsp;&nbsp;<button class="Width50Px gobutton">Go</button>
+        &nbsp; 0 of <%= @users.count %> selected
       </div>
+      <div class="error_arise">Please Select a value!</div>
 
       <div class="search_row">
-        <div>Displaying 1 - 2 of 2 accepted users and 0 
+        <div>Displaying 1 - <%= @users.count %> of <%= @users.count - @users.where(is_suspended: true).count %> accepted users and <%= @users.where(is_suspended: true).count %>
         suspended users</div>
         &nbsp;
         <%#= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
       </div>
-
-      <div class="csv_table">
-        <div class="csv_table_row gray_bg">
-          <div class="Width30Px">
-            <input name="Checkbox1" type="checkbox" class="checkbox_input">
+      <div class="main_table_container">
+        <% if @users.blank? %>
+          <div>No Results found</div>
+        <% else %>
+          <div class="csv_table">
+            <div class="csv_table_row gray_bg">
+              <div class="Width30Px">
+                <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+                <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
+              </div>
+              <div class="Width50Px">ID</div>
+              <div class="Width100Px">First name</div>
+              <div class="Width100Px">Last name</div>
+              <div class="Width200Px">Email</div>
+              <div class="Width100Px">Role</div>
+              <div class="Width150Px">Company</div>
+              <div class="Width100Px">Date joined</div>
+              <div class="Width100Px">Last login</div>
+              <div class="Width100Px text-center">Is suspended</div>
+              <div class="Width80Px text-center">Is admin</div>
+              <div class="Width80Px text-center">Suspend</div>
+              <div class="Width80Px text-center">Admin</div>
+              <div class="Width80Px text-center">Deleted</div>
+              <div class="Width80Px text-center">Edit user</div>
+            </div>
+            <div class="sort_paginate_ajax1">
+              <% @users.each do |person| %>
+                <div class="csv_table_row">
+                  <div class="Width30Px">
+                    <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
+                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
+                  </div>
+                  <div class="Width50Px">
+                    <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
+                  </div>
+                  <div class="Width100Px"><%= person.first_name %></div>
+                  <div class="Width100Px"><%= person.last_name %></div>
+                  <div class="Width200Px">
+                    <%= mail_to person.email, person.email, class: 'spare_link' %>
+                  </div>
+                  <div class="Width100Px"><%= person.company&.role %></div>
+                  <div class="Width150Px"><%= person.company&.name %></div>
+                  <div class="Width100Px"><%= person.created_at.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px"><%= person.last_sign_in_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px text-center suspend_user_<%= person.id %>"><%= person.is_suspended.eql?(true) ? "Yes" : "No" %></div>
+                  <div class="Width80Px text-center admin_user_<%= person.id %>"><%= person.is_admin.eql?(true) ? "Yes" : "No" %></div>
+                  <div class="Width80Px text-center">
+                    <%= check_box_tag 'suspend_user', person.id, nil, class: '' , checked: (person.is_suspended ? true : false) %>
+                    <%#= check_box_tag 'suspend_user', person.id %></div>
+                  <div class="Width80Px text-center">
+                    <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
+                    <%#= check_box_tag 'make_admin', person.id %></div>
+                  <div class="Width80Px text-center">
+                    <%= check_box_tag 'delete_user', person.id, nil, class: '' , checked: (person.deleted_at.present? ? true : false) %>
+                  </div>
+                  <div class="Width80Px text-center">
+                    <%= link_to edit_admin_user_path(person.id) do %>
+                      <%= image_tag 'pencil.png', class: "Height15px" %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <script type="text/javascript">
+                $(function() {
+                  $(".sort_paginate_ajax1 th a, .sort_paginate_ajax1 .pagination a").on("click", function(){
+                    url = this.href
+                    $.getScript(url);
+                    return false;
+                  });
+                });
+              </script>
+            </div>
+            <div class="will_pagination_box pagination_box">
+              <%= js_will_paginate @users, :previous_label => "<", :next_label => ">" %>
+            </div>
           </div>
-          <div class="Width50Px">ID</div>
-          <div class="Width100Px">First name</div>
-          <div class="Width100Px">Last name</div>
-          <div class="Width200Px">Email</div>
-          <div class="Width100Px">Role</div>
-          <div class="Width150Px">Company</div>
-          <div class="Width100Px">Date joined</div>
-          <div class="Width100Px">Last login</div>
-          <div class="Width100Px">Is suspended</div>
-          <div class="Width80Px">Is admin</div>
-        </div>
-        <div class="csv_table_row">
-          <div class="Width30Px">
-            <input name="Checkbox2" type="checkbox" class="checkbox_input">
-          </div>
-          <div class="Width50Px">
-            <%#= link_to '193', '#', class: 'spare_link', target: '_blank' %>
-          </div>
-          <div class="Width100Px">James</div>
-          <div class="Width100Px">Nguyen</div>
-          <div class="Width200Px">
-            <%#= link_to 'james@james.com.au', '#', class: 'spare_link' %>
-          </div>
-          <div class="Width100Px">HR Manager</div>
-          <div class="Width150Px">James company</div>
-          <div class="Width100Px">July 14, 2018</div>
-          <div class="Width100Px">July 14, 2018</div>
-          <div class="Width100Px">No</div>
-          <div class="Width80Px">No</div>
-        </div>
+        <% end %>
       </div>
 
-      <div class="pagination_box">
+      <!-- <div class="pagination_box hidden">
         <a href="#" class="pagi_btn prev_next">&lt;</a>
         <a href="#" class="pagi_btn selected_btn">1</a>
         <a href="#" class="pagi_btn">2</a>
         <a href="#" class="pagi_btn">3</a>
         <a href="#" class="pagi_btn">4</a>
         <a href="#" class="pagi_btn prev_next">&gt;</a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $('#suspend_user,#make_admin,#delete_user').click(function() {
+    var checked;
+    var check_type;
+    if ($(this).attr('name') == "suspend_user") {
+      check_type = "suspend_user"
+    }
+    else if ($(this).attr('name') == "make_admin") {
+      check_type = "make_admin"
+    }
+    else {
+      check_type = "delete_user"
+    }
+    if ($(this).is(':checked')) {
+      checked = true;
+    } else {
+      checked = false;
+    } 
+    $.ajax({
+      type: "POST",
+      url: "<%= suspend_or_make_admin_user_admin_users_path %>",
+      data: { id: $(this).val(), checked: checked, check_type: check_type }
+    });
+  });
+  $(document).ready(function(){
+    $(".datepicker_calender").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      dateFormat: 'yyyy-mm-dd'
+    });
+  });
+  $('.checkbox_input_all').click(function(){
+    if ($(this).is(':checked')) {
+      $('.checkbox_input').prop('checked', true)
+    }
+    else {
+      $('.checkbox_input').prop('checked', false)
+    }
+  })
+  $('.gobutton').click(function(){
+    if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
+      $('.error_arise').show();
+    else {
+      $('.error_arise').hide();
+      var ids = [];
+      $('.checkbox_input:checkbox:checked').each(function () {
+        code = $(this).val();
+        ids.push(code);
+      });
+      $.ajax({
+        type: "GET",
+        url: "<%= suspend_or_delete_admin_users_path %>",
+        data: { ids: ids, select_action: $('.multiple_select').val() }
+      });
+    }
+  })
+</script>

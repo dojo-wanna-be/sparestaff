@@ -32,9 +32,10 @@
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, :trackable
+  # :lockable, :timeoutable,
+  default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+         :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 
   has_attached_file :avatar, styles: { medium: "300x300", thumb: "100x100" }
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
@@ -53,6 +54,14 @@ class User < ApplicationRecord
   enum user_type: { owner: 0, hr: 1 }
 
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
+
+  def active_for_authentication?
+    super && self.is_suspended.eql?(false) # i.e. super && self.is_active
+  end
+
+  def inactive_message
+    "Sorry, Your account is suspended. Please contact sparestaff support team."
+  end
 
   def self.new_with_session(params, session)
     super.tap do |user|
