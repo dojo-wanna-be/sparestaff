@@ -15,9 +15,10 @@
         <button class="search_btn">Search</button>
         <%#= link_to 'Show all', '', class: 'spare_link' %>
       </div> -->
-    <%= form_tag(search_admin_hirings_path, method: :get, id: 'search_form', remote: true)do %>
-      <%= render partial: "hiring_search_bar"%>
-    <% end %>
+    <%= render partial: "admin/users/search_form", locals: {action_url: search_admin_hirings_path} %>
+    <%#= form_tag(search_admin_hirings_path, method: :get, id: 'search_form', remote: true)do %>
+      <%#= render partial: "hiring_search_bar"%>
+    <%# end %>
       <!-- <div class="search_row">
         <div class="from_date">
           Started From (optional)<br>
