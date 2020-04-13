@@ -48,7 +48,6 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def suspend_or_make_admin_user
-    binding.pry
     @person = User.find_by(id: params[:id])
     if params[:check_type].eql?("suspend_user")
       @user_type = "suspend_user"
