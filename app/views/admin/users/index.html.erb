@@ -59,44 +59,42 @@
             </div>
             <div class="sort_paginate_ajax1">
               <% @users.each do |person| %>
-                <% unless @current_user.eql?(person) %>
-                  <div class="csv_table_row">
-                    <div class="Width30Px">
-                      <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
-                      <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
-                    </div>
-                    <div class="Width50Px">
-                      <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
-                    </div>
-                    <div class="Width100Px"><%= person.first_name %></div>
-                    <div class="Width100Px"><%= person.last_name %></div>
-                    <div class="Width200Px">
-                      <%= mail_to person.email, person.email, class: 'spare_link' %>
-                    </div>
-                    <div class="Width100Px"><%= person.company&.role %></div>
-                    <div class="Width150Px"><%= person.company&.name %></div>
-                    <div class="Width100Px"><%= person.created_at.strftime("%b %e, %Y") %></div>
-                    <div class="Width100Px"><%= person.last_sign_in_at&.strftime("%b %e, %Y") %></div>
-                    <div class="Width100Px text-center suspend_user_<%= person.id %>"><%= person.is_suspended.eql?(true) ? "Yes" : "No" %></div>
-                    <div class="Width80Px text-center admin_user_<%= person.id %>"><%= person.is_admin.eql?(true) ? "Yes" : "No" %></div>
-                    <div class="Width80Px text-center">
-                      <%= check_box_tag 'suspend_user', person.id, nil, class: '' , checked: (person.is_suspended ? true : false) %>
-                      <%#= check_box_tag 'suspend_user', person.id %></div>
-                    <% if current_user.is_superadmin %>
-                      <div class="Width80Px text-center">
-                        <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
-                        <%#= check_box_tag 'make_admin', person.id %></div>
-                    <% end %>
-                    <div class="Width80Px text-center">
-                      <%= check_box_tag 'delete_user', person.id, nil, class: '' , checked: (person.deleted_at.present? ? true : false) %>
-                    </div>
-                    <div class="Width80Px text-center">
-                      <%= link_to edit_admin_user_path(person.id) do %>
-                        <%= image_tag 'pencil.png', class: "Height15px" %>
-                      <% end %>
-                    </div>
+                <div class="csv_table_row">
+                  <div class="Width30Px">
+                    <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
+                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
                   </div>
-                <% end %>
+                  <div class="Width50Px">
+                    <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
+                  </div>
+                  <div class="Width100Px"><%= person.first_name %></div>
+                  <div class="Width100Px"><%= person.last_name %></div>
+                  <div class="Width200Px">
+                    <%= mail_to person.email, person.email, class: 'spare_link' %>
+                  </div>
+                  <div class="Width100Px"><%= person.company&.role %></div>
+                  <div class="Width150Px"><%= person.company&.name %></div>
+                  <div class="Width100Px"><%= person.created_at.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px"><%= person.last_sign_in_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px text-center suspend_user_<%= person.id %>"><%= person.is_suspended.eql?(true) ? "Yes" : "No" %></div>
+                  <div class="Width80Px text-center admin_user_<%= person.id %>"><%= person.is_admin.eql?(true) ? "Yes" : "No" %></div>
+                  <div class="Width80Px text-center">
+                    <%= check_box_tag 'suspend_user', person.id, nil, class: '' , checked: (person.is_suspended ? true : false) %>
+                    <%#= check_box_tag 'suspend_user', person.id %></div>
+                  <% if current_user.is_superadmin %>
+                    <div class="Width80Px text-center">
+                      <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
+                      <%#= check_box_tag 'make_admin', person.id %></div>
+                  <% end %>
+                  <div class="Width80Px text-center">
+                    <%= check_box_tag 'delete_user', person.id, nil, class: '' , checked: (person.deleted_at.present? ? true : false) %>
+                  </div>
+                  <div class="Width80Px text-center">
+                    <%= link_to edit_admin_user_path(person.id) do %>
+                      <%= image_tag 'pencil.png', class: "Height15px" %>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
               <script type="text/javascript">
                 $(function() {
