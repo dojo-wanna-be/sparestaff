@@ -92,9 +92,10 @@ class StripeRefundAmount
       else
         @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * 0.03
         amount = already_start_refund_amont
-        amount_with_service_fee = ((amount - @transaction.tax_withholding_amount) + @transaction.service_fee).round(2)
+        amount_with_taxwithholding = amount - @transaction.remaining_tax_withholding(amount)
+        amount_with_service_fee = ((amount_with_taxwithholding) + @transaction.service_fee).round(2)
         amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50
-        poster_recieve = (amount - @transaction.tax_withholding_amount - (amount * 10/100)).round(2)
+        poster_recieve = (amount_with_taxwithholding - (amount_with_taxwithholding * 10/100)).round(2)
         with_destination = poster_recieve > 0
         if with_destination
           charge = Stripe::Charge.create(
