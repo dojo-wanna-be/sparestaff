@@ -122,7 +122,7 @@ class StripeRefundAmount
           amount: (@amount * 100).to_i,
         })
         StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, refund_id: refund.id, status: refund.status)
-        StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount - amount_with_service_fee, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee)
+        StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount - amount_with_service_fee, tax_withholding_amount: @transaction.remaining_tax_withholding(amount), service_fee: @transaction.service_fee)
       end
       #end
     end
