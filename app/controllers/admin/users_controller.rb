@@ -56,7 +56,7 @@ class Admin::UsersController < Admin::AdminBaseController
       @user_type = "make_admin"
       @person.update_column(:is_admin, params[:checked])
     else
-      @person.update_column(:deleted_at, params[:checked] ? Date.today : nil)
+      @person.update_column(:deleted_at, params[:checked].eql?("true") ? Date.today : nil)
     end
   end
 
