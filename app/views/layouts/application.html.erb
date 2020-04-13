@@ -17,8 +17,12 @@
 
   <body>
     <%= render 'toastr_rails/flash' %>
-    <% unless params[:controller].eql?("transactions") %>
-      <%= render partial: "layouts/header" %>
+    <% if params[:controller].include?("admin") %>
+      <%= render partial: "layouts/admin_header" %>
+    <% else %>
+      <% unless params[:controller].eql?("transactions") %>
+        <%= render partial: "layouts/header" %>
+      <% end %>
     <% end %>
     <%= yield %>
   </body>

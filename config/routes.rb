@@ -7,7 +7,16 @@ Rails.application.routes.draw do
   }
 
   root to: "home#index"
-
+  namespace :admin do
+    resources :users do
+      collection do
+        get :emails
+        post :suspend_or_make_admin_user
+        get :suspend_or_delete
+      end
+    end
+    get '' => "users#index"
+  end
   resources :stripe_webhook, only: [] do
     collection do
       post :handle_stripe_webhook
@@ -19,6 +28,7 @@ Rails.application.routes.draw do
       get :email_availability
       get :keyword_search
       get :search
+      #get :admin_panel
     end
   end
 
