@@ -48,6 +48,7 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def suspend_or_make_admin_user
+    binding.pry
     @person = User.find_by(id: params[:id])
     if params[:check_type].eql?("suspend_user")
       @user_type = "suspend_user"
@@ -56,7 +57,7 @@ class Admin::UsersController < Admin::AdminBaseController
       @user_type = "make_admin"
       @person.update_column(:is_admin, params[:checked])
     else
-      @person.update_column(:deleted_at, Date.today)
+      @person.update_column(:deleted_at, params[:checked] ? Date.today : nil)
     end
   end
 
@@ -65,6 +66,7 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def update
+    params[:user].delete(:password) if params[:user][:password].blank?
     @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "Updated successfully!"

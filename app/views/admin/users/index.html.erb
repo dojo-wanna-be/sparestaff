@@ -51,7 +51,9 @@
               <div class="Width100Px text-center">Is suspended</div>
               <div class="Width80Px text-center">Is admin</div>
               <div class="Width80Px text-center">Suspend</div>
-              <div class="Width80Px text-center">Admin</div>
+              <% if current_user.is_superadmin %>
+                <div class="Width80Px text-center">Admin</div>
+              <% end %>
               <div class="Width80Px text-center">Deleted</div>
               <div class="Width80Px text-center">Edit user</div>
             </div>
@@ -79,9 +81,11 @@
                   <div class="Width80Px text-center">
                     <%= check_box_tag 'suspend_user', person.id, nil, class: '' , checked: (person.is_suspended ? true : false) %>
                     <%#= check_box_tag 'suspend_user', person.id %></div>
-                  <div class="Width80Px text-center">
-                    <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
-                    <%#= check_box_tag 'make_admin', person.id %></div>
+                  <% if current_user.is_superadmin %>
+                    <div class="Width80Px text-center">
+                      <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
+                      <%#= check_box_tag 'make_admin', person.id %></div>
+                  <% end %>
                   <div class="Width80Px text-center">
                     <%= check_box_tag 'delete_user', person.id, nil, class: '' , checked: (person.deleted_at.present? ? true : false) %>
                   </div>
