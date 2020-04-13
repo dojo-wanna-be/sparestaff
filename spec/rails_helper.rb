@@ -22,6 +22,7 @@ RSpec.configure do |config|
     StripeMock.start
   end
   config.include Devise::TestHelpers, type: :view
+  config.include Devise::TestHelpers, type: :helper
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true

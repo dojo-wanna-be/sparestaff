@@ -21,8 +21,8 @@ FactoryGirl.define do
   end
 
   factory :listing_availability do
-     start_time Date.today
-     end_time 1.month.from_now
+     start_time Date.today + 4.hours
+     end_time Date.today + 10.hours
      day "sunday"
      created_at DateTime.now
      updated_at DateTime.now
@@ -129,7 +129,7 @@ FactoryGirl.define do
      name "test game"
      acn "8978"
      address_1 "Treasury Casino and Hotel Brisban, William Street"
-     address_2 "Treasury Casino and Hotel Brisban, William Street"
+     address_2 "28 Nerrigundah Drive"
      city "Brisbane City QLD"
      state "ACT"
      country "Australia"
@@ -185,10 +185,12 @@ FactoryGirl.define do
 		 listing_step 6
 		 available_in_holidays true
 		 weekday_price 0.2e2
-		 holiday_price 0.2e2
+		 holiday_price 0.5e2
 		 minimum_working_hours 0
-		 start_publish_date Date.today
+		 start_publish_date Date.today + 2.days
 		 end_publish_date 3.months.from_now
 		 weekend_price 0.678988e3
+         latitude 28.7040592
+         longitude 77.1024902
   end
 end
