@@ -16,7 +16,7 @@
   <% @hirings_transactions.each do |transaction| %>
     <div class="csv_table_row">
       <div class="Width50Px">
-        <%= link_to transaction.id, hiring_path(id: transaction.id), class: 'spare_link', target: '_blank' %>
+        <%= link_to transaction.id,  hiring_details_admin_hirings_path(id: transaction.id), class: 'spare_link', target: '_blank' %>
       </div>
       <div class="Width150Px"><%#=transaction.poster.employee_listings.first.title%>
         <%= link_to transaction.employee_listing.title, employee_path(id: transaction.employee_listing.id), class: 'spare_link', target: '_blank' %>

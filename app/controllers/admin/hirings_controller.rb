@@ -17,8 +17,12 @@ class Admin::HiringsController < Admin::AdminBaseController
     # @hirings = @hirings.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
   end
 
-  # def emails
-  # end
+  def hiring_details
+    @transaction = Transaction.find(params[:id])
+    @listing = EmployeeListing.find(@transaction.poster.id)
+    @conversation = @transaction.conversation
+    @messages = @conversation.messages.order(created_at: :DESC)
+  end
 
   def search
     q = {}

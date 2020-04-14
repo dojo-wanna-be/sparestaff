@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :hirings do
       collection do
         get :search
+        get :hiring_details
       end
     end
     get '' => "users#index"
