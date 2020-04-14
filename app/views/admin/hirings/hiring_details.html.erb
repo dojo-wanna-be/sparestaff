@@ -113,10 +113,13 @@
 		  <% if message.sender_id == current_user.id %>
 		    <div class="message-chat-block__box right_user_direction">
 		      <div class="message__conversation">
-		        <%= message.content %>
+            <div id="UserMessage2" class="myclass_#{message.id}">
+		          <%= message.content %>
+            </div>
 		        <div class="message-chat-date grey-text">
 		          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
 		        </div>
+            <%=link_to "delete", delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true, :class=>"delete-msg" %>
 		      </div>
 		      <div class="message-user-box">
 		        <% if current_user.avatar.present? %>
@@ -133,6 +136,7 @@
 		        <div class="message-chat-date grey-text">
 		          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
 		        </div>
+            <%=link_to "delete", delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true, :class=>"delete-msg" %>  
 		      </div>
 		      <div class="message-user-box">
 		        <% if message.sender.avatar.present? %>

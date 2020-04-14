@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       collection do
         get :search
         get :hiring_details
+        delete :delete_message
       end
     end
     get '' => "users#index"

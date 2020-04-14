@@ -25,6 +25,13 @@ class Admin::HiringsController < Admin::AdminBaseController
     @messages = @conversation.messages.order(created_at: :DESC)
   end
 
+  def delete_message
+    # binding.pry
+    message = Message.find_by(id: params[:id])
+    @message_id = message.id
+    message.destroy
+  end
+
   def search
     @q = Transaction.search(params[:q])
     q = {}
