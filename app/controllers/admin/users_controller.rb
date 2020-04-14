@@ -14,9 +14,8 @@ class Admin::UsersController < Admin::AdminBaseController
 
   def index
     if params[:search_fields].present?
-      @q = User.search(params[:q])
-      users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q][:first_name_or_last_name_or_email_cont_any], id_in: params[:q][:first_name_or_last_name_or_email_cont_any], m: 'or').result(distinct: true)
-      @users = users.ransack(created_at_gteq: params[:q][:created_at_gteq], created_at_lteq: params[:q][:created_at_lteq]).result(distinct: true).paginate(:page => params[:page], :per_page => params[:per_page])
+      users = User.all.where.not(id: current_user.id).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
+      @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).paginate(:page => params[:page], :per_page => params[:per_page])
     else
       # if params[:search_fields].present?
       #   # users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
@@ -32,7 +31,7 @@ class Admin::UsersController < Admin::AdminBaseController
       #   # @users = users
       # end
       @q = User.search(params[:q])
-      @users = User.all.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
+      @users = User.all.where.not(id: current_user.id).order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
     end
   end
 
@@ -57,7 +56,7 @@ class Admin::UsersController < Admin::AdminBaseController
       @user_type = "make_admin"
       @person.update_column(:is_admin, params[:checked])
     else
-      @person.update_column(:deleted_at, Date.today)
+      @person.update_column(:deleted_at, params[:checked].eql?("true") ? Date.today : nil)
     end
   end
 
@@ -66,6 +65,7 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def update
+    params[:user].delete(:password) if params[:user][:password].blank?
     @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "Updated successfully!"

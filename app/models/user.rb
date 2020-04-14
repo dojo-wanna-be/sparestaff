@@ -33,7 +33,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,
-  default_scope { where(deleted_at: nil) }
+  #default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 
@@ -56,7 +56,7 @@ class User < ApplicationRecord
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
 
   def active_for_authentication?
-    super && self.is_suspended.eql?(false) # i.e. super && self.is_active
+    is_suspended.eql?(false) # i.e. super && self.is_active
   end
 
   def inactive_message

@@ -13,6 +13,7 @@ class Admin::HiringsController < Admin::AdminBaseController
   end
 
   def index
+    @q = Transaction.search(params[:q])
     @hirings_transactions = Transaction.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
     # @hirings = @hirings.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
   end
@@ -25,6 +26,7 @@ class Admin::HiringsController < Admin::AdminBaseController
   end
 
   def search
+    @q = Transaction.search(params[:q])
     q = {}
     if params[:keyword_search].present?
       q[:employee_listings_id_or_employee_listings_name_or_employee_listings_poster_name_or_employee_listings_title_eq] = params[:keyword_search]
