@@ -7,146 +7,164 @@
 </div>
 <div class="admin_panle_body">
   <%= render partial: "layouts/admin/left_hand_navigation" %>
-</div>
-<div class="left-detail">
-  <br/>
-  <div class="text-allign-center">
-    <% if @listing.profile_picture.present? %>
-      <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
-    <% else %>
-      <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
-    <% end %>
-    <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
-    <div class=""><b><%= @listing.name %></b></div>
-  </div>
-  <br/>
-  <div class="">
-    Poster:<br />
-    <%=@transaction.poster.name%><br />
-    Hirer:<br />
-    <%=@transaction.hirer.name%>
-  </div>
 
-  <div class="order-details first-order">
-    <div class="order-item">
-      <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
-      <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
-      <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
+  <div class="hiring-section">
+    <div class="left-detail">
+      <br/>
+      <div class="text-allign-center">
+        <% if @listing.profile_picture.present? %>
+          <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+        <% end %>
+        <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
+        <div class=""><b><%= @listing.name %></b></div>
+      </div>
+      <br/>
+      <div class="">
+        Poster:<br />
+        <%=@transaction.poster.name%><br />
+        Hirer:<br />
+        <%=@transaction.hirer.name%>
+      </div>
+
+      <div class="order-details first-order">
+        <div class="order-item">
+          <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
+          <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
+          <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
+        </div>
+        <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
+        <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
+        <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
+          <div class="order-item space-bottom">
+            <span><%= bookings.first.day.titleize %></span>
+            <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
+          </div>
+        <% end %>
+      </div>
+
+      
+        <div class="order-details">
+          <div class="order-item space-bottom">
+            <span class="grey-text">Probationary period</span>
+          </div>
+          <div class="order-item ">
+            <div class="month1">
+              <% if @transaction.probationary_period.present? %>
+                <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+              <% else %>
+                NA
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <div class="order-details">
+        <h3 class="sub-title">Weekly payment</h3>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
+          <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
+          <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Tax withholding</span>
+          <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Service fee</span>
+          <span>$<%= @transaction.service_fee.round(2) %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><b>Weekly total</b></span>
+          <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
+        </div>
+      </div>
+
+      <div class="toggle-payment-detail">Total employment contract</div>
+
+      <div class="order-details show-payment-box">
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
+          <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
+          <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Tax withholding</span>
+          <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Service fee</span>
+          <span>$<%= @transaction.total_service_fee.round(2) %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><b>Total</b></span>
+          <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
+        </div>
+      </div>
     </div>
-    <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
-    <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-    <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
-      <div class="order-item space-bottom">
-        <span><%= bookings.first.day.titleize %></span>
-        <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
-      </div>
-    <% end %>
-  </div>
 
-  
-    <div class="order-details">
-      <div class="order-item space-bottom">
-        <span class="grey-text">Probationary period</span>
-      </div>
-      <div class="order-item ">
-        <div class="month1">
-          <% if @transaction.probationary_period.present? %>
-            <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
-          <% else %>
-            NA
+    <div class="right-detail">
+      <div class="message-chat-block">
+        <div id="message_container">
+          <% @messages.each do |message|%>
+            <% if message.sender_id == current_user.id %>
+              <div class="message-chat-block__box right_user_direction">
+                <div class="message__conversation">
+                  <%= message.content %>
+                  <div class="message-chat-date grey-text">
+                    <span>
+                      <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
+                    </span>
+                    <%= link_to '', class: 'delete_message' do %>
+                      <%= image_tag 'delete-icon.png' %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="message-user-box">
+                  <% if current_user.avatar.present? %>
+                    <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
+                  <% else %>
+                    <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+                  <% end %>
+                </div>
+              </div>
+            <% else %>
+              <div class="message-chat-block__box left_user_direction">
+                <div class="message__conversation">
+                  <%= message.content %>
+                  <div class="message-chat-date grey-text">
+                    <span>
+                      <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
+                    </span>
+                    <%= link_to '', class: 'delete_message' do %>
+                      <%= image_tag 'delete-icon.png' %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="message-user-box">
+                  <% if message.sender.avatar.present? %>
+                    <%= image_tag message.sender.avatar.url, class: 'message-user-box__img' %>
+                  <% else %>
+                    <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="gray-mid-text-block">
+              <div class="gray-line"></div>
+              <div class="mid-text">HIRING CANCELLED 12 MAR 2019 BY HIRER</div>
+              <div class="gray-line"></div>
+            </div>
           <% end %>
         </div>
       </div>
     </div>
-  <div class="order-details">
-    <h3 class="sub-title">Weekly payment</h3>
-    <div class="order-item space-bottom">
-      <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
-      <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
-      <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span>Tax withholding</span>
-      <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span>Service fee</span>
-      <span>$<%= @transaction.service_fee.round(2) %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span><b>Weekly total</b></span>
-      <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
-    </div>
   </div>
-
-  <div class="toggle-payment-detail">Total employment contract</div>
-
-  <div class="order-details show-payment-box">
-    <div class="order-item space-bottom">
-      <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
-      <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
-      <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span>Tax withholding</span>
-      <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span>Service fee</span>
-      <span>$<%= @transaction.total_service_fee.round(2) %></span>
-    </div>
-    <div class="order-item space-bottom">
-      <span><b>Total</b></span>
-      <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
-    </div>
-  </div>
-</div>
-<div class="message-chat-block">
-	<div id="message_container">
-		<% @messages.each do |message|%>
-		  <% if message.sender_id == current_user.id %>
-		    <div class="message-chat-block__box right_user_direction">
-		      <div class="message__conversation">
-            <div id="UserMessage2" class="myclass_#{message.id}">
-		          <%= message.content %>
-            </div>
-		        <div class="message-chat-date grey-text">
-		          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
-		        </div>
-            <%=link_to "delete", delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true, :class=>"delete-msg" %>
-		      </div>
-		      <div class="message-user-box">
-		        <% if current_user.avatar.present? %>
-		          <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
-		        <% else %>
-		          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
-		        <% end %>
-		      </div>
-		    </div>
-		  <% else %>
-		    <div class="message-chat-block__box left_user_direction">
-		      <div class="message__conversation">
-		        <%= message.content %>
-		        <div class="message-chat-date grey-text">
-		          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
-		        </div>
-            <%=link_to "delete", delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true, :class=>"delete-msg" %>  
-		      </div>
-		      <div class="message-user-box">
-		        <% if message.sender.avatar.present? %>
-		          <%= image_tag message.sender.avatar.url, class: 'message-user-box__img' %>
-		        <% else %>
-		          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
-		        <% end %>
-		      </div>
-		    </div>
-		  <% end %>
-		<% end %>
-	</div>
 </div>
