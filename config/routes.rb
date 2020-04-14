@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get :search
       end
     end
+    resources :employee_listings
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do

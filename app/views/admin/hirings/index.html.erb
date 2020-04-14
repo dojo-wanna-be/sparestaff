@@ -15,7 +15,7 @@
         <button class="search_btn">Search</button>
         <%#= link_to 'Show all', '', class: 'spare_link' %>
       </div> -->
-    <%= render partial: "admin/users/search_form", locals: {action_url: search_admin_hirings_path} %>
+    <%= render partial: "admin/users/search_form", locals: {action_url: admin_hirings_path, page_name: "hirings_index"} %>
     <%#= form_tag(search_admin_hirings_path, method: :get, id: 'search_form', remote: true)do %>
       <%#= render partial: "hiring_search_bar"%>
     <%# end %>
@@ -50,11 +50,11 @@
         &nbsp; 0 of 12 selected
       </div> -->
 
-      <!-- <div class="search_row">
+      <div class="search_row">
         <div>Displaying 1 - 2 of 2 in total</div>
         &nbsp;
-        <%#= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
-      </div> -->
+        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+      </div>
       <% if @hirings_transactions.present? %>
       <div class="featured-listings-box">
         <div class="sort_paginate_ajax" id="hirings">
@@ -82,6 +82,13 @@
     $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
       $.getScript(this.href);
       return false;
+    });
+  });
+  $(document).ready(function(){
+    $(".datepicker_calender").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      dateFormat: 'yyyy-mm-dd'
     });
   });
 </script>
