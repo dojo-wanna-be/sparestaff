@@ -383,6 +383,149 @@
       }
     }
   }
+
+  .hiring-section {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-left: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+
+    @media screen and (max-width: 767px) {
+      margin: 0;
+      padding: 15px 0 0;
+      border-top: 1px solid #e4e4e4;
+      flex-direction: column;
+      width: 100%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      width: 100%;
+      margin: 20px 0;
+      padding: 0 0 0 10px;
+    }
+    .TextOrange {
+      color: #F15927;
+    }
+    .left-detail {
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      width: 301px;
+      margin-right: 64px;
+      border: 1px solid #e4e4e4;
+      height: max-content;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin-bottom: 20px;
+        margin-right: 0;
+        padding: 15px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        padding: 10px;
+        margin-right: 10px;
+        width: 225px;
+      }
+      .pro-pic {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
+      .order-details {
+        border-bottom: 1px solid #e4e4e4;
+        padding: 22px 0;
+        display: flex;
+        flex-direction: column;
+        &:last-child {
+          border-top: 1px solid #e4e4e4;
+          margin-top: 20px;
+          border-bottom: 0px !important;
+          padding-bottom: 0 !important;
+        }
+        &.first-order {
+          margin-top: 22px;
+          border-top: 1px solid #e4e4e4;
+        }
+        &.show-payment-box {
+          display: none;
+          padding-bottom: 0;
+          border-bottom: 0px;
+        }
+        .learn-more {
+          font-size: 14px;
+        }
+        .sub-title {
+          margin-bottom: 24px;
+          margin-top: 2px;
+        }
+        .order-item {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          &.space-bottom {
+            margin-bottom: 10px;
+          }
+          .month1 {
+            margin-top: 12px;
+          }
+        }
+        .detail-bot-text {
+          border-top: 1px solid #e4e4e4;
+          padding-top: 20px;
+          padding-bottom: 10px;
+        }
+        .OrderTotalHour {
+          font-size: 14px;
+          color: #767676;
+          text-transform: uppercase;
+          margin-bottom: 15px;
+        }
+      }
+      .toggle-payment-detail {
+        color: #F15927;
+        margin-top: 22px;
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+    .right-detail {
+      width: 581px;
+      padding-top: 0px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: calc(100% - 240px);
+      }
+      
+      .message-chat-block {
+        .message-chat-block__box {
+          &:first-of-type {
+            margin: 0;
+          }
+
+          .message-chat-date {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .delete_message {
+              img {
+                height: 25px;
+                width: 25px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
 }
 
 //** Admin Panel End Css **//

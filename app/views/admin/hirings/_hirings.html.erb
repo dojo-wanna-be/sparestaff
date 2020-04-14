@@ -1,8 +1,5 @@
 <div class="csv_table">
   <div class="csv_table_row gray_bg">
-          <!-- <div class="Width30Px">
-            <input name="Checkbox1" type="checkbox" class="checkbox_input">
-          </div> -->
    	<div class="Width50Px">ID</div>
     <div class="Width150Px">Listing Title</div>
     <div class="Width150Px">Employee</div>
@@ -18,25 +15,22 @@
   </div>
   <% @hirings_transactions.each do |transaction| %>
     <div class="csv_table_row">
-          <!-- <div class="Width30Px">
-            <input name="Checkbox2" type="checkbox" class="checkbox_input">
-          </div> -->
       <div class="Width50Px">
-        <%= link_to transaction.id, '#', class: 'spare_link', target: '_blank' %>
+        <%= link_to transaction.id,  hiring_details_admin_hirings_path(id: transaction.id), class: 'spare_link', target: '_blank' %>
       </div>
-      <div class="Width150Px"><%=transaction.poster.employee_listings.first.title%></div>
-      <div class="Width150Px"><%=transaction.poster.employee_listings.first.name%></div>
-            <!-- <div class="Width100Px">
-              <%#= link_to 'james@james.com.au', '#', class: 'spare_link' %>
-            </div> -->
-      <div class="Width150Px"><%=transaction.hirer.name%></div>
-      <div class="Width150Px"><%=transaction.poster.name%></div>
-      <% if transaction.poster.employee_listings.first.classification.present?%>
-        <div class="Width150Px"><%=transaction.poster.employee_listings.first.classification.name%></div>
-      <% else %>
-        <div class="Width150Px"></div>
-      <% end %>
+      <div class="Width150Px"><%#=transaction.poster.employee_listings.first.title%>
+        <%= link_to transaction.employee_listing.title, employee_path(id: transaction.employee_listing.id), class: 'spare_link', target: '_blank' %>
+      </div>
+      <div class="Width150Px"><%=transaction.employee_listing.name%></div>
+      <div class="Width150Px"><%#=transaction.hirer&.name%>
+        <%= link_to transaction.hirer.name, user_path(id: transaction.hirer.id), class: 'spare_link', target: '_blank' %>
+      </div>
+      <div class="Width150Px"><%#=transaction.poster&.name%>
+        <%= link_to transaction.poster.name, user_path(id: transaction.poster.id), class: 'spare_link', target: '_blank' %>
+      </div>
+        <div class="Width150Px"><%=transaction.employee_listing.classification.name%></div>
       <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
+
       <% if transaction.state.eql?("initialized") %>
         <div class="Width100Px">Pending</div>
       <% elsif transaction.state.eql?("accepted") %>
