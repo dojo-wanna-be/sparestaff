@@ -13,11 +13,22 @@ class Admin::HiringsController < Admin::AdminBaseController
   end
 
   def index
-    @q = Transaction.search(params[:q])
-    @hirings_transactions = Transaction.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
-    # @hirings = @hirings.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
+    if params[:search_fields].present?
+      hirings_transactions = Transaction.ransack(employee_listing_title_or_employee_listing_first_name_or_employee_listing_last_name_or_hirer_first_name_or_hirer_last_name_or_poster_first_name_or_poster_last_name_cont_any: params[:q], id_in: params[:q], m: 'or').result(distinct: true)
+      @hirings_transactions = hirings_transactions.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+    else
+      @hirings_transactions = Transaction.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
+    end
   end
 
+  # def index
+  #   @q = Transaction.search(params[:q])
+  #   @hirings_transactions = Transaction.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 50)
+  #   # @hirings = @hirings.where(state: [:created, :accepted, :cancelled]).includes(:employee_listing)
+  # end
+
+  # def emails
+  # end
   def hiring_details
     @transaction = Transaction.find(params[:id])
     @listing = EmployeeListing.find(@transaction.poster.id)

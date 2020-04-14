@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         delete :delete_message
       end
     end
+    resources :employee_listings
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do
