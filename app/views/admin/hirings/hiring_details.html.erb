@@ -115,13 +115,13 @@
           <% @messages.each do |message|%>
             <% if message.sender_id == current_user.id %>
               <div class="message-chat-block__box right_user_direction">
-                <div class="message__conversation">
+                <div class="message__conversation myclass_#{message.id}">
                   <%= message.content %>
                   <div class="message-chat-date grey-text">
                     <span>
                       <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
                     </span>
-                    <%= link_to '', class: 'delete_message' do %>
+                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,class: 'delete_message' do %>
                       <%= image_tag 'delete-icon.png' %>
                     <% end %>
                   </div>
@@ -136,13 +136,13 @@
               </div>
             <% else %>
               <div class="message-chat-block__box left_user_direction">
-                <div class="message__conversation">
+                <div class="message__conversation myclass_#{message.id}">
                   <%= message.content %>
                   <div class="message-chat-date grey-text">
                     <span>
                       <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
                     </span>
-                    <%= link_to '', class: 'delete_message' do %>
+                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,class: 'delete_message' do %>
                       <%= image_tag 'delete-icon.png' %>
                     <% end %>
                   </div>
@@ -157,14 +157,20 @@
               </div>
             <% end %>
 
-            <div class="gray-mid-text-block">
+            <!-- <div class="gray-mid-text-block">
               <div class="gray-line"></div>
               <div class="mid-text">HIRING CANCELLED 12 MAR 2019 BY HIRER</div>
               <div class="gray-line"></div>
-            </div>
+            </div> -->
           <% end %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $('.toggle-payment-detail').click(function(){
+    $('.show-payment-box').toggle();
+  });
+</script>
