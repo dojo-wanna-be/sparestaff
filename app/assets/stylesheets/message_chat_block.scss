@@ -57,7 +57,7 @@
           margin-right: -35px;
         }
 
-        &:before {
+        &:after {
           visibility: hidden;
         }
       }
@@ -73,6 +73,11 @@
       border-radius: .4em;
       width: 490px;
       padding: 20px;
+
+      @media screen and (max-width: 992px) {
+        padding: 10px;
+        width: calc(100% - 55px);
+      }
 
       textarea {
         width: 100%;
@@ -115,6 +120,12 @@
         width: 60px;
         height: 60px;
         border: 1px #dce0e0 solid;
+
+        @media screen and (max-width: 992px) {
+          width: 45px;
+          height: 45px;
+          border: 1px #dce0e0 solid;
+        }
       }
     }
   }
@@ -135,6 +146,14 @@
     .mid-text {
       white-space: nowrap;
       margin: 0 20px;
+
+      @media screen and (max-width: 767px) {
+        max-width: 83%;
+        text-align: center;
+        margin: 0 auto;
+        min-width: 250px;
+        white-space: initial;
+      }
     }
   }
 
