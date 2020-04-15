@@ -37,10 +37,9 @@ class Admin::HiringsController < Admin::AdminBaseController
   end
 
   def delete_message
-    # binding.pry
     message = Message.find_by(id: params[:id])
-    @message_id = message.id
-    message.destroy
+    message.deleted_by = current_user.id
+    message.save
   end
 
   def search
