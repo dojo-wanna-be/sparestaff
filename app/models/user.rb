@@ -33,7 +33,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,
-  default_scope { where(deleted_at: nil) }
+  # default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 

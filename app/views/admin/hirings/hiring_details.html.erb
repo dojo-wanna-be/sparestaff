@@ -127,7 +127,7 @@
                     <span>
                       <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
                     </span>
-                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,class: 'delete_message' do %>
+                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,data: {confirm: 'Are you sure ?'},class: 'delete_message' do %>
                       <%= image_tag 'delete-icon.png' %>
                     <% end %>
                   </div>
@@ -154,7 +154,7 @@
                     <span>
                       <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
                     </span>
-                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,class: 'delete_message' do %>
+                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,data: {confirm: 'Are you sure ?'},class: 'delete_message' do %>
                       <%= image_tag 'delete-icon.png' %>
                     <% end %>
                   </div>
