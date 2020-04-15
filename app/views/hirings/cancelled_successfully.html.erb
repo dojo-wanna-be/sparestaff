@@ -107,7 +107,7 @@
                 Total Fees
               </div>
               <div class="right-item">
-                $<%= (@refund_receipt.amount + @refund_receipt.service_fee).round(2) %>
+                $<%= (@refund_receipt&.amount.to_f + @refund_receipt&.service_fee.to_f).round(2) %>
               </div>
             </div>
             <div class="list-item">
