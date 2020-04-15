@@ -112,6 +112,7 @@
     <div class="right-detail">
       <div class="message-chat-block">
         <div id="message_container">
+        <% if @messages.present? %>
           <% @messages.each do |message|%>
             <% if message.sender_id == current_user.id %>
               <div class="message-chat-block__box right_user_direction">
@@ -174,6 +175,7 @@
               <div class="mid-text">HIRING CANCELLED 12 MAR 2019 BY HIRER</div>
               <div class="gray-line"></div>
             </div> -->
+          <% end %>
           <% end %>
         </div>
       </div>
