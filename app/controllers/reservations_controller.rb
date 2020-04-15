@@ -50,21 +50,27 @@ class ReservationsController < ApplicationController
   end
 
   def accept
-    if @transaction.update_attributes(state: "accepted")
-      if(@transaction.old_transaction.present?)
-        old_transaction = Transaction.find(@transaction.old_transaction)
-        old_transaction.update_attributes(state: "completed", status: false)
+    begin
+      ChargeForListing.new(@transaction.id).charge_first_time
+      if @transaction.update_attributes(state: "accepted")
+        if(@transaction.old_transaction.present?)
+          old_transaction = Transaction.find(@transaction.old_transaction)
+          old_transaction.update_attributes(state: "completed", status: false)
+        end
+        @listing = @transaction.employee_listing
+        hirer = User.find_by(id: @transaction.hirer_id)
+        create_message
+        ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
+        ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
+        #ChargeForListing.new(@transaction.id).charge_first_time
+        PaymentWorker.perform_at((@transaction.start_date + 1.week).to_datetime, @transaction.id, @transaction.frequency)
+        redirect_to inbox_path(id: @transaction.conversation.id)
+      else
+        flash[:error] = "Something went wrong"
+        redirect_to inbox_path(id: @transaction.conversation.id)
       end
-      @listing = @transaction.employee_listing
-      hirer = User.find_by(id: @transaction.hirer_id)
-      create_message
-      ReservationMailer.employee_hire_confirmation_email_to_poster(@listing, current_user, @transaction).deliver_later!
-      ReservationMailer.employee_hire_confirmation_email_to_hirer(@listing, hirer, @transaction).deliver_later!
-      ChargeForListing.new(@transaction.id).charge_first_time   
-      PaymentWorker.perform_at((@transaction.start_date + 1.week).to_datetime, @transaction.id, @transaction.frequency)
-      redirect_to inbox_path(id: @transaction.conversation.id)
-    else
-      flash[:error] = "Something went wrong"
+    rescue => e
+      flash[:error] = e.error.message
       redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end

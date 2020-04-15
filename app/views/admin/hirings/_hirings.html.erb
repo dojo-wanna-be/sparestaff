@@ -1,34 +1,34 @@
 <div class="csv_table">
   <div class="csv_table_row gray_bg">
    	<div class="Width50Px">ID</div>
-    <div class="Width150Px">Listing Title</div>
-    <div class="Width150Px">Employee</div>
-    <div class="Width150Px">Hirer</div>
-    <div class="Width150Px">Poster</div>
-    <div class="Width150Px">Classification</div>
+    <div class="Width100Px">Listing Title</div>
+    <div class="Width100Px">Employee</div>
+    <div class="Width100Px">Hirer</div>
+    <div class="Width100Px">Poster</div>
+    <div class="Width100Px">Classification</div>
     <div class="Width100Px">Started</div>
     <div class="Width100Px">Status</div>
     <div class="Width100Px">Hiring Fee</div>
     <div class="Width100Px">Hirer Fee</div>
     <div class="Width100Px">Poster Fee</div>
-    <div class="Width150Px">Action</div>
+    <div class="Width100Px">Action</div>
   </div>
   <% @hirings_transactions.each do |transaction| %>
     <div class="csv_table_row">
       <div class="Width50Px">
         <%= link_to transaction.id,  hiring_details_admin_hirings_path(id: transaction.id), class: 'spare_link', target: '_blank' %>
       </div>
-      <div class="Width150Px"><%#=transaction.poster.employee_listings.first.title%>
+      <div class="Width100Px"><%#=transaction.poster.employee_listings.first.title%>
         <%= link_to transaction.employee_listing.title, employee_path(id: transaction.employee_listing.id), class: 'spare_link', target: '_blank' %>
       </div>
-      <div class="Width150Px"><%=transaction.employee_listing.name%></div>
-      <div class="Width150Px"><%#=transaction.hirer&.name%>
+      <div class="Width100Px"><%=transaction.employee_listing.name%></div>
+      <div class="Width100Px"><%#=transaction.hirer&.name%>
         <%= link_to transaction.hirer.name, user_path(id: transaction.hirer.id), class: 'spare_link', target: '_blank' %>
       </div>
-      <div class="Width150Px"><%#=transaction.poster&.name%>
+      <div class="Width100Px"><%#=transaction.poster&.name%>
         <%= link_to transaction.poster.name, user_path(id: transaction.poster.id), class: 'spare_link', target: '_blank' %>
       </div>
-        <div class="Width150Px"><%=transaction.employee_listing.classification.name%></div>
+        <div class="Width100Px"><%=transaction.employee_listing.classification.name%></div>
       <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
 
       <% if transaction.state.eql?("initialized") %>
@@ -47,7 +47,7 @@
       <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
       <div class="Width100Px">$<%=transaction.total_service_fee.round(2)%></div>
       <div class="Width100Px">$<%=transaction.poster_total_service_fee.round(2)%></div>
-      <div class="Width150Px">
+      <div class="Width100Px">
         <!-- <a class="nav-link" data-toggle="modal" data-target="#loginModal" href="javascript:;">Log in</a> -->
         <%= link_to 'View Pending Charges', 'javascript:;', data: {target: "#pending_details_#{transaction.id}", toggle: "modal" }%></div>
     </div>
