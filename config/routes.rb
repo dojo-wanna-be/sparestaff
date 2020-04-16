@@ -22,6 +22,8 @@ Rails.application.routes.draw do
         delete :delete_message
       end
     end
+    resources :coupons do
+    end
     resources :employee_listings
     get '' => "users#index"
   end

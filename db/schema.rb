@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_044245) do
+ActiveRecord::Schema.define(version: 2020_04_16_054505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_044245) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_id"
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "coupon_code"
+    t.float "discount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -349,6 +356,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_044245) do
     t.string "request_by"
     t.integer "old_transaction"
     t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
+  end
+
+  create_table "user_coupons", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "coupon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
