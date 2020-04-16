@@ -10,11 +10,11 @@ RSpec.describe TransactionsController, type: :controller do
     if conversation.present?
       conversation.first
     else
-      Conversation.create!( receiver_id: @transaction.poster_id,
-                            sender_id: @transaction.hirer_id,
-                            employee_listing_id: @employee_listing.id,
-                            transaction_id: @transaction.id
-                          )
+      # Conversation.create!( receiver_id: @transaction.poster_id,
+      #                       sender_id: @transaction.hirer_id,
+      #                       employee_listing_id: @employee_listing.id,
+      #                       transaction_id: @transaction.id
+      #                     )
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe TransactionsController, type: :controller do
 
 				# after this it goes to request_sent_successfully
 				  get :request_sent_successfully, params: {id: @transaction.id}
-				  expect(response.success?).to eq(true)
+				  expect(response.successful?).to eq(true)
 				  expect(response.status).to eq(200) 
   		end
   	end

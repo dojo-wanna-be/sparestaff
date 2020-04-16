@@ -24,7 +24,7 @@ RSpec.describe HomeHelper, type: :helper do
   describe "#distance_form_search(@employee_listing)" do
     it "returns distance" do
       helper.stub(params: {latitude: 28.7040592, longitude: 77.1024902})
-      helper.distance_form_search(@employee_listing.id).should eq(0.0)
+      helper.distance_form_search(@employee_listing.id).should be > 0
     end
   end
 end

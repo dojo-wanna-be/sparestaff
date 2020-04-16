@@ -14,7 +14,7 @@ RSpec.describe HomeController, type: :controller do
 
 	  it "has a 200 status code" do
 	    get :index
-	    expect(response.success?).to eq(true)
+	    expect(response.successful?).to eq(true)
     	expect(response.status).to eq(200)
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe HomeController, type: :controller do
 
 	  it "has a 200 status code" do
 	    get :email_availability, params: {user: {email: "poster123@gmail.com"}, form: "login", :format => :json}
-	    expect(response.success?).to eq(true)
+	    expect(response.successful?).to eq(true)
     	expect(response.status).to eq(200)
     end
   end

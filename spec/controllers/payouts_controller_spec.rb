@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
-
-	before(:each) do
+RSpec.describe PayoutsController, type: :controller do
+ 
+  before(:each) do
     @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com", password: "12345678", password_confirmation: "12345678")
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -17,32 +17,31 @@ RSpec.describe UsersController, type: :controller do
   end
 
 
-  describe "POST #profile_photo" do
+  describe "GET #index" do
 
 	  it "has a 200 status code" do
-	    post :profile_photo, params: {user: {avatar: fixture_file_upload("/files/test.jpeg",
-      "image/png")} }
-	    expect(response.success?).to eq(true)
+	    get :index
+	    expect(response.successful?).to eq(true)
     	expect(response.status).to eq(200)
     end
   end
 
-  describe "GET edit/:id" do
+  describe "GET transaction_history" do
 
-	  it "has a 200 status code" do
-	    user = controller.current_user
-	    user.update_attributes(first_name: "jack", last_name: "paul")
-	    expect(user.first_name).to eq("jack")
-    	expect(user.last_name).to eq("paul")
+    it "show Completed Payouts details" do
+    	get :transaction_history
+    	expect(response.successful?).to eq(true)
     	expect(response.status).to eq(200)
     end
   end
 
-  describe "GET show/:id" do
-  	it "has 200 status code" do
-  		get :show, params: {id: @hirer.id}
-  		expect(response.success?).to eq(true)
-    	expect(response.status).to eq(200)
-  	end
+
+  describe "POST security/:id" do
+	  it "check password security" do
+	  	post :security, params: {old_password: "12345678", new_password: "adware@123"}
+      expect(flash[:success]).to eq("Password updated successfully!")
+      response.should redirect_to(root_path)
+	  end
   end
+
 end

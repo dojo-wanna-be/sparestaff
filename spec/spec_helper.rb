@@ -1,6 +1,13 @@
 # spec_helper.rb
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+ add_filter "helpers"
+ add_filter "mailers"
+ add_filter "lib/custom_failure.rb"
+ add_filter "services"
+ add_filter "config/environment.rb"
+ add_filter "app/controllers/application_controller.rb"
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

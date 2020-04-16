@@ -1,4 +1,11 @@
 FactoryGirl.define do
+  factory :classification do
+    id 413
+    parent_classification_id 389
+    name "Other"
+    created_at DateTime.now
+    updated_at DateTime.now
+  end
 
 
   factory :review  do
@@ -36,7 +43,7 @@ FactoryGirl.define do
      end_time  3.months.from_now
      created_at DateTime.now
      updated_at DateTime.now
-     booking_date 2.days.from_now
+     booking_date Date.today
   end
 
   factory :transaction do             

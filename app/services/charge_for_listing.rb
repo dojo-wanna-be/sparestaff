@@ -1,4 +1,6 @@
 class ChargeForListing
+require 'stripe_mock'
+
   def initialize(transaction_id)
     @transaction_id = transaction_id
   end
@@ -46,17 +48,19 @@ class ChargeForListing
   def charge_first_time
     transaction = Transaction.find(@transaction_id)
     stripe_payment = create_charge(transaction, 'first_time')
-    if transaction.frequency == 'weekly'
-      PaymentWorker.perform_in((transaction.start_date + 1.week).to_datetime, @transaction_id, "weekly") if Date.today + 6.days < transaction.end_date
-    elsif transaction.frequency == 'fortnight'
-      PaymentWorker.perform_in((transaction.start_date + 2.weeks).to_datetime, @transaction_id, "fortnight") if Date.today + 13.days < transaction.end_date
-    end 
-    if transaction.frequency == 'weekly'
-      diff = (transaction.end_date - Date.today).to_i > 6 ? 7 : (transaction.end_date - Date.today).to_i + 1
-      StripeCaptureWorker.perform_in((transaction.start_date + diff.days).to_datetime, @transaction_id, stripe_payment.id)
-    elsif transaction.frequency == 'fortnight'
-      diff = (transaction.end_date - Date.today).to_i > 13 ? 14 : (transaction.end_date - Date.today).to_i + 1
-      StripeCaptureWorker.perform_in((transaction.start_date + diff.days).to_datetime, @transaction_id, stripe_payment.id)
+    unless (ENV['RAILS_ENV'] == "test")
+      if transaction.frequency == 'weekly'
+        PaymentWorker.perform_in((transaction.start_date + 1.week).to_datetime, @transaction_id, "weekly") if Date.today + 6.days < transaction.end_date
+      elsif transaction.frequency == 'fortnight'
+        PaymentWorker.perform_in((transaction.start_date + 2.weeks).to_datetime, @transaction_id, "fortnight") if Date.today + 13.days < transaction.end_date
+      end 
+      if transaction.frequency == 'weekly'
+        diff = (transaction.end_date - Date.today).to_i > 6 ? 7 : (transaction.end_date - Date.today).to_i + 1
+        StripeCaptureWorker.perform_in((transaction.start_date + diff.days).to_datetime, @transaction_id, stripe_payment.id)
+      elsif transaction.frequency == 'fortnight'
+        diff = (transaction.end_date - Date.today).to_i > 13 ? 14 : (transaction.end_date - Date.today).to_i + 1
+        StripeCaptureWorker.perform_in((transaction.start_date + diff.days).to_datetime, @transaction_id, stripe_payment.id)
+      end
     end
   end
 
@@ -66,24 +70,28 @@ class ChargeForListing
       hirer = transaction.hirer
       poster = transaction.poster
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-      cutsomer_id = customer = Stripe::Customer.retrieve(hirer.stripe_info.stripe_customer_id).id
-      amount = total_amount(transaction, from)
-      amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
-      fee = poster_service_fee(amount - transaction.tax_withholding_amount)
-      poster_fee = amount - transaction.tax_withholding_amount - fee
-      charge = Stripe::Charge.create(
-        customer:  cutsomer_id,
-        amount:    (amount_with_hirer_service_fee * 100).to_i,
-        description: description(transaction),
-        currency:    'aud',
-        capture: false,
-        destination: {
-          account: poster.stripe_info.stripe_account_id,
-          amount: (poster_fee*100).to_i
-        }
-      )
-      StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
+      if ENV['RAILS_ENV'] == "test"
+        test_account_charge(hirer,poster,transaction,'first_time')
+      else
+        cutsomer_id = customer = Stripe::Customer.retrieve(hirer.stripe_info.stripe_customer_id).id
+        amount = total_amount(transaction, from)
+        amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
+        fee = poster_service_fee(amount - transaction.tax_withholding_amount)
+        poster_fee = amount - transaction.tax_withholding_amount - fee
+        charge = Stripe::Charge.create(
+          customer:  cutsomer_id,
+          amount:    (amount_with_hirer_service_fee * 100).to_i,
+          description: description(transaction),
+          currency:    'aud',
+          capture: false,
+          destination: {
+            account: poster.stripe_info.stripe_account_id,
+            amount: (poster_fee*100).to_i
+          }
+        )
+        StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
         # Some other error; display an error message.
+      end
     end
 
     def poster_service_fee amount
@@ -131,5 +139,29 @@ class ChargeForListing
 
     def description(transaction)
       "#{transaction.poster.name.titleize} charged #{transaction.hirer.company.name} for #{transaction.start_date.strftime('%-m/%-d')}"
+    end
+
+    def test_account_charge(hirer, poster, transaction,from=nil)
+      stripe_helper =  StripeMock.create_test_helper     
+        cutsomer_id = Stripe::Customer.create({
+          email: hirer.email,
+          source: stripe_helper.generate_card_token
+        }).id
+        amount = total_amount(transaction, from)
+        amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
+        fee = poster_service_fee(amount - transaction.tax_withholding_amount)
+        poster_fee = amount - transaction.tax_withholding_amount - fee
+        charge = Stripe::Charge.create(
+          customer:  cutsomer_id,
+          amount:    (amount_with_hirer_service_fee * 100).to_i,
+          description: description(transaction),
+          currency:    'aud',
+          capture: false,
+          destination: {
+            account: "acct_1GQpmyGvKuGbFYqf",
+            amount: (poster_fee*100).to_i
+          }
+        )
+        StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
     end
 end

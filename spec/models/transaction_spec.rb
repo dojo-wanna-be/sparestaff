@@ -40,12 +40,27 @@ RSpec.describe Transaction, type: :model do
     let(:lister)  {FactoryGirl.create(:company)}
     let(:employee_listing) {FactoryGirl.create(:employee_listing, lister_id: @lister.id)}
     let(:transaction) {FactoryGirl.create(:transaction, employee_listing_id: @employee_listing.id, hirer_id: @hirer.id, poster_id: @poster.id )}
-
+    
   	it "calculate service fee, when is_withholding_tax present" do 
       expect(transaction.service_fee).to be_positive
   	end
 
+    it "calculate service fee, when is_withholding_tax not present" do 
+      transaction.update_attribute(:is_withholding_tax, false)
+      expect(transaction.service_fee).to be_positive
+    end
+
     it "calculate total_service_fee" do 
+      expect(transaction.total_service_fee).to be_positive
+    end
+
+    it "calculate total_service_fee, when full_week = 0" do 
+      @transaction.update_attributes(start_date: Date.today, end_date: Date.today + 2.days)
+      expect(@transaction.total_service_fee).to be_positive
+    end
+
+    it "calculate total_service_fee when is_withholding_tax not present" do
+      transaction.update_attribute(:is_withholding_tax, false)
       expect(transaction.total_service_fee).to be_positive
     end
 
@@ -53,25 +68,103 @@ RSpec.describe Transaction, type: :model do
       expect(transaction.poster_service_fee).to be_positive
     end
 
+    it "calculate poster_service_fee when is_withholding_tax not present" do
+      transaction.update_attribute(:is_withholding_tax, false)
+      expect(transaction.poster_service_fee).to be_positive
+    end
+
     it "calculate poster_total_service_fee" do 
       expect(transaction.poster_total_service_fee).to be_positive
+    end
+
+    it "calculate poster_total_service_fee, when full_week = 0" do 
+      @transaction.update_attributes(start_date: Date.today, end_date: Date.today + 2.days)
+      expect(@transaction.poster_total_service_fee).to be >0
     end
 
     it "calculate remaining_tax_withholding" do
       expect(transaction.remaining_tax_withholding(transaction.amount)).to be >= 0
     end
 
+    it "calculate remaining_tax_withholding, when is_withholding_tax false" do
+      transaction.update_attribute(:is_withholding_tax, false)
+      expect(transaction.remaining_tax_withholding(transaction.amount)).to eq(0)
+    end
+
     it "total_tax_withholding" do 
       expect(transaction.total_tax_withholding).to be >=0
     end
+
+    it "total_tax_withholding, when full_week = 0 " do 
+      @transaction.update_attributes(start_date: Date.today, end_date: Date.today + 2.days)
+      expect(@transaction.total_tax_withholding).to eq(0.0)
+    end
+
+    it "total_tax_withholding, when is_withholding_tax false" do
+      @transaction.update_attribute(:is_withholding_tax, false) 
+      expect(@transaction.total_tax_withholding).to eq(0)
+    end
     
+    it "total_amount" do 
+      expect(transaction.total_amount).to be > 0
+    end
+
+    it "total_amount when full_week = 0" do 
+      @transaction.update(start_date: Date.today, end_date: Date.today + 2.days)
+      expect(@transaction.total_amount).to be > 0
+    end
+
+    it "poster_total_amount" do 
+      expect(transaction.poster_total_amount).to be > 0
+    end
+
+    it "poster_total_amount" do 
+      @transaction.update(start_date: Date.today, end_date: Date.today + 2.days)
+      expect(@transaction.poster_total_amount).to be > 0
+    end
+
+    it "get_beginning_day" do
+      expect(transaction.get_beginning_day)
+    end
+
+    it "missed_earning" do
+      expect(transaction.missed_earning).to be >0
+    end
+
+    it "partial_hiring_fee" do
+      @booking = FactoryGirl.create(:booking, transaction_id: transaction.id)
+      expect(transaction.partial_hiring_fee).to be >0
+    end
+
+    it "partial_hiring_fee" do
+      @booking = FactoryGirl.create(:booking, transaction_id: transaction.id, day: "sunday")
+      expect(transaction.partial_hiring_fee).to be >0
+    end
+
     it "hirer_weekly_amount" do
     	expect(transaction.hirer_weekly_amount).to be >=0
     end
 
+    it "accepted" do
+      expect(transaction.accepted).to be (false)
+    end
+    
     it "poster_weekly_amount" do
     	expect(transaction.poster_weekly_amount).to be >=0
     end
+
+    it "week_day_bookings" do
+      @booking = FactoryGirl.create(:booking, transaction_id: transaction.id)
+      week_day_booking = transaction.week_day_bookings
+      expect(week_day_booking).to be >0
+    end
+
+    it "week_end_bookings" do
+      @booking = FactoryGirl.create(:booking, transaction_id: transaction.id)
+      week_end_bookings = transaction.week_end_bookings
+      expect(week_end_bookings).to be >=0
+    end
+
   end
 
 end

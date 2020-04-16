@@ -44,6 +44,11 @@ RSpec.describe EmployeeListing, type: :model do
         employee_listing.update_attribute(:published, false)
         expect(employee_listing.published).to be_falsey
       end
+
+      it "use method for display first and last name of listing" do
+        emp_name = employee_listing.name
+        expect(emp_name).to eq("james clark")
+      end
   end
 
 end

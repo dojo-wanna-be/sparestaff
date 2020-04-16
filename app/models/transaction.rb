@@ -109,26 +109,26 @@ class Transaction < ApplicationRecord
     bookings.where("day = 0 OR day = 6").count
   end
 
-  def total_days(day)
-    no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[day].count
-  end
+  # def total_days(day)
+  #   no_of_mondays = (self.start_date..self.end_date).group_by(&:wday)[day].count
+  # end
 
-  def no_of_total_weekdays
-    total_weekdays =  {
-                        mondays: total_days(1),
-                        tuesdays: total_days(2),
-                        wednesdays: total_days(3),
-                        thursdays: total_days(4),
-                        fridays: total_days(5)
-                      }
-  end
+  # def no_of_total_weekdays
+  #   total_weekdays =  {
+  #                       mondays: total_days(1),
+  #                       tuesdays: total_days(2),
+  #                       wednesdays: total_days(3),
+  #                       thursdays: total_days(4),
+  #                       fridays: total_days(5)
+  #                     }
+  # end
 
-  def no_of_total_weekends
-    total_weekdays =  {
-                        sundays: total_days(0),
-                        saturdays: total_days(6)
-                      }
-  end
+  # def no_of_total_weekends
+  #   total_weekdays =  {
+  #                       sundays: total_days(0),
+  #                       saturdays: total_days(6)
+  #                     }
+  # end
 
   def service_fee
     if is_withholding_tax
