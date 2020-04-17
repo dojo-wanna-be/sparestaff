@@ -32,26 +32,33 @@ class Admin::HiringsController < Admin::AdminBaseController
   def hiring_details
     @transaction = Transaction.find(params[:id])
     @listing = EmployeeListing.find(@transaction.poster.id)
-    @conversation = @transaction.conversation
-    @messages = @conversation.messages.order(created_at: :DESC)
+    if @transaction.conversation.present?
+      @conversation = @transaction.conversation
+      @messages = @conversation.messages.order(created_at: :DESC)
+    end
   end
 
-  # def search
-  #   binding.pry
-  #   # @q = Transaction.search(params[:q])
-  #   # q = {}
-  #   # if params[:keyword_search].present?
-  #   #   q[:employee_listings_id_or_employee_listings_name_or_employee_listings_poster_name_or_employee_listings_title_eq] = params[:keyword_search]
-  #   # end
-  #   # if params[:start_date].present?
-  #   #   q[:start_date_gteq] = params[:start_date].to_date
-  #   # end
-  #   # if params[:end_date].present?
-  #   #   q[:start_date_lteq] = params[:end_date].to_date
-  #   # end
-  #   #@hirings_transactions = Transaction.includes(:employee_listing).ransack(q).result(distinct: true)
-  #   #@hirings_transactions = @hirings_transactions.order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:show_per_page])
-  # end
+  def delete_message
+    message = Message.find_by(id: params[:id])
+    message.deleted_by = current_user.id
+    message.save
+  end
+
+  def search
+    @q = Transaction.search(params[:q])
+    q = {}
+    if params[:keyword_search].present?
+      q[:employee_listings_id_or_employee_listings_name_or_employee_listings_poster_name_or_employee_listings_title_eq] = params[:keyword_search]
+    end
+    if params[:start_date].present?
+      q[:start_date_gteq] = params[:start_date].to_date
+    end
+    if params[:end_date].present?
+      q[:start_date_lteq] = params[:end_date].to_date
+    end
+    @hirings_transactions = Transaction.includes(:employee_listing).ransack(q).result(distinct: true)
+    @hirings_transactions = @hirings_transactions.order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:show_per_page])
+  end
 
   def show_all_listings
     @employee_listings = @person.employee_listings

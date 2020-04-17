@@ -58,7 +58,9 @@
       <% if @hirings_transactions.present? %>
       <div class="featured-listings-box">
         <div class="sort_paginate_ajax" id="hirings">
-          <%= render partial: "hirings", locals: {hirings: @hirings_transactions} %>
+          <div class="main_table_container">
+            <%= render partial: "hirings", locals: {hirings: @hirings_transactions} %>
+          </div>
         </div>    
       <% else%>
         <div class="featured-listings-box">

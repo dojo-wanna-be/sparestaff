@@ -71,18 +71,45 @@ class ChargeForListing
       amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
       fee = poster_service_fee(amount - transaction.tax_withholding_amount)
       poster_fee = amount - transaction.tax_withholding_amount - fee
-      charge = Stripe::Charge.create(
-        customer:  cutsomer_id,
-        amount:    (amount_with_hirer_service_fee * 100).to_i,
-        description: description(transaction),
-        currency:    'aud',
-        capture: false,
-        destination: {
-          account: poster.stripe_info.stripe_account_id,
-          amount: (poster_fee*100).to_i
-        }
-      )
-      StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
+      stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee,stripe_charge_id:, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: Date.today + 6.days)
+      begin
+        charge = Stripe::Charge.create(
+          customer:  cutsomer_id,
+          amount:    (amount_with_hirer_service_fee * 100).to_i,
+          description: description(transaction),
+          currency:    'aud',
+          capture: false,
+          destination: {
+            account: poster.stripe_info.stripe_account_id,
+            amount: (poster_fee*100).to_i
+          }
+        )
+        stripe_payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
+      rescue => e
+        stripe_payment.update(reason: e.error.message)
+      end
+      failed_payments = transaction.stripe_payments.where.not(status: "succeeded")
+      if !failed_payments.blank?
+        failed_payments.each do |payment|
+          #amount_with_hirer_service_fee = payment.amount + payment.listing_transaction.service_fee - payment.listing_transaction.tax_withholding_amount
+          begin
+            charge = Stripe::Charge.create(
+              customer:  cutsomer_id,
+              amount:    (amount_with_hirer_service_fee * 100).to_i,
+              description: description(transaction),
+              currency:    'aud',
+              capture: false,
+              destination: {
+                account: poster.stripe_info.stripe_account_id,
+                amount: (poster_fee*100).to_i
+              }
+            )
+            payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
+          rescue => e
+            payment.update(reason: e.error.message)
+          end
+        end
+      end
         # Some other error; display an error message.
     end
 

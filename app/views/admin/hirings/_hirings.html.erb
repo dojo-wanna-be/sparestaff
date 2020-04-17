@@ -47,9 +47,9 @@
       <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
       <div class="Width100Px">$<%=transaction.total_service_fee.round(2)%></div>
       <div class="Width100Px">$<%=transaction.poster_total_service_fee.round(2)%></div>
-      <div class="Width100Px">
+      <div class="Width200Px">
         <!-- <a class="nav-link" data-toggle="modal" data-target="#loginModal" href="javascript:;">Log in</a> -->
-        <%= link_to 'View Pending Charges', 'javascript:;', data: {target: "#pending_details_#{transaction.id}", toggle: "modal" }%></div>
+        <%= link_to 'View Pending Charges and payouts', 'javascript:;', data: {target: "#pending_details_#{transaction.id}", toggle: "modal" }%></div>
     </div>
   <%end%>
 </div>
@@ -57,27 +57,56 @@
   <%= js_will_paginate @hirings_transactions %>
 </div>
 
-
-
-
-
-
-
-
-
-
 <% @hirings_transactions.each do |transaction| %>
   <div class="modal custom-modal" id="pending_details_<%= transaction.id %>">
     <div class="modal-dialog">
       <div class="modal-content">
-
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
         </div>
-
         <div class="modal-body">
-          <div class="facebook-login">
-            <%= transaction.id %>
+          <div class="main_table_container">
+            <% unless transaction.stripe_payments.where.not(status: "succeeded", charge_type: "partial").blank? %>
+              <div class="">Pending charges to hirer and payouts to poster</div>
+              <div class="csv_table">
+                <div class="csv_table_row gray_bg">
+                  <div class="Width50Px">ID</div>
+                  <div class="Width150Px">Employee</div>
+                  <div class="Width150Px">Hirer</div>
+                  <div class="Width150Px">Hirer Amount</div>
+                  <div class="Width150Px">Poster</div>
+                  <div class="Width150Px">Poster Amount</div>
+                  <div class="Width150Px">Status</div>
+                  <div class="Width200Px">Cycle Start date</div>
+                  <div class="Width200Px">Cycle End date</div>
+                </div>
+                <% transaction.stripe_payments.where.not(status: "succeeded", charge_type: "partial").each do |payment| %>
+                  <div class="csv_table_row">
+                    <div class="Width50Px">
+                      <%= link_to payment.id, 'javascript:;', class: 'spare_link', target: '_blank' %>
+                    </div>
+                    <div class="Width150Px"><%= transaction.employee_listing.name %></div>
+                    <div class="Width150Px">
+                      <%= link_to transaction.hirer.name, user_path(id: transaction.hirer.id), class: 'spare_link', target: '_blank' %>
+                    </div>
+                    <div class="Width150Px">$<%= (payment.amount - transaction.tax_withholding_amount + transaction.service_fee).round(2)%></div>
+                    <div class="Width150Px">
+                      <%= link_to transaction.poster.name, user_path(id: transaction.poster.id), class: 'spare_link', target: '_blank' %>
+                    </div>
+                    <div class="Width150Px">
+                      <%= payment.poster_service_fee %>
+                    </div>
+                    <div class="Width150Px"><%#=transaction.poster.employee_listings.first.title%>
+                      <%= payment.status %>
+                    </div>
+                    <div class="Width200Px"><%= payment.payment_cycle_start_date %></div>
+                    <div class="Width200Px"><%= payment.payment_cycle_end_date %></div>
+                  </div>
+                <%end%>
+              </div>
+            <% else %>
+              <div class="">No pending charges.</div>
+            <% end %>
             <%#= link_to "Log in with Facebook", user_facebook_omniauth_authorize_path, class: 'facebook-btn' %>
           </div>
         </div>
