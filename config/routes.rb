@@ -15,6 +15,14 @@ Rails.application.routes.draw do
         get :suspend_or_delete
       end
     end
+    resources :hirings do
+      collection do
+        get :search
+        get :hiring_details
+        delete :delete_message
+      end
+    end
+    resources :employee_listings
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do

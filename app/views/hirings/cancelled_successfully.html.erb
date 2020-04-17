@@ -123,7 +123,7 @@
                 <strong>Your Total Refund</strong>
               </div>
               <div class="right-item">
-                <strong>$<%= (@refund_receipt.amount).round(2) %></strong>
+                <strong>$<%= (@refund_receipt&.amount.to_f).round(2) %></strong>
               </div>
             </div>
           </div>

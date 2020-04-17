@@ -18,11 +18,16 @@ class StripeRefundAmount
       #   end
       if @transaction.start_date > Date.today
         @amount = @transaction.amount - @transaction.tax_withholding_amount + @transaction.service_fee
-        refund = Stripe::Refund.create({
-          charge: @charge_id,
-          amount: (@amount*100).to_i,
-        })
-        StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, refund_id: refund.id, status: refund.status)
+        stripe_refund = StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, stripe_charge_id: @charge_id, status: "failed")
+        begin
+          refund = Stripe::Refund.create({
+            charge: @charge_id,
+            amount: (@amount*100).to_i,
+          })
+          stripe_refund.update(refund_id: refund.id, status: refund.status, reason: refund.reason)
+        rescue => e
+          stripe_refund.update(reason: e.error.message)
+        end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee)
       elsif @transaction.start_date == Date.today
         @amount = @transaction.amount + @transaction.amount * 0.03
@@ -97,31 +102,41 @@ class StripeRefundAmount
         amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50
         poster_recieve = (amount_with_taxwithholding - (amount_with_taxwithholding * 10/100)).round(2)
         with_destination = poster_recieve > 0
-        if with_destination
-          charge = Stripe::Charge.create(
-            customer:  cutsomer_id,
-            amount:    (amount_with_service_fee * 100).to_i,
-            currency:  'aud',
-            capture: true,
-            destination: {
-              account: poster.stripe_info.stripe_account_id,
-              amount: (poster_recieve*100).to_i
-            }
-          )
-        else
-          charge = Stripe::Charge.create(
-            customer:  cutsomer_id,
-            amount:    (amount_with_service_fee * 100).to_i,
-            currency:  'aud',
-            capture: true
-          )
+        stripe_payment = StripePayment.create!(transaction_id: @transaction.id, amount: amount, poster_service_fee: poster_recieve, status: "failed", charge_type: "partial")
+        begin
+          if with_destination
+            charge = Stripe::Charge.create(
+              customer:  cutsomer_id,
+              amount:    (amount_with_service_fee * 100).to_i,
+              currency:  'aud',
+              capture: true,
+              destination: {
+                account: poster.stripe_info.stripe_account_id,
+                amount: (poster_recieve*100).to_i
+              }
+            )
+          else
+            charge = Stripe::Charge.create(
+              customer:  cutsomer_id,
+              amount:    (amount_with_service_fee * 100).to_i,
+              currency:  'aud',
+              capture: true
+            )
+          end
+          stripe_payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
+        rescue => e
+          stripe_payment.update(reason: e.error.message)
         end
-        StripePayment.create!(transaction_id: @transaction.id, amount: amount, poster_service_fee: poster_recieve, stripe_charge_id: charge.id)
-        refund = Stripe::Refund.create({
-          charge: @charge_id,
-          amount: (@amount * 100).to_i,
-        })
-        StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, refund_id: refund.id, status: refund.status)
+        stripe_refund = StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, stripe_charge_id: @charge_id, status: "failed", refund_type: "partial")
+        begin
+          refund = Stripe::Refund.create({
+            charge: @charge_id,
+            amount: (@amount * 100).to_i,
+          })
+          stripe_refund.update(refund_id: refund.id, status: refund.status, reason: refund.reason)
+        rescue => e
+          stripe_refund.update(status: e.error.message)
+        end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount - amount_with_service_fee, tax_withholding_amount: @transaction.remaining_tax_withholding(amount), service_fee: @transaction.service_fee)
       end
       #end

@@ -161,7 +161,7 @@ class HiringsController < ApplicationController
     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
     refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
-    refund_amount = @old_transaction.amount + @old_transaction.service_fee
+    refund_amount = (@old_transaction.amount - @old_transaction.tax_withholding_amount) + @old_transaction.service_fee
     #refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
       if @transaction.start_date > Date.today
@@ -173,10 +173,8 @@ class HiringsController < ApplicationController
   					  amount: (refund_amount*100).to_i,
   					})
   			  rescue => e
-  			    # Some other error; display an error message.
   			    flash[:error] = e.error.message
   			  end
-  		    # No exceptions were raised; Set our success message.
   		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
@@ -186,10 +184,8 @@ class HiringsController < ApplicationController
         	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
   		  	
   		  rescue Stripe::CardError => e
-  		    # CardError; display an error message.
   		    flash[:notice] = e.error.message
   		  rescue => e
-  		    # Some other error; display an error message.
   		    flash[:error] = e.error.message
   		  end
       else
@@ -281,7 +277,10 @@ class HiringsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    refund = StripeRefund.where(transaction_id: @transaction.id)
+    if refund.blank?
+      StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    end
     @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?

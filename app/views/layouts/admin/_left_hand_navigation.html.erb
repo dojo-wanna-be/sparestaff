@@ -2,26 +2,26 @@
   <div class="left_panel_list">
     <div class="panel_item">Your Account</div>
     <div class="panel_item">
-      <%= link_to 'Profile', edit_user_registration_path(is_admin: "admin"), class: "panel_link #{is_active_menu('show')}" %>
+      <%= link_to 'Profile', edit_user_registration_path(is_admin: "admin"), class: "panel_link #{is_active_navi('show', '')}" %>
     </div>
     <div class="panel_item">Manage</div>
     <div class="panel_item">
-      <%= link_to 'Users', '/admin', class: "panel_link #{is_active_menu('index')}" %>
+      <%= link_to 'Users', '/admin', class: "panel_link #{is_active_navi('index', 'users')}" %>
     </div>
     <div class="panel_item">
-      <%= link_to 'Listings', '#', class: "panel_link #{is_active_menu('user')}" %>
+      <%= link_to 'Listings', admin_employee_listings_path, class: "panel_link #{is_active_navi('index', 'employee_listings')}" %>
     </div>
     <div class="panel_item">
-      <%= link_to 'Hirings', '#', class: "panel_link #{is_active_menu('user')}" %>
+      <%= link_to 'Hirings',  admin_hirings_path, class: "panel_link #{is_active_navi('index', 'hirings')}" %>
     </div>
     <div class="panel_item">
-      <%= link_to 'Conversations', '#', class: "panel_link #{is_active_menu('user')}" %>
+      <%= link_to 'Conversations', '#', class: "panel_link #{is_active_navi('index', 'transactions')}" %>
     </div>
     <div class="panel_item">
-      <%= link_to 'Reviews', '#', class: "panel_link #{is_active_menu('user')}" %>
+      <%= link_to 'Reviews', '#', class: "panel_link #{is_active_navi('index', 'reviews')}" %>
     </div>
     <div class="panel_item">
-      <%= link_to 'Email Users', emails_admin_users_path, class: "panel_link #{is_active_menu('user')}" %>
+      <%= link_to 'Email Users', emails_admin_users_path, class: "panel_link #{is_active_navi('emails', 'users')}" %>
     </div>
   </div>
 </div>

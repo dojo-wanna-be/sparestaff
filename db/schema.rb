@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_064351) do
+ActiveRecord::Schema.define(version: 2020_04_15_141229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_064351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
+    t.integer "deleted_by"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
@@ -280,6 +281,10 @@ ActiveRecord::Schema.define(version: 2020_04_10_064351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
+    t.string "reason"
+    t.string "charge_type", default: "full"
+    t.datetime "payment_cycle_start_date"
+    t.datetime "payment_cycle_end_date"
     t.index ["transaction_id"], name: "index_stripe_payments_on_transaction_id"
   end
 
@@ -301,6 +306,11 @@ ActiveRecord::Schema.define(version: 2020_04_10_064351) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reason"
+    t.string "refund_type", default: "full"
+    t.string "stripe_charge_id"
+    t.datetime "payment_cycle_start_date"
+    t.datetime "payment_cycle_end_date"
   end
 
   create_table "tax_details", force: :cascade do |t|

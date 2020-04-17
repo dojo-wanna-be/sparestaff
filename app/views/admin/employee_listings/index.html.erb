@@ -11,7 +11,7 @@
     <div class="step_heading">Users</div>
 
     <div class="right_step user">
-      <%= render partial: "admin/users/search_form", locals: {action_url: admin_users_path, page_name: "users_index"} %>
+      <%= render partial: "admin/users/search_form", locals: {action_url: admin_employee_listings_path, page_name: "listings_index"} %>
       <div class="search_row">
         <select class="multiple_select" name="Multiple">
           <option>Multiple selection action</option>
@@ -20,18 +20,17 @@
           <option value="suspend_selected">Suspend selected accounts</option>
         </select>
         &nbsp;&nbsp;<button class="Width50Px gobutton">Go</button>
-        &nbsp; 0 of <%= @users.count %> selected
+        &nbsp; 0 of <%= @listings.count %> selected
       </div>
       <div class="error_arise">Please Select a value!</div>
 
       <div class="search_row">
-        <div>Displaying 1 - <%= @users.count %> of <%= @users.count - @users.where(is_suspended: true).count %> accepted users and <%= @users.where(is_suspended: true).count %>
-        suspended users</div>
+        <div>Displaying 1 - <%= @listings.count %> of <%= @listings.count %> listings </div>
         &nbsp;
         <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
       </div>
       <div class="main_table_container">
-        <% if @users.blank? %>
+        <% if @listings.blank? %>
           <div>No Results found</div>
         <% else %>
           <div class="csv_table">
@@ -41,56 +40,44 @@
                 <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
               </div>
               <div class="Width50Px">ID</div>
-              <div class="Width100Px">First name</div>
-              <div class="Width100Px">Last name</div>
-              <div class="Width200Px">Email</div>
-              <div class="Width100Px">Role</div>
-              <div class="Width150Px">Company</div>
-              <div class="Width100Px">Date joined</div>
-              <div class="Width100Px">Last login</div>
-              <div class="Width100Px text-center">Is suspended</div>
-              <div class="Width80Px text-center">Is admin</div>
-              <div class="Width80Px text-center">Suspend</div>
-              <% if current_user.is_superadmin %>
-                <div class="Width80Px text-center">Admin</div>
-              <% end %>
-              <div class="Width80Px text-center">Deleted</div>
-              <div class="Width80Px text-center">Edit user</div>
+              <div class="Width100Px">Title</div>
+              <div class="Width100Px">Employee</div>
+              <div class="Width100Px">Poster</div>
+              <div class="Width100Px">Classification</div>
+              <div class="Width100Px">Created</div>
+              <div class="Width100Px">Last updated</div>
+              <div class="Width100Px text-center">Status</div>
+              <div class="Width100Px text-center">Delete</div>
+              <div class="Width100Px text-center">Pause</div>
+              <div class="Width80Px text-center">Edit listing</div>
             </div>
             <div class="sort_paginate_ajax1">
-              <% @users.each do |person| %>
+              <% @listings.each do |listing| %>
                 <div class="csv_table_row">
                   <div class="Width30Px">
-                    <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
+                    <%= check_box_tag "person[#{listing.id}]", listing.id, nil, class: 'checkbox_input' %>
                     <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
                   </div>
                   <div class="Width50Px">
-                    <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
+                    <%= link_to listing.id, user_path(id: listing.id), class: 'spare_link', target: '_blank' %>
                   </div>
-                  <div class="Width100Px"><%= person.first_name %></div>
-                  <div class="Width100Px"><%= person.last_name %></div>
-                  <div class="Width200Px">
-                    <%= mail_to person.email, person.email, class: 'spare_link' %>
+                  <div class="Width100Px"><%= listing.title %></div>
+                  <div class="Width100Px">
+                    <%= listing.name %>
                   </div>
-                  <div class="Width100Px"><%= person.company&.role %></div>
-                  <div class="Width150Px"><%= person.company&.name %></div>
-                  <div class="Width100Px"><%= person.created_at.strftime("%b %e, %Y") %></div>
-                  <div class="Width100Px"><%= person.last_sign_in_at&.strftime("%b %e, %Y") %></div>
-                  <div class="Width100Px text-center suspend_user_<%= person.id %>"><%= person.is_suspended.eql?(true) ? "Yes" : "No" %></div>
-                  <div class="Width80Px text-center admin_user_<%= person.id %>"><%= person.is_admin.eql?(true) ? "Yes" : "No" %></div>
-                  <div class="Width80Px text-center">
-                    <%= check_box_tag 'suspend_user', person.id, nil, class: '' , checked: (person.is_suspended ? true : false) %>
-                    <%#= check_box_tag 'suspend_user', person.id %></div>
-                  <% if current_user.is_superadmin %>
-                    <div class="Width80Px text-center">
-                      <%= check_box_tag 'make_admin', person.id, nil, class: '' , checked: (person.is_admin ? true : false) %>
-                      <%#= check_box_tag 'make_admin', person.id %></div>
-                  <% end %>
-                  <div class="Width80Px text-center">
-                    <%= check_box_tag 'delete_user', person.id, nil, class: '' , checked: (person.deleted_at.present? ? true : false) %>
+                  <div class="Width100Px"><%= listing.poster&.name %></div>
+                  <div class="Width100Px"><%= listing&.name %></div>
+                  <div class="Width100Px"><%= listing.created_at.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px"><%= listing.updated_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px"><%= listing.updated_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px text-center suspend_user_<%= listing.id %>">
+                    <%= check_box_tag 'delete_user', listing.id, nil, class: '' %>
                   </div>
-                  <div class="Width80Px text-center">
-                    <%= link_to edit_admin_user_path(person.id) do %>
+                  <div class="Width100Px text-center">
+                    <%= check_box_tag 'delete_user', listing.id, nil, class: ''  %>
+                  </div>
+                  <div class="Width100Px text-center">
+                    <%= link_to edit_admin_user_path(listing.id) do %>
                       <%= image_tag 'pencil.png', class: "Height15px" %>
                     <% end %>
                   </div>
@@ -107,7 +94,7 @@
               </script>
             </div>
             <div class="will_pagination_box pagination_box">
-              <%= js_will_paginate @users, :previous_label => "<", :next_label => ">" %>
+              <%#= js_will_paginate @listings, :previous_label => "<", :next_label => ">" %>
             </div>
           </div>
         <% end %>

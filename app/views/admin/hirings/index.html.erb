@@ -1,0 +1,96 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Hirings
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Hirings</div>
+    <div class="right_step user">
+      <!-- <div class="search_row">
+        <input name="Text1" class="search_input" type="text" placeholder="Search by ID, listing title, employee, hirer, or poster">
+        <button class="search_btn">Search</button>
+        <%#= link_to 'Show all', '', class: 'spare_link' %>
+      </div> -->
+    <%= render partial: "admin/users/search_form", locals: {action_url: admin_hirings_path, page_name: "hirings_index"} %>
+    <%#= form_tag(search_admin_hirings_path, method: :get, id: 'search_form', remote: true)do %>
+      <%#= render partial: "hiring_search_bar"%>
+    <%# end %>
+      <!-- <div class="search_row">
+        <div class="from_date">
+          Started From (optional)<br>
+          <input name="Text2" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="to_date">
+          Started To (optional)<br>
+          <input name="Text3" class="Width125Px" type="text" placeholder="dd/mm/yyyy">
+        </div>
+        <div>
+          Show per page<br>
+          <select class="" name="D1">
+            <option value="50" selected="selected">50
+            </option>
+            <option>100</option>
+            <option>200</option>
+          </select>
+        </div>
+      </div> -->
+
+      <!-- <div class="search_row">
+        <select class="" name="Multiple">
+          <option selected="selected" value="Multiple selection action">Multiple selection action</option>
+          <option value="delete_selected">Delete selected accounts
+          </option>
+          <option>Suspend selected accounts</option>
+        </select>
+        &nbsp;&nbsp;<button class="Width50Px">Go</button>
+        &nbsp; 0 of 12 selected
+      </div> -->
+
+      <div class="search_row">
+        <div>Displaying 1 - 2 of 2 in total</div>
+        &nbsp;
+        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+      </div>
+      <% if @hirings_transactions.present? %>
+      <div class="featured-listings-box">
+        <div class="sort_paginate_ajax" id="hirings">
+          <div class="main_table_container">
+            <%= render partial: "hirings", locals: {hirings: @hirings_transactions} %>
+          </div>
+        </div>    
+      <% else%>
+        <div class="featured-listings-box">
+          <h1 class="featured-heading">Record not found.</h1>
+        </div>
+      <% end %>
+
+      <!-- <div class="pagination_box">
+        <a href="#" class="pagi_btn prev_next">&lt;</a>
+        <a href="#" class="pagi_btn selected_btn">1</a>
+        <a href="#" class="pagi_btn">2</a>
+        <a href="#" class="pagi_btn">3</a>
+        <a href="#" class="pagi_btn">4</a>
+        <a href="#" class="pagi_btn prev_next">&gt;</a>
+      </div> -->
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+  $(document).ready(function(){
+    $(".datepicker_calender").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      dateFormat: 'yyyy-mm-dd'
+    });
+  });
+</script>
