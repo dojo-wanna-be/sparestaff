@@ -33,7 +33,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,
-  default_scope { where(deleted_at: nil) }
+  # default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 
@@ -48,6 +48,8 @@ class User < ApplicationRecord
   has_one :stripe_info
   has_one :notification_setting
   has_many :reviews
+  has_many :user_coupons
+  has_many :coupons
   accepts_nested_attributes_for :company
 
 
