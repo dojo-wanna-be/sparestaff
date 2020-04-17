@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_04_16_054505) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,14 +229,6 @@ ActiveRecord::Schema.define(version: 2020_04_16_054505) do
     t.index ["transaction_id"], name: "index_payment_receipts_on_transaction_id"
   end
 
-  create_table "push_notification_settings", force: :cascade do |t|
-    t.bigint "user_id"
-    t.json "preferences", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_push_notification_settings_on_user_id"
-  end
-
   create_table "relevant_documents", force: :cascade do |t|
     t.bigint "employee_listing_id"
     t.datetime "created_at", null: false
@@ -296,6 +290,10 @@ ActiveRecord::Schema.define(version: 2020_04_16_054505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
+    t.string "reason"
+    t.string "charge_type", default: "full"
+    t.datetime "payment_cycle_start_date"
+    t.datetime "payment_cycle_end_date"
     t.index ["transaction_id"], name: "index_stripe_payments_on_transaction_id"
   end
 
@@ -317,6 +315,11 @@ ActiveRecord::Schema.define(version: 2020_04_16_054505) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reason"
+    t.string "refund_type", default: "full"
+    t.string "stripe_charge_id"
+    t.datetime "payment_cycle_start_date"
+    t.datetime "payment_cycle_end_date"
   end
 
   create_table "tax_details", force: :cascade do |t|

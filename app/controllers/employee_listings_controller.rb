@@ -265,7 +265,8 @@ class EmployeeListingsController < ApplicationController
       if @employee_listing.published?
         user_admin = User.where(is_admin: true)
         if user_admin.present?
-          UserMailer.admin_listing_confirmation(user_admin).deliver_later!
+          user_admin_ids = user_admin.ids
+          UserMailer.admin_listing_confirmation(user_admin_ids).deliver_later!
         end
 
         if @employee_listing.tfn.blank? || (@employee_listing.verification_front_image.blank? && @employee_listing.verification_back_image.blank?)

@@ -47,6 +47,7 @@ class Transaction < ApplicationRecord
   belongs_to :poster, class_name: "User", foreign_key: "poster_id"
   has_many :bookings, dependent: :destroy
   has_many :stripe_payments
+  has_many :stripe_refunds, foreign_key: "transaction_id"
   has_one :conversation, dependent: :destroy
   has_one :address, dependent: :destroy
   has_many :payment_receipts
