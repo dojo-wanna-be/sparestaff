@@ -10,7 +10,7 @@ class ChargeForListing
         PaymentWorker.perform_in(1.week, @transaction_id, "weekly") if Date.today + 6.days < transaction.end_date
       elsif frequency == 'fortnight'
         PaymentWorker.perform_in(2.weeks, @transaction_id, "fortnight") if Date.today + 13.days < transaction.end_date
-      end 
+      end
       if frequency == 'weekly'
         diff = (transaction.end_date - Date.today).to_i > 6 ? 7 : (transaction.end_date - Date.today).to_i + 1
         StripeCaptureWorker.perform_in(diff.days, @transaction_id, stripe_payment.id)
@@ -50,7 +50,7 @@ class ChargeForListing
       PaymentWorker.perform_in((transaction.start_date + 1.week).to_datetime, @transaction_id, "weekly") if Date.today + 6.days < transaction.end_date
     elsif transaction.frequency == 'fortnight'
       PaymentWorker.perform_in((transaction.start_date + 2.weeks).to_datetime, @transaction_id, "fortnight") if Date.today + 13.days < transaction.end_date
-    end 
+    end
     if transaction.frequency == 'weekly'
       diff = (transaction.end_date - Date.today).to_i > 6 ? 7 : (transaction.end_date - Date.today).to_i + 1
       StripeCaptureWorker.perform_in((transaction.start_date + diff.days).to_datetime, @transaction_id, stripe_payment.id)
@@ -71,7 +71,11 @@ class ChargeForListing
       amount_with_hirer_service_fee = amount + transaction.service_fee - transaction.tax_withholding_amount
       fee = poster_service_fee(amount - transaction.tax_withholding_amount)
       poster_fee = amount - transaction.tax_withholding_amount - fee
-      stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee,stripe_charge_id:, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: Date.today + 6.days)
+      if transaction.frequency == 'weekly'
+        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: ((Date.today + 6.days) < transaction.end_date ? (Date.today + 6.days) : transaction.end_date))
+      elsif transaction.frequency == 'fortnight'
+        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: ((Date.today + 13.days) < transaction.end_date ? (Date.today + 13.days) : transaction.end_date))
+      end
       begin
         charge = Stripe::Charge.create(
           customer:  cutsomer_id,
@@ -86,7 +90,7 @@ class ChargeForListing
         )
         stripe_payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
       rescue => e
-        stripe_payment.update(reason: e.error.message)
+        stripe_payment.update(reason: e.message)
       end
       failed_payments = transaction.stripe_payments.where.not(status: "succeeded")
       if !failed_payments.blank?
@@ -98,7 +102,7 @@ class ChargeForListing
               amount:    (amount_with_hirer_service_fee * 100).to_i,
               description: description(transaction),
               currency:    'aud',
-              capture: false,
+              capture: true,
               destination: {
                 account: poster.stripe_info.stripe_account_id,
                 amount: (poster_fee*100).to_i
@@ -106,11 +110,11 @@ class ChargeForListing
             )
             payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
           rescue => e
-            payment.update(reason: e.error.message)
+            payment.update(reason: e.message)
           end
         end
       end
-        # Some other error; display an error message.
+      stripe_payment
     end
 
     def poster_service_fee amount

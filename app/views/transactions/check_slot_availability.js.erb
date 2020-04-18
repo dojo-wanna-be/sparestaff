@@ -102,7 +102,6 @@ function calculateWithoutTax(){
   $('#ContractServicePrice').html(serviceTax.toFixed(2));
   $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
 }
-
 $("#transaction_start_date, #transaction_end_date").on('change', function (){
   totalSundays = 0;
   totalMondays = 0;
@@ -144,121 +143,121 @@ $("#transaction_start_date, #transaction_end_date").on('change', function (){
   }
 });
 
-  function validateAvailability(start_date, end_date, listing){
-    $.ajax({
-      url: "/transactions/check_slot_availability",
-      type: "GET",
-      data : {
-        start: start_date,
-        end: end_date,
-        listing_id: listing,
-      },
-      dataType: "script",
-    });
+function validateAvailability(start_date, end_date, listing){
+  $.ajax({
+    url: "/transactions/check_slot_availability",
+    type: "GET",
+    data : {
+      start: start_date,
+      end: end_date,
+      listing_id: listing,
+    },
+    dataType: "script",
+  });
+}
+
+function calculateTax(){
+  var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+  checkTax(weekly_earning)
+  var service_tax = 0.03 * (weekly_earning - tax);
+  $("#transaction_tax_withholding_amount").removeAttr('disabled');
+  $("#transaction_tax_withholding_amount").val(-tax);
+  $("#weeklyServicePrice").html(service_tax.toFixed(2));
+  var weekly_total_price = weekly_earning - tax + service_tax;
+  $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+  totalEmploymentContract(tax, service_tax, weekly_total_price);
+}
+
+function checkTax(weekly_earning){
+  var a = 0;
+  var b = 0;
+  var x = weekly_earning + 0.99;
+  if (x >= 0 && x <= 355){
+    a = 0;
+    b = 0;
+  }else if (x > 355 && x <= 422){
+    a = 0.1900;
+    b = 67.4635;
+  }else if (x > 422 && x <= 528){
+    a = 0.2900;
+    b = 109.7321;
+  }else if (x > 528 && x <= 711){
+    a = 0.2100;
+    b = 67.4635;
+  }else if (x > 711 && x <= 1282){
+    a = 0.3477;
+    b = 165.4423;
+  }else if (x > 1282 && x <= 1730){
+    a = 0.3450;
+    b = 161.9808;
+  }else if (x > 1730 && x <= 3461){
+    a = 0.3900;
+    b = 239.8654;
+  }else{
+    a = 0.4700;
+    b = 576.7885;
   }
+  tax = Math.round((a * x) - b);
+  return  tax
+}
 
-  function calculateTax(){
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
-    checkTax(weekly_earning)
-    var service_tax = 0.03 * (weekly_earning - tax);
-    $("#transaction_tax_withholding_amount").removeAttr('disabled');
-    $("#transaction_tax_withholding_amount").val(-tax);
-    $("#weeklyServicePrice").html(service_tax.toFixed(2));
-    var weekly_total_price = weekly_earning - tax + service_tax;
-    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
-    totalEmploymentContract(tax, service_tax, weekly_total_price);
-  }
+function totalEmploymentContract(tax, service_tax, weekly_total_price){
+  var startDate = new Date($("#transaction_start_date").val());
+  var endDate = new Date($("#transaction_end_date").val());
+  var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+  var monday = 0;
+  var tuesday = 0;
+  var wednesday = 0;
+  var thursday = 0;
+  var friday = 0;
+  var saturday = 0;
+  var sunday = 0;
+  if(totalMondays != 0)
+    monday = totalMondays - Math.floor(weekDiff)
+  if(totalTuesdays != 0)
+    tuesday = totalTuesdays - Math.floor(weekDiff)
+  if(totalWednesdays != 0)
+    wednesday = totalWednesdays - Math.floor(weekDiff)
+  if(totalThursdays != 0)
+    thursday = totalThursdays - Math.floor(weekDiff)
+  if(totalFridays != 0)
+    friday = totalFridays - Math.floor(weekDiff)
+  if(totalSaturdays != 0)
+    saturday = totalSaturdays - Math.floor(weekDiff)
+  if(totalSundays != 0)
+    sunday = totalSundays - Math.floor(weekDiff)
 
-  function checkTax(weekly_earning){
-    var a = 0;
-    var b = 0;
-    var x = weekly_earning + 0.99;
-    if (x >= 0 && x <= 355){
-      a = 0;
-      b = 0;
-    }else if (x > 355 && x <= 422){
-      a = 0.1900;
-      b = 67.4635;
-    }else if (x > 422 && x <= 528){
-      a = 0.2900;
-      b = 109.7321;
-    }else if (x > 528 && x <= 711){
-      a = 0.2100;
-      b = 67.4635;
-    }else if (x > 711 && x <= 1282){
-      a = 0.3477;
-      b = 165.4423;
-    }else if (x > 1282 && x <= 1730){
-      a = 0.3450;
-      b = 161.9808;
-    }else if (x > 1730 && x <= 3461){
-      a = 0.3900;
-      b = 239.8654;
-    }else{
-      a = 0.4700;
-      b = 576.7885;
-    }
-    tax = Math.round((a * x) - b);
-    return  tax
-  }
+  var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+  var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
 
-  function totalEmploymentContract(tax, service_tax, weekly_total_price){
-    var startDate = new Date($("#transaction_start_date").val());
-    var endDate = new Date($("#transaction_end_date").val());
-    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
-    var monday = 0;
-    var tuesday = 0;
-    var wednesday = 0;
-    var thursday = 0;
-    var friday = 0;
-    var saturday = 0;
-    var sunday = 0;
-    if(totalMondays != 0)
-      monday = totalMondays - Math.floor(weekDiff)
-    if(totalTuesdays != 0)
-      tuesday = totalTuesdays - Math.floor(weekDiff)
-    if(totalWednesdays != 0)
-      wednesday = totalWednesdays - Math.floor(weekDiff)
-    if(totalThursdays != 0)
-      thursday = totalThursdays - Math.floor(weekDiff)
-    if(totalFridays != 0)
-      friday = totalFridays - Math.floor(weekDiff)
-    if(totalSaturdays != 0)
-      saturday = totalSaturdays - Math.floor(weekDiff)
-    if(totalSundays != 0)
-      sunday = totalSundays - Math.floor(weekDiff)
+  var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+  var remainingWeekTax = checkTax(remainingWeeklyEarning)
+  var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
+  var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
+  var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
+  $('#total_tax_with_holding').val(fullWeekTax);
+  var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
+  $('#ContractTaxPrice').html(fullWeekTax);
+  $('#ContractServicePrice').html(serviceTax.toFixed(2));
+  $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+}
 
-    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
-    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
-
-    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
-    var remainingWeekTax = checkTax(remainingWeeklyEarning)
-    var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
-    var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
-    var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
-    $('#total_tax_with_holding').val(fullWeekTax);
-    var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
-    $('#ContractTaxPrice').html(fullWeekTax);
-    $('#ContractServicePrice').html(serviceTax.toFixed(2));
-    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
-  }
-
-  function setWeekdayHours(){
-    totalMondayHours = totalMondays * mondayHour;
-    totalTuesdayHours = totalTuesdays * tuesdayHour;
-    totalWednesdayHours = totalWednesdays * wednesdayHour;
-    totalThursdayHours = totalThursdays * thursdayHour;
-    totalFridayHours = totalFridays * fridayHour;
-    weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
-    totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
-    $("#weekday_hours").html(weekday_hour);
-    hiring_weekday_price = weekday_hour * listingWeekdayPrice
-    $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
-    $("#total_weekday_hours").html(totalWeekdayHours);
-    hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
-    $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
-    calculateTax();
-  }
+function setWeekdayHours(){
+  totalMondayHours = totalMondays * mondayHour;
+  totalTuesdayHours = totalTuesdays * tuesdayHour;
+  totalWednesdayHours = totalWednesdays * wednesdayHour;
+  totalThursdayHours = totalThursdays * thursdayHour;
+  totalFridayHours = totalFridays * fridayHour;
+  weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
+  totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
+  $("#weekday_hours").html(weekday_hour);
+  hiring_weekday_price = weekday_hour * listingWeekdayPrice
+  $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
+  $("#total_weekday_hours").html(totalWeekdayHours);
+  hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
+  $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
+  calculateTax();
+}
 
 function setWeekendHours(){
   totalSaturdayHours = totalSaturdays * saturdayHour;
@@ -345,6 +344,20 @@ $(".friday_time_slot").change(function(){
   }
 });
 
+$(".saturday_time_slot").change(function(){
+  if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
+    if(totalSaturdays != 0){
+      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
+      isSaturday = true;
+      setWeekendHours();
+    }
+  }else {
+    saturdayHour = 0;
+    totalSaturdayHours = 0;
+    isSaturday = false;
+  }
+});
+
 $(".sunday_time_slot").change(function(){
   if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
     if(totalSundays != 0){
@@ -356,20 +369,6 @@ $(".sunday_time_slot").change(function(){
     sundayHour = 0;
     totalSundayHours = 0;
     isSunday = false;
-  }
-});
-
-$(".saturday_time_slot").change(function(){
-  if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
-    if(totalSundays != 0){
-      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
-      isSaturday = true;
-      setWeekendHours();
-    }
-  }else {
-    saturdayHour = 0;
-    totalSaturdayHours = 0;
-    isSaturday = false;
   }
 });
 
