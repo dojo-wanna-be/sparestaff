@@ -5,8 +5,8 @@ RSpec.describe "employee_listings/views", type: :view do
   before(:each) do
   	@published_listing = Array.new
   	@unpublished_listing = Array.new
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @lister = FactoryGirl.create(:company)
     @poster.update_attributes(company_id: @lister.id, user_type: "owner")
     @hirer.update_attributes(company_id: @lister.id, user_type: "hr")

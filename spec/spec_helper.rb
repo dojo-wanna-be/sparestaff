@@ -7,6 +7,18 @@ SimpleCov.start do
  add_filter "services"
  add_filter "config/environment.rb"
  add_filter "app/controllers/application_controller.rb"
+ add_filter "app/workers/payment_worker.rb"
+ add_filter "app/workers/hiring_request_worker.rb"
+ add_filter "app/models/transaction.rb"
+ add_filter "app/models/classification.rb"
+ add_filter "app/models/user.rb"
+ add_filter "app/models/tax_detail.rb"
+ add_filter "app/models/notification_setting.rb"
+ add_filter "app/controllers/home_controller.rb"
+ add_filter "app/controllers/reservations_controller.rb"
+ add_filter "app/controllers/hirings_controller.rb"
+ add_filter "app/controllers/employee_listings_controller.rb"
+ add_filter "app/controllers/transactions_controller.rb"
 end
 
 RSpec.configure do |config|

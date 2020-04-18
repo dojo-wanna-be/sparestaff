@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   before(:each) do
-    @user = FactoryGirl.build(:user, email: "testgrip@gmail.com")
+    @user = FactoryGirl.build(:user)
     @lister = FactoryGirl.create(:company)
     @user.update_attributes(company_id: @lister.id, user_type: "owner")
   end

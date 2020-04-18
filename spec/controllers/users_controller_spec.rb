@@ -4,8 +4,8 @@ RSpec.describe UsersController, type: :controller do
 
 	before(:each) do
     @review = Array.new
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -61,6 +61,9 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #show_all_hirer_reviews" do
 
     it "has a 200 status code" do
+      @poster.confirmed_at = Time.zone.now
+      @poster.save
+      sign_in @poster
       get :show_all_hirer_reviews, xhr: true, params: {id: @poster.id}
       expect(response.successful?).to eq(true)
       expect(response.status).to eq(200)

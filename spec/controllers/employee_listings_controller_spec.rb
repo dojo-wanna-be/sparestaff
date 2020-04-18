@@ -5,7 +5,7 @@ RSpec.describe EmployeeListingsController, type: :controller do
 
   before(:each) do
     @lister = FactoryGirl.create(:company)
-    @user = FactoryGirl.create(:user, email: "testuser@gmail.com")
+    @user = FactoryGirl.create(:user)
     @user.confirmed_at = Time.zone.now
     @user.save
     sign_in @user

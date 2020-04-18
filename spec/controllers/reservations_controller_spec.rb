@@ -1,12 +1,10 @@
 require 'rails_helper'
-require 'stripe_mock'
-include ActiveJob::TestHelper
 
 RSpec.describe ReservationsController, type: :controller do
    
   before(:each) do
-    @poster = FactoryGirl.create(:user, email: "poster@sparestaff.com")
-  	@hirer =  FactoryGirl.create(:user, email: "hireremail@sparestaff.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @poster.confirmed_at = Time.zone.now
     @poster.save
     sign_in @poster

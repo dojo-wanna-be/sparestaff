@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "employee_listings/show", type: :view do
 
   before(:each) do
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
   	@poster.confirmed_at = Time.zone.now
     @poster.save
     sign_in @poster

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
   before(:each) do
-  	@hirer =  FactoryGirl.create(:user, email: "hirer@gmail.com")
-    @poster = FactoryGirl.create(:user, email: "receiver@sparestaff.com")
+  	@hirer =  FactoryGirl.create(:user)
+    @poster = FactoryGirl.create(:user)
     @lister = FactoryGirl.create(:company)
     @employee_listing = FactoryGirl.create(:employee_listing, lister_id: @lister.id)
     @transaction = FactoryGirl.create(:transaction, employee_listing_id: @employee_listing.id, hirer_id: @hirer.id, poster_id: @poster.id )

@@ -4,8 +4,8 @@ include ActiveJob::TestHelper
 RSpec.describe InboxesController, type: :controller  do
 
 	before(:each) do
-    @receiver = FactoryGirl.create(:user, email: "receiver@sparestaff.com")
-    @sender = FactoryGirl.create(:user, email: "dimcame@gmail.com")
+    @receiver = FactoryGirl.create(:user)
+    @sender = FactoryGirl.create(:user)
     @sender.confirmed_at = Time.zone.now
     @sender.save
     sign_in @sender
@@ -26,7 +26,7 @@ RSpec.describe InboxesController, type: :controller  do
        expect(response.successful?).to eq(true)
     end
   end
-
+  
   describe "POST #create" do
     
     # check message has been created or not , then send mail when current_user user_type hirer and receiver_user user_type owner.
@@ -114,5 +114,10 @@ RSpec.describe InboxesController, type: :controller  do
     end
   end
   
+  describe "#unread_msg_count" do
+    it "#unread_msg_count" do
+      @conversation.unread_msg_count(@receiver)
+    end
+  end
 end
 

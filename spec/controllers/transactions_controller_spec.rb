@@ -4,23 +4,9 @@ include ActiveJob::TestHelper
 
 RSpec.describe TransactionsController, type: :controller do
 
-
-	def find_or_create_conversation
-    conversation = Conversation.between(@transaction.hirer_id, @transaction.poster_id, @transaction.id)
-    if conversation.present?
-      conversation.first
-    else
-      # Conversation.create!( receiver_id: @transaction.poster_id,
-      #                       sender_id: @transaction.hirer_id,
-      #                       employee_listing_id: @employee_listing.id,
-      #                       transaction_id: @transaction.id
-      #                     )
-    end
-  end
-
  	before(:each) do
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -37,19 +23,19 @@ RSpec.describe TransactionsController, type: :controller do
   		@transaction = Transaction.last
   		if @transaction.present?
   		  # It goes to initialized action
-	  			patch :initialized, params: {id: @transaction.id, message_text: "test", company_id: @lister.id, company: {"name"=>"test game", "acn"=>"8978", "address_1"=>"Treasury Casino and Hotel Brisban, William Street", "address_2"=>"Treasury Casino and Hotel Brisban, William Street", "city"=>"Brisbane City QLD", "state"=>"NSW", "post_code"=>"", "country"=>"Australia"}, transaction: {probationary_period: "1"} }
+
+          # request.get?
+            get :initialized, params: {id: @transaction.id}
+
+          # request.patch?
+	  			  patch :initialized, params: {id: @transaction.id, message_text: "test", company_id: @lister.id, company: {"name"=>"test game", "acn"=>"8978", "address_1"=>"Treasury Casino and Hotel Brisban, William Street", "address_2"=>"Treasury Casino and Hotel Brisban, William Street", "city"=>"Brisbane City QLD", "state"=>"NSW", "post_code"=>"", "country"=>"Australia"}, transaction: {probationary_period: "1"} }
 
 	  		# after initialized it goes to payment action
  					get :payment, params: {id: @transaction.id}
 
- 				# after payment action it goes to request_payment	
- 				  stripe_helper =  StripeMock.create_test_helper
-  			  	customer = Stripe::Customer.create({
-				      email: @transaction.hirer.email,
-				      source: stripe_helper.generate_card_token
-				    })
-				  @transaction.update_attribute(:state, "created")
-				  message = find_or_create_conversation.messages.last
+ 				# after payment action it goes to request_payment
+          stripe_helper =  StripeMock.create_test_helper
+          patch :request_payment, params: {id: @transaction.id, stripe_token: stripe_helper.generate_card_token}
 
 				# after this it goes to request_sent_successfully
 				  get :request_sent_successfully, params: {id: @transaction.id}
@@ -58,6 +44,25 @@ RSpec.describe TransactionsController, type: :controller do
   		end
   	end
 
+  end
+
+
+  describe "#check_slot_availability" do
+    it "check availability" do
+    @transaction = FactoryGirl.create(:transaction, employee_listing_id: @employee_listing.id, hirer_id: @hirer.id, poster_id: @poster.id, state: "accepted" )
+      @booking = FactoryGirl.create(:booking, transaction_id: @transaction.id)
+      get :check_slot_availability, xhr:true, params: {transaction_id: @transaction.id, listing_id: @employee_listing.id, start: Date.today, end: Date.today + 2.days}
+      expect(response.successful?).to eq(true)
+      expect(response.status).to eq(200)
+    end
+  end
+
+  describe "#ensure_company_owner" do
+    it "check private method #ensure_company_owner" do
+     @hirer.update_attributes(company_id: @lister.id, user_type: "")
+     post :create, params: {transaction: {employee_listing: @employee_listing.id}}
+     expect(flash[:error]).to eq("You are not authorised to hire an employee")
+    end
   end
 
 end

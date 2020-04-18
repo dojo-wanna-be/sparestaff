@@ -28,8 +28,8 @@ RSpec.describe "users/views", type: :view do
 
   before(:each) do
   	@review = Array.new
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
@@ -63,7 +63,6 @@ RSpec.describe "users/views", type: :view do
     it 'display trust_and_verification action details' do
       render :template => "users/trust_and_verification.html.erb", locals: {:@current_user => @hirer}
         expect(rendered).to match /You have confirmed your email/
-        expect(rendered).to match /sparestaffhirer@gmail.com/
     end
   end
 

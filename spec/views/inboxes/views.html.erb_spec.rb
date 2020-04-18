@@ -5,8 +5,8 @@ RSpec.describe "inboxes/views", type: :view do
 	before(:each) do
 		@conversation = Array.new
 		@messages = Array.new
-    @sender = FactoryGirl.create(:user, email: "dimcame@gmail.com")
-    @receiver = FactoryGirl.create(:user, email: "receiver@sparestaff.com")
+    @sender = FactoryGirl.create(:user)
+    @receiver = FactoryGirl.create(:user)
     @receiver.confirmed_at = Time.zone.now
     @receiver.save
     sign_in @receiver

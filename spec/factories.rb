@@ -1,4 +1,7 @@
 FactoryGirl.define do
+
+  factory :notification_setting do
+  end
   factory :classification do
     id 413
     parent_classification_id 389
@@ -162,7 +165,7 @@ FactoryGirl.define do
   factory :user do
     first_name  'test'
     last_name   'john'
-    email       'newtest@gmail.com'
+    email       { Faker::Internet.email }
     password     '123456'
     password_confirmation '123456'
   end  

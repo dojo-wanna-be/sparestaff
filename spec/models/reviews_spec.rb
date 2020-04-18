@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Review, type: :model do
 
   before(:each) do
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @lister = FactoryGirl.create(:company)
     @poster.update_attributes(company_id: @lister.id, user_type: "owner")
     @hirer.update_attributes(company_id: @lister.id, user_type: "hr")

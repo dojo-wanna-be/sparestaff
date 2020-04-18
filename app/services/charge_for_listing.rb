@@ -162,6 +162,7 @@ require 'stripe_mock'
             amount: (poster_fee*100).to_i
           }
         )
-        StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
+        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, stripe_charge_id: charge.id, status: charge.status)
+        ChargeForListing.new(transaction.id).captured_true(stripe_payment.id)     
     end
 end

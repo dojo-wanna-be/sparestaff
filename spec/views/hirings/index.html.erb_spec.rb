@@ -6,8 +6,8 @@ RSpec.describe "hirings/index", type: :view do
   	@transaction = Array.new
   	@past_transaction = Array.new
   	@decline_listing = Array.new
-    @poster = FactoryGirl.create(:user, email: "poster123@gmail.com")
-  	@hirer =  FactoryGirl.create(:user, email: "sparestaffhirer@gmail.com")
+    @poster = FactoryGirl.create(:user)
+  	@hirer =  FactoryGirl.create(:user)
     @hirer.confirmed_at = Time.zone.now
     @hirer.save
     sign_in @hirer
