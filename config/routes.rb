@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
     resources :coupons do
       collection do
-        get :user_details
+        patch :coupon_details
       end
     end
     resources :employee_listings
