@@ -13,7 +13,7 @@
             <div class="Width100Px"><%= coupon.id %></div>
             <div class="Width100Px"><%= coupon.coupon_code %></div>
             <div class="Width100Px"><%=coupon.discount%>%</div>
-            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".js-example-basic-multiple_#{coupon.id}" %></div>
+            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".js-example-basic-multiple_#{coupon.id}", coupon_id: coupon.user_ids %></div>
           </div>
         <% end %>
       <% end %>

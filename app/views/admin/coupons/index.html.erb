@@ -54,6 +54,16 @@
   $('.js-example-basic-multiple').select2({
     placeholder: "Select a User"
   });
-  $('.assign_user').click(function(){ $($(this).attr('model_id')).select2({ placeholder: "Select a User"})});
+  $('.js-example-basic-multiple').select2();
+  $('.assign_user').click(function(){
+    model_id = $(this).attr('model_id');
+    coupon_id = $(this).attr('coupon_id').split(" ");
+    $(model_id).select2({ placeholder: "Select a User"}).select2('val', coupon_id);
+  });
+  $('.close-img').click(function(){
+    $('.js-example-basic-multiple').select2({
+      placeholder: "Select a User"
+    });
+  })
   //$('#all_contacts').select2('data', {id: '123', text: 'res_data.primary_email'});
 </script>
