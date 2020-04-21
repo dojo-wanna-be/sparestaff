@@ -51,7 +51,9 @@
       return false;
     });
   });
-	$(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
+  $('.js-example-basic-multiple').select2({
+    placeholder: "Select a User"
   });
+  $('.assign_user').click(function(){ $($(this).attr('model_id')).select2({ placeholder: "Select a User"})});
+  //$('#all_contacts').select2('data', {id: '123', text: 'res_data.primary_email'});
 </script>

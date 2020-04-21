@@ -13,7 +13,7 @@
             <div class="Width100Px"><%= coupon.id %></div>
             <div class="Width100Px"><%= coupon.coupon_code %></div>
             <div class="Width100Px"><%=coupon.discount%>%</div>
-            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }%></div>
+            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".js-example-basic-multiple_#{coupon.id}" %></div>
           </div>
         <% end %>
       <% end %>
@@ -38,11 +38,6 @@
                 <%= label_tag :users %>
                 <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: "js-example-basic-multiple_#{coupon.id}" %>
               </div>
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $(".js-example-basic-multiple_<%= coupon.id %>").select2();
-                  });
-                </script>
             </div>
           </div>
           <%= submit_tag "Save", class: 'continue_btn' %>
