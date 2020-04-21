@@ -236,7 +236,7 @@
 
   function calculateWithoutTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price
-    var service_tax = 0.03 * weekly_earning
+    var service_tax = <%= hirer_commission %> * weekly_earning
     $("#transaction_tax_withholding_amount").val('0');
     $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
     $("#weeklyServicePrice").html(service_tax.toFixed(2))
@@ -379,7 +379,7 @@
   function calculateTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var tax = checkTax(weekly_earning)
-    var service_tax = 0.03 * (weekly_earning - tax);
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").val("-" + tax);
     $("#new_tax_withholding_amount").val(tax)
     $("#weeklyServicePrice").html(service_tax.toFixed(2));

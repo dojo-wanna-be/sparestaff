@@ -1,0 +1,36 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Service Fee
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Community Service Fees</div>
+    <div class="right_step user">
+      <div class="right-panel edit_regis"><br />
+				<%= form_for @community_service_fee, url: @redirect_url_path, :html => { :id => "" } do |f| %>
+          <div class="listed-box">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <%= label_tag 'commission_from_hirer in (%)' %>
+                <%= f.number_field :commission_from_hirer, step: :any, min: 0, max: 99 %>
+              </div>
+
+              <div class="custom-input-group">
+                <%= label_tag 'commission_from_poster in (%)' %>
+                <%= f.number_field :commission_from_poster, step: :any, min: 0, max: 99 %>
+              </div>
+            </div>
+            <%= submit_tag "Create", class: 'continue_btn' %>
+            <br>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

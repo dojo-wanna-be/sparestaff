@@ -56,8 +56,8 @@ class Transaction < ApplicationRecord
   enum state: { initialized: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6 }
   enum cancelled_by: { hirer: 0, poster: 1 }
 
-  HIRER_SERVICE_FEE = 0.03
-  POSTER_SERVICE_FEE = 0.1
+  #HIRER_SERVICE_FEE = self.commission_from_hirer
+  #POSTER_SERVICE_FEE = self.commission_from_poster
 
   PROBATIONARY_PERIOD = {
                           "1 month" => 1,
@@ -133,9 +133,9 @@ class Transaction < ApplicationRecord
 
   def service_fee
     if is_withholding_tax
-      (HIRER_SERVICE_FEE * (amount - tax_withholding_amount))
+      (commission_from_hirer * (amount - tax_withholding_amount))
     else
-      (HIRER_SERVICE_FEE * amount)
+      (commission_from_hirer * amount)
     end
   end
 
@@ -143,22 +143,22 @@ class Transaction < ApplicationRecord
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     if full_week == 0
       if is_withholding_tax
-        (HIRER_SERVICE_FEE * (amount - tax_withholding_amount))
+        (commission_from_hirer * (amount - tax_withholding_amount))
       else
-        (HIRER_SERVICE_FEE * amount)
+        (commission_from_hirer * amount)
       end
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      (service_fee * full_week) + (remaining_price * HIRER_SERVICE_FEE)
+      (service_fee * full_week) + (remaining_price * commission_from_hirer)
     end
   end
 
   def poster_service_fee
     if is_withholding_tax
-      (POSTER_SERVICE_FEE * (amount - tax_withholding_amount))
+      (commission_from_poster * (amount - tax_withholding_amount))
     else
-      (POSTER_SERVICE_FEE * amount)
+      (commission_from_poster * amount)
     end
   end
 
@@ -169,7 +169,7 @@ class Transaction < ApplicationRecord
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      (poster_service_fee * full_week) + (remaining_price * POSTER_SERVICE_FEE)
+      (poster_service_fee * full_week) + (remaining_price * commission_from_poster)
     end
   end
 
@@ -202,7 +202,7 @@ class Transaction < ApplicationRecord
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (HIRER_SERVICE_FEE * remaining_price)
+      ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (commission_from_hirer * remaining_price)
     end
   end
 
@@ -213,7 +213,7 @@ class Transaction < ApplicationRecord
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      ((amount - tax_withholding_amount - poster_service_fee) * full_week) + (remaining_price - (POSTER_SERVICE_FEE * remaining_price))
+      ((amount - tax_withholding_amount - poster_service_fee) * full_week) + (remaining_price - (commission_from_poster * remaining_price))
     end
   end
 

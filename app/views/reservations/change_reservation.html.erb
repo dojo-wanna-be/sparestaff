@@ -371,8 +371,8 @@
       tax = checkTax(weekly_earning)
     else
       tax = 0
-    var hirer_service_tax = 0.03 * (weekly_earning - tax);
-    var poster_service_tax = 0.1 * (weekly_earning - tax);
+    var hirer_service_tax = <%= hirer_commission %> * (weekly_earning - tax);
+    var poster_service_tax = <%= poster_commission %> * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").html(tax);
     $("#right_transaction_tax_withholding_amount").html(tax);
     $("#transaction_tax_withholding_amount").val(tax)

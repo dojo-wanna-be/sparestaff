@@ -70,7 +70,7 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
 
   function calculateWithoutTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price
-    var service_tax = 0.03 * weekly_earning
+    var service_tax = <%= hirer_commission %> * weekly_earning
     $("#transaction_tax_withholding_amount").val('0');
     $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
     $("#weeklyServicePrice").html(service_tax.toFixed(2))
@@ -242,7 +242,7 @@ $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transa
   function calculateTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var tax = checkTax(weekly_earning)
-    var service_tax = 0.03 * (weekly_earning - tax);
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").val("-" + tax);
     $("#new_withholding_tax").val(tax)
     $("#weeklyServicePrice").html(service_tax.toFixed(2));

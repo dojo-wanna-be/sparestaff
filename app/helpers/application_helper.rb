@@ -43,4 +43,12 @@ module ApplicationHelper
   def listing_all_reviews(listing_id)
     Review.where(listing_id: listing_id).where.not(friendliness_grade: nil,knowledge_n_skills_grade: nil,punctuality_grade: nil,management_skill_grade: nil, professionalism_grade: nil, communication_grade: nil)
   end
+
+  def hirer_commission
+    ((CommunityServiceFee.last&.commission_from_hirer)/100).round(2)
+  end
+
+  def poster_commission
+    ((CommunityServiceFee.last&.commission_from_poster)/100).round(2)
+  end
 end

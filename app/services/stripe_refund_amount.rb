@@ -30,7 +30,7 @@ class StripeRefundAmount
         end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee)
       elsif @transaction.start_date == Date.today
-        @amount = @transaction.amount + @transaction.amount * 0.03
+        @amount = @transaction.amount + @transaction.amount * @transaction.commission_from_hirer
         day = Date.today.strftime("%A").downcase
         service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
         if @transaction.bookings.where(day: day).blank?
@@ -61,7 +61,7 @@ class StripeRefundAmount
             end
             amount = (amount + @transaction.service_fee).round(2)
             
-            poster_recieve = (amount - (amount * 10/100)).round(2)
+            poster_recieve = (amount - (amount * @transaction.commission_from_poster)).round(2)
             refund = Stripe::Refund.create({
               charge: @charge_id,
               amount: (@amount*100).to_i,
@@ -95,12 +95,12 @@ class StripeRefundAmount
           end
         end
       else
-        @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * 0.03
+        @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * @transaction.commission_from_hirer
         amount = already_start_refund_amont
         amount_with_taxwithholding = amount - @transaction.remaining_tax_withholding(amount)
         amount_with_service_fee = ((amount_with_taxwithholding) + @transaction.service_fee).round(2)
         amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50
-        poster_recieve = (amount_with_taxwithholding - (amount_with_taxwithholding * 10/100)).round(2)
+        poster_recieve = (amount_with_taxwithholding - (amount_with_taxwithholding * @transaction.commission_from_poster)).round(2)
         with_destination = poster_recieve > 0
         stripe_payment = StripePayment.create!(transaction_id: @transaction.id, amount: amount, poster_service_fee: poster_recieve, status: "failed", charge_type: "partial")
         begin
@@ -144,7 +144,7 @@ class StripeRefundAmount
   end
 
   def poster_service_fee amount
-    amount * 0.1
+    amount * @transaction.commission_from_poster
   end
 
   def already_start_refund_amont

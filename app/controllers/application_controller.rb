@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :account_suspended
   before_action :unread_message_count
+  include ApplicationHelper
 
   def unread_message_count
     if current_user.present?

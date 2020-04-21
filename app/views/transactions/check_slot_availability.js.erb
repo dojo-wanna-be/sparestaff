@@ -1,5 +1,4 @@
 $('#booking_slots').html("<%= j render 'employee_listings/time_slot_booking', transaction: @transaction, employee_listing: @employee_listing, start_date: @start_date, end_date: @end_date %>")
-
 $.validator.addMethod('lessThan', function(value, element, param) {
   return this.optional(element) || value < $(param).val();
 }, "The value {0} must be less than {1}");
@@ -61,7 +60,7 @@ $("#transaction_is_withholding_tax").on('change click', function () {
 
 function calculateWithoutTax(){
   var weekly_earning = hiring_weekday_price + hiring_weekend_price
-  var service_tax = 0.03 * weekly_earning
+  var service_tax = <%= hirer_commission %> * weekly_earning
   $("#transaction_tax_withholding_amount").val('0');
   $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
   $("#weeklyServicePrice").html(service_tax.toFixed(2))
@@ -160,7 +159,7 @@ $("#transaction_start_date, #transaction_end_date").on('change', function (){
   function calculateTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     checkTax(weekly_earning)
-    var service_tax = 0.03 * (weekly_earning - tax);
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax);
     $("#transaction_tax_withholding_amount").removeAttr('disabled');
     $("#transaction_tax_withholding_amount").val(-tax);
     $("#weeklyServicePrice").html(service_tax.toFixed(2));

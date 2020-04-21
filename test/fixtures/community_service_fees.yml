@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  commission_from_hirer: 1.5
+  commission_from_poster: 1.5
+
+two:
+  commission_from_hirer: 1.5
+  commission_from_poster: 1.5

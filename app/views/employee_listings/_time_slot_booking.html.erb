@@ -1,7 +1,6 @@
 <div class="right-preview-detail">
   <%= form_for transaction, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
-
     <div class="price-header">
       from <span class="big-text">$<%= minimum_price(employee_listing).present? ? minimum_price(employee_listing) : 0 %></span> per hour
     </div>
