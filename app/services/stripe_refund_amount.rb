@@ -26,74 +26,74 @@ class StripeRefundAmount
           })
           stripe_refund.update(refund_id: refund.id, status: refund.status, reason: refund.reason)
         rescue => e
-          stripe_refund.update(reason: e.error.message)
+          stripe_refund.update(reason: e.message)
         end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee)
       elsif @transaction.start_date == Date.today
-        @amount = @transaction.amount + @transaction.amount * @transaction.commission_from_hirer
-        day = Date.today.strftime("%A").downcase
-        service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
-        if @transaction.bookings.where(day: day).blank?
-          refund = Stripe::Refund.create({
-            charge: @charge_id,
-            amount: (@amount*100).to_i,
-          })
-          charge = Stripe::Charge.create(
-            customer:  cutsomer_id,
-            amount:    (service_fee * 100).to_i,
-            currency:  'aud',
-            capture: true,
-            destination: {
-              account: poster.stripe_info.stripe_account_id,
-              amount: (service_fee * 100).to_i
-            }
-          )
-        else
-          if @transaction.bookings.where(day: day).last.end_time.to_time < Time.now
-            if ["sunday","saturday"].include?(day)
-              unless @transaction.bookings.where(day: day).blank?
-                amount = ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekend_price.to_f
-              end
-            else
-              unless @transaction.bookings.where(day: day).blank?
-                amount = ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekday_price.to_f
-              end
-            end
-            amount = (amount + @transaction.service_fee).round(2)
-            
-            poster_recieve = (amount - (amount * @transaction.commission_from_poster)).round(2)
-            refund = Stripe::Refund.create({
-              charge: @charge_id,
-              amount: (@amount*100).to_i,
-            })
-            charge = Stripe::Charge.create(
-              customer:  cutsomer_id,
-              amount:    (amount * 100).to_i,
-              currency:  'aud',
-              capture: true,
-              destination: {
-                account: poster.stripe_info.stripe_account_id,
-                amount: (poster_recieve*100).to_i
-              }
-            )
-          else
-            service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
-            refund = Stripe::Refund.create({
-              charge: @charge_id,
-              amount: (@amount*100).to_i,
-            })
-            charge = Stripe::Charge.create(
-              customer:  cutsomer_id,
-              amount:    (service_fee * 100).to_i,
-              currency:  'aud',
-              capture: true,
-              destination: {
-                account: poster.stripe_info.stripe_account_id,
-                amount: (service_fee * 100).to_i
-              }
-            )
-          end
-        end
+        # @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * 0.03
+        # day = Date.today.strftime("%A").downcase
+        # service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
+        # if @transaction.bookings.where(day: day).blank?
+        #   refund = Stripe::Refund.create({
+        #     charge: @charge_id,
+        #     amount: (@amount*100).to_i,
+        #   })
+        #   charge = Stripe::Charge.create(
+        #     customer:  cutsomer_id,
+        #     amount:    (service_fee * 100).to_i,
+        #     currency:  'aud',
+        #     capture: true,
+        #     destination: {
+        #       account: poster.stripe_info.stripe_account_id,
+        #       amount: (service_fee * 100).to_i
+        #     }
+        #   )
+        # else
+        #   if @transaction.bookings.where(day: day).last.end_time.to_time < Time.now
+        #     if ["sunday","saturday"].include?(day)
+        #       unless @transaction.bookings.where(day: day).blank?
+        #         amount = ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekend_price.to_f
+        #       end
+        #     else
+        #       unless @transaction.bookings.where(day: day).blank?
+        #         amount = ((@transaction.bookings.where(day: day).last.end_time.to_time - @transaction.bookings.where(day: day).last.start_time.to_time) / 3600) * @transaction.employee_listing.weekday_price.to_f
+        #       end
+        #     end
+
+        #     amount = (amount - @transaction.remaining_tax_withholding(amount) + @transaction.service_fee).round(2)
+        #     poster_recieve = (amount - (amount * 10/100)).round(2)
+        #     refund = Stripe::Refund.create({
+        #       charge: @charge_id,
+        #       amount: (@amount*100).to_i,
+        #     })
+        #     charge = Stripe::Charge.create(
+        #       customer:  cutsomer_id,
+        #       amount:    (amount * 100).to_i,
+        #       currency:  'aud',
+        #       capture: true,
+        #       destination: {
+        #         account: poster.stripe_info.stripe_account_id,
+        #         amount: (poster_recieve*100).to_i
+        #       }
+        #     )
+        #   else
+        #     service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
+        #     refund = Stripe::Refund.create({
+        #       charge: @charge_id,
+        #       amount: (@amount*100).to_i,
+        #     })
+        #     charge = Stripe::Charge.create(
+        #       customer:  cutsomer_id,
+        #       amount:    (service_fee * 100).to_i,
+        #       currency:  'aud',
+        #       capture: true,
+        #       destination: {
+        #         account: poster.stripe_info.stripe_account_id,
+        #         amount: (service_fee * 100).to_i
+        #       }
+        #     )
+        #   end
+        # end
       else
         @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * @transaction.commission_from_hirer
         amount = already_start_refund_amont
@@ -125,7 +125,7 @@ class StripeRefundAmount
           end
           stripe_payment.update(stripe_charge_id: charge.id, status: charge.status, reason: charge.failure_message)
         rescue => e
-          stripe_payment.update(reason: e.error.message)
+          stripe_payment.update(reason: e.message)
         end
         stripe_refund = StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount, service_fee: @transaction.service_fee, stripe_charge_id: @charge_id, status: "failed", refund_type: "partial")
         begin
@@ -135,7 +135,7 @@ class StripeRefundAmount
           })
           stripe_refund.update(refund_id: refund.id, status: refund.status, reason: refund.reason)
         rescue => e
-          stripe_refund.update(status: e.error.message)
+          stripe_refund.update(status: e.message)
         end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount - amount_with_service_fee, tax_withholding_amount: @transaction.remaining_tax_withholding(amount), service_fee: @transaction.service_fee)
       end

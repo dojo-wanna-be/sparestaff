@@ -69,7 +69,7 @@
               <h2 class="comman-heading">Send a message to <%= @employee_listing.poster.name %></h2>
               <p>Let <%= @employee_listing.poster.name %> know more about your company, why you're hiring, details of the job to be carried out, and any other helpful information.</p>
 
-              <%= text_area_tag "message_text", nil, rows: "13" %>
+              <%= text_area_tag "message_text", nil, rows: "13", required: true %>
 
               <div class="button-box">
                 <%= f.submit "Continue", class: "continue-btn" %>

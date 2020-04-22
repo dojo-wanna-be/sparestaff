@@ -432,7 +432,6 @@
   var listingID = "<%= @employee_listing.id %>";
   var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>";
   var listingWeekendPrice = "<%= @employee_listing.weekend_price %>";
-
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
   }, "The value {0} must be less than {1}");
@@ -821,6 +820,20 @@
     }
   });
 
+  $(".saturday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
+      if(totalSaturdays != 0){
+        saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
+        isSaturday = true;
+        setWeekendHours();
+      }
+    }else {
+      saturdayHour = 0;
+      totalSaturdayHours = 0;
+      isSaturday = false;
+    }
+  });
+
   $(".sunday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
       if(totalSundays != 0){
@@ -832,20 +845,6 @@
       sundayHour = 0;
       totalSundayHours = 0;
       isSunday = false;
-    }
-  });
-
-  $(".saturday_time_slot").change(function(){
-    if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
-      if(totalSundays != 0){
-        saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
-        isSaturday = true;
-        setWeekendHours();
-      }
-    }else {
-      saturdayHour = 0;
-      totalSaturdayHours = 0;
-      isSaturday = false;
     }
   });
 

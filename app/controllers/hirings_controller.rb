@@ -261,17 +261,21 @@ class HiringsController < ApplicationController
   def tell_poster
     @listing = @transaction.employee_listing
     if request.patch?
-      if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
+      unless Date.today.eql?(@transaction.start_date)
+        if params[:reason]
+          @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
+        else
+          @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
+        end
+        create_message
+        TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+        TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
+        TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
+        TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
+        redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
       else
-        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
+        flash[:error] = "Sorry you can not cancel booking at same day of start!"
       end
-      create_message
-      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
-      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
-      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
-      redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
     end
   end
 

@@ -70,7 +70,7 @@ class ReservationsController < ApplicationController
         redirect_to inbox_path(id: @transaction.conversation.id)
       end
     rescue => e
-      flash[:error] = e.error.message
+      flash[:error] = e.message
       redirect_to inbox_path(id: @transaction.conversation.id)
     end
   end
@@ -232,23 +232,31 @@ class ReservationsController < ApplicationController
   def tell_hirer
     @listing = @transaction.employee_listing
     if request.patch?
-      if params[:reason]
-        @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
+      unless Date.today.eql?(@transaction.start_date)
+        if params[:reason]
+          @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
+        else
+          @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
+        end
+        create_message
+        TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
+        TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
+        TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
+        TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
+        redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
       else
-        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
+        flash[:error] = "Sorry you can not cancel booking at same day of start!"
       end
-      create_message
-      TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
-      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
-      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
-      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
-      redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
     end
   end
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    refund = StripeRefund.where(transaction_id: @transaction.id)
+    if refund.blank?
+      StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    end
+    @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     conversation = Conversation.between(current_user.id, @transaction.hirer_id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first
