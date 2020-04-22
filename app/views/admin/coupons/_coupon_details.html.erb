@@ -1,0 +1,49 @@
+<div class="main_table_container">
+  <div class="csv_table">
+    <div class="csv_table_row gray_bg">
+      <div class="Width100Px">Coupon Id</div>
+      <div class="Width100Px">Coupon Code</div>
+      <div class="Width100Px">Discount</div>
+      <div class="Width200Px">Update Assigned Users</div>
+    </div>
+    <div class="sort_paginate_ajax1">
+      <% if @coupons.present? %>
+        <% @coupons.each do |coupon| %>
+          <div class="csv_table_row">
+            <div class="Width100Px"><%= coupon.id %></div>
+            <div class="Width100Px"><%= coupon.coupon_code %></div>
+            <div class="Width100Px"><%=coupon.discount%>%</div>
+            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".js-example-basic-multiple_#{coupon.id}", coupon_id: coupon.user_ids %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="will_pagination_box changes">
+  <%= js_will_paginate @coupons %>
+</div>
+<% @coupons.each do |coupon| %>
+  <div class="modal custom-modal" id="assign_user_<%=coupon.id%>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
+        </div>
+        <div class="modal-body">
+          <%= form_tag(coupon_details_admin_coupons_path(id: coupon.id), method: :patch, id: 'new_form', remote: true,:action => "coupon_details")do %>
+            <div class="listed-box">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <%= label_tag :users %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: "js-example-basic-multiple_#{coupon.id}" %>
+              </div>
+            </div>
+          </div>
+          <%= submit_tag "Save", class: 'continue_btn' %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

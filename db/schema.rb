@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_141229) do
+ActiveRecord::Schema.define(version: 2020_04_20_061314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_141229) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "community_service_fees", force: :cascade do |t|
+    t.float "commission_from_hirer"
+    t.float "commission_from_poster"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "acn"
@@ -96,6 +103,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_141229) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_id"
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "coupon_code"
+    t.float "discount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -349,7 +363,16 @@ ActiveRecord::Schema.define(version: 2020_04_15_141229) do
     t.float "adjustment"
     t.string "request_by"
     t.integer "old_transaction"
+    t.float "commission_from_hirer"
+    t.float "commission_from_poster"
     t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
+  end
+
+  create_table "user_coupons", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "coupon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

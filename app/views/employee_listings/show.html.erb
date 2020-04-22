@@ -4,7 +4,6 @@
       <div class="link-box">
         <%#= link_to '&lt; Back' %>
         <!-- <a href="#" class="link-text">&lt; Back</a> -->
-
         <ul class="link-box-list">
           <li class="link-box-item"><%= link_to 'Overview','JavaScript:Void(0);', class: 'type-link selected-link overview' %> <span class="dot">·</span></li>
           <li class="link-box-item"><%= link_to 'Asking wage', 'JavaScript:Void(0);', class: 'type-link askingWage' %> <span class="dot">·</span> </li>
@@ -494,7 +493,7 @@
 
   function calculateWithoutTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price
-    var service_tax = 0.03 * weekly_earning
+    var service_tax = <%= hirer_commission %> * weekly_earning
     $("#transaction_tax_withholding_amount").val('0');
     $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
     $("#weeklyServicePrice").html(service_tax.toFixed(2))

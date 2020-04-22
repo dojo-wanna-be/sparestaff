@@ -13,6 +13,8 @@ class TransactionService
       tx.hirer_id = @hirer.id
       tx.poster_id = listing.poster.id
       tx.state = "initialized"
+      tx.commission_from_hirer = ApplicationController.helpers.hirer_commission
+      tx.commission_from_poster = ApplicationController.helpers.poster_commission
       availability_slots = ListingAvailability::TIME_SLOTS
 
       if tx.save

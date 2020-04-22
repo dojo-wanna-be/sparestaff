@@ -24,8 +24,8 @@
 //= require turbolinks
 //= require jquery.validate
 //= require jquery.raty
+//= require select2
 //= require_tree .
-
 
 $.validator.addMethod('lessThan', function(value, element, param) {
   return this.optional(element) || value < $(param).val();

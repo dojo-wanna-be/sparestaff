@@ -48,6 +48,8 @@ class User < ApplicationRecord
   has_one :stripe_info
   has_one :notification_setting
   has_many :reviews
+  has_many :user_coupons
+  has_many :coupons, through: :user_coupons
   accepts_nested_attributes_for :company
 
 

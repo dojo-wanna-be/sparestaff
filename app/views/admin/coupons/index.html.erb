@@ -1,0 +1,68 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Coupon Management
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Create new Coupon</div>
+    <div class="right_step user">
+      <div class="right-panel edit_regis"><br />
+        <%#= form_for(@user, url: new_admin_coupon_path(params[:id]), html: { method: :put }) do |f| %>
+        <%= form_tag(admin_coupons_path, method: :post, id: 'new_form', remote: true,:action => "create")do %>
+          <%#= render "devise/shared/error_messages", resource: resource %>
+          <div class="listed-box">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <%= label_tag :coupon_code %>
+                <%= text_field_tag :coupon_code %>
+              </div>
+
+              <div class="custom-input-group">
+                <%= label_tag :discount_in_percentage %>
+                <%= number_field_tag :discount %>
+              </div>
+              <div class="custom-input-group">
+                <%= label_tag :users %><!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                <%#= select_tag "user", options_for_select(@users.map {|user| [user.name] }),class: 'js-example-basic-multiple' %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'js-example-basic-multiple' %>
+              </div>
+            </div>
+
+            <%= submit_tag "Create", class: 'continue_btn' %>
+            <br>
+          </div>
+        <% end %>
+      </div>
+      <div class="sort_paginate_ajax" id="coupons">
+        <%= render partial: "coupon_details"%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+  $('.js-example-basic-multiple').select2({
+    placeholder: "Select a User"
+  });
+  $('.assign_user').click(function(){
+    model_id = $(this).attr('model_id');
+    coupon_id = $(this).attr('coupon_id').split(" ");
+    $(model_id).select2({ placeholder: "Select a User"}).select2('val', coupon_id);
+  });
+  $('.close-img').click(function(){
+    $('.js-example-basic-multiple').select2({
+      placeholder: "Select a User"
+    });
+  })
+  //$('#all_contacts').select2('data', {id: '123', text: 'res_data.primary_email'});
+</script>

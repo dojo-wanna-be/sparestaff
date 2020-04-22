@@ -130,6 +130,10 @@
 .main_table_container {
   width: 100%;
   overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .admin_panle_body {
   display: flex;
@@ -291,6 +295,41 @@
             @media screen and (max-width: 767px) {
               margin: 15px  0 0;
             }
+          }
+        }
+      }
+
+      .listed-box {
+        max-width: 400px;
+        width: 100%;
+
+        .custom-field-box {
+          .custom-input-group {
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 15px;
+
+            label {
+              margin: 0 0 2px;
+            }
+          }
+        }
+
+        .continue_btn {
+          width: fit-content;
+          height: 40px;
+          margin-top: 22px;
+          border-radius: 3px;
+          background-color: #F15927;
+          border: none;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0 29px;
+
+          &:hover {
+            background-color: #d75227;
           }
         }
       }
