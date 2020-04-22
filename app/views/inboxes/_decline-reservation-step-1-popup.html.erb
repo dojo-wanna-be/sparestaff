@@ -11,7 +11,7 @@
           <div class="title-modal">Decline this request</div>
           <%= form_tag decline_request_reservation_path(id: @transaction.id), method: :patch, class: "form-modal", remote: true, id: "decline_hiring_form" do |f| %>
           <label class="label-modal">Type optional message to Hirer</label>
-          <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
+          <%= text_area_tag "message_text", nil, required: true, class: "modal-textarea", rows: 7, cols: 20 %>
           <div class="select-box">
             <label class="label-modal">Why are you declining this request? (required)</label>
             <%= select_tag "reason", options_for_select(Transaction::DECLINE_REASON), {include_blank: 'Please select a reason', class: 'FullWidth'} %>
