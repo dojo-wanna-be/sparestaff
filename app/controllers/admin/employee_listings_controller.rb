@@ -3,7 +3,7 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
   include ApplicationHelper
 
   def index
-    @listings = EmployeeListing.all
+    @listings = EmployeeListing.all.paginate(:page => params[:page], :per_page => 50)
     # if current_user.is_owner? || current_user.is_hr?
     #   @employee_listings = current_user.company.employee_listings
     # elsif current_user.is_individual?

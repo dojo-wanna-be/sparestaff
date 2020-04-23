@@ -135,6 +135,7 @@ class HiringsController < ApplicationController
             end
           end
         end
+
         if continue
           @new_transaction = TransactionService.new(params, current_user).create
           if @new_transaction.present?
@@ -168,7 +169,7 @@ class HiringsController < ApplicationController
     refund_amount = (@old_transaction.amount - @old_transaction.tax_withholding_amount) + @old_transaction.service_fee
     #refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
-      if @transaction.start_date > Date.today
+      if @old_transaction.start_date > Date.today
   			begin
   		    ChargeForListing.new(@transaction.id).charge_first_time
   		    begin
@@ -203,7 +204,8 @@ class HiringsController < ApplicationController
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-          message = find_or_create_conversation.messages.last
+          conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
           HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
@@ -220,7 +222,9 @@ class HiringsController < ApplicationController
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-          message = find_or_create_conversation.messages.last
+          conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          # message = find_or_create_conversation.messages.last
           HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."

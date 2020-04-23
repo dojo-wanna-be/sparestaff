@@ -217,27 +217,9 @@
            </li>
 
           </ul>
-          <% @reviews_all.each do |review| %>
-            <% tx = Transaction.find_by(id: review.transaction_id) %>
-            <div class="user-review">
-              <div class="user-detail">
-                <div class="user">
-                  <%= link_to user_path(tx.hirer.id), target: '_blank' do %>
-                    <%= image_tag tx.hirer.avatar.url, class: 'user-img' %>
-                  <% end %>
-                  <div class="name">
-                    <div><b><%= tx.hirer.name %></b></div>
-                    <div><%= review.created_at.strftime("%B, %Y") %></div>
-                  </div>
-                </div>
-                <div class="flag">
-                  <%= image_tag 'flag.png', class: 'FlagReview' %>
-                </div>
-              </div>
-              <p class="review-text"><%= review.public_feedback %></p>
-            </div>
-          <% end %>
-
+          <div class="sort_paginate_ajax123">
+            <%= render "reviews" %>
+          </div>
           <div class="poster-box" id="Poster">
             <div class="poster-detail">
               <div class="left-detail">
@@ -268,7 +250,7 @@
             <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
           </div>
 
-          <div class="page-tabbing">
+          <!-- <div class="page-tabbing">
             <ul class="page-tabbing-list">
               <li class="tabbing-item"><a href="" class="tabbing-link">&lt;</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link tab-select">1</a></li>
@@ -277,7 +259,7 @@
               <li class="tabbing-item"><a href="" class="tabbing-link gray-border">4</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link">&gt;</a></li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="normal-text-box">
             <p><b>Always communicate through Spare Staff</b> · To protect your payment, never transfer money or communicate outside of the Spare Staff website or app.
@@ -917,5 +899,4 @@
     starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
     starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'  
   });
-
 </script>

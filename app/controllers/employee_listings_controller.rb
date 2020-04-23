@@ -280,7 +280,7 @@ class EmployeeListingsController < ApplicationController
 
   def show
     @user = current_user ? current_user : User.new
-    @reviews_all = listing_all_reviews(@employee_listing.id)
+    @reviews_all = listing_all_reviews(@employee_listing.id).paginate(:page => params[:page], :per_page => 3)
     @friendliness_grade = friendliness_grade(@employee_listing.id)
     @knowledge_n_skills_grade = knowledge_n_skills_grade(@employee_listing.id)
     @punctuality_grade = punctuality_grade(@employee_listing.id)

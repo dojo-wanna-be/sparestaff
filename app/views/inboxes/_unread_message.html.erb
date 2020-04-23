@@ -1,7 +1,7 @@
 <% @conversations.each do |conversation| %>
     <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
       <div class="logo">
-         <%= image_tag 'luca2.jpg', alt: '' %>
+         <%= image_tag conversation.sender.avatar.present? ? conversation.sender.avatar.url : 'no-image.jpg', alt: '' %>
       </div>
       <div class="day_date">
         <span><%= conversation.sender.name %></span><br>

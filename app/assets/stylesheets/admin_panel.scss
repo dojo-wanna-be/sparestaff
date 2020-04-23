@@ -564,7 +564,41 @@
       }
     }
   }
+}
+.pagination_box.reviews {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  @media screen and (max-width: 767px) {
+    justify-content: space-around;
+  }
+  a,span,em {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #c0c0c0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    color: #f15927;
+    text-decoration: none;
+    margin: 0 20px 0 0;
 
+    @media screen and (max-width: 767px) {
+      margin: 0;
+    }
+
+    &.prev_next {
+      border: 1px solid #f15927;
+    }
+    &.current {
+      background-color: #f15927;
+      border: 1px solid #f15927;
+      color: #fff;
+      font-style: normal;
+    }
+  }
 }
 
 //** Admin Panel End Css **//
