@@ -45,10 +45,10 @@ module ApplicationHelper
   end
 
   def hirer_commission
-    ((CommunityServiceFee.last&.commission_from_hirer)/100).round(2)
+    ((CommunityServiceFee.last&.commission_from_hirer).to_f/100).round(2)
   end
 
   def poster_commission
-    ((CommunityServiceFee.last&.commission_from_poster)/100).round(2)
+    ((CommunityServiceFee.last&.commission_from_poster).to_f/100).round(2)
   end
 end

@@ -7,6 +7,6 @@
     the Poster a message asking him/her to cancel to make sure you receive a
     full refund.
 
-    <%= link_to 'Send message to Poster', "javascritp:;", class: 'continue-btn' %>
+    <%= link_to 'Send message to Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
   </div>
 </div>

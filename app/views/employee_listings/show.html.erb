@@ -528,7 +528,7 @@
     var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
     var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
     var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
-    var remainingServiceTax = .03 * (remainingWeeklyEarning)
+    var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning)
     var remainingPrice = remainingWeeklyEarning + remainingServiceTax
     var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
     $('#ContractServicePrice').html(serviceTax.toFixed(2));
@@ -634,7 +634,7 @@
   function calculateTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var tax = checkTax(weekly_earning)
-    var service_tax = .03 * (weekly_earning - tax)
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax)
     $("#transaction_tax_withholding_amount").val("-" + tax);
     $("#weeklyServicePrice").html(service_tax.toFixed(2));
     var weekly_total_price = weekly_earning - tax + service_tax;
@@ -707,7 +707,7 @@
 
     var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
     var remainingWeekTax = checkTax(remainingWeeklyEarning)
-    var remainingServiceTax = .03 * (remainingWeeklyEarning - remainingWeekTax)
+    var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning - remainingWeekTax)
     var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
     var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
     $('#total_tax_with_holding').val(fullWeekTax);
