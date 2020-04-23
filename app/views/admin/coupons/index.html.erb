@@ -11,9 +11,7 @@
     <div class="step_heading">Create new Coupon</div>
     <div class="right_step user">
       <div class="right-panel edit_regis"><br />
-        <%#= form_for(@user, url: new_admin_coupon_path(params[:id]), html: { method: :put }) do |f| %>
         <%= form_tag(admin_coupons_path, method: :post, id: 'new_form', remote: true,:action => "create")do %>
-          <%#= render "devise/shared/error_messages", resource: resource %>
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
@@ -26,9 +24,8 @@
                 <%= number_field_tag :discount %>
               </div>
               <div class="custom-input-group">
-                <%= label_tag :users %><!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-                <%#= select_tag "user", options_for_select(@users.map {|user| [user.name] }),class: 'js-example-basic-multiple' %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'js-example-basic-multiple' %>
+                <%= label_tag :users %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'select2' %>
               </div>
             </div>
 
@@ -51,18 +48,21 @@
       return false;
     });
   });
-  $('.js-example-basic-multiple').select2({
+
+  $('.select2').select2({
     placeholder: "Select a User"
   });
+
   $('.assign_user').click(function(){
     model_id = $(this).attr('model_id');
-    coupon_id = $(this).attr('coupon_id').split(" ");
-    $(model_id).select2({ placeholder: "Select a User"}).select2('val', coupon_id);
+    users = $(this).attr('users_ids')
+    $(model_id).select2({ placeholder: "Select a User",  multiple: true, allowClear: true}).val(users.split(' ')).trigger("change");
   });
-  $('.close-img').click(function(){
-    $('.js-example-basic-multiple').select2({
+
+  $(".custom-modal").on('hidden.bs.modal', function (e) {
+    $('.select2').select2({
       placeholder: "Select a User"
     });
   })
-  //$('#all_contacts').select2('data', {id: '123', text: 'res_data.primary_email'});
+
 </script>

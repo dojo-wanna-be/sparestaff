@@ -22,11 +22,7 @@ Rails.application.routes.draw do
         delete :delete_message
       end
     end
-    resources :coupons do
-      collection do
-        patch :coupon_details
-      end
-    end
+    resources :coupons
     resources :employee_listings
     resources :community_service_fees
     get '' => "users#index"
