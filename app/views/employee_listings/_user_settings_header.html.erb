@@ -16,7 +16,7 @@
       <%= link_to "Your Hirings", hirings_path, id: "YourListings", class: "#{ is_hiring ? 'sub-nav-link active' : 'sub-nav-link' }" %>
     </li>
     <li class="nav-list-item">
-      <% is_profile = params[:controller].eql?("registrations")%>
+      <% is_profile = params[:controller].include?("registrations") %>
       <%= link_to "Edit Profile",  edit_user_registration_path, id: "EditProfile", class: "#{ is_profile ? 'sub-nav-link active' : 'sub-nav-link' }" %>
       <!-- <a id="Profile" class="sub-nav-link" href="#">Profile</a> -->
     </li>

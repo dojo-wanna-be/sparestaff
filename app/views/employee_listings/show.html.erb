@@ -246,8 +246,13 @@
               </div>
             </div>
             <p class="poster-text"><%= @employee_listing.poster.description %></p>
-
-            <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
+            <% if current_user.present? %>
+              <% if !@employee_listing.poster.eql?(current_user) %>
+                <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
+              <% end %>
+            <% else %>
+              <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
+            <% end %>
           </div>
 
           <!-- <div class="page-tabbing">
