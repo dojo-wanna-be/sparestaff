@@ -204,7 +204,8 @@ class HiringsController < ApplicationController
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-          conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          message = find_or_create_conversation.messages.last
+          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
           message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
           HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
@@ -222,7 +223,8 @@ class HiringsController < ApplicationController
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-          conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          message = find_or_create_conversation.messages.last
+          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
           message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
           # message = find_or_create_conversation.messages.last
           HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
