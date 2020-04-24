@@ -65,18 +65,20 @@
           <div class="table-tr">
             <div class="table-td"><b>Coupon code</b></div>
             <div class="table-td"><b>Expiration date</b></div>
-            <div class="table-td"><b>Amount</b></div>
+            <div class="table-td"><b>Amount(%)</b></div>
           </div>
+          <% @coupons.each do |coupon| %>
           <div class="table-tr">
-            <div class="table-td">ABCDE12345</div>
-            <div class="table-td">14 Oct 2018</div>
-            <div class="table-td">$128 AUD</div>
+            <div class="table-td"><%=coupon.coupon_code%></div>
+            <div class="table-td"><%=coupon.expiry_date%></div>
+            <div class="table-td"><%=coupon.discount%>%</div>
           </div>
-          <div class="table-tr">
+          <% end %>
+          <!-- <div class="table-tr">
             <div class="table-td">FGHIK67890</div>
             <div class="table-td">12 Feb 2019</div>
             <div class="table-td">$65 AUD</div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
