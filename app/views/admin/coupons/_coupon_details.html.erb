@@ -13,7 +13,7 @@
             <div class="Width100Px"><%= coupon.id %></div>
             <div class="Width100Px"><%= coupon.coupon_code %></div>
             <div class="Width100Px"><%=coupon.discount%>%</div>
-            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".js-example-basic-multiple_#{coupon.id}", coupon_id: coupon.user_ids %></div>
+            <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".modal_select2_#{coupon.id}", users_ids: coupon.user_ids %></div>
           </div>
         <% end %>
       <% end %>
@@ -31,12 +31,12 @@
           <button type="button" class="close" data-dismiss="modal"><%= image_tag "cross.jpg", class: 'close-img' %></button>
         </div>
         <div class="modal-body">
-          <%= form_tag(coupon_details_admin_coupons_path(id: coupon.id), method: :patch, id: 'new_form', remote: true,:action => "coupon_details")do %>
+          <%= form_tag(admin_coupon_path(coupon.id), method: :patch, id: 'new_form', remote: true)do %>
             <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: "js-example-basic-multiple_#{coupon.id}" %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), class: "modal_select2_#{coupon.id}" %>
               </div>
             </div>
           </div>
