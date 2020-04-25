@@ -105,7 +105,7 @@ class EmployeeListing < ApplicationRecord
               ["$70 / Hour", 70.0], ["$80 / Hour", 80.0], ["$90 / Hour", 90.0], ["$100 / Hour", 100.0], ["$150 / Hour", 150.0], ["$200 / Hour", 200.0],
               ["$250 / Hour", 250.0], ["$300 / Hour", 300.0], ["$350 / Hour", 350.0], ["$400 / Hour", 400.0], ["$450 / Hour", 450.0], ["$500 / Hour", 500.0] ]
   
-  AGE = [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] 
+  AGE = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
   def poster
     lister_type.eql?("User") ? self.lister : self.lister.creator
   end

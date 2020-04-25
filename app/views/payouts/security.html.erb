@@ -61,9 +61,14 @@
         $(".continue_btn").click(function () {
             var password = $(".new_password").val();
             var confirmPassword = $(".confirm_password").val();
+            var oldPassword = $(".old_password").val();
             if (password != confirmPassword) {
                 alert("Passwords do not match.");
                 return false;
+            }
+            else if (oldPassword == password) {
+              alert("Your New Password must be different from your Old Password.");
+              return false;
             }
             return true;
         });

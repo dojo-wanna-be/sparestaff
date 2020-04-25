@@ -307,7 +307,7 @@ class EmployeeListingsController < ApplicationController
       transaction_ids = transactions.pluck(:id)
       bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
       @disabled_time = unavailable_time_slots(bookings)
-
+      @skills = @employee_listing.employee_skills
       @transaction = @employee_listing.transactions.build
       @avalibilities = @employee_listing.listing_availabilities
       @slots = @employee_listing.slots.pluck(:time_slot).to_sentence

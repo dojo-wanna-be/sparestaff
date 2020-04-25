@@ -68,8 +68,15 @@
       </div>
 
       <div class="detail-custom-box">
-        <h3 class="detail-heading">Description, expertise, skills</h3>
+        <h3 class="detail-heading">Description, expertise, experience</h3>
         <p class="pera-text"><%= @employee_listing.skill_description %></p>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Skills</h3>
+        <% @skills.each do |skill|%>
+        <p class="pera-text"><%= skill.skill_name %></p>
+        <% end %>
       </div>
 
       <div class="detail-custom-box">
