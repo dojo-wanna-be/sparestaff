@@ -19,6 +19,7 @@ class ReviewsController < ApplicationController
           @review.update(sender_id: current_user.id, receiver_id: tx.hirer.id, listing_id: tx.employee_listing.id)
         else
           @review.update(sender_id: current_user.id, receiver_id: tx.poster.id, listing_id: tx.employee_listing.id)
+          tx.employee_listing.update(rating_count: listing_star_rating(tx.employee_listing.id).round(2))
         end
         redirect_to step_2_reviews_path(id: @review.id)
       else

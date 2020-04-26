@@ -289,6 +289,10 @@ class EmployeeListingsController < ApplicationController
     @communication_grade = communication_grade(@employee_listing.id)
     @reviews_all_star = @friendliness_grade + @knowledge_n_skills_grade + @punctuality_grade + @management_skill_grade + @professionalism_grade + @communication_grade
     @poster_reviews = Review.where(receiver_id: @employee_listing.poster.id)
+    similar_class_listings = @employee_listing.classification.employee_listings.ransack(title_cont_any: @employee_listing.title.split(" ")).result
+    similar_price_listings = similar_class_listings.ransack(weekday_price_gteq: @employee_listing.weekday_price.to_f - 10, weekday_price_lteq: @employee_listing.weekday_price.to_f + 10).result
+    similar_rank_listings = similar_price_listings.ransack(rating_count_eq: @employee_listing.rating_count).result
+    @similar_nearby_listings = similar_rank_listings.near(@employee_listing.city + ", " + @employee_listing.state + ", " + @employee_listing.country)
     unless @employee_listing.published?
       flash[:error] = "Please publish this listing first"
       if @employee_listing.listing_step < 6

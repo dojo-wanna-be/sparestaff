@@ -298,24 +298,50 @@
   <div class="featured-listings-box">
     <h1 class="featured-heading">Similar Listing</h1>
 
-    <div class="featured-listings">
-      <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
-        <div class="listing-card">
-          <div class="listing-img">
-            <%= image_tag "professional-3.png", alt: "", class: "card-image" %>
-          </div>
-          <div class="listing-details">
-            <div><b>Senior IT Administrator</b></div>
-            <div>Cristiano Ronaldo</div>
-            <div>$35 per hour</div>
-            <div>Chippendale NSW 2008</div>
-            <div class="rating">
-              <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-              <span>28</span>
+    <div class="featured-listings" >
+      <% if !@similar_nearby_listings.blank? %>
+        <% @similar_nearby_listings.each_with_index do |listing, index| %>
+          <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
+            <div class="listing-card">
+              <div class="listing-img">
+                <% if listing.profile_picture.present? %>
+                  <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+                <% else %>
+                  <%= image_tag 'no-image.jpg', class: 'card-image' %>
+                <% end %>
+              </div>
+              <div class="listing-details">
+                <div><b><%= listing.title %></b></div>
+                <div><%= listing.name %></div>
+                <div><%= "$#{listing.weekday_price} per hour" %></div>
+                <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+                <% if params[:commit] == "Search" %>
+                  <% if params[:location].present? %>
+                    <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
+                  <% end %>
+                <% end %>
+                <div class="rating">
+                  <% if listing_all_reviews(listing.id).count > 0 %>
+                    <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+                    <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+                    <span><%= listing_all_reviews(listing.id).count %></span>
+                  <% else %>
+                    <span>No reviews yet</span>
+                  <% end %>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="No results">There is no similar listings.</div>
       <% end %>
+    </div>
+
+
+
+
+    <div class="featured-listings" style="display: none;">
 
       <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
         <div class="listing-card">

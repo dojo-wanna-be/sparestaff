@@ -156,14 +156,20 @@ function validateAvailability(start_date, end_date, listing){
 }
 
 function calculateTax(){
+  if ($('#transaction_frequency').val() == "fortnight") {
+    week_frequency = 2
+  }
+  else {
+    week_frequency = 1
+  }
   var weekly_earning = hiring_weekday_price + hiring_weekend_price;
   checkTax(weekly_earning)
   var service_tax = <%= hirer_commission %> * (weekly_earning - tax);
   $("#transaction_tax_withholding_amount").removeAttr('disabled');
   $("#transaction_tax_withholding_amount").val(-tax);
-  $("#weeklyServicePrice").html(service_tax.toFixed(2));
+  $("#weeklyServicePrice").html(service_tax.toFixed(2) * week_frequency);
   var weekly_total_price = weekly_earning - tax + service_tax;
-  $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+  $("#weekly_total_price").html(weekly_total_price.toFixed(2) * week_frequency);
   totalEmploymentContract(tax, service_tax, weekly_total_price);
 }
 
@@ -405,3 +411,11 @@ $("#listing_transaction").submit(function(e){
 //     autoclose: true
 //   });
 // });
+$('#transaction_frequency').change(function(){
+  if ($(this).val() == "fortnight") {
+    calculateTax();
+  }
+  else {
+    calculateTax();
+  }
+})
