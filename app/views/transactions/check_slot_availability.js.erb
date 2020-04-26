@@ -1,4 +1,11 @@
 $('#booking_slots').html("<%= j render 'employee_listings/time_slot_booking', transaction: @transaction, employee_listing: @employee_listing, start_date: @start_date, end_date: @end_date %>")
+var sundayHour = 0;
+var mondayHour = 0;
+var tuesdayHour = 0;
+var wednesdayHour = 0;
+var thursdayHour = 0;
+var fridayHour = 0;
+var saturdayHour = 0;
 $.validator.addMethod('lessThan', function(value, element, param) {
   return this.optional(element) || value < $(param).val();
 }, "The value {0} must be less than {1}");

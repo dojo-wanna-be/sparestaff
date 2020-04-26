@@ -180,6 +180,7 @@ class HiringsController < ApplicationController
   			  rescue => e
   			    flash[:error] = e.message
   			  end
+          @old_transaction.update_attributes(state: "rejected", request_by: 'hirer')
   		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
@@ -197,11 +198,14 @@ class HiringsController < ApplicationController
   		  end
       else
         if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly"
-          if (Date.today - @old_transaction.start_date).to_i % 7 > 0
-            @old_transaction.update(end_date: Date.today + (7 - (Date.today - @old_transaction.start_date).to_i % 7) - 1)
-          else
-            @old_transaction.update(end_date: Date.today)
-          end
+          # if (Date.today - @old_transaction.start_date).to_i % 7 > 0
+          #   @old_transaction.update(end_date: Date.today + (7 - (Date.today - @old_transaction.start_date).to_i % 7) - 1)
+          # else
+          #   @old_transaction.update(end_date: Date.today)
+          # end
+          old_tx_end_date = @old_transaction.end_date
+          updated_old_tx_end_date = changed_old_tx_end_date(@old_transaction, @old_transaction.frequency)
+          @old_transaction.update(end_date: old_tx_end_date > updated_old_tx_end_date ? updated_old_tx_end_date : old_tx_end_date)
           @transaction.update(start_date: @old_transaction.end_date + 1.day)
           PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
@@ -214,14 +218,18 @@ class HiringsController < ApplicationController
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
         elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
-          if (Date.today - @old_transaction.start_date).to_i % 14 > 0
-            @old_transaction.update(end_date: Date.today + (14 - (Date.today - @old_transaction.start_date).to_i % 14) - 1)
-          else
-            @old_transaction.update(end_date: Date.today)
-          end
-          @transaction.update(start_date: @old_transaction.end_date + 1.day)
+          # if (Date.today - @old_transaction.start_date).to_i % 14 > 0
+          #   @old_transaction.update(end_date: Date.today + (14 - (Date.today - @old_transaction.start_date).to_i % 14) - 1)
+          # else
+          #   @old_transaction.update(end_date: Date.today)
+          # end
+          # @transaction.update(start_date: @old_transaction.end_date + 1.day)
           # @old_transaction.update(end_date: @old_transaction.start_date + 13.days)
           # @transaction.update(start_date: @old_transaction.start_date + 2.weeks)
+          old_tx_end_date = @old_transaction.end_date
+          updated_old_tx_end_date = changed_old_tx_end_date(@old_transaction, @old_transaction.frequency)
+          @old_transaction.update(end_date: old_tx_end_date > updated_old_tx_end_date ? updated_old_tx_end_date : old_tx_end_date)
+          @transaction.update(start_date: @old_transaction.end_date + 1.day)
           PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
           @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
@@ -427,4 +435,21 @@ class HiringsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def changed_old_tx_end_date(old_tx, frequency)
+    diff = (Date.today - old_tx.start_date).to_i
+    week_diff_count = frequency.eql?("weekly") ? 7 : 14
+    week_diff_days = frequency.eql?("weekly") ? 6 : 13
+    if  diff < week_diff_count
+      date = Date.today + (week_diff_days - diff)
+    else
+      reminder = diff % week_diff_count
+      if reminder > 0
+        date = Date.today + week_diff_days.days
+      else
+        date = Date.today + (week_diff_days - reminder)
+      end
+    end
+  end
+  helper_method :changed_old_tx_end_date
 end

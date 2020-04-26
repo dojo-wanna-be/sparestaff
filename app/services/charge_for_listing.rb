@@ -72,9 +72,9 @@ class ChargeForListing
       fee = poster_service_fee(amount - transaction.tax_withholding_amount)
       poster_fee = amount - transaction.tax_withholding_amount - fee
       if transaction.frequency == 'weekly'
-        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: ((Date.today + 6.days) < transaction.end_date ? (Date.today + 6.days) : transaction.end_date))
+        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: transaction.start_date > Date.today ? transaction.start_date : Date.today, payment_cycle_end_date: transaction.start_date > Date.today ? transaction.start_date + 6.days : ((Date.today + 6.days) < transaction.end_date ? (Date.today + 6.days) : transaction.end_date))
       elsif transaction.frequency == 'fortnight'
-        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: Date.today, payment_cycle_end_date: ((Date.today + 13.days) < transaction.end_date ? (Date.today + 13.days) : transaction.end_date))
+        stripe_payment = StripePayment.create!(transaction_id: transaction.id, amount: amount, poster_service_fee: poster_fee, status: "failed", payment_cycle_start_date: transaction.start_date > Date.today ? transaction.start_date : Date.today, payment_cycle_end_date: transaction.start_date > Date.today ? transaction.start_date + 13.days : ((Date.today + 13.days) < transaction.end_date ? (Date.today + 13.days) : transaction.end_date))
       end
       begin
         charge = Stripe::Charge.create(

@@ -1,6 +1,5 @@
 <h1 class="comman-heading">New details</h1>
-
-<div class="date-detail"><%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
+<div class="date-detail"><%= "#{(changed_old_tx_end_date(@old_transaction, @old_transaction.frequency) + 1).strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
 
 <div class="day-timing-box">
   <% ListingAvailability.days.each do |day| %>
