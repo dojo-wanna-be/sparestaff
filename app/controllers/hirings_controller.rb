@@ -109,7 +109,7 @@ class HiringsController < ApplicationController
       end
       @disabled_time = unavailable_time_slots(bookings)
     else
-      if (@old_transaction.end_date - @old_transaction.start_date).to_i > 7 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 14 && @old_transaction.frequency == "fortnight"
+      if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
         listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
 
         transactions = listing
@@ -183,7 +183,10 @@ class HiringsController < ApplicationController
   		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-        	message = find_or_create_conversation.messages.last
+          #message = find_or_create_conversation.messages.last
+          message = find_or_create_conversation.messages.last
+          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
         	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
   		    flash[:notice] = 'Card charged successfully.'
         	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
@@ -193,7 +196,7 @@ class HiringsController < ApplicationController
   		    flash[:error] = e.message
   		  end
       else
-        if (@old_transaction.end_date - @old_transaction.start_date).to_i > 7 && @old_transaction.frequency == "weekly"
+        if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly"
           if (Date.today - @old_transaction.start_date).to_i % 7 > 0
             @old_transaction.update(end_date: Date.today + (7 - (Date.today - @old_transaction.start_date).to_i % 7) - 1)
           else
@@ -210,7 +213,7 @@ class HiringsController < ApplicationController
           HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
-        elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 14 && @old_transaction.frequency == "fortnight"
+        elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
           if (Date.today - @old_transaction.start_date).to_i % 14 > 0
             @old_transaction.update(end_date: Date.today + (14 - (Date.today - @old_transaction.start_date).to_i % 14) - 1)
           else

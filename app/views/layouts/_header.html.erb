@@ -30,7 +30,7 @@
             <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
               <span class="dropdown_toggle">
                 <% if current_user.avatar.url.include?("missing") %>
-                  <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+                  <%= image_tag "no-image.jpg", alt: "", class: "ProfileIcon" %>
                 <% else %>
                   <%= image_tag(current_user.avatar.url(:thumb), class: "ProfileIcon") %>
                 <% end %>
