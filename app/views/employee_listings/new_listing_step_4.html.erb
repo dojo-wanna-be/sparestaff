@@ -27,7 +27,7 @@
             </div>
 
             <div class="custom-input-group">
-              <label class="custom-label">Please describe the employee skills, strength, expertise, experience, etc</label>
+              <label class="custom-label">Please describe the employee strength, expertise, experience, etc</label>
               <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
             </div>
 
@@ -148,6 +148,7 @@
     rules: {
     "parent_classification": {required: true},
     "employee_listing[skill_description]": {required: true},
+    "employee_listing[employee_skills]": {required: true},
     }
   });
 
