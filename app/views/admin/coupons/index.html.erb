@@ -24,6 +24,10 @@
                 <%= number_field_tag :discount %>
               </div>
               <div class="custom-input-group">
+                <%= label_tag :expiry_date %>
+                <%= date_field_tag :expiry_date %>
+              </div>
+              <div class="custom-input-group">
                 <%= label_tag :users %>
                 <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'select2' %>
               </div>
@@ -47,6 +51,17 @@
       $.getScript(this.href);
       return false;
     });
+  });
+
+  $("#new_form").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "coupon_code": {required: true},
+      "discount": {required: true},
+      "expiry_date": {required: true},
+    }
   });
 
   $('.select2').select2({

@@ -155,6 +155,7 @@ Rails.application.routes.draw do
       get :transaction_history
       get :stripe_account
       get :payouts_method
+      match :add_coupon, via: [:post, :patch]
       match :change_preference, via: [:post, :patch]
       match :security, via: [:get, :post]
     end

@@ -90,6 +90,9 @@ class PayoutsController < ApplicationController
   def index
     @payment_method = current_user.stripe_info
     @coupons = current_user.coupons
+    # @user_coupons = current_user.user_coupons.where(active: false)
+    # @inactive_coupons = user_coupon.coupon
+    # binding.pry
     begin
       @stripe_account = Stripe::Account.retrieve(@payment_method.stripe_account_id) if (@payment_method.present?  && @payment_method.stripe_account_id)
     rescue => e
@@ -108,6 +111,13 @@ class PayoutsController < ApplicationController
         @error = @account[:message]
         render action: "stripe_account"
       end
+  end
+
+  def add_coupon
+    @coupon = Coupon.find(params[:coupon_id])
+    @user_coupon = @coupon.user_coupons.find_by(user_id: current_user.id)
+    @user_coupon.update(active: true)
+    redirect_to payouts_path
   end
 
   def change_preference

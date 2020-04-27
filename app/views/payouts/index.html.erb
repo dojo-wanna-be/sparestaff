@@ -54,11 +54,14 @@
       </div>
       <div class="payout-box-content payout-method-box-content">
         <div class="add-coupan-box">
-          <label>Add a coupon</label>
-          <div class="add-cpn-input-box">
-            <input name="Text1" type="text" style="width:200px">
-            <%= link_to 'Add coupon', 'javascript:;', class: 'add-cpn-btn' %>
-          </div>
+          <%= form_tag add_coupon_payouts_path, method: :patch, id: 'coupon_state', remote: true do %>
+            <%= label_tag :add_coupon %>
+              <!-- <input name="Text1" type="text" style="width:200px"> -->
+              <br />
+            <%= select_tag "coupon_id", options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.id] })%>
+            <%#= link_to 'Add coupon', 'javascript:;', class: 'add-cpn-btn' %>
+          <%= submit_tag "Add Coupon", class: 'add-cpn-btn' %>
+          <% end %>
         </div>
 
         <div class="coupan-table">
@@ -66,13 +69,19 @@
             <div class="table-td"><b>Coupon code</b></div>
             <div class="table-td"><b>Expiration date</b></div>
             <div class="table-td"><b>Amount(%)</b></div>
+            <div class="table-td"><b>State</b></div>
           </div>
           <% @coupons.each do |coupon| %>
-          <div class="table-tr">
-            <div class="table-td"><%=coupon.coupon_code%></div>
-            <div class="table-td"><%=coupon.expiry_date%></div>
-            <div class="table-td"><%=coupon.discount%>%</div>
-          </div>
+            <div class="table-tr">
+              <div class="table-td"><%=coupon.coupon_code%></div>
+              <div class="table-td"><%=coupon.expiry_date.strftime('%b %d, %Y')%></div>
+              <div class="table-td"><%=coupon.discount%>%</div>
+              <% if coupon.user_coupons.where(user_id: current_user.id).first.active.eql?(false) %>
+                <div class="table-td">Not Active</div>
+              <% else %>
+                <div class="table-td">Active</div>
+              <% end %>
+            </div>
           <% end %>
           <!-- <div class="table-tr">
             <div class="table-td">FGHIK67890</div>
