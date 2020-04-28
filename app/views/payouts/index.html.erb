@@ -58,7 +58,7 @@
             <%= label_tag :add_coupon %>
               <!-- <input name="Text1" type="text" style="width:200px"> -->
               <br />
-            <%= select_tag "coupon_id", options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.id] })%>
+            <%= select_tag "coupon_id", options_for_select(@inactive_coupons&.map { |coupon| [coupon.coupon_code, coupon.id] }.insert(0, "Add Coupon To Activate")), class: 'custom-field'%>
             <%#= link_to 'Add coupon', 'javascript:;', class: 'add-cpn-btn' %>
           <%= submit_tag "Add Coupon", class: 'add-cpn-btn' %>
           <% end %>
@@ -76,8 +76,8 @@
               <div class="table-td"><%=coupon.coupon_code%></div>
               <div class="table-td"><%=coupon.expiry_date.strftime('%b %d, %Y')%></div>
               <div class="table-td"><%=coupon.discount%>%</div>
-              <% if coupon.user_coupons.where(user_id: current_user.id).first.active.eql?(false) %>
-                <div class="table-td">Not Active</div>
+              <% if coupon.user_coupons.find_by(user_id: current_user.id).active.eql?(false) %>
+                <div class="table-td">Inactive</div>
               <% else %>
                 <div class="table-td">Active</div>
               <% end %>

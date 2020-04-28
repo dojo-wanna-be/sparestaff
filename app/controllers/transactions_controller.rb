@@ -71,6 +71,7 @@ class TransactionsController < ApplicationController
 
   def payment
     @employee_listing = @transaction.employee_listing
+    @coupons = Coupon.includes(:user_coupons).where(user_coupons: { user_id: current_user.id, active: true })
     @slot = ""
     all_bookings = @transaction.bookings
     ListingAvailability::DAYS.map{|k,v| v}.each do |day|
@@ -86,7 +87,6 @@ class TransactionsController < ApplicationController
     begin
       stripe_token = params[:stripe_token]
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
-      
       @transaction.update_attribute(:state, "created")
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!

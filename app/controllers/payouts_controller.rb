@@ -90,9 +90,7 @@ class PayoutsController < ApplicationController
   def index
     @payment_method = current_user.stripe_info
     @coupons = current_user.coupons
-    # @user_coupons = current_user.user_coupons.where(active: false)
-    # @inactive_coupons = user_coupon.coupon
-    # binding.pry
+    @inactive_coupons = Coupon.includes(:user_coupons).where(user_coupons: { user_id: current_user.id, active: false })
     begin
       @stripe_account = Stripe::Account.retrieve(@payment_method.stripe_account_id) if (@payment_method.present?  && @payment_method.stripe_account_id)
     rescue => e
