@@ -5,12 +5,12 @@
     <option selected="selected">All Messages (<%= @conversations.count %>)</option>
     <option val="unread">Unread (<%= @unread_count %>)</option>
   </select>
-  <div class="inbox_container" id="conversation_list">
+  <div class="inbox_container sss" id="conversation_list">
     <% @conversations.each do |conversation| %>
       <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
         <div class="logo">
           <% if conversation.sender.avatar.url.include?("missing") %>
-            <%= image_tag 'luca2.jpg', alt: '' %>
+            <%= image_tag 'no-image.jpg', alt: '' %>
           <% else %>
             <%= image_tag(conversation.sender.avatar.url(:thumb), class: "ProfileIcon") %>
           <% end %>
@@ -28,8 +28,8 @@
           <p class="sm_text"><%= conversation.employee_listing.title %>, <%= conversation.employee_listing.name %>, <%= conversation.employee_listing.city %> <%= conversation.employee_listing.state %>, <%= conversation.employee_listing.country %></p>
         </div>
         <div class="price">
-          <% if  conversation.employee_listing_transaction.present? %>
-            <span class="green"><%conversation.employee_listing_transaction.state %></span><br>
+          <% if conversation.employee_listing_transaction.present? %>
+            <span class="<%= conversation.employee_listing_transaction.state.eql?('accepted') ? 'green' : 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
           <% end %>
         </div>

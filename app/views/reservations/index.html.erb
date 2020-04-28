@@ -134,69 +134,71 @@
             </div>
 
             <% @completed_listing_transactions.each do |transaction| %>
-              <div class="reservation-list">
-                <% if transaction.state.eql?("completed") %>
-                  <div class="list-box one"><span class="">Completed</span></div>
-                <% elsif transaction.state.eql?("expired") %>
-                  <div class="list-box one"><span class="orange-text">Expired</span></div>
-                <% elsif transaction.state.eql?("rejected") %>
-                  <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-                <% elsif transaction.state.eql?("cancelled") %>
-                  <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
-                <% end %>
-                <div class="list-box two">
-                  <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
-                  <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
-                  <%= transaction.hirer.company.address_1 %> <br>
-                  <%= "#{transaction.hirer.company.city} #{transaction.hirer.company.state} #{transaction.hirer.company.post_code}" %>
-                </div>
-                <div class="list-box three">
-                  <div class="image-box">
-                    <div class="user-image">
-                      <% if transaction.employee_listing.profile_picture.present? %>
-                        <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
-                      <% else %>
-                        <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
-                      <% end %>
-                    </div>
-                    <div class="user-detail">
-                      <b><%= transaction.employee_listing.title %></b><br>
-                      <%= transaction.employee_listing.name %>
+              <% if !(transaction.cancelled_at.present? && transaction.cancelled_at > transaction.start_date) %>
+                <div class="reservation-list">
+                  <% if transaction.state.eql?("completed") %>
+                    <div class="list-box one"><span class="">Completed</span></div>
+                  <% elsif transaction.state.eql?("expired") %>
+                    <div class="list-box one"><span class="orange-text">Expired</span></div>
+                  <% elsif transaction.state.eql?("rejected") %>
+                    <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+                  <% elsif transaction.state.eql?("cancelled") %>
+                    <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
+                  <% end %>
+                  <div class="list-box two">
+                    <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                    <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
+                    <%= transaction.hirer.company.address_1 %> <br>
+                    <%= "#{transaction.hirer.company.city} #{transaction.hirer.company.state} #{transaction.hirer.company.post_code}" %>
+                  </div>
+                  <div class="list-box three">
+                    <div class="image-box">
+                      <div class="user-image">
+                        <% if transaction.employee_listing.profile_picture.present? %>
+                          <%= image_tag transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                        <% else %>
+                          <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                        <% end %>
+                      </div>
+                      <div class="user-detail">
+                        <b><%= transaction.employee_listing.title %></b><br>
+                        <%= transaction.employee_listing.name %>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="list-box four">
-                  <div class="image-box">
-                    <div class="user-image">
-                      <%= link_to user_path(transaction.hirer.id) do %>
-                        <%= image_tag transaction.hirer.avatar.url, class: 'ProfileIcon' %>
-                      <% end %>
-                    </div>
-                    <div class="user-detail">
-                      <b>
+                  <div class="list-box four">
+                    <div class="image-box">
+                      <div class="user-image">
                         <%= link_to user_path(transaction.hirer.id) do %>
-                          <span><%= transaction.hirer.name %></span>
-                          <% end %>
-                      </b>
-                      <br>
-                      Contact: <%= transaction.hirer.company.name %><br>
-                      <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
-                      <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                          <%= image_tag transaction.hirer.avatar.url, class: 'ProfileIcon' %>
+                        <% end %>
+                      </div>
+                      <div class="user-detail">
+                        <b>
+                          <%= link_to user_path(transaction.hirer.id) do %>
+                            <span><%= transaction.hirer.name %></span>
+                            <% end %>
+                        </b>
+                        <br>
+                        Contact: <%= transaction.hirer.company.name %><br>
+                        <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                        <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-box five">
+                    <div>
+                      <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
+                    </div>
+                    <div>
+                      <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
+                    </div>
+                    <div>
+                      <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                     </div>
                   </div>
                 </div>
-                <div class="list-box five">
-                  <div>
-                    <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
-                  </div>
-                  <div>
-                    <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
-                  </div>
-                  <div>
-                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
-                  </div>
-                </div>
-              </div>
+              <% end %>
             <% end %>
           </div>
         </div>

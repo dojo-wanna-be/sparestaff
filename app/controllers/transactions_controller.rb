@@ -62,7 +62,7 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      @transaction.update_attributes(probationary_period: params[:transaction][:probationary_period])
+      @transaction.update_attributes(probationary_period: params[:transaction].present? ? params[:transaction][:probationary_period] : nil)
       address = @transaction.build_address(address_params).save
       create_message
       redirect_to payment_transaction_path(id: @transaction.id)

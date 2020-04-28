@@ -29,6 +29,8 @@ class InboxesController < ApplicationController
       @transaction = @conversation.employee_listing_transaction
       @address = @transaction.try(:address)
       @listing = @conversation.employee_listing
+      @reviews_all_star = listing_star_rating(@listing.id)
+      @reviews_all = listing_all_reviews(@listing.id)
       @messages = @conversation.messages.order(created_at: :DESC)
     end
     @unread_count = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct.count
@@ -48,15 +50,15 @@ class InboxesController < ApplicationController
       end
       if current_user.user_type == "hr" && @receiver.user_type == "hr"
         if @listing.poster.eql?(@sender.first)
-          MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
+          MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_later!
         else
-          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
         end
       elsif @sender.first.user_type == "hr"
-          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_now!
+          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
       # elsif @listing.poster.eql?(@sender.first)
       else
-        MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_now!
+        MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_later!
       end
       @messages = @conversation.messages.order(created_at: :DESC)
       #flash[:notice] = "Message sent successfully."

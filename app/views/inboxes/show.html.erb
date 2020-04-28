@@ -50,7 +50,8 @@
         <div class=""><%= @listing.name %></div>
         <span class="GreyText-abc">Poster: <%= @listing.poster.name %></span>
         <div class="Text14px PaddingTop10px">
-          <%= image_tag "star-rating.png", class: "star-rating" %> 28 reviews
+          <div class="reviews_all_star_profile" data-score ="<%= @reviews_all_star.round(0) %>"></div>
+          <%= image_tag "star-rating.png", class: "star-rating" %> <%= @reviews_all.count %> reviews&nbsp;
         </div>
       </div>
       <br/>
@@ -86,4 +87,12 @@
     c = "<%= @unread_count %>"
     $(".badge").text(c)
   });
+  $('.listing_star_rating').raty({
+      readOnly: true,
+      score: function() {
+          return $(this).attr('data-score');
+        },
+      starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+      starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'  
+    });
 </script>

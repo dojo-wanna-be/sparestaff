@@ -59,12 +59,12 @@
 <%= render partial: "edit_data_confirm_modal" %>
 
 <script type="text/javascript">
-  $('.edit_listing_links').click(function(){
-    if ($("#listing_details,#employee_skills,#listing_pricing,#listing_availability,#listing_status").isChanged()) {
+  var somethingChange = false;
+  $('.edit_listing_links').click(function() {
+    if (somethingChange) {
       $('#edit_confirmation_modal').modal('show');
     }
     else {
-      $('#edit_confirmation_modal').modal('hide');
       var $form = $('form:visible');
       var newElement = '<input type="hidden" value="'+type+'" name="redirect_link" />';
       $form.append( $(newElement) );
@@ -72,5 +72,7 @@
       $form.submit();
     }
   });
-
+  $("#listing_details,#employee_skills,#listing_pricing,#listing_availability,#listing_status").change(function(){
+    somethingChange = true;
+  });
 </script>

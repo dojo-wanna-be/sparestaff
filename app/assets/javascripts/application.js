@@ -75,14 +75,3 @@ $("#listing_transaction").validate({
     "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
   }
 });
-$.fn.extend({
- trackChanges: function() {
-   $(":input",this).change(function() {
-      $(this.form).data("changed", true);
-   });
- }
- ,
- isChanged: function() {
-   return this.data("changed");
- }
-});

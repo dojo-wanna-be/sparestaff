@@ -64,8 +64,12 @@
           <% else %>
             <%= image_tag 'no-image.jpg' %>
           <% end %>
+          <% if transaction.state.eql?("cancelled") %>
+            <%= link_to 'View Receipt', get_receipt_hiring_path(id: transaction.id), class: "btn_over" %>
+          <% else %>
+            <%= link_to 'View Hiring', hiring_path(id: transaction.id), class: "btn_over" %>
+          <% end %>
 
-          <%= link_to 'View Hiring', hiring_path(id: transaction.id), class: "btn_over" %>
         </div>
       </div>
     <% end %>
@@ -94,7 +98,12 @@
                 <span class="listing_star_rating" data-score ="<%= listing_star_rating(hiring.employee_listing.id).round(0) %>"></span>
                 <%#= image_tag 'star-rating.png', class: 'review-img' %>
                 <% if hiring.state.eql?("completed") %>
-                  <%= link_to 'Write a Review', new_review_url(tx_id: hiring.id), class: 'review-link ' %>
+                  <% already_create_review = Review.where(transaction_id: hiring.id, sender_id: current_user.id) %>
+                  <% if already_create_review.blank? %>
+                    <%= link_to 'Write a Review', new_review_url(tx_id: hiring.id), class: 'review-link ' %>
+                  <% else %>
+                    <%= link_to 'Read Your Review' , reviews_path, class: 'review-link gray-link' %>
+                  <% end %>
                 <% end %>
               </div>
               <%= link_to 'View Receipt', get_receipt_hiring_path(id: hiring.id), class: 'review-receipt gray-link' %>
