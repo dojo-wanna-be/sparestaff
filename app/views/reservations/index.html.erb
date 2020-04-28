@@ -95,6 +95,12 @@
                     <%= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
+                <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
+                  <div>
+                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                    <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
+                  </div>
+                <% end %>
                 <div>
                   <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                 </div>
@@ -109,12 +115,12 @@
                     <%= link_to 'Accept or Decline', inbox_path(id: transaction.conversation&.id), class: 'orange-text' %>
                   </div>
                 <% end %>
-                <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
-                  <div>
-                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                <%# if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
+                  <!-- <div>
+                    <%#= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                     <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
-                  </div>
-                <% end %>
+                  </div> -->
+                <%# end %>
               </div>
             </div>
           <% end %>
@@ -191,10 +197,10 @@
                       <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                     </div>
                     <div>
-                      <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
+                      <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                     </div>
                     <div>
-                      <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                      <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                     </div>
                   </div>
                 </div>
