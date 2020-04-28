@@ -37,7 +37,7 @@
     </div>
     <div class="custom-input-group">
       <label class="thin-label">Redeem a Coupon</label>
-      <%= text_field_tag :address_1, nil, placeholder: "", class: 'custom-field' %>
+      <%= select_tag  :coupon, options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.id] }.insert(0, "Select a Service")), class: 'custom-field' %>
     </div>
 
     <div class="italic-text"><em >*required details</em></div>

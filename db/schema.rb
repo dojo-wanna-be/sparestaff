@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_144622) do
+ActiveRecord::Schema.define(version: 2020_04_27_061132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,14 @@ ActiveRecord::Schema.define(version: 2020_04_24_144622) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
+  create_table "notification_settings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.json "preferences", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notification_settings_on_user_id"
+  end
+
   create_table "payment_receipts", force: :cascade do |t|
     t.date "start_date"
     t.date "end_date"
@@ -375,6 +383,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_144622) do
     t.integer "coupon_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: false
   end
 
   create_table "users", force: :cascade do |t|

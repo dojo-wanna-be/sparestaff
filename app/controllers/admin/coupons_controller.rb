@@ -10,6 +10,7 @@ class Admin::CouponsController < Admin::AdminBaseController
     @coupon = Coupon.new
     @coupon.coupon_code = params[:coupon_code]
     @coupon.discount = params[:discount].to_f
+    @coupon.expiry_date = params[:expiry_date]
     @coupon.save
     if params[:users].present?
       @users = User.where(id: params[:users])
