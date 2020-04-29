@@ -106,7 +106,7 @@
                 </div>
                 <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
                   <div>
-                    <%= link_to 'View invoices', 'javascript:;', class: 'orange-text' %>
+                    <%= link_to 'View invoices', reservations_view_invoice_list_reservations_path, class: 'orange-text' %>
                     <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
