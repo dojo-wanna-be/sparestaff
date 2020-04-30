@@ -156,14 +156,14 @@
 
 <%= render partial: "share_details_popup" %>
 
-<script type="text/javascript">s
+<script type="text/javascript">
   $(document).ready(function() {
     $('.toggle-orange-hd').click(function(){
       $('.declined-hiring-cards').toggle();
     });
     $(".share-detail-link").click(function(){
       var transaction_id = $(this).data("attribute");
-      $("#shareDetailsModal").modal('toggle');
+      $("#shareDetailsModal").modal('show');
       $("#transaction_hidden_field").val(transaction_id);
     })
     $('.listing_star_rating').raty({
