@@ -161,7 +161,7 @@
 
   $(".share-detail-link").click(function(){
     var transaction_id = $(this).data("attribute");
-    $("#shareDetailsModal").modal();
+    $("#shareDetailsModal").modal('toggle');
     $("#transaction_hidden_field").val(transaction_id);
   })
   $(document).ready(function() {
