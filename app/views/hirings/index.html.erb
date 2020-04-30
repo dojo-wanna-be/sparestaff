@@ -96,6 +96,8 @@
               <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span><br />
               <% if hiring.state.eql?("completed") %>
                 <div class='review-link'>Completed</div>
+              <% elsif hiring.state.eql?("expired") %>
+                <div class='review-link'>Expired</div>
               <% end %>
               <div class="review_part">
                 <span class="listing_star_rating" data-score ="<%= listing_star_rating(hiring.employee_listing.id).round(0) %>"></span>
@@ -154,12 +156,11 @@
 
 <%= render partial: "share_details_popup" %>
 
-<script type="text/javascript">
+<script type="text/javascript">s
   $(document).ready(function() {
     $('.toggle-orange-hd').click(function(){
       $('.declined-hiring-cards').toggle();
     });
-
     $(".share-detail-link").click(function(){
       var transaction_id = $(this).data("attribute");
       $("#shareDetailsModal").modal('toggle');
