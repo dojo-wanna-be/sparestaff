@@ -25,7 +25,7 @@ class ReservationsController < ApplicationController
   def index
     poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
     @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
-    @completed_listing_transactions = poster_transactions.where(state: [:cancelled, :completed]).includes(:employee_listing)
+    @completed_listing_transactions = poster_transactions.where(state: [:completed]).includes(:employee_listing)
   end
 
   def show

@@ -188,7 +188,7 @@
           </div>
           <br>
 
-          <%= link_to 'Message Hirer', 'javascript:;', class: 'continue-btn' %>
+          <%= link_to 'Message Hirer', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
           <br>
 
           <%= link_to 'javascript:;', class: 'orange-link' do  %>

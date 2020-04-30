@@ -6,7 +6,7 @@
         <div>Hiring ID: <%= @transaction.id %></div>
       </div>
       <div class="header-right">
-        <%= link_to "Print", '#', class: 'print-btn' %>
+        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
       </div>
     </div>
 

@@ -43,6 +43,15 @@ class ReviewsController < ApplicationController
 
   def last_step
     @transaction = Transaction.find_by(id: params[:id])
+    if current_user.eql?(@transaction.poster)
+      @sender = @transaction.poster
+      @receiver = @transaction.hirer
+      ReviewMailer.review_email_to_user(@sender,@receiver).deliver_later!
+    else
+      @sender = @transaction.hirer
+      @receiver = @transaction.poster
+      ReviewMailer.review_email_to_user(@sender,@receiver).deliver_later!
+    end
   end
 
   def profile_photo
