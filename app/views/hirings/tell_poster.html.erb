@@ -50,11 +50,11 @@
       <h3 class="sub-title">Weekly payment</h3>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
-        <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
+        <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.weekday_hours)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
-        <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
+        <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.weekend_hours)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
@@ -66,7 +66,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{@transaction.amount + @transaction.service_fee}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount - @transaction.total_tax_withholding + @transaction.service_fee).round(2)}" %></b></span>
       </div>
     </div>
 
@@ -75,11 +75,11 @@
     <div class="order-details show-payment-box">
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
-        <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
+        <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.total_weekday_hours)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
-        <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
+        <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></span>
       </div>
       <div class="order-item space-bottom">
         <span>Tax withholding</span>
@@ -91,7 +91,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Total</b></span>
-        <span><b><%= "$#{@transaction.total_amount}" %></b></span>
+        <span><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
 
       <div class="text-center grey-text detail-bot-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>

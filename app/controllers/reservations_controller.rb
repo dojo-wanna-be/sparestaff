@@ -209,9 +209,9 @@ class ReservationsController < ApplicationController
       amount = 0
     else
       already_start_refund_hours
-      @weekday_amount = @weekday_hours * @transaction.employee_listing.weekday_price.to_f
-      @weekend_amount = @weekend_hours * @transaction.employee_listing.weekend_price.to_f
-      amount =  StripeRefundAmount.new(@transaction).already_start_refund_amont
+      @weekday_amount = discount_amount(@transaction, @weekday_hours * @transaction.employee_listing.weekday_price.to_f)
+      @weekend_amount = discount_amount(@transaction, @weekend_hours * @transaction.employee_listing.weekend_price.to_f)
+      amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
     end
     @remaining_tax_withholding_amount = @transaction.remaining_tax_withholding(amount)
     @poster_service_fee = (amount - @remaining_tax_withholding_amount) * 0.1

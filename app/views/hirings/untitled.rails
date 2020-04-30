@@ -1,0 +1,9 @@
+$('.toggle-orange-hd').click(function(){
+    $('.declined-hiring-cards').toggle();
+  });
+
+  $(".share-detail-link").click(function(){
+    var transaction_id = $(this).data("attribute");
+    $("#shareDetailsModal").modal('toggle');
+    $("#transaction_hidden_field").val(transaction_id);
+  })

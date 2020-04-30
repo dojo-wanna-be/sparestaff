@@ -37,7 +37,8 @@
     </div>
     <div class="custom-input-group">
       <label class="thin-label">Redeem a Coupon</label>
-      <%= select_tag  :coupon, options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.id] }.insert(0, "Select a Coupon")), class: 'custom-field' %>
+      <%= select_tag(:coupon, options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.coupon_code] }),{prompt:"--Select a Coupon--", class: "coupon_select"}) %>
+      <%#= select_tag  :coupon, options_for_select(@coupons.map { |coupon| [coupon.coupon_code, coupon.coupon_code] }.insert(0, "Select a Service")), class: 'custom-field' %>
     </div>
 
     <div class="italic-text"><em >*required details</em></div>
@@ -154,5 +155,22 @@
   function hideError(event){
     
   }
+
+  $('.coupon_select').change(function() {
+    if ($(this).val() != "") {
+      $('.spinner_discount').removeClass('hidden');
+      $.ajax({
+        type: "GET",
+        url: "<%= check_valid_coupon_transaction_path(@transaction.id) %>",
+        data: { id: <%= @transaction.id %>, coupon: $(this).val(), ajax_call: true }
+      });
+    }
+    else {
+      $('.spinner_discount').removeClass('hidden');
+      $(".reset_values").html("<%= escape_javascript("#{render :partial => 'transactions/right_listing_details'}").html_safe %>");
+      setTimeout(function(){ $('.spinner_discount').addClass('hidden'); }, 2000);
+      //$('.reset_values').html("<%#= render partial: "transactions/right_listing_details" %>.html_safe")
+    }
+  })
 
 </script>

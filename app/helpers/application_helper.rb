@@ -51,4 +51,13 @@ module ApplicationHelper
   def poster_commission
     ((CommunityServiceFee.last&.commission_from_poster).to_f/100).round(2)
   end
+
+  def discount_amount(tx, amount)
+    if tx.discount_coupon.present?
+      discount = amount * tx.discount_percent/100
+      (amount - discount).round(2)
+    else
+      amount.round(2)
+    end
+  end
 end

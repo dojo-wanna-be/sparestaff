@@ -124,15 +124,15 @@
 				<td style="width: 300px">
 				<h4 style="color: #484848;">Weekly payout</h4>
 				</td>
-				<td style="text-align: right">&nbsp;</td>
+				<td style="text-align: right">&nbsp; <%= @transaction.discount_percent ? "Discount #{@transaction.discount_percent} (%)" : '' %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;color: #484848;">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></td>
-				<td style="text-align: right; color: #484848;">$<%= @listing.weekday_price * @transaction.weekday_hours %></td>
+				<td style="text-align: right; color: #484848;">$<%= ApplicationController.helpers.discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.weekday_hours) %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %> </td>
-				<td style="text-align: right; color: $484848;">$<%= @listing.weekend_price * @transaction.weekend_hours %></td>
+				<td style="text-align: right; color: $484848;">$<%= ApplicationController.helpers.discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.weekend_hours) %></td>
 			</tr>
 			<tr>
 				<td style="width: 300px; color: #484848;">Tax withholding</td>

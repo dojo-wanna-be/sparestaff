@@ -78,11 +78,11 @@
     <h3 class="sub-title">Weekly payment</h3>
     <div class="order-item space-bottom">
       <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
-      <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.weekday_hours)}" %></span>
     </div>
     <div class="order-item space-bottom">
       <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
-      <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.weekend_hours)}" %></span>
     </div>
     <div class="order-item space-bottom">
       <span>Tax withholding</span>
@@ -103,11 +103,11 @@
   <div class="order-details show-payment-box">
     <div class="order-item space-bottom">
       <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
-      <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.weekday_hours)}" %></span>
     </div>
     <div class="order-item space-bottom">
       <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
-      <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></span>
     </div>
     <div class="order-item space-bottom">
       <span>Tax withholding</span>

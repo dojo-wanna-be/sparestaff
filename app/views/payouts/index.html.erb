@@ -74,7 +74,7 @@
           <% @coupons.each do |coupon| %>
             <div class="table-tr">
               <div class="table-td"><%=coupon.coupon_code%></div>
-              <div class="table-td"><%=coupon.expiry_date.strftime('%b %d, %Y')%></div>
+              <div class="table-td"><%=coupon.expiry_date&.strftime('%b %d, %Y')%></div>
               <div class="table-td"><%=coupon.discount%>%</div>
               <% if coupon.user_coupons.find_by(user_id: current_user.id).active.eql?(false) %>
                 <div class="table-td">Inactive</div>
