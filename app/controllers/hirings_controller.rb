@@ -260,7 +260,7 @@ class HiringsController < ApplicationController
     #                       else
     #                         0
     #                       end
-    mid_cancel_amount = StripeRefundAmount.new(@transaction).already_start_refund_amont
+    mid_cancel_amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
     previus_charge_amount = (@transaction.amount - @transaction.tax_withholding_amount) + @transaction.service_fee
     new_charge_amount_with_service_fee = ((mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)) + @transaction.service_fee).round(2)
     new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50

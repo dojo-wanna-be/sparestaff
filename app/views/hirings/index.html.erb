@@ -152,16 +152,16 @@
 <%= render partial: "share_details_popup" %>
 
 <script type="text/javascript">
-  $('.toggle-orange-hd').click(function(){
-    $('.declined-hiring-cards').toggle();
-  });
-
-  $(".share-detail-link").click(function(){
-    var transaction_id = $(this).data("attribute");
-    $("#shareDetailsModal").modal();
-    $("#transaction_hidden_field").val(transaction_id);
-  })
   $(document).ready(function() {
+    $('.toggle-orange-hd').click(function(){
+      $('.declined-hiring-cards').toggle();
+    });
+
+    $(".share-detail-link").click(function(){
+      var transaction_id = $(this).data("attribute");
+      $("#shareDetailsModal").modal('show');
+      $("#transaction_hidden_field").val(transaction_id);
+    })
     $('.listing_star_rating').raty({
         readOnly: true,
         score: function() {

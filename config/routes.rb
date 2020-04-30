@@ -97,6 +97,7 @@ Rails.application.routes.draw do
       get :payment
       patch :request_payment
       get :request_sent_successfully
+      get :check_valid_coupon
     end
   end
 

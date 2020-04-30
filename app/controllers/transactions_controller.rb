@@ -7,6 +7,7 @@ class TransactionsController < ApplicationController
   before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
   before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
   before_action :find_company, only: [:initialized, :payment]
+  before_action :check_valid_coupon, only: :request_payment
 
   def create
     listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
@@ -88,6 +89,12 @@ class TransactionsController < ApplicationController
       stripe_token = params[:stripe_token]
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
       @transaction.update_attribute(:state, "created")
+      if params[:coupon].present?
+        discount_percent = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
+        amount = @transaction.amount - (@transaction.amount * discount_percent)/100
+        remaining_amount = @transaction.remaining_amount - (@transaction.remaining_amount * discount_percent)/100
+        @transaction.update(discount_percent: discount_percent, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.amount, remaining_amount: remaining_amount)
+      end
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
       TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
@@ -98,7 +105,6 @@ class TransactionsController < ApplicationController
       redirect_to root_path
     end
   end
-
 
   def request_sent_successfully
     @employee_listing = @transaction.employee_listing
@@ -120,6 +126,29 @@ class TransactionsController < ApplicationController
     @transaction = @employee_listing.transactions.build
   end
 
+  def check_valid_coupon
+    if params[:ajax_call].present?
+      if params[:coupon].present? && current_user.coupons.where(coupon_code: params[:coupon]).blank?
+        @error = true
+        #redirect_to payment_transaction_path(params[:id])
+      else
+        @discount_percent = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
+        @transaction = Transaction.find_by(id: params[:id])
+        @listing = @transaction.employee_listing
+        @discount_weekday_price = @listing.weekday_price.to_f - (@listing.weekday_price.to_f * @discount_percent/100)
+        @discount_weekend_price = @listing.weekend_price.to_f - (@listing.weekend_price.to_f * @discount_percent/100)
+        @discount_service_fee = @transaction.service_fee.to_f - (@transaction.service_fee.to_f * @discount_percent/100)
+        @discount_hirer_weekly_amount = @transaction.hirer_weekly_amount.to_f - (@transaction.hirer_weekly_amount.to_f * @discount_percent/100)
+        @discount_total_service_fee = @transaction.total_service_fee.to_f - (@transaction.total_service_fee.to_f * @discount_percent/100)
+        @discount_total_amount = @transaction.total_amount.to_f - (@transaction.total_amount.to_f * @discount_percent/100)
+      end
+    else
+      if params[:coupon].present? && current_user.coupons.where(coupon_code: params[:coupon]).blank?
+        flash[:error] = "Sorry! you have applied a Invalid or Expired coupon code."
+        redirect_to payment_transaction_path(params[:id])
+      end
+    end
+  end
   private
 
   def company_params
@@ -204,5 +233,4 @@ class TransactionsController < ApplicationController
       message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
     end
   end
-
 end

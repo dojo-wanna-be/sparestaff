@@ -96,7 +96,7 @@ class StripeRefundAmount
         # end
       else
         @amount = (@transaction.amount - @transaction.tax_withholding_amount) + (@transaction.amount - @transaction.tax_withholding_amount) * @transaction.commission_from_hirer
-        amount = already_start_refund_amont
+        amount = ApplicationController.helpers.discount_amount(@transaction, already_start_refund_amont)
         amount_with_taxwithholding = amount - @transaction.remaining_tax_withholding(amount)
         amount_with_service_fee = ((amount_with_taxwithholding) + @transaction.service_fee).round(2)
         amount_with_service_fee = 0.50 if amount_with_service_fee < 0.50

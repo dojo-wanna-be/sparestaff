@@ -1,0 +1,15 @@
+<% if @error.present? %>
+	var toastContent = $('<span>Sorry! you have applied a Invalid or Expired coupon code.</span>');
+	toastr.success(toastContent)
+<% else %>
+	$('.discount_applied').text("Discount Applied <%= @discount_percent %>(%)");
+	$('.discount_weekday_price').text("$<%= (@discount_weekday_price * @transaction.weekday_hours).round(2) %>");
+	$('.discount_weekend_price').text("$<%= (@discount_weekend_price * @transaction.weekend_hours).round(2) %>")
+	$('.discount_weekday_price_total').text("$<%= (@discount_weekday_price * @transaction.total_weekday_hours).round(2) %>");
+	$('.discount_weekend_price_total').text("$<%= (@discount_weekend_price * @transaction.total_weekend_hours).round(2) %>");
+	$('.discount_service_fee').text("$<%= @discount_service_fee.round(2) %>");
+	$('.discount_total_service_fee').text("$<%= @discount_total_service_fee.round(2) %>");
+	$('.discount_hirer_weekly_amount').text("$<%= @discount_hirer_weekly_amount.round(2) %>");
+	$('.discount_total_amount').text("$<%= @discount_total_amount.round(2) %>");
+<% end %>
+setTimeout(function(){ $('.spinner_discount').addClass('hidden'); }, 2000);

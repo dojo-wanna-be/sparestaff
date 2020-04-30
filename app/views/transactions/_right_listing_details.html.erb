@@ -39,6 +39,7 @@
       </div>
     </div>
   <% end %>
+  <div class="discount_applied"></div>
   <div class="user-right-box">
     <div class="left">
       <div><b>Weekly payment</b></div>
@@ -49,10 +50,10 @@
     </div>
     <div class="right">
       <div>&nbsp;</div>
-      <div><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
-      <div><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+      <div class="discount_weekday_price"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+      <div class="discount_weekend_price"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
       <div><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></div>
-      <div>$<%= @transaction.service_fee.round(2) %></div>
+      <div class="discount_service_fee">$<%= @transaction.service_fee.round(2) %></div>
     </div>
   </div>
 
@@ -61,7 +62,7 @@
       <span><b>Weekly Total</b></span>
     </div>
     <div class="right">
-      <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
+      <span><b class="discount_hirer_weekly_amount">$<%= @transaction.hirer_weekly_amount %></b></span>
     </div>
   </div>
 
@@ -76,16 +77,16 @@
       </div>
       <div class="right">
         <div>&nbsp;</div>
-        <div><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></div>
-        <div><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></div>
+        <div class="discount_weekday_price_total"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></div>
+        <div class="discount_weekend_price_total"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></div>
         <div><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></div>
-        <div>$<%= @transaction.total_service_fee.round(2) %></div>
+        <div class="discount_total_service_fee">$<%= @transaction.total_service_fee.round(2) %></div>
       </div>
     </div>
     <div class="devider">
       <div class="full-row">
         <span class="total"><b>Total</b></span>
-        <span class="value"><b><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
+        <span class="value"><b class="discount_total_amount"><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
       <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
     </div>
