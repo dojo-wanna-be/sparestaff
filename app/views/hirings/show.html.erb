@@ -183,7 +183,11 @@
 
       <div class="right-hiring-box">
         <div class="poster-view">
-          <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% if @listing.poster.avatar.present? %>
+            <%= image_tag @listing.poster.avatar.url, class: 'ProfileIcon100pxNoBorder' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% end %>
           <br>
           <br>
           <strong>Poster: <%= @listing.poster.name %></strong>
@@ -197,10 +201,11 @@
 
           <%= link_to 'Message Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
           <br>
-
-          <%= link_to 'javascript:;', class: 'orange-link' do  %>
-            <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
-            &nbsp; +61 434 292 527
+          <% if @listing.poster.phone_number.present? %>
+            <%= link_to 'javascript:;', class: 'orange-link' do  %>
+              <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
+              &nbsp; +<%= @listing.poster.phone_number%>
+            <% end %>
           <% end %>
         </div>
       </div>

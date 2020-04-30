@@ -6,7 +6,7 @@
         <div>Hiring ID: <%= @transaction.id %></div>
       </div>
       <div class="header-right">
-        <%= link_to "Print", '#', class: 'print-btn' %>
+        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
       </div>
     </div>
 
@@ -178,7 +178,11 @@
 
       <div class="right-hiring-box">
         <div class="poster-view">
-          <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% if @transaction.hirer.avatar.present? %>
+            <%= image_tag @transaction.hirer.avatar.url, class: 'ProfileIcon100pxNoBorder' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% end %>
           <br>
           <br>
           <strong>Hirer: <%= @transaction.hirer.name %></strong>
@@ -190,10 +194,11 @@
 
           <%= link_to 'Message Hirer', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
           <br>
-
-          <%= link_to 'javascript:;', class: 'orange-link' do  %>
-            <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
-            &nbsp; +61 434 292 527
+          <% if @transaction.hirer.phone_number.present? %>
+            <%= link_to 'javascript:;', class: 'orange-link' do  %>
+              <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
+              &nbsp; +<%= @transaction.hirer.phone_number %>
+            <% end %>
           <% end %>
         </div>
       </div>
