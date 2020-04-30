@@ -64,19 +64,30 @@
           <div><%= @old_transaction.end_date.strftime("%A %b %d, %Y") %></div>
         </div>
       </div>
-
       <ul class="calculation-list">
         <li class="calc-item">
           <span class="left">
             $<span class="listing_weekday_price"><%= @listing.weekday_price.to_f %></span> &nbsp;x&nbsp; <span id="weekday_hours"> <%= @old_transaction.weekday_hours %> &nbsp;</span> hours
           </span>
-          <span class="right">$<span id="hiring_weekday_price"> <%= @listing.weekday_price.to_f * @old_transaction.weekday_hours %> </span> </span>
+          <span class="right">
+              <% if @old_transaction.discount_coupon.present? %>
+                <span class="old_amount">
+                  $<span id="hiring_weekday_price_old"> <%= @listing.weekday_price.to_f * @old_transaction.weekday_hours %>&nbsp; </span>
+                </span>
+              <% end %>
+              $<span id="hiring_weekday_price"> <%= discount_amount(@old_transaction, @listing.weekday_price.to_f * @old_transaction.weekday_hours) %> </span> </span>
         </li>
         <li class="calc-item">
           <span class="left">
             $<span class="listing_weekend_price"><%= @listing.weekend_price.to_f %></span> &nbsp;x&nbsp; <span id="weekend_hours"> <%= @old_transaction.weekend_hours %> &nbsp;</span> hours (weekend)
           </span>
-          <span class="right">$<span id="hiring_weekend_price"> <%= @listing.weekend_price.to_f * @old_transaction.weekend_hours %> </span> </span>
+          <span class="right">
+            <% if @old_transaction.discount_coupon.present? %>
+              <span class="old_amount">
+                $<span id="hiring_weekend_price_old"> <%= @listing.weekend_price.to_f * @old_transaction.weekend_hours %>&nbsp; </span>
+              </span>
+            <% end %>
+            $<span id="hiring_weekend_price"> <%= discount_amount(@old_transaction, @listing.weekend_price.to_f * @old_transaction.weekend_hours) %> </span> </span>
         </li>
 
         <li class="calc-item last-item">
@@ -225,15 +236,17 @@
   var totalWeekdayHours = 0;
   var totalWeekendHours = 0;
 
-  var hiring_weekday_price = <%= @old_transaction.total_weekday_hours * @listing.weekday_price %>;
-  var hiring_weekend_price = <%= @old_transaction.total_weekend_hours * @listing.weekend_price %>;
+  var hiring_weekday_price = <%= discount_amount(@old_transaction, @old_transaction.weekday_hours * @listing.weekday_price) %>;
+  var hiring_weekend_price = <%= discount_amount(@old_transaction, @old_transaction.weekend_hours * @listing.weekend_price) %>;
 
   var listingID = "<%= @listing.id %>"
   var transactionID = "<%= @old_transaction.id %>"
   var listingWeekdayPrice = "<%= @listing.weekday_price %>"
   var listingWeekendPrice = "<%= @listing.weekend_price %>"
-  cal_amount();
 
+  var discountApplicable = "<%= @old_transaction.discount_coupon.present? %>"
+  var discountPercent = "<%= @old_transaction.discount_percent %>"
+  //cal_amount();
   function calculateWithoutTax(){
     var weekly_earning = hiring_weekday_price + hiring_weekend_price
     var service_tax = <%= hirer_commission %> * weekly_earning
@@ -477,6 +490,10 @@
     totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
     $("#weekday_hours").html(weekday_hour);
     hiring_weekday_price = weekday_hour * listingWeekdayPrice
+    $("#hiring_weekday_price_old").html(hiring_weekday_price.toFixed(2))
+    if (discountApplicable == "true") {
+      hiring_weekday_price = hiring_weekday_price - (hiring_weekday_price * parseFloat(discountPercent)/100)
+    }
     $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
     $("#total_weekday_hours").html(totalWeekdayHours);
     hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
@@ -491,6 +508,10 @@
     totalWeekendHours = totalSundayHours + totalSaturdayHours;
     $("#weekend_hours").html(weekend_hour);
     hiring_weekend_price = weekend_hour * listingWeekendPrice;
+    $("#hiring_weekend_price_old").html(hiring_weekend_price.toFixed(2))
+    if (discountApplicable == "true") {
+      hiring_weekend_price = hiring_weekend_price - (hiring_weekend_price * parseFloat(discountPercent)/100)
+    }
     $("#hiring_weekend_price").html(hiring_weekend_price.toFixed(2));
     $("#total_weekend_hours").html(totalWeekendHours);
     hiring_total_weekend_price = totalWeekendHours * listingWeekendPrice;
