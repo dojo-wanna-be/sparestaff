@@ -97,7 +97,15 @@
                 <% end %>
                 <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
                   <div>
-                    <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                    <% already_create_review = Review.where(transaction_id: transaction.id, sender_id: current_user.id) %>
+                    <% if already_create_review.blank? %>
+                      <div>
+                        <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                      </div>
+                    <% else %>
+                      <%= link_to 'Read Your Review' , reviews_path, class: 'review-link gray-link' %>
+                    <% end %>
+                    <%#= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
                     <%#= link_to 'Write a Review', write_a_review_reservations_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
@@ -195,9 +203,14 @@
                     <div>
                       <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                     </div>
-                    <div>
-                      <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
-                    </div>
+                    <% already_create_review = Review.where(transaction_id: transaction.id, sender_id: current_user.id) %>
+                    <% if already_create_review.blank? %>
+                      <div>
+                        <%= link_to 'Write a review', new_review_url(tx_id: transaction.id), class: 'orange-text' %>
+                      </div>
+                    <% else %>
+                      <%= link_to 'Read Your Review' , reviews_path, class: 'review-link gray-link' %>
+                    <% end %>
                     <div>
                       <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
                     </div>
