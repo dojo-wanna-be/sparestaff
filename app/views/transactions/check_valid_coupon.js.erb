@@ -11,5 +11,6 @@
 	$('.discount_total_service_fee').text("$<%= @discount_total_service_fee.round(2) %>");
 	$('.discount_hirer_weekly_amount').text("$<%= @discount_hirer_weekly_amount.round(2) %>");
 	$('.discount_total_amount').text("$<%= @discount_total_amount.round(2) %>");
+	$('.old_amount').removeClass('hidden');
 <% end %>
 setTimeout(function(){ $('.spinner_discount').addClass('hidden'); }, 2000);

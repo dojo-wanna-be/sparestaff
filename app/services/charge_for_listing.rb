@@ -25,7 +25,7 @@ class ChargeForListing
     transaction = Transaction.find(@transaction_id)
     #start_date = Date.today - (transaction.frequency.eql?("weekly") ? 7.days : 14.days)
     #end_date = transaction.end_date > Date.today - 1 ? Date.today - 1 : transaction.end_date
-    if transaction.accepted
+    if transaction.completed?
       hirer = transaction.hirer
       poster = transaction.poster
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
