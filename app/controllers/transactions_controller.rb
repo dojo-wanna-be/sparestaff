@@ -91,8 +91,8 @@ class TransactionsController < ApplicationController
       @transaction.update_attribute(:state, "created")
       if params[:coupon].present?
         discount_percent = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
-        amount = @transaction.amount - (@transaction.amount * discount_percent)/100
-        remaining_amount = @transaction.remaining_amount - (@transaction.remaining_amount * discount_percent)/100
+        amount = (@transaction.amount - (@transaction.amount * discount_percent)/100).round(2)
+        remaining_amount = (@transaction.remaining_amount - (@transaction.remaining_amount * discount_percent)/100).round(2)
         @transaction.update(discount_percent: discount_percent, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.amount, remaining_amount: remaining_amount)
       end
       message = find_or_create_conversation.messages.last
