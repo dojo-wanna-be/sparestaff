@@ -167,6 +167,10 @@ class HiringsController < ApplicationController
     @old_transaction = Transaction.find_by(id: params[:old_id])
     refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
     refund_amount = (@old_transaction.amount - @old_transaction.tax_withholding_amount) + @old_transaction.service_fee
+    if @old_transaction.discount_coupon.present? && !@transaction.amount_before_discount.present?
+      @transaction.update_attributes(discount_percent: @old_transaction.discount_percent, discount_coupon: @old_transaction.discount_coupon)
+      @transaction.update_attributes(amount_before_discount: @transaction.amount, amount: discount_amount(@transaction, @transaction.amount), remaining_amount: discount_amount(@transaction, @transaction.remaining_amount))
+    end
     #refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
       if @old_transaction.start_date > Date.today
@@ -206,9 +210,8 @@ class HiringsController < ApplicationController
           old_tx_end_date = @old_transaction.end_date
           updated_old_tx_end_date = changed_old_tx_end_date(@old_transaction, @old_transaction.frequency)
           @old_transaction.update(end_date: old_tx_end_date > updated_old_tx_end_date ? updated_old_tx_end_date : old_tx_end_date)
-          @transaction.update(start_date: @old_transaction.end_date + 1.day)
+          @transaction.update_attributes(start_date: @old_transaction.end_date + 1.day, state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
-          @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           message = find_or_create_conversation.messages.last
@@ -230,8 +233,9 @@ class HiringsController < ApplicationController
           updated_old_tx_end_date = changed_old_tx_end_date(@old_transaction, @old_transaction.frequency)
           @old_transaction.update(end_date: old_tx_end_date > updated_old_tx_end_date ? updated_old_tx_end_date : old_tx_end_date)
           @transaction.update(start_date: @old_transaction.end_date + 1.day)
+          @transaction.update_attributes(start_date: @old_transaction.end_date + 1.day, state: "accepted",request_by: 'hirer', old_transaction: params[:old_id])
           PaymentWorker.perform_at((@transaction.start_date).to_datetime, @transaction.id, @transaction.frequency)
-          @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+          #@transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           message = find_or_create_conversation.messages.last

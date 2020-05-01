@@ -2888,4 +2888,11 @@ a.BackendLeftMenuSelected {
     }
   }
 }
+span.old_amount {
+  color: lightgrey;
+  text-decoration: line-through;
+  #hiring_weekday_price_old,#hiring_weekend_price_old {
+    color: lightgrey;
+  }
+}
 /* End of Separator line with text at middle */
