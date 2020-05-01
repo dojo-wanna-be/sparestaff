@@ -283,10 +283,11 @@ class ReservationsController < ApplicationController
   end
 
   def reservations_view_invoice_list
-    poster_transactions = Transaction.where(poster_id: current_user.id, state: ["accepted", "rejected", "created"]).order(updated_at: :desc)
-    @posted_listing_transactions = poster_transactions.includes(:employee_listing)
-    poster_completed_transactions = Transaction.where(poster_id: current_user.id, state: ["completed"]).order(updated_at: :desc)
-    @completed_listing_transactions = poster_completed_transactions.includes(:employee_listing)
+    @poster_transaction = Transaction.find(params[:id])
+    # poster_transactions = Transaction.where(poster_id: current_user.id, state: ["accepted", "rejected", "created"]).order(updated_at: :desc)
+    # @posted_listing_transactions = poster_transactions.includes(:employee_listing)
+    # poster_completed_transactions = Transaction.where(poster_id: current_user.id, state: ["completed"]).order(updated_at: :desc)
+    # @completed_listing_transactions = poster_completed_transactions.includes(:employee_listing)
   end
 
   def write_a_review
@@ -378,5 +379,18 @@ class ReservationsController < ApplicationController
     end
     @weekday_hours
     @weekend_hours
+  end
+  def vat_invoice_details
+    @receipt = PaymentReceipt.find_by(id: params[:receipt_id])
+    @transaction = Transaction.find_by(id: @receipt.transaction_id)
+    @total_service_fee = @transaction.service_fee
+    @base_service_fee = (@total_service_fee / 1.1)
+    @vat = (@base_service_fee * 10/100)
+    pdf = WickedPdf.new.pdf_from_string(            #1
+    render_to_string('vat_invoice_details', layout: false))  #2
+    send_data(pdf,                                  #3
+      filename: 'vat_invoice_details.pdf',                     #4
+      type: 'application/pdf',                      #5
+      disposition: 'attachment')
   end
 end

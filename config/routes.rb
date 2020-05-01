@@ -129,7 +129,6 @@ Rails.application.routes.draw do
     collection do
       get :cancelled_successfully
       get :check_slot_availability
-      get :reservations_view_invoice_list
       get :write_a_review
     end
     member do
@@ -137,6 +136,8 @@ Rails.application.routes.draw do
       patch :decline_request
       patch :decline
       get :change_or_cancel
+      get :vat_invoice_details
+      get :reservations_view_invoice_list
       delete :destroy_transaction
       match :change_reservation, via: [:get, :patch]
       match :change_reservation_confirmation, via: [:get, :patch]
