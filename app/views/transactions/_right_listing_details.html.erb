@@ -50,8 +50,18 @@
     </div>
     <div class="right">
       <div>&nbsp;</div>
-      <div class="discount_weekday_price"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
-      <div class="discount_weekend_price"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+      <div class="inline_data">
+        <span class="old_amount hidden">
+          $<span id="hiring_weekday_price_old"> <%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %>&nbsp;</span>
+        </span>
+        <div class="discount_weekday_price"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+      </div>
+      <div class="inline_data">
+        <span class="old_amount hidden">
+          $<span id="hiring_weekday_price_old"> <%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %>&nbsp;</span>
+        </span>
+        <div class="discount_weekend_price"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+      </div>
       <div><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></div>
       <div class="discount_service_fee">$<%= @transaction.service_fee.round(2) %></div>
     </div>
