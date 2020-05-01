@@ -72,7 +72,7 @@
           <span class="right">
               <% if @old_transaction.discount_coupon.present? %>
                 <span class="old_amount">
-                  $<span id="hiring_weekday_price_old"> <%= @listing.weekday_price.to_f * @old_transaction.weekday_hours %>&nbsp; </span>
+                  $<span id="hiring_weekday_price_old"> <%= (@listing.weekday_price.to_f * @old_transaction.weekday_hours).round(2) %>&nbsp; </span>
                 </span>
               <% end %>
               $<span id="hiring_weekday_price"> <%= discount_amount(@old_transaction, @listing.weekday_price.to_f * @old_transaction.weekday_hours) %> </span> </span>
