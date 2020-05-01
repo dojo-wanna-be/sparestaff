@@ -34,24 +34,22 @@
     <% end %>
   </div>
 
-  
-    <div class="order-details">
-      <div class="order-item space-bottom">
-        <span class="grey-text">Probationary period</span>
-      </div>
-      <div class="order-item ">
-        <div class="month1">
-          <% if (@transaction.end_date - @transaction.start_date).to_i < 30 %>
-            NA
-          <% elsif @transaction.probationary_period.present? %>
-            <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
-          <% else %>
-            NA
-          <% end %>
+      <% if !((@transaction.end_date - @transaction.start_date).to_i < 29) %>
+        <div class="order-details">
+          <div class="order-item space-bottom">
+            <span class="grey-text">Probationary period</span>
+          </div>
+          <div class="order-item ">
+            <div class="month1">
+              <% if @transaction.probationary_period.present? %>
+                <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+              <% else %>
+                NA
+              <% end %>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  
+      <% end %>
 
   <div class="order-details">
     <div class="order-item space-bottom">
