@@ -137,8 +137,8 @@ class TransactionsController < ApplicationController
         @listing = @transaction.employee_listing
         @discount_weekday_price = @listing.weekday_price.to_f - (@listing.weekday_price.to_f * @discount_percent/100)
         @discount_weekend_price = @listing.weekend_price.to_f - (@listing.weekend_price.to_f * @discount_percent/100)
-        total_weekly_amount = @discount_weekday_price + @discount_weekend_price
-        @discount_service_fee = total_weekly_amount.to_f * (@discount_percent/100)
+        total_weekly_amount = (@discount_weekday_price * weekday_hours) + (@discount_weekend_price * weekend_hours)
+        @discount_service_fee = total_weekly_amount.to_f * (@transaction.commission_from_hirer/100)
         @discount_hirer_weekly_amount = total_weekly_amount - @transaction.tax_withholding_amount.to_f + @discount_service_fee
         @discount_total_service_fee = @transaction.total_service_fee.to_f - (@transaction.total_service_fee.to_f * @discount_percent/100)
         @discount_total_amount = @transaction.total_amount.to_f - (@transaction.total_amount.to_f * @discount_percent/100)
