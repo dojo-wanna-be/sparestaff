@@ -58,18 +58,16 @@
 
 
 <script type="text/javascript">
-  $( document ).ready(function() {
-    var $ShowMenu = $('.custom-show-dropdown');
+  var $ShowMenu = $('.custom-show-dropdown');
 
-    $(document).mouseup(e => {
-      if (!$ShowMenu.is(e.target) && $ShowMenu.has(e.target).length === 0)
-      {
-        $ShowMenu.removeClass('is-active');
-      }
-     });
+  $(document).mouseup(e => {
+    if (!$ShowMenu.is(e.target) && $ShowMenu.has(e.target).length === 0)
+    {
+      $ShowMenu.removeClass('is-active');
+    }
+  });
 
-    $('.dropdown_toggle').on('click', () => {
-      $ShowMenu.toggleClass('is-active');
-    });
+  $('.dropdown_toggle').on('click', () => {
+    $ShowMenu.toggleClass('is-active');
   });
 </script>
