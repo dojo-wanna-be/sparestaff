@@ -141,7 +141,7 @@ class TransactionsController < ApplicationController
         @discount_service_fee = total_weekly_amount.to_f * (@transaction.commission_from_hirer/100)
         @discount_hirer_weekly_amount = total_weekly_amount - @transaction.tax_withholding_amount + @discount_service_fee
         weekday_total = @discount_weekday_price * @transaction.total_weekday_hours
-        weekdend_total = @discount_weekdend_price * @transaction.total_weekend_hours
+        weekdend_total = @discount_weekend_price * @transaction.total_weekend_hours
         total_amount = weekday_total + weekdend_total
         @discount_total_service_fee = total_amount * (@transaction.commission_from_hirer/100)
         @discount_total_amount = total_amount - @transaction.total_tax_withholding + @discount_total_service_fee
