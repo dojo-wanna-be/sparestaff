@@ -64,7 +64,7 @@
       </div>
       <div class="order-item space-bottom">
         <span><b>Weekly total</b></span>
-        <span><b><%= "$#{(@transaction.amount + @transaction.service_fee).round(2)}" %></b></span>
+        <span><b><%= "$#{(@transaction.amount - @transaction.tax_withholding_amount + @transaction.service_fee).round(2)}" %></b></span>
       </div>
     </div>
 

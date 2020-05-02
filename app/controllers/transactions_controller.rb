@@ -127,7 +127,6 @@ class TransactionsController < ApplicationController
   end
 
   def check_valid_coupon
-    binding.pry
     if params[:ajax_call].present?
       if params[:coupon].present? && current_user.coupons.where(coupon_code: params[:coupon]).blank?
         @error = true
