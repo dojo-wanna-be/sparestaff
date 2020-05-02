@@ -4,7 +4,6 @@ class Admin::ContentManagementController < Admin::AdminBaseController
 	end
 
 	def update_site_logo
-		binding.pry
 		site_logo =  Paperclip.io_adapters.for(params[:site_logo])
 		if StaticContent.first.present?
 			@static_content = StaticContent.first

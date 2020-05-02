@@ -2,7 +2,12 @@
   <div class="inner-footer">
     <div class="left-box">
       <div class="logo-side">
-        <%= image_tag 'logo.png', class: 'logo-img' %>
+        <% if StaticContent.first&.site_logo.present? %>
+          <% site_logo = StaticContent.first.site_logo.url %>
+          <%= image_tag site_logo, class: 'logo-img' %>
+        <% else %>
+          <%= image_tag 'logo.png', class: 'logo-img' %>
+        <% end %>
       </div>
 
       <div class="spare-staff">
