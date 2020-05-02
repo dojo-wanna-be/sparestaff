@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_091555) do
+ActiveRecord::Schema.define(version: 2020_05_02_063418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,6 +280,15 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
 
   create_table "slots", force: :cascade do |t|
     t.string "time_slot"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "static_contents", force: :cascade do |t|
+    t.string "site_logo_file_name"
+    t.string "site_logo_content_type"
+    t.bigint "site_logo_file_size"
+    t.datetime "site_logo_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
