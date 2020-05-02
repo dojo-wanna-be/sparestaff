@@ -139,9 +139,13 @@ class TransactionsController < ApplicationController
         @discount_weekend_price = @listing.weekend_price.to_f - (@listing.weekend_price.to_f * @discount_percent/100)
         total_weekly_amount = (@discount_weekday_price * @transaction.weekday_hours) + (@discount_weekend_price * @transaction.weekend_hours)
         @discount_service_fee = total_weekly_amount.to_f * (@transaction.commission_from_hirer/100)
-        @discount_hirer_weekly_amount = total_weekly_amount - @transaction.tax_withholding_amount.to_f + @discount_service_fee
-        @discount_total_service_fee = @transaction.total_service_fee.to_f - (@transaction.total_service_fee.to_f * @discount_percent/100)
-        @discount_total_amount = @transaction.total_amount.to_f - (@transaction.total_amount.to_f * @discount_percent/100)
+        @discount_hirer_weekly_amount = total_weekly_amount - @transaction.tax_withholding_amount + @discount_service_fee
+        weekday_total = @discount_weekday_price * @transaction.total_weekday_hours
+        weekdend_total = @discount_weekdend_price * @transaction.total_weekend_hours
+        total_amount = weekday_total + weekdend_total
+        @discount_total_service_fee = total_amount * (@transaction.commission_from_hirer/100)
+        @discount_total_amount = total_amount - @transaction.total_tax_withholding + @discount_total_service_fee
+        #@discount_total_amount = @transaction.total_amount.to_f - (@transaction.total_amount.to_f * @discount_percent/100)
       end
     else
       if params[:coupon].present? && current_user.coupons.where(coupon_code: params[:coupon]).blank?
@@ -150,6 +154,7 @@ class TransactionsController < ApplicationController
       end
     end
   end
+
   private
 
   def company_params
