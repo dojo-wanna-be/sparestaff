@@ -2,24 +2,71 @@
   <h1 class="hiring-heading">Easy online employee hiring</h1>
   <div class="image-details-box">
     <div class="image-box">
-      <div class="image"><%= image_tag "dollar.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Reduce financial pressure <br /> due to overstaffing</div>
+      <div class="image">
+        <% if @employee_hire.present? %>
+          <%= image_tag @employee_hire.column_1_image.url, alt: "", class: "Image200px" %>
+        <% else %>
+          <%= image_tag "dollar.jpg", alt: "", class: "Image200px" %>
+        <% end %>
+      </div>
+      <div class="image-detail">
+        <% if @employee_hire.present? %>
+          <%= @employee_hire.column_1_text %>
+        <% else %>
+          Reduce financial pressure <br /> due to overstaffing
+        <% end %>
+      </div>
     </div>
 
     <div class="image-box">
-      <div class="image"><%= image_tag "tie.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Hire experienced employees for short <br /> or long term
-      contracts</div>
+      <div class="image">
+        <% if @employee_hire.present? %>
+          <%= image_tag @employee_hire.column_2_image.url, alt: "", class: "Image200px" %>
+        <% else %>
+          <%= image_tag "tie.jpg", alt: "", class: "Image200px" %>
+        <% end %>
+      </div>
+      <div class="image-detail">
+        <% if @employee_hire.present? %>
+          <%= @employee_hire.column_2_text %>
+        <% else %>
+          Hire experienced employees for short <br /> or long term contracts
+        <% end %>
+      </div>
     </div>
 
     <div class="image-box">
-      <div class="image"><%= image_tag "happy.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Keep good employees by <br /> giving him enough hours</div>
+      <div class="image">
+        <% if @employee_hire.present? %>
+          <%= image_tag @employee_hire.column_3_image.url, alt: "", class: "Image200px" %>
+        <% else %>
+          <%= image_tag "happy.jpg", alt: "", class: "Image200px" %>
+        <% end %>
+      </div>
+      <div class="image-detail">
+        <% if @employee_hire.present? %>
+          <%= @employee_hire.column_3_text %>
+        <% else %>
+          Keep good employees by <br /> giving him enough hours
+        <% end %>
+      </div>
     </div>
 
     <div class="image-box">
-      <div class="image"><%= image_tag "reference.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Employees get more <br /> references for their CVs</div>
+      <div class="image">
+        <% if @employee_hire.present? %>
+          <%= image_tag @employee_hire.column_4_image.url, alt: "", class: "Image200px" %>
+        <% else %>
+          <%= image_tag "reference.jpg", alt: "", class: "Image200px" %>
+        <% end %>
+      </div>
+      <div class="image-detail">
+        <% if @employee_hire.present? %>
+          <%= @employee_hire.column_4_text %>
+        <% else %>
+          Employees get more <br /> references for their CVs
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

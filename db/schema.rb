@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_02_063418) do
+ActiveRecord::Schema.define(version: 2020_05_03_104159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,31 @@ ActiveRecord::Schema.define(version: 2020_05_02_063418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "expiry_date"
+  end
+
+  create_table "employee_hire_sections", force: :cascade do |t|
+    t.text "column_1_text"
+    t.text "column_2_text"
+    t.text "column_3_text"
+    t.text "column_4_text"
+    t.string "column_1_image_file_name"
+    t.string "column_1_image_content_type"
+    t.bigint "column_1_image_file_size"
+    t.datetime "column_1_image_updated_at"
+    t.string "column_2_image_file_name"
+    t.string "column_2_image_content_type"
+    t.bigint "column_2_image_file_size"
+    t.datetime "column_2_image_updated_at"
+    t.string "column_3_image_file_name"
+    t.string "column_3_image_content_type"
+    t.bigint "column_3_image_file_size"
+    t.datetime "column_3_image_updated_at"
+    t.string "column_4_image_file_name"
+    t.string "column_4_image_content_type"
+    t.bigint "column_4_image_file_size"
+    t.datetime "column_4_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -234,14 +259,6 @@ ActiveRecord::Schema.define(version: 2020_05_02_063418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["transaction_id"], name: "index_payment_receipts_on_transaction_id"
-  end
-
-  create_table "push_notification_settings", force: :cascade do |t|
-    t.bigint "user_id"
-    t.json "preferences", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_push_notification_settings_on_user_id"
   end
 
   create_table "relevant_documents", force: :cascade do |t|

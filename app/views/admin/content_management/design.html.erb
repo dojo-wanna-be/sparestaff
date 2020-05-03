@@ -1,7 +1,7 @@
 <div class="admin_sub_header">
   <div>
     <%= link_to 'Backend Home', '', class: 'sub_link' %>
-    &nbsp;&gt; Content Management
+    &nbsp;&gt; Design
   </div>
 </div>
 <div class="admin_panle_body">
@@ -14,7 +14,7 @@
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
-                <%= file_field_tag :site_logo %>
+                <%= file_field_tag :site_logo, class: 'update_logo', required: true %>
               </div>
             </div>
             <%= submit_tag 'Submit',class: 'submit_button' %>
