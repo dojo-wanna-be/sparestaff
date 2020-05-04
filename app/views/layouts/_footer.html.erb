@@ -2,8 +2,8 @@
   <div class="inner-footer">
     <div class="left-box">
       <div class="logo-side">
-        <% if StaticContent.first&.site_logo.present? %>
-          <% site_logo = StaticContent.first.site_logo.url %>
+        <% if StaticContent.last&.site_logo.present? %>
+          <% site_logo = StaticContent.last.site_logo.url %>
           <%= image_tag site_logo, class: 'logo-img' %>
         <% else %>
           <%= image_tag 'logo.png', class: 'logo-img' %>

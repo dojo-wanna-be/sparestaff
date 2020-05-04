@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       collection do
         get :design
         match :update_site_logo, via: [:get, :post]
+        match :update_homepage_content
         match :employee_hiring_section, via: [:get, :post]
         match :how_it_works, via: [:get, :post]
       end
