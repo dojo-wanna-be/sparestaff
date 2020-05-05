@@ -1,0 +1,12 @@
+<div class="nested-fields">
+  <div class="field">
+    <%#= f.select :section_type, options_for_select(["GETTING STARTED", "EARNINGS"], nil), {}, {class: 'custom-field half-field'} %>
+    <%= f.select :section_type, options_for_select(FrequentlyAskQuestion.section_types.keys), {}, {class: 'custom-field half-field'} %>
+  </div>
+  <div class="field">
+    <%= f.text_field :question, required: true %>
+    <br/>
+    <%= f.text_field :answer, required: true %>
+  </div>
+  <%= link_to_remove_association "remove section", f %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_051511) do
+ActiveRecord::Schema.define(version: 2020_05_04_125348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,32 @@ ActiveRecord::Schema.define(version: 2020_05_04_051511) do
     t.index ["employee_listing_id"], name: "index_employee_skills_on_employee_listing_id"
   end
 
+  create_table "frequently_ask_questions", force: :cascade do |t|
+    t.integer "section_type"
+    t.text "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "getting_start_content_id"
+  end
+
+  create_table "getting_start_contents", force: :cascade do |t|
+    t.text "cover_title"
+    t.text "cover_subtitle"
+    t.text "button_title"
+    t.text "list_your_self_title"
+    t.text "how_it_works_title"
+    t.text "safety_title"
+    t.text "frequently_asked_title"
+    t.text "easy_online_title"
+    t.string "cover_image_file_name"
+    t.string "cover_image_content_type"
+    t.bigint "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "homepage_contents", force: :cascade do |t|
     t.string "content_image_file_name"
     t.string "content_image_content_type"
@@ -224,6 +250,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_051511) do
     t.integer "section_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "getting_start_content_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -270,14 +297,6 @@ ActiveRecord::Schema.define(version: 2020_05_04_051511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["transaction_id"], name: "index_payment_receipts_on_transaction_id"
-  end
-
-  create_table "push_notification_settings", force: :cascade do |t|
-    t.bigint "user_id"
-    t.json "preferences", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_push_notification_settings_on_user_id"
   end
 
   create_table "relevant_documents", force: :cascade do |t|

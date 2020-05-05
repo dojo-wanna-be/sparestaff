@@ -25,6 +25,7 @@
 //= require jquery.validate
 //= require jquery.raty
 //= require select2.js
+//= require cocoon
 //= require_tree .
 
 $.validator.addMethod('lessThan', function(value, element, param) {

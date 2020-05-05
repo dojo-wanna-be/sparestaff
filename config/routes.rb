@@ -25,17 +25,20 @@ Rails.application.routes.draw do
     resources :coupons
     resources :employee_listings
     resources :community_service_fees
+    resources :getting_start_contents
     resources :content_management do
       collection do
         get :design
         match :update_site_logo, via: [:get, :post]
-        match :update_homepage_content
+        match :update_homepage_content, via: [:get, :post]
         match :employee_hiring_section, via: [:get, :post]
         match :how_it_works, via: [:get, :post]
+        match :getting_started, via: [:get, :post]
       end
     end
     get '' => "users#index"
   end
+
   resources :stripe_webhook, only: [] do
     collection do
       post :handle_stripe_webhook

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cover_title: MyText
+  cover_subtitle: MyText
+  button_title: MyText
+  list_your_self_title: MyText
+  how_it_works_title: MyText
+  safety_title: MyText
+  frequently_asked_title: MyText
+  easy_online_title: MyText
+
+two:
+  cover_title: MyText
+  cover_subtitle: MyText
+  button_title: MyText
+  list_your_self_title: MyText
+  how_it_works_title: MyText
+  safety_title: MyText
+  frequently_asked_title: MyText
+  easy_online_title: MyText
