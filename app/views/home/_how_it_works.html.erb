@@ -2,13 +2,13 @@
   <h1 class="work-heading"><%= @static_content.how_it_work_title %></h1>
   <div class="work-card-box">
     <% if @how_it_works.present? %>
-      <% @how_it_works.each do |how_it_work| %>
+      <% @how_it_works.each_with_index do |how_it_work, index| %>
         <div class="work-card">
           <div class="card-img-box">
             <%= image_tag how_it_work.content_image.url, alt: "", class: "card-image" %>
           </div>
           <div class="card-details">
-            <!-- <div class="num-text">1</div> -->
+            <div class="num-text"><%= index+1 %></div>
             <div class="detail">
               <!-- <div><b>It's FREE to list</b></div> -->
                 <%= how_it_work.content %>
