@@ -16,6 +16,7 @@
 //= require bootstrap-sprockets
 
 //= require rails-ujs
+//= require cocoon
 //= require toastr_rails
 //= require allow_numeric
 //= require jquery.tagsinput
