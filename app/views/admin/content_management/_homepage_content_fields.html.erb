@@ -1,10 +1,6 @@
 <div class="custom-field-box main_column">
   <div class="column_heading">Content</div>
   <div class="custom-input-group">
-    <div class="inline_data_adjust">
-      <span class="fa fa-warning"></span>
-      <span class="warning">The image should be (atleast) 200x200 pixels size.</span>
-    </div>
     <div class="nested-fields">
       <div class="field">
         <%= f.select :section_type, options_for_select(HomepageContent.section_types.map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field half-field'} %>
@@ -21,3 +17,10 @@
     </div>
   </div>
 </div>
+
+<div class="field">
+  <%= f.file_field :content_image %>
+  <br/>
+  <%= f.text_area :content %>
+</div>
+<%= link_to_remove_association "remove section", f %>
