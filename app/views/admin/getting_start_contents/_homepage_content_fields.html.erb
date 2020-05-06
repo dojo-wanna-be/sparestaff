@@ -1,11 +1,18 @@
 <div class="nested-fields">
   <div class="field">
-  	<%= f.select :section_type, options_for_select(HomepageContent.section_types.map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field'} %>
+    <%= f.select :section_type, options_for_select(HomepageContent.section_types.keys.last(3).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field'} %>
     <%#= f.select :section_type, options_for_select(HomepageContent.section_types.keys), {}, {class: 'custom-field half-field'} %>
   </div>
   <div class="field">
+    <%= f.label :content_heading %>
+    <%= f.text_field :content_heading %>
+  </div>
+  <div class="field">
+    <%= f.label :content_image %>
     <%= f.file_field :content_image %>
-    <br/>
+  </div>
+  <div class="field">
+    <%= f.label :content %>
     <%= f.text_area :content %>
   </div>
   <%= link_to_remove_association "remove", f %>

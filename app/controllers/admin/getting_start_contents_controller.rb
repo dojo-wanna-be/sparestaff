@@ -35,6 +35,6 @@ class Admin::GettingStartContentsController < Admin::AdminBaseController
       :safety_title,
       :frequently_asked_title,
       :easy_online_title,
-      :cover_image,homepage_contents_attributes: [:id, :content_image, :content, :section_type, :_destroy], frequently_ask_questions_attributes: [:id, :section_type, :question, :answer , :_destroy])
+      :cover_image,homepage_contents_attributes: [:id, :content_heading, :content_image, :content, :section_type, :_destroy], frequently_ask_questions_attributes: [:id, :section_type, :question, :answer , :_destroy])
   end
 end
