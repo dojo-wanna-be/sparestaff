@@ -19,7 +19,7 @@
     <div class="employe-hiring-box getting-employee">
       <h1 class="hiring-heading"><%= dynamic && @getting_start_content.list_your_self_title.present? ? @getting_start_content.list_your_self_title : "Why list yourself for hiring?" %></h1>
       <div class="image-details-box">
-        <% @employee_hiring.each do |content| %>
+        <% dynamic && @employee_hiring.each do |content| %>
           <div class="image-box">
             <div class="image">
               <%= image_tag content.content_image&.url, alt: "", class: "Image200px" %>
@@ -35,7 +35,7 @@
     <div class="how-it-work-box">
       <h1 class="work-heading"><%= dynamic && @getting_start_content.how_it_works_title.present? ? @getting_start_content.how_it_works_title : "How it works for job seeker" %></h1>
       <div class="work-card-box">
-         <% @how_it_works.each_with_index do |content, index| %>
+         <% dynamic && @how_it_works.each_with_index do |content, index| %>
           <div class="work-card">
             <div class="card-img-box">
               <%= image_tag content.content_image&.url, alt: "", class: "card-image" %>
@@ -59,7 +59,7 @@
     <div class="sparestaff-box">
       <h1 class="safety-box-heading"><%= dynamic && @getting_start_content.safety_title.present? ? @getting_start_content.safety_title : "Safety on Spare Staff" %></h1>
       <div class="inner-box">
-        <% @safety_section.each_with_index do |content, index| %>
+        <% dynamic && @safety_section.each_with_index do |content, index| %>
           <div class="safety-card">
             <div class="card-img-text">
               <%=image_tag content.content_image&.url, class: 'card-img first-img' %>
@@ -105,7 +105,7 @@
           <div class="accodian-box">
             <div class="accordion1 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <% @frequently_ask_getting_start.each do |content| %>
+                <% dynamic && @frequently_ask_getting_start.each do |content| %>
                   <div class="card-header collapsed custom-accrodian" >
                     <a class="card-title"><%= content.question %></a>
                   </div>
@@ -126,7 +126,7 @@
           <div class="accodian-box">
             <div class="accordion1 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <% @frequently_ask_earnings.each do |content| %>
+                <% dynamic && @frequently_ask_earnings.each do |content| %>
                   <div class="card-header collapsed custom-accrodian" >
                     <a class="card-title"><%= content.question %></a>
                   </div>
@@ -145,8 +145,8 @@
   </div>
 
   <div class="list-employee-box">
-    <h1 class="employee-heading"><%= @getting_start_content&.easy_online_title %></h1>
-    <%= link_to @getting_start_content&.button_title, step_1_employee_index_path, class: 'employe-btn' %>
+    <h1 class="employee-heading"><%= dynamic && @getting_start_content.easy_online_title.present? ? @getting_start_content.easy_online_title : "Easy Online Employee Hiring" %></h1>
+    <%= link_to dynamic && @getting_start_content.button_title.present? ? @getting_start_content.button_title : "Get started", step_1_employee_index_path, class: 'employe-btn' %>
   </div>
 
   <%= render partial: "layouts/footer" %>
