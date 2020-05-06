@@ -1,22 +1,31 @@
+<% dynamic = @getting_start_content.present? %>
 <div class="getting-started-section">
-  <div class="section-bg">
-    <h2 class="list-your dark-bg">List Yourself for hiring</h2>
-    <h1 class="sec-heading dark-bg">Tired of sending CVs to hundreds of employers?</h1>
-    <h1 class="sec-heading dark-bg">Create your best profile once and let employers find you</h1>
+  <div class="section-bg" style="background-image: url(<%= @getting_start_content.cover_image.present? ? @getting_start_content.cover_image.url : asset_url('hand-shake.jpg')%>)">
+    <h2 class="list-your dark-bg"><%= dynamic && @getting_start_content&.cover_title ? @getting_start_content&.cover_title : "List Yourself for hiring" %></h2>
+    <% if dynamic && @getting_start_content.cover_subtitle.present? %>
+       <h1 class="sec-heading dark-bg"><%= @getting_start_content.cover_subtitle %></h1>
+    <% else %>
+      <h1 class="sec-heading dark-bg">Tired of sending CVs to hundreds of employers?</h1>
+      <h1 class="sec-heading dark-bg">Create your best profile once and let employers find you</h1>
+    <% end %>
 
     <div class="sect-btn-box">
-      <%= link_to "Get Started", step_1_employee_index_path, class: "started-btn" %>
+      <%= link_to dynamic ? @getting_start_content.button_title : "Get Started", step_1_employee_index_path, class: "started-btn" %>
     </div>
   </div>
 
   <div class="inner-getting-started">
 
     <div class="employe-hiring-box getting-employee">
-      <h1 class="hiring-heading">Why list yourself for hiring?</h1>
+      <h1 class="hiring-heading"><%= dynamic && @getting_start_content.list_your_self_title.present? ? @getting_start_content.list_your_self_title : "Why list yourself for hiring?" %></h1>
       <div class="image-details-box">
         <div class="image-box">
-          <div class="image"><%= image_tag "dollar.jpg", alt: "", class: "Image200px" %></div>
-          <div class="image-detail">Staff wages are amongst the biggest overheads. Spare Staff helps reduce financial pressure in slow sales season.</div>
+          <div class="image">
+            <%= image_tag "dollar.jpg", alt: "", class: "Image200px" %>
+          </div>
+          <div class="image-detail">
+              Staff wages are amongst the biggest overheads. Spare Staff helps reduce financial pressure in slow sales season.
+          </div>
         </div>
 
         <div class="image-box">
@@ -37,8 +46,7 @@
     </div>
 
     <div class="how-it-work-box">
-      <h1 class="work-heading">How it works for job seeker</h1>
-
+      <h1 class="work-heading"><%= dynamic && @getting_start_content.how_it_works_title.present? ? @getting_start_content.how_it_works_title : "How it works for job seeker" %></h1>
       <div class="work-card-box">
         <div class="work-card">
           <div class="card-img-box">
@@ -88,7 +96,7 @@
 
   <div class="safety-box">
     <div class="sparestaff-box">
-      <h1 class="safety-box-heading">Safety on Spare Staff</h1>
+      <h1 class="safety-box-heading"><%= dynamic && @getting_start_content.safety_title.present? ? @getting_start_content.safety_title : "Safety on Spare Staff" %></h1>
       <div class="inner-box">
         <div class="safety-card">
           <div class="card-img-text">

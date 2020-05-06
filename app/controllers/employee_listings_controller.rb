@@ -31,6 +31,7 @@ class EmployeeListingsController < ApplicationController
   end
 
   def getting_started
+    @getting_start_content = GettingStartContent.last
   end
 
   def index

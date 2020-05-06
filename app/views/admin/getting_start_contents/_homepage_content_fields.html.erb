@@ -3,9 +3,9 @@
     <%= f.select :section_type, options_for_select(HomepageContent.section_types.keys), {}, {class: 'custom-field half-field'} %>
   </div>
   <div class="field">
-    <%= f.file_field :content_image %>
+    <%= f.file_field :content_image, required: true %>
     <br/>
     <%= f.text_area :content, required: true %>
   </div>
-  <%= link_to_remove_association "remove section", f %>
+  <%= link_to_remove_association "remove", f %>
 </div>

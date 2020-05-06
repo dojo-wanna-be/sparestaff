@@ -5,8 +5,9 @@
   </div>
   <div class="field">
     <%= f.text_field :question, required: true %>
-    <br/>
+  </div>
+  <div class="field">
     <%= f.text_field :answer, required: true %>
   </div>
-  <%= link_to_remove_association "remove section", f %>
+  <%= link_to_remove_association "remove", f %>
 </div>

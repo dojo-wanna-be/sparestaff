@@ -9,7 +9,7 @@
   <div class="admin_right_panel">
     <div class="step_heading">List an employee intro page</div>
     <div class="right_step user">
-      <div class="right-panel edit_regis">
+      <div class="right-panel edit_regis list_an_employee">
         <%= form_for(@new_form, url: @url, html:{mutlpart: true}) do |f| %>
           <div class="field">
             <%= f.label "Cover section title" %>
@@ -62,7 +62,7 @@
               <%= render 'homepage_content_fields', f: section %>
             <% end %>
             <div class="links">
-              <%= link_to_add_association 'add section', f, :homepage_contents %>
+              <%= link_to_add_association 'Add section', f, :homepage_contents %>
             </div>
           </div>
           <h3>Frequently asked question</h3>
@@ -71,10 +71,12 @@
               <%= render 'frequently_ask_question_fields', f: section %>
             <% end %>
             <div class="links">
-              <%= link_to_add_association 'add section', f, :frequently_ask_questions %>
+              <%= link_to_add_association 'Add section', f, :frequently_ask_questions %>
             </div>
           </div>
-          <%= f.submit %>
+          <div class="submit_button">
+            <%= f.submit 'save' , class: 'search-btn' %>
+          </div>
         <% end %>
       </div>
     </div>

@@ -38,16 +38,16 @@ class Admin::ContentManagementController < Admin::AdminBaseController
   def how_it_works
   end
 
-  def getting_started
-    if request.get?
-      @getting_started = GettingStartContent.new
-      @getting_started.homepage_contents.build
-      @getting_started.frequently_ask_questions.build
-    else
-      @getting_started = GettingStartContent.new(getting_start_content_params)
-      @getting_started.save
-    end
-  end
+  # def getting_started
+  #   if request.get?
+  #     @getting_started = GettingStartContent.new
+  #     @getting_started.homepage_contents.build
+  #     @getting_started.frequently_ask_questions.build
+  #   else
+  #     @getting_started = GettingStartContent.new(getting_start_content_params)
+  #     @getting_started.save
+  #   end
+  # end
 
   def getting_start_content_params
     params.require(:getting_start_content).permit(:cover_title, 

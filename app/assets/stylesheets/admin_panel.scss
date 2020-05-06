@@ -625,5 +625,55 @@
     height: 120px;
   }
 }
+.list_an_employee {
+  max-width: 380px;
+  .field {
+    width: 100%;
+    margin-bottom: 15px;
+    input,select,textarea {
+      width: 100%;
+      padding: 5px;
+      border-radius: 0px;
+    }
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 30px;
+  }
+  #tasks .nested-fields {
+    position: relative;
+    textarea {
+      margin-top: 10px;
+    }
+    .remove_fields {
+      position: absolute;
+      top: 10px;
+      right: -80px;
+    }
+  }
+}
+.submit_button {
+  margin-top: 10px;
+  .search-btn {
+    width: 90px;
+    height: 40px;
+    background-color: #F15927;
+    text-align: center;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    &:hover {
+      background-color: #d75227;
+      text-decoration: none;
+    }
+    @media screen and (max-width: 767px) {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  }
+}
 
 //** Admin Panel End Css **//
