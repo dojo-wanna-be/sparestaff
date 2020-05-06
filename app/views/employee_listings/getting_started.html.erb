@@ -1,6 +1,6 @@
 <% dynamic = @getting_start_content.present? %>
 <div class="getting-started-section">
-  <div class="section-bg" style="background-image: url(<%= @getting_start_content.cover_image.present? ? @getting_start_content.cover_image.url : asset_url('hand-shake.jpg')%>)">
+  <div class="section-bg" style="background-image: url(<%= dynamic && @getting_start_content.cover_image.present? ? @getting_start_content.cover_image.url : asset_url('hand-shake.jpg')%>)">
     <h2 class="list-your dark-bg"><%= dynamic && @getting_start_content&.cover_title ? @getting_start_content&.cover_title : "List Yourself for hiring" %></h2>
     <% if dynamic && @getting_start_content.cover_subtitle.present? %>
        <h1 class="sec-heading dark-bg"><%= @getting_start_content.cover_subtitle %></h1>
@@ -19,77 +19,38 @@
     <div class="employe-hiring-box getting-employee">
       <h1 class="hiring-heading"><%= dynamic && @getting_start_content.list_your_self_title.present? ? @getting_start_content.list_your_self_title : "Why list yourself for hiring?" %></h1>
       <div class="image-details-box">
-        <div class="image-box">
-          <div class="image">
-            <%= image_tag "dollar.jpg", alt: "", class: "Image200px" %>
+        <% @employee_hiring.each do |content| %>
+          <div class="image-box">
+            <div class="image">
+              <%= image_tag content.content_image&.url, alt: "", class: "Image200px" %>
+            </div>
+            <div class="image-detail">
+                <%= content.content %>
+            </div>
           </div>
-          <div class="image-detail">
-              Staff wages are amongst the biggest overheads. Spare Staff helps reduce financial pressure in slow sales season.
-          </div>
-        </div>
-
-        <div class="image-box">
-          <div class="image"><%= image_tag "tie.jpg", alt: "", class: "Image200px" %></div>
-          <div class="image-detail">As a Hirer, you have flexibility to hire skilful employees for short or long term contracts. Access to great pool of talents ready to work.</div>
-        </div>
-
-        <div class="image-box">
-          <div class="image"><%= image_tag "happy.jpg", alt: "", class: "Image200px" %></div>
-          <div class="image-detail">Your business can keep good employees. Never need to cut down employee hours or make redundancy.</div>
-        </div>
-
-        <div class="image-box">
-          <div class="image"><%= image_tag "reference.jpg", alt: "", class: "Image200px" %></div>
-          <div class="image-detail">Employees gain experiences, meet new people and enjoy better job security. More references for their CVs</div>
-        </div>
+        <% end %>
       </div>
     </div>
 
     <div class="how-it-work-box">
       <h1 class="work-heading"><%= dynamic && @getting_start_content.how_it_works_title.present? ? @getting_start_content.how_it_works_title : "How it works for job seeker" %></h1>
       <div class="work-card-box">
-        <div class="work-card">
-          <div class="card-img-box">
-            <%= image_tag "how-it-works-1.jpg", alt: "", class: "card-image" %>
-          </div>
-          <div class="card-details">
-            <div class="num-text">1</div>
-            <div class="detail">
-              <div><b>It's FREE to list</b></div>
-              <div>
-                As a job seeker, you can list yourself for
-                companies to find you. Create your best profile
-                to attract employers.</div>
+         <% @how_it_works.each_with_index do |content, index| %>
+          <div class="work-card">
+            <div class="card-img-box">
+              <%= image_tag content.content_image&.url, alt: "", class: "card-image" %>
+            </div>
+            <div class="card-details">
+              <div class="num-text"><%= index+1 %></div>
+              <div class="detail">
+                <div><b><%= content.content_heading %></b></div>
+                <div>
+                  <%= content.content %>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="work-card">
-          <div class="card-img-box">
-            <%= image_tag "how-it-works-2.jpg", alt: "", class: "card-image" %>
-          </div>
-          <div class="card-details">
-            <div class="num-text">2</div>
-            <div class="detail">
-            <div><b>Get ready for work</b></div>
-            <div>Discuss with Hirer through our messaging platform. Provide further details if requested.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="work-card">
-          <div class="card-img-box">
-            <%= image_tag "how-it-works-3.jpg", alt: "", class: "card-image" %>
-          </div>
-          <div class="card-details">
-            <div class="num-text">3</div>
-            <div class="detail">
-            <div><b>Get paid</b></div>
-            <div>Our secure payment system let you get paid automatically after employment starts.</div>
-            </div>
-          </div>
-        </div>
-
+        <% end %>
       </div>
     </div>
   </div>
@@ -98,18 +59,20 @@
     <div class="sparestaff-box">
       <h1 class="safety-box-heading"><%= dynamic && @getting_start_content.safety_title.present? ? @getting_start_content.safety_title : "Safety on Spare Staff" %></h1>
       <div class="inner-box">
-        <div class="safety-card">
-          <div class="card-img-text">
-            <%=image_tag 'data-security.png', class: 'card-img first-img' %>
+        <% @safety_section.each_with_index do |content, index| %>
+          <div class="safety-card">
+            <div class="card-img-text">
+              <%=image_tag content.content_image&.url, class: 'card-img first-img' %>
 
-            <span>Confidentiality Protection</span>
+              <span><%= content.content_heading %></span>
+            </div>
+            <div class="detail-text">
+              <%= content.content %>
+            </div>
           </div>
-          <div class="detail-text">
-            We understand that confidentiality is important for every business. That’s why we have in place written confidentality agreement ready for employers to share employees.
-          </div>
-        </div>
+        <% end %>
 
-        <div class="safety-card">
+        <!-- <div class="safety-card">
           <div class="card-img-text">
             <%=image_tag 'secured-payment.png', class: 'card-img' %>
 
@@ -129,12 +92,12 @@
           <div class="detail-text top-space">
             All employers on Spare Staff must have their business details verified including ACN/ABN, email and phone number. Reviews are published after employment contract finishes keeping our community safe.
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <div class="question-box">
-      <h1 class="safety-box-heading">Frequently asked question</h1>
+      <h1 class="safety-box-heading"><%= dynamic && @getting_start_content.frequently_asked_title.present? ? @getting_start_content.frequently_asked_title : "Frequently asked question" %></h1>
       <div class="inner-box">
         <div class="started-box">
           <h1 class="sub-heading">GETTING STARTED</h1>
@@ -142,32 +105,16 @@
           <div class="accodian-box">
             <div class="accordion1 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <div class="card-header collapsed custom-accrodian" >
-                  <a class="card-title"> Can I legally share my employees?</a>
-                </div>
-                <div class="collapse">
-                  <div class="card-body">
-                    details
+                <% @frequently_ask_getting_start.each do |content| %>
+                  <div class="card-header collapsed custom-accrodian" >
+                    <a class="card-title"><%= content.question %></a>
                   </div>
-                </div>
-                <div class="card-header collapsed custom-accrodian" >
-                  <a class="card-title">Can I choose who to share employees to?</a>
-                </div>
-                <div class="collapse">
-                  <div class="card-body">
-                    details
+                  <div class="collapse">
+                    <div class="card-body">
+                      <%= content.answer %>
+                    </div>
                   </div>
-                </div>
-                <div class="card-header collapsed custom-accrodian">
-                  <a class="card-title">Does Spare Staff screen Hirers?</a>
-                </div>
-                <div class="collapse">
-                  <div class="card-body">
-                    Spare Staff verifies some information about employers and employees to help make our community a safer place for everyone. That includes requiring a profile photo, confirmed phone number, and confirmed email
-                    address. As a Leasor, for added security, you can also ask potential Leasee to provide an official ID and complete Spare Staff’s
-                    Verified ID process.
-                  </div>
-                </div>
+                <% end %>
               </div>
             </div>
           </div>
@@ -177,33 +124,18 @@
           <h1 class="sub-heading">EARNINGS</h1>
 
           <div class="accodian-box">
-            <div class="accordion2 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
+            <div class="accordion1 indicator-plus-before round-indicator" id="accordionH" aria-multiselectable="true">
               <div class="card m-b-0">
-                <div class="card-header collapsed custom-accrodian" >
-                  <a class="card-title">What hourly rate should I list my
-                  employee?</a>
-                </div>
-                <div class="collapse" >
-                  <div class="card-body">
-                    details
+                <% @frequently_ask_earnings.each do |content| %>
+                  <div class="card-header collapsed custom-accrodian" >
+                    <a class="card-title"><%= content.question %></a>
                   </div>
-                </div>
-                <div class="card-header collapsed custom-accrodian" >
-                  <a class="card-title">How do Spare Staff payment work?</a>
-                </div>
-                <div class="collapse">
-                  <div class="card-body">
-                    details
+                  <div class="collapse">
+                    <div class="card-body">
+                      <%= content.answer %>
+                    </div>
                   </div>
-                </div>
-                <div class="card-header collapsed custom-accrodian" >
-                  <a class="card-title">Who should pay for woker compensation?</a>
-                </div>
-                <div class="collapse">
-                  <div class="card-body">
-                    As required by laws, all companies are required to pay for worker compensation to cover injuries to employees and contractors. This ensure safety to all shared employees and a safer community.
-                  </div>
-                </div>
+                <% end %>
               </div>
             </div>
           </div>
@@ -213,8 +145,8 @@
   </div>
 
   <div class="list-employee-box">
-    <h1 class="employee-heading">Easy Online Employee Hiring</h1>
-    <%= link_to "Get Started", step_1_employee_index_path, class: 'employe-btn' %>
+    <h1 class="employee-heading"><%= @getting_start_content&.easy_online_title %></h1>
+    <%= link_to @getting_start_content&.button_title, step_1_employee_index_path, class: 'employe-btn' %>
   </div>
 
   <%= render partial: "layouts/footer" %>
