@@ -10,7 +10,11 @@ class HomeController < ApplicationController
     listings = EmployeeListing.active.published.where("end_publish_date >= ? ", Date.today).order(updated_at: :desc)
     @employee_listings = listings.paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
-    @employee_hire = EmployeeHireSection.last
+    @how_it_works = HomepageContent.where(section_type: "how_it_work_section")
+    @employee_hirings = HomepageContent.where(section_type: "employee_hiring_section")
+    if StaticContent.last.present?
+      @static_content = StaticContent.last
+    end
   end
 
   def email_availability

@@ -250,8 +250,8 @@ ActiveRecord::Schema.define(version: 2020_05_04_125348) do
     t.integer "section_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "getting_start_content_id"
     t.integer "static_content_id"
+    t.integer "getting_start_content_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -298,6 +298,14 @@ ActiveRecord::Schema.define(version: 2020_05_04_125348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["transaction_id"], name: "index_payment_receipts_on_transaction_id"
+  end
+
+  create_table "push_notification_settings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.json "preferences", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_push_notification_settings_on_user_id"
   end
 
   create_table "relevant_documents", force: :cascade do |t|

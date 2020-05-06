@@ -1,7 +1,7 @@
 class Admin::ContentManagementController < Admin::AdminBaseController
 	def design
 		@static_content = StaticContent.last.present? ? StaticContent.last : StaticContent.new
-		# @static_content.homepage_contents.build
+		@static_content.homepage_contents.build
 		# @update = HomepageContent.last
 	end
 
