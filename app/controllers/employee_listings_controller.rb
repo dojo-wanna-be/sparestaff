@@ -32,11 +32,11 @@ class EmployeeListingsController < ApplicationController
 
   def getting_started
     @getting_start_content = GettingStartContent.last
-    @employee_hiring = @getting_start_content&.homepage_contents.where(section_type: :getting_started_employee_hiring_section)
-    @how_it_works = @getting_start_content&.homepage_contents.where(section_type: :getting_started_how_it_work_section)
-    @safety_section = @getting_start_content&.homepage_contents.where(section_type: :safety_on_spare_staff)
-    @frequently_ask_getting_start = @getting_start_content&.frequently_ask_questions.where(section_type: :getting_started)
-    @frequently_ask_earnings = @getting_start_content&.frequently_ask_questions.where(section_type: :earnings)
+    @employee_hiring = @getting_start_content&.homepage_contents&.where(section_type: :getting_started_employee_hiring_section)
+    @how_it_works = @getting_start_content&.homepage_contents&.where(section_type: :getting_started_how_it_work_section)
+    @safety_section = @getting_start_content&.homepage_contents&.where(section_type: :safety_on_spare_staff)
+    @frequently_ask_getting_start = @getting_start_content&.frequently_ask_questions&.where(section_type: :getting_started)
+    @frequently_ask_earnings = @getting_start_content&.frequently_ask_questions&.where(section_type: :earnings)
   end
 
   def index
