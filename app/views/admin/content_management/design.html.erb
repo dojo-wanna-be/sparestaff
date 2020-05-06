@@ -39,11 +39,13 @@
                 </div>
               </div>
             </div>
-            <%= f.fields_for :homepage_contents do |homepage_content| %>
-              <%#= render partial: "homepage_content_fields", :f => homepage_content %>
-            <% end %>
-            <div class="links">
-              <%= link_to_add_association 'Add Content', f, :homepage_contents %>
+            <div id="tasks">
+              <%= f.fields_for :homepage_contents do |homepage_content| %>
+                <%= render partial: "homepage_content_fields", locals:{ f: homepage_content} %>
+              <% end %>
+              <div class="links">
+                <%= link_to_add_association 'Add Content', f, :homepage_contents %>
+              </div>
             </div>
             <%= f.submit 'Submit', class: 'submit_button' %>
             <%#= submit_tag 'Submit',class: 'submit_button' %>

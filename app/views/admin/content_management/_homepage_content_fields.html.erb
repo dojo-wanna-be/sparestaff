@@ -3,7 +3,7 @@
   <div class="custom-input-group">
     <div class="nested-fields">
       <div class="field">
-        <%= f.select :section_type, options_for_select(HomepageContent.section_types.map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field half-field'} %>
+        <%= f.select :section_type, options_for_select(HomepageContent.section_types.first(2).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field half-field'} %>
         <br/>
       </div>
       <div class="field">
