@@ -1,0 +1,19 @@
+<div class="custom-field-box main_column">
+  <div class="column_heading">Content</div>
+  <div class="custom-input-group">
+    <div class="nested-fields">
+      <div class="field">
+        <%= f.select :section_type, options_for_select(HomepageContent.section_types.map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field half-field'} %>
+        <br/>
+      </div>
+      <div class="field">
+        <%= f.file_field :content_image, class: 'update_logo' %>
+        <br/>
+      </div>
+      <div class="field">
+        <%= f.text_area :content , class: 'update_text_data'%>
+      </div>
+      <%= link_to_remove_association "Remove Section", f %>
+    </div>
+  </div>
+</div>

@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_125348) do
     t.integer "section_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "static_content_id"
     t.integer "getting_start_content_id"
   end
 

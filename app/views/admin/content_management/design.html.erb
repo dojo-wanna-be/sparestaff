@@ -7,20 +7,49 @@
 <div class="admin_panle_body">
   <%= render partial: "layouts/admin/left_hand_navigation" %>
   <div class="admin_right_panel">
-  	<div class="step_heading">Change Website Logo</div>
+    <div class="step_heading">Change Content</div>
     <div class="right_step user">
-    	<div class="right-panel edit_regis"><br />
-        <%= form_tag(update_site_logo_admin_content_management_index_path, id: 'new_form', multipart: true)do %>
+      <div class="right-panel edit_regis"><br />
+        <%= form_for @static_content, url: admin_content_management_path(@static_content), html: { multipart: true } do |f| %>
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
-                <%= file_field_tag :site_logo, class: 'update_logo', required: true %>
+                <div class="field">
+                  <%= f.label :site_logo %>
+                  <br/>
+                  <%= f.file_field :site_logo, class: 'update_logo' %>
+                </div>
               </div>
             </div>
-            <%= submit_tag 'Submit',class: 'submit_button' %>
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <div class="field">
+                  <%= f.label :employee_hiring_title %>
+                  <br/>
+                  <%= f.text_field :employee_hiring_title, class: 'update_logo', required: true %>
+                </div>
+              </div>
+            </div>
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <div class="field">
+                  <%= f.label :how_it_work_title %>
+                  <br/>
+                  <%= f.text_field :how_it_work_title, class: 'update_logo', required: true %>
+                </div>
+              </div>
+            </div>
+            <%= f.fields_for :homepage_contents do |homepage_content| %>
+              <%#= render partial: "homepage_content_fields", :f => homepage_content %>
+            <% end %>
+            <div class="links">
+              <%= link_to_add_association 'Add Content', f, :homepage_contents %>
+            </div>
+            <%= f.submit 'Submit', class: 'submit_button' %>
+            <%#= submit_tag 'Submit',class: 'submit_button' %>
           </div>
         <% end %>
       </div>
     </div>
-	</div>
+  </div>
 </div>

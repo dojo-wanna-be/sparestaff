@@ -29,10 +29,6 @@ Rails.application.routes.draw do
     resources :content_management do
       collection do
         get :design
-        match :update_site_logo, via: [:get, :post]
-        match :update_homepage_content, via: [:get, :post]
-        match :employee_hiring_section, via: [:get, :post]
-        match :getting_started, via: [:get, :post]
       end
     end
     get '' => "users#index"
