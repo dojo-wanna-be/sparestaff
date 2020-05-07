@@ -12,17 +12,8 @@
 
     <div class="right_step user">
       <%= render partial: "admin/users/search_form", locals: {action_url: admin_employee_listings_path, page_name: "listings_index"} %>
-      <div class="search_row">
-        <select class="multiple_select" name="Multiple">
-          <option>Multiple selection action</option>
-          <option value="delete_selected">Delete selected accounts
-          </option>
-          <option value="suspend_selected">Suspend selected accounts</option>
-        </select>
-        &nbsp;&nbsp;<button class="Width50Px gobutton">Go</button>
-        &nbsp; 0 of <%= @listings.count %> selected
-      </div>
-      <div class="error_arise">Please Select a value!</div>
+      
+      <!-- <div class="error_arise">Please Select a value!</div> -->
 
       <div class="search_row">
         <div>Displaying 1 - <%= @listings.count %> of <%= @listings.count %> listings </div>
@@ -163,33 +154,33 @@
     }
   })
 
-  $('.gobutton').click(function(){
-    if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
-      $('.error_arise').show();
-    else {
-      $('.error_arise').hide();
-      var ids = [];
-      $('.checkbox_input:checkbox:checked').each(function () {
-        code = $(this).val();
-        ids.push(code);
-      });
-      if ($('.multiple_select').val() == "delete_selected") {
-        var result = confirm("Are you want to delete selected accounts?");
-      }
-      else {
-        var result = confirm("Are you want to suspend selected accounts?");
-      }
-      if (result) {
-        $.ajax({
-          type: "GET",
-          url: "<%= suspend_or_delete_admin_users_path %>",
-          data: { ids: ids, select_action: $('.multiple_select').val() }
-        });
-        //Logic to delete the item
-      }
-      else {
-        $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
-      }
-    }
-  })
+  // $('.gobutton').click(function(){
+  //   if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
+  //     $('.error_arise').show();
+  //   else {
+  //     $('.error_arise').hide();
+  //     var ids = [];
+  //     $('.checkbox_input:checkbox:checked').each(function () {
+  //       code = $(this).val();
+  //       ids.push(code);
+  //     });
+  //     if ($('.multiple_select').val() == "delete_selected") {
+  //       var result = confirm("Are you want to delete selected accounts?");
+  //     }
+  //     else {
+  //       var result = confirm("Are you want to suspend selected accounts?");
+  //     }
+  //     if (result) {
+  //       $.ajax({
+  //         type: "GET",
+  //         url: "<%= suspend_or_delete_admin_users_path %>",
+  //         data: { ids: ids, select_action: $('.multiple_select').val() }
+  //       });
+  //       //Logic to delete the item
+  //     }
+  //     else {
+  //       $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
+  //     }
+  //   }
+  // })
 </script>

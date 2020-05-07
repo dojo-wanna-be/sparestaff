@@ -1,4 +1,4 @@
-<%= form_tag action_url, method: :get do |f| %>
+<%= form_tag action_url, method: :get do %>
   <div class="search_row">
     <!-- <input name="q" class="search_input" type="text" placeholder="Search by ID, name, email, or company name" value=""> -->
     <%#= text_field_tag 'q',params[:q], placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
@@ -7,23 +7,29 @@
     <%#= link_to 'Show all', '', class: 'spare_link' %>
   </div>
   
-  <%= form_tag action_url, method: :get do %>
+  <div class="search_row">
+    <div class="from_date">
+      <%= page_name.eql?('users_index') ? "Joined" : (page_name.eql?('hirings_index') ? "Started" : (page_name.eql?('listings_index') ? "Created" : (page_name.eql?('conversations_index') ? "Started" : "From"))) %> From (optional)<br>
+      <%= text_field_tag :created_at_gteq, params[:created_at_gteq].present? ? params[:created_at_gteq] : nil,class: 'Width125Px datepicker_calender', 'datepicker' => true ,data: {"date-format" => "yyyy-mm-dd"}, autocomplete: "off", placeholder: "dd/mm/yyyy" %>
+      <!-- <input name="join_start_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
+    </div>
+    <div class="to_date">
+      <%= page_name.eql?('users_index') ? "Joined" : (page_name.eql?('hirings_index') ? "Started" : (page_name.eql?('listings_index') ? "Created" : (page_name.eql?('conversations_index') ? "Started" : "From"))) %> To (optional)<br>
+      <%= text_field_tag :created_at_lteq, params[:created_at_gteq].present? ? params[:created_at_lteq] : nil, class: 'Width125Px datepicker_calender', 'datepicker' => true,data: {"date-format" => "yyyy-mm-dd"}, autocomplete: "off", placeholder: "dd/mm/yyyy" %>
+      <!-- <input name="join_end_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
+    </div>
+    <div>
+      Show per page<br>
+      <%= hidden_field_tag 'search_fields', 'true'%>
+      <%= select_tag "data_show", options_for_select(["Select", "50", "100", "200"], "Select"), onchange: 'this.form.submit();' %>
+    </div>
+  </div>
+  <%if page_name.eql?('listings_index') %>
     <div class="search_row">
-      <div class="from_date">
-        <%= page_name.eql?('users_index') ? "Joined" : (page_name.eql?('hirings_index') ? "Started" : (page_name.eql?('listings_index') ? "Created" : (page_name.eql?('conversations_index') ? "Started" : "From"))) %> From (optional)<br>
-        <%= text_field_tag :created_at_gteq, params[:created_at_gteq].present? ? params[:created_at_gteq] : nil,class: 'Width125Px datepicker_calender', 'datepicker' => true ,data: {"date-format" => "yyyy-mm-dd"}, autocomplete: "off", placeholder: "dd/mm/yyyy" %>
-        <!-- <input name="join_start_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
-      </div>
-      <div class="to_date">
-        <%= page_name.eql?('users_index') ? "Joined" : (page_name.eql?('hirings_index') ? "Started" : (page_name.eql?('listings_index') ? "Created" : (page_name.eql?('conversations_index') ? "Started" : "From"))) %> To (optional)<br>
-        <%= text_field_tag :created_at_lteq, params[:created_at_gteq].present? ? params[:created_at_lteq] : nil, class: 'Width125Px datepicker_calender', 'datepicker' => true,data: {"date-format" => "yyyy-mm-dd"}, autocomplete: "off", placeholder: "dd/mm/yyyy" %>
-        <!-- <input name="join_end_date" class="Width125Px datepicker" type="text" placeholder="dd/mm/yyyy"> -->
-      </div>
-      <div>
-        Show per page<br>
-        <%= hidden_field_tag 'search_fields', 'true'%>
-        <%= select_tag "data_show", options_for_select(["Select Pages", "50", "100", "200"], "Select Pages"), onchange: 'this.form.submit();' %>
-      </div>
+      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Delete Listings", "Pause Listings"], "Multiple selection action") %>
+      <%= hidden_field_tag 'delete_pause_listings', 'delete'%>
+      &nbsp;&nbsp;<button class="Width50Px">Go</button>
+      &nbsp; 0 of <%= @listings.count %> selected
     </div>
   <%end%>
   <%= hidden_field_tag 'search_fields', 'search' %>

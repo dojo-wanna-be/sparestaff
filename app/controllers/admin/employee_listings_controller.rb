@@ -6,7 +6,7 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
   before_action :find_listing, only: [:delete_or_pause_listing, :edit, :update, :show, :listing_deactivation]
 
   def index
-    if params[:search_fields].present?
+    if params[:search_fields].present? && search_fields
       if params[:data_show] == "100"
         @listings = listings.paginate(:page => params[:page], :per_page => 100)
       elsif params[:data_show] == "200"
@@ -14,6 +14,8 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
       else
         @listings = listings.paginate(:page => params[:page], :per_page => 50)
       end
+    elsif params[:delete_pause_listings].present? && delete_pause_listings_fields
+      @listings = delete_pause_listings
     else
       @listings = EmployeeListing.active.published.paginate(:page => params[:page], :per_page => 50)
     end
@@ -129,6 +131,22 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
     data[:created_at_gteq] = params[:created_at_gteq] if params[:created_at_gteq].present?
     data[:created_at_lteq] = params[:created_at_lteq] if params[:created_at_lteq].present?
     EmployeeListing.active.published.ransack(data, m: 'or').result(distinct: true)
+  end
+  
+  def delete_pause_listings
+    if params[:data_show] == "Delete Listings"
+      listings = EmployeeListing.active.published.delete_listing.paginate(:page => params[:page], :per_page => 50)
+    else params[:data_show] == "Pause Listings"
+      listings = EmployeeListing.active.published.pause_listing.paginate(:page => params[:page], :per_page => 50) 
+    end
+  end
+
+  def delete_pause_listings_fields
+    result = (params[:data_show] == "Delete Listings" ||  params[:data_show] == "Pause Listings")
+  end
+  
+  def search_fields
+    result = (params[:q].present? || params[:created_at_gteq].present? || params[:created_at_lteq].present?)
   end
 
   def find_listing
