@@ -1,0 +1,7 @@
+<% if @status.eql?("Delete") %>
+	$('.status_field<%=@employee_listing.id%>').text("<%= @status %>");
+<%else%>
+   $('.status_field<%=@employee_listing.id%>').text("<%= @status %>");
+<% end %>
+var toastContent = $('<span>Updated Successfully.</span>');
+toastr.success(toastContent)

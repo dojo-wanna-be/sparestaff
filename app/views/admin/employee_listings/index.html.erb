@@ -8,7 +8,7 @@
 <div class="admin_panle_body">
   <%= render partial: "layouts/admin/left_hand_navigation" %>
   <div class="admin_right_panel">
-    <div class="step_heading">Users</div>
+    <div class="step_heading">Employee Listings</div>
 
     <div class="right_step user">
       <%= render partial: "admin/users/search_form", locals: {action_url: admin_employee_listings_path, page_name: "listings_index"} %>
@@ -27,7 +27,7 @@
       <div class="search_row">
         <div>Displaying 1 - <%= @listings.count %> of <%= @listings.count %> listings </div>
         &nbsp;
-        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+        <%= link_to 'Export all as CSV', upload_csv_admin_employee_listings_path(format: "csv"), class: 'spare_link export_csv' %>
       </div>
       <div class="main_table_container">
         <% if @listings.blank? %>
@@ -59,25 +59,23 @@
                     <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
                   </div>
                   <div class="Width50Px">
-                    <%= link_to listing.id, user_path(id: listing.id), class: 'spare_link', target: '_blank' %>
+                    <%= link_to listing.id, employee_path(id: listing.id), class: 'spare_link', target: '_blank' %>
                   </div>
                   <div class="Width100Px"><%= listing.title %></div>
-                  <div class="Width100Px">
-                    <%= listing.name %>
-                  </div>
+                  <div class="Width100Px"><%= listing.name %></div>
                   <div class="Width100Px"><%= listing.poster&.name %></div>
-                  <div class="Width100Px"><%= listing&.name %></div>
+                  <div class="Width100Px"><%= listing.classification&.name %></div>
                   <div class="Width100Px"><%= listing.created_at.strftime("%b %e, %Y") %></div>
                   <div class="Width100Px"><%= listing.updated_at&.strftime("%b %e, %Y") %></div>
-                  <div class="Width100Px"><%= listing.updated_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px status_field<%= listing.id%>"><%= listing.status%></div>
                   <div class="Width100Px text-center suspend_user_<%= listing.id %>">
-                    <%= check_box_tag 'delete_user', listing.id, nil, class: '' %>
+                    <%= check_box_tag 'delete_listing', listing.id, nil, class: '', checked: (listing.deleted_at ? true : false) %>
                   </div>
                   <div class="Width100Px text-center">
-                    <%= check_box_tag 'delete_user', listing.id, nil, class: ''  %>
+                    <%= check_box_tag 'pause_listing', listing.id, nil, class: '', checked: (listing.pause_at ? true :false )  %>
                   </div>
                   <div class="Width100Px text-center">
-                    <%= link_to edit_admin_user_path(listing.id) do %>
+                    <%= link_to edit_admin_employee_listing_path(listing.id) do %>
                       <%= image_tag 'pencil.png', class: "Height15px" %>
                     <% end %>
                   </div>
@@ -112,34 +110,28 @@
   </div>
 </div>
 <script type="text/javascript">
-  $('#suspend_user,#make_admin,#delete_user').click(function() {
+  $('#pause_listing,#delete_listing').click(function() {
     var checked;
     var check_type;
     var result;
-    if ($(this).attr('name') == "suspend_user") {
-      check_type = "suspend_user"
-    }
-    else if ($(this).attr('name') == "make_admin") {
-      check_type = "make_admin"
+    if ($(this).attr('name') == "pause_listing") {
+      check_type = "pause_listing"
     }
     else {
-      check_type = "delete_user"
+      check_type = "delete_listing"
     }
     if ($(this).is(':checked')) {
       checked = true;
-      if (check_type == "suspend_user") {
-        result = confirm("Are you sure you want to suspend this user? You can unsuspend later.");
-      }
-      else if (check_type == "make_admin") {
-        result = confirm("Are you sure you want to make this user admin?");
+      if (check_type == "pause_listing") {
+        result = confirm("Are you sure you want to pause this listing");
       }
       else {
-        result = confirm("Are you sure you want to delete this user? This CANNOT be undone.");
+        result = confirm("Are you sure you want to delete this listing");
       }
       if (result) {
         $.ajax({
-          type: "POST",
-          url: "<%= suspend_or_make_admin_user_admin_users_path %>",
+          type: "GET",
+          url: "<%=delete_or_pause_listing_admin_employee_listings_path %>",
           data: { id: $(this).val(), checked: checked, check_type: check_type }
         });
       }
@@ -149,8 +141,8 @@
     } else {
       checked = false;
       $.ajax({
-        type: "POST",
-        url: "<%= suspend_or_make_admin_user_admin_users_path %>",
+        type: "GET",
+        url: "<%= delete_or_pause_listing_admin_employee_listings_path %>",
         data: { id: $(this).val(), checked: checked, check_type: check_type }
       });
     }
@@ -170,6 +162,7 @@
       $('.checkbox_input').prop('checked', false)
     }
   })
+
   $('.gobutton').click(function(){
     if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
       $('.error_arise').show();

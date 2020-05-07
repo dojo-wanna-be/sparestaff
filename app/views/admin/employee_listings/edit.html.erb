@@ -1,0 +1,78 @@
+<div class="manage-listing-page">
+  <div class="inner-manage-section">
+    <div class="manage-top-box">
+      <div class="heading-box">
+        <h1 class="main-heading"><%= @employee_listing.title %></h1>
+        <%= link_to "Preview Listing", employee_path(id: @employee_listing.id), target: "_blank", class: 'preview-btn' %>
+      </div>
+
+      <ul class="manage-sub-list">
+        <li class="manage-sub-item">
+          <%#= link_to "Listing Details", "javascript:;", data: {type: "listing_details", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
+          <%= link_to "Listing Details", "javascript:;", data: {type: "listing_details"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
+        </li>
+        <li class="manage-sub-item">
+          <%= link_to "Employee Skills", "javascript:;", data: {type: "employee_skills"}, class: "edit_listing_links item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
+        </li>
+        <li class="manage-sub-item">
+          <%= link_to "Pricing", "javascript:;", data: {type: "listing_pricing"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
+        </li>
+        <li class="manage-sub-item">
+          <%= link_to "Availability", "javascript:;", data: {type: "listing_availability"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
+        </li>
+        <li class="manage-sub-item">
+          <%= link_to "Listing Status", "javascript:;", data: {type: "listing_status"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-form-box">
+      <div class="form-left-box">
+        <div class="manage-form-box">
+          <% if params[:edit].eql?("listing_details") %>
+            <%= render partial: "edit_listing_details_form" %>
+          <% elsif params[:edit].eql?("employee_skills") %>
+            <%= render partial: "edit_employee_skills_form" %>
+          <% elsif params[:edit].eql?("listing_pricing") %>
+            <%= render partial: "edit_pricing_form" %>
+          <% elsif params[:edit].eql?("listing_availability") %>
+            <%= render partial: "edit_availability_form" %>
+          <% elsif params[:edit].eql?("listing_status") %>
+            <%= render partial: "edit_listing_status_form" %>
+          <% elsif params[:edit].eql?("deactivation_reason") %>
+            <%= render partial: "deactivation_reason_form" %>
+          <% elsif params[:edit].eql?("deactivation_feedback") %>
+            <%= render partial: "deactivation_feedback_form" %>
+          <% else %>
+            <%= render partial: "edit_listing_details_form" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="edit-form-footer">
+      <%= link_to '© Spare Staff', '#', class: 'root-link' %>
+    </div>
+
+  </div>
+</div>
+<%= render partial: "edit_data_confirm_modal" %>
+
+<script type="text/javascript">
+  var somethingChange = false;
+  $('.edit_listing_links').click(function() {
+    if (somethingChange) {
+      $('#edit_confirmation_modal').modal('show');
+    }
+    else {
+      var $form = $('form:visible');
+      var newElement = '<input type="hidden" value="'+type+'" name="redirect_link" />';
+      $form.append( $(newElement) );
+      $("#edit_confirmation_modal").modal("hide");
+      $form.submit();
+    }
+  });
+  $("#listing_details,#employee_skills,#listing_pricing,#listing_availability,#listing_status").change(function(){
+    somethingChange = true;
+  });
+</script>

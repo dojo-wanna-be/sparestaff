@@ -1,0 +1,45 @@
+<%= form_for @employee_listing, url: deactivate_admin_employee_listings_path, method: :patch, :html => { :id => "listing_deactivation" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "deactivation_feedback" %>
+
+  <div class="custom-input-group">
+    <label class="custom-label feedback-label">Permanently deactivate your employee listing</label>
+
+    <ul class="checkbox-list">
+      <label class="custom-label">Please let us know why</label>
+
+      <% EmployeeListing::DEACTIVATION_REASON.each do |reason, value| %>
+        <li class="checkbox-item">
+          <span>
+            <%= f.radio_button :deactivation_reason, value, checked: false, class: "checkbox-radio" %>
+          </span>
+          <%= reason %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="button-box">
+    <%= f.submit "Next", class: "continue-btn" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $("#listing_deactivation").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "employee_listing[deactivation_reason]": {required: true},
+    },
+    messages: {
+      "employee_listing[deactivation_reason]": {required: "Please select a reason"},
+    }
+  });
+</script>
+
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>

@@ -23,7 +23,14 @@ Rails.application.routes.draw do
       end
     end
     resources :coupons
-    resources :employee_listings
+    resources :employee_listings do
+      collection do
+        get :delete_or_pause_listing
+        get :upload_csv
+        patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
+        get :deactivated_completely, path: "deactivated", as: "deactivated"
+      end
+    end
     resources :community_service_fees
     get '' => "users#index"
   end
