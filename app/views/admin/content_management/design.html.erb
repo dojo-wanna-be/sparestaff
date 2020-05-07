@@ -16,8 +16,7 @@
               <div class="custom-input-group">
                 <h3>Website Logo & Title of Homepage Section</h3>
                 <div class="field">
-                  <%= f.label :website_logo %>
-                  <br/>
+                  <%= f.label "Website Logo Section" %>
                   <%= f.file_field :site_logo, class: 'update_logo' %>
                 </div>
               </div>
@@ -25,7 +24,7 @@
             <div class="custom-field-box">
               <div class="custom-input-group">
                 <div class="field">
-                  <%= f.label :employee_hiring_title %>
+                  <%= f.label "Employee Hiring Section Title" %>
                   <br/>
                   <%= f.text_field :employee_hiring_title, class: 'update_logo', required: true %>
                 </div>
@@ -34,7 +33,7 @@
             <div class="custom-field-box">
               <div class="custom-input-group">
                 <div class="field">
-                  <%= f.label :how_it_work_title %>
+                  <%= f.label "How It Work Section Title" %>
                   <br/>
                   <%= f.text_field :how_it_work_title, class: 'update_logo', required: true %>
                 </div>

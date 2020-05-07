@@ -4,16 +4,16 @@
       <div class="field">
         <%= f.label :section_type %>
         <br/>
-        <%= f.select :section_type, options_for_select(HomepageContent.section_types.first(2).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field half-field'} %>
+        <%= f.select :section_type, options_for_select(HomepageContent.section_types.first(2).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type),{prompt:"--Select a Type--"}, {class: 'custom-field half-field'} %>
       </div>
       <br/>
       <div class="field">
-        <%= f.label :content_image %>
+        <%= f.label "Content Image " %>
         <%= f.file_field :content_image, class: 'update_logo' %>
       </div>
       <br/>
       <div class="field">
-        <%= f.label :content_text %>
+        <%= f.label "Text Of your Content" %>
         <%= f.text_area :content , class: 'update_text_data'%>
       </div>
       <%= link_to_remove_association "Remove Section", f %>
