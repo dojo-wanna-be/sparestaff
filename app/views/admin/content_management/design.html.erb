@@ -7,13 +7,14 @@
 <div class="admin_panle_body">
   <%= render partial: "layouts/admin/left_hand_navigation" %>
   <div class="admin_right_panel">
-    <div class="step_heading">Change Content</div>
+    <div class="step_heading">Change Content of Homepage and Footer Links</div>
     <div class="right_step user">
       <div class="right-panel edit_regis"><br />
         <%= form_for @static_content, url: admin_content_management_path(@static_content), html: { multipart: true } do |f| %>
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
+                <h3>Website Logo & Title of Homepage Section</h3>
                 <div class="field">
                   <%= f.label :website_logo %>
                   <br/>
@@ -39,12 +40,23 @@
                 </div>
               </div>
             </div>
+            <div class="column_heading"><h3>Homepage Content</h3></div>
             <div id="tasks">
               <%= f.fields_for :homepage_contents do |homepage_content| %>
                 <%= render partial: "homepage_content_fields", locals:{ f: homepage_content} %>
               <% end %>
               <div class="links">
                 <%= link_to_add_association 'Add Content', f, :homepage_contents %>
+              </div>
+            </div>
+            <br/>
+            <h3>Footer Links</h3>
+            <div id="tasks">
+              <%= f.fields_for :footer_links do |section| %>
+                <%= render partial: 'footer_link_fields', locals:{ f: section} %>
+              <% end %>
+              <div class="links">
+                <%= link_to_add_association 'Add section', f, :footer_links %>
               </div>
             </div>
             <%= f.submit 'Submit', class: 'submit_button' %>

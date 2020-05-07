@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_064140) do
+ActiveRecord::Schema.define(version: 2020_05_06_114016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,6 +213,15 @@ ActiveRecord::Schema.define(version: 2020_05_06_064140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_listing_id"], name: "index_employee_skills_on_employee_listing_id"
+  end
+
+  create_table "footer_links", force: :cascade do |t|
+    t.integer "link_type"
+    t.string "link_name"
+    t.string "link_url"
+    t.integer "static_content_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "frequently_ask_questions", force: :cascade do |t|

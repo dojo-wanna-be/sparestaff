@@ -2,6 +2,7 @@ class Admin::ContentManagementController < Admin::AdminBaseController
 	def design
 		@static_content = StaticContent.last.present? ? StaticContent.last : StaticContent.new
 		@static_content.homepage_contents.build
+		@static_content.footer_links.build
 		# @update = HomepageContent.last
 	end
 
@@ -35,6 +36,6 @@ class Admin::ContentManagementController < Admin::AdminBaseController
 	private
 
 	def content_params
-		params.require(:static_content).permit(:site_logo, :employee_hiring_title, :how_it_work_title, homepage_contents_attributes: [:id, :section_type, :content_image, :content, :_destroy])
+		params.require(:static_content).permit(:site_logo, :employee_hiring_title, :how_it_work_title, homepage_contents_attributes: [:id, :section_type, :content_image, :content, :_destroy], footer_links_attributes: [:id, :link_type, :link_name, :link_url, :_destroy])
   end
 end

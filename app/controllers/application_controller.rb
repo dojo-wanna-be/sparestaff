@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :account_suspended
   before_action :unread_message_count
+  before_action :footer_links
   include ApplicationHelper
 
   def unread_message_count
@@ -9,6 +10,12 @@ class ApplicationController < ActionController::Base
     # @unread_count = Message.joins(:conversation).where("read =? AND messages.sender_id !=? AND (conversations.sender_id =? OR conversations.receiver_id =?)", false, current_user.id, current_user.id, current_user.id).size
       @unread_count = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct.count
     end
+  end
+
+  def footer_links
+    @sparestaff_section_links = FooterLink.where(link_type: "sparestaff_section")
+    @easy_online_recruitment_section_links = FooterLink.where(link_type: "easy_online_recruitment_section")
+    @employee_sharing_hiring_section_links = FooterLink.where(link_type: "employee_sharing_hiring_section")
   end
 
   def account_suspended
