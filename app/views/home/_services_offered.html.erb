@@ -1,5 +1,5 @@
 <div class="employe-hiring-box">
-  <h1 class="hiring-heading"><%= @static_content.employee_hiring_title %></h1>
+  <h1 class="hiring-heading"><%= @static_content.try(:employee_hiring_title) %></h1>
   <div class="image-details-box">
     <% if @employee_hirings.present? %>
       <% @employee_hirings.each do |employee_hiring| %>
