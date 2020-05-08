@@ -20,7 +20,7 @@
               </div>
 
               <div class="custom-input-group">
-                <%= label_tag :discount_in_percentage %>
+                <%= label_tag "Discount Amount ($)" %>
                 <%= number_field_tag :discount %>
               </div>
               <div class="custom-input-group">
@@ -29,7 +29,7 @@
               </div>
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'select2' %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| ["@#{user.email}(#{user.name})", user.id] }), multiple: true, class: 'select2' %>
               </div>
             </div>
 

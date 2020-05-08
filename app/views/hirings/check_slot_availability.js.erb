@@ -262,7 +262,7 @@ function setWeekdayHours(){
   hiring_weekday_price = weekday_hour * listingWeekdayPrice;
   $("#hiring_weekday_price_old").html(hiring_weekday_price.toFixed(2))
   if (discountApplicable == "true") {
-    hiring_weekday_price = hiring_weekday_price - (hiring_weekday_price * parseFloat(discountPercent)/100)
+    hiring_weekday_price = hiring_weekday_price - parseFloat(discountPercent)
   }
   $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
   $("#total_weekday_hours").html(totalWeekdayHours);
@@ -280,7 +280,7 @@ function setWeekendHours(){
   hiring_weekend_price = weekend_hour * listingWeekendPrice;
   $("#hiring_weekend_price_old").html(hiring_weekend_price.toFixed(2))
   if (discountApplicable == "true") {
-    hiring_weekend_price = hiring_weekend_price - (hiring_weekend_price * parseFloat(discountPercent)/100)
+    hiring_weekend_price = hiring_weekend_price - parseFloat(discountPercent)
   }
   $("#hiring_weekend_price").html(hiring_weekend_price.toFixed(2));
   $("#total_weekend_hours").html(totalWeekendHours);

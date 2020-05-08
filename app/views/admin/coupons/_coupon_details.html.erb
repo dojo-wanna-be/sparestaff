@@ -3,7 +3,7 @@
     <div class="csv_table_row gray_bg">
       <div class="Width100Px">Coupon Id</div>
       <div class="Width100Px">Coupon Code</div>
-      <div class="Width100Px">Discount(%)</div>
+      <div class="Width100Px">Discount($)</div>
       <div class="Width100Px">Expiry Date</div>
       <div class="Width200Px">Update Assigned Users</div>
     </div>
@@ -13,7 +13,7 @@
           <div class="csv_table_row">
             <div class="Width100Px"><%= coupon.id %></div>
             <div class="Width100Px"><%= coupon.coupon_code %></div>
-            <div class="Width100Px"><%=coupon.discount%>%</div>
+            <div class="Width100Px">$<%=coupon.discount%></div>
             <div class="Width100Px"><%=coupon.expiry_date&.strftime('%b %d, %Y')%></div>
             <div class="Width200Px"><%= link_to 'Assign User', 'javascript:;', data: {target: "#assign_user_#{coupon.id}", toggle: "modal" }, class: "assign_user", model_id: ".modal_select2_#{coupon.id}", users_ids: coupon.user_ids %></div>
           </div>
@@ -38,7 +38,7 @@
             <div class="custom-field-box">
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), class: "modal_select2_#{coupon.id}" %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| ["@#{user.email}(#{user.name})", user.id] }), class: "modal_select2_#{coupon.id}" %>
               </div>
             </div>
           </div>

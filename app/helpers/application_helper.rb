@@ -54,8 +54,12 @@ module ApplicationHelper
 
   def discount_amount(tx, amount)
     if tx.discount_coupon.present?
-      discount = amount * tx.discount_percent/100
-      (amount - discount).round(2)
+      discount = tx.discount_percent
+      if amount == 0
+        amount.round(2)
+      else
+        (amount - discount).round(2)
+      end
     else
       amount.round(2)
     end

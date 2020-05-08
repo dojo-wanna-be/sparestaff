@@ -90,10 +90,10 @@ class TransactionsController < ApplicationController
       card = AddNewCardOnStripe.new(user: current_user, stripe_token: stripe_token).update
       @transaction.update_attribute(:state, "created")
       if params[:coupon].present?
-        discount_percent = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
-        amount = (@transaction.amount - (@transaction.amount * discount_percent)/100).round(2)
-        remaining_amount = (@transaction.remaining_amount - (@transaction.remaining_amount * discount_percent)/100).round(2)
-        @transaction.update(discount_percent: discount_percent, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.amount, remaining_amount: remaining_amount)
+        discount_amount = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
+        amount = (@transaction.amount - discount_amount).round(2)
+        remaining_amount = (@transaction.remaining_amount - discount_amount).round(2)
+        @transaction.update(discount_percent: discount_amount, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.amount, remaining_amount: remaining_amount)
       end
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
@@ -132,11 +132,11 @@ class TransactionsController < ApplicationController
         @error = true
         #redirect_to payment_transaction_path(params[:id])
       else
-        @discount_percent = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
+        @discount_amount = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
         @transaction = Transaction.find_by(id: params[:id])
         @listing = @transaction.employee_listing
-        @discount_weekday_price = @listing.weekday_price.to_f - (@listing.weekday_price.to_f * @discount_percent/100)
-        @discount_weekend_price = @listing.weekend_price.to_f - (@listing.weekend_price.to_f * @discount_percent/100)
+        @discount_weekday_price = @listing.weekday_price.to_f -  @discount_amount
+        @discount_weekend_price = @listing.weekend_price.to_f -  @discount_amount
         total_weekly_amount = ((@discount_weekday_price * @transaction.weekday_hours) + (@discount_weekend_price * @transaction.weekend_hours)) - @transaction.tax_withholding_amount
         @discount_service_fee = total_weekly_amount.to_f * @transaction.commission_from_hirer
         @discount_hirer_weekly_amount = total_weekly_amount + @discount_service_fee
