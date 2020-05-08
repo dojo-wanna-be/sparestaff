@@ -29,7 +29,7 @@
               </div>
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| ["@#{user.email}(#{user.name})", user.id] }), multiple: true, class: 'select2' %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| ["#{user.email}(#{user.name})", user.id] }), multiple: true, class: 'chosen_select' %>
               </div>
             </div>
 
@@ -64,9 +64,12 @@
     }
   });
 
-  $('.select2').select2({
+  $('.chosen_select').chosen({
     placeholder: "Select a User"
   });
+  // $('.select2').select2({
+  //   placeholder: "Select a User"
+  // });
 
   $('.assign_user').click(function(){
     model_id = $(this).attr('model_id');

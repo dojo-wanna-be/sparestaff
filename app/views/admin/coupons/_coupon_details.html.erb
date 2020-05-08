@@ -38,7 +38,7 @@
             <div class="custom-field-box">
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| ["@#{user.email}(#{user.name})", user.id] }), class: "modal_select2_#{coupon.id}" %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| ["#{user.email}(#{user.name})", user.id] }), class: "modal_select2_#{coupon.id}" %>
               </div>
             </div>
           </div>

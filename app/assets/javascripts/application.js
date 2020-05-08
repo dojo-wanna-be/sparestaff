@@ -24,6 +24,7 @@
 //= require turbolinks
 //= require jquery.validate
 //= require jquery.raty
+//= require chosen-jquery
 //= require select2.js
 //= require_tree .
 
