@@ -14,10 +14,10 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
       else
         @listings = listings.paginate(:page => params[:page], :per_page => 50)
       end
-    elsif params[:delete_pause_listings].present? && delete_pause_listings_fields
+    elsif params[:delete_pause_listings].present? && pause_listing_search_field
       @listings = delete_pause_listings
     else
-      @listings = EmployeeListing.active.published.paginate(:page => params[:page], :per_page => 50)
+      @listings = EmployeeListing.active.published.delete_status.paginate(:page => params[:page], :per_page => 50)
     end
   end
 
@@ -127,22 +127,21 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
   
   def listings
     data = {}
-    data[:employee_skills_skill_name_or_title_cont_any] = params[:q] if params[:q].present?
     data[:created_at_gteq] = params[:created_at_gteq] if params[:created_at_gteq].present?
     data[:created_at_lteq] = params[:created_at_lteq] if params[:created_at_lteq].present?
-    EmployeeListing.active.published.ransack(data, m: 'or').result(distinct: true)
+    listing = EmployeeListing.active.published.delete_status.ransack(first_name_or_last_name_cont_any: params[:q].split().first, employee_skills_skill_name_or_title_cont_any: params[:q],  m: 'or').result(distinct: true)
+    @listing = listing.ransack(data, m: 'or').result(distinct: true)
+
   end
-  
+
   def delete_pause_listings
-    if params[:data_show] == "Delete Listings"
-      listings = EmployeeListing.active.published.delete_listing.paginate(:page => params[:page], :per_page => 50)
-    else params[:data_show] == "Pause Listings"
+    if params[:data_show] == "Pause Listings"
       listings = EmployeeListing.active.published.pause_listing.paginate(:page => params[:page], :per_page => 50) 
     end
   end
 
-  def delete_pause_listings_fields
-    result = (params[:data_show] == "Delete Listings" ||  params[:data_show] == "Pause Listings")
+  def pause_listing_search_field
+    result = (params[:data_show] == "Pause Listings")
   end
   
   def search_fields
@@ -152,6 +151,7 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
   def find_listing
     @employee_listing = EmployeeListing.find_by(id: params[:id])
   end
+  
 
   def update_listing_params
     params[:employee_listing][:weekday_price] = params[:employee_listing][:other_weekday_price] if params[:employee_listing][:other_weekday_price].present?

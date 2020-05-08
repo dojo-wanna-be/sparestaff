@@ -58,7 +58,7 @@ class EmployeeListing < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :unpublished, -> { where(published: false) }
   scope :status, -> { where.not(deleted_at: true, pause_at: true)}
-  scope :delete_listing, -> {where(deleted_at: true)}
+  scope :delete_status, -> { where.not(deleted_at: true)}
   scope :pause_listing, -> {where(pause_at: true)}
 
   attr_accessor :other_weekday_price

@@ -2,7 +2,8 @@
   <div class="search_row">
     <!-- <input name="q" class="search_input" type="text" placeholder="Search by ID, name, email, or company name" value=""> -->
     <%#= text_field_tag 'q',params[:q], placeholder: "Search by ID, name, email, or company name", class: "search_input" %>
-    <%= text_field_tag :q, params[:q].present? ? params[:q] : nil, placeholder: page_name.eql?('users_index') ? "Search by ID, name, email, or company name" : (page_name.eql?('hirings_index') ? "Search by ID, listing title, employee, hirer, or poster" : (page_name.eql?('listings_index') ? "Search by ID, title, name, or poster" : (page_name.eql?('conversations_index') ? "Search by ID, keyword in conversations, or username" : "Search by Hiring ID, or keywords in reviews"))), class: "search_input" %>
+    <%= text_field_tag :q, params[:q].present? ? params[:q] : nil, placeholder: page_name.eql?('users_index') ? "Search by ID, name, email, or company name" : (page_name.eql?('hirings_index') ? "Search by ID, listing title, employee, hirer, or poster" : (page_name.eql?('listings_index') ? "Search by ID, Title, Employee" : (page_name.eql?('conversations_index') ? "Search by ID, keyword in conversations, or username" : "Search by Hiring ID, or keywords in reviews"))), class: "search_input" %>
+
     <button class="search_btn">Search</button>
     <%#= link_to 'Show all', '', class: 'spare_link' %>
   </div>
@@ -26,10 +27,17 @@
   </div>
   <%if page_name.eql?('listings_index') %>
     <div class="search_row">
-      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Delete Listings", "Pause Listings"], "Multiple selection action") %>
+      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Pause Listings"], "Multiple selection action") %>
       <%= hidden_field_tag 'delete_pause_listings', 'delete'%>
       &nbsp;&nbsp;<button class="Width50Px">Go</button>
       &nbsp; 0 of <%= @listings.count %> selected
+    </div>
+  <%else (page_name.eql?('users_index'))%>
+    <div class="search_row">
+      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Suspend selected accounts"], "Multiple selection action") %>
+      <%= hidden_field_tag 'suspended_user', 'user_suspended'%>
+      &nbsp;&nbsp;<button class="Width50Px">Go</button>
+      &nbsp; 0 of <%= @users.count %> selected
     </div>
   <%end%>
   <%= hidden_field_tag 'search_fields', 'search' %>

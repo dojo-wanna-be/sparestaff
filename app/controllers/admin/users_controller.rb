@@ -13,9 +13,10 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def index
-    if params[:search_fields].present?
-      users = User.all.where.not(id: current_user.id).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
-      @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+    if params[:search_fields].present? && search_fields
+      @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+    elsif( params[:suspended_user].present? && suspended_user_search_field)
+      @users = suspended_user
     else
       # if params[:search_fields].present?
       #   # users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
@@ -108,6 +109,23 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   private
+  
+  def users
+    users = User.all.where.not(id: current_user.id).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
+    @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])  
+  end
+  
+  def suspended_user
+    User.where(is_suspended: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+  end
+
+  def search_fields
+    result = (params[:q].present? || params[:created_at_gteq].present? || params[:created_at_lteq].present?)
+  end
+
+  def suspended_user_search_field
+    result = (params[:data_show] == "Suspend selected accounts")
+  end
 
   def user_params
     params.require(:user).permit(
