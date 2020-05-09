@@ -1,7 +1,7 @@
 <div class="admin_sub_header">
   <div>
     <%= link_to 'Backend Home', '', class: 'sub_link' %>
-    &nbsp;&gt; <%= link_to 'Hirings', '', class: 'sub_link'%>
+    &nbsp;&gt; <%= link_to 'Conversations', admin_conversations_path, class: 'sub_link'%>
     &nbsp;&gt; Conversation ID
   </div>
 </div>
@@ -25,7 +25,8 @@
         Poster:<br />
         <%=@transaction.poster.name%><br />
         Hirer:<br />
-        <%=@transaction.hirer.name%>
+        <%=@transaction.hirer.name %><br/>
+        Status: <%= @transaction.state.capitalize %>
       </div>
 
       <div class="order-details first-order">
