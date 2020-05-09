@@ -25,6 +25,11 @@ Rails.application.routes.draw do
     resources :coupons
     resources :employee_listings
     resources :community_service_fees
+    resources :conversations do
+      collection do
+        get :disallow_or_delete
+      end
+    end
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do

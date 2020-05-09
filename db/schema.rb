@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_091555) do
+ActiveRecord::Schema.define(version: 2020_05_09_090303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_id"
+    t.boolean "is_disallowed", default: false
+    t.datetime "deleted_at"
   end
 
   create_table "coupons", force: :cascade do |t|
@@ -111,6 +113,31 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "expiry_date"
+  end
+
+  create_table "employee_hire_sections", force: :cascade do |t|
+    t.text "column_1_text"
+    t.text "column_2_text"
+    t.text "column_3_text"
+    t.text "column_4_text"
+    t.string "column_1_image_file_name"
+    t.string "column_1_image_content_type"
+    t.bigint "column_1_image_file_size"
+    t.datetime "column_1_image_updated_at"
+    t.string "column_2_image_file_name"
+    t.string "column_2_image_content_type"
+    t.bigint "column_2_image_file_size"
+    t.datetime "column_2_image_updated_at"
+    t.string "column_3_image_file_name"
+    t.string "column_3_image_content_type"
+    t.bigint "column_3_image_file_size"
+    t.datetime "column_3_image_updated_at"
+    t.string "column_4_image_file_name"
+    t.string "column_4_image_content_type"
+    t.bigint "column_4_image_file_size"
+    t.datetime "column_4_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_listing_languages", force: :cascade do |t|
@@ -188,6 +215,55 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_listing_id"], name: "index_employee_skills_on_employee_listing_id"
+  end
+
+  create_table "footer_links", force: :cascade do |t|
+    t.integer "link_type"
+    t.string "link_name"
+    t.string "link_url"
+    t.integer "static_content_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "frequently_ask_questions", force: :cascade do |t|
+    t.integer "section_type"
+    t.text "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "getting_start_content_id"
+  end
+
+  create_table "getting_start_contents", force: :cascade do |t|
+    t.text "cover_title"
+    t.text "cover_subtitle"
+    t.text "button_title"
+    t.text "list_your_self_title"
+    t.text "how_it_works_title"
+    t.text "safety_title"
+    t.text "frequently_asked_title"
+    t.text "easy_online_title"
+    t.string "cover_image_file_name"
+    t.string "cover_image_content_type"
+    t.bigint "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "homepage_contents", force: :cascade do |t|
+    t.string "content_image_file_name"
+    t.string "content_image_content_type"
+    t.bigint "content_image_file_size"
+    t.datetime "content_image_updated_at"
+    t.text "content"
+    t.integer "section_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "static_content_id"
+    t.integer "getting_start_content_id"
+    t.text "content_heading"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -282,6 +358,17 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.string "time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "static_contents", force: :cascade do |t|
+    t.string "site_logo_file_name"
+    t.string "site_logo_content_type"
+    t.bigint "site_logo_file_size"
+    t.datetime "site_logo_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "employee_hiring_title"
+    t.string "how_it_work_title"
   end
 
   create_table "stripe_infos", force: :cascade do |t|
