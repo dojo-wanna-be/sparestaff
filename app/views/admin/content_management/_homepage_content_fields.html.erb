@@ -6,15 +6,20 @@
         <br/>
         <%= f.select :section_type, options_for_select(HomepageContent.section_types.first(2).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type),{prompt:"--Select a Type--"}, {class: 'custom-field half-field'} %>
       </div>
-      <br/>
+
+      <div class="field">
+        <%= f.label :content_heading %><br/>
+        <%= f.text_field :content_heading %>
+      </div>
       <div class="field">
         <%= f.label "Content Image " %>
-        <%= f.file_field :content_image, class: 'update_logo' %>
+        <%= f.file_field :content_image, class: 'update_logo', required: f.object.content_image_file_name.present? ? false : true %>
+        <%= f.object.content_image_file_name.present? ? f.object.content_image_file_name : '' %>
       </div>
       <br/>
       <div class="field">
         <%= f.label "Text Of your Content" %>
-        <%= f.text_area :content , class: 'update_text_data'%>
+        <%= f.text_area :content , class: 'update_text_data', required: true%>
       </div>
       <%= link_to_remove_association "Remove Section", f %>
     </div>

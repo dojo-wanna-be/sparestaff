@@ -1,14 +1,14 @@
 <div class="employe-hiring-box">
-  <h1 class="hiring-heading"><%= @static_content.try(:employee_hiring_title) %></h1>
+  <h1 class="hiring-heading"><%= @static_content.employee_hiring_title.present? ? @static_content.employee_hiring_title : "Easy online employee hiring" %></h1>
   <div class="image-details-box">
     <% if @employee_hirings.present? %>
       <% @employee_hirings.each do |employee_hiring| %>
         <div class="image-box">
           <div class="image">
-              <%= image_tag employee_hiring.content_image.url, alt: "", class: "Image200px" %>
+              <%= image_tag employee_hiring.content_image.present? ? employee_hiring.content_image.url : "reference.jpg" , alt: "", class: "Image200px" %>
           </div>
           <div class="image-detail">
-            <%= employee_hiring.content %>
+            <%= employee_hiring.content.truncate(50) %>
           </div>
         </div>
       <% end %>

@@ -12,9 +12,7 @@ class HomeController < ApplicationController
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
     @how_it_works = HomepageContent.where(section_type: "how_it_work_section")
     @employee_hirings = HomepageContent.where(section_type: "employee_hiring_section")
-    if StaticContent.last.present?
-      @static_content = StaticContent.last
-    end
+    @static_content = StaticContent.last.present? ? StaticContent.last : StaticContent.new
   end
 
   def email_availability

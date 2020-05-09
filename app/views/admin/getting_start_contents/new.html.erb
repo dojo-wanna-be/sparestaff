@@ -18,7 +18,8 @@
           </div>
           <div class="field">
             <%= f.label "Cover photo" %>
-            <%= f.file_field :cover_image %>
+            <%= f.file_field :cover_image%>
+            <%= f.object.cover_image_file_name.present? ? f.object.cover_image_file_name : '' %>
           </div>
           <div class="field">
             <%= f.label "Cover section subtitle" %>

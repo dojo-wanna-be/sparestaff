@@ -10,7 +10,7 @@
     <div class="step_heading">Change Content of Homepage and Footer Links</div>
     <div class="right_step user">
       <div class="right-panel edit_regis"><br />
-        <%= form_for @static_content, url: admin_content_management_path(@static_content), html: { multipart: true } do |f| %>
+        <%= form_for @static_content, url: static_content_url, html: { multipart: true } do |f| %>
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
@@ -18,6 +18,7 @@
                 <div class="field">
                   <%= f.label "Website Logo Section" %>
                   <%= f.file_field :site_logo, class: 'update_logo' %>
+                  <%= f.object.site_logo_file_name.present? ? f.object.site_logo_file_name : ''%>
                 </div>
               </div>
             </div>

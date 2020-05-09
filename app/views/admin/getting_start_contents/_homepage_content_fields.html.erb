@@ -7,12 +7,13 @@
     <%= f.text_field :content_heading %>
   </div>
   <div class="field">
-    <%= f.label :content_image %>
-    <%= f.file_field :content_image %>
+    <%= f.label "Content Image " %>
+    <%= f.file_field :content_image, class: 'update_logo', required: f.object.content_image_file_name.present? ? false : true %>
+    <%= f.object.content_image_file_name.present? ? f.object.content_image_file_name : '' %>
   </div>
   <div class="field">
     <%= f.label :content %>
-    <%= f.text_area :content %>
+    <%= f.text_area :content, required: true %>
   </div>
   <%= link_to_remove_association "remove", f %>
 </div>

@@ -1,17 +1,18 @@
 <div class="how-it-work-box">
-  <h1 class="work-heading"><%= @static_content.try(:how_it_work_title) %></h1>
+  <h1 class="work-heading"><%= @static_content.how_it_work_title.present? ? @static_content.how_it_work_title : "You might be interested in
+"%></h1>
   <div class="work-card-box">
     <% if @how_it_works.present? %>
       <% @how_it_works.each_with_index do |how_it_work, index| %>
         <div class="work-card">
           <div class="card-img-box">
-            <%= image_tag how_it_work.content_image.url, alt: "", class: "card-image" %>
+            <%= image_tag how_it_work.content_image.present? ? how_it_work.content_image.url : "how-it-works-1.jpg", alt: "", class: "card-image" %>
           </div>
           <div class="card-details">
             <div class="num-text"><%= index+1 %></div>
             <div class="detail">
-              <!-- <div><b>It's FREE to list</b></div> -->
-                <%= how_it_work.content %>
+              <div><b><%= how_it_work.content_heading.present? ? how_it_work.content_heading : '' %></b></div>
+              <%= how_it_work.content.truncate(350)%>
             </div>
           </div>
         </div>
@@ -22,7 +23,7 @@
           <%= image_tag "how-it-works-1.jpg", alt: "", class: "card-image" %>
         </div>
         <div class="card-details">
-          <div class="num-text">2</div>
+          <div class="num-text">1</div>
           <div class="detail">
           <div><b>Get ready for work</b></div>
             <div>Discuss with Hirer through our messaging platform. Provide further details if requested.</div>

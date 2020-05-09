@@ -22,6 +22,8 @@ class Admin::GettingStartContentsController < Admin::AdminBaseController
   def update
     @update_form = GettingStartContent.find_by(id: params[:id])
     @update_form.update(content_params)
+    flash[:success] = "Update successfully!"
+    redirect_to new_admin_getting_start_content_path
   end
 
   private
@@ -35,6 +37,6 @@ class Admin::GettingStartContentsController < Admin::AdminBaseController
       :safety_title,
       :frequently_asked_title,
       :easy_online_title,
-      :cover_image,homepage_contents_attributes: [:id, :content_heading, :content_image, :content, :section_type, :_destroy], frequently_ask_questions_attributes: [:id, :section_type, :question, :answer , :_destroy])
+      :cover_image, homepage_contents_attributes: [:id, :section_type, :content_heading, :content_image, :content, :_destroy], frequently_ask_questions_attributes: [:id, :section_type, :question, :answer , :_destroy])
   end
 end
