@@ -17,7 +17,7 @@
         <div>Displaying 1 - <%= @users.count %> of <%= @users.count - @users.where(is_suspended: true).count %> accepted users and <%= @users.where(is_suspended: true).count %>
         suspended users</div>
         &nbsp;
-        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+        <%= link_to 'Export all as CSV', upload_csv_admin_users_path(format: :csv), class: 'spare_link export_csv' %>
       </div>
       <div class="main_table_container">
         <% if @users.blank? %>

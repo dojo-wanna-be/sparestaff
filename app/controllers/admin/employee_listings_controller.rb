@@ -7,10 +7,10 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
 
   def index
     if params[:search_fields].present? && search_fields
-      if params[:data_show] == "100"
-        @listings = listings.paginate(:page => params[:page], :per_page => 100)
-      elsif params[:data_show] == "200"
+      if params[:selected_data] == "200"
         @listings = listings.paginate(:page => params[:page], :per_page => 200)
+      elsif params[:selected_data] == "100"
+        @listings = listings.paginate(:page => params[:page], :per_page => 100)
       else
         @listings = listings.paginate(:page => params[:page], :per_page => 50)
       end
@@ -129,7 +129,7 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
     data = {}
     data[:created_at_gteq] = params[:created_at_gteq] if params[:created_at_gteq].present?
     data[:created_at_lteq] = params[:created_at_lteq] if params[:created_at_lteq].present?
-    listing = EmployeeListing.active.published.delete_status.ransack(first_name_or_last_name_cont_any: params[:q].split().first, employee_skills_skill_name_or_title_cont_any: params[:q],  m: 'or').result(distinct: true)
+    listing = EmployeeListing.active.published.delete_status.ransack(first_name_or_last_name_cont_any: params[:q].split().first, lister_of_User_type_first_name_or_last_name_cont_any: params[:q].split().first, employee_skills_skill_name_or_title_cont_any: params[:q], id_in: params[:q],  m: 'or').result(distinct: true)
     @listing = listing.ransack(data, m: 'or').result(distinct: true)
 
   end

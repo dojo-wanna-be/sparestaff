@@ -122,7 +122,7 @@ class EmployeeListing < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes.values
 
-      all.each do |listing|
+      EmployeeListing.active.published.delete_status.each do |listing|
         csv << [listing.id, listing.title, listing.name, listing.poster&.name, listing.classification&.name, listing.status]
       end
     end

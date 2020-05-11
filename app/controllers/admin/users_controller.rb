@@ -14,7 +14,13 @@ class Admin::UsersController < Admin::AdminBaseController
 
   def index
     if params[:search_fields].present? && search_fields
-      @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+      if params[:selected_data] == "200"
+        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 200)
+      elsif (params[:selected_data] == "100")
+        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 100)
+      else
+        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
+      end
     elsif( params[:suspended_user].present? && suspended_user_search_field)
       @users = suspended_user
     else
@@ -108,15 +114,24 @@ class Admin::UsersController < Admin::AdminBaseController
     @person = User.find_by(id: params[:id])
   end
 
+
+  def upload_csv
+     @users = User.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data @users.to_csv, filename: "user_record-#{Date.today}.csv" }
+    end
+  end
+
   private
   
   def users
     users = User.all.where.not(id: current_user.id).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
-    @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])  
+    @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true)  
   end
   
   def suspended_user
-    User.where(is_suspended: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+    User.where(is_suspended: true).order(id: :desc).paginate(:page => params[:page], :per_page => 50)
   end
 
   def search_fields

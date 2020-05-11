@@ -13,12 +13,14 @@ Rails.application.routes.draw do
         get :emails
         post :suspend_or_make_admin_user
         get :suspend_or_delete
+        get :upload_csv
       end
     end
     resources :hirings do
       collection do
         get :search
         get :hiring_details
+        get :upload_csv
         delete :delete_message
       end
     end

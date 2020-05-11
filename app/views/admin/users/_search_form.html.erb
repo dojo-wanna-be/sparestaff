@@ -22,23 +22,25 @@
     <div>
       Show per page<br>
       <%= hidden_field_tag 'search_fields', 'true'%>
-      <%= select_tag "data_show", options_for_select(["Select", "50", "100", "200"], "Select"), onchange: 'this.form.submit();' %>
+      <%= select_tag "selected_data", options_for_select(["Select", "50", "100", "200"], "Select"), onchange: 'this.form.submit();' %>
     </div>
   </div>
-  <%if page_name.eql?('listings_index') %>
-    <div class="search_row">
-      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Pause Listings"], "Multiple selection action") %>
-      <%= hidden_field_tag 'delete_pause_listings', 'delete'%>
-      &nbsp;&nbsp;<button class="Width50Px">Go</button>
-      &nbsp; 0 of <%= @listings.count %> selected
-    </div>
-  <%else (page_name.eql?('users_index'))%>
-    <div class="search_row">
-      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Suspend selected accounts"], "Multiple selection action") %>
-      <%= hidden_field_tag 'suspended_user', 'user_suspended'%>
-      &nbsp;&nbsp;<button class="Width50Px">Go</button>
-      &nbsp; 0 of <%= @users.count %> selected
-    </div>
+  <%unless page_name.eql?('hirings_index') %>
+    <%if page_name.eql?('listings_index') %>
+      <div class="search_row">
+        <%= select_tag "data_show", options_for_select(["Multiple selection action", "Pause Listings"], "Multiple selection action") %>
+        <%= hidden_field_tag 'delete_pause_listings', 'delete'%>
+        &nbsp;&nbsp;<button class="Width50Px">Go</button>
+        &nbsp; 0 of <%= @listings.count %> selected
+      </div>
+    <%else (page_name.eql?('users_index'))%>
+      <div class="search_row">
+        <%= select_tag "data_show", options_for_select(["Multiple selection action", "Suspend selected accounts"], "Multiple selection action") %>
+        <%= hidden_field_tag 'suspended_user', 'user_suspended'%>
+        &nbsp;&nbsp;<button class="Width50Px">Go</button>
+        &nbsp; 0 of <%= @users&.count %> selected
+      </div>
+    <%end%>
   <%end%>
   <%= hidden_field_tag 'search_fields', 'search' %>
 <% end %>
