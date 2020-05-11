@@ -927,7 +927,7 @@
   }
 
   .image-details-box {
-    display: -webkit-box;
+    display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-top: 25px;
