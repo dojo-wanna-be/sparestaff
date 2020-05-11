@@ -30,6 +30,7 @@ gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'cocoon'
+gem 'chosen-rails'
 # User authentication
 gem 'devise'
 

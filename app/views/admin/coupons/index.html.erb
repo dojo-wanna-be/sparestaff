@@ -20,7 +20,7 @@
               </div>
 
               <div class="custom-input-group">
-                <%= label_tag :discount_in_percentage %>
+                <%= label_tag "Discount Amount ($)" %>
                 <%= number_field_tag :discount %>
               </div>
               <div class="custom-input-group">
@@ -29,7 +29,7 @@
               </div>
               <div class="custom-input-group">
                 <%= label_tag :users %>
-                <%= select_tag "users[]", options_for_select(@users.map { |user| [user.name, user.id] }), multiple: true, class: 'select2' %>
+                <%= select_tag "users[]", options_for_select(@users.map { |user| ["#{user.email}(#{user.name})", user.id] }), multiple: true, class: 'chosen_select' %>
               </div>
             </div>
 
@@ -64,20 +64,21 @@
     }
   });
 
-  $('.select2').select2({
-    placeholder: "Select a User"
+  $('.chosen_select').chosen({
+    placeholder: "Select a User",
+    width: "100%"
   });
+
 
   $('.assign_user').click(function(){
     model_id = $(this).attr('model_id');
     users = $(this).attr('users_ids')
-    $(model_id).select2({ placeholder: "Select a User",  multiple: true, allowClear: true}).val(users.split(' ')).trigger("change");
-  });
-
-  $(".custom-modal").on('hidden.bs.modal', function (e) {
-    $('.select2').select2({
-      placeholder: "Select a User"
+    $(model_id).chosen("destroy");
+    $(model_id).val(users.split(' '))
+    $(model_id).chosen({
+      placeholder: "Select a User",
+      width: "100%"
     });
-  })
+  });
 
 </script>
