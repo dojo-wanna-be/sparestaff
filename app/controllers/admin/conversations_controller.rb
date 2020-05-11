@@ -25,7 +25,7 @@ class Admin::ConversationsController < Admin::AdminBaseController
 	def disallow_or_delete
     conversations = Conversation.where(id: params[:ids])
     if params[:select_action].eql?("delete_selected")
-      conversations.update(deleted_at: Date.today)
+      conversations.destroy_all
     else
       conversations.update(is_disallowed: true)
     end

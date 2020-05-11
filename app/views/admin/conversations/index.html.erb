@@ -27,70 +27,20 @@
         <div>Displaying conversation 1 - <%= @conversations.count %> of <%= @conversations.count %> in totals </div>
         &nbsp;
       </div>
-      <div class="main_table_container">
-        <% if @conversations.blank? %>
-          <div>No Results found</div>
-        <% else %>
-          <div class="csv_table">
-            <div class="csv_table_row gray_bg">
-              <div class="Width30Px">
-                <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
-                <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
-              </div>
-              <div class="Width50Px text-center">ID</div>
-              <div class="Width150Px text-center">Started from</div>
-              <div class="Width150Px text-center">Status</div>
-              <div class="Width150Px text-center">Started Date</div>
-              <div class="Width150Px text-center">Last Updated</div>
-              <div class="Width150Px text-center">Starter</div>
-              <div class="Width150Px text-center">Other user</div>
-            </div>
-            <div class="sort_paginate_ajax1">
-              <% @conversations.each do |conversation| %>
-                <div class="csv_table_row">
-                  <div class="Width30Px">
-                    <%= check_box_tag "person[#{conversation.id}]", conversation.id, nil, class: 'checkbox_input' %>
-                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
-                  </div>
-                  <div class="Width50Px text-center">
-                    <%= link_to conversation.id, admin_conversation_path(id: conversation.id), class: 'spare_link', target: '_blank' %>
-                  </div>
-                  <div class="Width150Px text-center"><%= conversation.sender.name %></div>
-                  <% if conversation.is_disallowed.eql?(false) %>
-                    <div class="Width150Px text-center">Normal</div>
-                  <% else %>
-                    <div class="Width150Px text-center">Disallowed</div>
-                  <% end %>
-                  <div class="Width150Px text-center"><%= conversation.created_at&.strftime("%b %e, %Y") %></div>
-                  <div class="Width150Px text-center"><%= conversation.updated_at&.strftime("%b %e, %Y") %></div>
-                  <div class="Width150Px text-center suspend_user_<%= conversation.id %>">
-                    <%= check_box_tag 'delete_user', conversation.id, nil, class: '' %>
-                  </div>
-                  <div class="Width150Px text-center">
-                    <%= check_box_tag 'delete_user', conversation.id, nil, class: ''  %>
-                  </div>
-                </div>
-              <% end %>
-              <script type="text/javascript">
-                $(function() {
-                  $(".sort_paginate_ajax1 th a, .sort_paginate_ajax1 .pagination a").on("click", function(){
-                    url = this.href
-                    $.getScript(url);
-                    return false;
-                  });
-                });
-              </script>
-            </div>
-            <div class="will_pagination_box pagination_box">
-              <%= js_will_paginate @conversations, :previous_label => "<", :next_label => ">" %>
-            </div>
-          </div>
-        <% end %>
+      <div class="sort_paginate_ajax" id="conversation_details">
+        <%= render partial: "conversation_details" %>
       </div>
     </div>
   </div>
 </div>
 <script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      url = this.href
+      $.getScript(url);
+      return false;
+    });
+  });
   $(document).ready(function(){
     $(".datepicker_calender").datepicker({
       autoclose: true,
