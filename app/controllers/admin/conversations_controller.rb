@@ -2,7 +2,7 @@ class Admin::ConversationsController < Admin::AdminBaseController
 	
 	def index
 		if params[:search_fields].present?
-			conversations = Conversation.includes(:messages).ransack(id_in: params[:q], messages_content_cont_any: params[:q], m: 'or').result(distinct: true)
+			conversations = Conversation.includes(:messages, :sender, :receiver).ransack(receiver_first_name_or_receiver_last_name_cont_any: params[:q], sender_first_name_or_sender_last_name_cont_any: params[:q], id_in: params[:q], messages_content_cont_any: params[:q], m: 'or').result(distinct: true)
       @conversations = conversations.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
     else
 			@conversations = Conversation.all.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
