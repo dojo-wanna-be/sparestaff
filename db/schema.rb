@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_091555) do
+ActiveRecord::Schema.define(version: 2020_05_08_073350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,9 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.float "latitude"
     t.float "longitude"
     t.float "rating_count"
+    t.boolean "deleted_at", default: false
+    t.boolean "pause_at", default: false
+    t.string "status"
   end
 
   create_table "employee_skills", force: :cascade do |t|
@@ -188,6 +191,55 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_listing_id"], name: "index_employee_skills_on_employee_listing_id"
+  end
+
+  create_table "footer_links", force: :cascade do |t|
+    t.integer "link_type"
+    t.string "link_name"
+    t.string "link_url"
+    t.integer "static_content_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "frequently_ask_questions", force: :cascade do |t|
+    t.integer "section_type"
+    t.text "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "getting_start_content_id"
+  end
+
+  create_table "getting_start_contents", force: :cascade do |t|
+    t.text "cover_title"
+    t.text "cover_subtitle"
+    t.text "button_title"
+    t.text "list_your_self_title"
+    t.text "how_it_works_title"
+    t.text "safety_title"
+    t.text "frequently_asked_title"
+    t.text "easy_online_title"
+    t.string "cover_image_file_name"
+    t.string "cover_image_content_type"
+    t.bigint "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "homepage_contents", force: :cascade do |t|
+    t.string "content_image_file_name"
+    t.string "content_image_content_type"
+    t.bigint "content_image_file_size"
+    t.datetime "content_image_updated_at"
+    t.text "content"
+    t.integer "section_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "static_content_id"
+    t.integer "getting_start_content_id"
+    t.text "content_heading"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -216,14 +268,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.boolean "read", default: false
     t.integer "deleted_by"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
-  end
-
-  create_table "notification_settings", force: :cascade do |t|
-    t.bigint "user_id"
-    t.json "preferences", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notification_settings_on_user_id"
   end
 
   create_table "payment_receipts", force: :cascade do |t|
@@ -282,6 +326,17 @@ ActiveRecord::Schema.define(version: 2020_04_28_091555) do
     t.string "time_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "static_contents", force: :cascade do |t|
+    t.string "site_logo_file_name"
+    t.string "site_logo_content_type"
+    t.bigint "site_logo_file_size"
+    t.datetime "site_logo_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "employee_hiring_title"
+    t.string "how_it_work_title"
   end
 
   create_table "stripe_infos", force: :cascade do |t|

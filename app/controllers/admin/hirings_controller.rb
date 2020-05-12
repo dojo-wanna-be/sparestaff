@@ -15,13 +15,7 @@ class Admin::HiringsController < Admin::AdminBaseController
   def index
     if params[:search_fields].present? && search_fields
       @hirings_transactions = hirings
-      if params[:selected_data] == "200"
-        @hirings_transactions = hirings.order(id: :desc).paginate(:page => params[:page], :per_page => 200)
-      elsif params[:selected_data] == "100"
-        @hirings_transactions = hirings.order(id: :desc).paginate(:page => params[:page], :per_page => 100)
-      else
-        @hirings_transactions = hirings.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
-      end 
+      @hirings_transactions = hirings.order(id: :desc).paginate(:page => params[:page], :per_page => params[:selected_data].present? ? params[:selected_data].to_i : 50)
     else
       @hirings_transactions = Transaction.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
     end
