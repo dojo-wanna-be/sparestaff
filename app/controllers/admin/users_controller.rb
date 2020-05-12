@@ -14,7 +14,9 @@ class Admin::UsersController < Admin::AdminBaseController
 
   def index
     if params[:search_fields].present? && search_fields
-      if params[:selected_data] == "200"
+      if suspended_user_search_field
+        @users = suspended_user
+      elsif params[:selected_data] == "200"
         @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 200)
       elsif (params[:selected_data] == "100")
         @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 100)
