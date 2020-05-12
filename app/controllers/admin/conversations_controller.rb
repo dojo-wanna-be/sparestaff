@@ -22,11 +22,20 @@ class Admin::ConversationsController < Admin::AdminBaseController
     message.save
   end
 
+  def update
+    @message = Message.find(params[:id])
+    @message.update(content: params[:content])
+  end
+
+  def edit
+    @message = Message.find_by(id: params[:id])
+  end
+
 	def disallow_or_delete
     conversations = Conversation.where(id: params[:ids])
-    if params[:select_action].eql?("delete_selected")
-      conversations.destroy_all
-    else
+    if params[:select_action].eql?("suspend_selected")
+    #   conversations.destroy_all
+    # else
       conversations.update(is_disallowed: true)
     end
   end

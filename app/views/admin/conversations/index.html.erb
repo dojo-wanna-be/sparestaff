@@ -14,8 +14,8 @@
       <div class="search_row">
         <select class="multiple_select" name="Multiple">
           <option>Multiple selection action</option>
-          <option value="delete_selected">Delete selected conversations
-          </option>
+          <!-- <option value="delete_selected">Delete selected conversations
+          </option> -->
           <option value="suspend_selected">Disallow selected conversations</option>
         </select>
         &nbsp;&nbsp;<button class="Width50Px gobutton">Go</button>
@@ -66,10 +66,10 @@
         code = $(this).val();
         ids.push(code);
       });
-      if ($('.multiple_select').val() == "delete_selected") {
-        var result = confirm("Are you want to delete selected conversations?");
-      }
-      else {
+      // if ($('.multiple_select').val() == "delete_selected") {
+      //   var result = confirm("Are you want to delete selected conversations?");
+      // }
+      if ($('.multiple_select').val() == "suspend_selected") {
         var result = confirm("Are you want to disallow selected conversations?");
       }
       if (result) {

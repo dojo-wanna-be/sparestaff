@@ -141,71 +141,7 @@
     <% end %>
     </div>
 
-    <div class="right-detail">
-      <div class="message-chat-block">
-        <div id="message_container">
-        <% if @messages.present? %>
-          <% @messages.each do |message|%>
-            <% if message.sender_id == current_user.id %>
-              <div class="message-chat-block__box right_user_direction">
-                <div class="message__conversation">
-                  <div class = "myclass_#{message.id}">
-                    <% if message.deleted_by.present? %>
-                      <div>This message was removed by Spare Staff due to possible policy violation.</div>
-                    <% else %>
-                      <%= message.content %>
-                    <% end %>
-                  </div>
-                  <div class="message-chat-date grey-text">
-                    <span>
-                      <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
-                    </span>
-                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,data: {confirm: 'Are you sure ?'},class: 'delete_message' do %>
-                      <%= image_tag 'delete-icon.png' %>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="message-user-box">
-                  <% if current_user.avatar.present? %>
-                    <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
-                  <% else %>
-                    <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
-                  <% end %>
-                </div>
-              </div>
-            <% else %>
-              <div class="message-chat-block__box left_user_direction">
-                <div class="message__conversation">
-                  <div class="myclass_#{message.id}">
-                    <% if message.deleted_by.present? %>
-                      <div>This message was removed by Spare Staff due to possible policy violation.</div>
-                    <% else %>
-                      <%= message.content %>
-                    <% end %>
-                  </div>
-                  <div class="message-chat-date grey-text">
-                    <span>
-                      <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
-                    </span>
-                    <%= link_to delete_message_admin_hirings_path(id: message.id), method: :delete,:remote=> true,data: {confirm: 'Are you sure ?'},class: 'delete_message' do %>
-                      <%= image_tag 'delete-icon.png' %>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="message-user-box">
-                  <% if message.sender.avatar.present? %>
-                    <%= image_tag message.sender.avatar.url, class: 'message-user-box__img' %>
-                  <% else %>
-                    <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= render partial: "message" %>
   </div>
 </div>
 

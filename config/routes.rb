@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :conversations do
       collection do
         get :disallow_or_delete
+        delete :delete_message
       end
     end
     get '' => "users#index"
