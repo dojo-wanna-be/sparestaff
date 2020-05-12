@@ -23,6 +23,7 @@ class Admin::UsersController < Admin::AdminBaseController
       else
         @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
       end
+      @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => params[:selected_data].present? ? params[:selected_data].to_i : 50)
     elsif( params[:suspended_user].present? && suspended_user_search_field)
       @users = suspended_user
     else
