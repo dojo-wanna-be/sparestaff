@@ -32,7 +32,11 @@
           Poster:<br/>
           <%= @listing.poster.name %><br/>
           Other User:<br/>
-          <%= @listing.poster.name %><br/>
+          <% if @listing.poster.name.eql?(@conversation.sender.name) %>
+            <%= @conversation.receiver.name %><br/>
+          <% else %>
+            <%= @conversation.sender.name %><br/>
+          <% end %>
         <% end %>
       </div>
 
