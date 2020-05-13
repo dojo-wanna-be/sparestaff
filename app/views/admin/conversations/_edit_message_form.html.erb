@@ -1,0 +1,8 @@
+<%= form_tag(admin_conversation_path(params[:id]), remote: true, method: :patch) do %>
+<div class="message__conversation">
+	<%= text_area_tag :content, @message.content %>
+	<div class="message-chat-block__box--btn-box">
+	  <%= submit_tag "Edit Message", class: 'message-btn' %>
+	</div>
+</div>
+<% end %>

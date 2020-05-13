@@ -34,6 +34,12 @@ Rails.application.routes.draw do
       end
     end
     resources :community_service_fees
+    resources :conversations do
+      collection do
+        get :disallow_or_delete
+        delete :delete_message
+      end
+    end
     get '' => "users#index"
   end
   resources :stripe_webhook, only: [] do

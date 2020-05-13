@@ -84,6 +84,10 @@ class User < ApplicationRecord
     end
   end
 
+  def label_for_select
+    "#{user.email} (#{user.name})"
+  end
+
   def is_individual?
     user_type.eql?(nil) && self.company.blank? && self.employee_listings.present?
   end
