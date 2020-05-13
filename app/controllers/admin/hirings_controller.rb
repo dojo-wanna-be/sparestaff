@@ -31,11 +31,11 @@ class Admin::HiringsController < Admin::AdminBaseController
   # end
   def hiring_details
     @transaction = Transaction.find(params[:id])
-    @listing = EmployeeListing.find(@transaction.poster.id)
     if @transaction.conversation.present?
       @conversation = @transaction.conversation
       @messages = @conversation.messages.order(created_at: :DESC)
     end
+    @listing = EmployeeListing.find(@transaction.employee_listing_id)
   end
 
   def delete_message

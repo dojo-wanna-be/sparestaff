@@ -13,6 +13,7 @@
         <div class="Width150Px text-center">Started Date</div>
         <div class="Width150Px text-center">Last Updated</div>
         <div class="Width150Px text-center">Starter</div>
+        <div class="Width150Px text-center">Disallow Conversation</div>
         <div class="Width150Px text-center">Other user</div>
       </div>
       <% @conversations.each do |conversation| %>
@@ -39,6 +40,9 @@
             <%= link_to conversation.sender.name, user_path(id: conversation.sender_id), target: :_blank %>
           </div>
           <div class="Width150Px text-center">
+            <%= check_box_tag 'disallow_conversation', conversation.id, nil, checked: conversation.is_disallowed ? true : false, class: 'test_group' %>
+          </div>
+          <div class="Width150Px text-center">
             <%= link_to conversation.receiver.name, user_path(id: conversation.receiver_id), target: :_blank %>
           </div>
         </div>
@@ -49,3 +53,4 @@
 		</div>
   <% end %>
 </div>
+
