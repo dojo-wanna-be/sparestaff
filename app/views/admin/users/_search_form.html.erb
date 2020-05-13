@@ -33,6 +33,11 @@
         &nbsp;&nbsp;<button class="Width50Px">Go</button>
         &nbsp; 0 of <%= @listings.count %> selected
       </div>
+    <%elsif (page_name.eql?('conversations_index'))%>
+      <%= select_tag "data_show", options_for_select(["Multiple selection action", "Disallow conversations"], "Multiple selection action") %>
+      <%= hidden_field_tag 'disallow_conversation', 'disallow_conversation'%>
+        &nbsp;&nbsp;<button class="Width50Px">Go</button>
+        &nbsp; 0 of <%= @conversations.count %> selected
     <%else (page_name.eql?('users_index'))%>
       <div class="search_row">
         <%= select_tag "data_show", options_for_select(["Multiple selection action", "Suspend selected accounts"], "Multiple selection action") %>

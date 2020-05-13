@@ -23,23 +23,9 @@ class Admin::UsersController < Admin::AdminBaseController
       else
         @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
       end
-      @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => params[:selected_data].present? ? params[:selected_data].to_i : 50)
     elsif( params[:suspended_user].present? && suspended_user_search_field)
       @users = suspended_user
     else
-      # if params[:search_fields].present?
-      #   # users = User.ransack(first_name_or_last_name_or_email_cont_any: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
-      #   # if users.blank?
-      #   #   users = User.ransack(id_eq: params[:q], m: 'or').result(distinct: true).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
-      #   # end
-      #   # if users.blank?
-      #   #   user_ids = Company.ransack(name_cont_any: params[:q], m: 'or').result(distinct: true).collect(&:user_ids).flatten
-      #   #   users = User.where(id: user_ids).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
-      #   #   #users = Company.ransack(name_cont_any: params[:q], m: 'or').result(distinct: true).collect(&:users).flatten.sort_by{|e| e[:created_at]}.page(params[:per_page]).total_pages
-      #   #   # @users = Company.ransack(name_cont_any: "adware", m: 'or').result(distinct: true).collect(&:users).order(updated_at: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
-      #   # end
-      #   # @users = users
-      # end
       @users = User.all.where.not(id: current_user.id).order(id: :desc).paginate(:page => params[:page], :per_page => 50)
     end
   end

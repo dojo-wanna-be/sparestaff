@@ -14,7 +14,7 @@
       <%= render partial: "admin/users/search_form", locals: {action_url: admin_employee_listings_path, page_name: "listings_index"} %>
       
       <!-- <div class="error_arise">Please Select a value!</div> -->
-
+    
       <div class="search_row">
         <div>Displaying 1 - <%= @listings.count %> of <%= @listings.count %> listings </div>
         &nbsp;
@@ -26,11 +26,11 @@
         <% else %>
           <div class="csv_table">
             <div class="csv_table_row gray_bg">
-              <div class="Width30Px">
-                <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
-                <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
-              </div>
-              <div class="Width50Px">ID</div>
+              <!-- <div class="Width30Px">
+                <%#= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+                <input name="Checkbox1" type="checkbox" class="checkbox_input">
+              </div> -->
+              <div class="Width150Px">ID</div>
               <div class="Width100Px">Title</div>
               <div class="Width100Px">Employee</div>
               <div class="Width100Px">Poster</div>
@@ -45,11 +45,11 @@
             <div class="sort_paginate_ajax1">
               <% @listings.each do |listing| %>
                 <div class="csv_table_row">
-                  <div class="Width30Px">
-                    <%= check_box_tag "person[#{listing.id}]", listing.id, nil, class: 'checkbox_input' %>
-                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
-                  </div>
-                  <div class="Width50Px">
+                  <!-- <div class="Width30Px">
+                    <%#= check_box_tag "person[#{listing.id}]", listing.id, nil, class: 'checkbox_input' %>
+                    <input name="Checkbox2" type="checkbox" class="checkbox_input">
+                  </div> -->
+                  <div class="Width150Px">
                     <%= link_to listing.id, employee_path(id: listing.id), class: 'spare_link', target: '_blank' %>
                   </div>
                   <div class="Width100Px"><%= listing.title %></div>

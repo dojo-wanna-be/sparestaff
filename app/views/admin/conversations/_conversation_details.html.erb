@@ -4,10 +4,10 @@
   <% else %>
     <div class="csv_table">
       <div class="csv_table_row gray_bg">
-        <div class="Width30Px">
-          <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
-        </div>
-        <div class="Width50Px text-center">ID</div>
+        <!-- <div class="Width30Px">
+          <%#= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+        </div> -->
+        <div class="Width150Px text-center">ID</div>
         <div class="Width150Px text-center">Started from</div>
         <div class="Width150Px text-center">Status</div>
         <div class="Width150Px text-center">Started Date</div>
@@ -18,10 +18,10 @@
       </div>
       <% @conversations.each do |conversation| %>
         <div class="csv_table_row">
-          <div class="Width30Px">
-            <%= check_box_tag "person[#{conversation.id}]", conversation.id, nil, class: 'checkbox_input' %>
-          </div>
-          <div class="Width50Px text-center">
+          <!-- <div class="Width30Px">
+            <%#= check_box_tag "person[#{conversation.id}]", conversation.id, nil, class: 'checkbox_input' %>
+          </div> -->
+          <div class="Width150Px text-center">
             <%= link_to conversation.id, admin_conversation_path(id: conversation.id), class: 'spare_link', target: '_blank' %>
           </div>
           <% if conversation.transaction_id.present? %>

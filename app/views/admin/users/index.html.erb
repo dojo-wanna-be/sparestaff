@@ -25,11 +25,11 @@
         <% else %>
           <div class="csv_table">
             <div class="csv_table_row gray_bg">
-              <div class="Width30Px">
-                <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
-                <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
-              </div>
-              <div class="Width50Px">ID</div>
+              <!-- <div class="Width30Px">
+                <%#= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+                <input name="Checkbox1" type="checkbox" class="checkbox_input">
+              </div> -->
+              <div class="Width100Px">ID</div>
               <div class="Width100Px">First name</div>
               <div class="Width100Px">Last name</div>
               <div class="Width200Px">Email</div>
@@ -49,11 +49,11 @@
             <div class="sort_paginate_ajax1">
               <% @users.each do |person| %>
                 <div class="csv_table_row">
-                  <div class="Width30Px">
-                    <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
-                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
-                  </div>
-                  <div class="Width50Px">
+                  <!-- <div class="Width30Px">
+                    <%#= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
+                    <input name="Checkbox2" type="checkbox" class="checkbox_input">
+                  </div> -->
+                  <div class="Width100Px">
                     <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
                   </div>
                   <div class="Width100Px"><%= person.first_name %></div>

@@ -16,7 +16,6 @@ class Admin::EmployeeListingsController < Admin::AdminBaseController
       else
         @listings = listings.paginate(:page => params[:page], :per_page => 50)
       end
-      @listings = listings.paginate(:page => params[:page], :per_page => params[:selected_data].present? ? params[:selected_data].to_i : 50)
     elsif params[:delete_pause_listings].present? && pause_listing_search_field
       @listings = delete_pause_listings
     else

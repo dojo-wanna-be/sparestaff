@@ -11,18 +11,7 @@
 
     <div class="right_step user">
       <%= render partial: "admin/users/search_form", locals: {action_url: admin_conversations_path, page_name: "conversations_index"} %>
-      <div class="search_row">
-        <select class="" name="Multiple">
-          <option>Multiple selection action</option>
-          <!-- <option value="delete_selected">Delete selected conversations
-          </option> -->
-          <option value="suspend_selected">Disallow selected conversations</option>
-        </select>
-        &nbsp;&nbsp;<button class="Width50Px">Go</button>
-        &nbsp; 0 of <%= @conversations.count %> selected
-      </div>
-      <div class="error_arise">Please Select a value!</div>
-
+      
       <div class="search_row">
         <div>Displaying conversation 1 - <%= @conversations.count %> of <%= @conversations.count %> in totals </div>
         &nbsp;
