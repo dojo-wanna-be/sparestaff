@@ -1,0 +1,27 @@
+<div class="reservation-order-box declined-box">
+  <% if current_user == @transaction.hirer %>
+	  <div class="sub-title18">
+	  	<% if @transaction.cancelled_by.eql?("poster") %>
+	  		<b>Hiring cancelled by <%=@transaction.poster.name%></b></div>
+	  	<% else %>
+	  		<b>You Cancelled this hiring.</b></div>
+	  	<% end %>
+	  <br>
+	  <div>
+	    <div>To request to hire this employee again, create a new request.</div>
+	    <br>
+	  </div>
+	<% else %>
+		<div class="sub-title18">
+			<% if @transaction.cancelled_by.eql?("poster") %>
+	  		<b>You cancelled this hiring.</b></div>
+	  	<% else %>
+	  		<b>Hiring cancelled by <%=@transaction.hirer.name%></b></div>
+	  	<% end %>
+	  <br>
+	  <div>
+	    <div>Your payout has been adjusted accoringly as per cancellation policy.</div>
+	    <br>
+	  </div>
+	<% end %>
+</div>

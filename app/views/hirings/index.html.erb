@@ -141,7 +141,7 @@
                 <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
                 <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
                 <div class="review_part hide-part">
-                  <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
+                  <%= link_to 'Send Message', inbox_path(id: hiring.id), class: 'review-link gray-link' %>
                 </div>
               </div>
             </div>
