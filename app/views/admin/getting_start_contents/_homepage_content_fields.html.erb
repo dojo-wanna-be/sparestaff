@@ -1,0 +1,19 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.select :section_type, options_for_select(HomepageContent.section_types.keys.last(3).map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field'} %>
+  </div>
+  <div class="field">
+    <%= f.label :content_heading %>
+    <%= f.text_field :content_heading %>
+  </div>
+  <div class="field">
+    <%= f.label "Content Image " %>
+    <%= f.file_field :content_image, class: 'update_logo', required: f.object.content_image_file_name.present? ? false : true %>
+    <%= f.object.content_image_file_name.present? ? f.object.content_image_file_name : '' %>
+  </div>
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_area :content, required: true %>
+  </div>
+  <%= link_to_remove_association "remove", f %>
+</div>

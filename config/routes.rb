@@ -39,9 +39,16 @@ Rails.application.routes.draw do
         get :disallow_or_delete
         delete :delete_message
       end
+    end    
+    resources :getting_start_contents
+    resources :content_management do
+      collection do
+        get :design
+      end
     end
     get '' => "users#index"
   end
+
   resources :stripe_webhook, only: [] do
     collection do
       post :handle_stripe_webhook

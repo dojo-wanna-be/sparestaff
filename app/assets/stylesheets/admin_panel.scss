@@ -147,7 +147,7 @@
   }
 
   .admin_left_panel {
-    width: 16%;
+    width: 17%;
 
     @media screen and (max-width: 767px) {
       width: 100%;
@@ -181,7 +181,7 @@
   .admin_right_panel {
     display: flex;
     flex-direction: column;
-    width: 84%;
+    width: 83%;
     @media screen and (max-width: 767px) {
       border-top: 1px solid #e4e4e4;
       padding: 20px 0 0;
@@ -195,7 +195,7 @@
       line-height: 1.4;
       font-size: 22px;
       font-weight: bold;
-      margin: 0 0 22px;
+      margin: 0 0 15px;
     }
 
     .right_step {
@@ -599,6 +599,81 @@
       border: 1px solid #f15927;
       color: #fff;
       font-style: normal;
+    }
+  }
+}
+.update_logo {
+  padding: 5px;
+}
+.main_column {
+  .warning {
+    font-size: 12px;
+  }
+  .column_heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  .inline_data_adjust {
+    display: flex;
+    margin-bottom: 5px;
+    span {
+      margin-right: 5px;
+    }
+  }
+  .update_text_data {
+    width: 100%;
+    height: 120px;
+  }
+}
+.list_an_employee {
+  max-width: 380px;
+  .field {
+    width: 100%;
+    margin-bottom: 15px;
+    input,select,textarea {
+      width: 100%;
+      padding: 5px;
+      border-radius: 0px;
+    }
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 30px;
+  }
+  #tasks .nested-fields {
+    position: relative;
+    textarea {
+      margin-top: 10px;
+    }
+    .remove_fields {
+      position: absolute;
+      top: 10px;
+      right: -80px;
+    }
+  }
+}
+.submit_button {
+  margin-top: 10px;
+  .search-btn {
+    width: 90px;
+    height: 40px;
+    background-color: #F15927;
+    text-align: center;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    &:hover {
+      background-color: #d75227;
+      text-decoration: none;
+    }
+    @media screen and (max-width: 767px) {
+      margin-bottom: 10px;
+      width: 100%;
     }
   }
 }

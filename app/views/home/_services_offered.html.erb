@@ -1,25 +1,53 @@
 <div class="employe-hiring-box">
-  <h1 class="hiring-heading">Easy online employee hiring</h1>
+  <h1 class="hiring-heading"><%= @static_content.employee_hiring_title.present? ? @static_content.employee_hiring_title : "Easy online employee hiring" %></h1>
   <div class="image-details-box">
-    <div class="image-box">
-      <div class="image"><%= image_tag "dollar.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Reduce financial pressure <br /> due to overstaffing</div>
-    </div>
+    <% if @employee_hirings.present? %>
+      <% @employee_hirings.each do |employee_hiring| %>
+        <div class="image-box">
+          <div class="image">
+              <%= image_tag employee_hiring.content_image.present? ? employee_hiring.content_image.url : "reference.jpg" , alt: "", class: "Image200px" %>
+          </div>
+          <div class="image-detail">
+            <%= employee_hiring.content.truncate(50) %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="image-box">
+        <div class="image">
+          <%= image_tag "dollar.jpg", alt: "", class: "Image200px" %>
+        </div>
+        <div class="image-detail">
+          Reduce financial pressure <br /> due to overstaffing
+        </div>
+      </div>
 
-    <div class="image-box">
-      <div class="image"><%= image_tag "tie.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Hire experienced employees for short <br /> or long term
-      contracts</div>
-    </div>
+      <div class="image-box">
+        <div class="image">
+            <%= image_tag "tie.jpg", alt: "", class: "Image200px" %>
+        </div>
+        <div class="image-detail">
+            Hire experienced employees for short <br /> or long term contracts
+        </div>
+      </div>
 
-    <div class="image-box">
-      <div class="image"><%= image_tag "happy.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Keep good employees by <br /> giving him enough hours</div>
-    </div>
+      <div class="image-box">
+        <div class="image">
+            <%= image_tag "happy.jpg", alt: "", class: "Image200px" %>
+        </div>
+        <div class="image-detail">
+            Keep good employees by <br /> giving him enough hours
+        </div>
+      </div>
 
-    <div class="image-box">
-      <div class="image"><%= image_tag "reference.jpg", alt: "", class: "Image200px" %></div>
-      <div class="image-detail">Employees get more <br /> references for their CVs</div>
-    </div>
+      <div class="image-box">
+        <div class="image">
+            <%= image_tag "reference.jpg", alt: "", class: "Image200px" %>
+        </div>
+        <div class="image-detail">
+            Employees get more <br /> references for their CVs
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

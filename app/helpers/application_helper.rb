@@ -51,6 +51,10 @@ module ApplicationHelper
   def poster_commission
     ((CommunityServiceFee.last&.commission_from_poster).to_f/100).round(2)
   end
+  
+  def static_content_url
+    StaticContent.last.present? ? admin_content_management_path(@static_content.id) : '/admin/content_management'
+  end
 
   def discount_amount(tx, amount)
     if tx.discount_coupon.present?
