@@ -255,4 +255,30 @@ class Transaction < ApplicationRecord
   def accepted
     state == 'accepted' ? true : false
   end
+
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+      all.order(id: :desc).order(id: :desc).each do |transaction|
+        csv << [transaction.id, transaction.employee_listing&.title, transaction.employee_listing&.name, transaction.hirer&.name, transaction.poster&.name, transaction.employee_listing&.classification.name, transaction.start_date&.strftime('%b %d, %Y'), transaction.state, transaction.total_amount.round(2), transaction.total_service_fee.round(2), transaction.poster_total_service_fee.round(2) ]
+      end
+    end
+  end
+
+  def self.attributes
+    {
+      id: 'ID',
+      employee_title: 'Listing Title',
+      employee_listing_name: 'Employee',
+      hirer_name: 'Hirer',
+      poter_name: 'Poster',
+      classification_name: 'Classification',
+      start_date: 'Started',
+      state: 'Status',
+      total_amount: 'Hiring Fee',
+      total_service_fee: 'Hirer Fee',
+      poster_total_service_fee: 'Poster Fee'
+    }
+  end
+
 end

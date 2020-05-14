@@ -29,6 +29,8 @@ class Conversation < ApplicationRecord
   scope :between_listing, -> (sender_id, receiver_id, employee_listing_id) do
     where("( conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? ) OR (conversations.sender_id = ? AND conversations.receiver_id = ? AND conversations.employee_listing_id = ? )", sender_id, receiver_id, employee_listing_id, receiver_id, sender_id, employee_listing_id)
   end
+
+  scope :disallow_conversation, -> { where(is_disallowed: true)}
   def opposed_user(user)
     user == receiver ? sender : receiver
   end

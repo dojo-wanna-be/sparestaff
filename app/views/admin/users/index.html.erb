@@ -12,23 +12,12 @@
 
     <div class="right_step user">
       <%= render partial: "admin/users/search_form", locals: {action_url: admin_users_path, page_name: "users_index"} %>
-      <div class="search_row">
-        <select class="multiple_select" name="Multiple">
-          <option>Multiple selection action</option>
-          <option value="delete_selected">Delete selected accounts
-          </option>
-          <option value="suspend_selected">Suspend selected accounts</option>
-        </select>
-        &nbsp;&nbsp;<button class="Width50Px gobutton">Go</button>
-        &nbsp; 0 of <%= @users.count %> selected
-      </div>
-      <div class="error_arise">Please Select a value!</div>
 
       <div class="search_row">
         <div>Displaying 1 - <%= @users.count %> of <%= @users.count - @users.where(is_suspended: true).count %> accepted users and <%= @users.where(is_suspended: true).count %>
         suspended users</div>
         &nbsp;
-        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+        <%= link_to 'Export all as CSV', upload_csv_admin_users_path(format: :csv), class: 'spare_link export_csv' %>
       </div>
       <div class="main_table_container">
         <% if @users.blank? %>
@@ -36,11 +25,11 @@
         <% else %>
           <div class="csv_table">
             <div class="csv_table_row gray_bg">
-              <div class="Width30Px">
-                <%= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
-                <!-- <input name="Checkbox1" type="checkbox" class="checkbox_input"> -->
-              </div>
-              <div class="Width50Px">ID</div>
+              <!-- <div class="Width30Px">
+                <%#= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+                <input name="Checkbox1" type="checkbox" class="checkbox_input">
+              </div> -->
+              <div class="Width100Px">ID</div>
               <div class="Width100Px">First name</div>
               <div class="Width100Px">Last name</div>
               <div class="Width200Px">Email</div>
@@ -60,11 +49,11 @@
             <div class="sort_paginate_ajax1">
               <% @users.each do |person| %>
                 <div class="csv_table_row">
-                  <div class="Width30Px">
-                    <%= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
-                    <!-- <input name="Checkbox2" type="checkbox" class="checkbox_input"> -->
-                  </div>
-                  <div class="Width50Px">
+                  <!-- <div class="Width30Px">
+                    <%#= check_box_tag "person[#{person.id}]", person.id, nil, class: 'checkbox_input' %>
+                    <input name="Checkbox2" type="checkbox" class="checkbox_input">
+                  </div> -->
+                  <div class="Width100Px">
                     <%= link_to person.id, user_path(id: person.id), class: 'spare_link', target: '_blank' %>
                   </div>
                   <div class="Width100Px"><%= person.first_name %></div>
@@ -183,33 +172,33 @@
       $('.checkbox_input').prop('checked', false)
     }
   })
-  $('.gobutton').click(function(){
-    if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
-      $('.error_arise').show();
-    else {
-      $('.error_arise').hide();
-      var ids = [];
-      $('.checkbox_input:checkbox:checked').each(function () {
-        code = $(this).val();
-        ids.push(code);
-      });
-      if ($('.multiple_select').val() == "delete_selected") {
-        var result = confirm("Are you want to delete selected accounts?");
-      }
-      else {
-        var result = confirm("Are you want to suspend selected accounts?");
-      }
-      if (result) {
-        $.ajax({
-          type: "GET",
-          url: "<%= suspend_or_delete_admin_users_path %>",
-          data: { ids: ids, select_action: $('.multiple_select').val() }
-        });
-        //Logic to delete the item
-      }
-      else {
-        $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
-      }
-    }
-  })
+  // $('.gobutton').click(function(){
+  //   if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
+  //     $('.error_arise').show();
+  //   else {
+  //     $('.error_arise').hide();
+  //     var ids = [];
+  //     $('.checkbox_input:checkbox:checked').each(function () {
+  //       code = $(this).val();
+  //       ids.push(code);
+  //     });
+  //     if ($('.multiple_select').val() == "delete_selected") {
+  //       var result = confirm("Are you want to delete selected accounts?");
+  //     }
+  //     else {
+  //       var result = confirm("Are you want to suspend selected accounts?");
+  //     }
+  //     if (result) {
+  //       $.ajax({
+  //         type: "GET",
+  //         url: "<%= suspend_or_delete_admin_users_path %>",
+  //         data: { ids: ids, select_action: $('.multiple_select').val() }
+  //       });
+  //       //Logic to delete the item
+  //     }
+  //     else {
+  //       $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
+  //     }
+  //   }
+  // })
 </script>

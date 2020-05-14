@@ -13,9 +13,9 @@ class Admin::HiringsController < Admin::AdminBaseController
   end
 
   def index
-    if params[:search_fields].present?
-      hirings_transactions = Transaction.ransack(employee_listing_title_or_employee_listing_first_name_or_employee_listing_last_name_or_hirer_first_name_or_hirer_last_name_or_poster_first_name_or_poster_last_name_cont_any: params[:q], id_in: params[:q], m: 'or').result(distinct: true)
-      @hirings_transactions = hirings_transactions.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true).order(id: :desc).paginate(:page => params[:page], :per_page => params[:per_page])
+    if params[:search_fields].present? && search_fields
+      @hirings_transactions = hirings
+      @hirings_transactions = hirings.order(id: :desc).paginate(:page => params[:page], :per_page => params[:selected_data].present? ? params[:selected_data].to_i : 50)
     else
       @hirings_transactions = Transaction.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
     end
@@ -31,11 +31,11 @@ class Admin::HiringsController < Admin::AdminBaseController
   # end
   def hiring_details
     @transaction = Transaction.find(params[:id])
-    @listing = EmployeeListing.find(@transaction.poster.id)
     if @transaction.conversation.present?
       @conversation = @transaction.conversation
       @messages = @conversation.messages.order(created_at: :DESC)
     end
+    @listing = EmployeeListing.find(@transaction.employee_listing_id)
   end
 
   def delete_message
@@ -76,6 +76,14 @@ class Admin::HiringsController < Admin::AdminBaseController
     @reviews_by_poster = Review.where(id: review_by_poster_ids)
   end
 
+  def upload_csv
+    @transactions = Transaction.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data @transactions.to_csv, filename: "transaction_record-#{Date.today}.csv" }
+    end
+  end
+
   def show_all_hirer_reviews
     reviews = Review.where(receiver_id: @person.id)
     review_by_hirer_ids = []
@@ -91,4 +99,17 @@ class Admin::HiringsController < Admin::AdminBaseController
   def find_user
     @person = User.find_by(id: params[:id])
   end
+
+  private
+
+
+  def search_fields
+    result = (params[:q].present? || params[:created_at_gteq].present? || params[:created_at_lteq].present?)
+  end
+
+  def hirings
+    hirings = Transaction.ransack(employee_listing_title_or_employee_listing_first_name_or_employee_listing_last_name_or_hirer_first_name_or_hirer_last_name_or_poster_first_name_or_poster_last_name_cont_any: params[:q].split().first, id_in: params[:q], m: 'or').result(distinct: true)
+    @hirings_transactions = hirings.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true)
+  end
+
 end

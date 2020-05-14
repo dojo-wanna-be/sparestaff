@@ -53,9 +53,13 @@
 #
 
 class EmployeeListing < ApplicationRecord
+  require 'csv'
   scope :active, -> { where(deactivated: false) }
   scope :published, -> { where(published: true) }
   scope :unpublished, -> { where(published: false) }
+  scope :status, -> { where.not(deleted_at: true, pause_at: true)}
+  scope :delete_status, -> { where.not(deleted_at: true)}
+  scope :pause_listing, -> {where(pause_at: true)}
 
   attr_accessor :other_weekday_price
   attr_accessor :other_weekend_price
@@ -113,4 +117,26 @@ class EmployeeListing < ApplicationRecord
   def name
     "#{self.first_name} #{self.last_name}"
   end
+  
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+
+      EmployeeListing.active.published.delete_status.each do |listing|
+        csv << [listing.id, listing.title, listing.name, listing.poster&.name, listing.classification&.name, listing.status]
+      end
+    end
+  end
+  
+  def self.attributes
+    {
+      id: 'ID',
+      title: 'Title',
+      name: 'Employee',
+      lister_type: 'Poster',
+      classification_id: 'Classification',
+      status: 'Status'
+    }
+  end
+
 end

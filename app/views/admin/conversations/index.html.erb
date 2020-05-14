@@ -1,0 +1,108 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Conversations
+  </div>
+</div>
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Conversations</div>
+
+    <div class="right_step user">
+      <%= render partial: "admin/users/search_form", locals: {action_url: admin_conversations_path, page_name: "conversations_index"} %>
+      
+      <div class="search_row">
+        <div>Displaying conversation 1 - <%= @conversations.count %> of <%= @conversations.count %> in totals </div>
+        &nbsp;
+      </div>
+      <div class="sort_paginate_ajax" id="conversation_details">
+        <%= render partial: "conversation_details" %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      url = this.href
+      $.getScript(url);
+      return false;
+    });
+  });
+  $(document).ready(function(){
+    $(".datepicker_calender").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      dateFormat: 'yyyy-mm-dd'
+    });
+  });
+ // $('.checkbox_input_all').click(function(){
+ //    if ($(this).is(':checked')) {
+ //      $('.checkbox_input').prop('checked', true)
+ //    }
+ //    else {
+ //      $('.checkbox_input').prop('checked', false)
+ //    }
+ //  })
+ // $('.gobutton').click(function(){
+ //    if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
+ //      $('.error_arise').show();
+ //    else {
+ //      $('.error_arise').hide();
+ //      var ids = [];
+ //      $('.checkbox_input:checkbox:checked').each(function () {
+ //        code = $(this).val();
+ //        ids.push(code);
+ //      });
+ //      // if ($('.multiple_select').val() == "delete_selected") {
+ //      //   var result = confirm("Are you want to delete selected conversations?");
+ //      // }
+ //      if ($('.multiple_select').val() == "suspend_selected") {
+ //        var result = confirm("Are you want to disallow selected conversations?");
+ //      }
+ //      if (result) {
+ //        $.ajax({
+ //          type: "GET",
+ //          url: "<%= disallow_or_delete_admin_conversations_path %>",
+ //          data: { ids: ids, select_action: $('.multiple_select').val() }
+ //        });
+ //        //Logic to delete the item
+ //      }
+ //      else {
+ //        $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
+ //      }
+ //    }
+ //  })
+  $(document).ready(function(){
+    $('.test_group').click(function() {
+      var checked;
+      var check_type;
+      var result;
+      check_type = $(this).attr('name')
+      if ($(this).is(':checked')) {
+        checked = true;
+        if (check_type == "disallow_conversation") {
+          result = confirm("Are you sure you want to disallow  this conversation? You can undisallow later.");
+        }
+        if (result) {
+          $.ajax({
+            type: "GET",
+            url: "<%= disallow_or_delete_admin_conversations_path %>",
+            data: { id: $(this).val(), checked: checked, check_type: check_type }
+          });
+        }
+        else {
+          $(this).prop('checked', false)
+        }
+      } else {
+        checked = false;
+        $.ajax({
+          type: "GET",
+          url: "<%= disallow_or_delete_admin_conversations_path %>",
+          data: { id: $(this).val(), checked: checked, check_type: check_type }
+        });
+      }
+    });
+  });
+</script>

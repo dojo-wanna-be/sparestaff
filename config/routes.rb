@@ -13,18 +13,33 @@ Rails.application.routes.draw do
         get :emails
         post :suspend_or_make_admin_user
         get :suspend_or_delete
+        get :upload_csv
       end
     end
     resources :hirings do
       collection do
         get :search
         get :hiring_details
+        get :upload_csv
         delete :delete_message
       end
     end
     resources :coupons
-    resources :employee_listings
+    resources :employee_listings do
+      collection do
+        get :delete_or_pause_listing
+        get :upload_csv
+        patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
+        get :deactivated_completely, path: "deactivated", as: "deactivated"
+      end
+    end
     resources :community_service_fees
+    resources :conversations do
+      collection do
+        get :disallow_or_delete
+        delete :delete_message
+      end
+    end    
     resources :getting_start_contents
     resources :content_management do
       collection do

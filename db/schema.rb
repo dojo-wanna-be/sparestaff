@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_05_09_090303) do
 
   # These are extensions that must be enabled in order to support this database
@@ -115,6 +116,31 @@ ActiveRecord::Schema.define(version: 2020_05_09_090303) do
     t.date "expiry_date"
   end
 
+  create_table "employee_hire_sections", force: :cascade do |t|
+    t.text "column_1_text"
+    t.text "column_2_text"
+    t.text "column_3_text"
+    t.text "column_4_text"
+    t.string "column_1_image_file_name"
+    t.string "column_1_image_content_type"
+    t.bigint "column_1_image_file_size"
+    t.datetime "column_1_image_updated_at"
+    t.string "column_2_image_file_name"
+    t.string "column_2_image_content_type"
+    t.bigint "column_2_image_file_size"
+    t.datetime "column_2_image_updated_at"
+    t.string "column_3_image_file_name"
+    t.string "column_3_image_content_type"
+    t.bigint "column_3_image_file_size"
+    t.datetime "column_3_image_updated_at"
+    t.string "column_4_image_file_name"
+    t.string "column_4_image_content_type"
+    t.bigint "column_4_image_file_size"
+    t.datetime "column_4_image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_listing_languages", force: :cascade do |t|
     t.integer "employee_listing_id"
     t.integer "language_id"
@@ -182,6 +208,9 @@ ActiveRecord::Schema.define(version: 2020_05_09_090303) do
     t.float "latitude"
     t.float "longitude"
     t.float "rating_count"
+    t.boolean "deleted_at", default: false
+    t.boolean "pause_at", default: false
+    t.string "status"
   end
 
   create_table "employee_skills", force: :cascade do |t|

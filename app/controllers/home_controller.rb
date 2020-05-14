@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 
   def index
     @user = User.new
-    listings = EmployeeListing.active.published.where("end_publish_date >= ? ", Date.today).order(updated_at: :desc)
+    listings = EmployeeListing.active.status.published.where("end_publish_date >= ? ", Date.today).order(updated_at: :desc)
     @employee_listings = listings.paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
     @how_it_works = HomepageContent.where(section_type: "how_it_work_section")
@@ -29,7 +29,7 @@ class HomeController < ApplicationController
   end
 
   def keyword_search
-    @listings = EmployeeListing.active.published.includes(:employee_skills).where("end_publish_date >= ? ", Date.today).ransack(employee_skills_skill_name_cont_any: params[:term], title_cont_any: params[:term], m: 'or').result(distinct: true)
+    @listings = EmployeeListing.active.status.published.includes(:employee_skills).where("end_publish_date >= ? ", Date.today).ransack(employee_skills_skill_name_cont_any: params[:term], title_cont_any: params[:term], m: 'or').result(distinct: true)
     render json: @listings.pluck(:id, :title)
   end
 
@@ -93,7 +93,7 @@ class HomeController < ApplicationController
     end
     # @listings = EmployeeListing.active.published.order(updated_at: :desc)
     # @listings = EmployeeListing.ransack(q).result(distinct: true)
-    @employee_listings = EmployeeListing.includes(:employee_skills, :listing_availabilities, :employee_listing_slots, :languages).where("end_publish_date >= ? ", Date.today).ransack(q).result(distinct: true)
+    @employee_listings = EmployeeListing.status.includes(:employee_skills, :listing_availabilities, :employee_listing_slots, :languages).where("end_publish_date >= ? ", Date.today).ransack(q).result(distinct: true)
     # @employee_listings = find_employee_listings(listings)
     @employee_listings = @employee_listings.near(params[:location])   if params[:location].present?
     @employee_listings = @employee_listings.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 4)

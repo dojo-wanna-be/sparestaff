@@ -1,0 +1,123 @@
+<%= form_for @employee_listing, url: employee_path, method: :patch, multipart: true, :html => { :id => "employee_skills" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "employee_skills" %>
+
+  <div class="custom-field-box">
+
+    <div class="joint-group mobile-joint-group">
+      <div class="custom-input-group">
+        <label class="custom-label">Select classification to list</label>
+        <%= select_tag "parent_classification", options_for_select(Classification.where(parent_classification_id: nil).order(:name).pluck(:name, :id), @classification_id), {class: 'custom-field' , include_blank: "Please select category"} %>
+      </div>
+
+      <div class="custom-input-group">
+        <label class="custom-label">&nbsp;</label>
+
+        <div id = "user-sub-category-lists">
+          <%= render 'sub_category_lists', classification_id: @classification_id, sub_classification_id: @sub_classification_id %>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Please describe the employee skills, strength, expertise, experience, etc</label>
+      <%= f.text_area :skill_description, cols: "20", rows: "10", style: "width:100%;" %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Skills <br/> <span class="thin-text">Help Hirers find the Employee by showcasing all of the his/her skills (e.g. Word, Excel, MYOB, PHP, Java, Web Design, Full Stack Developer, etc). Start typing and hit Enter to add a skill in.</span></label>
+      <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).join(', ') %>
+      <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Any further comments about the employee <span class="thin-text">(optional)</span></label>
+      <%= f.text_area :optional_comments, cols: "20", rows: "5", style: "width:100%;" %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">What languages can the employee speak?</label>
+      <div class="lang-box">
+        <% Language.all.each do |global_language| %>
+          <div class="check-box">
+            <%= check_box_tag "employee_listing_language_ids[]", global_language.id, languages_present(f.object, global_language), class: 'checkbox-inline'%>
+            <%= global_language.language.titleize %>
+          </div>
+        <% end %>
+      </div>
+      <label id="lan_emp_id">Please select at least one language</label>
+    </div>
+
+    <div class="button-box">
+      <%= f.submit "Save", class: "continue-btn cont_step" %>
+    </div>
+
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#skill_tags').tagsInput({
+    'defaultText':'Add skill',
+    'height':'50px',
+    'width':'430px',
+    'delimiter': [',']
+  });
+
+  $("#employee_skills").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "parent_classification": {required: true},
+      "employee_listing[skill_description]": {required: true},
+    }
+  });
+
+  $('#parent_classification').on('change', function(){
+    var parent_val = $('#parent_classification :selected').val();
+    $.ajax({
+      url: "/employee/sub_category_lists",
+      type: "GET",
+      data : {
+        id: parent_val,
+      },
+      dataType: "script",
+    });
+  });
+
+  $('.cont_step').click(function(e) {
+    var FormValid = true;
+    var empLang = $('.checkbox-inline').is(':checked');
+    if (empLang){
+      $('#lan_emp_id').hide();
+    }
+    else{
+      $('#lan_emp_id').show();
+      FormValid = false;
+    }
+    return FormValid;
+  });
+
+  $('.checkbox-inline').on('keyup keypress change', function () {
+   var empLang = $('.checkbox-inline').is(':checked');
+    if (empLang) {
+      $("#lan_emp_id").hide();
+    }
+    else{
+      $("#lan_emp_id").show();
+    }
+  });
+</script>
+
+<style type="text/css">
+  label#check_boxes {
+      display: none;
+  }
+  .error {
+      color:#FF0000;
+  }
+  label#lan_emp_id {
+    display: none;
+     color:#FF0000;
+}
+</style>

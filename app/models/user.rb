@@ -31,6 +31,7 @@
 #
 
 class User < ApplicationRecord
+  require 'csv'
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,
   default_scope { where(deleted_at: nil) }
@@ -102,4 +103,31 @@ class User < ApplicationRecord
   def name
     "#{self.first_name} #{self.last_name}"
   end
+
+  
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+      all.order(id: :desc).each do |user|
+        csv << [user.id, user.first_name, user.last_name, user.email, user.company&.role, user.company&.name, user.created_at&.strftime("%b %e, %Y"), user.last_sign_in_at&.strftime("%b %e, %Y"), user.is_suspended, user.is_admin]
+      end
+    end
+  end
+
+
+  def self.attributes
+    {
+      id: 'ID',
+      first_name: 'First Name',
+      last_name: 'Last Name',
+      email: 'Email',
+      ROLES: 'Role',
+      company_id: 'Company',
+      created_at: 'Date joined',
+      last_sign_in_at: 'Last login',
+      is_suspended: 'Is Suspended',
+      is_admin: 'Is Admin'
+    }
+  end
+
 end

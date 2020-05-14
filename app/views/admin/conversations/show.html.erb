@@ -1,0 +1,156 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; <%= link_to 'Conversations', admin_conversations_path, class: 'sub_link'%>
+    &nbsp;&gt; Conversation ID &nbsp;<%= @conversation.id %>
+  </div>
+</div>
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+
+  <div class="hiring-section">
+    <div class="left-detail">
+      <br/>
+      <div class="text-allign-center">
+        <% if @listing.profile_picture.present? %>
+          <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+        <% end %>
+        <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
+        <div class=""><b><%= @listing.name %></b></div>
+      </div>
+      <br/>
+      <div class="">
+        <% if @transaction.present? %>
+          Poster:<br />
+          <%=@transaction.poster.name%><br />
+          Hirer:<br />
+          <%=@transaction.hirer.name %><br/>
+          Status: <%= @transaction.state.capitalize %>
+        <% else %>
+          Poster:<br/>
+          <%= @listing.poster.name %><br/>
+          Other User:<br/>
+          <% if @listing.poster.name.eql?(@conversation.sender.name) %>
+            <%= @conversation.receiver.name %><br/>
+          <% else %>
+            <%= @conversation.sender.name %><br/>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="order-details first-order">
+        <div class="order-item">
+          <% if @transaction.present? %>
+            <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
+            <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
+            <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
+          <% else %>
+            <span><b>Availability</b></span>
+          <% end %>
+        </div>
+        <% if @transaction.present? %>
+          <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
+          <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
+          <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
+            <div class="order-item space-bottom">
+              <span><%= bookings.first.day.titleize %></span>
+              <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
+            </div>
+          <% end %>
+        <% else %>
+          <% @listing.listing_availabilities.each do |availability|%>
+            <% unless availability.not_available? %>
+              <div class="order-item space-bottom table-box">
+                <span><%= availability.day.titleize %></span>
+                <span><%= availability.start_time.strftime("%I:%M") %> - <%= availability.end_time.strftime("%I:%M") %></span>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <% if @transaction.present? %>
+      <% if !((@transaction.end_date - @transaction.start_date).to_i < 29) %>
+        <div class="order-details">
+          <div class="order-item space-bottom">
+            <span class="grey-text">Probationary period</span>
+          </div>
+          <div class="order-item ">
+            <div class="month1">
+              <% if @transaction.probationary_period.present? %>
+                <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+              <% else %>
+                NA
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="order-details">
+        <h3 class="sub-title">Weekly payment</h3>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
+          <span><%= "$#{@listing.weekday_price.to_f * @transaction.weekday_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
+          <span><%= "$#{@listing.weekend_price.to_f * @transaction.weekend_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Tax withholding</span>
+          <span><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Service fee</span>
+          <span>$<%= @transaction.service_fee.round(2) %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><b>Weekly total</b></span>
+          <span><b>$<%= @transaction.hirer_weekly_amount %></b></span>
+        </div>
+      </div>
+
+      <div class="toggle-payment-detail">Total employment contract</div>
+
+      <div class="order-details show-payment-box">
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
+          <span><%= "$#{@listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
+          <span><%= "$#{@listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Tax withholding</span>
+          <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span>Service fee</span>
+          <span>$<%= @transaction.total_service_fee.round(2) %></span>
+        </div>
+        <div class="order-item space-bottom">
+          <span><b>Total</b></span>
+          <span><b><%= "$#{(@transaction.total_amount).round(2)}" %></b></span>
+        </div>
+      </div>
+    <% else %>
+      <div class="order-item asking-box">
+        <span><b>Asking Wage</b></span>
+      </div>
+      <div class="order-item space-bottom from-box">
+        <span>From $<%= minimum_price(@listing).present? ? minimum_price(@listing) : 0 %> per hour</span>
+      </div>
+    <% end %>
+    </div>
+
+    <%= render partial: "message" %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.toggle-payment-detail').click(function(){
+    $('.show-payment-box').toggle();
+  });
+</script>

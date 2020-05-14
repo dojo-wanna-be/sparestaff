@@ -51,9 +51,9 @@
       </div> -->
 
       <div class="search_row">
-        <div>Displaying 1 - 2 of 2 in total</div>
+        <div>Displaying 1 - <%= @hirings_transactions.count %> of <%= @hirings_transactions.count %> Hirings</div>
         &nbsp;
-        <%= link_to 'Export all as CSV', '#', class: 'spare_link export_csv' %>
+        <%= link_to 'Export all as CSV', upload_csv_admin_hirings_path(format: :csv), class: 'spare_link export_csv' %>
       </div>
       <% if @hirings_transactions.present? %>
       <div class="featured-listings-box">

@@ -1,0 +1,323 @@
+<%= form_for @employee_listing, url: admin_employee_listing_path, method: :patch, multipart: true, :html => { :id => "listing_details" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "listing_details" %>
+
+  <div class="custom-input-group">
+    <div class="profile_picture">
+      <label class="custom-label">Profile Picture <span class="thin-text">(required, this is what Hirers first see in search results)</span></label>
+      <div class="image-group">
+        <div class="box-img">
+          <div class="upload-file" id="profile_picture_container">
+            <%= render partial: "employee_listings/listing_profile_picture" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-input-group">
+    <label class="custom-label">Additional photos your employee <span class="thin-text">(optional but recommended)</span></label>
+    <div class="multiple-image-group">
+      <div class="box-img">
+        <div class="avatar-preview">
+          <div id="relevant_document_container">
+            <%= render partial: "employee_listings/additional_listing_photos" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="comman-heading">Listing title & Employee details</h5>
+
+  <div class="custom-field-box">
+    <div class="custom-input-group">
+      <label class="custom-label">Listing title</label>
+      <%= f.text_field :title, placeholder: "i.e. Experienced Office Admin, Exceptional Problem Solver - IT Tech", class: 'custom-field' %>
+    </div>
+
+    <div class="joint-group">
+      <div class="custom-input-group">
+        <label class="custom-label">First name</label>
+
+        <%= f.text_field :first_name, class: 'custom-field' %>
+      </div>
+
+      <div class="custom-input-group">
+        <label class="custom-label">Last name</label>
+        <%= f.text_field :last_name, class: 'custom-field' %>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">TFN <span class="thin-text">(higher tax applies if TFN is not specified)</span></label>
+      <div class="tfn-file">
+        <%= f.text_field :tfn, class: 'custom-field half-field' %>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Year of birth <span class="thin-text">(optional)</span></label>
+      <%= f.text_field :birth_year, data: { numeric: true }, minlength: 4, maxlength: 4, min: Date.today.year - 80, class: 'custom-field half-field' %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Employee address <span class="thin-text">(optional)</span></label>
+      <%= f.text_field :address_1, class: 'custom-field' %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Address line 2 <span class="thin-text">(optional)</span></label>
+      <%= f.text_field :address_2, class: 'custom-field' %>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Suburb/City</label>
+      <%= f.text_field :city, class: 'custom-field half-field' %>
+    </div>
+
+    <div class="joint-group">
+      <div class="custom-input-group">
+        <label class="custom-label">State</label>
+        <%= f.select :state, options_for_select(EmployeeListing::EMPLOYEE_STATES, f.object.state), {}, {class: 'custom-field'}  %>
+      </div>
+
+      <div class="custom-input-group">
+        <label class="custom-label">Postcode</label>
+        <%= f.number_field :post_code, minlength: 4, maxlength: 4, class: 'custom-field' %>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Country</label>
+      <%= f.select :country, options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES, f.object.country), {}, {class: 'custom-field half-field'} %>
+    </div>
+
+    <div class="joint-group mobile-joint-group">
+      <div class="custom-input-group">
+        <label class="custom-label">Residency status</label>
+        <%= f.select :residency_status, options_for_select(EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES, f.object.residency_status), {}, {class: "custom-field"} %>
+      </div>
+
+      <div class="custom-input-group">
+        <label class="custom-label">&nbsp;</label>
+        <%= f.text_field :other_residency_status, placeholder: "Please specify", class: 'custom-field' ,id:  'other_res_sta', value: EmployeeListing::EMPLOYEE_RESIDENCY_STATUSES.include?(f.object.residency_status) ? "" : f.object.residency_status %>
+      </div>
+    </div>
+
+    <div class="joint-group mobile-joint-group">
+      <div class="custom-input-group">
+        <label class="custom-label">ID verification <span class="thin-text">(required for listing to appear in search results)</span></label>
+        <%= f.select :verification_type, options_for_select(EmployeeListing::EMPLOYEE_VERIFICATION_TYPES, f.object.verification_type), {}, {class: "custom-field"} %>
+      </div>
+
+      <div class="custom-input-group">
+        <div class="image-group">
+          <div class="box-img">
+            <div class="upload-file" id="verification_front_image_container">
+              <%= render partial: "employee_listings/listing_verification_front_image" %>
+            </div>
+          </div>
+
+          <div class="box-img">
+            <div class="upload-file" id="verification_back_image_container">
+              <%= render partial: "employee_listings/listing_verification_back_image" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Gender</label>
+
+      <div class="inner-input-group">
+        <div class="first"><%= f.radio_button :gender, "male", checked: f.object.gender.eql?("male") || f.object.gender.eql?(nil), class: 'input-checked' %> <span>Male</span></div>
+        <div class="last"><%= f.radio_button :gender, "female", checked: f.object.gender.eql?("female"), class: 'input-checked' %> <span>Female</span></div>
+      </div>
+    </div>
+
+    <div class="custom-input-group">
+      <label class="custom-label">Does the employee have his own vehicle?</label>
+
+      <div class="inner-input-group">
+        <div class="first"><%= f.radio_button :has_vehicle, true, class: 'input-checked' %> <span>Yes</span></div>
+        <div class="last"><%= f.radio_button :has_vehicle, false, class: 'input-checked' %> <span>No</span></div>
+      </div>
+    </div>
+
+    <div class="button-box">
+      <%= f.submit "Save", class: "continue-btn", id: 'employee_form_id' %>
+    </div>
+
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#employee_listing_residency_status').on('keyup keypress change', function (){
+      var listingTitle = $("#employee_listing_residency_status").val();
+      if (listingTitle == "Other Visas"){
+        $("#other_res_sta").show();
+        $("#other_res_sta").attr("required", true);
+      }else{
+        $("#other_res_sta").hide();
+        $("#other_res_sta").removeAttr("required");
+      }
+    });
+
+    $("#listing_details").validate({
+      errorPlacement: function(error, element) {
+        error.appendTo(element.parent());
+      },
+      rules: {
+        "employee_listing[title]": {required: true},
+        "employee_listing[first_name]": {required: true},
+        "employee_listing[last_name]": {required: true},
+        "employee_listing[city]": {required: true},
+        "employee_listing[post_code]": {required: true},
+      },
+    });
+  });
+
+  function sendFrontImage(fileData) {
+    var listing_id = "<%= @employee_listing.id %>"
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/verification_front',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  function sendBackImage(fileData) {
+    var listing_id = "<%= @employee_listing.id %>"
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/verification_back',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  function create_hex_code_front(input, from){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendFrontImage(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  function create_hex_code_back(input, from){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendBackImage(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  $('#verification_front_image').change(function() {
+    create_hex_code_front(this);
+  });
+
+  $('#verification_back_image').change(function() {
+    create_hex_code_back(this);
+  });
+
+  function sendRelevantDocument(fileData) {
+    var listing_id = "<%= @employee_listing.id %>"
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/relevant_document',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  function sendProfilePicture(fileData) {
+    var listing_id = "<%= @employee_listing.id %>"
+    var formData = new FormData();
+    formData.append('image', fileData);
+    formData.append('id', listing_id);
+    $.ajax({
+      type: 'PATCH',
+      url: '/employee/profile_picture',
+      data: formData,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  function create_hex_code_profile(input){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendProfilePicture(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  function create_hex_code_relevant_document(input){
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          sendRelevantDocument(event.target.result);
+        }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
+  $('#relevant_documents').on('change', function() {
+    create_hex_code_relevant_document(this);
+  });
+
+  $('#listing_profile_picture').on('change', function() {
+    create_hex_code_profile(this);
+  });
+</script>
+
+<style type="text/css">
+  input#other_res_sta {
+    display: none;
+  }
+  label#sel_sta_id {
+    display: none;
+    color:#FF0000;
+  }
+  .error {
+    color:#FF0000;
+  }
+</style>
