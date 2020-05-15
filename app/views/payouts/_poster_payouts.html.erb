@@ -46,12 +46,12 @@
       <% if tx.frequency.eql?("weekly") %>
         <div style="width: 40%"><%= "#{(payment.updated_at - 1.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
           <br>
-          <%= tx.hirer.name %>
+          <%= tx.poster.name %>
         </div>
       <% else %>
         <div style="width: 40%"><%= "#{(payment.updated_at - 2.week).strftime('%d %b')} - #{(payment.updated_at - 1.days).strftime('%d %b, %Y')}" %>
           <br>
-          <%= tx.hirer.name %>
+          <%= tx.poster.name %>
         </div>
       <% end %>
       <div style="width: 15%"><%="#{payment.amount}"%></div>

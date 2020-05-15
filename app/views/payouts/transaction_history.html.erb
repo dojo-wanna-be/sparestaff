@@ -7,7 +7,7 @@
         <div class="right-panel-header">Completed Payouts</div>
         <div class="listing-card-box">
           <div class="listing-card">
-            <div style="font-size: 18pt">Paid out: $<%= @total_payout %> AUD</div>
+            <div style="font-size: 18pt">Paid out: $<%= @total_payout.round(2) %> AUD</div>
             <div class="payout_table">
               <div class="table_row">
                 <div style="width: 15%"><strong>Date</strong></div>
