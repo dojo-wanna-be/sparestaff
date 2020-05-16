@@ -14,11 +14,11 @@
           <div><%= listing.name %></div>
           <div><%= "$#{listing.weekday_price} per hour" %></div>
           <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
-          <% if params[:commit] == "Search" %>
+          <%# if params[:commit] == "Search" %>
             <% if params[:location].present? %>
               <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
             <% end %>
-          <% end %>
+          <%#end %>
           <div class="rating">
             <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
             <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
