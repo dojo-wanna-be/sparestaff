@@ -74,6 +74,7 @@
 
               <div class="button-box">
                 <%= f.submit "Continue", class: "continue-btn" %>
+                <%= link_to "Back", employee_path(id: @employee_listing.id, back: true), class: "continue-btn" %>
               </div>
             </div>
           <% end %>

@@ -198,8 +198,9 @@
           discuss with the Poster directly.
           </div>
           <br>
-
+          <% if @transaction.conversation.present? %>
           <%= link_to 'Message Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
+          <% end %>
           <br>
           <% if @listing.poster.phone_number.present? %>
             <%= link_to 'javascript:;', class: 'orange-link' do  %>
