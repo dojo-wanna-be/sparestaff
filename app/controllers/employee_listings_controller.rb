@@ -370,7 +370,7 @@ class EmployeeListingsController < ApplicationController
     end
 
     if @employee_listing.update_attributes(update_listing_params)
-      flash[:notice] = "Value Saved Successfully!"
+      flash[:notice] = "Saved Successfully!"
       if params[:redirect_link].present?
         redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:redirect_link])
       else
