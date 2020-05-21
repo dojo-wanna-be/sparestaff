@@ -21,8 +21,6 @@ module HomeHelper
     from_location_lat = params[:latitude]
     from_location_long = params[:longitude]
     from_listing_location = [from_location_lat, from_location_long]
-    distance = Geocoder::Calculations.distance_between(from_listing_location, location_1)
-    distance_in_km = distance * 1.61
-    distance_in_km
+    distance = Geocoder::Calculations.distance_between(from_listing_location, location_1, units: :km)
   end
 end

@@ -137,29 +137,32 @@
           </div>
         </div>
       </div>
-
-      <div class="right-hiring-box">
-        <div class="divTableCell Padding30Px FullWidth">
-          <div class="divTable InvoiceList">
-            <div class="divTableHeading TextStrong">
-              <div class="divTableCell Width150Px">Receipt No.</div>
-              <div class="divTableCell Width150Px">Amount</div>
-              <div class="divTableCell">Date</div>
-            </div>
-            <% @transaction.payment_receipts.each do |receipt| %>
-              <div class="divTableRow">
-                <div class="divTableCell">
-                  <%= link_to receipt.id, receipt_details_hiring_path(id: @transaction, receipt_id: receipt.id), :target => "_blank" %>
-                </div>
-                <div class="divTableCell">$<%= receipt.tx_price %></div>
-                <div class="divTableCell"><%= receipt.start_date.strftime("%d-%h-%Y") %></div>
+      <%if @transaction.payment_receipts.present?%>
+        <div class="right-hiring-box">
+          <div class="divTableCell Padding30Px FullWidth">
+            <div class="divTable InvoiceList">
+              <div class="divTableHeading TextStrong">
+                <div class="divTableCell Width150Px">Receipt No.</div>
+                <div class="divTableCell Width150Px">Amount</div>
+                <div class="divTableCell">Date</div>
               </div>
-            <% end %>
+              <% @transaction.payment_receipts.each do |receipt| %>
+                <div class="divTableRow">
+                  <div class="divTableCell">
+                    <%= link_to receipt.id, receipt_details_hiring_path(id: @transaction, receipt_id: receipt.id), :target => "_blank" %>
+                  </div>
+                  <div class="divTableCell">$<%= receipt.tx_price %></div>
+                  <div class="divTableCell"><%= receipt.start_date.strftime("%d-%h-%Y") %></div>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      <%else%>
+      <h1>No Receipt Generated</h1>
+      <%end%>
     </div>
-  </div>
+</div>
 </div>
 
 <%= render partial: "layouts/footer" %>

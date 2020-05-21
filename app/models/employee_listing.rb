@@ -87,7 +87,7 @@ class EmployeeListing < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
   def address
-    [address_1, address_2, city, state, country, post_code].compact.join(', ')
+    [address_1, city, state, country, post_code].compact.join(', ')
   end
 
 
