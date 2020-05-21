@@ -6,9 +6,9 @@
       <div class="right-detail">
         <% if @transaction.state.eql?("created") %>
           <%= render partial: "accept_or_decline_option" %>
-          <%= render partial: "inboxes/accept-reservation-popup" %>
-          <%= render partial: "inboxes/decline-reservation-step-1-popup" %>
-          <%= render partial: "inboxes/decline-reservation-step-2-popup" %>
+          <%#= render partial: "inboxes/accept-reservation-popup" %>
+          <%#= render partial: "inboxes/decline-reservation-step-1-popup" %>
+          <%#= render partial: "inboxes/decline-reservation-step-2-popup" %>
         <% elsif @transaction.state.eql?("accepted") %>
           <%= render partial: "change_or_cancel_option" %>
         <% elsif @transaction.state.eql?("rejected") %>
