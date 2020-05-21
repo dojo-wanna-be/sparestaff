@@ -165,9 +165,11 @@ function validateAvailability(start_date, end_date, listing){
 function calculateTax(){
   if ($('#transaction_frequency').val() == "fortnight") {
     week_frequency = 2
+    $('.text_change_freq').text('Fortnightly total');
   }
   else {
     week_frequency = 1
+    $('.text_change_freq').text('Weekly total');
   }
   var weekly_earning = hiring_weekday_price + hiring_weekend_price;
   checkTax(weekly_earning)
