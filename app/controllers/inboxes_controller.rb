@@ -25,6 +25,7 @@ class InboxesController < ApplicationController
           redirect_to inbox_path(id: @conversation.id)
         rescue => e
           flash[:error] = e.message
+          redirect_to employee_listing_path(id: @listing.id)
         end
       end
     else
