@@ -15,16 +15,16 @@ class InboxesController < ApplicationController
         @messages = @conversation.messages.order(created_at: :DESC)
       else
         begin
-          @conversation = Conversation.create!( receiver_id: @listing.poster.id,
+          @conversation = Conversation.create!(receiver_id: @listing.poster.id,
                     sender_id: current_user.id,
                     employee_listing_id: @listing.id
                   )
+          @messages = []
+          redirect_to inbox_path(id: @conversation.id)
         rescue => e
           flash[:error] = e.message
         end
-        @messages = []
       end
-      redirect_to inbox_path(id: @conversation.id) 
     else
       @transaction = @conversation.employee_listing_transaction
       @address = @transaction.try(:address)
