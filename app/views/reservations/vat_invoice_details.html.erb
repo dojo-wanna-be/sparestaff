@@ -63,8 +63,8 @@
                 </div>
                 <div class="divTableCell Width33Percent">
                   <p class="TextStrong MarginBottom5Px">Address</p>
-                  <%= @transaction.poster.address_1 %><br />
-                  <%= @transaction.poster.address_2 %>
+                  <%= @transaction.poster.address_1 rescue nil %><br />
+                  <%= @transaction.poster.address_2 rescue nil %>
                   <!-- <p class="TextStrong MarginBottom5Px">Company</p>
                   <%#= @transaction.hirer.company.name %> -->
                 </div>

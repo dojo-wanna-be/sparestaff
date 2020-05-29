@@ -59,7 +59,7 @@ class InboxesController < ApplicationController
           MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
         end
       elsif @sender.first.user_type == "hr"
-          MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
+        MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
       # elsif @listing.poster.eql?(@sender.first)
       else
         MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_later!
