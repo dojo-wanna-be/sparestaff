@@ -193,7 +193,8 @@ class HiringsController < ApplicationController
           conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
           message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
         	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
-  		    flash[:notice] = 'Card charged successfully.'
+          # flash[:notice] = 'Card charged successfully.'
+          flash[:notice] = 'Hiring changed successfully.'
         	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
   		  rescue Stripe::CardError => e
   		    flash[:notice] = e.error.message

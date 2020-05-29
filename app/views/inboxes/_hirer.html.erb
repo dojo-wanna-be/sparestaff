@@ -2,12 +2,14 @@
   <div><b>About this Poster</b></div>
   <br/>
   <div class="text-allign-center">
-    <% if @listing.profile_picture.present? %>
-      <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
-    <% else %>
-      <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+    <%= link_to employee_path(id: @listing.id) do %>
+      <% if @listing.profile_picture.present? %>
+        <%= image_tag @listing.profile_picture.url, class: 'pro-pic' %>
+      <% else %>
+        <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+      <% end %>
     <% end %>
-    <div class=""><b><%= @transaction.poster.name %></b></div>
+    <div class=""><b><%= link_to "#{@transaction.poster.name}", employee_path(id: @listing.id) %></b></div>
     <div class="grey-text">
       <% if @transaction.employee_listing.lister_type.eql?("User") %>
         <%= "#{@listing.city} #{@listing.state} #{@listing.post_code}, #{@listing.country}" %>

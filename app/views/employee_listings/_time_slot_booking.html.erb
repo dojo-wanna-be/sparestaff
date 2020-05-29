@@ -132,7 +132,8 @@
     <% else %>
       You can’t hire this employee yet because the Poster has not set-up Payout method.
     <% end %>
-    <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= @employee_listing.minimum_working_hours %></label>
+    <!-- <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= @employee_listing.minimum_working_hours %></label> -->
+    <label id="total_hour_error" style="display: none; color: red;">Poster requires <%= @employee_listing.minimum_working_hours %> hours minimum.</label>
     <p class="thin-text">You won't be charged yet. You will not pay the Total employment contract upfront. It's your choice to pay weekly or fortnightly.</p>
 
     <div class="footer-text">This employee listing has been viewed 149 times.</div>
