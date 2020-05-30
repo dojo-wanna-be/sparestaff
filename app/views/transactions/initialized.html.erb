@@ -73,8 +73,8 @@
               <%= text_area_tag "message_text", nil, rows: "13", required: true %>
 
               <div class="button-box">
-                <%= f.submit "Continue", class: "continue-btn" %>
                 <%= link_to "Back", employee_path(id: @employee_listing.id, back: true), class: "continue-btn" %>
+                <%= f.submit "Continue", class: "continue-btn" %>
               </div>
             </div>
           <% end %>
