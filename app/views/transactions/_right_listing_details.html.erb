@@ -29,13 +29,17 @@
       <%= @slot.gsub(/,\s*$/, "").gsub(/(.*),(.*)/, '\1 and\2') %>
     </div>
   </div>
-  <% if (@transaction.end_date - @transaction.start_date).to_i > 29 %>
+  <%# if (@transaction.end_date - @transaction.start_date).to_i > 29 %>
+  <% if @transaction.probationary_period.present? %>
     <div class="user-right-box">
       <div class="left">
         <span><b>Probationary period</b></span>
       </div>
       <div class="right">
-        <span id="probationary_period"><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "1 month" %></span>
+        <span id="probationary_period">
+              <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+              <%#= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "1 month" %>
+        </span>
       </div>
     </div>
   <% end %>
