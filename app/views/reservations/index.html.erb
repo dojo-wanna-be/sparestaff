@@ -110,7 +110,7 @@
                   </div>
                 <% end %>
                 <div>
-                  <%= link_to 'Message history', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
+                  <%= link_to 'Message history', inbox_path(id: transaction.conversation.id),data: {turbolinks: false}, class: 'orange-text' %>
                 </div>
                 <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
                   <div>
