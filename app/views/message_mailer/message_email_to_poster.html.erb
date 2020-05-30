@@ -43,8 +43,8 @@
   </tr>
   <tr>
     <td><br />
-    <h1 style="color: #484848;">You have a new message from <%= @sender.first.name.capitalize%></h1>
-      <p style="color: #484848;"><%= @sender.first.name.capitalize%> send you a message.</p>
+    <h1 style="color: #484848;">You have a new message from <%= @sender.name.capitalize%></h1>
+      <p style="color: #484848;"><%= @sender.name.capitalize%> send you a message.</p>
     <table style="width: 500px">
       <tr>
         <td colspan="2">
@@ -52,7 +52,7 @@
           <% if @message.present? && @message.content.present? %>
             <tr>
               <td style="color: #484848;">
-              <strong>Message from <%= @sender.first.name.capitalize%>:</strong><br />
+              <strong>Message from <%= @sender.name.capitalize%>:</strong><br />
               <%= @message.content %></td>
             </tr>
           <% end %>
