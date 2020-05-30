@@ -45,8 +45,8 @@ class InboxesController < ApplicationController
     # @sender = @conversation.sender
     # @receiver = @conversation.receiver
     if message.save
-      flash[:notice] = "Message sent successfully."
-      @sender = User.where(id: current_user.id)
+      # flash[:notice] = "Message sent successfully."
+      @sender = User.find_by(id: current_user.id)
       if current_user.id.eql?(@conversation.sender_id)
         @receiver = User.find(@conversation.receiver_id)
       else
@@ -58,7 +58,7 @@ class InboxesController < ApplicationController
         else
           MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
         end
-      elsif @sender.first.user_type == "hr"
+      elsif @sender.user_type == "hr"
         MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
       # elsif @listing.poster.eql?(@sender.first)
       else
