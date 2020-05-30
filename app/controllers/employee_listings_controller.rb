@@ -304,7 +304,9 @@ class EmployeeListingsController < ApplicationController
       end
     else
       if @employee_listing.classification.present?
-        similar_class_listings = @employee_listing.classification&.employee_listings&.ransack(title_cont_any: @employee_listing.title.split(" ")).result
+        employee_listings = @employee_listing.classification&.employee_listings&.where.not(id: @employee_listing.id)
+        similar_class_listings = employee_listings&.ransack(title_cont_any: @employee_listing.title.split(" ")).result
+        # similar_class_listings = @employee_listing.classification&.employee_listings&.ransack(title_cont_any: @employee_listing.title.split(" ")).result
         similar_price_listings = similar_class_listings&.ransack(weekday_price_gteq: @employee_listing.weekday_price.to_f - 10, weekday_price_lteq: @employee_listing.weekday_price.to_f + 10).result
         similar_rank_listings = similar_price_listings&.ransack(rating_count_eq: @employee_listing.rating_count).result
         @similar_nearby_listings = similar_rank_listings&.near(@employee_listing.city + ", " + @employee_listing.state + ", " + @employee_listing.country)

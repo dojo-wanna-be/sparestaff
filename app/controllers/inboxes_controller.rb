@@ -69,9 +69,9 @@ class InboxesController < ApplicationController
   end
 
   def unread
-    @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
+    @conversations = Conversation.includes(:messages).order("updated_at desc").where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
     if params[:message] == "unread"
-      @conversations = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct
+      @conversations = Conversation.joins(:messages).order("updated_at desc").where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct
     else
       @conversations
     end
