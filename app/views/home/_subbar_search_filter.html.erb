@@ -43,14 +43,14 @@
     <div class="price-area field-area">
       <div class="price-filter">
         <tr>
-          <td colspan="2">(Weekday rate)</td>
+          <td colspan="2"><b>(Weekday rate)</b></td>
         </tr>
         <div class="price-filter-select-row">
-          <div>Minimum hourly rate</div>
+          <div class="price-type">Minimum hourly rate</div>
           <%= select_tag :minimum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
         </div>
         <div class="price-filter-select-row">
-          <div>Maximum hourly rate</div>
+          <div class="price-type">Maximum hourly rate</div>
           <%= select_tag :maximum_rate, options_for_select(EmployeeListing::HOURLY_RATES), {include_blank: 'Select Any', class: 'price-filter-select'} %>
         </div>
       </div>

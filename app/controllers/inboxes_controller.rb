@@ -45,8 +45,8 @@ class InboxesController < ApplicationController
     # @sender = @conversation.sender
     # @receiver = @conversation.receiver
     if message.save
-      flash[:notice] = "Message sent successfully."
-      @sender = User.where(id: current_user.id)
+      # flash[:notice] = "Message sent successfully."
+      @sender = User.find_by(id: current_user.id)
       if current_user.id.eql?(@conversation.sender_id)
         @receiver = User.find(@conversation.receiver_id)
       else
@@ -58,7 +58,7 @@ class InboxesController < ApplicationController
         else
           MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
         end
-      elsif @sender.first.user_type == "hr"
+      elsif @sender.user_type == "hr"
         MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
       # elsif @listing.poster.eql?(@sender.first)
       else
@@ -69,9 +69,9 @@ class InboxesController < ApplicationController
   end
 
   def unread
-    @conversations = Conversation.includes(:messages).order(created_at: :DESC).where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
+    @conversations = Conversation.includes(:messages).order("updated_at desc").where("conversations.sender_id = ? OR conversations.receiver_id = ?", current_user.id, current_user.id)
     if params[:message] == "unread"
-      @conversations = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct
+      @conversations = Conversation.joins(:messages).order("updated_at desc").where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct
     else
       @conversations
     end
