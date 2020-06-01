@@ -109,7 +109,7 @@ class HiringsController < ApplicationController
       end
       @disabled_time = unavailable_time_slots(bookings)
     else
-      if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
+      if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 6 && @old_transaction.frequency == "weekly" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 13 && @old_transaction.frequency == "fortnight"
         listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
 
         transactions = listing
