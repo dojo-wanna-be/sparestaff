@@ -145,9 +145,9 @@
         <div class="last"><%= f.radio_button :has_vehicle, false, class: 'input-checked' %> <span>No</span></div>
       </div>
     </div>
-
+    <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
     <div class="button-box">
-      <%= f.submit "Save", class: "continue-btn", id: 'employee_form_id' %>
+      <%= f.submit "Save", class: "continue-btn prw_btn", id: 'employee_form_id' %>
     </div>
 
   </div>

@@ -53,7 +53,7 @@ class InboxesController < ApplicationController
         @receiver = User.find(@conversation.sender_id)
       end
       if current_user.user_type == "hr" && @receiver.user_type == "hr"
-        if @listing.poster.eql?(@sender.first)
+        if @listing.poster.eql?(@sender)
           MessageMailer.message_email_to_hirer(message,@sender,@receiver,@conversation).deliver_later!
         else
           MessageMailer.message_email_to_poster(message,@sender,@receiver,@conversation).deliver_later!
