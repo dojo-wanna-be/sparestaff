@@ -245,7 +245,7 @@ class ReservationsController < ApplicationController
         TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
         redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
       else
-        flash[:error] = "Sorry you can not cancel booking at same day of start!"
+        flash[:error] = "Sorry you can not cancel your booking on the same day booking is created!"
       end
     end
   end
