@@ -372,7 +372,9 @@ class EmployeeListingsController < ApplicationController
     end
 
     if @employee_listing.update_attributes(update_listing_params)
-      flash[:notice] = "Saved Successfully!"
+      if params[:changed].eql?('true')
+        flash[:notice] = "Saved Successfully!"
+      end
       if params[:redirect_link].present?
         redirect_to edit_employee_path(id: @employee_listing.id, edit: params[:redirect_link])
       else
@@ -582,8 +584,8 @@ class EmployeeListingsController < ApplicationController
     @employee_listing = EmployeeListing.find(params[:id])
     deactivated
     rescue Exception
-      flash[:error] = "Couldn't find the Record"
-      redirect_to employee_index_path
+    #flash[:error] = "Couldn't find the Record"
+    redirect_to employee_index_path
   end
 
   def find_company

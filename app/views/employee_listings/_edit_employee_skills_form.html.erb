@@ -47,9 +47,9 @@
       </div>
       <label id="lan_emp_id">Please select at least one language</label>
     </div>
-
+    <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
     <div class="button-box">
-      <%= f.submit "Save", class: "continue-btn cont_step" %>
+      <%= f.submit "Save", class: "continue-btn cont_step prw_btn" %>
     </div>
 
   </div>

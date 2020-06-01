@@ -81,7 +81,7 @@
     <label class="custom-label">Minimum employment term per week <span class="thin-text">(optional)</span></label>
     <%= f.select :minimum_working_hours, options_for_select(EmployeeListing::MINIMUM_WORKING_HOURS, f.object.minimum_working_hours), {}, {class: 'custom-field half-field'} %>
   </div>
-
+  <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
   <div class="button-box">
     <%= f.submit "Save", class: "continue-btn prw_btn" %>
   </div>
