@@ -29,8 +29,23 @@
         </div>
         <div class="price">
           <% if conversation.employee_listing_transaction.present? %>
-            <span class="<%= conversation.employee_listing_transaction.state.eql?('accepted') ? 'green' : 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
-            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% if conversation.employee_listing_transaction.state.eql?('created') %>
+              <span class="<%= 'TextDarkGreen' %>">Pending</span><br>
+              <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% elsif conversation.employee_listing_transaction.state.eql?('accepted') %>
+              <span class="<%= 'green' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+              <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% elsif conversation.employee_listing_transaction.state.eql?('cancelled') %>
+              <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+              <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% elsif conversation.employee_listing_transaction.state.eql?('completed') %>
+              <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+              <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% elsif conversation.employee_listing_transaction.state.eql?('rejected') %>
+              <span class="<%= 'TextDarkGreen' %>">Declined</span><br>
+              <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+            <% end %>
+            <!-- <span class="<%#= conversation.employee_listing_transaction.state.eql?('accepted') ? 'green' : 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br> -->
           <% end %>
         </div>
       <% end %>

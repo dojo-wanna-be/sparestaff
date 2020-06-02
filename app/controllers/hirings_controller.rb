@@ -184,7 +184,7 @@ class HiringsController < ApplicationController
   			  rescue => e
   			    flash[:error] = e.message
   			  end
-          @old_transaction.update_attributes(state: "rejected", request_by: 'hirer')
+          @old_transaction.update_attributes(state: "accepted", request_by: 'hirer')
   		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
