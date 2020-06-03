@@ -1,5 +1,4 @@
-window.location.reload();
-$('#message_container').html("<%= j render 'text_message', messages: @messages%>")
+$('#message_container').html("<%= j render 'inboxes/text_message', messages: @messages%>")
 $('#new_message').trigger("reset");
 var toastContent = $('<span>Message sent successfully.</span>');
 toastr.success(toastContent)
