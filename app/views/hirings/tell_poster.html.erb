@@ -21,7 +21,7 @@
       </div>
       <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
       <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
-      <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
+      <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
         <div class="order-item space-bottom">
           <span><%= day.titleize %></span>
           <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>

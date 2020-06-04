@@ -3,7 +3,7 @@
 <div class="date-detail"><%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
 
 <div class="day-timing-box">
-  <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
+  <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
     <div class="timing-box-row">
       <div class=""><%= bookings.first.day.titleize %></div>
       <div class=""><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></div>
