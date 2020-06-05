@@ -35,6 +35,10 @@ class InboxesController < ApplicationController
       @reviews_all_star = listing_star_rating(@listing.id)
       @reviews_all = listing_all_reviews(@listing.id)
       @messages = @conversation.messages.order(created_at: :DESC)
+      # if @transaction.cancelled_at.present?
+      #   @after_cancel_messages = @messages.where("created_at > ?", @transaction.cancelled_at).order(created_at: :DESC)
+      #   @before_cancel_messages = @messages.where("created_at < ?", @transaction.cancelled_at).order(created_at: :DESC)
+      # end
     end
     @unread_count = Conversation.joins(:messages).where("(conversations.sender_id =? OR conversations.receiver_id =?) AND messages.read =? AND messages.sender_id !=?", current_user.id, current_user.id, false, current_user.id).distinct.count
   end

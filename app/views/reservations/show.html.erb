@@ -75,7 +75,7 @@
             <b>Timetable</b>
           </div>
           <div class="user-detail-box-right">
-            <% @transaction.bookings.group_by(&:day).each do |day, bookings| %>
+            <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
               <div class="three-box">
                 <div class="three-box-left">
                   <div><%= bookings.first.day.titleize %></div>
