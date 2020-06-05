@@ -39,7 +39,7 @@
         Total Fee
       </div>
       <div class="right-item">
-        $<%= (@total_amount > 0 ? (@total_amount + @transaction.service_fee) : 0).round(2)  %>
+        $<%= (@total_amount > 0 ? (@total_amount + @total_amount * @transaction.commission_from_hirer) : 0).round(2)  %>
       </div>
     </div>
     <div class="list-item">
@@ -47,7 +47,7 @@
         Service fee
       </div>
       <div class="right-item">
-        -$<%= @total_amount > 0 ? @transaction.service_fee.round(2) : 0 %>
+        -$<%= (@total_amount > 0 ? (@total_amount * @transaction.commission_from_hirer) : 0).round(2) %>
       </div>
     </div>
   <% end %>
