@@ -8,7 +8,6 @@ class InboxesController < ApplicationController
   end
 
   def show
-    binding.pry
     if(params[:from].present?)
       @listing = EmployeeListing.find(params[:id])
       @conversation = Conversation.between_listing(current_user.id, @listing.poster.id, @listing.id).last
