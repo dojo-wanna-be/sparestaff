@@ -266,9 +266,11 @@ class HiringsController < ApplicationController
     #                         0
     #                       end
     mid_cancel_amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
-    previus_charge_amount = (@transaction.amount - @transaction.tax_withholding_amount) + @transaction.service_fee
-    new_charge_amount_with_service_fee = ((mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)) + @transaction.service_fee).round(2)
-    new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50
+    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount
+    previus_charge_amount = prev_charge_amount + (prev_charge_amount * @transaction.commission_from_hirer)
+    new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
+    new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
+    #new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50
     if @transaction.start_date > Date.today
       @total_amount = previus_charge_amount
     else
@@ -300,21 +302,21 @@ class HiringsController < ApplicationController
   def tell_poster
     @listing = @transaction.employee_listing
     if request.patch?
-      unless Date.today.eql?(@transaction.start_date)
-        if params[:reason]
-          @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
-        else
-          @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
-        end
-        create_message
-        TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
-        TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
-        TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
-        TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
-        redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
+      #unless Date.today.eql?(@transaction.start_date)
+      if params[:reason]
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "hirer", state: "cancelled", cancelled_at: Date.today)
       else
-        flash[:error] = "Sorry you can not cancel booking at same day of start!"
+        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
+      create_message
+      TransactionMailer.hiring_cancelled_email_to_hirer(@listing, current_user, @transaction).deliver_later!
+      TransactionMailer.hiring_cancelled_email_to_poster(@listing, @listing.poster, @transaction, current_user).deliver_later!
+      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
+      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
+      redirect_to cancelled_successfully_hirings_path(id: @transaction.id)
+      #else
+      #flash[:error] = "Sorry you can not cancel booking at same day of start!"
+      #end
     end
   end
 

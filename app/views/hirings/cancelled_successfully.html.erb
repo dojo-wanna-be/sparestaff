@@ -106,7 +106,6 @@
       <%= form_tag tell_poster_hiring_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do |f| %>
         <div class="cancel-successfully">
           <div class="title-main">Your Refund Summary</div>
-
           <div class="calculation-list">
             <div class="list-item">
               <div class="left-item">
@@ -121,7 +120,7 @@
                 Service fee
               </div>
               <div class="right-item">
-                -$<%= @transaction.service_fee.round(2) %>
+                -$<%= @refund_receipt.service_fee.round(2) %>
               </div>
             </div>
             <div class="list-item grey-list-item">

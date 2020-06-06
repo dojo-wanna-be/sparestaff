@@ -10,7 +10,7 @@
 
         <div class="session-box">
           <%= form_tag send_details_hirings_path, method: :patch, :html => {id: "share_details_form"} do |f| %>
-            Email copy of your Hiring
+            Email a copy of your hiring
             <%= hidden_field_tag "transaction_id", "", id: "transaction_hidden_field" %>
             <%= email_field_tag :email, "", placeholder: "Email", id: "share_details_email", class: "custom-field", required: true %>
 

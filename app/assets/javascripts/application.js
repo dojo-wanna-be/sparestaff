@@ -21,7 +21,6 @@
 //= require jquery.tagsinput
 //= require activestorage
 //= require bootstrap-datepicker
-//= require turbolinks
 //= require jquery.validate
 //= require jquery.raty
 //= require chosen-jquery
