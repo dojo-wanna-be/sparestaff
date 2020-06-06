@@ -232,21 +232,21 @@ class ReservationsController < ApplicationController
   def tell_hirer
     @listing = @transaction.employee_listing
     if request.patch?
-      unless Date.today.eql?(@transaction.start_date)
-        if params[:reason]
-          @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
-        else
-          @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
-        end
-        create_message
-        TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
-        TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
-        TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
-        TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
-        redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
+      #unless Date.today.eql?(@transaction.start_date)
+      if params[:reason]
+        @transaction.update_attributes(reason: params[:reason], cancelled_by: "poster", state: "cancelled", cancelled_at: Date.today)
       else
-        flash[:error] = "Sorry you can not cancel your booking on the same day booking is created!"
+        @transaction.update_attributes(state: "cancelled", cancelled_at: Date.today)
       end
+      create_message
+      TransactionMailer.reservation_cancelled_email_to_poster(@listing, current_user, @transaction).deliver_later!
+      TransactionMailer.reservation_cancelled_email_to_hirer(@listing, current_user, @transaction, @transaction.hirer).deliver_later!
+      TransactionMailer.write_review_mail_to_poster(@transaction).deliver_later!
+      TransactionMailer.write_review_mail_to_hirer(@transaction).deliver_later!
+      redirect_to cancelled_successfully_reservations_path(id: @transaction.id)
+      #else
+      #flash[:error] = "Sorry you can not cancel your booking on the same day booking is created!"
+      #end
     end
   end
 
