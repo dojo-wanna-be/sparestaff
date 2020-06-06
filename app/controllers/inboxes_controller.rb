@@ -8,12 +8,13 @@ class InboxesController < ApplicationController
   end
 
   def show
+    binding.pry
     if(params[:from].present?)
       @listing = EmployeeListing.find(params[:id])
       @conversation = Conversation.between_listing(current_user.id, @listing.poster.id, @listing.id).last
       @reviews_all_star = listing_star_rating(@listing.id)
       @reviews_all = listing_all_reviews(@listing.id)
-      if false#(@conversation.present?)
+      if @conversation.present?
         @messages = @conversation.messages.order(created_at: :DESC)
       else
         begin
