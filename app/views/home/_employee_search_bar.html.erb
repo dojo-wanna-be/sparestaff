@@ -80,23 +80,30 @@
     var autocomplete = new google.maps.places.Autocomplete(input, options);
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
-      var lat =  place.geometry.location.lat();
-      var lng =  place.geometry.location.lng();
-      $("#latitude").val(lat);
-      $("#longitude").val(lng);
-      $("#city").val(place.name);
-    });
-    $('.test_lat_lng').on('keypress', function(){
-      var input = document.getElementById('searchTextField');
-      geocoder = new google.maps.Geocoder();
-      var address = input.value
-      geocoder.geocode( { 'address': address}, function(results) {
-        var lat = results[0].geometry.location.lat();
-        var lng = results[0].geometry.location.lng();
-        var place = $('.test_lat_lng').val();
+      if (place.geometry){
+        var lat =  place.geometry.location.lat();
+        var lng =  place.geometry.location.lng();
         $("#latitude").val(lat);
         $("#longitude").val(lng);
-        $("#city").val(place);
+        $("#city").val(place.name);
+      }
+    });
+    $('.test_lat_lng').on('keydown', function(){
+      input = $('#searchTextField').val();
+      geocoder = new google.maps.Geocoder();
+      var address = input
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+          var lat = results[0].geometry ? results[0].geometry.location.lat() : ''
+          var lng = results[0].geometry ? results[0].geometry.location.lng() : ''
+          var place = $('.test_lat_lng').val();
+          $("#latitude").val(lat);
+          $("#longitude").val(lng);
+          $("#city").val(place);
+        }
+        else {
+          //alert('Geocode was not successful for the following reason: ' + status);
+        }
       });
     });
     

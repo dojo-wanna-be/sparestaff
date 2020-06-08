@@ -36,6 +36,8 @@
                     <div class="list-box one"><span class="orange-text">Pending</span></div>
                   <% elsif @poster_transaction.state.eql?("rejected") %>
                     <div class="list-box one"><span class="dark-green-text">Declined</span></div>
+                  <% elsif @poster_transaction.state.eql?("cancelled") %>
+                    <div class="list-box one"><span class="dark-green-text">Cancelled</span></div>
                   <% end %>
                   <div class="list-box two">
                     <%= "#{@poster_transaction.start_date.strftime('%d %b %Y')} - #{@poster_transaction.end_date.strftime('%d %b %Y')}" %> <br>
