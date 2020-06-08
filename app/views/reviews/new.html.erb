@@ -239,7 +239,7 @@
 
       <div class="details-box">
         <div><b>Hired:</b></div>
-        <div><%= @transaction.start_date %> - <%= @transaction.end_date %></div>
+        <div><%= @transaction.start_date.strftime("%m/%d/%Y") %> - <%= @transaction.end_date.strftime("%m/%d/%Y") %></div>
       </div>
       <% if @transaction.poster.eql?(current_user) %>
         <div class="details-box">

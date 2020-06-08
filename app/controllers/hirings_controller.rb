@@ -190,9 +190,12 @@ class HiringsController < ApplicationController
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           #message = find_or_create_conversation.messages.last
           message = find_or_create_conversation.messages.last
-          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
-          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
-        	HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          old_conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          old_conversation_message = old_conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          new_conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          new_conversation_message = new_conversation.first.messages.create(content: "New hiring schedule!", sender_id: current_user.id)
+          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, old_conversation_message).deliver_later!
+          # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, new_conversation_message).deliver_later!
           # flash[:notice] = 'Card charged successfully.'
           flash[:notice] = 'Hiring changed successfully.'
         	redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
@@ -216,9 +219,15 @@ class HiringsController < ApplicationController
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           message = find_or_create_conversation.messages.last
-          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
-          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
-          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          # conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          # message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          old_conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          old_conversation_message = old_conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          new_conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          new_conversation_message = new_conversation.first.messages.create(content: "New hiring schedule!", sender_id: current_user.id)
+          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, old_conversation_message).deliver_later!
+          # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, new_conversation_message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
         elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
@@ -240,10 +249,16 @@ class HiringsController < ApplicationController
           #HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
           HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           message = find_or_create_conversation.messages.last
-          conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
-          message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          # conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          # message = conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
           # message = find_or_create_conversation.messages.last
-          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, message).deliver_later!
+          old_conversation = Conversation.between(current_user.id, @old_transaction.poster_id, @old_transaction.id)
+          old_conversation_message = old_conversation.first.messages.create(content: "Hiring schedule changed!", sender_id: current_user.id)
+          new_conversation = Conversation.between(current_user.id, @transaction.poster_id, @transaction.id)
+          new_conversation_message = new_conversation.first.messages.create(content: "New hiring schedule!", sender_id: current_user.id)
+          HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, old_conversation_message).deliver_later!
+          # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, new_conversation_message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
         else
