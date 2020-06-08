@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 
   def index
     @user = User.new
-    listings = EmployeeListing.active.status.published.where("end_publish_date >= ? ", Date.today).order(updated_at: :desc)
+    listings = EmployeeListing.active.status.published.where("end_publish_date >= ? ", Date.today).order(weekday_price: :asc)
     @employee_listings = listings.paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
     @how_it_works = HomepageContent.where(section_type: "how_it_work_section")
@@ -96,7 +96,7 @@ class HomeController < ApplicationController
     @employee_listings = EmployeeListing.status.includes(:employee_skills, :listing_availabilities, :employee_listing_slots, :languages).where("end_publish_date >= ? ", Date.today).ransack(q).result(distinct: true)
     # @employee_listings = find_employee_listings(listings)
     @employee_listings = @employee_listings.near(params[:location])   if params[:location].present?
-    @employee_listings = @employee_listings.order(updated_at: :desc).paginate(:page => params[:page], :per_page => 4)
+    @employee_listings = @employee_listings.order(weekday_price: :asc).paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
   end
 
