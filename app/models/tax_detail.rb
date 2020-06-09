@@ -21,7 +21,8 @@ class TaxDetail < ApplicationRecord
         return tax_details_hash
       end
     end
-    tax_details_hash = {a: 0.4700, b: 576.7885}
+    # tax_details_hash = {a: 0.4700, b: 576.7885}
+    tax_details_hash = {a: 0.4700, b: 516.788}
   end
 
 end

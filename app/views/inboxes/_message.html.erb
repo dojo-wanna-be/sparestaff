@@ -33,6 +33,15 @@
     </strong> 
     to learn more about the benefits of hiring through Spare Staff.
   </div>
+
+  <% if @transaction.cancelled_at.present? %>
+    <div class="gray-mid-text-block">
+      <div class="gray-line"></div>
+      <div class="mid-text">HIRING CANCELLED <%= @transaction.cancelled_at&.strftime("%d %b %Y").titleize %> BY <%= @transaction.cancelled_by == "poster" ? @transaction.poster&.name&.titleize : @transaction.hirer&.name&.titleize %></div>
+      <div class="gray-line"></div>
+    </div>
+  <%end%>
+
   <div id="message_container">
     <%= render partial: 'inboxes/text_message', locals: {messages: @messages} %>
   </div>
