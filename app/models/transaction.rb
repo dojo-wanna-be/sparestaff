@@ -176,7 +176,7 @@ class Transaction < ApplicationRecord
   def remaining_tax_withholding(amount)
     if is_withholding_tax
       tax_detail = TaxDetail.tax_calculation(amount)
-      ((tax_detail[:a] * (amount + 0.99)) - tax_detail[:b]).round
+      ((tax_detail[:a] * (amount + 0.99)) - tax_detail[:b]).round(2)
     else
       0
     end
