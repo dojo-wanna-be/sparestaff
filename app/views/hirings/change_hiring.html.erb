@@ -18,7 +18,6 @@
         </li>
       </ul>
         <br/>
-        <p>Changes will take affect from next billing cycle.</p>
        <%if (@transaction.state.eql?("accepted") && @transaction.start_date <= Date.today)%>
         <!-- <p>
           This hiring has already started. You can request changes. <%#= @transaction.poster.name %> needs to respond before the next billing cycle - <%= transaction_time(@transaction)%>. If <%#= @transaction.poster.name %> accepts, this hiring will be marked as completed on the <%=transaction_time_day_before(@transaction)%> and a new hiring with new details below will start from the <%=transaction_time(@transaction)%>.
