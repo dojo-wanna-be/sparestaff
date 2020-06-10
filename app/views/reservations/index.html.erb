@@ -112,7 +112,7 @@
                 <div>
                   <%= link_to 'Message history', inbox_path(id: transaction.conversation.id),data: {turbolinks: false}, class: 'orange-text' %>
                 </div>
-                <% if transaction.state.eql?("accepted") || transaction.state.eql?("cancelled") %>
+                <% if (transaction.state.eql?("accepted") || transaction.state.eql?("cancelled")) && transaction.payment_receipts.present? %>
                   <div>
                     <%= link_to 'View invoices', reservations_view_invoice_list_reservation_path(id: transaction.id), class: 'orange-text' %>
                   </div>
