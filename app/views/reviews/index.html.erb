@@ -50,7 +50,11 @@
                     <div class="review_box">
                       <%= link_to user_path(sender.id) do %>
                         <div class="review_user_img">
-                          <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+                          <% if sender.avatar.present? %>
+                            <%= image_tag sender.avatar.url, class: 'ProfileIcon60px' %>
+                          <% else %>
+                            <%= image_tag 'no-image.jpg', class: 'ProfileIcon60px' %>
+                          <% end %>
                           <br>
                           <span class="GreyText14Px"><%= sender.name %></span>
                         </div>
@@ -82,7 +86,11 @@
                     <div class="review_box">
                       <%= link_to user_path(receiver.id) do %>
                         <div class="review_user_img">
-                          <%= image_tag receiver.avatar.url, class: 'ProfileIcon60px' %>
+                          <% if receiver.avatar.present? %>
+                            <%= image_tag receiver.avatar.url, class: 'ProfileIcon60px' %>
+                          <% else %>
+                            <%= image_tag 'no-image.jpg', class: 'ProfileIcon60px' %>
+                          <% end %>
                           <br>
                           <span class="GreyText14Px"><%= receiver.name %></span>
                         </div>
