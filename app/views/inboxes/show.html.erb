@@ -80,7 +80,7 @@
           <span><b>Asking Wage</b></span>
         </div>
         <div class="order-item space-bottom from-box">
-          <span>From $<%= minimum_price(@listing).present? ? minimum_price(@listing) : 0 %> per hour</span>
+          <span>From $<%= @listing.weekday_price.present? ? @listing.weekday_price : 0 %> per hour</span>
         </div>
       </div>
     </div>
