@@ -122,7 +122,7 @@ class HiringsController < ApplicationController
         transaction_ids = transactions.pluck(:id)
         bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
         booked_timings = unavailable_time_slots(bookings)
-        requested_booking_slot = params[:transaction][:booking_attributes].to_unsafe_hash
+        requested_booking_slot = params[:transaction][:booking_attributes]&.to_unsafe_hash
         continue = true
 
         availability_slots = ListingAvailability::TIME_SLOTS
@@ -135,7 +135,6 @@ class HiringsController < ApplicationController
             end
           end
         end
-
         if continue
           @new_transaction = TransactionService.new(params, current_user).create
           if @new_transaction.present?
@@ -286,6 +285,7 @@ class HiringsController < ApplicationController
     new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
     new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
     #new_charge_amount_with_service_fee = 0.50 if new_charge_amount_with_service_fee < 0.50
+
     if @transaction.start_date > Date.today
       @total_amount = previus_charge_amount
     else
@@ -342,6 +342,17 @@ class HiringsController < ApplicationController
       StripeRefundAmount.new(@transaction).stripe_refund_ammount
     end
     @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
+    mid_cancel_amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
+    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount
+    previus_charge_amount = prev_charge_amount + (prev_charge_amount * @transaction.commission_from_hirer)
+    new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
+    new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
+    
+    if @transaction.start_date > Date.today
+      @refund_receipt = previus_charge_amount
+    else
+     @refund_receipt = previus_charge_amount - new_charge_amount_with_service_fee
+    end
     conversation = Conversation.between(current_user.id, @listing.poster.id, @transaction.id)
     if conversation.present?
       @conversation = conversation.first

@@ -304,7 +304,7 @@ function checkTax(weekly_earning){
     b = 516.788;
     //b = 576.7885;
   }
-  tax = Math.round((a * x) - b);
+  tax = ((a * x) - b).toFixed(2);
   return  tax
 }
 

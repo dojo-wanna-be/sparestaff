@@ -112,7 +112,7 @@
                 Total Fees
               </div>
               <div class="right-item">
-                $<%= (@refund_receipt&.amount.to_f + @refund_receipt&.service_fee.to_f).round(2) %>
+                $<%= (@refund_receipt > 0 ? (@refund_receipt + @refund_receipt * @transaction.commission_from_hirer) : 0).round(2)  %>
               </div>
             </div>
             <div class="list-item">
@@ -120,7 +120,7 @@
                 Service fee
               </div>
               <div class="right-item">
-                -$<%= @refund_receipt.service_fee.round(2) %>
+                -$<%=(@refund_receipt > 0 ? (@refund_receipt * @transaction.commission_from_hirer) : 0).round(2) %>
               </div>
             </div>
             <div class="list-item grey-list-item">
@@ -128,7 +128,11 @@
                 <strong>Your Total Refund</strong>
               </div>
               <div class="right-item">
-                <strong>$<%= (@refund_receipt&.amount.to_f).round(2) %></strong>
+                <% if (@transaction.state.eql?("accepted") && @transaction.start_date > Date.today) %>
+                  <strong>$<%= (@transaction.hirer_weekly_amount).round(2) %></strong>
+                <% else %>
+                  <strong>$<%= (@refund_receipt).round(2) %></strong>
+                <% end %>
               </div>
             </div>
           </div>
