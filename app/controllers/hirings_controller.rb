@@ -337,12 +337,11 @@ class HiringsController < ApplicationController
 
   def cancelled_successfully
     @listing = @transaction.employee_listing
-    # refund = StripeRefund.where(transaction_id: @transaction.id)
-   
-    # if refund.blank?
-    #   StripeRefundAmount.new(@transaction).stripe_refund_ammount
-    # end
-    # @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
+    refund = StripeRefund.where(transaction_id: @transaction.id)
+    if refund.blank?
+      StripeRefundAmount.new(@transaction).stripe_refund_ammount
+    end
+    @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     mid_cancel_amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
     prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount
     previus_charge_amount = prev_charge_amount + (prev_charge_amount * @transaction.commission_from_hirer)
