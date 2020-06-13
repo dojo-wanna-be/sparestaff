@@ -1,5 +1,6 @@
 class PayoutsController < ApplicationController
   include WillPaginateHelper
+  include PayoutsHelper
   def step_1; end
 
   def step_2; end
@@ -9,20 +10,22 @@ class PayoutsController < ApplicationController
       @hirer_transactions = Transaction.where(hirer_id: current_user.id).where(state: [:completed, :cancelled])
       total_payout = 0
       @hirer_transactions.each do |tx|
-        total_payout += tx.stripe_payments.sum(:amount)
+        tx.stripe_payments.each do |payment|
+          total_payout += total_pay_by_hirer(payment)
+        end
       end
       @total_payout = total_payout
       @upcoming_hirer_transactions = Transaction.where(hirer_id: current_user.id).where("end_date >= ?", Date.today).where(state: [:accepted]).includes(:employee_listing)
       pending_total_payout = 0
       @upcoming_hirer_transactions.each do |tx|
-        pending_total_payout += tx.stripe_payments.where(capture: false).sum(:amount)
+        pending_total_payout += hirer_weekly_amount(tx)
       end
       @pending_total_payout = pending_total_payout
 
       transaction_ids = @hirer_transactions.pluck(:id)
       @captured_stripe_payments =  StripePayment.includes(:listing_transaction).where(transaction_id: transaction_ids).order("updated_at desc").paginate(:page => params[:page], :per_page => 8)
 
-    
+      
       upcoming_transaction_ids = @upcoming_hirer_transactions.pluck(:id)
       @uncaptured_stripe_payments = StripePayment.includes(:listing_transaction).where(transaction_id: upcoming_transaction_ids).order("updated_at desc").paginate(:page => params[:page], :per_page => 8)
       # @hirer_hiring_transactions = hirer_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
@@ -37,7 +40,9 @@ class PayoutsController < ApplicationController
       @poster_transactions = Transaction.where(poster_id: current_user.id).where(state: [:completed, :cancelled])
       total_payout = 0
       @poster_transactions.each do |tx|
-        total_payout += tx.stripe_payments.sum(:poster_service_fee)
+        tx.stripe_payments.each do |payment|
+          total_payout += total_pay_to_poster(payment)
+        end
       end
       @total_payout = total_payout
       @upcoming_poster_transactions = Transaction.where(poster_id: current_user.id).where('end_date >= ?', Date.today).where(state: [:accepted]).includes(:employee_listing)
