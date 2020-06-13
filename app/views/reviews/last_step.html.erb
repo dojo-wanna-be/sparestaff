@@ -16,7 +16,11 @@
   <div class="right-review-box">
     <div class="right-user-box">
       <div class="user-img-box">
-        <%= image_tag @transaction.employee_listing.profile_picture.url, class: 'user-img' %>
+        <% if @transaction.employee_listing.profile_picture.present? %>
+          <%= image_tag @transaction.employee_listing.profile_picture.url, class: 'user-img' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'user-img' %>
+        <% end %>
       </div>
 
       <div class="details-box">
@@ -35,7 +39,11 @@
           <div><%= @transaction.hirer.name %></div>
         </div>
         <div class="details-box">
-          <%= image_tag @transaction.hirer.avatar.url, class: 'Height100px' %>
+          <% if @transaction.hirer.avatar.present? %>
+            <%= image_tag @transaction.hirer.avatar.url, class: 'Height100px' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'Height100px' %>
+          <% end %>
         </div>
       <% else %>
         <div class="details-box">
@@ -43,7 +51,11 @@
           <div><%= @transaction.poster.name %></div>
         </div>
         <div class="details-box">
-          <%= image_tag @transaction.poster.avatar.url, class: 'Height100px' %>
+          <% if @transaction.poster.avatar.present? %>
+            <%= image_tag @transaction.poster.avatar.url, class: 'Height100px' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'Height100px' %>
+          <% end %>
         </div>
       <% end %>
     </div>

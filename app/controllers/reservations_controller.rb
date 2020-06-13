@@ -214,10 +214,10 @@ class ReservationsController < ApplicationController
       amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
     end
     @remaining_tax_withholding_amount = @transaction.remaining_tax_withholding(amount)
-    @poster_service_fee = (amount - @remaining_tax_withholding_amount) * 0.1
+    @poster_service_fee = (amount - @remaining_tax_withholding_amount) * @transaction.commission_from_poster
     @poster_recieve = 
                 if amount > 0
-                 (amount - @remaining_tax_withholding_amount - ((amount - @remaining_tax_withholding_amount) * 0.1)).round(2)
+                 (amount - @remaining_tax_withholding_amount - ((amount - @remaining_tax_withholding_amount) * @transaction.commission_from_poster)).round(2)
                 else
                   0
                 end
