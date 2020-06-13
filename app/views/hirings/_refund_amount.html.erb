@@ -59,7 +59,7 @@
       <% if (@transaction.state.eql?("accepted") && @transaction.start_date > Date.today) %>
         <strong>$<%= (@transaction.hirer_weekly_amount).round(2) %></strong>
       <% else %>
-        <strong>$<%= (@total_amount).round(2) %></strong>
+        <strong>$<%= (@total_amount > 0 ? (@total_amount - @total_amount * @transaction.commission_from_hirer) : 0).round(2) %></strong>
       <% end %>
     </div>
   </div>
