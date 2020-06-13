@@ -434,7 +434,7 @@
       b = 516.788;
       //b = 576.7885;
     }
-    var tax = ((a * x) - b).toFixed(2);
+    var tax = Math.round((a * x) - b);
     return tax
   }
 
