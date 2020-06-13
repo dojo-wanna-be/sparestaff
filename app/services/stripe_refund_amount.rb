@@ -148,7 +148,7 @@ class StripeRefundAmount
   end
 
   def already_start_refund_amont
-    diff = ((Date.today + 10)- @transaction.start_date).to_i
+    diff = ((Date.today + 6)- @transaction.start_date).to_i
     if @transaction.frequency == "weekly"
       if diff < 7
         amount = 0
@@ -169,7 +169,7 @@ class StripeRefundAmount
       else
         count_days = diff % 7
         amount = 0
-        work_days = ((Date.today + 4) - count_days.days...(Date.today + 10)).to_a
+        work_days = ((Date.today + 4) - count_days.days...(Date.today + 6)).to_a
         work_days.each do |workday|
           day = workday.strftime("%A").downcase
           if ["sunday","saturday"].include?(day)
