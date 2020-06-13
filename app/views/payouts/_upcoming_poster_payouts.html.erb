@@ -46,13 +46,13 @@
       <div style="width: 15%"><%= "#{payment.created_at.strftime('%d %b %Y')}" %></div>
       <div style="width: 15%">Reservation</div>
       <% if tx.frequency.eql?("weekly") %>
-        <div style="width: 40%"><%= "#{(payment.created_at - 1.week).strftime('%d %b')} - #{(payment.created_at - 1.days).strftime('%d %b, %Y')}" %>
+        <div style="width: 40%"><%= "#{(tx.start_date).strftime('%d %b')} - #{(tx.end_date).strftime('%d %b, %Y')}" %>
           <br>
           <%= tx.poster.name %>
         </div>
       <% else %>
         <div style="width: 40%">
-          <%= "#{(payment.created_at - 2.week).strftime('%d %b')} - #{(payment.created_at - 1.days).strftime('%d %b, %Y')}" %>
+          <%= "#{(tx.start_date).strftime('%d %b')} - #{(tx.end_date).strftime('%d %b, %Y')}" %>
             <br>
             <%= tx.poster.name %>
           </div>
