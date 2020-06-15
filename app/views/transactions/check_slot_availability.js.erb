@@ -304,8 +304,8 @@ function checkTax(weekly_earning){
     b = 516.788;
     //b = 576.7885;
   }
-  tax = ((a * x) - b).toFixed(2);
-  return  tax
+  tax = parseFloat(((a * x) - b).toFixed(2))
+  return tax
 }
 
 function totalEmploymentContract(tax, service_tax, weekly_total_price){
@@ -336,7 +336,6 @@ function totalEmploymentContract(tax, service_tax, weekly_total_price){
 
   var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
   var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
-
   var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
   var remainingWeekTax = checkTax(remainingWeeklyEarning)
   var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning - remainingWeekTax)
