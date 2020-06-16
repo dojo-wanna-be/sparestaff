@@ -131,6 +131,12 @@ class Transaction < ApplicationRecord
                       }
   end
 
+  def tax_withholding_amount_calculate
+    weekday_amount = self.employee_listing.weekday_price.to_f * weekday_hours
+    weekend_amount = self.employee_listing.weekend_price.to_f * weekend_hours
+    remaining_tax_withholding(weekday_amount + weekend_amount)
+  end
+
   def service_fee
     if is_withholding_tax
       (commission_from_hirer * (amount - tax_withholding_amount))
