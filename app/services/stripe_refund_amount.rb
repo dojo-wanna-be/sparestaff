@@ -17,7 +17,7 @@ class StripeRefundAmount
       #     @transaction.hirer_weekly_amount
       #   end
       if @transaction.start_date > Date.today
-        @amount = @transaction.amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee
+        @amount = @transaction.weekly_amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee
         stripe_refund = StripeRefund.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount_calculate, service_fee: @transaction.service_fee, stripe_charge_id: @charge_id, status: "failed")
         begin
           refund = Stripe::Refund.create({
@@ -30,7 +30,7 @@ class StripeRefundAmount
         end
         StripeRefundReceipt.create!(transaction_id: @transaction.id, amount: @amount, tax_withholding_amount: @transaction.tax_withholding_amount_calculate, service_fee: @transaction.service_fee)
       elsif @transaction.start_date == Date.today
-        @amount = (@transaction.amount - @transaction.tax_withholding_amount_calculate) + (@transaction.amount - @transaction.tax_withholding_amount_calculate) * @transaction.commission_from_hirer
+        @amount = (@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate) + (@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate) * @transaction.commission_from_hirer
         day = Date.today.strftime("%A").downcase
         service_fee = @transaction.service_fee < 0.50 ? 0.50 : @transaction.service_fee
         if @transaction.bookings.where(day: day).blank?
@@ -95,7 +95,7 @@ class StripeRefundAmount
           end
         end
       else
-        @amount = (@transaction.amount - @transaction.tax_withholding_amount_calculate) + (@transaction.amount - @transaction.tax_withholding_amount_calculate) * @transaction.commission_from_hirer
+        @amount = (@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate) + (@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate) * @transaction.commission_from_hirer
         amount = ApplicationController.helpers.discount_amount(@transaction, already_start_refund_amont)
         amount_with_taxwithholding = amount - @transaction.remaining_tax_withholding(amount)
         amount_with_service_fee = ((amount_with_taxwithholding) + @transaction.service_fee).round(2)

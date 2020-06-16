@@ -137,7 +137,7 @@
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
                 <div>-$<%= @transaction.tax_withholding_amount_calculate.round(2) %></div>
                 <div>-$<%= @transaction.poster_service_fee.round(2) %></div>
-                <div><b>$<%= (@transaction.amount - @transaction.poster_service_fee - @transaction.tax_withholding_amount_calculate).round(2) %></b></div>
+                <div><b>$<%= (@transaction.weekly_amount - @transaction.poster_service_fee - @transaction.tax_withholding_amount_calculate).round(2) %></b></div>
               </div>
             </div>
 

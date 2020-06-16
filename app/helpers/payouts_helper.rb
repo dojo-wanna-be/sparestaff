@@ -18,7 +18,7 @@ module PayoutsHelper
       new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
       new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
     else
-      hiring_amount = ( @transaction.amount -  @transaction.tax_withholding_amount_calculate +  @transaction.service_fee)
+      hiring_amount = ( @transaction.weekly_amount -  @transaction.tax_withholding_amount_calculate +  @transaction.service_fee)
     end
   end
 

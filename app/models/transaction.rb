@@ -131,17 +131,20 @@ class Transaction < ApplicationRecord
                       }
   end
 
+  def weekly_amount
+    weekday_amount = weekday_price.to_f * weekday_hours
+    weekend_amount = weekend_price.to_f * weekend_hours
+  end
+
   def tax_withholding_amount_calculate
-    weekday_amount = self.employee_listing.weekday_price.to_f * weekday_hours
-    weekend_amount = self.employee_listing.weekend_price.to_f * weekend_hours
-    remaining_tax_withholding(weekday_amount + weekend_amount)
+    remaining_tax_withholding(weekly_amount)
   end
 
   def service_fee
     if is_withholding_tax
-      (commission_from_hirer * (amount - tax_withholding_amount_calculate))
+      (commission_from_hirer * (weekly_amount - tax_withholding_amount_calculate))
     else
-      (commission_from_hirer * amount)
+      (commission_from_hirer * weekly_amount)
     end
   end
 
@@ -149,9 +152,9 @@ class Transaction < ApplicationRecord
     full_week = start_date.upto(end_date).count.fdiv(7).floor
     if full_week == 0
       if is_withholding_tax
-        (commission_from_hirer * (amount - tax_withholding_amount_calculate))
+        (commission_from_hirer * (weekly_amount - tax_withholding_amount_calculate))
       else
-        (commission_from_hirer * amount)
+        (commission_from_hirer * weekly_amount)
       end
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
@@ -162,9 +165,9 @@ class Transaction < ApplicationRecord
 
   def poster_service_fee
     if is_withholding_tax
-      (commission_from_poster * (amount - tax_withholding_amount_calculate))
+      (commission_from_poster * (weekly_amount - tax_withholding_amount_calculate))
     else
-      (commission_from_poster * amount)
+      (commission_from_poster * weekly_amount)
     end
   end
 
@@ -179,10 +182,10 @@ class Transaction < ApplicationRecord
     end
   end
 
-  def remaining_tax_withholding(amount)
+  def remaining_tax_withholding(amount_individual)
     if is_withholding_tax
-      tax_detail = TaxDetail.tax_calculation(amount)
-      ((tax_detail[:a] * (amount + 0.99)) - tax_detail[:b]).round(2)
+      tax_detail = TaxDetail.tax_calculation(amount_individual)
+      ((tax_detail[:a] * (amount_individual + 0.99)) - tax_detail[:b]).round(2)
     else
       0
     end
@@ -208,7 +211,7 @@ class Transaction < ApplicationRecord
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      ((amount - tax_withholding_amount + service_fee) * full_week) + remaining_price + (commission_from_hirer * remaining_price)
+      ((weekly_amount - tax_withholding_amount_calculate + service_fee) * full_week) + remaining_price + (commission_from_hirer * remaining_price)
     end
   end
 
@@ -219,7 +222,7 @@ class Transaction < ApplicationRecord
     else
       transaction_remaining_amount = remaining_amount.present? ? remaining_amount : 0
       remaining_price = transaction_remaining_amount - remaining_tax_withholding(transaction_remaining_amount)
-      ((amount - tax_withholding_amount_calculate - poster_service_fee) * full_week) + (remaining_price - (commission_from_poster * remaining_price))
+      ((weekly_amount - tax_withholding_amount_calculate - poster_service_fee) * full_week) + (remaining_price - (commission_from_poster * remaining_price))
     end
   end
 
@@ -229,7 +232,7 @@ class Transaction < ApplicationRecord
 
   def missed_earning
     week_diff = start_date.upto(Date.today).count.fdiv(7).floor
-    full_week_payment = (amount - tax_withholding_amount_calculate - poster_service_fee) * week_diff
+    full_week_payment = (weekly_amount - tax_withholding_amount_calculate - poster_service_fee) * week_diff
     Date.today > start_date ? poster_total_amount - (full_week_payment + partial_hiring_fee) : poster_total_amount
   end
 
@@ -243,11 +246,11 @@ class Transaction < ApplicationRecord
         weekend_hours += (booking.end_time - booking.start_time)/3600
       end
     end
-    (weekday_hours * employee_listing.weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
+    (weekday_hours * weekday_price.to_f) + (weekend_hours * employee_listing.weekend_price.to_f)
   end
 
   def hirer_weekly_amount
-    (amount - tax_withholding_amount_calculate + service_fee).round(2)
+    (weekly_amount - tax_withholding_amount_calculate + service_fee).round(2)
   end
 
   # def hirer_weekly_amount/
@@ -255,7 +258,7 @@ class Transaction < ApplicationRecord
   # end
 
   def poster_weekly_amount
-    (amount - tax_withholding_amount_calculate - poster_service_fee).round(2)
+    (weekly_amount - tax_withholding_amount_calculate - poster_service_fee).round(2)
   end
 
   def accepted

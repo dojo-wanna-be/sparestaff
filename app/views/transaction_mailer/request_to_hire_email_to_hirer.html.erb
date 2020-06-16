@@ -109,7 +109,7 @@
         </tr>
         <tr>
           <td style="width: 300px; color:#484848;">Total weekly payment</td>
-          <td style="text-align: right; color:#484848;"><%= "$#{(@transaction.amount + @transaction.service_fee - @transaction.tax_withholding_amount_calculate).round(2)}" %></td>
+          <td style="text-align: right; color:#484848;"><%= "$#{(@transaction.weekly_amount + @transaction.service_fee - @transaction.tax_withholding_amount_calculate).round(2)}" %></td>
         </tr>
         <tr>
           <td colspan="2">

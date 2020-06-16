@@ -27,7 +27,7 @@
         We regret to inform you that your Poster - <%= @poster.name %> cancelled 
         hiring 
         for <%= @listing.name %> from <%= @transaction.start_date.strftime("%d-%b-%Y") %> to <%= @transaction.end_date.strftime("%d-%b-%Y") %>. Per our hirer refund 
-        policy, you will be refunded $<%= ((@transaction.amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee) - ((@transaction.stripe_payments.last.amount - @transaction.tax_withholding_amount_calculate) + @transaction.service_fee)).round(2) %>.<br />
+        policy, you will be refunded $<%= ((@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee) - ((@transaction.stripe_payments.last.amount - @transaction.tax_withholding_amount_calculate) + @transaction.service_fee)).round(2) %>.<br />
         <br />
     This refund will be processed immediately at our end but it may take up 
         to 5 business days to be cleared by financial institutions.<br />

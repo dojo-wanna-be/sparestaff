@@ -91,9 +91,9 @@ class TransactionsController < ApplicationController
       @transaction.update_attribute(:state, "created")
       if params[:coupon].present?
         discount_amount = current_user.coupons.find_by(coupon_code: params[:coupon]).discount
-        amount = (@transaction.amount - discount_amount).round(2)
+        amount = (@transaction.weekly_amount - discount_amount).round(2)
         remaining_amount = (@transaction.remaining_amount - discount_amount).round(2)
-        @transaction.update(discount_percent: discount_amount, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.amount, remaining_amount: remaining_amount)
+        @transaction.update(discount_percent: discount_amount, discount_coupon: params[:coupon],amount: amount, amount_before_discount: @transaction.weekly_amount, remaining_amount: remaining_amount)
       end
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
