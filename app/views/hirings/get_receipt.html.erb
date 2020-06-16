@@ -107,7 +107,7 @@
                 <div>&nbsp;</div>
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
-                <div>-$<%= @transaction.tax_withholding_amount %></div>
+                <div>-$<%= @transaction.tax_withholding_amount_calculate %></div>
                 <div>$<%= @transaction.service_fee.round(2) %></div>
                 <div><b>$<%= @transaction.hirer_weekly_amount %></b></div>
               </div>

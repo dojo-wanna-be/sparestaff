@@ -89,7 +89,7 @@
                     <div class="Width150Px">
                       <%= link_to transaction.hirer.name, user_path(id: transaction.hirer.id), class: 'spare_link', target: '_blank' %>
                     </div>
-                    <div class="Width150Px">$<%= (payment.amount - transaction.tax_withholding_amount + transaction.service_fee).round(2)%></div>
+                    <div class="Width150Px">$<%= (payment.amount - transaction.tax_withholding_amount_calculate + transaction.service_fee).round(2)%></div>
                     <div class="Width150Px">
                       <%= link_to transaction.poster.name, user_path(id: transaction.poster.id), class: 'spare_link', target: '_blank' %>
                     </div>

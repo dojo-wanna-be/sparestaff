@@ -165,7 +165,7 @@ class HiringsController < ApplicationController
     @bookings = @transaction.bookings
     @old_transaction = Transaction.find_by(id: params[:old_id])
     refund_charge_id = @old_transaction.stripe_payments.last.stripe_charge_id
-    refund_amount = (@old_transaction.amount - @old_transaction.tax_withholding_amount) + @old_transaction.service_fee
+    refund_amount = (@old_transaction.amount - @old_transaction.tax_withholding_amount_calculate) + @old_transaction.service_fee
     if @old_transaction.discount_coupon.present? && !@transaction.amount_before_discount.present?
       @transaction.update_attributes(discount_percent: @old_transaction.discount_percent, discount_coupon: @old_transaction.discount_coupon)
       @transaction.update_attributes(amount_before_discount: @transaction.amount, amount: discount_amount(@transaction, @transaction.amount), remaining_amount: discount_amount(@transaction, @transaction.remaining_amount))
@@ -280,7 +280,7 @@ class HiringsController < ApplicationController
     #                         0
     #                       end
     mid_cancel_amount = ApplicationController.helpers.discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
-    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount
+    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount_calculate
     previus_charge_amount = prev_charge_amount + (prev_charge_amount * @transaction.commission_from_hirer)
     new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
     new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
@@ -343,7 +343,7 @@ class HiringsController < ApplicationController
     end
     @refund_receipt = StripeRefundReceipt.find_by(transaction_id: @transaction.id)
     mid_cancel_amount = discount_amount(@transaction, StripeRefundAmount.new(@transaction).already_start_refund_amont)
-    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount
+    prev_charge_amount = @transaction.amount - @transaction.tax_withholding_amount_calculate
     previus_charge_amount = prev_charge_amount + (prev_charge_amount * @transaction.commission_from_hirer)
     new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
     new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)

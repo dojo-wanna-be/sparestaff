@@ -8,7 +8,7 @@ module PayoutsHelper
   end
 
   def hirer_weekly_amount(tx)
-  	hiring_amount = (tx.amount - tx.tax_withholding_amount + tx.service_fee)
+  	hiring_amount = (tx.amount - tx.tax_withholding_amount_calculate + tx.service_fee)
   end
 
   def total_pay_by_hirer(payment)
@@ -18,7 +18,7 @@ module PayoutsHelper
       new_charge_amount = mid_cancel_amount - @transaction.remaining_tax_withholding(mid_cancel_amount)
       new_charge_amount_with_service_fee = (new_charge_amount + (new_charge_amount * @transaction.commission_from_hirer)).round(2)
     else
-      hiring_amount = ( @transaction.amount -  @transaction.tax_withholding_amount +  @transaction.service_fee)
+      hiring_amount = ( @transaction.amount -  @transaction.tax_withholding_amount_calculate +  @transaction.service_fee)
     end
   end
 

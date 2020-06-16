@@ -117,7 +117,7 @@ class ReservationsController < ApplicationController
     @old_transaction = @transaction
     @listing = @transaction.employee_listing
     @weekly_hourly_total = (@listing.weekday_price.to_f * @old_transaction.total_weekday_hours + @listing.weekend_price.to_f * @old_transaction.total_weekend_hours)
-    @weekly_payout = @weekly_hourly_total - @old_transaction.tax_withholding_amount - @old_transaction.poster_service_fee.round(2)
+    @weekly_payout = @weekly_hourly_total - @old_transaction.tax_withholding_amount_calculate - @old_transaction.poster_service_fee.round(2)
     unless request.patch?
       @start_date = @transaction.start_date
       @end_date = @transaction.end_date

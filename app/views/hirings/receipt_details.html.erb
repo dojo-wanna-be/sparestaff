@@ -107,7 +107,7 @@
                 <div>&nbsp;</div>
                 <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
                 <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
-                <div>-$<%= (@transaction.tax_withholding_amount).round(2) %></div>
+                <div>-$<%= (@transaction.tax_withholding_amount_calculate).round(2) %></div>
                 <div>$<%= @transaction.service_fee.round(2) %></div>
                 <div><b>$<%= @transaction.hirer_weekly_amount %></b></div>
               </div>
@@ -152,7 +152,7 @@
             </li>
             <li class="calc-item">
               <span class="left">Tax withholding</span>
-              <span class="right">-$<label id=""><%= (@transaction.tax_withholding_amount).round(2) %></label></span>
+              <span class="right">-$<label id=""><%= (@transaction.tax_withholding_amount_calculate).round(2) %></label></span>
             </li>
             <li class="calc-item">
               <span class="left">Service fee (includes VAT)</span>
