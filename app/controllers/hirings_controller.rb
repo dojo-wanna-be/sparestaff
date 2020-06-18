@@ -20,7 +20,15 @@ class HiringsController < ApplicationController
                                           ]
   before_action :ensure_repeat_tx, only: [:change_hiring_confirmation]
   before_action :ensure_not_poster, only: [:change_hiring]
+  before_action :check_completed_expired, only: :cancel_hiring
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
+
+  def check_completed_expired
+    if @transaction.state.eql?('completed') || @transaction.state.eql?('expired') || @transaction.end_date <= Date.today
+      flash[:error] = "Sorry! you can not cancel a complete or expired hiring"
+      redirect_to root_path
+    end
+  end
 
   def index
     hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)

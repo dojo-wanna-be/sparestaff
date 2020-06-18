@@ -16,6 +16,9 @@ class TransactionService
       tx.commission_from_hirer = ApplicationController.helpers.hirer_commission
       tx.commission_from_poster = ApplicationController.helpers.poster_commission
       availability_slots = ListingAvailability::TIME_SLOTS
+      tx.weekday_price = listing.weekday_price.to_f
+      tx.weekend_price = listing.weekend_price.to_f
+      tx.holiday_price = listing.holiday_price.to_f
       if tx.save
         weekly_hours = create_bookings(tx, availability_slots)
         total_weekday_hours_per_week = weekly_hours[:monday_hours] + weekly_hours[:tuesday_hours] + weekly_hours[:wednesday_hours] + weekly_hours[:thursday_hours] + weekly_hours[:friday_hours]

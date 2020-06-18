@@ -134,6 +134,7 @@ class Transaction < ApplicationRecord
   def weekly_amount
     weekday_amount = weekday_price.to_f * weekday_hours
     weekend_amount = weekend_price.to_f * weekend_hours
+    weekday_amount + weekend_amount
   end
 
   def tax_withholding_amount_calculate

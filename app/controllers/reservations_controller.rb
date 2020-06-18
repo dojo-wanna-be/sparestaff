@@ -22,6 +22,15 @@ class ReservationsController < ApplicationController
                                           :already_start_refund_hours
                                          ]
 
+  before_action :check_completed_expired, only: :cancel_reservation
+
+  def check_completed_expired
+    if @transaction.state.eql?('completed') || @transaction.state.eql?('expired') || @transaction.end_date <= Date.today
+      flash[:error] = "Sorry! you can not cancel a complete or expired reservation"
+      redirect_to root_path
+    end
+  end
+
   def index
     poster_transactions = Transaction.where(poster_id: current_user.id).order(updated_at: :desc)
     @posted_listing_transactions = poster_transactions.where("end_date > ?", Date.today).where(state: [:accepted, :rejected, :created, :cancelled]).includes(:employee_listing)
