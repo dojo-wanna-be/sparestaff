@@ -1,25 +1,25 @@
 <div class="message-chat-block">
   <% if @conversation.is_disallowed.eql?(false) %>
-  <%= form_for Message.new, url: inboxes_path, remote: true, method: :post do |f|%>
-    <div class="message-chat-block__box right_user_direction">
-      <div class="message__conversation">
-        <%= f.text_area :content, cols: 20, rows: 5 %>
-        <%= hidden_field_tag :id, @conversation.id %>
-        <div class="message-blank-error hidden">Your Message Field is blank.</div>
-        <div class="message-error"> You can't send this message. It contains Email/URL/Contact.</div>
-        <div class="message-chat-block__box--btn-box">
-          <%= f.submit "Send Message", class: 'message-btn' %>
+    <%= form_for Message.new, url: inboxes_path, remote: true, method: :post do |f|%>
+      <div class="message-chat-block__box right_user_direction">
+        <div class="message__conversation">
+          <%= f.text_area :content, cols: 20, rows: 5 %>
+          <%= hidden_field_tag :id, @conversation.id %>
+          <div class="message-blank-error hidden">Your Message Field is blank.</div>
+          <div class="message-error"> You can't send this message. It contains Email/URL/Contact.</div>
+          <div class="message-chat-block__box--btn-box">
+            <%= f.submit "Send Message", class: 'message-btn' %>
+          </div>
+        </div>
+        <div class="message-user-box">
+          <% if current_user.avatar.present? %>
+            <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+          <% end %>
         </div>
       </div>
-      <div class="message-user-box">
-        <% if current_user.avatar.present? %>
-          <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
-        <% else %>
-          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
   <% end %>
   <div class="gray-mid-text-block">
     <div class="gray-line"></div>
@@ -51,7 +51,7 @@
   $("#new_message").submit(function() {
     if ($("#message_content").val() == "") {
       $('.message-blank-error').show();
-          return false;
+      return false;
     }
     else {
       $('.message-blank-error').hide();

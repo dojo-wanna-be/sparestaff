@@ -5,14 +5,14 @@
     <% if @transaction.poster.eql?(current_user) %>
       <div class="sub-title18">Describe your experience with the hirer - <%= @transaction.hirer.name %> (required)</div>
     <% else %>
-      <div class="sub-title18">Describe your experience with the poster - <%= @transaction.hirer.name %> and the employee - <%= @transaction.employee_listing.name %> (required)
+      <div class="sub-title18">Describe your experience with the poster - <%= @transaction.poster.name %> and the employee - <%= @transaction.employee_listing.name %> (required)
       </div>
     <% end %>
 
     <%= form_for @review, method: :post, id: "" do |f| %>
       <% if @transaction.poster.eql?(current_user) %>
         <p>Your review will be public on hirer's profile.</p>
-        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with #{@transaction.hirer.name} How was the work environment, culture, colleagues, benefits & perks?" %>
+        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with #{@transaction.hirer.name}? \nHow was the work environment, culture, colleagues, benefits & perks?" %>
 
         <div class="sub-title18">Private Feedback</div>
         <p>This feedback is just for the hirer. We won't make it public.</p>
@@ -109,7 +109,7 @@
         </div>
       <% else %>
         <p>Your review will be public on poster's profile.</p>
-        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with PosterABC? How was the employee's skills, experience, teamwork collaboration, professionalism?" %>
+        <%= f.text_area :public_feedback, class: "review-textarea", placeholder: "How was it like to deal with #{@transaction.poster.name}?\nHow was the employee's skills, experience, teamwork collaboration, professionalism?" %>
 
         <div class="sub-title18">Private Feedback</div>
         <p>This feedback is just for the poster and the employee. We won't make it public.</p>
@@ -243,7 +243,7 @@
 
       <div class="details-box">
         <div><b>Hired:</b></div>
-        <div><%= @transaction.start_date.strftime("%m/%d/%Y") %> - <%= @transaction.end_date.strftime("%m/%d/%Y") %></div>
+        <div><%= @transaction.start_date.strftime("%b %d %Y") %> - <%= @transaction.end_date.strftime("%b %d %Y") %></div>
       </div>
       <% if @transaction.poster.eql?(current_user) %>
         <div class="details-box">

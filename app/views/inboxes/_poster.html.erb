@@ -9,7 +9,7 @@
     <% end %>
     <div class=""><b><%= @transaction.hirer.name %></b></div>
     <div class="grey-text"><%= "#{@transaction.hirer.company.city} #{@transaction.hirer.company.state} #{@transaction.hirer.company.post_code}, #{@transaction.hirer.company.country}" %></div>
-    <div class="grey-text">3 Verifications | 25 Reviews</div>
+    <div class="grey-text">3 Verifications | <%= listing_all_reviews(@transaction.employee_listing.id).count %> Reviews</div>
   </div>
   <br/>
   <div class="">

@@ -105,7 +105,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if params[:to_admin].eql?("admin")
         '/admin'
       else
-        root_path
+        user_account_notification_payouts_path
+        #root_path
       end
     end
 end

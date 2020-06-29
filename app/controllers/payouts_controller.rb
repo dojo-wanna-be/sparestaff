@@ -6,6 +6,12 @@ class PayoutsController < ApplicationController
   def step_2; end
 
   def transaction_history
+    payment_method = current_user.stripe_info
+    begin
+      @stripe_account = Stripe::Account.retrieve(payment_method.stripe_account_id) if (payment_method.present?  && payment_method.stripe_account_id)
+    rescue => e
+      @stripe_account = nil
+    end
     if current_user.user_type.eql?("hr")
       @hirer_transactions = Transaction.where(hirer_id: current_user.id).where(state: [:completed, :cancelled])
       total_payout = 0

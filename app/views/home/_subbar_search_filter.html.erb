@@ -139,11 +139,11 @@
         <h6 class="filter-list-heading">Must have photos?</h6>
         <div class="filters_list-item">
           <div class="filter-item">
-            <%= check_box_tag 'profile_picture[photo_required]', true, false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'profile_picture[photo_required]', true, false, class: "filter-checkbox more_filter profile_filter"%>
             <label class="filter-label">Required</label>
           </div>
           <div class="filter-item">
-            <%= check_box_tag 'profile_picture[not_required]', false, false, class: "filter-checkbox more_filter"%>
+            <%= check_box_tag 'profile_picture[not_required]', false, false, class: "filter-checkbox more_filter profile_filter"%>
             <label class="filter-label">Not required</label>
           </div>
         </div>
@@ -408,5 +408,9 @@
     if (!$(event.target).closest(".more_filter-area, .more_filter-dropdown").length) {
       $("body").find(".more_filter-area").hide();
     }
+  });
+  $(".profile_filter").change(function(){
+    $(".profile_filter").prop('checked',false);
+    $(this).prop('checked',true);
   });
 </script>

@@ -75,15 +75,15 @@ class HomeController < ApplicationController
 
     min_year = Time.current.year - params[:minimun_age].to_i
     max_year = Time.current.year - params[:maximum_age].to_i
-      if params[:minimun_age].present? && params[:maximum_age].present?
-        q[:birth_year_lteq] = min_year
-        q[:birth_year_gteq] = max_year
-        q = {birth_year_lteq: 'min_year',birth_year_gteq: 'max_year'}
-      elsif params[:minimun_age].present?
-        q[:birth_year_lteq] = min_year
-      elsif params[:maximum_age].present?
-        q[:birth_year_gteq] = max_year
-      end
+    if params[:minimun_age].present? && params[:maximum_age].present?
+      q[:birth_year_lteq] = min_year
+      q[:birth_year_gteq] = max_year
+      q = {birth_year_lteq: 'min_year',birth_year_gteq: 'max_year'}
+    elsif params[:minimun_age].present?
+      q[:birth_year_lteq] = min_year
+    elsif params[:maximum_age].present?
+      q[:birth_year_gteq] = max_year
+    end
     if params[:profile_picture].present?
       if params[:profile_picture][:photo_required].present?
         q[:profile_picture_file_name_not_eq] = nil
@@ -95,7 +95,12 @@ class HomeController < ApplicationController
     # @listings = EmployeeListing.ransack(q).result(distinct: true)
     @employee_listings = EmployeeListing.status.includes(:employee_skills, :listing_availabilities, :employee_listing_slots, :languages).where("end_publish_date >= ? ", Date.today).ransack(q).result(distinct: true)
     # @employee_listings = find_employee_listings(listings)
-    @employee_listings = @employee_listings.near(params[:location])   if params[:location].present?
+    if params[:profile_picture].present?
+      if params[:profile_picture][:photo_required].present?
+        @employee_listings = @employee_listings.where.not(profile_picture_file_name: nil)
+      end
+    end
+    @employee_listings = @employee_listings.near(params[:location]) if params[:location].present?
     @employee_listings = @employee_listings.order(weekday_price: :asc).paginate(:page => params[:page], :per_page => 4)
     @classifications = Classification.includes(:sub_classifications).where(parent_classification_id: nil)
   end
