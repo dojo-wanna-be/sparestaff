@@ -1,4 +1,12 @@
 $('#change_booking_slots').html("<%= j render 'change_time_slot_booking', transaction: @transaction, employee_listing: @employee_listing, start_date: @start_date, end_date: @end_date %>")
+var isSunday = $('.sunday_time_slot').val() != "";
+var isMonday = $('.monday_time_slot').val() != "";
+var isTuesday = $('.tuesday_time_slot').val() != "";
+var isWednesday = $('.wednesday_time_slot').val() != "";
+var isThursday = $('.thursday_time_slot').val() != "";
+var isFriday = $('.friday_time_slot').val() != "";
+var isSaturday = $('.saturday_time_slot').val() != "";;
+
 var sundayHour = <%= @sundayHour.present? ? @sundayHour : 0 %>;
 var mondayHour = <%= @mondayHour.present? ? @mondayHour : 0 %>;
 var tuesdayHour = <%= @tuesdayHour.present? ? @tuesdayHour : 0 %>;
@@ -416,6 +424,125 @@ $("#listing_transaction").submit(function(e){
     return false
   }
 });
+
+function isSundayStartDatePresent() {
+  return $('#transaction_booking_attributes_0_start_time').val() != "";
+}
+function isMondayStartDatePresent() {
+  return $('#transaction_booking_attributes_1_start_time').val() != "";
+}
+function isTuesdayStartDatePresent() {
+  return $('#transaction_booking_attributes_2_start_time').val() != "";
+}
+function isWednesdayStartDatePresent() {
+  return $('#transaction_booking_attributes_3_start_time').val() != "";
+}
+function isThursdayStartDatePresent() {
+  return $('#transaction_booking_attributes_4_start_time').val() != "";
+}
+function isFridayStartDatePresent() {
+  return $('#transaction_booking_attributes_5_start_time').val() != "";
+}
+function isSaturdayStartDatePresent() {
+  return $('#transaction_booking_attributes_6_start_time').val() != "";
+}
+$('#transaction_booking_attributes_0_start_time').change(function(){
+  function isSundayStartDatePresent() {
+    return $('#transaction_booking_attributes_0_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_1_start_time').change(function(){
+  function isMondayStartDatePresent() {
+    return $('#transaction_booking_attributes_1_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_2_start_time').change(function(){
+  function isTuesdayStartDatePresent() {
+    return $('#transaction_booking_attributes_2_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_3_start_time').change(function(){
+  function isWednesdayStartDatePresent() {
+    return $('#transaction_booking_attributes_3_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_4_start_time').change(function(){
+  function isThursdayStartDatePresent() {
+    return $('#transaction_booking_attributes_4_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_5_start_time').change(function(){
+  function isFridayStartDatePresent() {
+    return $('#transaction_booking_attributes_5_start_time').val() != "";
+  }
+  intializeValidation();
+});
+$('#transaction_booking_attributes_6_start_time').change(function(){
+  function isSaturdayStartDatePresent() {
+    return $('#transaction_booking_attributes_6_start_time').val() != "";
+  }
+  intializeValidation();
+});
+function intializeValidation() {
+  $("#listing_transaction").validate({
+    errorPlacement: function(error, element) {
+       error.appendTo(element.parent());
+    },
+    rules: {
+      "transaction[booking_attributes][0][end_time]": {required: isSundayStartDatePresent, greaterThan: "#transaction_booking_attributes_0_start_time"},
+      "transaction[booking_attributes][1][end_time]": {required: isMondayStartDatePresent, greaterThan: "#transaction_booking_attributes_1_start_time"},
+      "transaction[booking_attributes][2][end_time]": {required: isTuesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_2_start_time"},
+      "transaction[booking_attributes][3][end_time]": {required: isWednesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_3_start_time"},
+      "transaction[booking_attributes][4][end_time]": {required: isThursdayStartDatePresent, greaterThan: "#transaction_booking_attributes_4_start_time"},
+      "transaction[booking_attributes][5][end_time]": {required: isFridayStartDatePresent, greaterThan: "#transaction_booking_attributes_5_start_time"},
+      "transaction[booking_attributes][6][end_time]": {required: isSaturdayStartDatePresent, greaterThan: "#transaction_booking_attributes_6_start_time"},
+      "transaction[start_date]": {required: true},
+      "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
+    },
+    messages: {
+      "transaction[booking_attributes][0][end_time]": {greaterThan: "Must be greater than Sunday Start Time"},
+      "transaction[booking_attributes][1][end_time]": {greaterThan: "Must be greater than Monday Start Time"},
+      "transaction[booking_attributes][2][end_time]": {greaterThan: "Must be greater than Tuesday Start Time"},
+      "transaction[booking_attributes][3][end_time]": {greaterThan: "Must be greater than Wednesday Start Time"},
+      "transaction[booking_attributes][4][end_time]": {greaterThan: "Must be greater than Thursday Start Time"},
+      "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
+      "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
+      "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
+    }
+  });
+}
+$("#listing_transaction").validate({
+  errorPlacement: function(error, element) {
+     error.appendTo(element.parent());
+  },
+  rules: {
+    "transaction[booking_attributes][0][end_time]": {required: isSundayStartDatePresent, greaterThan: "#transaction_booking_attributes_0_start_time"},
+    "transaction[booking_attributes][1][end_time]": {required: isMondayStartDatePresent, greaterThan: "#transaction_booking_attributes_1_start_time"},
+    "transaction[booking_attributes][2][end_time]": {required: isTuesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_2_start_time"},
+    "transaction[booking_attributes][3][end_time]": {required: isWednesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_3_start_time"},
+    "transaction[booking_attributes][4][end_time]": {required: isThursdayStartDatePresent, greaterThan: "#transaction_booking_attributes_4_start_time"},
+    "transaction[booking_attributes][5][end_time]": {required: isFridayStartDatePresent, greaterThan: "#transaction_booking_attributes_5_start_time"},
+    "transaction[booking_attributes][6][end_time]": {required: isSaturdayStartDatePresent, greaterThan: "#transaction_booking_attributes_6_start_time"},
+    "transaction[start_date]": {required: true},
+    "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
+  },
+  messages: {
+    "transaction[booking_attributes][0][end_time]": {greaterThan: "Must be greater than Sunday Start Time"},
+    "transaction[booking_attributes][1][end_time]": {greaterThan: "Must be greater than Monday Start Time"},
+    "transaction[booking_attributes][2][end_time]": {greaterThan: "Must be greater than Tuesday Start Time"},
+    "transaction[booking_attributes][3][end_time]": {greaterThan: "Must be greater than Wednesday Start Time"},
+    "transaction[booking_attributes][4][end_time]": {greaterThan: "Must be greater than Thursday Start Time"},
+    "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
+    "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
+    "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
+  }
+});
+
 
 $('.toggle-total-employement').click(function(){
   $('.total-employement-list').toggle();

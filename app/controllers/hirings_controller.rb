@@ -18,7 +18,7 @@ class HiringsController < ApplicationController
                                             :cancel,
                                             :destroy_transaction
                                           ]
-  before_action :ensure_repeat_tx, only: [:change_hiring_confirmation]
+  #before_action :ensure_repeat_tx, only: [:change_hiring_confirmation]
   before_action :ensure_not_poster, only: [:change_hiring]
   before_action :check_completed_expired, only: :cancel_hiring
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
@@ -117,54 +117,55 @@ class HiringsController < ApplicationController
       end
       @disabled_time = unavailable_time_slots(bookings)
     else
-      if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 6 && @old_transaction.frequency == "weekly" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 13 && @old_transaction.frequency == "fortnight"
-        listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
+      #if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly" || (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 6 && @old_transaction.frequency == "weekly" || (params[:transaction][:end_date].to_date - params[:transaction][:start_date].to_date).to_i > 13 && @old_transaction.frequency == "fortnight"
+      listing = EmployeeListing.find(params[:transaction][:employee_listing_id])
 
-        transactions = listing
-                        .transactions
-                        .where(state: "accepted")
-                        .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?",
-                          params[:transaction][:start_date], params[:transaction][:end_date],
-                          params[:transaction][:start_date], params[:transaction][:end_date])
-                        .where.not(id: @old_transaction.id)
-        transaction_ids = transactions.pluck(:id)
-        bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
-        booked_timings = unavailable_time_slots(bookings)
-        requested_booking_slot = params[:transaction][:booking_attributes]&.to_unsafe_hash
-        continue = true
+      transactions = listing
+                      .transactions
+                      .where(state: "accepted")
+                      .where("start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?",
+                        params[:transaction][:start_date], params[:transaction][:end_date],
+                        params[:transaction][:start_date], params[:transaction][:end_date])
+                      .where.not(id: @old_transaction.id)
+      transaction_ids = transactions.pluck(:id)
+      bookings = Booking.where(transaction_id: transaction_ids).group_by(&:day)
+      booked_timings = unavailable_time_slots(bookings)
+      requested_booking_slot = params[:transaction][:booking_attributes]&.to_unsafe_hash
+      continue = true
 
-        availability_slots = ListingAvailability::TIME_SLOTS
+      availability_slots = ListingAvailability::TIME_SLOTS
 
-        requested_booking_slot.each do |booking_day, booking_value|
-          if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
-            if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
-              continue = false
-              break
-            end
+      requested_booking_slot.each do |booking_day, booking_value|
+        if booked_timings[:start_time_slots][booking_day.to_i].present? && booked_timings[:end_time_slots][booking_day.to_i].present? && booking_value["start_time"].present? && booking_value["end_time"].present?
+          if (booked_timings[:start_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"]))...availability_slots.index(booking_value["end_time"])]).present? || (booked_timings[:end_time_slots][booking_day.to_i] & availability_slots[(availability_slots.index(booking_value["start_time"])+1)..availability_slots.index(booking_value["end_time"])]).present?
+            continue = false
+            break
           end
         end
-        if continue
-          @new_transaction = TransactionService.new(params, current_user).create
-          if @new_transaction.present?
-            #@new_transaction.start_date = @old_transaction.start_date
-            # @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
-            # @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
-            # @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
+      end
+      if continue
+        @new_transaction = TransactionService.new(params, current_user).create
+        if @new_transaction.present?
+          @new_transaction.update(weekday_price: @new_transaction.employee_listing.weekday_price, weekend_price: @new_transaction.employee_listing.weekend_price,holiday_price: @new_transaction.employee_listing.holiday_price)
+          # @new_transaction.start_date = @old_transaction.start_date
+          # @new_transaction.hirer_total_service_fee = @new_transaction.total_service_fee
+          # @new_transaction.poster_service_fee = @new_transaction.poster_service_fee
+          # @new_transaction.poster_total_service_fee = @new_transaction.poster_total_service_fee
 
-            # @new_transaction.save
-            redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
-          else
-            flash[:error] = "Please check your selected dates and slotes and try again"
-            redirect_to change_hiring_hiring_path(id: @old_transaction.id)
-          end
+          # @new_transaction.save
+          redirect_to change_hiring_confirmation_hiring_path(id: @new_transaction.id, old_id: @old_transaction.id)
         else
-          flash[:error] = "Your booking is conflicting from other bookings. Please select different timings"
+          flash[:error] = "Please check your selected dates and slotes and try again"
           redirect_to change_hiring_hiring_path(id: @old_transaction.id)
         end
       else
-        flash[:error] = "Sorry! You can not change your hiring."
+        flash[:error] = "Your booking is conflicting from other bookings. Please select different timings"
         redirect_to change_hiring_hiring_path(id: @old_transaction.id)
       end
+      # else
+      #   flash[:error] = "Sorry! You can not change your hiring."
+      #   redirect_to change_hiring_hiring_path(id: @old_transaction.id)
+      # end
     end
   end
 
@@ -181,6 +182,7 @@ class HiringsController < ApplicationController
     #refund_amount = @old_transaction.hirer_weekly_amount
     if request.patch?
       if @old_transaction.start_date > Date.today
+        stripe_refund = StripeRefund.create!(transaction_id: @old_transaction.id, amount: refund_amount, tax_withholding_amount: @old_transaction.tax_withholding_amount_calculate, service_fee: @old_transaction.service_fee, stripe_charge_id: refund_charge_id, status: "failed")
   			begin
   		    ChargeForListing.new(@transaction.id).charge_first_time
   		    begin
@@ -188,11 +190,13 @@ class HiringsController < ApplicationController
   					  charge: refund_charge_id,
   					  amount: (refund_amount*100).to_i,
   					})
+            stripe_refund.update(refund_id: refund.id, status: refund.status, reason: refund.reason)
   			  rescue => e
+            stripe_refund.update(reason: e.message)
   			    flash[:error] = e.message
   			  end
-          @old_transaction.update_attributes(state: "accepted", request_by: 'hirer')
-  		    @transaction.update_attributes(state: "accepted", request_by: 'hirer', old_transaction: params[:old_id])
+          @old_transaction.update_attributes(state: "changed_hiring", request_by: 'hirer')
+  		    @transaction.update_attributes(state: "accepted", request_by: 'hirer')
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!
           #message = find_or_create_conversation.messages.last
@@ -212,7 +216,7 @@ class HiringsController < ApplicationController
   		    flash[:error] = e.message
   		  end
       else
-        if (@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && @old_transaction.frequency == "weekly"
+        if @old_transaction.frequency == "weekly" #(@old_transaction.end_date - @old_transaction.start_date).to_i > 6 && 
           # if (Date.today - @old_transaction.start_date).to_i % 7 > 0
           #   @old_transaction.update(end_date: Date.today + (7 - (Date.today - @old_transaction.start_date).to_i % 7) - 1)
           # else
@@ -237,7 +241,7 @@ class HiringsController < ApplicationController
           # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, new_conversation_message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
-        elsif (@old_transaction.end_date - @old_transaction.start_date).to_i > 13 && @old_transaction.frequency == "fortnight"
+        elsif @old_transaction.frequency == "fortnight" #(@old_transaction.end_date - @old_transaction.start_date).to_i > 13 &&
           # if (Date.today - @old_transaction.start_date).to_i % 14 > 0
           #   @old_transaction.update(end_date: Date.today + (14 - (Date.today - @old_transaction.start_date).to_i % 14) - 1)
           # else
@@ -268,8 +272,8 @@ class HiringsController < ApplicationController
           # HiringMailer.hiring_changed_email_to_poster(@listing, @listing.poster, @transaction, new_conversation_message).deliver_later!
           redirect_to changed_successfully_hiring_path(id: @transaction.id, old_id: @old_transaction.id)
           flash[:success] = "Success! Your changes will be applied at your next cycle."
-        else
-          flash[:error] = "Sorry! You can not change your hiring."
+        # else
+        #   flash[:error] = "Sorry! You can not change your hiring."
         end
       end
     end
@@ -420,7 +424,7 @@ class HiringsController < ApplicationController
   private
 
   def find_transaction
-    @transaction = Transaction.find_by(id: params[:id])
+    @transaction = Transaction.find_by(id: params[:id].present? ? params[:id] : params[:old_id] )
   end
 
   def old_transaction

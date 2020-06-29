@@ -15,7 +15,7 @@
             <%= f.date_field :start_date, value: start_date < Date.today ? Date.today : start_date, min: Date.today %>
           <% else %>
             <%= transaction.start_date.strftime("%d/%m/%Y") %>
-            <%= f.hidden_field :start_date, value: changed_old_tx_end_date(transaction, transaction.frequency) %>
+            <%= f.hidden_field :start_date, value: changed_old_tx_end_date(transaction, transaction.frequency) + 1.day %>
           <% end %>
           <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
         </div>
@@ -25,7 +25,6 @@
           <!-- <label id="end_date">End date must be greater from start date</label> -->
         </div>
       </div>
-
       <div class="hiring-text">Select hiring time</div>
 
       <div class="week-availability">
