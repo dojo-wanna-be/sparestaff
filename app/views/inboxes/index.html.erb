@@ -5,7 +5,7 @@
     <option selected="selected">All Messages (<%= @conversations.count %>)</option>
     <option val="unread">Unread (<%= @unread_count %>)</option>
   </select>
-  <div class="inbox_container sss" id="conversation_list">
+  <div class="inbox_container" id="conversation_list">
     <% @conversations.each do |conversation| %>
       <%= link_to inbox_path(id: conversation.id), data: {turbolinks: false}, class: 'messages' do %>
         <div class="logo">

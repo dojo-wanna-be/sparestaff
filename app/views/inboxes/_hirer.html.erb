@@ -17,7 +17,7 @@
         <%= "#{@transaction.poster.company.city} #{@transaction.poster.company.state} #{@transaction.poster.company.post_code}, #{@transaction.poster.company.country}" %>
       <% end %>
     </div>
-    <div class="grey-text">3 Verifications | 25 Reviews</div>
+    <div class="grey-text">3 Verifications | <%= listing_all_reviews(@transaction.employee_listing.id).count %> Reviews</div>
   </div>
   <br/>
   <div class="">
