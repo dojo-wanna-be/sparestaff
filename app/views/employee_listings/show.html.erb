@@ -69,7 +69,13 @@
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Description, expertise, experience</h3>
-        <p class="pera-text"><%= @employee_listing.skill_description %></p>
+        <div class="desc-text-div">
+          <div class="desc-content-div">
+            <div class="more pera-text" id="read-more-desc1">
+              <%= @employee_listing.skill_description %>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="detail-custom-box">
@@ -1031,5 +1037,37 @@
       },
     starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
     starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'  
+  });
+
+  var showChar = 600;  
+  var ellipsestext = "...";
+  var moretext = "Read more";
+  var lesstext = "Read less";
+  $('#read-more-desc1').each(function() {
+      var content = $(this).html();
+
+      if(content.length > showChar) {
+
+          var c = content.substr(0, showChar);
+          var h = content.substr(showChar, content.length - showChar);
+
+          var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+          $(this).html(html);
+      }
+
+  });
+
+  $(".morelink").click(function(){
+      if($(this).hasClass("less")) {
+          $(this).removeClass("less");
+          $(this).html(moretext);
+      } else {
+          $(this).addClass("less");
+          $(this).html(lesstext);
+      }
+      $(this).parent().prev().toggle();
+      $(this).prev().toggle();
+      return false;
   });
 </script>

@@ -2903,4 +2903,20 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.desc-text-div{
+    padding: 10px 0; margin: 0 0 10px 0;
+    .desc-content-div{
+        .more {
+            margin: 0 0 10px 0; font-weight: 400; font-size: 16px; color: #484848; letter-spacing: 0; line-height: 24px;
+            .morelink {
+                display: inline; color: #F98169;
+                &:hover { color: #f68069 !important; }
+            }
+        }
+    }
+    .morecontent span { display: none;}
+    .morelink { display: inline; color: #F98169; 
+        &:hover{ color: #f68069 !important; }
+    }
+}
 /* End of Separator line with text at middle */
