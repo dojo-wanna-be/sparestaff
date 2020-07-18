@@ -31,7 +31,6 @@
 #
 
 class User < ApplicationRecord
-  include Attachmentable
   require 'csv'
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,

@@ -1,6 +1,4 @@
 class GettingStartContent < ApplicationRecord
-  include Attachmentable
-
   has_attachment :cover_image
   validates_attachment_content_type :cover_image, content_type: /\Aimage\/.*\z/
   has_many :homepage_contents, foreign_key: "getting_start_content_id", dependent: :destroy

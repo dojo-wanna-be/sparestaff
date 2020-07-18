@@ -1,6 +1,4 @@
 class HomepageContent < ApplicationRecord
-  include Attachmentable
-
   has_attachment :content_image
   validates_attachment_content_type :content_image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
   #validates_attachment_file_name :content_image, matches: [/png\Z/, /jpe?g\Z/]

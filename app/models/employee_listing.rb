@@ -53,7 +53,6 @@
 #
 
 class EmployeeListing < ApplicationRecord
-  include Attachmentable
   require 'csv'
   scope :active, -> { where(deactivated: false) }
   scope :published, -> { where(published: true) }
