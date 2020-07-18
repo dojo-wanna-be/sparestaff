@@ -68,4 +68,20 @@ module ApplicationHelper
       amount.round(2)
     end
   end
+
+  def transaction_status(transaction)
+    if transaction.accepted?
+      content_tag(:span, "Accepted", class: 'green-text')
+    elsif transaction.created?
+      content_tag(:span, "Pending", class: 'orange-text')
+    elsif transaction.rejected?
+      content_tag(:span, "Declined", class: 'dark-green-text')
+    elsif transaction.cancelled?
+      content_tag(:span, "Cancelled", class: 'light-blue-text')
+    elsif transaction.expired?
+      content_tag(:span, "Expired", class: 'orange-text')
+    elsif transaction.completed?
+      content_tag(:span, "Completed", class: '')
+    end
+  end
 end

@@ -30,15 +30,7 @@
             </div>
             <%# @posted_listing_transactions.each do |transaction| %>
                 <div class="reservation-list">
-                  <% if @poster_transaction.accepted? %>
-                    <div class="list-box one"><span class="green-text">Accepted</span></div>
-                  <% elsif @poster_transaction.created? %>
-                    <div class="list-box one"><span class="orange-text">Pending</span></div>
-                  <% elsif @poster_transaction.rejected? %>
-                    <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-                  <% elsif @poster_transaction.cancelled? %>
-                    <div class="list-box one"><span class="dark-green-text">Cancelled</span></div>
-                  <% end %>
+                  <div class="list-box one"><%=transaction_status(@poster_transaction)%></div>
                   <div class="list-box two">
                     <%= "#{@poster_transaction.start_date.strftime('%d %b %Y')} - #{@poster_transaction.end_date.strftime('%d %b %Y')}" %> <br>
                     <%= "#{@poster_transaction.total_weekday_hours + @poster_transaction.total_weekend_hours} Hour Total" %> <br>

@@ -29,15 +29,7 @@
 
           <% @posted_listing_transactions.each do |transaction| %>
             <div class="reservation-list">
-              <% if transaction.accepted? %>
-                <div class="list-box one"><span class="green-text">Accepted</span></div>
-              <% elsif transaction.created? %>
-                <div class="list-box one"><span class="orange-text">Pending</span></div>
-              <% elsif transaction.rejected? %>
-                <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-              <% elsif transaction.cancelled? %>
-                <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
-              <% end %>
+              <div class="list-box one"><%=transaction_status(transaction)%></div>
               <div class="list-box two">
                 <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
                 <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
@@ -149,15 +141,7 @@
             <% @completed_listing_transactions.each do |transaction| %>
               <% if !(transaction.cancelled_at.present? && transaction.cancelled_at > transaction.start_date) %>
                 <div class="reservation-list">
-                  <% if transaction.completed? %>
-                    <div class="list-box one"><span class="">Completed</span></div>
-                  <% elsif transaction.expired? %>
-                    <div class="list-box one"><span class="orange-text">Expired</span></div>
-                  <% elsif transaction.rejected? %>
-                    <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-                  <% elsif transaction.cancelled? %>
-                    <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
-                  <% end %>
+                  <div class="list-box one"><%=transaction_status(transaction)%></div>
                   <div class="list-box two">
                     <%= "#{transaction.start_date.strftime('%d %b %Y')} - #{transaction.end_date.strftime('%d %b %Y')}" %> <br>
                     <%= "#{transaction.total_weekday_hours + transaction.total_weekend_hours} Hour Total" %> <br>
