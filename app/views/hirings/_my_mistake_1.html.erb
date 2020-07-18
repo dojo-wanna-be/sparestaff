@@ -11,7 +11,7 @@
         <div class="under-title">If you cancel now, you'll receive a full refund.</div>
       <% end %>
       <%= render partial: 'refund_amount' %>
-      <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
+      <div class="custom-label">Tell <%= @listing.poster_name %> why you need to cancel</div>
       <%= text_area_tag "message_text",nil, required: true %>
       <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
 

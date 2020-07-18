@@ -1,15 +1,13 @@
-
 <div class="request_hire-section">
   <div class="comman-inner-both">
     <div class="left_request_section">
       <%= render partial: "payment_steps_header" %>
 
       <div class="confirm_and_pay">
-        <h1 class="main-heading">Confirm and payment</h1>
-        <p>You won't be charged until <%= @employee_listing.poster.name %> has accepted your hiring request. <%= @employee_listing.poster.name %> has 48 hours to respond to your request.</p>
+        <h1 class="main-heading">Add a billing method</h1>
+        <p>No payment is processed now. If <%= @employee_listing.poster_name %> accepts your hiring request, when you're ready to activate the first roster later for <%= @employee_listing.name %> to work, your billing method will used to fund the roster. Funds are held securely in escrow until you approve the Employee's work.</p>
         <div class="request-form-box">
           <div class="custom-field-box">
-
             <div class="custom-input-group">
               <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
               <%= select_tag "payment_mode", options_for_select([["Credit Card", "credit_card"], ["PayPal", "paypal"]]), class: "custom-field" %>

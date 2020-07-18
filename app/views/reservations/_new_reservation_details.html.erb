@@ -6,4 +6,4 @@
 
 <p class="original-through-text">Original: <span class="through-text"><%= "#{@old_transaction.start_date.strftime("%d %b %Y")} - #{@old_transaction.end_date.strftime("%d %b %Y")}" %> <br> <%= "#{@old_transaction.total_weekday_hours + @old_transaction.total_weekend_hours} Hour Total" %></span></p>
 
-<div>If <%= @listing.poster.name %> agrees to the changes, you'll pay $<%= (@transaction.total_amount - @old_transaction.total_amount).round(2) %>.</div>
+<div>If <%= @listing.poster_name %> agrees to the changes, you'll pay $<%= (@transaction.total_amount - @old_transaction.total_amount).round(2) %>.</div>

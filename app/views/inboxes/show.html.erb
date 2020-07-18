@@ -56,7 +56,7 @@
           <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'GreyLink', target: "_blank"  %>
         </div>
         <div class=""><%= @listing.name %></div>
-        <span class="GreyText-abc">Poster: <%= @listing.poster.name %></span>
+        <span class="GreyText-abc">Poster: <%= @listing.poster_name %></span>
         <div class="Text14px PaddingTop10px">
           <div class="reviews_all_star_profile" data-score ="<%= @reviews_all_star.round(0) %>"></div>
           <%= image_tag "star-rating.png", class: "star-rating" %> <%= @reviews_all.count %> reviews&nbsp;

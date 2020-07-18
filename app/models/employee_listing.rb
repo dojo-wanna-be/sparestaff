@@ -117,6 +117,10 @@ class EmployeeListing < ApplicationRecord
   def name
     "#{self.first_name} #{self.last_name}"
   end
+
+  def poster_name
+    poster&.name
+  end
   
   def self.to_csv
     CSV.generate(headers: true) do |csv|

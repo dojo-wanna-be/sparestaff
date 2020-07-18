@@ -30,9 +30,9 @@
           Status: <%= @transaction.state.capitalize %>
         <% else %>
           Poster:<br/>
-          <%= @listing.poster.name %><br/>
+          <%= @listing.poster_name %><br/>
           Other User:<br/>
-          <% if @listing.poster.name.eql?(@conversation.sender.name) %>
+          <% if @listing.poster_name.eql?(@conversation.sender.name) %>
             <%= @conversation.receiver.name %><br/>
           <% else %>
             <%= @conversation.sender.name %><br/>

@@ -24,7 +24,7 @@
             <% end %>
             <h2 class="order_listing_title"><%= transaction.employee_listing.title %></h2>
             <p class="order_listing_title_small"><%= transaction.employee_listing.name %></p>
-            <span class="post"><%= transaction.employee_listing.poster.name %></span>
+            <span class="post"><%= transaction.employee_listing.poster_name %></span>
             <strong class="dt_bold"><%= transaction.start_date.strftime("%d %h %Y") %></strong> <span class="aro"> > </span><strong class="dt_bold"><%= transaction.end_date.strftime("%d %h %Y") %></strong>
             <% total_hours = transaction.total_weekday_hours + transaction.total_weekend_hours %>
             <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
@@ -90,7 +90,7 @@
             <div class="card_content">
               <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
               <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
-              <span class="sm_text"><%= hiring.employee_listing.poster.name %></span>
+              <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
               <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
               <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
               <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span><br />
@@ -135,7 +135,7 @@
               <div class="card_content">
                 <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
                 <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
-                <span class="sm_text"><%= hiring.employee_listing.poster.name %></span>
+                <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
                 <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
                 <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
                 <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
