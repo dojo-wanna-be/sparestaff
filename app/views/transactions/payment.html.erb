@@ -8,18 +8,18 @@
         <p>No payment is processed now. If <%= @employee_listing.poster_name %> accepts your hiring request, when you're ready to activate the first roster later for <%= @employee_listing.name %> to work, your billing method will used to fund the roster. Funds are held securely in escrow until you approve the Employee's work.</p>
         <div class="request-form-box">
           <div class="custom-field-box">
-            <div class="custom-input-group">
-              <label class="thin-label">Pay with <span class="right-cards"><%= image_tag 'payment-options.jpg', class: 'img-card' %></span></label>
-              <%= select_tag "payment_mode", options_for_select([["Credit Card", "credit_card"], ["PayPal", "paypal"]]), class: "custom-field" %>
-            </div>
+            <!-- <div class="custom-input-group">
+              <label class="thin-label">Pay with <span class="right-cards"><%#= image_tag 'payment-option.jpg', class: 'img-card' %></span></label>
+              <%#= select_tag "payment_mode", options_for_select([["Credit Card", "credit_card"], ["PayPal", "paypal"]]), class: "custom-field" %>
+            </div> -->
 
             <div class="credit_card_detail">
               <%= render partial: "credit_card_detail" %>
             </div>
 
-            <div class="login_paypal_box">
-              <%= render partial: "login_paypal_box" %>
-            </div>
+            <!-- <div class="login_paypal_box">
+              <%#= render partial: "login_paypal_box" %>
+            </div> -->
           </div>
         </div>
       </div>

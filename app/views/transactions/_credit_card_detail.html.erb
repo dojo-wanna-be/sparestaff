@@ -2,7 +2,7 @@
   <div class="credit-card-detail">
     <div class="card-errors"></div>
     <div class="custom-input-group">
-      <label class="thin-label">Card info*</label>
+      <label class="thin-label">Card info* <span class="right-cards"><%= image_tag 'payment-option.jpg', class: 'img-card' %></span></label>
       <%= text_field_tag :first_name, nil, placeholder: "Name on card", class: 'custom-field' %>
       <label id="first_name-error" class="error" for="first_name">This field is required.</label>
       <%= hidden_field_tag "stripe_token", nil, id: "stripe_token" %>
