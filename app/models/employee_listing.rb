@@ -53,6 +53,7 @@
 #
 
 class EmployeeListing < ApplicationRecord
+  include Attachmentable
   require 'csv'
   scope :active, -> { where(deactivated: false) }
   scope :published, -> { where(published: true) }
@@ -78,11 +79,11 @@ class EmployeeListing < ApplicationRecord
   has_many :bookings, through: :transactions
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
-  has_attached_file :profile_picture
+  has_attachment :profile_picture
   validates_attachment_content_type :profile_picture, content_type: /\Aimage\/.*\z/
-  has_attached_file :verification_front_image
+  has_attachment :verification_front_image
   validates_attachment_content_type :verification_front_image, content_type: /\Aimage\/.*\z/
-  has_attached_file :verification_back_image
+  has_attachment :verification_back_image
   validates_attachment_content_type :verification_back_image, content_type: /\Aimage\/.*\z/
   geocoded_by :address
   after_validation :geocode

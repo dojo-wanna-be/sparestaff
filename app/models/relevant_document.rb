@@ -21,7 +21,9 @@
 #
 
 class RelevantDocument < ApplicationRecord
+  include Attachmentable
+
   belongs_to :employee_listing
-  has_attached_file :document
+  has_attachment :document
   validates_attachment_content_type :document, content_type: /\Aimage\/.*\z/
 end

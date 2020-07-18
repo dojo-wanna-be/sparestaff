@@ -31,6 +31,7 @@
 #
 
 class User < ApplicationRecord
+  include Attachmentable
   require 'csv'
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable,
@@ -38,7 +39,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
 
-  has_attached_file :avatar, styles: { medium: "300x300", thumb: "100x100" }
+  has_attachment :avatar, styles: { medium: "300x300", thumb: "100x100" }
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
   validates_attachment_file_name :avatar, matches: [/png\Z/, /jpe?g\Z/]
 
