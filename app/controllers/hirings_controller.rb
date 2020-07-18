@@ -24,7 +24,7 @@ class HiringsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
 
   def check_completed_expired
-    if @transaction.state.eql?('completed') || @transaction.state.eql?('expired') || @transaction.end_date <= Date.today
+    if @transaction.completed? || @transaction.expired? || @transaction.end_date <= Date.today
       flash[:error] = "Sorry! you can not cancel a complete or expired hiring"
       redirect_to root_path
     end
@@ -314,7 +314,7 @@ class HiringsController < ApplicationController
 
   def cancel
     if @transaction.present?
-      if @transaction.state.eql?("created")
+      if @transaction.created?
         @transaction.destroy
         redirect_to hirings_path
       else

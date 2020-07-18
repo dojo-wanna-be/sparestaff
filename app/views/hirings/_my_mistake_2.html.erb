@@ -6,7 +6,7 @@
       <div class="title-main">Your Refund Summary</div>
       <div><b>This listing has cancellation policy</b></div>
 
-      <% unless (@transaction.state.eql?("created") && @transaction.created_at + 2.days <= Date.today) || (@transaction.state.eql?("accepted") && @transaction.start_date - 1 <= Date.today) %>
+      <% unless (@transaction.created? && @transaction.created_at + 2.days <= Date.today) || (@transaction.accepted? && @transaction.start_date - 1 <= Date.today) %>
         <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
       <% else %>
         <div class="under-title">If you cancel now, you'll receive a full refund.</div>

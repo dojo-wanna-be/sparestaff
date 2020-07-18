@@ -25,7 +25,7 @@ class ReservationsController < ApplicationController
   before_action :check_completed_expired, only: :cancel_reservation
 
   def check_completed_expired
-    if @transaction.state.eql?('completed') || @transaction.state.eql?('expired') || @transaction.end_date <= Date.today
+    if @transaction.completed? || @transaction.expired? || @transaction.end_date <= Date.today
       flash[:error] = "Sorry! you can not cancel a complete or expired reservation"
       redirect_to root_path
     end

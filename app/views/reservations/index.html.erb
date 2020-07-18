@@ -29,13 +29,13 @@
 
           <% @posted_listing_transactions.each do |transaction| %>
             <div class="reservation-list">
-              <% if transaction.state.eql?("accepted") %>
+              <% if transaction.accepted? %>
                 <div class="list-box one"><span class="green-text">Accepted</span></div>
-              <% elsif transaction.state.eql?("created") %>
+              <% elsif transaction.created? %>
                 <div class="list-box one"><span class="orange-text">Pending</span></div>
-              <% elsif transaction.state.eql?("rejected") %>
+              <% elsif transaction.rejected? %>
                 <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-              <% elsif transaction.state.eql?("cancelled") %>
+              <% elsif transaction.cancelled? %>
                 <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
               <% end %>
               <div class="list-box two">
@@ -75,7 +75,7 @@
                         <% end %>
                     </b>
                     <br>
-                    <% if transaction.state.eql?("accepted") %>
+                    <% if transaction.accepted? %>
                       Contact: <%= transaction.hirer.company.name %><br>
                       <%= transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
                       <%= "#{number_to_phone(transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{3})(\d{3})$/)}" %>
@@ -87,7 +87,7 @@
                 <div>
                   <%= "#{number_to_currency(transaction.poster_total_amount.round(2))} Total" %>
                 </div>
-                <% if transaction.state.eql?("accepted") %>
+                <% if transaction.accepted? %>
                   <div>
                     <%= link_to 'Print confirmation', reservation_path(id: transaction.id), class: 'orange-text' %>
                   </div>
@@ -95,7 +95,7 @@
                     <%= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
-                <% if transaction.state.eql?("completed") || transaction.state.eql?("cancelled") %>
+                <% if transaction.completed? || transaction.cancelled? %>
                   <div>
                     <% already_create_review = Review.where(transaction_id: transaction.id, sender_id: current_user.id) %>
                     <% if already_create_review.blank? %>
@@ -112,12 +112,12 @@
                 <div>
                   <%= link_to 'Message history', inbox_path(id: transaction.conversation.id),data: {turbolinks: false}, class: 'orange-text' %>
                 </div>
-                <% if (transaction.state.eql?("accepted") || transaction.state.eql?("cancelled")) && transaction.payment_receipts.present? %>
+                <% if (transaction.accepted? || transaction.cancelled?) && transaction.payment_receipts.present? %>
                   <div>
                     <%= link_to 'View invoices', reservations_view_invoice_list_reservation_path(id: transaction.id), class: 'orange-text' %>
                   </div>
                 <% end %>
-                <% if transaction.state.eql?("created") %>
+                <% if transaction.created? %>
                   <div>
                     <%= link_to 'Accept or Decline', inbox_path(id: transaction.conversation&.id), data: {turbolinks: false}, class: 'orange-text' %>
                   </div>
@@ -149,13 +149,13 @@
             <% @completed_listing_transactions.each do |transaction| %>
               <% if !(transaction.cancelled_at.present? && transaction.cancelled_at > transaction.start_date) %>
                 <div class="reservation-list">
-                  <% if transaction.state.eql?("completed") %>
+                  <% if transaction.completed? %>
                     <div class="list-box one"><span class="">Completed</span></div>
-                  <% elsif transaction.state.eql?("expired") %>
+                  <% elsif transaction.expired? %>
                     <div class="list-box one"><span class="orange-text">Expired</span></div>
-                  <% elsif transaction.state.eql?("rejected") %>
+                  <% elsif transaction.rejected? %>
                     <div class="list-box one"><span class="dark-green-text">Declined</span></div>
-                  <% elsif transaction.state.eql?("cancelled") %>
+                  <% elsif transaction.cancelled? %>
                     <div class="list-box one"><span class="light-blue-text">Cancelled</span></div>
                   <% end %>
                   <div class="list-box two">

@@ -4,9 +4,9 @@
     <div class="my-mistake">
       <div class="title-main">Your Refund Summary</div>
       <div><b>This listing has cancellation policy</b></div>
-      <% if (@transaction.state.eql?("accepted") && @transaction.start_date > Date.today) %>
+      <% if (@transaction.accepted? && @transaction.start_date > Date.today) %>
         <div class="under-title">If you cancel now, you'll receive a full refund.</div>
-      <% elsif (@transaction.state.eql?("accepted") && @transaction.start_date < Date.today) %>
+      <% elsif (@transaction.accepted? && @transaction.start_date < Date.today) %>
         <div class="under-title">If you cancel now, you'll receive a partial refund.</div>
       <% else %>
         <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>

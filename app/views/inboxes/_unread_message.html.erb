@@ -17,19 +17,19 @@
       </div>
       <div class="price">
         <% if conversation.employee_listing_transaction.present? %>
-          <% if conversation.employee_listing_transaction.state.eql?('created') %>
+          <% if conversation.employee_listing_transaction.created? %>
             <span class="<%= 'TextDarkGreen' %>">Pending</span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
-          <% elsif conversation.employee_listing_transaction.state.eql?('accepted') %>
+          <% elsif conversation.employee_listing_transaction.accepted? %>
             <span class="<%= 'green' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
-          <% elsif conversation.employee_listing_transaction.state.eql?('cancelled') %>
+          <% elsif conversation.employee_listing_transaction.cancelled? %>
             <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
-          <% elsif conversation.employee_listing_transaction.state.eql?('completed') %>
+          <% elsif conversation.employee_listing_transaction.completed? %>
             <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
-          <% elsif conversation.employee_listing_transaction.state.eql?('rejected') %>
+          <% elsif conversation.employee_listing_transaction.rejected? %>
             <span class="<%= 'TextDarkGreen' %>">Declined</span><br>
             <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
           <% end %>

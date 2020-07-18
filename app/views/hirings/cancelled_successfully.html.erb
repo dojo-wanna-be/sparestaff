@@ -128,7 +128,7 @@
                 <strong>Your Total Refund</strong>
               </div>
               <div class="right-item">
-                <% if (@transaction.state.eql?("accepted") && @transaction.start_date > Date.today) %>
+                <% if (@transaction.accepted? && @transaction.start_date > Date.today) %>
                   <strong>$<%= (@transaction.hirer_weekly_amount).round(2) %></strong>
                 <% else %>
                   <strong>$<%= (@refund_receipt).round(2) %></strong>

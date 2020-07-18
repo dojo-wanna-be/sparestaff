@@ -4,15 +4,15 @@
   <div class="inner-box">
 
     <% @hired_listing_transactions.each do |transaction| %>
-      <div class="order_box <%= if transaction.state.eql?("created") || transaction.state.eql?("cancelled") then 'pending_or_cancelled' end %>">
+      <div class="order_box <%= if transaction.created? || transaction.cancelled? then 'pending_or_cancelled' end %>">
         <div class="order_content">
           <div class="top_part">
-            <% if transaction.state.eql?("created") %>
+            <% if transaction.created? %>
               <div class="TextOrange">
                 <strong>Pending</strong>&nbsp;&nbsp;
                 This hiring isn't confirmed yet. The Poster has 48 hours to respond.
               </div>
-            <% elsif transaction.state.eql?("cancelled") %>
+            <% elsif transaction.cancelled? %>
               <div class="TextCancelled">
                 <strong>Cancelled</strong>&nbsp;&nbsp;
                 <% if transaction.cancelled_by.eql?("hirer") %>
@@ -36,10 +36,10 @@
                 Send Message
               <% end %>
             <% end %>
-            <% if transaction.state.eql?("cancelled") %>
+            <% if transaction.cancelled? %>
               <%= link_to 'Write Review', new_review_url(tx_id: transaction.id), class: 'add_info review-link ' %>
             <% end %>
-            <% if transaction.state.eql?("accepted") %>
+            <% if transaction.accepted? %>
               <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
                 <%= image_tag 'circle-slash-icon.jpg' %>
                 Change or Cancel
@@ -50,7 +50,7 @@
                 Share Details
               <% end %>
             <% end %>
-            <% if transaction.state.eql?("created") %>
+            <% if transaction.created? %>
               <%= link_to cancel_hiring_path(id: transaction.id), method: :patch, data: {confirm: 'Are you sure that you want to cancel the request? Any money transacted will be refunded.'}, class: 'add_info' do %>
                 <%= image_tag 'circle-slash-icon.jpg' %>
                 Cancel Request
@@ -64,7 +64,7 @@
           <% else %>
             <%= image_tag 'no-image.jpg' %>
           <% end %>
-          <% if transaction.state.eql?("cancelled") %>
+          <% if transaction.cancelled? %>
             <%= link_to 'View Receipt', get_receipt_hiring_path(id: transaction.id), class: "btn_over" %>
           <% else %>
             <%= link_to 'View Hiring', hiring_path(id: transaction.id), class: "btn_over" %>

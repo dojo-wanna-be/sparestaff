@@ -31,17 +31,17 @@
         <div class="Width100Px"><%=transaction.employee_listing.classification.name%></div>
       <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
 
-      <% if transaction.state.eql?("initiated") %>
+      <% if transaction.initiated? %>
         <div class="Width100Px">Pending</div>
-      <% elsif transaction.state.eql?("accepted") %>
+      <% elsif transaction.accepted? %>
         <div class="Width100Px">Accepted</div>
-      <% elsif transaction.state.eql?("rejected") %>
+      <% elsif transaction.rejected? %>
         <div class="Width100Px">Decline</div>
-      <% elsif transaction.state.eql?("completed") %>
+      <% elsif transaction.completed? %>
         <div class="Width100Px">Completed</div>
-      <% elsif transaction.state.eql?("cancelled") %>
+      <% elsif transaction.cancelled? %>
         <div class="Width100Px">Cancelled</div>
-      <% elsif transaction.state.eql?("expired") %>
+      <% elsif transaction.expired? %>
         <div class="Width100Px">Expired</div>
       <% end %>
       <div class="Width100Px">$<%=transaction.total_amount.round(2)%></div>
