@@ -69,7 +69,7 @@
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Description, expertise, experience</h3>
-        <p class="pera-text"><%= @employee_listing.skill_description %></p>
+        <p class="pera-text more" data-max-character="600"><%= @employee_listing.skill_description %></p>
       </div>
 
       <div class="detail-custom-box">
@@ -81,14 +81,17 @@
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Other comments</h3>
-        <p class="pera-text"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
+        <p class="pera-text more" data-max-character="200"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
       </div>
 
       <div class="detail-custom-box">
-        <h3 class="detail-heading">Cancellation</h3>
-        <div><strong>Cancellation policy – Free cancellation within 48 hours</strong><br />Cancel within 48 hours of booking to get a full refund.</div>
+        <h3 class="detail-heading">Cancellation policy</h3>
+        <div>
+          Cancel hiring before or on Start Date to get a full refund.<br/>
+          Cancel after Start Date and get refund for the day of cancellation plus remaining days that you've paid for.
+        </div>
 
-        <ul class="cancelation-list">
+        <!-- <ul class="cancelation-list">
           <li>Cancel up to 24 hours before employment contract start
             date and time to get a refund, minus Spare Staff service
             fees.
@@ -100,7 +103,7 @@
             reservation is cancelled within 48 hours of booking and
             the employment contract has not started yet.
           </li>
-        </ul>
+        </ul> -->
       </div>
 
       <div class="detail-custom-box">
@@ -252,13 +255,13 @@
                 <% end %>
               </div>
             </div>
-            <p class="poster-text"><%= @employee_listing.poster.description %></p>
+            <p class="poster-text more" data-max-character="350"><%= @employee_listing.poster.description %></p>
             <% if current_user.present? %>
               <% if !@employee_listing.poster.eql?(current_user) %>
-                <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
+                <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'poster-btn' %>
               <% end %>
             <% else %>
-              <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), class: 'poster-btn' %>
+              <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'poster-btn' %>
             <% end %>
           </div>
 
@@ -275,7 +278,7 @@
 
           <div class="normal-text-box">
             <p><b>Always communicate through Spare Staff</b> · To protect your payment, never transfer money or communicate outside of the Spare Staff website or app.
-            <span><%= link_to 'Learn more', '#', class: 'learn-more' %></span>
+            <span><%= link_to 'Learn more', 'https://www.sparestaff.com.au/trust-and-safety', target: '_blank', class: 'learn-more' %></span>
             </p>
           </div>
 
