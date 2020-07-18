@@ -43,17 +43,21 @@
 
     <div class="italic-text"><em >*required details</em></div>
 
-    <h2 class="com-nor-heading">Cancellation policy</h2>
+    <!-- <h2 class="com-nor-heading">Cancellation policy</h2>
 
     <p>Cancel up to 24 hours before contract start date time and get a full refund (minus service fees). Cancel within 24 hours of contract start date time and the first day is non-refundable. Service fees are refunded if cancellation happens before contract start date time and within 48 hours of booking.</p>
 
-    <!-- <h2 class="com-nor-heading">I agree to <span><%#= link_to 'Cancellation Policy', 'https://www.sparestaff.com.au/cancellation-policy', target: "_blank", class: 'bold-link' %></span>, and <span><%#= link_to 'Hirer Refund Policy', 'https://www.sparestaff.com.au/hirer-refund-policy', target: "_blank", class: 'bold-link' %></span>. I also agree to pay the weekly total amount shown, which includes Service Fees.</h2> -->
-    <h2 class="com-nor-heading">By Clicking Request to Hire, the hirer agrees to <span><%= link_to 'Cancellation', 'https://www.sparestaff.com.au/cancellation-policy', target: "_blank", class: 'bold-link' %></span> and <span><%= link_to 'Refund', 'https://www.sparestaff.com.au/hirer-refund-policy', target: "_blank", class: 'bold-link' %></span> Policy. I also agree to pay the weekly total amount shown, which includes Service Fees.</h2>
+    <h2 class="com-nor-heading">By Clicking Request to Hire, the hirer agrees to <span><%#= link_to 'Cancellation', 'https://www.sparestaff.com.au/cancellation-policy', target: "_blank", class: 'bold-link' %></span> and <span><%#= link_to 'Refund', 'https://www.sparestaff.com.au/hirer-refund-policy', target: "_blank", class: 'bold-link' %></span> Policy. I also agree to pay the weekly total amount shown, which includes Service Fees.</h2> -->
+    <p class="info-text">
+      <span class="Text14px">By selecting the button below, I agree to <a href="https://www.sparestaff.com.au/terms/" class="Text14px" target="_blank">Terms of Services</a>, and 
+        <a href="https://www.sparestaff.com.au/privacy/" class="Text14px" target="_blank">Privacy Policy</a>.
+      </span>
+    </p>
   </div>
 
   <div class="button-box">
-    <%= link_to 'Back', initialized_transaction_path(@transaction.id), class: 'continue-btn' %>
-    <button class="continue-btn">Request to hire</button>
+    <%#= link_to 'Back', initiated_transaction_path(@transaction.id), class: 'continue-btn' %>
+    <button class="continue-btn" type="submit">Send Hiring Request</button>
   </div>
 <% end %>
 

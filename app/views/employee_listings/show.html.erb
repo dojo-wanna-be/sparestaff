@@ -74,9 +74,11 @@
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Skills</h3>
-        <% @skills.each do |skill|%>
-        <p class="pera-text"><%= skill.skill_name %></p>
-        <% end %>
+        <p>
+          <% @skills.each do |skill|%>
+            <span class="skills-list"><%= skill.skill_name %></span>
+          <% end %>
+        </p>
       </div>
 
       <div class="detail-custom-box">
@@ -90,20 +92,6 @@
           Cancel hiring before or on Start Date to get a full refund.<br/>
           Cancel after Start Date and get refund for the day of cancellation plus remaining days that you've paid for.
         </div>
-
-        <!-- <ul class="cancelation-list">
-          <li>Cancel up to 24 hours before employment contract start
-            date and time to get a refund, minus Spare Staff service
-            fees.
-          </li>
-          <li>Cancel within 24 hours of check-in and the cost of the
-            first day of contract is non-refundable.
-          </li>
-          <li>Spare Staff service fees are refunded only if the
-            reservation is cancelled within 48 hours of booking and
-            the employment contract has not started yet.
-          </li>
-        </ul> -->
       </div>
 
       <div class="detail-custom-box">

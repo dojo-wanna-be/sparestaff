@@ -2,13 +2,19 @@
   <div class="comman-inner-both">
     <div class="left_request_section">
       <%= render partial: "payment_steps_header" %>
+      <h1 class="main-heading">Request to hire <%= @employee_listing.name %></h1>
+      <%= form_for @company, url: initiated_transaction_path, method: :patch, multipart: true do |f| %>
+        <div class="review_hire_details">
 
-      <div class="review_hire_details">
-        <h1 class="main-heading">Request to hire <%= @employee_listing.name %></h1>
-        <h2 class="comman-heading">Where does <%= @employee_listing.name %> need to work?</h2>
+          <div class="request-form-box">
+            <h2 class="comman-heading">Job title</h2>
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <%= text_field_tag "transaction[title]", @transaction&.title, placeholder: "e.g. IT Support Officer, Sales Manager", class: 'custom-field' %>
+              </div>
+            </div>
 
-        <div class="request-form-box">
-          <%= form_for @company, url: initialized_transaction_path, method: :patch, multipart: true do |f| %>
+            <h2 class="comman-heading">Where does <%= @employee_listing.name %> need to work?</h2>
             <%= hidden_field_tag "id", @employee_listing.id %>
             <%= hidden_field_tag "company_id", @company.id %>
 
@@ -73,13 +79,14 @@
               <%= text_area_tag "message_text", nil, rows: "13", required: true %>
 
               <div class="button-box">
-                <%= link_to "Back", employee_path(id: @employee_listing.id, back: true), class: "continue-btn" %>
+                <%#= link_to "Back", employee_path(id: @employee_listing.id, back: true), class: "continue-btn" %>
                 <%= f.submit "Continue", class: "continue-btn" %>
               </div>
             </div>
-          <% end %>
+          
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
 
     <%= render partial: "right_listing_details" %>

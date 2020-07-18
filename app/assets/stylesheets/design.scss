@@ -1748,4 +1748,19 @@
   display: none;
 }
 
+.skills-list {
+  height: 40px;
+  line-height: 40px;
+  background-color: #e4e4e4;
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px 10px 5px 10px;
+  margin-right: 5px;
+  text-transform: capitalize;
+}
+
+p.info-text {
+  padding: 10px 0px 10px 0px;
+}
+
 //** Pagination CSS End **//

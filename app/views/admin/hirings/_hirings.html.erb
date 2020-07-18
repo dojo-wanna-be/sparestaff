@@ -31,7 +31,7 @@
         <div class="Width100Px"><%=transaction.employee_listing.classification.name%></div>
       <div class="Width100Px"><%="#{transaction.start_date.strftime('%b %d, %Y')}"%></div>
 
-      <% if transaction.state.eql?("initialized") %>
+      <% if transaction.state.eql?("initiated") %>
         <div class="Width100Px">Pending</div>
       <% elsif transaction.state.eql?("accepted") %>
         <div class="Width100Px">Accepted</div>

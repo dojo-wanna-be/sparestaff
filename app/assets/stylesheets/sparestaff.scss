@@ -1664,7 +1664,7 @@ table.UploadImages td {
 
 /* Inner */
 .popup-inner {
-  max-width:450px;
+  max-width:500px;
   width:100%;
   padding:40px;
   position:absolute;
@@ -1674,6 +1674,7 @@ table.UploadImages td {
   transform:translate(-50%, -50%);
   background:#fff;
   text-align:center;
+  font-size: 15px;
 }
 
 .popup-inner input.SlimBorder {
@@ -2896,7 +2897,7 @@ span.old_amount {
   }
 }
 .inline_data {
-  display: flex;
+  //display: flex;
 }
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {

@@ -3,10 +3,10 @@ class TransactionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:check_slot_availability]
   before_action :ensure_company_owner, except: [:check_slot_availability]
-  #before_action :ensure_account_id, only: [:create, :initialized, :payment, :request_payment]
-  before_action :find_transaction, only: [:initialized, :payment, :request_sent_successfully, :request_payment]
-  before_action :ensure_not_poster, only: [:create, :initialized, :payment, :request_payment]
-  before_action :find_company, only: [:initialized, :payment]
+  #before_action :ensure_account_id, only: [:create, :initiated, :payment, :request_payment]
+  before_action :find_transaction, only: [:initiated, :payment, :request_sent_successfully, :request_payment]
+  before_action :ensure_not_poster, only: [:create, :initiated, :payment, :request_payment]
+  before_action :find_company, only: [:initiated, :payment]
   before_action :check_valid_coupon, only: :request_payment
 
   def create
@@ -39,7 +39,7 @@ class TransactionsController < ApplicationController
     if continue
       transaction = TransactionService.new(params, current_user).create
       if transaction.present?
-        redirect_to initialized_transaction_path(id: transaction.id)
+        redirect_to initiated_transaction_path(id: transaction.id)
       else
         flash[:error] = "Please check your selected dates and slotes and try again"
         redirect_to employee_path(id: params[:transaction][:employee_listing_id])
@@ -50,7 +50,7 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def initialized
+  def initiated
     @employee_listing = @transaction.employee_listing
     unless request.patch?
       @slot = ""
@@ -63,7 +63,7 @@ class TransactionsController < ApplicationController
       end
     else
       @company.update(company_params)
-      @transaction.update_attributes(probationary_period: params[:transaction].present? ? params[:transaction][:probationary_period] : nil)
+      @transaction.update(transaction_params)
       address = @transaction.build_address(address_params).save
       create_message
       redirect_to payment_transaction_path(id: @transaction.id)
@@ -238,5 +238,9 @@ class TransactionsController < ApplicationController
     if params[:message_text] != ""
       message = conversation.messages.create(content: params[:message_text], sender_id: current_user.id)
     end
+  end
+
+  def transaction_params
+    params.require(:transaction).permit!
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_123944) do
+ActiveRecord::Schema.define(version: 2020_07_18_152629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_123944) do
     t.float "weekday_price", default: 0.0
     t.float "weekend_price", default: 0.0
     t.float "holiday_price", default: 0.0
+    t.string "title"
     t.index ["employee_listing_id"], name: "index_transactions_on_employee_listing_id"
   end
 

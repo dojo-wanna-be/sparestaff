@@ -115,7 +115,7 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
-      match :initialized, via: [:get, :patch]
+      match :initiated, via: [:get, :patch]
       get :payment
       patch :request_payment
       get :request_sent_successfully

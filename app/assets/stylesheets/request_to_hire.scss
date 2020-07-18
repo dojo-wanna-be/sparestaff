@@ -109,6 +109,7 @@
         font-size: 18px;
         font-weight: bold;
         margin: 1em 0;
+        margin-bottom: 5px;
 
         @media screen and (max-width: 767px) {
           font-size: 17px;
@@ -345,6 +346,10 @@
 
         &:first-child {
           padding-top: 0;
+        }
+        &:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
         }
         &.joint-box {
           flex-direction: column;

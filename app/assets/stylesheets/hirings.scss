@@ -1312,6 +1312,10 @@
         &:first-child {
           padding-top: 0;
         }
+        &:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
+        }
         &.joint-box {
           flex-direction: column;
           width: 100%;
