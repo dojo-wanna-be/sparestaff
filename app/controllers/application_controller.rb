@@ -27,12 +27,6 @@ class ApplicationController < ActionController::Base
       redirect_to root_path and return
     end
   end
-
-  # def current_user
-  #   # NOTE: so that everywehre within the same request can access the current_user
-  #   RequestLocals[:current_user] ||= super
-  #   super
-  # end
   
   protected
 
