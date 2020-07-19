@@ -38,6 +38,7 @@ gem 'devise'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 gem "paperclip", github: "thoughtbot/paperclip"
+gem 'aws-sdk-s3'
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
 gem 'toastr_rails'
