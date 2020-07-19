@@ -40,11 +40,6 @@ class EmployeeListingsController < ApplicationController
   end
 
   def index
-    # if current_user.is_owner? || current_user.is_hr?
-    #   @employee_listings = current_user.company.employee_listings
-    # elsif current_user.is_individual?
-    #   @employee_listing = current_user.employee_listings
-    # end
     published_company_listings = current_user.company.present? && current_user.company.employee_listings.present? ? current_user.company.employee_listings.where(published: true, deactivated: false) : []
     published_individual_listings = current_user.employee_listings.present? ? current_user.employee_listings.active.published : []
 
@@ -63,25 +58,6 @@ class EmployeeListingsController < ApplicationController
       find_listing
       @employee_listing.destroy
     end
-    # unless params[:back].eql?("true")
-    #   if current_user.is_owner? || current_user.is_hr?
-    #     @employee_listing = current_user.company.employee_listings.build
-    #     @employee_listing.listing_step = 1
-    #     if @employee_listing.save
-    #       redirect_to step_2_employee_path(id: @employee_listing.id)
-    #     else
-    #       flash[:error] = @employee_listing.errors.full_messages.to_sentence
-    #     end
-    #   elsif current_user.is_individual?
-    #     @employee_listing = current_user.employee_listings.first
-    #     redirect_to step_3_employee_path(id: @employee_listing.id)
-    #   end
-    # else
-    #   current_user.employee_listings.destroy_all if current_user.is_individual?
-    #   current_user.company.employee_listings.destroy_all if current_user.is_owner? || current_user.is_hr?
-    #   current_user.company.destroy if current_user.is_owner? || current_user.is_hr?
-    #   current_user.update_attribute(:user_type, nil)
-    # end
   end
 
   def create_listing_step_1
@@ -198,10 +174,6 @@ class EmployeeListingsController < ApplicationController
         EmployeeListingLanguage.create(employee_listing_id: @employee_listing.id, language_id: language_id)
       end
     end
-    # if params[:employee_listing][:relevant_documents].present?
-    #   @employee_listing.relevant_documents.destroy_all
-    #   @employee_listing.relevant_documents.attach(params[:employee_listing][:relevant_documents])
-    # end
     @employee_listing.update_attribute(:listing_step, 4)
     if params[:save_later]
       redirect_to employee_index_path

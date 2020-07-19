@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def account_suspended
-    if current_user.present? && current_user.is_suspended
+    if current_user&.is_suspended
       flash[:error] = "Sorry, Your account is suspended. Please contact sparestaff support team."
       redirect_to root_path and return
     end
