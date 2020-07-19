@@ -1,5 +1,4 @@
 class Admin::UsersController < Admin::AdminBaseController
-  skip_before_action :verify_authenticity_token, only: :profile_photo
   before_action :find_user, only: [:show,
                                     :show_all_listings,
                                     :show_all_poster_reviews,
