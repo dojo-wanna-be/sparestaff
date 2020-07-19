@@ -1,3 +1,10 @@
-closeLoginModal();
-gon.user = <%= raw current_user.to_json %>;
-$("#topbar").html("<%=j render 'layouts/header'%>");
+<%if @success%>
+  closeLoginModal();
+  gon.user = <%= raw current_user.to_json %>;
+  $("#topbar").html("<%=j render 'layouts/header'%>");
+  var successMsg = 'Signed in successfully';
+  toastr.success(successMsg)
+<%else%>
+  var errorMsg = 'Login failed. Please check your email/password';
+  toastr.error(errorMsg)
+<%end%>

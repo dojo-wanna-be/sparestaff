@@ -3,15 +3,19 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    self.resource = warden.authenticate!(auth_options)
-    set_flash_message!(:notice, :signed_in)
-    sign_in(resource_name, resource)
-    yield resource if block_given?
-    gon.watch.user = resource
-    if request.xhr?
-      render 'home/login.js.erb'
+    self.resource = User.find_by(email: sign_in_params[:email])
+    @success = true
+    if resource and resource.valid_password?(sign_in_params[:password])
+      sign_in(resource_name, resource)
+      yield resource if block_given?
+      if request.xhr?
+        render 'home/login.js.erb'
+      else
+        respond_with resource, location: after_sign_in_path_for(resource)
+      end
     else
-      respond_with resource, location: after_sign_in_path_for(resource)
+      @success = false
+      render 'home/login.js.erb'
     end
   end
 end
