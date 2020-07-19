@@ -18,6 +18,6 @@ module SpareStaff
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    Rails.application.config.assets.precompile += %w(daterangepicker.css daterangepicker.min.js moment.min.js jquery.raty.js)
+    config.assets.precompile += %w(daterangepicker.css daterangepicker.min.js moment.min.js jquery.raty.js)
   end
 end

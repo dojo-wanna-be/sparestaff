@@ -1,4 +1,4 @@
-<%if @success%>
+<%if current_user%>
   closeLoginModal();
   gon.user = <%= raw current_user.to_json %>;
   $("#topbar").html("<%=j render 'layouts/header'%>");
