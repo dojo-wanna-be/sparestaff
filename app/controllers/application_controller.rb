@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   before_action :authenticate_user!
   before_action :account_suspended
@@ -38,6 +38,15 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     root_path
+  end
+
+  def authenticate_user!
+    return true if user_signed_in?
+
+    respond_to do |format|
+      format.js { render nothing: true, status: :unauthorized } 
+      format.html { redirect_to root_path, :alert => 'Need to login.' }
+    end
   end
 
   def ensure_is_admin
