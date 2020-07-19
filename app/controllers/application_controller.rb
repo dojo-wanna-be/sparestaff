@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :account_suspended
   before_action :unread_message_count
   before_action :footer_links
+  before_action :init_gon
   include ApplicationHelper
 
   def unread_message_count
@@ -36,5 +37,10 @@ class ApplicationController < ActionController::Base
       flash[:error] = "Only Adminstration enter in this area!"
       redirect_to root_path and return
     end
+  end
+
+  def init_gon
+    gon.push env: Rails.env, env_vars: {}
+    gon.push user: current_user if user_signed_in?
   end
 end

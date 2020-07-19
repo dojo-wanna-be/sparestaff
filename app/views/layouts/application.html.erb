@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Online MarketPlace for Sharing and Hiring Employees - Spare Staff</title>
+    <%= Gon::Base.render_data(init: true) %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta charset="utf-8">
@@ -21,7 +22,9 @@
       <%= render partial: "layouts/admin_header" %>
     <% else %>
       <% unless params[:controller].eql?("transactions") %>
-        <%= render partial: "layouts/header" %>
+        <div id="topbar">
+          <%= render partial: "layouts/header" %>
+        </div>
       <% end %>
     <% end %>
     <%= yield %>

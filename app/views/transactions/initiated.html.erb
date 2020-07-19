@@ -10,7 +10,7 @@
             <h2 class="comman-heading">Job title</h2>
             <div class="custom-field-box">
               <div class="custom-input-group">
-                <%= text_field_tag "transaction[title]", @transaction&.title, placeholder: "e.g. IT Support Officer, Sales Manager", class: 'custom-field' %>
+                <%= text_field_tag "transaction[title]", @transaction&.title, placeholder: "e.g. IT Support Officer, Sales Manager", class: 'custom-field', required: true %>
               </div>
             </div>
 

@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  initializeTransactionForm();
+</script>
 <div class="right-preview-detail">
   <%= form_for transaction, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
