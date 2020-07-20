@@ -1,0 +1,197 @@
+<div class="get-receipt-section">
+  <div class="inner-show-hiring">
+    <div class="header-box">
+      <div class="header-left">
+        <h1 class="hiring-title">Hiring ID <%= @transaction.id %> - Hirer Receipt #103</h1>
+      </div>
+      <div class="header-right">
+        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
+      </div>
+    </div>
+
+    <div class="inner-hiring-box">
+      <div class="left-hiring-box">
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Employee</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="both-box">
+              <div class="both-left">
+                <div><%= @listing.title %> <br/> <%= @listing.name %> </div>
+              </div>
+              <div class="both-right">
+               &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Hiring</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="three-box">
+              <%= @transaction.start_date.strftime("%d %h %Y") %>
+              &nbsp; > &nbsp;
+              <%= @transaction.end_date.strftime("%d %h %Y") %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Timetable</b>
+          </div>
+          <div class="user-detail-box-right">
+            <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
+              <div class="three-box">
+                <div class="three-box-left">
+                  <div><%= bookings.first.day.titleize %></div>
+                </div>
+                <div class="three-box-middle">
+                  <div>
+                    <%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %>
+                  </div>
+                </div>
+                <div class="three-box-right">
+                  <div>&nbsp;</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Address</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="three-box">
+              <div class="three-box-left">
+                <div>
+                  <% if @transaction.address.present? %>
+                    <%= "#{@transaction.address.address_1}" %>
+                    <%= "#{@transaction.address.city} #{@transaction.address.state} #{@transaction.address.post_code}" %>
+                    <%= "#{@transaction.address.country}" %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="three-box-middle">
+                <div>&nbsp;</div>
+              </div>
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Billing</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="both-box space-both">
+              <div class="box-left">
+                <div>Weekly payment</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></div>
+                <div>Tax withholding</div>
+                <div>Service fee</div>
+                <div><b>Weekly total</b></div>
+              </div>
+
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+                <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
+                <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
+                <div>-$<%= (@transaction.tax_withholding_amount_calculate).round(2) %></div>
+                <div>$<%= @transaction.service_fee.round(2) %></div>
+                <div><b>$<%= @transaction.hirer_weekly_amount %></b></div>
+              </div>
+            </div>
+
+            <div class="both-box">
+              <div class="box-left">
+                <div>Total employment contract</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.total_weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.total_weekend_hours} hours (weekend)" %></div>
+                <div>Tax withholding</div>
+                <div>Service fee</div>
+                <div><b>Total</b></div>
+              </div>
+
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+                <div>$<%= (@listing.weekday_price * @transaction.total_weekday_hours).round(2) %></div>
+                <div>$<%= (@listing.weekend_price * @transaction.total_weekend_hours).round(2) %></div>
+                <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
+                <div>$<%= @transaction.total_service_fee.round(2) %></div>
+                <div><b>$<%= @transaction.total_amount.round(2) %></b></div>
+              </div>
+            </div>
+
+            <div class="bottem-text">You chose to pay weekly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-hiring-box detail-right-box">
+        <div class="charges-box">
+          <h6 class="charges-heading"><b>Charges</b></h6>
+          <ul class="calculation-list">
+            <li class="calc-item">
+              <span class="left">$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></span>
+              <span class="right"><label id="">$<%= @listing.weekday_price * @transaction.weekday_hours %></label></span>
+            </li>
+            <li class="calc-item">
+              <span class="left">$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></span>
+              <span class="right"><label id="">$<%= @listing.weekend_price * @transaction.weekend_hours %></label></span>
+            </li>
+            <li class="calc-item">
+              <span class="left">Tax withholding</span>
+              <span class="right">-$<label id=""><%= (@transaction.tax_withholding_amount_calculate).round(2) %></label></span>
+            </li>
+            <li class="calc-item">
+              <span class="left">Service fee (includes VAT)</span>
+              <span class="right">$<label id=""><%= @transaction.service_fee.round(2) %></label></span>
+            </li>
+            <li class="calc-item last-item">
+              <span class="left"><b>Total</b></span>
+              <span class="right"><b>$<label id=""><%= @transaction.hirer_weekly_amount %></label></b></span>
+            </li>
+          </ul>
+
+          <div>* The Service Fee includes VAT charges when applicable. <span><%= link_to 'Download VAT Receipt', vat_invoice_details_hiring_path(id: @transaction.id, receipt_id: @receipt.id), class: 'TextGrey' %></span></div>
+        </div>
+
+        <div class="charges-box">
+          <h6 class="charges-heading"><b>Payment</b></h6>
+
+          <ul class="calculation-list">
+            <li class="calc-item payment-item">
+              <span class="left">
+                Payment with  <%= @transaction.hirer.stripe_info.card_type %> ....<%= @transaction.hirer.stripe_info.last_four_digits %> </br>
+                <span class="TextGrey"><%= @transaction.start_date.strftime("%d-%h-%Y") %></span>
+              </span>
+              <span class="right">$<label id=""><%= @transaction.hirer_weekly_amount %></label></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<style type="text/css">
+  .LogoFooter {
+    height: 20px;
+    float: left;
+    filter: grayscale(100%);
+  }
+</style>
+

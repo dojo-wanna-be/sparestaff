@@ -31,19 +31,42 @@
 #
 
 class User < ApplicationRecord
+  require 'csv'
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, :trackable
+  # :lockable, :timeoutable,
+  default_scope { where(deleted_at: nil) }
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+         :recoverable, :rememberable, :validatable, :omniauthable, :trackable, omniauth_providers: [:facebook]
+
+  has_attachment :avatar, styles: { medium: "300x300", thumb: "100x100" }
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+  validates_attachment_file_name :avatar, matches: [/png\Z/, /jpe?g\Z/]
 
   belongs_to :company, optional: true
   has_many :employee_listings, as: :lister, dependent: :destroy
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
   has_many :messages, class_name: "Message", foreign_key: "sender_id"
+  has_one :stripe_info
+  has_one :notification_setting
+  has_many :reviews
+  has_many :user_coupons
+  has_many :coupons, through: :user_coupons
+  accepts_nested_attributes_for :company
+
+  scope :suspended, -> { where(is_suspended: true) }
+  scope :exclude, -> (user) { where.not(id: user.id) }
 
   enum user_type: { owner: 0, hr: 1 }
 
   ROLES = [["HR Manager", 1], ["Director/Owner", 0]]
+
+  def active_for_authentication?
+    is_suspended.eql?(false) # i.e. super && self.is_active
+  end
+
+  def inactive_message
+    "Sorry, Your account is suspended. Please contact sparestaff support team."
+  end
 
   def self.new_with_session(params, session)
     super.tap do |user|
@@ -63,6 +86,10 @@ class User < ApplicationRecord
     end
   end
 
+  def label_for_select
+    "#{user.email} (#{user.name})"
+  end
+
   def is_individual?
     user_type.eql?(nil) && self.company.blank? && self.employee_listings.present?
   end
@@ -78,4 +105,31 @@ class User < ApplicationRecord
   def name
     "#{self.first_name} #{self.last_name}"
   end
+
+  
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+      all.order(id: :desc).each do |user|
+        csv << [user.id, user.first_name, user.last_name, user.email, user.company&.role, user.company&.name, user.created_at&.strftime("%b %e, %Y"), user.last_sign_in_at&.strftime("%b %e, %Y"), user.is_suspended, user.is_admin]
+      end
+    end
+  end
+
+
+  def self.attributes
+    {
+      id: 'ID',
+      first_name: 'First Name',
+      last_name: 'Last Name',
+      email: 'Email',
+      ROLES: 'Role',
+      company_id: 'Company',
+      created_at: 'Date joined',
+      last_sign_in_at: 'Last login',
+      is_suspended: 'Is Suspended',
+      is_admin: 'Is Admin'
+    }
+  end
+
 end

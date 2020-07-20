@@ -5,12 +5,18 @@
     <%= f.hidden_field :is_withholding_tax, value: transaction.is_withholding_tax, id: "new_withholding_tax" %>
     <%= f.hidden_field :tax_withholding_amount, value: transaction.tax_withholding_amount, id: "new_tax_withholding_amount" %>
     <%= f.hidden_field :probationary_period, value: transaction.probationary_period, id: "new_probationary_period" %>
+    <%= hidden_field_tag "total_tax_with_holding", '' %>
 
     <div class="available-box">
       <div class="date-box">
         <div class="date-sec">
           <label class="thin-label">Start Date</label>
-          <%= f.date_field :start_date, value: start_date, min: Date.today %>
+          <% if Date.today < transaction.start_date %>
+            <%= f.date_field :start_date, value: start_date < Date.today ? Date.today : start_date, min: Date.today %>
+          <% else %>
+            <%= transaction.start_date.strftime("%d/%m/%Y") %>
+            <%= f.hidden_field :start_date, value: changed_old_tx_end_date(transaction, transaction.frequency) + 1.day %>
+          <% end %>
           <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
         </div>
         <div class="date-sec">
@@ -19,18 +25,17 @@
           <!-- <label id="end_date">End date must be greater from start date</label> -->
         </div>
       </div>
-
       <div class="hiring-text">Select hiring time</div>
 
       <div class="week-availability">
         <ul class="from-to-list">
+          <!-- <div id="web_loading"></div> -->
           <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
           <li class="header-item">
             <div class="from-text">From</div>
             <div class="to-text">To</div>
           </li>
-
-          <% employee_listing.listing_availabilities.each_with_index do |availability, index| %>
+          <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>
                 <div class="start-side">
@@ -41,20 +46,31 @@
                   <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(ListingAvailability::END_TIME_SLOTS), include_blank: ' ', class: 'end_str_id end-side-select disabled-field', disabled: "disabled" %>
                 </div>
               <% else %>
+                <% booking_time_slot = transaction.bookings.find_by(day: availability.day) %>
+                <% booking_start_time_slot = booking_time_slot.present? ? booking_time_slot.start_time.strftime("%H:%M") : nil %>
+                <% booking_end_time_slot = booking_time_slot.present? ? booking_time_slot.end_time.strftime("%H:%M") : nil %>
                 <div class="start-side">
                   <span><%= availability.day.titleize %></span>
-                  <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                  <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), selected: booking_start_time_slot, disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
                 </div>
                 <div class="end-side">
-                  <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                  <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), selected: booking_end_time_slot, disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
                 </div>
               <% end %>
             </li>
           <% end %>
         </ul>
       </div>
+  
+    </div>
+
+    <div class="message__box">
+      <label>Message to Poster (optional)</label>
+      <textarea cols="20" name="TextArea1" rows="4" class="FullWidthBorderBox"></textarea>
     </div>
 
     <%= f.submit "Continue", class: 'continue-btn' %>
+    <label id="total_hour_error" style="display: none; color: red;">Total hours must be greater than <%= employee_listing.minimum_working_hours %></label>
+    <%= link_to "Cancel", change_or_cancel_hiring_path(transaction.id) %>
   <% end %>
 </div>

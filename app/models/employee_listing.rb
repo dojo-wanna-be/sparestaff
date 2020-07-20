@@ -53,7 +53,13 @@
 #
 
 class EmployeeListing < ApplicationRecord
-  default_scope { where(deactivated: false) }
+  require 'csv'
+  scope :active, -> { where(deactivated: false) }
+  scope :published, -> { where(published: true) }
+  scope :unpublished, -> { where(published: false) }
+  scope :status, -> { where.not(deleted_at: true, pause_at: true)}
+  scope :delete_status, -> { where.not(deleted_at: true)}
+  scope :pause_listing, -> {where(pause_at: true)}
 
   attr_accessor :other_weekday_price
   attr_accessor :other_weekend_price
@@ -72,15 +78,22 @@ class EmployeeListing < ApplicationRecord
   has_many :bookings, through: :transactions
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
-  has_attached_file :profile_picture
+  has_attachment :profile_picture
   validates_attachment_content_type :profile_picture, content_type: /\Aimage\/.*\z/
-  has_attached_file :verification_front_image
+  has_attachment :verification_front_image
   validates_attachment_content_type :verification_front_image, content_type: /\Aimage\/.*\z/
-  has_attached_file :verification_back_image
+  has_attachment :verification_back_image
   validates_attachment_content_type :verification_back_image, content_type: /\Aimage\/.*\z/
+  geocoded_by :address
+  after_validation :geocode
+  def address
+    [address_1, city, state, country, post_code].compact.join(', ')
+  end
+
 
   EMPLOYEE_STATES = [ "NSW", "VIC", "QLD", "WA", "SA", "NT", "ACT", "TAS" ]
   EMPLOYEE_COUNTRIES = [ "Australia" ]
+  EMPLOYEE_COUNTRIES_WITH_CODE = [ ["Australia", "AU"] ]
   EMPLOYEE_RESIDENCY_STATUSES = [ "Permanent Resident/Citizen", "Family/Partner Visa", "Student Visa", "Other Visas" ]
   EMPLOYEE_VERIFICATION_TYPES = [ "Australian Driver Licence", "Australian Passport", "Australian Citizenship Certificate",
                                   "Overseas Passport", "Australian Birth Certificate", "Australian Issued Photo ID", "Others" ]
@@ -92,7 +105,11 @@ class EmployeeListing < ApplicationRecord
                           ["I am the employee and I have found a job elsewhere", 2], ["It's a duplicated listing", 3],
                           ["I have law, confidentiality or policy concerns", 4], ["It takes too much effort", 5],
                           ["I'm a job seeker but I'm not comfortable listing myself for hiring here", 6], ["None of these", 7] ]
-
+  HOURLY_RATES = [ ["$10 / Hour", 10.0], ["$20 / Hour", 20.0], ["$30 / Hour", 30.0], ["$40 / Hour", 40.0], ["$50 / Hour", 50.0], ["$60 / Hour", 60.0],
+              ["$70 / Hour", 70.0], ["$80 / Hour", 80.0], ["$90 / Hour", 90.0], ["$100 / Hour", 100.0], ["$150 / Hour", 150.0], ["$200 / Hour", 200.0],
+              ["$250 / Hour", 250.0], ["$300 / Hour", 300.0], ["$350 / Hour", 350.0], ["$400 / Hour", 400.0], ["$450 / Hour", 450.0], ["$500 / Hour", 500.0] ]
+  
+  AGE = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
   def poster
     lister_type.eql?("User") ? self.lister : self.lister.creator
   end
@@ -100,4 +117,30 @@ class EmployeeListing < ApplicationRecord
   def name
     "#{self.first_name} #{self.last_name}"
   end
+
+  def poster_name
+    poster&.name
+  end
+  
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+
+      EmployeeListing.active.published.delete_status.each do |listing|
+        csv << [listing.id, listing.title, listing.name, listing.poster&.name, listing.classification&.name, listing.status]
+      end
+    end
+  end
+  
+  def self.attributes
+    {
+      id: 'ID',
+      title: 'Title',
+      name: 'Employee',
+      lister_type: 'Poster',
+      classification_id: 'Classification',
+      status: 'Status'
+    }
+  end
+
 end

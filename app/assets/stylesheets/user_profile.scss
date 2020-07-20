@@ -1,0 +1,414 @@
+//** USER PROFILE CSS **//
+
+.employee_listings_section {
+  padding: 22px 80px;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    padding: 20px 25px;
+  }
+
+  .inner-listings-section {
+    display: flex;
+    flex-direction: row;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      margin-right: 40px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 20%;
+        margin-right: 12px;
+      }
+
+      .panel-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        .panel-item {
+          padding-bottom: 10px;
+
+          .panel-link {
+            color: #767676;
+            font-size: 16px;
+
+            &:hover {
+              color: #bbbbbb;
+              text-decoration: none;
+            }
+
+            &.selected-panel {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+          }
+
+          .listing-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 3px;
+            background-color: #f15928;
+            color: #fff;
+            margin-top: 64px;
+
+            &:hover {
+              background-color: #d75227;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+              text-decoration: none;
+            }
+            @media screen and (max-width: 767px) {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      width: 780px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 80%;
+      }
+
+      .right-panel-header {
+        font-size: 13pt;
+        font-weight: normal;
+        background-color: #f2f2f2;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dce0e0;
+        height: 45px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        @media screen and (max-width: 767px) {
+          min-height: 45px;
+          height: auto;
+        }
+      }
+
+      .listed-box {
+        border: 1px solid #dce0e0;
+        margin-bottom: 20px;
+
+        .error_message {
+          font-size: 14px;
+          vertical-align: top;
+          margin: 10px 0;
+          color: #767676;
+        }
+
+        .listing-card-box {
+          padding: 20px 45px 20px 15px;
+          display: flex;
+          flex-direction: column;
+
+          @media screen and (max-width: 767px) {
+            padding: 20px 5px 20px 5px;
+          }
+
+          &.photos_card {
+            padding: 20px 15px 20px 15px;
+
+            @media screen and (max-width: 767px) {
+              padding: 20px 5px 20px 5px;
+            }
+          }
+
+          .custom-field-box {
+            display: flex;
+            flex-direction: column;
+
+            .custom-input-group {
+              margin: 10px 0;
+              line-height: 1.4;
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+
+              @media screen and (max-width: 767px) {
+                flex-direction: column;
+              }
+
+              .error_field_box {
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 200px);
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
+
+                .custom-field {
+                  width: 100%;
+                }
+              }
+
+              .custom-label {
+                font-size: 16px;
+                font-weight: normal;
+                line-height: 1.4;
+                margin: 0;
+                color: #484848;
+                width: 210px;
+                padding: 0 10px 0 0;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                height: 40px;
+                text-transform: capitalize;
+                text-align: right;
+
+                @media screen and (max-width: 767px) {
+                  justify-content: flex-start;
+                  align-items: center;
+                  width: 100%;
+                  text-align: left;
+                }
+              }
+
+              .custom-field {
+                width: calc(100% - 200px);
+                height: 40px;
+                border: 1px solid #c0c0c0;
+                padding-left: 5px;
+                font-size: 16px;
+                color: #484848;
+                line-height: 1.4;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
+
+                &.half_text_field {
+                  width: 200px;
+
+                  @media screen and (max-width: 767px) {
+                    width: 100%;
+                  }
+                }
+              }
+
+              .custom_text_area {
+                border: 1px solid #c0c0c0;
+                font-size: 12pt;
+                color: #484848;
+                padding: 10px;
+                width: 100%;
+              }
+            }
+
+            .user_profile_box {
+              display: flex;
+              flex-direction: row;
+
+              @media screen and (max-width: 767px) {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              }
+
+              .user_box {
+                width: 202px;
+                height: 222px;
+                padding: 10px 0;
+                position: relative;
+                &:hover {
+                  .bin_box {
+                    display: block
+                  }
+                }
+                .user_image {
+                  height: 100%;
+                  width: 100%;
+                  border-radius: 50%;
+                }
+
+                .bin_box {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  display: none;
+                  cursor: pointer;
+                  img {
+                    height: 30px;
+                  }
+                }
+              }
+
+              .user_text {
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 202px;);
+                padding: 10px 0 10px 20px;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                  padding: 10px 0px 10px 0px;
+                }
+
+                .upload_file {
+                  border: 1.5px solid #c0c0c0;
+                  border-radius: 3px;
+                  height: 48px;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 22px;
+                  font-size: 12pt;
+                  color: #333;
+                  line-height: 1.4;
+                  font-weight: bold;
+                  text-decoration: none;
+
+                  &:hover {
+                    border: 1.5px solid #767676;
+                  }
+                }
+              }
+            }
+
+            .Verified_Info_box {
+              padding: 10px 30px 10px 10px;
+
+              .verified_heading {
+                font-size: 18px;
+                font-weight: bold;
+                display: inline-block;
+                padding-bottom: 5px;
+                margin: 0;
+              }
+            }
+          }
+        }
+      }
+
+      .review_tab_box {
+        .tab_row {
+          display: flex;
+          flex-direction: row;
+          border-bottom: 1px solid #e4e4e4;
+          justify-content: flex-start;
+          align-items: center;
+
+          .tab_a {
+            height: 30px;
+            margin-right: 13px;
+            color: #767676;
+            text-decoration: none;
+
+            &:hover {
+              color: #333;
+            }
+
+            &.active {
+              border-bottom: 3px solid #c0c0c0;
+            }
+          }
+        }
+
+        #ReviewsAboutYouBox {
+          //display: none;
+        }
+        #ReviewsByYouBox {
+          display: none;
+        }
+
+        .review_user-box {
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+
+          @media screen and (max-width: 767px) {
+            padding: 0 5px;
+          }
+
+          .review_box {
+            display: flex;
+            flex-direction: row;
+            padding: 20px 0;
+            border-bottom: 1px solid #e4e4e4;
+
+            &:nth-last-of-type(1) {
+              border-bottom: none;
+            }
+
+            .review_user_img {
+              width: 80px;
+              text-align: center;
+
+              .ProfileIcon60px {
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                border: 1px #dce0e0 solid;
+              }
+
+              .GreyText14Px {
+                font-size: 14px;
+                color: #767676;
+                padding: 5px 0 0;
+              }
+            }
+
+            .user_text {
+              padding: 0 0 0 20px;
+              width: calc(100% - 80px);
+
+              @media screen and (max-width: 767px) {
+                padding: 0 0 0 5px;
+              }
+            }
+          }
+        }
+      }
+
+      .continue_btn {
+        width: fit-content;
+        height: 40px;
+        margin-top: 22px;
+        border-radius: 3px;
+        background-color: #F15927;
+        border: none;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 29px;
+
+        &:hover {
+          background-color: #d75227;
+        }
+      }
+
+    }
+  }
+}
+
+//** USER PROFILE END CSS **//

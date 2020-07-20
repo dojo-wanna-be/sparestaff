@@ -1,0 +1,31 @@
+<% @reviews_all.each do |review| %>
+  <% tx = Transaction.find_by(id: review.transaction_id) %>
+  <div class="user-review">
+    <div class="user-detail">
+      <div class="user">
+        <%= link_to user_path(tx.hirer.id), target: '_blank' do %>
+          <%= image_tag tx.hirer.avatar.url, class: 'user-img' %>
+        <% end %>
+        <div class="name">
+          <div><b><%= tx.hirer.name %></b></div>
+          <div><%= review.created_at.strftime("%B, %Y") %></div>
+        </div>
+      </div>
+      <div class="flag">
+        <%= image_tag 'flag.png', class: 'FlagReview' %>
+      </div>
+    </div>
+    <p class="review-text"><%= review.public_feedback %></p>
+  </div>
+<% end %>
+<div class="will_pagination_box pagination_box reviews">
+  <%= js_will_paginate @reviews_all, :previous_label => "<", :next_label => ">" %>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax123 th a, .sort_paginate_ajax123 .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+</script>

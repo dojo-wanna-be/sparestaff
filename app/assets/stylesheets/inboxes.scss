@@ -1,0 +1,306 @@
+.change-or-hiring-section {
+  max-width: 100%;
+  width: 1072px;
+  margin: 0 auto;
+  margin-left: 80px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 22px;
+  @media screen and (max-width: 767px) {
+    margin: 0;
+    padding: 10px 12px;
+    flex-direction: column;
+    width: 100%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+  .TextOrange {
+    color: #F15927;
+  }
+  .left-detail {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 301px;
+    margin-right: 49px;
+    border: 1px solid #e4e4e4;
+    height: max-content;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 10px;
+      margin-right: 15px;
+    }
+    .pro-pic {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    .order-details {
+      border-bottom: 1px solid #e4e4e4;
+      padding: 22px 0;
+      display: flex;
+      flex-direction: column;
+      &:last-child {
+        border-top: 1px solid #e4e4e4;
+        margin-top: 20px;
+        border-bottom: 0px !important;
+        padding-bottom: 0 !important;
+      }
+      &.first-order {
+        margin-top: 22px;
+        border-top: 1px solid #e4e4e4;
+      }
+      &.show-payment-box {
+        display: none;
+        padding-bottom: 0;
+        border-bottom: 0px;
+      }
+      .learn-more {
+        font-size: 14px;
+      }
+      .sub-title {
+        margin-bottom: 24px;
+        margin-top: 2px;
+      }
+      .order-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &.space-bottom {
+          margin-bottom: 10px;
+        }
+        .month1 {
+          margin-top: 12px;
+        }
+      }
+      .detail-bot-text {
+        border-top: 1px solid #e4e4e4;
+        padding-top: 20px;
+        padding-bottom: 10px;
+      }
+      .OrderTotalHour {
+        font-size: 14px;
+        color: #767676;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+    }
+    .toggle-payment-detail {
+      color: #F15927;
+      margin-top: 22px;
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+  .right-detail {
+    width: 581px;
+    padding-top: 0px;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+    .reservation-order-box {
+      padding: 20px;
+      border: 1px solid #e4e4e4;
+      width: 481px;
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      &.declined-box {
+        width: 580px;
+        @media screen and (max-width: 767px) {
+          width: 100%;
+        }
+      }
+      .btn-box {
+        display: flex;
+        .modal-orange-btn {
+          width: 180px;
+          color: #fff;
+          text-decoration: none;
+        }
+        .modal-white-btn {
+          width: 180px;
+          color: #484848;
+          text-decoration: none;
+        }
+      }
+    }
+    .profile_details_right {
+      padding-bottom: 20px;
+      .user_listings {
+        .featured-listings {
+          margin: 22px 0 0;
+          &.AllListings {
+            display: none;
+            &.toggle_listing {
+              display: flex;
+            }
+          }
+          .licting-card-link {
+            height: 395px;
+            margin-right: 26px;
+            @media screen and (min-width: 768px) and (max-width: 992px) {
+              height: 350px;
+            }
+            .listing-card {
+              width: 250px;
+              @media screen and (max-width: 767px) {
+                width: 100%;
+              }
+              @media screen and (min-width: 768px) and (max-width: 992px) {
+                width: 200px;
+              }
+              .listing-img {
+                width: 250px;
+                height: 250px;
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
+                @media screen and (min-width: 768px) and (max-width: 992px) {
+                  width: 200px;
+                  height: 200px;
+                }
+              }
+            }
+          }
+        }
+        .toggle_listing {
+          color: #F15927;
+          cursor: pointer;
+          margin: 0 0 23px;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .review_box {
+        .review_tab_box {
+          .tab_row {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px solid #e4e4e4;
+            justify-content: flex-start;
+            align-items: center;
+            .tab_a {
+              height: 30px;
+              margin-right: 26px;
+              color: #767676;
+              text-decoration: none;
+              &:hover {
+                color: #333;
+              }
+              &.active {
+                border-bottom: 3px solid #c0c0c0;
+              }
+            }
+          }
+          #ReviewsAboutYouBox {
+            //display: none;
+          }
+          #ReviewsByYouBox {
+            display: none;
+          }
+          .review_user-box {
+            display: flex;
+            flex-direction: column;
+            @media screen and (max-width: 767px) {
+              padding: 0 5px;
+            }
+            .review_box {
+              display: flex;
+              flex-direction: row;
+              padding: 20px 0;
+              border-bottom: 1px solid #e4e4e4;
+              &:nth-last-of-type(1) {
+                border-bottom: none;
+              }
+              .review_user_img {
+                width: 80px;
+                text-align: center;
+                .ProfileIcon60px {
+                  border-radius: 50%;
+                  width: 60px;
+                  height: 60px;
+                  border: 1px #dce0e0 solid;
+                }
+                .GreyText14Px {
+                  font-size: 14px;
+                  color: #767676;
+                  padding: 5px 0 0;
+                }
+              }
+              .user_text {
+                padding: 0 0 0 20px;
+                width: calc(100% - 80px);
+                @media screen and (max-width: 767px) {
+                  padding: 0 0 0 5px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/** ACCEPT AND DECLINED CSS **/
+.custom-modal {
+  .custom-modal-inner {
+    .title-modal {
+      font-size: 22px;
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+    .form-modal {
+      margin-top: 20px;
+      .label-modal {
+        margin: 0;
+      }
+      .modal-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e4e4e4;
+      }
+      .Text14px {
+        position: relative;
+        label.error {
+          position: absolute;
+          bottom: -19px;
+          margin: 0;
+          left: 0;
+        }
+      }
+      .select-box {
+        margin: 20px 0 15px;
+        select {
+          width: 100%;
+          height: 40px;
+          border: 1px solid #e4e4e4;
+          padding-left: 5px;
+          cursor: pointer;
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+      .modal-btn-box {
+        border-top: 1px solid #e4e4e4;
+        margin-top: 20px;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+/** ACCEPT AND DECLINED END CSS **/

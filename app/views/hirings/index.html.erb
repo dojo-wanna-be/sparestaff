@@ -4,41 +4,57 @@
   <div class="inner-box">
 
     <% @hired_listing_transactions.each do |transaction| %>
-      <div class="order_box <%= if transaction.state.eql?("created") || transaction.state.eql?("cancelled") then 'pending_or_cancelled' end %>">
+      <div class="order_box <%= if transaction.created? || transaction.cancelled? then 'pending_or_cancelled' end %>">
         <div class="order_content">
           <div class="top_part">
-            <% if transaction.state.eql?("created") %>
+            <% if transaction.created? %>
               <div class="TextOrange">
                 <strong>Pending</strong>&nbsp;&nbsp;
                 This hiring isn't confirmed yet. The Poster has 48 hours to respond.
               </div>
-            <% elsif transaction.state.eql?("cancelled") %>
+            <% elsif transaction.cancelled? %>
               <div class="TextCancelled">
                 <strong>Cancelled</strong>&nbsp;&nbsp;
-                You cancelled this hiring.
+                <% if transaction.cancelled_by.eql?("hirer") %>
+                  You cancelled this hiring.
+                <% else %>
+                  <%= transaction.poster.name %> cancelled this hiring.
+                <% end %>
               </div>
             <% end %>
-            <h2 class="order_listing_title"><%= transaction.employee_listing.title %></h2>
-            <p class="order_listing_title_small"><%= transaction.employee_listing.name %></p>
-            <span class="post"><%= transaction.employee_listing.poster.name %></span>
+            <h2 class="order_listing_title"><%= transaction.employee_listing.name %></h2>
+            <p class="order_listing_title_small"><%= transaction.employee_listing.title %></p>
+            <span class="post">Poster: <%= transaction.employee_listing.poster_name %></span>
             <strong class="dt_bold"><%= transaction.start_date.strftime("%d %h %Y") %></strong> <span class="aro"> > </span><strong class="dt_bold"><%= transaction.end_date.strftime("%d %h %Y") %></strong>
             <% total_hours = transaction.total_weekday_hours + transaction.total_weekend_hours %>
-            <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
+            <span class="OrderTotalHour"><%= "#{total_hours} Hour Per week" %></span>
           </div>
           <div class="bottom_part">
-            <%= link_to 'javascript:;', class: 'add_info' do %>
-              <%= image_tag 'send-message-icon.jpg' %>
-              Send Message
+            <% if transaction&.conversation %>
+              <%= link_to inbox_path(id: transaction&.conversation&.id), class: 'add_info' do %>
+                <%= image_tag 'send-message-icon.jpg' %>
+                Send Message
+              <% end %>
             <% end %>
-
-            <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
-              <%= image_tag 'calendar-icon.jpg' %>
-              Change or Cancel
+            <% if transaction.cancelled? %>
+              <%= link_to 'Write Review', new_review_url(tx_id: transaction.id), class: 'add_info review-link ' %>
             <% end %>
+            <% if transaction.accepted? %>
+              <%= link_to change_or_cancel_hiring_path(id: transaction.id), class: 'add_info' do %>
+                <%= image_tag 'circle-slash-icon.jpg' %>
+                Change or Cancel
+              <% end %>
 
-            <%= link_to 'javascript:;', class: 'add_info share-detail-link', data: {attribute: transaction.id} do %>
-              <%= image_tag 'envelope-icon.jpg' %>
-              Share Details
+              <%= link_to 'javascript:;', class: 'add_info share-detail-link', data: {attribute: transaction.id, toggle: 'modal', target: '#shareDetailsModal'} do %>
+                <%= image_tag 'envelope-icon.jpg' %>
+                Share Details
+              <% end %>
+            <% end %>
+            <% if transaction.created? %>
+              <%= link_to cancel_hiring_path(id: transaction.id), method: :patch, data: {confirm: 'Are you sure that you want to cancel the request? Any money transacted will be refunded.'}, class: 'add_info' do %>
+                <%= image_tag 'circle-slash-icon.jpg' %>
+                Cancel Request
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -48,193 +64,90 @@
           <% else %>
             <%= image_tag 'no-image.jpg' %>
           <% end %>
+          <% if transaction.cancelled? %>
+            <%= link_to 'View Receipt', get_receipt_hiring_path(id: transaction.id), class: "btn_over" %>
+          <% else %>
+            <%= link_to 'View Hiring', hiring_path(id: transaction.id), class: "btn_over" %>
+          <% end %>
 
-          <%= link_to 'View Hiring', hiring_path(id: transaction.id), class: "btn_over" %>
         </div>
       </div>
-
-      <!-- <div class="order_box pending_or_cancelled">
-        <div class="order_content">
-          <div class="top_part">
-            <div class="TextOrange">
-              <strong>Pending</strong>&nbsp;&nbsp;
-              This hiring isn't confirmed yet. The Poster has 48 hours to respond.
-            </div>
-            <h2 class="order_listing_title">Senior IT Administrator</h2>
-            <p class="order_listing_title_small">Cristiano Ronaldo</p>
-            <span class="post">PosterABC</span>
-            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-            <span class="OrderTotalHour">103 Hour Total</span>
-          </div>
-          <div class="bottom_part">
-            <%#= link_to '#', class: 'add_info' do %>
-              <%#= image_tag 'send-message-icon.jpg' %>
-              Send Message
-            <%# end %>
-
-            <%#= link_to '#', class: 'add_info' do %>
-              <%#= image_tag 'circle-slash-icon.jpg' %>
-              Cancel Request
-            <%# end %>
-          </div>
-        </div>
-        <div class="listing_image_box">
-          <%#= image_tag 'professional-1.png' %>
-          <%#= link_to 'View Hiring', '#', class: "btn_over" %>
-        </div>
-      </div>
-
-      <div class="order_box pending_or_cancelled">
-        <div class="order_content">
-          <div class="top_part">
-            <div class="TextCancelled">
-              <strong>Cancelled</strong>&nbsp;&nbsp;
-              You cancelled this hiring.
-            </div>
-            <h2 class="order_listing_title">Senior IT Administrator</h2>
-            <p class="order_listing_title_small">Cristiano Ronaldo</p>
-            <span class="post">PosterABC</span>
-            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-            <span class="OrderTotalHour">32 Hour Total</span>
-          </div>
-          <div class="bottom_part">
-            <%#= link_to '#', class: 'add_info' do %>
-              <%#= image_tag 'send-message-icon.jpg' %>
-              Send Message
-            <%# end %>
-
-            <%#= link_to '#', class: 'add_info' do %>
-              <%#= image_tag 'single-star.jpg' %>
-              Write a review
-            <%# end %>
-          </div>
-        </div>
-        <div class="listing_image_box">
-          <%#= image_tag 'luca.png' %>
-          <%#= link_to 'View Hiring', '#', class: "btn_over" %>
-        </div>
-      </div> -->
     <% end %>
+    <% if @past_listing_transactions.present? %>
+      <h1 class="order_listing_heading">Past Hiring</h1>
 
-    <h1 class="order_listing_heading">Past Hiring</h1>
-
-    <div class="card_container">
-      <div class="card">
-        <div class="top_img">
-          <%= image_tag 'professional-2.png', class: 'card_profile_background_image' %>
-          <%= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
-        </div>
-        <div class="card_content">
-          <h1 class="card_title">Experienced Barista</h1>
-          <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-          <span class="sm_text">PosterGHI</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">32 Hour Total</span>
-          <div class="review_part">
-            <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Write a Review', '#', class: 'review-link ' %>
-          </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link' %>
-        </div>
-      </div>
-
-      <div class="card centered">
-        <div class="top_img">
-          <%= image_tag 'professional-4.png', class: 'card_profile_background_image' %>
-          <%= image_tag 'Lifra.jpg', class: 'card_profile_image' %>
-        </div>
-        <div class="card_content">
-          <h1 class="card_title">Experienced Barista</h1>
-          <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-          <span class="sm_text">PosterGHI</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">32 Hour Total</span>
-          <div class="review_part">
-            <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Read Your Review', '#', class: 'review-link gray-link' %>
-          </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link'%>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="top_img">
-          <%= image_tag 'professional-3.png', class: 'card_profile_background_image' %>
-          <%= image_tag 'zidane-profile.jpg', class: 'card_profile_image' %>
-        </div>
-        <div class="card_content">
-          <h1 class="card_title">Experienced Barista</h1>
-          <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-          <span class="sm_text">PosterGHI</span>
-          <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-          <span class="OrderTotalHour">32 Hour Total</span>
-          <div class="review_part">
-            <%= image_tag 'star-rating.png', class: 'review-img' %>
-            <%= link_to 'Read Your Review', '#', class: 'review-link gray-link' %>
-          </div>
-          <%= link_to 'View Receipt', '#' , class: 'review-receipt gray-link' %>
-        </div>
-      </div>
-
-    </div>
-
-    <h1 class="toggle-orange-hd">View/Hide Declined Hirings</h1>
-
-    <div class="declined-hiring-cards">
       <div class="card_container">
-        <div class="card">
-          <div class="top_img">
-            <%= image_tag 'professional-2.png', class: 'card_profile_background_image' %>
-            <%= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
-          </div>
-          <div class="card_content">
-            <h1 class="card_title">Experienced Barista</h1>
-            <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-            <span class="sm_text">PosterGHI</span>
-            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-            <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part hide-part">
-              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
+        <% @past_listing_transactions.each do |hiring| %>
+          <div class="card">
+            <div class="top_img">
+              <% if hiring.employee_listing.profile_picture.present? %>
+                <%= image_tag hiring.employee_listing.profile_picture.url, class: 'card_profile_background_image' %>
+              <% else %>
+                <%= image_tag 'no-image.jpg', class: 'card_profile_background_image' %>
+              <% end %>
+              <%#= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
+            </div>
+            <div class="card_content">
+              <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
+              <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
+              <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
+              <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
+              <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
+              <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span><br />
+              <% if hiring.state.eql?("completed") %>
+                <div class='review-link'>Completed</div>
+              <% elsif hiring.state.eql?("expired") %>
+                <div class='review-link'>Expired</div>
+              <% end %>
+              <div class="review_part">
+                <span class="listing_star_rating" data-score ="<%= listing_star_rating(hiring.employee_listing.id).round(0) %>"></span>
+                <%#= image_tag 'star-rating.png', class: 'review-img' %>
+                <% if hiring.state.eql?("completed") %>
+                  <% already_create_review = Review.where(transaction_id: hiring.id, sender_id: current_user.id) %>
+                  <% if already_create_review.blank? %>
+                    <%= link_to 'Write a Review', new_review_url(tx_id: hiring.id), class: 'review-link' %>
+                  <% else %>
+                    <%= link_to 'Read Your Review' , reviews_path, class: 'review-link gray-link' %>
+                  <% end %>
+                <% end %>
+              </div>
+              <%= link_to 'View Receipt', get_receipt_hiring_path(id: hiring.id), class: 'review-receipt gray-link' %>
             </div>
           </div>
-        </div>
-
-        <div class="card centered">
-          <div class="top_img">
-            <%= image_tag 'professional-4.png', class: 'card_profile_background_image' %>
-            <%= image_tag 'Lifra.jpg', class: 'card_profile_image' %>
-          </div>
-          <div class="card_content">
-            <h1 class="card_title">Experienced Barista</h1>
-            <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-            <span class="sm_text">PosterGHI</span>
-            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-            <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part hide-part">
-              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="top_img">
-            <%= image_tag 'professional-3.png', class: 'card_profile_background_image' %>
-            <%= image_tag 'zidane-profile.jpg', class: 'card_profile_image' %>
-          </div>
-          <div class="card_content">
-            <h1 class="card_title">Experienced Barista</h1>
-            <h2 class="card_sub_title">Zlatan Ibrahimovic</h2>
-            <span class="sm_text">PosterGHI</span>
-            <strong class="dt_bold">12 Feb 2019</strong> <span class="aro"> > </span><strong class="dt_bold">24&nbsp;Apr 2019</strong>
-            <span class="OrderTotalHour">32 Hour Total</span>
-            <div class="review_part hide-part">
-              <%= link_to 'Send Message', '#', class: 'review-link gray-link' %>
-            </div>
-          </div>
-        </div>
-
+        <% end %>
       </div>
-    </div>
+    <% end %>
+    <% if @declined_listing_transactions.present? %>
+      <h1 class="toggle-orange-hd">View/Hide Declined Hirings</h1>
+
+      <div class="declined-hiring-cards">
+        <div class="card_container">
+          <% @declined_listing_transactions.each do |hiring| %>
+            <div class="card">
+              <div class="top_img">
+                <% if hiring.employee_listing.profile_picture.present? %>
+                  <%= image_tag hiring.employee_listing.profile_picture.url, class: 'card_profile_background_image' %>
+                <% else %>
+                  <%= image_tag 'no-image.jpg', class: 'card_profile_background_image' %>
+                <% end %>
+                <%= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
+              </div>
+              <div class="card_content">
+                <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
+                <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
+                <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
+                <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
+                <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
+                <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
+                <div class="review_part hide-part">
+                  <%= link_to 'Send Message', inbox_path(id: hiring.id), class: 'review-link gray-link' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -246,10 +159,17 @@
   $('.toggle-orange-hd').click(function(){
     $('.declined-hiring-cards').toggle();
   });
-
   $(".share-detail-link").click(function(){
     var transaction_id = $(this).data("attribute");
-    $("#shareDetailsModal").modal();
+    //$("#shareDetailsModal").modal('show');
     $("#transaction_hidden_field").val(transaction_id);
   })
+  $('.listing_star_rating').raty({
+      readOnly: true,
+      score: function() {
+          return $(this).attr('data-score');
+      },
+      starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+      starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'
+  });
 </script>

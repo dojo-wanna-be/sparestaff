@@ -1,0 +1,55 @@
+<div class="request_hiring-section">
+  <div class="comman-inner-both">
+    <div class="left_request_section">
+      <ul class="logo-list">
+        <li class="logo-list-item">
+          <%= link_to destroy_transaction_reservation_path(@transaction.id, old_id: params[:old_id]), method: :delete, remote: true do %>
+            <%= image_tag 'logo.png', class: 'logo_img' %>
+          <% end %>
+        </li>
+        <li class="logo-list-item">
+          <%= link_to '1. Change hiring contract', 'javascript:;', class: 'item-logo select-item' %>
+        </li>
+        <li class="logo-list-item">
+          >
+        </li>
+        <li class="logo-list-item">
+          <%= link_to '2. Confirm request', "javascript:;", class: 'item-logo' %>
+        </li>
+      </ul>
+
+      <div class="review_hiring_details">
+        <h1 class="main-heading">Does this look right?</h1>
+        <%= render partial: "reservations/new_hiring_details" %>
+        <div class="inline-btn-box">
+          <%= link_to 'Back', destroy_transaction_reservation_path(@transaction.id, old_id: params[:old_id]), method: :delete, class: 'back-btn' %>
+          <%= form_tag change_reservation_confirmation_reservation_path(id: @transaction.id), method: :patch do %>
+            <%= hidden_field_tag "old_id", @old_transaction.id %>
+            <%= submit_tag "Send Request", class: "continue-btn" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%= render partial: "reservations/transaction_difference" %>
+
+  </div>
+
+  <div class="sub-footer">
+    <div class="left-sub">
+      <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright', class: 'spare-link'%>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.toggle-total-employement').click(function(){
+    $('.total-employement-list').toggle();
+  });
+</script>
+
+<style type="text/css">
+  .fixed-header  {
+    display: none;
+  }
+</style>

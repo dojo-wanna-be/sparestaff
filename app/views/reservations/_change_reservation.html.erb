@@ -1,0 +1,9 @@
+<div class="employee-changed">
+  <div class="affect-poster">
+    <div><strong>Try changing the reservation instead</strong></div>
+    <div class="poster-text">Hirer can change hiring dates, work timetable, hours. You can ask Hirer to make changes.</div>
+    <!-- <div class="poster-text">Make changes to the reservation and ask hirer to approve them.</div> -->
+    <%= link_to 'Send message to hirer', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
+    <%#= link_to 'Change Reservation', change_reservation_reservation_path(id: @transaction.id), class: 'continue-btn' %>
+  </div>
+</div>

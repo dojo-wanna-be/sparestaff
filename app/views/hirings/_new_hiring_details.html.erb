@@ -1,9 +1,23 @@
 <h1 class="comman-heading">New details</h1>
+<div class="date-detail">
+	<%#= "#{(changed_old_tx_end_date(@old_transaction, @old_transaction.frequency) + 1).strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %>
+	<%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %>
+</div>
 
-<div class="date-detail"><%= "#{@transaction.start_date.strftime("%d %b %Y")} - #{@transaction.end_date.strftime("%d %b %Y")}" %></div>
+<div class="day-timing-box">
+  <% ListingAvailability.days.each do |day| %>
+    <% booking = @bookings.find_by(day: day[0]) %>
+    <% if booking.present? %>
+      <div class="timing-box-row">
+        <div class=""><%= booking.day.titleize %></div>
+        <div class=""><%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %></div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 
 <div class="total-hour"><%= "#{@transaction.total_weekday_hours + @transaction.total_weekend_hours} Hour Total" %></div>
 
 <p class="original-through-text">Original: <span class="through-text"><%= "#{@old_transaction.start_date.strftime("%d %b %Y")} - #{@old_transaction.end_date.strftime("%d %b %Y")}" %> <br> <%= "#{@old_transaction.total_weekday_hours + @old_transaction.total_weekend_hours} Hour Total" %></span></p>
 
-<div>If <%= @listing.poster.name %> agrees to the changes, you'll pay $<%= (@transaction.total_amount - @old_transaction.total_amount).round(2) %>.</div>
+<div>If <%= @listing.poster_name %> agrees to the changes, you'll pay $<%= (@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee).round(2) %>.</div>

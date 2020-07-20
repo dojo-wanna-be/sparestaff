@@ -1,0 +1,164 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+  .send_message:link{
+    text-decoration: none;       
+  }
+
+  .send_message:visited{ 
+    text-decoration: none;         
+  }
+
+  .send_message:hover{
+    text-decoration: underline;
+  }
+
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+  
+</style>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-au" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>You declined hire request for <%= @listing.name %></title>
+<link href="../sparestaff.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<table class="Padding80px" style="width: 100%">
+	<tr>
+		<td>&nbsp;&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px"/></td>
+	</tr>
+	<tr>
+		<td><br />
+		<h1 style="color: #484848;">You declined a hire request</h1>
+		<% if @message.present? && @message.content.present? %>
+			<table style="width: 500px">
+				<tr>
+					<td colspan="2"><table style="border:1px; border-style:solid; border-color:#E1E1E1;color:#484848;">
+								<tr>
+									<td style="padding:10px;"><strong>Message sent:</strong><br />
+									<%= @message.content %></td>
+								</tr>
+							</table>
+		<% end %>
+                     </td>
+			</tr>
+			<tr>
+				<td style="width: 50%">&nbsp;</td>
+				<td>
+				&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 50%;color: #484848;"><%= @listing.name %><br />
+				<%= @listing.title %></td>
+				<td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px;color: #484848;"><strong>From</strong><br />
+				<%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+				<td style="text-align: right"><strong style="color: #484848;">To</strong><br />
+				<%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+		<table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+			<tr>
+				<td style="text-align: center">
+				<a class="send_message" href="#" style="color: #fff;">View Full Request</a></td>
+
+			</tr>
+		</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px;color: #484848;">Lost potential total earnings</td>
+				<td style="text-align: right;color: #484848;">$<%= @transaction.total_amount.round(2) %></td>
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td style="width: 300px; color: #484848;">
+				<h4><%= @hirer.name %> is Hirer</h4>
+				Contact <%= @hirer.name %> for further questions.</td>
+				<td>
+				<img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" class="Image200pxRight" style="width: 200px;float:right;" /></td>
+
+			</tr>
+			<tr>
+				<td colspan="2"><br />
+				<div class="GreyLine1Px" style=" height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br />
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<h4 style="color: #484848;">Customer support&nbsp;</h4>
+				<p><a href="https://www.sparestaff.com.au/help" class="Visit">Visit Help 
+				Center</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 300px">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

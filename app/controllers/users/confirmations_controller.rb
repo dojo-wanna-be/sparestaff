@@ -26,7 +26,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # The path used after confirmation.
   def after_confirmation_path_for(resource_name, resource)
     if resource.confirmed?
-      UserMailer.user_confirmed(resource).deliver!
+      UserMailer.user_confirmed(resource).deliver_later!
     end
     root_path
   end

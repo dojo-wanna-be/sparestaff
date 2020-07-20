@@ -1,0 +1,39 @@
+<div class="admin_left_panel">
+  <div class="left_panel_list">
+    <div class="panel_item">Your Account</div>
+    <div class="panel_item">
+      <%= link_to 'Profile', edit_user_registration_path(is_admin: "admin"), class: "panel_link #{is_active_navi('show', '')}" %>
+    </div>
+    <div class="panel_item">Manage</div>
+    <div class="panel_item">
+      <%= link_to 'Users', '/admin', class: "panel_link #{is_active_navi('index', 'users')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Listings', admin_employee_listings_path, class: "panel_link #{is_active_navi('index', 'employee_listings')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Hirings',  admin_hirings_path, class: "panel_link #{is_active_navi('index', 'hirings')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Conversations', admin_conversations_path, class: "panel_link #{is_active_navi('index', 'conversations')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Reviews', 'javascript:void(0)', class: "panel_link #{is_active_navi('index', 'reviews')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Email Users', emails_admin_users_path, class: "panel_link #{is_active_navi('emails', 'users')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Coupons', admin_coupons_path , class: "panel_link #{is_active_navi('index', 'coupons')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Service fee', new_admin_community_service_fee_path , class: "panel_link #{is_active_navi('new', 'community_service_fees')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'Homepage Design', design_admin_content_management_index_path , class: "panel_link #{is_active_navi('design', 'content_management')}" %>
+    </div>
+    <div class="panel_item">
+      <%= link_to 'List an employee page', new_admin_getting_start_content_path , class: "panel_link #{is_active_navi('new', 'getting_start_contents')}" %>
+    </div>
+  </div>
+</div>

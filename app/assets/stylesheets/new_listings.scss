@@ -687,6 +687,7 @@
             margin: 0;
             list-style: none;
             width: 585px;
+            position: relative;
 
             @media screen and (max-width: 992px) {
               width: 100%;
@@ -1259,7 +1260,7 @@
               text-decoration: none;
             }
 
-            &.AccountLeftMenuSelected {
+            &.selected-panel {
               font-weight: bold;
               color: #484848;
 
@@ -1441,9 +1442,30 @@
                   background-color: #fff;
                   border-radius: 3px;
 
+
                   @media screen and (max-width: 992px) {
                     width: fit-content;
                     padding: 0 20px;
+                  }
+                }
+
+                .finish-btn{
+                  text-decoration:none;
+                  display: flex;
+                  -webkit-box-pack: center;
+                  justify-content: center;
+                  -webkit-box-align: center;
+                  align-items: center;
+                  height: 40px;
+                  border-radius: 3px;
+                  background-color: #f15928;
+                  color: #fff;
+                  padding:20px;
+
+                  &:hover {
+                    background-color: #d75227;
+                    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+                    text-decoration: none;
                   }
                 }
 
@@ -2213,6 +2235,7 @@
             margin: 0;
             list-style: none;
             width: 100%;
+            position: relative;
 
             .header-item {
               display: flex;

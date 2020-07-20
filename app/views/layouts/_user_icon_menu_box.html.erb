@@ -10,11 +10,16 @@
       <%= link_to "Your Hirings", hirings_path %>
     </li>
     <li class="menu-item">
-      <%= link_to "Edit Profile", "javascript:;" %>
+      <%= link_to "Edit Profile", edit_user_registration_path %>
     </li>
     <li class="menu-item">
-      <%= link_to "Account Settings", "javascript:;" %>
+      <%= link_to "Account Settings", user_account_notification_payouts_path %>
     </li>
+    <% if current_user.is_admin %>
+      <li class="menu-item">
+        <%= link_to "Admin", '/admin', target: '_blank' %>
+      </li>
+    <% end %>
     <li class="menu-item">
       <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
     </li>

@@ -1,17 +1,38 @@
 <div class="homapage-section">
   <div class="inner-homepage">
-    <%= render partial: "employee_search_bar" %>
+    <div class="search-box">
+      <h1 class="search-heading">Find employees</h1>
+      <%= form_tag(search_home_index_path, method: :get)do %>
+        <%= render partial: "employee_search_bar" %>
+      <% end %>
+    </div>
 
     <% if @employee_listings.present? %>
-      <%= render partial: "featured_listings" %>
+      <div class="featured-listings-box">
+        <h1 class="featured-heading">You might be interested in</h1>
+        <div class="featured-listingsx sort_paginate_ajax" id="featured-listings">
+          <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
+        </div>    
+      </div>
+    <% else%>
+      <div class="featured-listings-box">
+        <h1 class="featured-heading">Record not found.</h1>
+      </div>
     <% end %>
 
     <%= render partial: "services_offered" %>
 
     <%= render partial: "how_it_works" %>
   </div>
-
-  <%= render partial: "list_an_employee" %>
+    <%= render partial: "list_an_employee" %>
 </div>
 
 <%= render partial: "layouts/footer" %>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
+      $.getScript(this.href);
+      return false;
+    });
+  });
+</script>

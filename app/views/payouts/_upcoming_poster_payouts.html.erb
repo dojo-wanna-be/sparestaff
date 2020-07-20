@@ -1,0 +1,70 @@
+<% if current_user.user_type != "hr" %>
+  <% @uncaptured_stripe_payments.each do |payment| %>
+    <% tx = Transaction.find_by(id: payment.transaction_id) %>
+    <div class="table_row">
+      <div style="width: 15%">
+        <% if tx.start_date > Date.today %>
+          <%= "#{(tx.start_date + 1.week).strftime('%d-%m-%Y')}" %>
+        <% elsif tx.start_date == Date.today %>
+          <%= "#{(payment.created_at + 1.week).strftime('%d-%m-%Y')}" %>
+        <% else %>
+          <%= "#{(payment.created_at + 1.week).strftime('%d-%m-%Y')}" %>
+        <% end %>
+      </div>
+      <div style="width: 15%">Reservation</div>
+      <% if tx.frequency.eql?("weekly") %>
+        <div style="width: 40%">
+          <%= "#{(payment.payment_cycle_start_date.present? ? payment.payment_cycle_start_date : tx.start_date).strftime('%d %b')} - #{(payment.payment_cycle_end_date.present? ? payment.payment_cycle_end_date : tx.end_date).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
+          <%#= "#{(payment.created_at + 1.week).strftime('%d %b %Y')} - #{(payment.created_at + 1.day).strftime('%d %b %Y')}" %>
+        </div>
+      <% else %>
+        <div style="width: 40%"><%= "#{(payment.payment_cycle_start_date.present? ? payment.payment_cycle_start_date : tx.start_date).strftime('%d %b')} - #{(payment.payment_cycle_end_date.present? ? payment.payment_cycle_end_date : tx.end_date).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.hirer.name %>
+        </div>
+      <% end %>
+      <div style="width: 15%">Account</div>
+      <div><%="#{payment.poster_service_fee}"%></div>
+    </div>
+  <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @uncaptured_stripe_payments, :previous_label => "<", :next_label => ">" %>
+  </div>
+<% else %>
+  <% @uncaptured_stripe_payments.each do |payment| %>
+    <% tx = Transaction.find_by(id: payment.transaction_id) %>
+    <div class="table_row">
+      <div style="width: 15%"><%= "#{(payment.payment_cycle_start_date.present? ? payment.payment_cycle_start_date : payment.created_at).strftime('%d %b %Y')}" %></div>
+      <div style="width: 15%">Reservation</div>
+      <% if tx.frequency.eql?("weekly") %>
+        <div style="width: 40%"><%= "#{(payment.payment_cycle_start_date.present? ? payment.payment_cycle_start_date : tx.start_date).strftime('%d %b')} - #{(payment.payment_cycle_end_date.present? ? payment.payment_cycle_end_date : tx.end_date).strftime('%d %b, %Y')}" %>
+          <br>
+          <%= tx.poster.name %>
+        </div>
+      <% else %>
+        <div style="width: 40%">
+          <%= "#{(payment.payment_cycle_start_date.present? ? payment.payment_cycle_start_date : tx.start_date).strftime('%d %b')} - #{(payment.payment_cycle_end_date.present? ? payment.payment_cycle_end_date : tx.end_date).strftime('%d %b, %Y')}" %>
+            <br>
+            <%= tx.poster.name %>
+          </div>
+      <% end %>
+      <div style="width: 15%">Account</div>
+      <div><%="#{hirer_weekly_amount(tx)}"%></div>
+    </div>
+  <% end %>
+  <div class="will_pagination_box1">
+    <%= js_will_paginate @uncaptured_stripe_payments, :previous_label => "<", :next_label => ">" %>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $(function() {
+    $(".sort_paginate_ajax1 th a, .sort_paginate_ajax1 .pagination a").on("click", function(){
+      url = this.href
+      new_url = url + "&request_from=upcoming_poster"
+      $.getScript(new_url);
+      return false;
+    });
+  });
+</script>

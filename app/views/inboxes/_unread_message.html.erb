@@ -1,0 +1,40 @@
+<% @conversations.each do |conversation| %>
+    <%= link_to inbox_path(id: conversation.id), class: 'messages' do %>
+      <div class="logo">
+         <%= image_tag conversation.sender.avatar.present? ? conversation.sender.avatar.url : 'no-image.jpg', alt: '' %>
+      </div>
+      <div class="day_date">
+        <span><%= conversation.sender.name %></span><br>
+        <span><%= conversation.updated_at.strftime("%d %h %Y") %></span>
+      </div>
+      <div class="notify_msg">
+          <% if conversation.unread_msg_count(@current_user) > 0%>
+            <strong><%= conversation.messages.order("created_at desc").first.content rescue '' %></strong>
+          <% else %>
+            <span><%= conversation.messages.order("created_at desc").first.content rescue '' %></span>
+          <% end %>
+          <p class="sm_text"><%= conversation.employee_listing.title %>, <%= conversation.employee_listing.name %>, <%= conversation.employee_listing.city %> <%= conversation.employee_listing.state %>, <%= conversation.employee_listing.country %></p>
+      </div>
+      <div class="price">
+        <% if conversation.employee_listing_transaction.present? %>
+          <% if conversation.employee_listing_transaction.created? %>
+            <span class="<%= 'TextDarkGreen' %>">Pending</span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% elsif conversation.employee_listing_transaction.accepted? %>
+            <span class="<%= 'green' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% elsif conversation.employee_listing_transaction.cancelled? %>
+            <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% elsif conversation.employee_listing_transaction.completed? %>
+            <span class="<%= 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% elsif conversation.employee_listing_transaction.rejected? %>
+            <span class="<%= 'TextDarkGreen' %>">Declined</span><br>
+            <span><%= number_to_currency(price(conversation.employee_listing_transaction)) %></span>
+          <% end %>
+          <!-- <span class="<%#= conversation.employee_listing_transaction.state.eql?('accepted') ? 'green' : 'TextDarkGreen' %>"><%= conversation.employee_listing_transaction.state.capitalize %></span><br> -->
+        <% end %>
+      </div>
+    <% end %>
+<% end %>

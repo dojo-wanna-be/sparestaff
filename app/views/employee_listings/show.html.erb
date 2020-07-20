@@ -3,14 +3,13 @@
     <div class="left-preview-detail">
       <div class="link-box">
         <%#= link_to '&lt; Back' %>
-        <a href="#" class="link-text">&lt; Back</a>
-
+        <!-- <a href="#" class="link-text">&lt; Back</a> -->
         <ul class="link-box-list">
-          <li class="link-box-item"><%= link_to 'Overview','#Overview', class: 'type-link selected-link' %> <span class="dot">·</span></li>
-          <li class="link-box-item"><%= link_to 'Asking wage', '#AskingWage', class: 'type-link' %> <span class="dot">·</span> </li>
-          <li class="link-box-item"><%= link_to 'Availability', '#Availability', class: 'type-link' %> <span class="dot">·</span> </li>
-          <li class="link-box-item"><%= link_to 'Reviews', '#Reviews', class: 'type-link' %> <span class="dot">·</span> </li>
-          <li class="link-box-item"><%= link_to 'Poster', '#Poster', class: 'type-link' %> </li>
+          <li class="link-box-item"><%= link_to 'Overview','JavaScript:Void(0);', class: 'type-link selected-link overview' %> <span class="dot">·</span></li>
+          <li class="link-box-item"><%= link_to 'Asking wage', 'JavaScript:Void(0);', class: 'type-link askingWage' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Availability', 'JavaScript:Void(0);', class: 'type-link availability' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Reviews', 'JavaScript:Void(0);', class: 'type-link reviews' %> <span class="dot">·</span> </li>
+          <li class="link-box-item"><%= link_to 'Poster', 'JavaScript:Void(0);', class: 'type-link poster' %> </li>
         </ul>
       </div>
 
@@ -25,7 +24,7 @@
             </li>
             <li class="item">
               <div class="left-heading "><b>Posted By</b></div>
-              <div class="right-content"><%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></div>
+              <div class="right-content"><%= @employee_listing.poster_name %></div>
             </li>
             <li class="item">
               <div class="left-heading"><b>Age</b></div>
@@ -69,32 +68,30 @@
       </div>
 
       <div class="detail-custom-box">
-        <h3 class="detail-heading">Description, expertise, skills</h3>
-        <p class="pera-text"><%= @employee_listing.skill_description %></p>
+        <h3 class="detail-heading">Description, expertise, experience</h3>
+        <p class="pera-text more" data-max-character="600"><%= @employee_listing.skill_description %></p>
+      </div>
+
+      <div class="detail-custom-box">
+        <h3 class="detail-heading">Skills</h3>
+        <p>
+          <% @skills.each do |skill|%>
+            <span class="skills-list"><%= skill.skill_name %></span>
+          <% end %>
+        </p>
       </div>
 
       <div class="detail-custom-box">
         <h3 class="detail-heading">Other comments</h3>
-        <p class="pera-text"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
+        <p class="pera-text more" data-max-character="200"><%= @employee_listing.optional_comments.present? ? @employee_listing.optional_comments : "-" %></p>
       </div>
 
       <div class="detail-custom-box">
-        <h3 class="detail-heading">Cancellation</h3>
-        <div><strong>Cancellation policy – Free cancellation within 48 hours</strong><br />Cancel within 48 hours of booking to get a full refund.</div>
-
-        <ul class="cancelation-list">
-          <li>Cancel up to 24 hours before employment contract start
-            date and time to get a refund, minus Spare Staff service
-            fees.
-          </li>
-          <li>Cancel within 24 hours of check-in and the cost of the
-            first day of contract is non-refundable.
-          </li>
-          <li>Spare Staff service fees are refunded only if the
-            reservation is cancelled within 48 hours of booking and
-            the employment contract has not started yet.
-          </li>
-        </ul>
+        <h3 class="detail-heading">Cancellation policy</h3>
+        <div>
+          Cancel hiring before or on Start Date to get a full refund.<br/>
+          Cancel after Start Date and get refund for the day of cancellation plus remaining days that you've paid for.
+        </div>
       </div>
 
       <div class="detail-custom-box">
@@ -156,8 +153,9 @@
         <div class="review-box" id="Reviews">
           <div class="review-header">
             <div class="review-count">
-              25 Reviews
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <%= @reviews_all.count %> Reviews&nbsp;
+              <div class="reviews_all_star_profile" data-score ="<%= @reviews_all_star.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
             </div>
             <div class="search-review">
                <input name="Text1" type="text" placeholder="Search reviews" class="custom-input" />
@@ -170,13 +168,15 @@
               <div class="text-review">
                 Friendliness
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @friendliness_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Technical skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @knowledge_n_skills_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -185,13 +185,15 @@
               <div class="text-review">
                 Punctuality
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @punctuality_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Management skills
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @management_skill_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
@@ -200,79 +202,31 @@
               <div class="text-review">
                 Professionalism
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @professionalism_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
              <div class="right-review">
               <div class="text-review">
                 Communication
               </div>
-              <%= image_tag 'star-rating.png', class: 'review-img' %>
+              <div class="listing_star_rating" data-score ="<%= @communication_grade.round(0) %>"></div>
+              <%#= image_tag 'star-rating.png', class: 'review-img' %>
              </div>
            </li>
 
           </ul>
-
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
+          <div class="sort_paginate_ajax123">
+            <%= render "reviews" %>
           </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-          <div class="user-review">
-            <div class="user-detail">
-              <div class="user">
-                <%= link_to '../users/user-profile.html', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'user-img' %>
-                <% end %>
-                <div class="name">
-                  <div><b>HirerDEF</b></div>
-                  <div>November 2017</div>
-                </div>
-              </div>
-              <div class="flag">
-                <%= image_tag 'flag.png', class: 'FlagReview' %>
-              </div>
-            </div>
-            <p class="review-text">There have been a few players described as 'the new George Best' over the years, but this is the first time it's been a compliment to me.</p>
-          </div>
-
           <div class="poster-box" id="Poster">
             <div class="poster-detail">
               <div class="left-detail">
                 <h2 class="poster-heading">Listed by <%= @employee_listing.lister_type.eql?("User") ? @employee_listing.lister.name : @employee_listing.lister.creator.name %></h2>
-                <div>Wolli Creek, Australia. Joined in May 2016</div>
+                <div><%= @employee_listing.poster.location %> Joined in <%= @employee_listing.poster.created_at.strftime("%B, %Y") %></div>
 
                 <div class="both-box">
                   <div class="review">
-                    <div class="review-btn">180</div>
+                    <div class="review-btn"><%= @poster_reviews.count %></div>
                     Reviews
                   </div>
                   <div class="verfied">
@@ -284,21 +238,22 @@
               </div>
 
               <div class="right-img">
-                <%= link_to '#', target: '_blank' do %>
-                  <%= image_tag 'Henry1.jpg', class: 'poster-img' %>
+                <%= link_to user_path(@employee_listing.poster.id), target: '_blank' do %>
+                  <%= image_tag @employee_listing.poster.avatar.url, class: 'poster-img' %>
                 <% end %>
               </div>
             </div>
-
-            <p class="poster-text">A versatile attacker, Ronaldo is capable of playing on either wing as well as through the centre of the pitch,[411] and, while ostensibly right-footed, is very strong with both feet.[412] He ranks among the world's fastest footballers, both with and without the ball.[413] Tactically, Ronaldo has undergone several evolutions throughout his career. While at Sporting and during his first season at Manchester United, he was typically deployed as a traditional winger on the right side of midfield, where he regularly looked to deliver crosses into the penalty area. In this position, he was able to use his pace and acceleration, agility, and technical skills to take on opponents in one-on-one
-            situations. Ronaldo became noted for his dribbling and flair, often displaying an array of tricks and feints,[413][414] such as the step overs that became his
-            trademark.[415] Other comments Cristiano Ronaldo dos Santos Aveiro GOIH, ComM (born 5 February 1985) is a Portuguese professional footballer who plays as a forward for Spanish club Real Madrid and the Portugal national team. Often considered the best player in the world and widely regarded as one of the greatest of all time.
-            </p>
-
-            <%= link_to 'Contact Poster', 'javascript:;', class: 'poster-btn' %>
+            <p class="poster-text more" data-max-character="350"><%= @employee_listing.poster.description %></p>
+            <% if current_user.present? %>
+              <% if !@employee_listing.poster.eql?(current_user) %>
+                <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'poster-btn' %>
+              <% end %>
+            <% else %>
+              <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'poster-btn' %>
+            <% end %>
           </div>
 
-          <div class="page-tabbing">
+          <!-- <div class="page-tabbing">
             <ul class="page-tabbing-list">
               <li class="tabbing-item"><a href="" class="tabbing-link">&lt;</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link tab-select">1</a></li>
@@ -307,11 +262,11 @@
               <li class="tabbing-item"><a href="" class="tabbing-link gray-border">4</a></li>
               <li class="tabbing-item"><a href="" class="tabbing-link">&gt;</a></li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="normal-text-box">
             <p><b>Always communicate through Spare Staff</b> · To protect your payment, never transfer money or communicate outside of the Spare Staff website or app.
-            <span><%= link_to 'Learn more', '#', class: 'learn-more' %></span>
+            <span><%= link_to 'Learn more', 'https://www.sparestaff.com.au/trust-and-safety', target: '_blank', class: 'learn-more' %></span>
             </p>
           </div>
 
@@ -320,12 +275,12 @@
 
     </div>
 
-    <% unless current_user == @employee_listing.poster %>
+    <% unless current_user && current_user == @employee_listing.poster %>
       <div id="booking_slots">
         <%= render partial: "time_slot_booking", locals: {transaction: @transaction,
                                                           employee_listing: @employee_listing,
-                                                          start_date: Date.today,
-                                                          end_date: Date.today
+                                                          start_date: @start_date,
+                                                          end_date: @end_date
                                                           } %>
       </div>
     <% end %>
@@ -334,24 +289,52 @@
   <div class="featured-listings-box">
     <h1 class="featured-heading">Similar Listing</h1>
 
-    <div class="featured-listings">
-      <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
-        <div class="listing-card">
-          <div class="listing-img">
-            <%= image_tag "professional-3.png", alt: "", class: "card-image" %>
-          </div>
-          <div class="listing-details">
-            <div><b>Senior IT Administrator</b></div>
-            <div>Cristiano Ronaldo</div>
-            <div>$35 per hour</div>
-            <div>Chippendale NSW 2008</div>
-            <div class="rating">
-              <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-              <span>28</span>
-            </div>
-          </div>
-        </div>
+    <div class="featured-listings" >
+      <% if @employee_listing.classification.present? %>
+        <% if !@similar_nearby_listings.blank? %>
+          <% @similar_nearby_listings.each_with_index do |listing, index| %>
+            <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
+              <div class="listing-card">
+                <div class="listing-img">
+                  <% if listing.profile_picture.present? %>
+                    <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+                  <% else %>
+                    <%= image_tag 'no-image.jpg', class: 'card-image' %>
+                  <% end %>
+                </div>
+                <div class="listing-details">
+                  <div><b><%= listing.title %></b></div>
+                  <div><%= listing.name %></div>
+                  <div><%= "$#{listing.weekday_price} per hour" %></div>
+                  <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+                  <% if params[:commit] == "Search" %>
+                    <% if params[:location].present? %>
+                      <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
+                    <% end %>
+                  <% end %>
+                  <div class="rating">
+                    <% if listing_all_reviews(listing.id).count > 0 %>
+                      <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+                      <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+                      <span><%= listing_all_reviews(listing.id).count %></span>
+                    <% else %>
+                      <span>No reviews yet</span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div class="No results">There is no similar listings.</div>
+        <% end %>
       <% end %>
+    </div>
+
+
+
+
+    <div class="featured-listings" style="display: none;">
 
       <%= link_to 'employee-search/employee-profile.html', target: '_blank', class: 'licting-card-link' do %>
         <div class="listing-card">
@@ -414,6 +397,12 @@
 
 <%= render partial: "image_lightbox_modal" %>
 
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>
+
 <script>
   var isSunday = false;
   var isMonday = false;
@@ -456,7 +445,6 @@
   var listingID = "<%= @employee_listing.id %>";
   var listingWeekdayPrice = "<%= @employee_listing.weekday_price %>";
   var listingWeekendPrice = "<%= @employee_listing.weekend_price %>";
-
   $.validator.addMethod('lessThan', function(value, element, param) {
     return this.optional(element) || value < $(param).val();
   }, "The value {0} must be less than {1}");
@@ -479,18 +467,110 @@
     return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val()));
   },'Must be less than {0}');
 
+  function isSundayStartDatePresent() {
+    return $('#transaction_booking_attributes_0_start_time').val() != "";
+  }
+  function isMondayStartDatePresent() {
+    return $('#transaction_booking_attributes_1_start_time').val() != "";
+  }
+  function isTuesdayStartDatePresent() {
+    return $('#transaction_booking_attributes_2_start_time').val() != "";
+  }
+  function isWednesdayStartDatePresent() {
+    return $('#transaction_booking_attributes_3_start_time').val() != "";
+  }
+  function isThursdayStartDatePresent() {
+    return $('#transaction_booking_attributes_4_start_time').val() != "";
+  }
+  function isFridayStartDatePresent() {
+    return $('#transaction_booking_attributes_5_start_time').val() != "";
+  }
+  function isSaturdayStartDatePresent() {
+    return $('#transaction_booking_attributes_6_start_time').val() != "";
+  }
+
+  $('#transaction_booking_attributes_0_start_time').change(function(){
+    function isSundayStartDatePresent() {
+      return $('#transaction_booking_attributes_0_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_1_start_time').change(function(){
+    function isMondayStartDatePresent() {
+      return $('#transaction_booking_attributes_1_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_2_start_time').change(function(){
+    function isTuesdayStartDatePresent() {
+      return $('#transaction_booking_attributes_2_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_3_start_time').change(function(){
+    function isWednesdayStartDatePresent() {
+      return $('#transaction_booking_attributes_3_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_4_start_time').change(function(){
+    function isThursdayStartDatePresent() {
+      return $('#transaction_booking_attributes_4_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_5_start_time').change(function(){
+    function isFridayStartDatePresent() {
+      return $('#transaction_booking_attributes_5_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  $('#transaction_booking_attributes_6_start_time').change(function(){
+    function isSaturdayStartDatePresent() {
+      return $('#transaction_booking_attributes_6_start_time').val() != "";
+    }
+    intializeValidation();
+  });
+  function intializeValidation() {
+    $("#listing_transaction").validate({
+      errorPlacement: function(error, element) {
+         error.appendTo(element.parent());
+      },
+      rules: {
+        "transaction[booking_attributes][0][end_time]": {required: isSundayStartDatePresent, greaterThan: "#transaction_booking_attributes_0_start_time"},
+        "transaction[booking_attributes][1][end_time]": {required: isMondayStartDatePresent, greaterThan: "#transaction_booking_attributes_1_start_time"},
+        "transaction[booking_attributes][2][end_time]": {required: isTuesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_2_start_time"},
+        "transaction[booking_attributes][3][end_time]": {required: isWednesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_3_start_time"},
+        "transaction[booking_attributes][4][end_time]": {required: isThursdayStartDatePresent, greaterThan: "#transaction_booking_attributes_4_start_time"},
+        "transaction[booking_attributes][5][end_time]": {required: isFridayStartDatePresent, greaterThan: "#transaction_booking_attributes_5_start_time"},
+        "transaction[booking_attributes][6][end_time]": {required: isSaturdayStartDatePresent, greaterThan: "#transaction_booking_attributes_6_start_time"},
+        "transaction[start_date]": {required: true},
+        "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
+      },
+      messages: {
+        "transaction[booking_attributes][0][end_time]": {greaterThan: "Must be greater than Sunday Start Time"},
+        "transaction[booking_attributes][1][end_time]": {greaterThan: "Must be greater than Monday Start Time"},
+        "transaction[booking_attributes][2][end_time]": {greaterThan: "Must be greater than Tuesday Start Time"},
+        "transaction[booking_attributes][3][end_time]": {greaterThan: "Must be greater than Wednesday Start Time"},
+        "transaction[booking_attributes][4][end_time]": {greaterThan: "Must be greater than Thursday Start Time"},
+        "transaction[booking_attributes][5][end_time]": {greaterThan: "Must be greater than Friday Start Time"},
+        "transaction[booking_attributes][6][end_time]": {greaterThan: "Must be greater than Saturday Start Time"},
+        "transaction[end_date]": {dateGreaterThan: "Must be greater than Start Date"},
+      }
+    });
+  }
   $("#listing_transaction").validate({
     errorPlacement: function(error, element) {
        error.appendTo(element.parent());
     },
     rules: {
-      "transaction[booking_attributes][0][end_time]": {greaterThan: "#transaction_booking_attributes_0_start_time"},
-      "transaction[booking_attributes][1][end_time]": {greaterThan: "#transaction_booking_attributes_1_start_time"},
-      "transaction[booking_attributes][2][end_time]": {greaterThan: "#transaction_booking_attributes_2_start_time"},
-      "transaction[booking_attributes][3][end_time]": {greaterThan: "#transaction_booking_attributes_3_start_time"},
-      "transaction[booking_attributes][4][end_time]": {greaterThan: "#transaction_booking_attributes_4_start_time"},
-      "transaction[booking_attributes][5][end_time]": {greaterThan: "#transaction_booking_attributes_5_start_time"},
-      "transaction[booking_attributes][6][end_time]": {greaterThan: "#transaction_booking_attributes_6_start_time"},
+      "transaction[booking_attributes][0][end_time]": {required: isSundayStartDatePresent, greaterThan: "#transaction_booking_attributes_0_start_time"},
+      "transaction[booking_attributes][1][end_time]": {required: isMondayStartDatePresent, greaterThan: "#transaction_booking_attributes_1_start_time"},
+      "transaction[booking_attributes][2][end_time]": {required: isTuesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_2_start_time"},
+      "transaction[booking_attributes][3][end_time]": {required: isWednesdayStartDatePresent, greaterThan: "#transaction_booking_attributes_3_start_time"},
+      "transaction[booking_attributes][4][end_time]": {required: isThursdayStartDatePresent, greaterThan: "#transaction_booking_attributes_4_start_time"},
+      "transaction[booking_attributes][5][end_time]": {required: isFridayStartDatePresent, greaterThan: "#transaction_booking_attributes_5_start_time"},
+      "transaction[booking_attributes][6][end_time]": {required: isSaturdayStartDatePresent, greaterThan: "#transaction_booking_attributes_6_start_time"},
       "transaction[start_date]": {required: true},
       "transaction[end_date]": {required: true, dateGreaterThan: "#transaction_start_date"},
     },
@@ -509,9 +589,100 @@
   $("#transaction_is_withholding_tax").on('change click', function () {
     if ($(this).is(":checked")) {
       $("#tax-notice").hide();
+      calculateTax();
     } else {
+      calculateWithoutTax();
       $("#tax-notice").show();
     }
+  });
+
+  function calculateWithoutTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price
+    var service_tax = <%= hirer_commission %> * weekly_earning
+    $("#transaction_tax_withholding_amount").val('0');
+    $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
+    $("#weeklyServicePrice").html(service_tax.toFixed(2))
+    var weekly_total_price = weekly_earning + service_tax
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    var startDate = new Date($("#transaction_start_date").val());
+    var endDate = new Date($("#transaction_end_date").val());
+    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    $('#ContractTaxPrice').html('0');
+    $('#total_tax_with_holding').val('0');
+    var monday = 0;
+    var tuesday = 0;
+    var wednesday = 0;
+    var thursday = 0;
+    var friday = 0;
+    var saturday = 0;
+    var sunday = 0;
+    if(totalMondays != 0)
+      monday = totalMondays - Math.floor(weekDiff)
+    if(totalTuesdays != 0)
+      tuesday = totalTuesdays - Math.floor(weekDiff)
+    if(totalWednesdays != 0)
+      wednesday = totalWednesdays - Math.floor(weekDiff)
+    if(totalThursdays != 0)
+      thursday = totalThursdays - Math.floor(weekDiff)
+    if(totalFridays != 0)
+      friday = totalFridays - Math.floor(weekDiff)
+    if(totalSaturdays != 0)
+      saturday = totalSaturdays - Math.floor(weekDiff)
+    if(totalSundays != 0)
+      sunday = totalSundays - Math.floor(weekDiff)
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+    var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning)
+    var remainingPrice = remainingWeeklyEarning + remainingServiceTax
+    var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
+    $('#ContractServicePrice').html(serviceTax.toFixed(2));
+    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+  }
+
+  $('.askingWage').click(function(e) {
+    e.preventDefault();
+    $('.type-link').removeClass('selected-link');
+    $('.askingWage').addClass('selected-link');
+    $('html, body').animate({
+    scrollTop: $("#AskingWage").offset().top - 60},
+      'slow');
+  });
+
+  $('.availability').click(function(e) {
+    e.preventDefault();
+    $('.type-link').removeClass('selected-link');
+    $('.availability').addClass('selected-link');
+    $('html, body').animate({
+      scrollTop: $("#Availability").offset().top - 60},
+        'slow');
+  });
+
+  $('.overview').click(function(e) {
+    e.preventDefault();
+    $('.type-link').removeClass('selected-link');
+    $('.overview').addClass('selected-link');
+    $('html, body').animate({
+    scrollTop: $("#Overview").offset().top - 60},
+      'slow');
+  });
+
+  $('.reviews').click(function(e) {
+    e.preventDefault();
+    $('.type-link').removeClass('selected-link');
+    $('.reviews').addClass('selected-link');
+    $('html, body').animate({
+    scrollTop: $("#Reviews").offset().top - 60},
+      'slow');
+  });
+
+  $('.poster').click(function(e) {
+    e.preventDefault();
+    $('.type-link').removeClass('selected-link');
+    $('.poster').addClass('selected-link');
+    $('html, body').animate({
+    scrollTop: $("#Poster").offset().top - 60},
+      'slow');
   });
 
   $("#transaction_start_date, #transaction_end_date").on('change', function (){
@@ -522,12 +693,10 @@
     totalThursdays = 0;
     totalFridays = 0;
     totalSaturdays = 0;
-
     var start = $("#transaction_start_date").val();
     var end = $("#transaction_end_date").val();
     var startDate = new Date(start);
     var endDate = new Date(end);
-
     if (startDate < endDate){
       validateAvailability(start, end, listingID);
       for (var i = startDate; i <= endDate; ){
@@ -545,7 +714,7 @@
           totalFridays++;
         }else if (i.getDay() == 6) {
           totalSaturdays++;
-        }
+        } 
         i.setTime(i.getTime() + 1000*60*60*24);
       }
 
@@ -568,10 +737,19 @@
   }
 
   function calculateTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+    var tax = checkTax(weekly_earning)
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax)
+    $("#transaction_tax_withholding_amount").val("-" + tax);
+    $("#weeklyServicePrice").html(service_tax.toFixed(2));
+    var weekly_total_price = weekly_earning - tax + service_tax;
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    totalEmploymentContract(tax, service_tax, weekly_total_price);
+  }
+
+  function checkTax(weekly_earning){
     var a = 0;
     var b = 0;
-
-    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
     var x = weekly_earning + 0.99;
     if (x >= 0 && x <= 355){
       a = 0;
@@ -596,24 +774,53 @@
       b = 239.8654;
     }else{
       a = 0.4700;
-      b = 576.7885;
+      b =  516.788;
+      //b = 576.7885;
     }
-    var tax = (a * x) - b;
-    var service_tax = (3 * (weekly_earning - tax)) / 100;
-    $("#transaction_tax_withholding_amount").val(tax.toFixed(2));
-    $("#weeklyServicePrice").html(service_tax.toFixed(2));
-    var weekly_total_price = weekly_earning - tax + service_tax;
-    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
-    totalEmploymentContract(tax, service_tax, weekly_total_price);
+    var tax = parseFloat(((a * x) - b).toFixed(2))
+    return tax
   }
 
   function totalEmploymentContract(tax, service_tax, weekly_total_price){
     var startDate = new Date($("#transaction_start_date").val());
     var endDate = new Date($("#transaction_end_date").val());
-    var weekDiff = Math.ceil((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
-    $('#ContractTaxPrice').html(tax * weekDiff);
-    $('#ContractServicePrice').html((service_tax * weekDiff).toFixed(2));
-    $('#ContractTotalPrice').html((weekly_total_price * weekDiff).toFixed(2));
+    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    var monday = 0;
+    var tuesday = 0;
+    var wednesday = 0;
+    var thursday = 0;
+    var friday = 0;
+    var saturday = 0;
+    var sunday = 0;
+
+    if(totalMondays != 0)
+      monday = totalMondays - Math.floor(weekDiff)
+    if(totalTuesdays != 0)
+      tuesday = totalTuesdays - Math.floor(weekDiff)
+    if(totalWednesdays != 0)
+      wednesday = totalWednesdays - Math.floor(weekDiff)
+    if(totalThursdays != 0)
+      thursday = totalThursdays - Math.floor(weekDiff)
+    if(totalFridays != 0)
+      friday = totalFridays - Math.floor(weekDiff)
+    if(totalSaturdays != 0)
+      saturday = totalSaturdays - Math.floor(weekDiff)
+    if(totalSundays != 0)
+      sunday = totalSundays - Math.floor(weekDiff)
+
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
+
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+    var remainingWeekTax = checkTax(remainingWeeklyEarning)
+    var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning - remainingWeekTax)
+    var remainingPrice = remainingWeeklyEarning - remainingWeekTax + remainingServiceTax
+    var fullWeekTax = (tax * Math.floor(weekDiff)) + remainingWeekTax
+    $('#total_tax_with_holding').val(fullWeekTax);
+    var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
+    $('#ContractTaxPrice').html(fullWeekTax);
+    $('#ContractServicePrice').html(serviceTax.toFixed(2));
+    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
   }
 
 
@@ -627,10 +834,10 @@
     totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
     $("#weekday_hours").html(weekday_hour);
     hiring_weekday_price = weekday_hour * listingWeekdayPrice;
-    $("#hiring_weekday_price").html(hiring_weekday_price);
+    $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
     $("#total_weekday_hours").html(totalWeekdayHours);
     hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
-    $("#hiring_total_weekday_price").html(hiring_total_weekday_price);
+    $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
     calculateTax();
   }
 
@@ -641,175 +848,179 @@
     totalWeekendHours = totalSundayHours + totalSaturdayHours;
     $("#weekend_hours").html(weekend_hour);
     hiring_weekend_price = weekend_hour * listingWeekendPrice;
-    $("#hiring_weekend_price").html(hiring_weekend_price);
+    $("#hiring_weekend_price").html(hiring_weekend_price.toFixed(2));
     $("#total_weekend_hours").html(totalWeekendHours);
     hiring_total_weekend_price = totalWeekendHours * listingWeekendPrice;
-    $("#hiring_total_weekend_price").html(hiring_total_weekend_price);
+    $("#hiring_total_weekend_price").html(hiring_total_weekend_price.toFixed(2));
     calculateTax();
   }
 
   $(".monday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_1_start_time").val() != '' && $("#transaction_booking_attributes_1_end_time").val() != '') && ($("#transaction_booking_attributes_1_start_time").val() < $("#transaction_booking_attributes_1_end_time").val())) {
-      mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
-      isMonday = true;
+      if(totalMondays != 0){
+        mondayHour = parseInt($("#transaction_booking_attributes_1_end_time").val()) - parseInt($("#transaction_booking_attributes_1_start_time").val());
+        setWeekdayHours();
+        isMonday = true;
+      }
     }else {
       mondayHour = 0;
       totalMondayHours = 0;
       isMonday = false;
     }
-
-    setWeekdayHours();
-    // if (!isMonday) {
-    //   alert('monday empty');
-    // }
   });
 
   $(".tuesday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_2_start_time").val() != '' && $("#transaction_booking_attributes_2_end_time").val() != '') && ($("#transaction_booking_attributes_2_start_time").val() < $("#transaction_booking_attributes_2_end_time").val())) {
-      tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
-      isTuesday = true;
+      if(totalTuesdays != 0){
+        tuesdayHour = parseInt($("#transaction_booking_attributes_2_end_time").val()) - parseInt($("#transaction_booking_attributes_2_start_time").val());
+        setWeekdayHours();
+        isTuesday = true;
+      }
+      
     }else {
       tuesdayHour = 0;
       totalTuesdayHours = 0;
       isTuesday = false;
     }
-
-    setWeekdayHours();
-    // if (!isTuesday) {
-    //   alert('tuesday empty');
-    // }
   });
 
   $(".wednesday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_3_start_time").val() != '' && $("#transaction_booking_attributes_3_end_time").val() != '') && ($("#transaction_booking_attributes_3_start_time").val() < $("#transaction_booking_attributes_3_end_time").val())) {
-      wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
-      isWednesday = true;
+      if(totalWednesdays != 0){
+        wednesdayHour = parseInt($("#transaction_booking_attributes_3_end_time").val()) - parseInt($("#transaction_booking_attributes_3_start_time").val());
+        isWednesday = true;
+        setWeekdayHours();
+      }
     }else {
       wednesdayHour = 0;
       totalWednesdayHours = 0;
       isWednesday = false;
     }
-
-    setWeekdayHours();
-    // if (!isWednesday) {
-    //   alert('wednesday empty');
-    // }
   });
 
   $(".thursday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_4_start_time").val() != '' && $("#transaction_booking_attributes_4_end_time").val() != '') && ($("#transaction_booking_attributes_4_start_time").val() < $("#transaction_booking_attributes_4_end_time").val())) {
-      thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
-      isThursday = true;
+      if(totalThursdays != 0){
+        thursdayHour = parseInt($("#transaction_booking_attributes_4_end_time").val()) - parseInt($("#transaction_booking_attributes_4_start_time").val());
+        isThursday = true;
+        setWeekdayHours();
+      }
     }else {
       thursdayHour = 0;
       totalThursdayHours = 0;
       isThursday = false;
     }
-
-    setWeekdayHours();
-    // if (!isThursday) {
-    //   alert('thursday empty');
-    // }
   });
 
   $(".friday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_5_start_time").val() != '' && $("#transaction_booking_attributes_5_end_time").val() != '') && ($("#transaction_booking_attributes_5_start_time").val() < $("#transaction_booking_attributes_5_end_time").val())) {
-      fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
-      isFriday = true;
+      if(totalFridays != 0){
+        fridayHour = parseInt($("#transaction_booking_attributes_5_end_time").val()) - parseInt($("#transaction_booking_attributes_5_start_time").val());
+        isFriday = true;
+        setWeekdayHours();
+      }
     }else {
       fridayHour = 0;
       totalFridayHours = 0;
       isFriday = false;
     }
-
-    setWeekdayHours();
-    // if (!isFriday) {
-    //   alert('friday empty');
-    // }
-  });
-
-  $(".sunday_time_slot").change(function(){
-    if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
-      sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
-      isSunday = true;
-    }else {
-      sundayHour = 0;
-      totalSundayHours = 0;
-      isSunday = false;
-    }
-
-    setWeekendHours();
-    // if (!isSunday) {
-    //   alert('sunday empty');
-    // }
   });
 
   $(".saturday_time_slot").change(function(){
     if (($("#transaction_booking_attributes_6_start_time").val() != '' && $("#transaction_booking_attributes_6_end_time").val() != '') && ($("#transaction_booking_attributes_6_start_time").val() < $("#transaction_booking_attributes_6_end_time").val())) {
-      saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
-      isSaturday = true;
+      if(totalSaturdays != 0){
+        saturdayHour = parseInt($("#transaction_booking_attributes_6_end_time").val()) - parseInt($("#transaction_booking_attributes_6_start_time").val());
+        isSaturday = true;
+        setWeekendHours();
+      }
     }else {
       saturdayHour = 0;
       totalSaturdayHours = 0;
       isSaturday = false;
     }
+  });
 
-    setWeekendHours();
-    // if (!isSaturday) {
-    //   alert('saturday empty');
-    // }
+  $(".sunday_time_slot").change(function(){
+    if (($("#transaction_booking_attributes_0_start_time").val() != '' && $("#transaction_booking_attributes_0_end_time").val() != '') && ($("#transaction_booking_attributes_0_start_time").val() < $("#transaction_booking_attributes_0_end_time").val())) {
+      if(totalSundays != 0){
+        sundayHour = parseInt($("#transaction_booking_attributes_0_end_time").val()) - parseInt($("#transaction_booking_attributes_0_start_time").val());
+        isSunday = true;
+        setWeekendHours();
+      }
+    }else {
+      sundayHour = 0;
+      totalSundayHours = 0;
+      isSunday = false;
+    }
   });
 
   $("#listing_transaction").submit(function(e){
     if ( isSunday || isMonday || isTuesday || isWednesday || isThursday || isFriday || isSaturday ) {
-      $("#timing_error").hide();
-      return true
+      if (<%= @employee_listing.minimum_working_hours %> > (sundayHour + mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour + saturdayHour)){
+        $("#total_hour_error").show();
+        return false
+      }else {
+        $("#timing_error").hide();
+        $("#total_hour_error").hide();
+        return true
+      }
     }else {
       $("#timing_error").show();
       return false
     }
   });
 
-  function openModal() {
-    document.getElementById("myModal").style.display = "block";
-  }
+  // var date = new Date();
+  // var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  // // set end date to max one year period:
+  // var end = new Date(new Date().setYear(date.getFullYear()+1));
 
-  function closeModal() {
-    document.getElementById("myModal").style.display = "none";
-  }
+  // $('#transaction_start_date').datepicker({
+  //   format: "dd/mm/yyyy",
+  //   startDate : date,
+  //   endDate   : end
+  // // update "transaction_end_date" defaults whenever "transaction_start_date" changes
+  // }).on('changeDate', function(){
+  //   // set the "transaction_end_date" start to not be later than "transaction_start_date" ends:
+  //   $('#transaction_end_date').datepicker('setStartDate', new Date($(this).val()));
+  // }); 
 
-  var slideIndex = 1;
-  showSlides(slideIndex);
+  // $('#transaction_end_date').datepicker({
+  //   format: "dd/mm/yyyy",
+  //   startDate : date,
+  //   endDate   : end
+  // // update "transaction_start_date" defaults whenever "transaction_end_date" changes
+  // }).on('changeDate', function(){
+  //   // set the "transaction_start_date" end to not be later than "transaction_end_date" starts:
+  //   $('#transaction_start_date').datepicker('setEndDate', new Date($(this).val()));
+  // });
 
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
+  // $(document).ready(function() {
+  //   var date = new Date();
+  //   var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
+  //   $('#transaction_start_date').datepicker({
+  //     format: "dd/mm/yyyy",
+  //     todayHighlight: true,
+  //     startDate: today,
+  //     autoclose: true
+  //   });
 
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("demo");
-    var captionText = document.getElementById("caption");
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
-    captionText.innerHTML = dots[slideIndex-1].alt;
-  }
+  //   $('#transaction_end_date').datepicker({
+  //     format: "dd/mm/yyyy",
+  //     todayHighlight: true,
+  //     startDate: today,
+  //     autoclose: true
+  //   });
+
+  //   $('#transaction_start_date, #transaction_end_date').datepicker('setDate', today);
+  // });
+  $('.listing_star_rating').raty({
+    readOnly: true,
+    score: function() {
+        return $(this).attr('data-score');
+      },
+    starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+    starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'  
+  });
 </script>
-
-<style type="text/css">
-  .error{
-    color:#FF0000;
-  }
-</style>

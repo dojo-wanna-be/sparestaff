@@ -1,29 +1,46 @@
-<div class="featured-listings-box">
-  <h1 class="featured-heading">You might be interested in</h1>
-
-  <div class="featured-listings">
-    <% @employee_listings.each do |listing| %>
-      <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
-        <div class="listing-card">
-          <div class="listing-img">
-            <% if listing.profile_picture.present? %>
-              <%= image_tag listing.profile_picture.url, class: 'card-image' %>
-            <% else %>
-              <%= image_tag 'no-image.jpg', class: 'card-image' %>
+<div class="featured-listings" >
+  <% listings.each_with_index do |listing, index| %>
+    <%= link_to employee_path(id: listing.id), target: '_blank', class: 'licting-card-link' do %>
+      <div class="listing-card">
+        <div class="listing-img">
+          <% if listing.profile_picture.present? %>
+            <%= image_tag listing.profile_picture.url, class: 'card-image' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'card-image' %>
+          <% end %>
+        </div>
+        <div class="listing-details">
+          <div><b><%= listing.title %></b></div>
+          <div><%= listing.name %></div>
+          <div><%= "$#{listing.weekday_price} per hour" %></div>
+          <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
+          <%# if params[:commit] == "Search" %>
+            <% if params[:location].present? %>
+              <div class="distance_search"><%= distance_form_search(listing.id).round(2) %> km from <%= params[:location]%></div>
             <% end %>
-          </div>
-          <div class="listing-details">
-            <div><b><%= listing.title %></b></div>
-            <div><%= listing.name %></div>
-            <div><%= "$#{minimum_price(listing)} per hour" %></div>
-            <div><%= "#{listing.city.titleize} #{listing.state} #{listing.post_code}" %></div>
-            <div class="rating">
-              <%= image_tag "star-rating.png", alt: "", class: "rating-img" %>
-              <span>28</span>
-            </div>
+          <%#end %>
+          <div class="rating">
+            <span class="listing_star_rating" data-score ="<%= listing_star_rating(listing.id).round(0) %>"></span>
+            <%#= image_tag "star-rating.png", alt: "", class: "rating-img" %>
+            <span><%= listing_all_reviews(listing.id).count %></span>
           </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
-  </div>
+  <% end %>
 </div>
+<div class="will_pagination_box changes">
+  <%= js_will_paginate @employee_listings %>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.listing_star_rating').raty({
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        },
+        starOn: 'https://i.ibb.co/XJBTTTK/star-on.png',
+        starOff:  'https://i.ibb.co/HhTx9dL/star-off.png'
+    });
+  });
+</script>

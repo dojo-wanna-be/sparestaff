@@ -25,8 +25,8 @@
     </div>
 
     <div class="custom-input-group">
-      <label class="custom-label">Employee skills and experience</label>
-      <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).to_sentence %>
+      <label class="custom-label">Skills <br/> <span class="thin-text">Help Hirers find the Employee by showcasing all of the his/her skills (e.g. Word, Excel, MYOB, PHP, Java, Web Design, Full Stack Developer, etc). Start typing and hit Enter to add a skill in.</span></label>
+      <% all_skills = @employee_listing.employee_skills.pluck(:skill_name).join(', ') %>
       <%= text_field_tag :employee_skills, all_skills.present? ? raw(all_skills) : nil, style: "width:100%;", id: "skill_tags" %>
     </div>
 
@@ -47,9 +47,9 @@
       </div>
       <label id="lan_emp_id">Please select at least one language</label>
     </div>
-
+    <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
     <div class="button-box">
-      <%= f.submit "Save", class: "continue-btn cont_step" %>
+      <%= f.submit "Save", class: "continue-btn cont_step prw_btn" %>
     </div>
 
   </div>

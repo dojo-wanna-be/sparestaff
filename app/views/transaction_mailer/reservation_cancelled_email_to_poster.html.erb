@@ -1,0 +1,67 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+ 
+</style>
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <a href="https://www.sparestaff.com.au/">
+    <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/></td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color: #484848;">Hiring Cancelled</h1>
+    <br />
+    <table style="width: 500px;">
+      <tr>
+        <td style="width: 50%; color: #484848;"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td style="text-align: right">
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight"  style="width:200px; float:right;"/></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+       <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
+</td>
+      </tr>
+      <tr>
+        <td style="width: 50%; color: #484848;"><strong>From</strong><br />
+        <%= @transaction.start_date.strftime("%d %b %Y") %></td>
+        <td style="text-align: right; color: #484848;">
+        <strong>To</strong><br />
+        <%= @transaction.end_date.strftime("%d %b %Y") %></td>
+      </tr>
+      </table>
+    <h3>Results for cancelling</h3>
+    <table style="width: 500px;">
+      <tr>
+        <td>
+        Because cancellations disrupt Hirer’s plans and impact 
+        confidence in the Spare Staff community, your listing ranking 
+        may be reduced or temporarily removed from search results if you 
+        cancel multiple hiring reservations. An automatic cancellation 
+        review will be posted on your listing.</td>
+      </tr>
+    </table>
+    &nbsp;<br />
+&nbsp;<br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

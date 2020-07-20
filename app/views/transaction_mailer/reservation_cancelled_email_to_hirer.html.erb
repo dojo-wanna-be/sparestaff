@@ -1,0 +1,55 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+
+ </style>
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <a href="https://www.sparestaff.com.au/">
+    <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/></td>
+  </tr>
+  <tr>
+    <td><br />
+    <table style="width: 800px">
+      <tr>
+        <td>Hi <%= @hirer.name %>,<br />
+        <br />
+        We regret to inform you that your Poster - <%= @poster.name %> cancelled 
+        hiring 
+        for <%= @listing.name %> from <%= @transaction.start_date.strftime("%d-%b-%Y") %> to <%= @transaction.end_date.strftime("%d-%b-%Y") %>. Per our hirer refund 
+        policy, you will be refunded $<%= ((@transaction.weekly_amount - @transaction.tax_withholding_amount_calculate + @transaction.service_fee) - ((@transaction.stripe_payments.last.amount - @transaction.tax_withholding_amount_calculate) + @transaction.service_fee)).round(2) %>.<br />
+        <br />
+    This refund will be processed immediately at our end but it may take up 
+        to 5 business days to be cleared by financial institutions.<br />
+        <br />
+        <strong>What are my next steps?</strong><br />
+        Use the money you already paid to hire another employee on Spare 
+        Staff.<br />
+        <br />
+    Regards,<br />
+    The Spare Staff Team<br />
+        <br />
+    P.S. We know getting a cancellation is disappointing. But hirings 
+    rarely get
+    cancelled, so don’t worry, this isn’t likely to happen
+    often!</td>
+      </tr>
+    </table>
+    <br />
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

@@ -1,0 +1,82 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Employee Hiring Section
+  </div>
+</div>
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">List an employee intro page</div>
+    <div class="right_step user">
+      <div class="right-panel edit_regis list_an_employee">
+        <%= form_for(@new_form, url: @url, html:{mutlpart: true}) do |f| %>
+          <div class="field">
+            <%= f.label "Cover section title" %>
+            <br/>
+            <%= f.text_field :cover_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Cover photo" %>
+            <%= f.file_field :cover_image%>
+            <%= f.object.cover_image_file_name.present? ? f.object.cover_image_file_name : '' %>
+          </div>
+          <div class="field">
+            <%= f.label "Cover section subtitle" %>
+            <%= f.text_field :cover_subtitle, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Cover section button name" %>
+            <%= f.text_field :button_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Why list yourself for hiring heading" %>
+
+            <%= f.text_field :list_your_self_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "How it works for job seeker heading" %>
+
+            <%= f.text_field :how_it_works_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Safety on Spare Staff heading" %>
+
+            <%= f.text_field :safety_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Frequently asked question heading" %>
+
+            <%= f.text_field :frequently_asked_title, required: true %>
+          </div>
+          <div class="field">
+            <%= f.label "Easy Online Employee Hiring heading" %>
+
+            <%= f.text_field :easy_online_title, required: true %>
+          </div>
+          <h3>Easy employee sharing & hiring or How it works</h3>
+          <div id="tasks">
+            <%= f.fields_for :homepage_contents do |section| %>
+              <%= render 'homepage_content_fields', f: section %>
+            <% end %>
+            <div class="links">
+              <%= link_to_add_association 'Add section', f, :homepage_contents %>
+            </div>
+          </div>
+          <h3>Frequently asked question</h3>
+          <div id="tasks">
+            <%= f.fields_for :frequently_ask_questions do |section| %>
+              <%= render 'frequently_ask_question_fields', f: section %>
+            <% end %>
+            <div class="links">
+              <%= link_to_add_association 'Add section', f, :frequently_ask_questions %>
+            </div>
+          </div>
+          <div class="submit_button">
+            <%= f.submit 'save' , class: 'search-btn' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

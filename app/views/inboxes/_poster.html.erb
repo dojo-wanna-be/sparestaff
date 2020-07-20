@@ -1,0 +1,148 @@
+<div class="left-detail">
+  <div><b>About this Hirer</b></div>
+  <br/>
+  <div class="text-allign-center">
+    <% if @transaction.hirer.avatar.present? %>
+      <%= image_tag @transaction.hirer.avatar.url, class: 'pro-pic' %>
+    <% else %>
+      <%= image_tag 'no-image.jpg', class: 'pro-pic' %>
+    <% end %>
+    <div class=""><b><%= @transaction.hirer.name %></b></div>
+    <div class="grey-text"><%= "#{@transaction.hirer.company.city} #{@transaction.hirer.company.state} #{@transaction.hirer.company.post_code}, #{@transaction.hirer.company.country}" %></div>
+    <div class="grey-text">3 Verifications | <%= listing_all_reviews(@transaction.employee_listing.id).count %> Reviews</div>
+  </div>
+  <br/>
+  <div class="">
+    <div><b>Hiring details</b></div>
+    <br />
+    <%= link_to "#{@listing.title}", employee_path(id: @listing.id), class: 'orange-text', target: "_blank"  %>
+    <div><%= @listing.name %></div>
+  </div>
+  <div class="order-details first-order">
+    <div class="order-item">
+      <span><b><%= @transaction.start_date.strftime("%d %h %Y") %></b></span>
+      <span>&nbsp;&nbsp;&nbsp; > &nbsp;</span>
+      <span><b><%= @transaction.end_date.strftime("%d %h %Y") %></b></span>
+    </div>
+    <% total_hours = @transaction.total_weekday_hours + @transaction.total_weekend_hours %>
+    <div class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></div>
+    <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
+      <div class="order-item space-bottom">
+        <span><%= bookings.first.day.titleize %></span>
+        <span><%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %></span>
+      </div>
+    <% end %>
+  </div>
+
+      <% if !((@transaction.end_date - @transaction.start_date).to_i < 29) %>
+        <div class="order-details">
+          <div class="order-item space-bottom">
+            <span class="grey-text">Probationary period</span>
+          </div>
+          <div class="order-item ">
+            <div class="month1">
+              <% if @transaction.probationary_period.present? %>
+                <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+              <% else %>
+                NA
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+  <div class="order-details">
+    <div class="order-item space-bottom">
+      <span class="grey-text">Address</span>
+    </div>
+    <div class="order-item ">
+      <div class="month1">
+        <% if @address.present? %>
+          <%= "#{@address.address_1} #{@address.city} #{@address.state} #{@address.post_code} #{@address.country}" %>
+        <% else %>
+          <%= "#{@listing.address_1} #{@listing.city} #{@listing.state} #{@listing.post_code} #{@listing.country}" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-details">
+    <h3 class="sub-title">Weekly Payout</h3>
+    <div class="order-item space-bottom">
+      <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.weekday_hours} hours" %></span>
+      <% if @transaction.discount_coupon.present? %>
+        <span class="old_amount">
+          <span id="hiring_weekday_price_old"> <%= "$#{(@listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></span>
+        </span>
+      <% end %>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.weekday_hours)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.weekend_hours} hours" %><br />(weekend)</span>
+      <% if @transaction.discount_coupon.present? %>
+        <span class="old_amount">
+          <span id="hiring_weekday_price_old"> <%= "$#{(@listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></span>
+        </span>
+      <% end %>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.weekend_hours)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span>Tax withholding</span>
+      <span><%= "-$#{@transaction.tax_withholding_amount_calculate.round(2)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span>Service fee</span>
+      <span>-$<%= @transaction.poster_service_fee.round(2) %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span><b>Weekly total</b></span>
+      <span><b>$<%= @transaction.poster_weekly_amount %></b></span>
+    </div>
+  </div>
+
+  <div class="toggle-payment-detail">Total employment contract</div>
+
+  <div class="order-details show-payment-box">
+    <div class="order-item space-bottom">
+      <span><%= "$#{@listing.weekday_price.to_f} x #{@transaction.total_weekday_hours} hours" %></span>
+      <% if @transaction.discount_coupon.present? %>
+        <span class="old_amount">
+          <span id="hiring_weekday_price_old"> <%= "$#{(@listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></span>
+        </span>
+      <% end %>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.total_weekday_hours)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span><%= "$#{@listing.weekend_price.to_f} x #{@transaction.total_weekend_hours} hours" %><br />(weekend)</span>
+      <% if @transaction.discount_coupon.present? %>
+        <span class="old_amount">
+          <span id="hiring_weekday_price_old"> <%= "$#{(@listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></span>
+        </span>
+      <% end %>
+      <span><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span>Tax withholding</span>
+      <span><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span>Service fee</span>
+      <span>-$<%= @transaction.poster_total_service_fee.round(2) %></span>
+    </div>
+    <div class="order-item space-bottom">
+      <span><b>Total</b></span>
+      <span><b><%= "$#{(@transaction.poster_total_amount).round(2)}" %></b></span>
+    </div>
+
+    <div class="text-center grey-text detail-bot-text">You will not receive the Total employment contract upfront. You will receive  payout weekly.</div>
+  </div>
+
+  <div class="order-details">
+    <h3 class="sub-title">Always communicate through Spare Staff</h3>
+    <div class="grey-text">
+      To protect your payment, never transfer money or communicate outside of Spare Staff website or app.
+    </div>
+    <br/>
+    <%= link_to 'Learn more', '#', class: 'orange-text learn-more' %>
+  </div>
+</div>

@@ -2,62 +2,102 @@
   <div class="inner-footer">
     <div class="left-box">
       <div class="logo-side">
-        <%= image_tag 'Spare-Staff-130x130.png', class: 'logo-img' %>
+        <% if StaticContent.last&.site_logo.present? %>
+          <% site_logo = StaticContent.last.site_logo.url %>
+          <%= image_tag site_logo, class: 'logo-img' %>
+        <% else %>
+          <%= image_tag 'logo.png', class: 'logo-img' %>
+        <% end %>
       </div>
-
-      <div class="spare-staff">
-        <h4 class="footer-heading">Spare Staff</h4>
-        <ul class="footer-list-link">
-          <li class="list-item">
-            <%= link_to 'About us', 'https://www.sparestaff.com.au/about-us', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Careers', 'https://www.sparestaff.com.au/careers', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Press', 'https://www.sparestaff.com.au/press', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Policies', 'https://www.sparestaff.com.au/policies', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Help', 'https://www.sparestaff.com.au/help', class: 'custom-link' %>
-          </li>
-        </ul>
-      </div>
+      <% if @sparestaff_section_links.present? %>
+          <div class="spare-staff">
+            <h4 class="footer-heading">Spare Staff</h4>
+            <% @sparestaff_section_links.each do |sparestaff_section| %>
+              <ul class="footer-list-link">
+                <li class="list-item">
+                  <%= link_to sparestaff_section.link_name.humanize, sparestaff_section.link_url, class: 'custom-link' %>
+                </li>
+              </ul>
+            <% end %>
+          </div>
+      <% else %>
+        <div class="spare-staff">
+          <h4 class="footer-heading">Spare Staff</h4>
+          <ul class="footer-list-link">
+            <li class="list-item">
+                <%= link_to 'About us', 'https://www.sparestaff.com.au/about-us', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Careers', 'https://www.sparestaff.com.au/careers', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Press', 'https://www.sparestaff.com.au/press', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Policies', 'https://www.sparestaff.com.au/policies', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Help', 'https://www.sparestaff.com.au/help', class: 'custom-link' %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
     </div>
     <div class="right-box">
       <div class="easy-online">
-        <h4 class="footer-heading">Easy Online Recruitment</h4>
-        <ul class="footer-list-link">
-          <li class="list-item">
-            <%= link_to 'Why list your employee', 'https://www.sparestaff.com.au/why-list-your-employee', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Why hire on Spare Staff', 'https://www.sparestaff.com.au/why-hire-on-spare-staff', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Confidentiality', 'https://www.sparestaff.com.au/confidentiality', class: 'custom-link' %>
-          </li>
-        </ul>
+        <% if @easy_online_recruitment_section_links.present? %>
+          <h4 class="footer-heading">Easy Online Recruitment</h4>
+          <% @easy_online_recruitment_section_links.each do |recruitment_section| %>
+            <ul class="footer-list-link">
+              <li class="list-item">
+                <%= link_to recruitment_section.link_name.humanize , recruitment_section.link_url, class: 'custom-link' %>
+              </li>
+            </ul>
+          <% end %>
+        <% else %>
+          <h4 class="footer-heading">Easy Online Recruitment</h4>
+          <ul class="footer-list-link">
+            <li class="list-item">
+              <%= link_to 'Why list your employee', 'https://www.sparestaff.com.au/why-list-your-employee', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Why hire on Spare Staff', 'https://www.sparestaff.com.au/why-hire-on-spare-staff', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Confidentiality', 'https://www.sparestaff.com.au/confidentiality', class: 'custom-link' %>
+            </li>
+          </ul>
+        <% end %>
       </div>
 
       <div class="employee">
-        <h4 class="footer-heading">Employee Sharing & Hiring</h4>
-         <ul class="footer-list-link">
-          <li class="list-item">
-            <%= link_to 'How it works', 'https://www.sparestaff.com.au/how-it-works', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'Trust & safety', 'https://www.sparestaff.com.au/trust-and-safety', class: 'custom-link' %>
-          </li>
-          <li class="list-item">
-            <%= link_to 'List an employee', '#', class: 'custom-link' %>
-          </li>
-        </ul>
+        <% if @employee_sharing_hiring_section_links.present? %>
+          <h4 class="footer-heading">Employee Sharing & Hiring</h4>
+          <% @employee_sharing_hiring_section_links.each do |hiring_section| %>
+            <ul class="footer-list-link">
+              <li class="list-item">
+                <%= link_to hiring_section.link_name.humanize, hiring_section.link_url, class: 'custom-link' %>
+              </li>
+            </ul>
+          <% end %>
+        <% else %>
+          <h4 class="footer-heading">Employee Sharing & Hiring</h4>
+           <ul class="footer-list-link">
+            <li class="list-item">
+              <%= link_to 'How it works', 'https://www.sparestaff.com.au/how-it-works', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'Trust & safety', 'https://www.sparestaff.com.au/trust-and-safety', class: 'custom-link' %>
+            </li>
+            <li class="list-item">
+              <%= link_to 'List an employee', '#', class: 'custom-link' %>
+            </li>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>
+
   <div class="sub-footer">
     <div class="left-sub">
       <%= link_to '© Spare Staff', 'https://www.sparestaff.com.au/copyright" class="FooterBottomLink', class: 'spare-link' %>

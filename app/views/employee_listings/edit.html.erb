@@ -8,19 +8,20 @@
 
       <ul class="manage-sub-list">
         <li class="manage-sub-item">
-          <%= link_to "Listing Details", "javascript:;", data: {type: "listing_details", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
+          <%#= link_to "Listing Details", "javascript:;", data: {type: "listing_details", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
+          <%= link_to "Listing Details", "javascript:;", data: {type: "listing_details"}, class: "edit_listing_links item-link #{!params[:edit].present? || params[:edit].eql?('listing_details') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Employee Skills", "javascript:;", data: {type: "employee_skills", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
+          <%= link_to "Employee Skills", "javascript:;", data: {type: "employee_skills"}, class: "edit_listing_links item-link #{params[:edit].eql?('employee_skills') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Pricing", "javascript:;", data: {type: "listing_pricing", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
+          <%= link_to "Pricing", "javascript:;", data: {type: "listing_pricing"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_pricing') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Availability", "javascript:;", data: {type: "listing_availability", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
+          <%= link_to "Availability", "javascript:;", data: {type: "listing_availability"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_availability') ? 'selected' : ''}" %>
         </li>
         <li class="manage-sub-item">
-          <%= link_to "Listing Status", "javascript:;", data: {type: "listing_status", toggle: "modal", target: "#edit_confirmation_modal"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
+          <%= link_to "Listing Status", "javascript:;", data: {type: "listing_status"}, class: "edit_listing_links item-link #{params[:edit].eql?('listing_status') || params[:edit].eql?('deactivation_reason') || params[:edit].eql?('deactivation_feedback') ? 'selected' : ''}" %>
         </li>
       </ul>
     </div>
@@ -56,3 +57,32 @@
   </div>
 </div>
 <%= render partial: "edit_data_confirm_modal" %>
+
+<script type="text/javascript">
+  var somethingChange = false;
+  $('.edit_listing_links').click(function() {
+    if (somethingChange) {
+      $('.hidden_changes').val('true');
+      $('#edit_confirmation_modal').modal('show');
+    }
+    else {
+      $('.hidden_changes').val('false');
+      var $form = $('form:visible');
+      var newElement = '<input type="hidden" value="'+type+'" name="redirect_link" />';
+      $form.append( $(newElement) );
+      $("#edit_confirmation_modal").modal("hide");
+      $form.submit();
+    }
+  });
+  $("#listing_details,#employee_skills,#listing_pricing,#listing_availability,#listing_status").change(function(){
+    somethingChange = true;
+  });
+  $('.prw_btn').click(function(){
+    if (somethingChange) {
+      $('.hidden_changes').val('true');
+    }
+    else {
+      $('.hidden_changes').val('false');
+    }
+  })
+</script>

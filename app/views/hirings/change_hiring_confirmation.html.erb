@@ -3,7 +3,7 @@
     <div class="left_request_section">
       <ul class="logo-list">
         <li class="logo-list-item">
-          <%= link_to '' do %>
+          <%= link_to destroy_transaction_hiring_path(@transaction.id, old_id: params[:old_id]), method: :delete, remote: true do %>
             <%= image_tag 'logo.png', class: 'logo_img' %>
           <% end %>
         </li>
@@ -14,7 +14,7 @@
           >
         </li>
         <li class="logo-list-item">
-          <%= link_to '2. Confirm request', "javascript:;", class: 'item-logo' %>
+          <%= link_to '2. Confirm request', "javascript:;", class: 'item-logo select-item' %>
         </li>
       </ul>
 
@@ -22,7 +22,7 @@
         <h1 class="main-heading">Does this look right?</h1>
         <%= render partial: "hirings/new_hiring_details" %>
         <div class="inline-btn-box">
-          <%= link_to 'Back', '#', class: 'back-btn' %>
+          <%= link_to 'Back', destroy_transaction_hiring_path(@transaction.id, old_id: params[:old_id]), method: :delete, class: 'back-btn' %>
           <%= form_tag change_hiring_confirmation_hiring_path(id: @transaction.id), method: :patch do %>
             <%= hidden_field_tag "old_id", @old_transaction.id %>
             <%= submit_tag "Send Request", class: "continue-btn" %>
@@ -30,7 +30,6 @@
         </div>
       </div>
     </div>
-
     <%= render partial: "hirings/transaction_difference" %>
 
   </div>

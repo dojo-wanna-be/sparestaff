@@ -16,25 +16,29 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 # Jquery Gem
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'jquery-form-rails'
 gem 'jquery-validation-rails'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+#gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'cocoon'
+gem 'chosen-rails'
 # User authentication
 gem 'devise'
+
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip", github: "thoughtbot/paperclip"
+gem 'aws-sdk-s3'
 # Omniauth Login and Signup for Facebook
 gem 'omniauth-facebook'
 gem 'toastr_rails'
@@ -84,3 +88,19 @@ gem 'bootstrap', '~> 4.3.1'
 gem "font-awesome-rails"
 gem 'allow_numeric'
 gem 'tagsinput-rails'
+gem 'stripe'
+gem 'figaro'
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+gem 'paypal-sdk-rest'
+gem 'exception_notification'
+gem 'geocoder'
+gem 'ransack', '~> 2.1'
+#gem 'will_paginate'
+gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-will_paginate'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'ratyrate'
+gem 'gon'
+gem 'request_store_rails'

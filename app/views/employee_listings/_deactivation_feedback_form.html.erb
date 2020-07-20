@@ -11,7 +11,7 @@
       <%= f.text_area :deactivation_feedback, rows: 5 %>
     </ul>
   </div>
-
+  <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
   <div class="feedback-button-box">
     <%= f.submit "Permanently deactivate", class: 'continue-btn' %>
 

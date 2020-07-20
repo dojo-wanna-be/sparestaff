@@ -1,0 +1,123 @@
+<%= wicked_pdf_stylesheet_link_tag 'vat_invoice' %>
+<table style="width: 100%">
+  <tr>
+    <td>
+      <!--webbot bot="Include" u-include="../includes/header-line.html" tag="BODY" startspan -->
+      <div class="GreyLine1Px"></div>
+      <!--webbot bot="Include" endspan i-checksum="25331" -->
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table style="width: 100%">
+        <tr>
+          <td class="UserLeftMenuGap">&nbsp;</td>
+          <td style="width:85%">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top">
+          </td>
+          <td class="PaddingRightBottom20px">
+            <div class="FloatRight">
+              <table class="ButtonDarkGrey90pxHeight40px">
+                <tr>
+                  <td>
+                    <%= link_to 'Print', 'javascript:void(0)', :onclick => 'window.print();return false;'%>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <br />
+            <div class="divTable">
+              <div class="divTableRow">
+                <div class="divTableCell FloatLeft">
+                  <%= wicked_pdf_image_tag 'logo.png', class: 'logo-img Height50px PaddingBottom10px'%><br />
+                  Spare Staff<br />
+                  185 Enmore Rd<br />
+                  Enmore NSW 2042
+                  Australia<br />
+                  ABN: 69622675058
+                </div>
+                <div class="divTableCell FloatRight TextAllignRight"><br /><br />
+                  Hirer 
+                  Invoice #<%= @transaction.id %>
+                  <br />
+                  <%= @receipt.end_date %>
+                </div>
+              </div>
+            </div>
+            <br />
+            <br />
+            <div class="GreyLine1Px">
+            </div>
+            <div class="divTable PosterInvoiceBox">
+              <div class="divTableRow">
+                <div class="divTableCell Width33Percent">
+                  <p class="TextStrong MarginBottom5Px">Name</p>
+                  <%= @transaction.hirer.name %>
+                  <p class="TextStrong MarginBottom5Px">VAT Country</p>
+                  Australia
+                  <p class="TextStrong MarginBottom5Px">VAT Rate</p>
+                  10%
+                </div>
+                <div class="divTableCell Width33Percent">
+                  <p class="TextStrong MarginBottom5Px">Address</p>
+                  <%= @transaction.poster.address_1 rescue nil %><br />
+                  <%= @transaction.poster.address_2 rescue nil %>
+                  <!-- <p class="TextStrong MarginBottom5Px">Company</p>
+                  <%#= @transaction.hirer.company.name %> -->
+                </div>
+                <div class="divTableCell">
+                  <p class="TextStrong MarginBottom5Px">Listing</p>
+                  <%= @transaction.employee_listing.title %>
+                  <p class="TextStrong MarginBottom5Px">Hiring ID</p>
+                  <%= @transaction.id %>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="GreyLine1Px">
+            </div>
+            <br /><br />
+            <span class="Text18px TextStrong">Spare Staff Service Fee for Use of Online Platform</span>
+            <!-- <div class="NoteToDeveloper200Width500pxLeft" style=" display: none; margin-top:-150px; left:400px; width:700px">note to developer:<br />
+              Address (above) is 
+              Hirer's address, not Employee address. CompanyDEFName is 
+              name of Hirer's Company Name.<br />
+              in Australia, VAT (also known as GST) = 10%<br />
+              Total Service Fee in this invoice = each weekly/fortnightly 
+              Hirer Service Fee<br />
+              Base Service Fee = Total Service Fee / 1.1<br />
+              VAT = 10% x Base Service Fee
+            </div> -->
+            <div class="divTable PosterInvoicePriceBox">
+              <div class="divTableRow">
+                <div class="divTableCell Width33Percent TextStrong">Base Service Fee</div>
+                <div class="divTableCell Width33Percent TextStrong">VAT</div>
+                <div class="divTableCell TextStrong">Total Service Fee</div>
+              </div>
+              <div class="divTableRow">
+                <div class="divTableCell">$<%= @base_service_fee.round(2) %></div>
+                <div class="divTableCell">$<%= @vat.round(2) %></div>
+                <div class="divTableCell">$<%= @total_service_fee.round(2) %> *</div>
+              </div>
+            </div>
+            <br />
+            <!-- * Spare Staff charges a​ service​ fee from the hiring fee amount 
+            for use of the Spare Staff online platform. VAT is charged at 
+            the time of payment and is based on the total hirer service fee 
+            for a hiring. ​The ​hiring fee amount is paid by the Hirer 
+            through Spare Staff to the Poster.<br /> -->
+          </td>
+          <td valign="top">&nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;
+    </td>
+  </tr>
+</table>

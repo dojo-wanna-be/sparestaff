@@ -1,0 +1,44 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="account-section">
+  <%= render partial: 'payout_side_bar'%>
+  <div class="payout-prefrences-box">
+    <div  class="payout-box">
+      <div class="panel-header">
+        Payout Methods
+      </div>
+      <div class="payout-box-content payout-method-step2">
+        <div>When you receive a payment for a hiring, we call that payment to you a “payout”. Our secure payment system lets you set up payout method and edit it here.</div>
+
+        <div class="payout-list-box">
+          <div class="payout-list">
+            <div class="list-box one"><b>Method</b></div>
+            <div class="list-box two"><b>Details</b></div>
+            <div class="list-box three"><b>Status</b></div>
+            <div class="list-box four"><b>&nbsp;</b></div>
+          </div>
+
+          <div class="payout-list paypal_payout_list">
+            <div class="list-box one">
+              <input checked="checked" name="Radio1" type="radio" value="paypal" class='choose_payment_method' data-url="https://google.com">
+              PayPal
+            </div>
+            <div class="list-box two">
+              mypaypal@gmail.com
+            </div>
+            <div class="list-box three">
+              Ready
+            </div>
+            <div class="list-box four">
+              <%= link_to ' Remove', 'javascript:;', class: 'spare_link' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-box">
+          <%= link_to 'Add Payout Method', step_2_payouts_path, class: 'modal-orange-btn' %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

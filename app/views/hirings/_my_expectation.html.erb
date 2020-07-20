@@ -16,52 +16,11 @@
 
       <div class="under-title">If you cancel now, you'll receive refund for remaining days in hiring contract that you've paid up to. The Poster will receive payment for work that the Employee has done up to today full day. Spare Staff service fee is not refundable.</div>
 
-      <div class="calculation-list">
-        <div class="list-item">
-          <div class="left-item">
-            Total Fee
-          </div>
-          <div class="right-item">
-            <%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Partial hiring fee
-          </div>
-          <div class="right-item">
-            -$270.13
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Tax withholding
-          </div>
-          <div class="right-item">
-            -$0.00
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Service fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.total_service_fee}" %>
-          </div>
-        </div>
-        <div class="list-item grey-list-item">
-          <div class="left-item">
-            <strong>Your Total Refund</strong>
-          </div>
-          <div class="right-item">
-            <strong><%= "$#{@transaction.total_amount}" %></strong>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'refund_amount' %>
 
-      <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
+      <div class="custom-label">Tell <%= @listing.poster_name %> why you need to cancel</div>
 
-      <%= text_area_tag "message_text" %>
+      <%= text_area_tag "message_text",nil, required: true %>
 
       <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
 

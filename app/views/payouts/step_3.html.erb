@@ -1,0 +1,41 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="account-section">
+  <%= render partial: 'payout_side_bar'%>
+  <div class="payout-prefrences-box">
+		<div  class="payout-box">
+      <div class="panel-header">
+        Add PayPal Payout
+      </div>
+      <div class="payout-box-content payout-method-step2">
+        <div>PayPal is an online payment processing service that allows you to receive payments from Spare Staff. To use PayPal with Spare Staff, you must have an existing account with PayPal.</div>
+
+        <div class="payout-list-box">
+          <div class="payout-list paypal_payout_list">
+            Get paid in 3–4 hours
+          </div>
+
+          <div class="payout-list paypal_payout_list">
+            May include PayPal withdrawal fees
+          </div>
+          <div class="payout-list paypal4payout_list">
+            Securely connect to PayPal to finish adding your payout method
+          </div>
+        </div>
+
+        <div class="button-box">
+          <%= link_to '< Back', step_2_payouts_path, class: 'orange-text' %>
+          <%= link_to 'Log In With PayPal', step_4_payouts_path, class: 'modal-orange-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<!-- <script type="text/javascript">
+  $('.choose_payment_method').change(function(e) {
+    const $this = $(this), $link = $("#next_chose_btn");
+    $link.attr("href", $this.attr("data-url"));
+  });
+</script> -->

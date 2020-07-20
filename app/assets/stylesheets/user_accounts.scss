@@ -1,0 +1,515 @@
+//** USER ACCOUNTS CSS **//
+
+.spare_link {
+  color: #F15927;
+  text-decoration: none;
+
+  &:hover {
+    color: #d75227;
+    text-decoration: none;
+  }
+}
+
+.user_accounts_section {
+  padding: 22px 80px;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    padding: 20px 25px;
+  }
+
+  .inner-listings-section {
+    display: flex;
+    flex-direction: row;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      margin-right: 40px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 20%;
+        margin-right: 12px;
+      }
+
+      .panel-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        @media screen and (max-width: 767px) {
+          border-bottom: 1px solid #e4e4e4;
+        }
+
+        .panel-item {
+          padding-bottom: 10px;
+
+          .panel-link {
+            color: #767676;
+            font-size: 16px;
+
+            &:hover {
+              color: #bbbbbb;
+              text-decoration: none;
+            }
+
+            &.active {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+
+            &.selected-panel {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+          }
+
+          .listing-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 3px;
+            background-color: #f15928;
+            color: #fff;
+            margin-top: 64px;
+
+            &:hover {
+              background-color: #d75227;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+              text-decoration: none;
+            }
+            @media screen and (max-width: 767px) {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 790px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 80%;
+      }
+
+      .right-panel-header {
+        font-size: 13pt;
+        font-weight: normal;
+        background-color: #f2f2f2;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dce0e0;
+        height: 45px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        @media screen and (max-width: 767px) {
+          min-height: 45px;
+          height: auto;
+        }
+      }
+
+      .end_save_box {
+        display: flex;
+        flex-direction: column;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 70%;
+
+          .listed-box {
+            width: 100%;
+          }
+        }
+      }
+
+      .listed-box {
+        border: 1px solid #dce0e0;
+        width: 380px;
+        margin: 0 20px 20px 0;
+
+        @media screen and (max-width: 767px) {
+          margin-right: 0;
+          width: 100%;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 70%;
+        }
+
+        &.contact_listed_box {
+          width: 370px;
+
+          @media screen and (max-width: 767px) {
+            margin-right: 0;
+            width: 100%;
+          }
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            width: 70%;
+          }
+        }
+
+        .listing-card-box {
+          padding: 20px 15px 20px 15px;
+          display: flex;
+          flex-direction: column;
+
+          @media screen and (max-width: 767px) {
+            padding: 20px 5px 20px 5px;
+          }
+
+          .checkbox_field {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0 10px;
+
+            .left_field {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              line-height: 1;
+
+              input {
+                height: auto;
+              }
+            }
+          }
+        }
+      }
+
+      .continue_btn {
+        width: fit-content;
+        height: 40px;
+        margin-right: 20px;
+        border-radius: 3px;
+        background-color: #F15927;
+        border: none;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 29px;
+        text-decoration: none;
+        align-self: flex-end;
+
+        &:hover {
+          background-color: #d75227;
+        }
+        @media screen and (max-width: 767px) {
+          margin: 0;
+        }
+      }
+
+    }
+  }
+}
+
+//** USER ACCOUNTS END CSS **//
+
+//** USER ACCOUNTS CSS **//
+
+
+.transaction_history_section {
+  padding: 22px 30px 22px 80px;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    padding: 20px 25px;
+  }
+
+  .inner-listings-section {
+    display: flex;
+    flex-direction: row;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      margin-right: 40px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 20%;
+        margin-right: 12px;
+      }
+
+      .panel-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        @media screen and (max-width: 767px) {
+          border-bottom: 1px solid #e4e4e4;
+        }
+
+        .panel-item {
+          padding-bottom: 10px;
+
+          .panel-link {
+            color: #767676;
+            font-size: 16px;
+
+            &:hover {
+              color: #bbbbbb;
+              text-decoration: none;
+            }
+
+            &.active {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+
+            &.selected-panel {
+              font-weight: bold;
+              color: #484848;
+
+              &:hover {
+                color: #484848;
+              }
+            }
+          }
+
+          .listing-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 3px;
+            background-color: #f15928;
+            color: #fff;
+            margin-top: 64px;
+
+            &:hover {
+              background-color: #d75227;
+              box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+              text-decoration: none;
+            }
+            @media screen and (max-width: 767px) {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 992px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 80%;
+      }
+
+      .right-panel-header {
+        font-size: 13pt;
+        font-weight: normal;
+        background-color: #f2f2f2;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dce0e0;
+        height: 45px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        @media screen and (max-width: 767px) {
+          min-height: 45px;
+          height: auto;
+        }
+      }
+
+      .listed-box {
+        border: 1px solid #dce0e0;
+        width: 100%;
+        margin: 0 0 20px 0;
+
+        .listing-card-box {
+          padding: 20px 15px 20px 15px;
+          display: flex;
+          flex-direction: column;
+
+          @media screen and (max-width: 767px) {
+            padding: 20px 5px 20px 5px;
+          }
+
+          .payout_table {
+            display: flex;
+            flex-direction: column;
+            margin: 30px 0 0;
+
+            @media screen and (max-width: 992px) {
+              overflow-y: scroll;
+            }
+
+            .table_row {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
+              width: 100%;
+              min-height: 43px;
+              height: auto;
+              border-bottom: 1px solid #e4e4e4;
+              padding: 10px 0px;
+              &:nth-last-of-type(1) {
+                border-bottom: none;
+              }
+              @media screen and (max-width: 992px) {
+                overflow: hidden;
+                overflow-y: scroll;
+                width: 992px;
+              }
+
+              .tab_btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                border: 1px solid #dce0e0;
+                color: #c0c0c0;
+                text-decoration: none;
+                font-size: 12pt;
+                margin: 20px 20px 0px 0;
+              }
+            }
+          }
+
+          .custom-field-box {
+            display: flex;
+            flex-direction: column;
+
+            .custom-input-group {
+              margin: 16px 0;
+              line-height: 1.4;
+              display: flex;
+              flex-direction: row;
+              margin-bottom: 0;
+              width: 100%;
+              align-items: center;
+
+              @media screen and (max-width: 767px) {
+                flex-direction: column;
+              }
+
+              & ~ .continue_btn {
+                margin-top: 30px;
+                margin-right: 30px;
+
+                @media screen and (max-width: 767px) {
+                  margin-right: 0;
+                }
+              }
+
+              .custom-label {
+                font-size: 16px;
+                font-weight: normal;
+                line-height: 1.4;
+                margin: 0;
+                color: #484848;
+                width: 200px;
+                text-align: right;
+                padding: 0 10px 0 0;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                  text-align: left;
+                }
+              }
+
+              .custom-field {
+                width: 200px;
+                height: 40px;
+                border: 1px silver solid;
+                padding-left: 5px;
+                font-size: 16px;
+                color: #484848;
+                line-height: 1.4;
+
+                @media screen and (max-width: 767px) {
+                  width: 100%;
+                }
+              }
+            }
+
+            .BorderBottom {
+              margin-top: 30px;
+            }
+          }
+
+        }
+      }
+
+      .continue_btn {
+        width: fit-content;
+        height: 40px;
+        margin-right: 20px;
+        border-radius: 3px;
+        background-color: #F15927;
+        border: none;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 29px;
+        text-decoration: none;
+        align-self: flex-end;
+
+        &:hover {
+          background-color: #d75227;
+        }
+        @media screen and (max-width: 767px) {
+          margin: 0;
+        }
+      }
+
+    }
+  }
+}
+
+//** USER ACCOUNTS END CSS **//

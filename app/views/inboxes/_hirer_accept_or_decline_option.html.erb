@@ -1,0 +1,20 @@
+<div class="reservation-order-box">
+  <div class="sub-title18"><b>Respond to <%= @transaction.poster.name %> change request</b></div>
+  <br>
+  <div>Respond promptly to maintain your response rate. You
+  can confirm their hiring request by accepting their
+  request. Send messages if you have any further
+  questions.</div>
+  <br>
+  <div class="btn-box">
+    <%= link_to "Accept", "javascript:;", class: "modal-orange-btn", data: {toggle: "modal", target: "#hirer_accept-reservation-popup" } %>
+
+    <%= link_to "Decline", "javascript:;", class: "modal-white-btn", data: {toggle: "modal", target: "#hirer_decline-reservation-step-1-popup" } %>
+  </div>
+
+  <!-- popup -->
+  <%= render partial: "inboxes/hirer_accept-reservation-popup" %>
+  <%= render partial: "inboxes/hirer_decline-reservation-step-1-popup" %>
+  <%= render partial: "inboxes/hirer_decline-reservation-step-2-popup" %>
+  <!-- popup -->
+</div>

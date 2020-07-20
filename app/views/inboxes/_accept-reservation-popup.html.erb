@@ -1,0 +1,41 @@
+<div class="modal custom-modal" id="accept-reservation-popup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+     <!--  <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><%#= image_tag "cross.jpg", class: 'close-img' %></button>
+      </div> -->
+
+      <div class="modal-body">
+        <div class="custom-modal-inner">
+          <div class="title-modal">Accept this request</div>
+          <%= form_tag accept_reservation_path(id: @transaction.id), method: :patch, id: "accept_hiring_form", class: "form-modal" do |f| %>
+            <label class="label-modal">Type optional message to Hirer</label>
+            <%= text_area_tag "message_text", nil, class: "modal-textarea", rows: 7, cols: 20 %>
+            <div class="Text14px">
+              <%= check_box_tag :term, nil, false, id: "term", class: 'VerticalAlignMiddle', required: true %>
+              By checking this box, I agree to
+              the <span><%= link_to 'Hirer Refund Policy Terms', 'javascript:;', class: 'orange-text Text14px' %></span>, and
+              <span><%= link_to 'Terms of Service', 'javascript:;', class: 'Text14px orange-text' %></span>.
+            </div>
+
+            <div class="modal-btn-box" >
+              <%= submit_tag "Accept", class: 'modal-orange-btn' %>
+              <%= link_to 'Close', '#', class: 'modal-white-btn' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#accept_hiring_form").validate({
+      rules: {
+        "term": {required: true},
+      }
+    });
+  });
+</script>

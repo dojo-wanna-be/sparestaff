@@ -5,7 +5,17 @@
   margin: 0 auto;
   border-top: 1px solid #C0C0C0;
   padding: 18px 0;
-  width: 1062px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 12px 0 !important;
+    padding: 20px 12px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-left: 0 !important;
+    padding: 18px 25px !important;
+    width: 100%;
+  }
 
   .left-sub {
     .spare-link {
@@ -17,6 +27,12 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  .right-sub {
+    @media screen and (max-width: 767px) {
+      width: 65%;
     }
   }
 }
@@ -42,6 +58,23 @@
   display: inline-block;
   padding-bottom: 5px;
 }
+.GreyLink{
+  font-size: 18px;
+  text-decoration: none !important;
+  display: inline-block;
+  padding-bottom: 5px;
+  color: #484848 !important;
+}
+.star-rating{
+  height:14px;
+}
+
+.GreyText-abc{
+  font-size: 14px;
+  color: #767676;
+}
+
+
 
 /********HIRING REQUEST CSS********/
 
@@ -100,7 +133,7 @@
   }
 
   .left-hiring-request {
-    width: 522px;
+    width: 600px;
     margin-top: -22px;
     display: flex;
     flex-direction: column;
@@ -166,6 +199,17 @@
   margin: 0 auto;
   margin-left: 80px;
 
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 0;
+    padding: 0 12px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    max-width: 100%;
+    margin: 0 15px;
+  }
+
   .inner-box {
     .order_box {
       display: flex;
@@ -173,6 +217,9 @@
       border: 1px solid #dce0e0;
       margin-top: 22px;
       justify-content: space-between;
+      @media screen and (max-width: 767px) {
+        flex-direction: column-reverse;
+      }
 
       &.pending_or_cancelled {
         .listing_image_box {
@@ -187,6 +234,15 @@
         display: flex;
         flex-direction: column;
         width: 702px;
+
+        @media screen and (max-width: 767px) {
+          width: 100%;
+          padding: 15px 12px;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          padding: 12px;
+          width: 60%;
+        }
 
         .top_part {
          // flex-grow: 1;
@@ -207,7 +263,7 @@
           }
 
           .order_listing_title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: normal;
             padding-top: 3px;
             margin: 0 0 12px;
@@ -247,9 +303,25 @@
           margin-top: 22px;
           border-top: 1px solid #e4e4e4;
 
+          @media screen and (max-width: 1024px) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            margin-top: 15px;
+          }
+
           .add_info {
             margin-right: 40px;
             color: #484848;
+
+            @media screen and (max-width: 1024px) {
+              margin: 0;
+              width: 50%;
+              margin-bottom: 10px;
+            }
 
             img {
               vertical-align: sub;
@@ -263,12 +335,20 @@
       .listing_image_box {
         position: relative;
 
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 40%;
+        }
+
         img {
           width: 300px;
           height: 285px;
           margin-bottom: 0;
           object-fit: cover;
           border-top: 1px solid #fff;
+
+          @media screen and (max-width: 1024px) {
+            width: 100%;
+          }
         }
 
         .btn_over {
@@ -305,11 +385,36 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
+      justify-content: start;
+      flex-wrap: wrap;
+
+      @media screen and (max-width: 767px) {
+        flex-direction: column;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        flex-wrap: wrap;
+      }
 
       .card {
         width: 301px;
         border: 1px solid #dce0e0;
+        margin-right: 56px;
+        margin-bottom: 20px;
+
+        @media screen and (max-width: 767px) {
+          margin-bottom: 20px;
+          width: 100%;
+          margin-right: 0px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 48%;
+          margin-bottom: 20px;
+          margin-right: 20px;
+        }
 
         .top_img {
           position: relative;
@@ -425,6 +530,18 @@
   flex-direction: row;
   margin-top: 22px;
 
+  @media screen and (max-width: 767px) {
+    margin: 0;
+    padding: 10px 12px;
+    flex-direction: column;
+    width: 100%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+
   .left-detail {
     display: flex;
     flex-direction: column;
@@ -432,6 +549,16 @@
     width: 301px;
     margin-right: 49px;
     border: 1px solid #e4e4e4;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      padding: 10px;
+      margin-right: 15px;
+    }
 
     .pro-pic {
       width: 150px;
@@ -470,6 +597,21 @@
           margin-bottom: 10px;
         }
 
+        &.asking-box {
+          border-top: 1px solid #ccc;
+          padding: 20px 0 0;
+          margin: 0;
+        }
+
+        &.table-box {
+          margin-bottom: 20px;
+          margin-top: 10px;
+        } 
+
+        &.from-box{
+          margin-top: 10px;
+        }
+
         .month1 {
           margin-top: 12px;
         }
@@ -504,8 +646,19 @@
     width: 481px;
     padding-top: 2px;
 
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+
     &.cancel-hirings-right-detail {
       width: 580px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 470px;
+      }
     }
 
     .right-sub-title {
@@ -530,12 +683,20 @@
 
         .link-box {
           padding: 20px 22px;
-           width: calc(100% - 40px);
+          width: calc(100% - 40px);
+
+          @media screen and (max-width: 767px) {
+            padding: 15px;
+          }
 
           .GreyLink {
             font-size: 22px;
             padding-bottom: 10px;
             color: #333333;
+
+            @media screen and (max-width: 767px) {
+              font-size: 18px;
+            }
           }
         }
       }
@@ -576,10 +737,12 @@
     @media screen and (max-width: 767px) {
       width: 100%;
       flex-direction: column;
+      margin: 0;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 100%
+      width: 100%;
+      margin: 0;
     }
 
     .left_request_section {
@@ -626,7 +789,7 @@
             }
           }
           @media screen and (min-width: 768px) and (max-width: 1024px) {
-            margin-right: 15px;
+            margin-right: 8px;
           }
 
           .logo_img {
@@ -653,6 +816,9 @@
         @media screen and (max-width: 767px) {
           font-size: 22px;
         }
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          font-size: 26px;
+        }
       }
 
       .comman-heading {
@@ -666,6 +832,21 @@
         display: inline-block;
         padding-bottom: 10px;
         margin-top: 2px;
+      }
+
+      .day-timing-box {
+        margin: 16px 0 22px;
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+
+        .timing-box-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 0 10px;
+        }
       }
 
       .total-hour {
@@ -716,6 +897,10 @@
         display: flex;
         flex-direction: column;
         margin-top: 13px;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          margin-bottom: 20px;
+        }
 
         .available-box {
           padding-bottom: 20px;
@@ -783,7 +968,8 @@
               margin: 0;
               list-style: none;
               width: 100%;
-
+              position: relative;
+              
               .header-item {
                 display: flex;
                 flex-direction: row;
@@ -948,12 +1134,130 @@
               }
             }
           }
+
+        }
+
+        .weekly-price {
+          .padding_b10 {
+            padding: 0 0 10px;
+
+            &:last-child {
+              padding: 0
+            }
+          }
+
+          label {
+            margin: 0;
+          }
+
+          .calculation-list {
+            padding: 0;
+            margin: 10px 0 0;
+            list-style: none;
+
+            .calc-item {
+              border-bottom: 1px solid #e4e4e4;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: flex-start;
+              padding: 25px 0;
+              text-align: center;
+
+              &.last-calc-item {
+                border: none
+              }
+
+              .left {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                flex-direction: column;
+
+                .tax-check {
+                  margin-right: 10px;
+                }
+
+                .GreyText14Px {
+                  color: #767676;
+
+                  span {
+                    color: #767676;
+                  }
+                }
+              }
+              .right {
+
+                .calc-input-box {
+                  position: relative;
+                  width: 150px;
+
+                  .currency-sign {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    display: flex;
+                    align-items: center;
+                    left: 8px;
+                  }
+
+                  .input-value {
+                    width: 100%;
+                    padding: 0 5px 0 25px;
+                    text-align: right;
+                    height: 40px;
+
+                    &::-webkit-input-placeholder {
+                      color: #484848;
+                    }
+                    &::-moz-placeholder {
+                      color: #484848;
+                    }
+                    &:-ms-input-placeholder {
+                      color: #484848;
+                    }
+                    &:-moz-placeholder {
+                      color: #484848;
+                    }
+
+                    &:focus {
+                      outline: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .text-area-box {
+            margin: 0 0 40px;
+
+            .border_box {
+              width: 100%;
+              height: 94px;
+              box-sizing: border-box;
+            }
+          }
+        }
+
+        .message__box {
+          label {
+            margin: 0;
+          }
+
+          textarea {
+            height: 94px;
+
+            &:focus {
+              outline: none;
+            }
+          }
         }
 
         .continue-btn {
           width: 180px !important;
           height: 40px;
-          margin-top: 22px;
+          margin: 22px 0 20px;
           border-radius: 3px;
           background-color: #F15927;
           border: none;
@@ -1006,6 +1310,10 @@
 
         &:first-child {
           padding-top: 0;
+        }
+        &:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
         }
         &.joint-box {
           flex-direction: column;
@@ -1089,6 +1397,47 @@
         }
         .right {
           text-align: right;
+        }
+      }
+
+      .new-weekly-payout {
+
+        .toggle-new-weekly-payout {
+          font-size: 11pt;
+          cursor: pointer;
+          margin-top: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .toogle-text-left {
+            color: #F15927;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        .calculation-list {
+
+          &.new-weekly-payout-list {
+            display: none;
+            padding: 0 0 0 20px;
+
+            @media screen and (max-width: 767px) {
+              padding: 0 0 0 10px;
+            }
+          }
+
+          & + .calculation-list {
+            margin: 0;
+
+            .calc-item {
+              padding: 20px 0;
+            }
+          }
         }
       }
 

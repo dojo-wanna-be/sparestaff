@@ -11,7 +11,6 @@
         <%= f.select :weekday_price, options_for_select(EmployeeListing::PRICES, f.object.weekday_price.to_f), {}, {class: 'week-select'} %>
 
         <div class="mid-text">or</div>
-
         <%= f.number_field :other_weekday_price, value: EmployeeListing::PRICES.map{|k,v| v }.include?(f.object.weekday_price.to_f) || f.object.weekday_price.to_f.eql?(0.0) ? nil : f.object.weekday_price.to_f, placeholder: "Enter your own", min: 1, class: 'custom-input' %>
       </div>
 
@@ -44,7 +43,7 @@
       <% end %>
     </div>
   </div>
-
+  <%= hidden_field_tag 'changed' ,nil, class: 'hidden_changes' %>
   <div class="button-box">
     <%= f.submit "Save", class: "continue-btn prw_btn" %>
   </div>

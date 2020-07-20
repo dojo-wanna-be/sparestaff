@@ -1,22 +1,24 @@
+<script type="text/javascript">
+  initializeTransactionForm();
+</script>
 <div class="right-preview-detail">
   <%= form_for transaction, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
-
     <div class="price-header">
-      from <span class="big-text">$<%= minimum_price(employee_listing).present? ? minimum_price(employee_listing) : 0 %></span> per hour
+      from <span class="big-text">$<%= employee_listing.weekday_price.present? ? employee_listing.weekday_price : 0 %></span> per hour
     </div>
 
     <div class="available-box">
       <div class="date-box">
         <div class="date-sec">
           <label class="thin-label">Start Date</label>
-          <%= f.date_field :start_date, value: start_date, min: Date.today %>
-          <!-- <label id="start_dat">Start date must be smaller from end date</label> -->
+          <%= f.date_field :start_date, value: start_date, min: listing_start_date(employee_listing) %>
+          <%#= f.text_field :start_date, value: start_date.strftime("%d/%m/%Y") %>
         </div>
         <div class="date-sec">
           <label class="thin-label">End Date</label>
-          <%= f.date_field :end_date, value: end_date, min: Date.today %>
-          <!-- <label id="end_date">End date must be greater from start date</label> -->
+          <%= f.date_field :end_date, value: end_date, max: listing_end_date(employee_listing) %>
+          <%#= f.text_field :end_date, value: end_date.strftime("%d/%m/%Y") %>
         </div>
       </div>
 
@@ -24,13 +26,14 @@
 
       <div class="week-availability">
         <ul class="from-to-list">
+          <!-- <div id="web_loading"></div> -->
           <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
           <li class="header-item">
             <div class="from-text">From</div>
             <div class="to-text">To</div>
           </li>
 
-          <% employee_listing.listing_availabilities.each_with_index do |availability, index| %>
+          <% employee_listing.listing_availabilities.order(:day).each_with_index do |availability, index| %>
             <li class="availability-item">
               <% if availability.not_available? %>
                 <div class="start-side">
@@ -84,22 +87,21 @@
 
     <div class="nor-text" id="tax-notice">As an employer, tax withholding is your legal requirement. If you choose not to withhold tax now, you might be liable for a penalty to ATO later.</div>
 
-    <div class="nor-text">You can use pre-calculated tax amount or type in your own. Always make sure tax withholding amount is correct.</div>
-
      <ul class="calculation-list">
       <li class="calc-item">
         <span class="left">Service fee</span>
         <span class="right">$<label id="weeklyServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
-        <span class="left"><b>Weekly total</b></span>
+        <span class="left"><b class="text_change_freq">Weekly total</b></span>
         <span class="right"><b>$<label id="weekly_total_price"> 0 </label> </b></span>
       </li>
     </ul>
+    <%= hidden_field_tag "total_tax_with_holding", '' %>
 
-    <div class="nor-text">You can set probation period and terminate employment contracts early at any time if the employee underperforms.</div>
+    <!-- <div class="nor-text">You can set probation period and terminate employment contracts early at any time if the employee underperforms.</div> -->
 
-    <label class="coman-label"><b>Total employment contract</b></label>
+    <!-- <label class="coman-label"><b>Total employment contract</b></label>
 
     <ul class="calculation-list">
       <li class="calc-item">
@@ -116,19 +118,42 @@
       </li>
       <li class="calc-item">
         <span class="left">Service fee</span>
-        <span class="right"><label id="ContractServicePrice"> 0 </label></span>
+        <span class="right">$<label id="ContractServicePrice"> 0 </label></span>
       </li>
       <li class="calc-item">
         <span class="left"><b>Total</b></span>
         <span class="right"><b>$<label id="ContractTotalPrice"> 0 </label></b></span>
       </li>
-    </ul>
-    <%= link_to 'Contact Poster', 'javascript:;', class: 'request-btn contact-poster' %>
-
+    </ul> -->
+    <p class="info-text text-center">
+      <a href="#" class="OrangeLink14px" data-popup-open="how-does-hiring-works-popup">How do hiring contracts work?</a>
+    </p>
+    <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'request-btn contact-poster' %>
+    
     <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
-
-    <p class="thin-text">You won't be charged yet. You will not pay the Total employment contract upfront. It's your choice to pay weekly or fortnightly.</p>
+    <label id="total_hour_error" style="display: none; color: red;">Poster requires <%= @employee_listing.minimum_working_hours %> hours minimum.</label>
+    <p class="thin-text">No payment is required now.</p>
 
     <div class="footer-text">This employee listing has been viewed 149 times.</div>
   <% end %>
+</div>
+
+<div class="popup" data-popup="how-does-hiring-works-popup" style="display: none;">
+  <div class="popup-inner" style="text-align:left;">
+    <br>
+    <br>
+    You are the Hirer. The person who lists this Employee is the Poster.<br><br>
+    Before work begins, discuss with the Poster and agree on hiring date, time, and roster. 
+    You can add or edit rosters. When you're ready for the Employee to work, pre-fund each roster by depositing money into escrow. 
+    Once the work has been delivered, you can release your payment to the Poster.
+    <br>
+    <br>
+    <strong>Tax withholding</strong><br>
+    You can use pre-calculated tax amount or 
+    enter your own. Always make sure tax 
+    withholding amount is correct.
+    <a class="popup-close" data-popup-close="how-does-hiring-works-popup" href="#">
+      <%=image_tag 'cross.jpg'%>
+    </a>
+  </div>
 </div>

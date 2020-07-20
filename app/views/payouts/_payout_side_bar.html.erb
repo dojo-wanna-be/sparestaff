@@ -1,0 +1,19 @@
+<div class="left-panel">
+  <ul class="panel-list">
+    <li class="panel-item">
+      <%= link_to 'Notifications', user_account_notification_payouts_path, class: "panel-link #{is_active_menu('user_account_notification')}" %>
+    </li>
+    <li class="panel-item">
+      <%= link_to 'Payment Methods', payouts_path, class: "panel-link #{is_active_menu('index')}" %>
+    </li>
+    <li class="panel-item">
+      <%= link_to "Payout Preferences", step_1_payouts_path, class: "panel-link #{(['step_1', 'step_2', 'stripe_account'].include?(params[:action]) ? 'active' : '')}" %>
+    </li>
+    <li class="panel-item">
+      <%= link_to "Transaction History", transaction_history_payouts_path, class: "panel-link #{is_active_menu('transaction_history')}" %>
+    </li>
+    <li class="panel-item">
+      <%= link_to 'Security', security_payouts_path, class: "panel-link #{is_active_menu('security')}" %>
+    </li>
+  </ul>
+</div>

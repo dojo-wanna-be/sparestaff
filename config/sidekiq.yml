@@ -1,0 +1,11 @@
+# :schedule:
+#   PaymentWorker:
+#     every: 2w
+#     class: PaymentWorker
+#     queue: default
+#     description: "Runs every two weeks"
+
+:concurrency: 1
+:queues:
+  - default
+  - mailers

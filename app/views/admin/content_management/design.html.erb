@@ -1,0 +1,69 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Design
+  </div>
+</div>
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Change Content of Homepage and Footer Links</div>
+    <div class="right_step user">
+      <div class="right-panel edit_regis"><br />
+        <%= form_for @static_content, url: static_content_url, html: { multipart: true } do |f| %>
+          <div class="listed-box">
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <h3>Logo & Titles of Homepage</h3>
+                <div class="field">
+                  <%= f.label "Website Logo Section" %>
+                  <%= f.file_field :site_logo, class: 'update_logo' %>
+                  <%= f.object.site_logo_file_name.present? ? f.object.site_logo_file_name : ''%>
+                </div>
+              </div>
+            </div>
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <div class="field">
+                  <%= f.label "Employee Hiring Section Title" %>
+                  <br/>
+                  <%= f.text_field :employee_hiring_title, class: 'update_logo', required: true %>
+                </div>
+              </div>
+            </div>
+            <div class="custom-field-box">
+              <div class="custom-input-group">
+                <div class="field">
+                  <%= f.label "How It Work Section Title" %>
+                  <br/>
+                  <%= f.text_field :how_it_work_title, class: 'update_logo', required: true %>
+                </div>
+              </div>
+            </div>
+            <div class="column_heading"><h3>Homepage Content</h3></div>
+            <div id="tasks">
+              <%= f.fields_for :homepage_contents do |homepage_content| %>
+                <%= render partial: "homepage_content_fields", locals:{ f: homepage_content} %>
+              <% end %>
+              <div class="links">
+                <%= link_to_add_association 'Add Content', f, :homepage_contents %>
+              </div>
+            </div>
+            <br/>
+            <h3>Footer Links</h3>
+            <div id="tasks">
+              <%= f.fields_for :footer_links do |section| %>
+                <%= render partial: 'footer_link_fields', locals:{ f: section} %>
+              <% end %>
+              <div class="links">
+                <%= link_to_add_association 'Add section', f, :footer_links %>
+              </div>
+            </div>
+            <%= f.submit 'Submit', class: 'submit_button' %>
+            <%#= submit_tag 'Submit',class: 'submit_button' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,21 +3,89 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     omniauth_callbacks: "users/omniauth_callbacks",
     passwords: "users/passwords",
-    confirmations: "users/confirmations"
+    confirmations: "users/confirmations",
+    sessions: "users/sessions"
   }
 
   root to: "home#index"
+  namespace :admin do
+    resources :users do
+      collection do
+        get :emails
+        post :suspend_or_make_admin_user
+        get :suspend_or_delete
+        get :upload_csv
+      end
+    end
+    resources :hirings do
+      collection do
+        get :search
+        get :hiring_details
+        get :upload_csv
+        delete :delete_message
+      end
+    end
+    resources :coupons
+    resources :employee_listings do
+      collection do
+        get :delete_or_pause_listing
+        get :upload_csv
+        patch :listing_deactivation, path: "deactivate_listing", as: "deactivate"
+        get :deactivated_completely, path: "deactivated", as: "deactivated"
+      end
+    end
+    resources :community_service_fees
+    resources :conversations do
+      collection do
+        get :disallow_or_delete
+        delete :delete_message
+      end
+    end    
+    resources :getting_start_contents
+    resources :content_management do
+      collection do
+        get :design
+      end
+    end
+    get '' => "users#index"
+  end
+
+  resources :stripe_webhook, only: [] do
+    collection do
+      post :handle_stripe_webhook
+    end
+  end
 
   resources :home, :path => "home", :as => "home", only: [] do
     collection do
       get :email_availability
+      get :keyword_search
+      get :search
+      #get :admin_panel
+    end
+  end
+
+  resources :reviews do
+    collection do
+      get :step_2
+      get :last_step
+    end
+  end
+
+  resources :users do
+    collection do
+      match :profile_photo, via: [:get, :post]
+      get :trust_and_verification
+      get :show_all_listings
+      get :show_all_poster_reviews
+      get :show_all_hirer_reviews
+      get :destroy_profile_photo
     end
   end
 
   resources :employee_listings, :path => "employee", :as => "employee", only: [:index, :show, :edit, :update] do
     collection do
       get :user_dashboard
-      get :inbox, path: "message_inbox", as: "message_inbox"
       get :getting_started, path: "getting_started", as: "getting_started"
       get :deactivated_completely, path: "deactivated", as: "deactivated"
       get :sub_category_lists
@@ -48,9 +116,11 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
-      match :initialized, via: [:get, :patch]
-      match :payment, via: [:get, :patch]
+      match :initiated, via: [:get, :patch]
+      get :payment
+      patch :request_payment
       get :request_sent_successfully
+      get :check_valid_coupon
     end
   end
 
@@ -61,7 +131,15 @@ Rails.application.routes.draw do
       get :check_slot_availability
     end
     member do
+      patch :accept
+      patch :decline_request
+      patch :decline
+      patch :cancel
       get :change_or_cancel
+      get :get_receipt
+      get :receipt_details
+      get :vat_invoice_details
+      delete :destroy_transaction
       match :change_hiring, via: [:get, :patch]
       match :change_hiring_confirmation, via: [:get, :patch]
       get :changed_successfully
@@ -69,4 +147,49 @@ Rails.application.routes.draw do
       match :tell_poster, via: [:get, :patch]
     end
   end
+
+  resources :reservations, only: [:index, :show] do
+    collection do
+      get :cancelled_successfully
+      get :check_slot_availability
+      get :write_a_review
+    end
+    member do
+      patch :accept
+      patch :decline_request
+      patch :decline
+      get :change_or_cancel
+      get :vat_invoice_details
+      get :reservations_view_invoice_list
+      delete :destroy_transaction
+      match :change_reservation, via: [:get, :patch]
+      match :change_reservation_confirmation, via: [:get, :patch]
+      get :changed_successfully
+      match :cancel_reservation, via: [:get, :patch]
+      match :tell_hirer, via: [:get, :patch]
+    end
+  end
+
+  resources :payouts, only: [:create, :index] do
+    collection do
+      get :user_account_notification
+      get :step_1
+      get :step_2
+      get :step_3
+      get :step_4
+      get :transaction_history
+      get :stripe_account
+      get :payouts_method
+      match :add_coupon, via: [:post, :patch]
+      match :change_preference, via: [:post, :patch]
+      match :security, via: [:get, :post]
+    end
+  end
+
+  resources :inboxes do
+    collection do
+      get :unread
+    end
+  end
+
 end

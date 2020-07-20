@@ -1,0 +1,186 @@
+<div class="admin_sub_header">
+  <div>
+    <%= link_to 'Backend Home', '', class: 'sub_link' %>
+    &nbsp;&gt; Users
+  </div>
+</div>
+
+<div class="admin_panle_body">
+  <%= render partial: "layouts/admin/left_hand_navigation" %>
+  <div class="admin_right_panel">
+    <div class="step_heading">Employee Listings</div>
+
+    <div class="right_step user">
+      <%= render partial: "admin/users/search_form", locals: {action_url: admin_employee_listings_path, page_name: "listings_index"} %>
+      
+      <!-- <div class="error_arise">Please Select a value!</div> -->
+    
+      <div class="search_row">
+        <div>Displaying 1 - <%= @listings.count %> of <%= @listings.count %> listings </div>
+        &nbsp;
+        <%= link_to 'Export all as CSV', upload_csv_admin_employee_listings_path(format: "csv"), class: 'spare_link export_csv' %>
+      </div>
+      <div class="main_table_container">
+        <% if @listings.blank? %>
+          <div>No Results found</div>
+        <% else %>
+          <div class="csv_table">
+            <div class="csv_table_row gray_bg">
+              <!-- <div class="Width30Px">
+                <%#= check_box_tag 'selected', '', nil, class: 'checkbox_input_all' %>
+                <input name="Checkbox1" type="checkbox" class="checkbox_input">
+              </div> -->
+              <div class="Width150Px">ID</div>
+              <div class="Width100Px">Title</div>
+              <div class="Width100Px">Employee</div>
+              <div class="Width100Px">Poster</div>
+              <div class="Width100Px">Classification</div>
+              <div class="Width100Px">Created</div>
+              <div class="Width100Px">Last updated</div>
+              <div class="Width100Px text-center">Status</div>
+              <div class="Width100Px text-center">Delete</div>
+              <div class="Width100Px text-center">Pause</div>
+              <div class="Width80Px text-center">Edit listing</div>
+            </div>
+            <div class="sort_paginate_ajax1">
+              <% @listings.each do |listing| %>
+                <div class="csv_table_row">
+                  <!-- <div class="Width30Px">
+                    <%#= check_box_tag "person[#{listing.id}]", listing.id, nil, class: 'checkbox_input' %>
+                    <input name="Checkbox2" type="checkbox" class="checkbox_input">
+                  </div> -->
+                  <div class="Width150Px">
+                    <%= link_to listing.id, employee_path(id: listing.id), class: 'spare_link', target: '_blank' %>
+                  </div>
+                  <div class="Width100Px"><%= listing.title %></div>
+                  <div class="Width100Px"><%= listing.name %></div>
+                  <div class="Width100Px"><%= listing.poster&.name %></div>
+                  <div class="Width100Px"><%= listing.classification&.name %></div>
+                  <div class="Width100Px"><%= listing.created_at.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px"><%= listing.updated_at&.strftime("%b %e, %Y") %></div>
+                  <div class="Width100Px status_field<%= listing.id%>"><%= listing.status%></div>
+                  <div class="Width100Px text-center suspend_user_<%= listing.id %>">
+                    <%= check_box_tag 'delete_listing', listing.id, nil, class: '', checked: (listing.deleted_at ? true : false) %>
+                  </div>
+                  <div class="Width100Px text-center">
+                    <%= check_box_tag 'pause_listing', listing.id, nil, class: '', checked: (listing.pause_at ? true :false )  %>
+                  </div>
+                  <div class="Width100Px text-center">
+                    <%= link_to edit_admin_employee_listing_path(listing.id) do %>
+                      <%= image_tag 'pencil.png', class: "Height15px" %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <script type="text/javascript">
+                $(function() {
+                  $(".sort_paginate_ajax1 th a, .sort_paginate_ajax1 .pagination a").on("click", function(){
+                    url = this.href
+                    $.getScript(url);
+                    return false;
+                  });
+                });
+              </script>
+            </div>
+            <div class="will_pagination_box pagination_box">
+              <%= js_will_paginate @listings, :previous_label => "<", :next_label => ">" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- <div class="pagination_box hidden">
+        <a href="#" class="pagi_btn prev_next">&lt;</a>
+        <a href="#" class="pagi_btn selected_btn">1</a>
+        <a href="#" class="pagi_btn">2</a>
+        <a href="#" class="pagi_btn">3</a>
+        <a href="#" class="pagi_btn">4</a>
+        <a href="#" class="pagi_btn prev_next">&gt;</a>
+      </div> -->
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('#pause_listing,#delete_listing').click(function() {
+    var checked;
+    var check_type;
+    var result;
+    if ($(this).attr('name') == "pause_listing") {
+      check_type = "pause_listing"
+    }
+    else {
+      check_type = "delete_listing"
+    }
+    if ($(this).is(':checked')) {
+      checked = true;
+      if (check_type == "pause_listing") {
+        result = confirm("Are you sure you want to pause this listing");
+      }
+      else {
+        result = confirm("Are you sure you want to delete this listing");
+      }
+      if (result) {
+        $.ajax({
+          type: "GET",
+          url: "<%=delete_or_pause_listing_admin_employee_listings_path %>",
+          data: { id: $(this).val(), checked: checked, check_type: check_type }
+        });
+      }
+      else {
+        $(this).prop('checked', false)
+      }
+    } else {
+      checked = false;
+      $.ajax({
+        type: "GET",
+        url: "<%= delete_or_pause_listing_admin_employee_listings_path %>",
+        data: { id: $(this).val(), checked: checked, check_type: check_type }
+      });
+    }
+  });
+  $(document).ready(function(){
+    $(".datepicker_calender").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      dateFormat: 'yyyy-mm-dd'
+    });
+  });
+  $('.checkbox_input_all').click(function(){
+    if ($(this).is(':checked')) {
+      $('.checkbox_input').prop('checked', true)
+    }
+    else {
+      $('.checkbox_input').prop('checked', false)
+    }
+  })
+
+  // $('.gobutton').click(function(){
+  //   if ($('.multiple_select').val() == "Multiple selection action" || $('.checkbox_input').is(':checked') == false)
+  //     $('.error_arise').show();
+  //   else {
+  //     $('.error_arise').hide();
+  //     var ids = [];
+  //     $('.checkbox_input:checkbox:checked').each(function () {
+  //       code = $(this).val();
+  //       ids.push(code);
+  //     });
+  //     if ($('.multiple_select').val() == "delete_selected") {
+  //       var result = confirm("Are you want to delete selected accounts?");
+  //     }
+  //     else {
+  //       var result = confirm("Are you want to suspend selected accounts?");
+  //     }
+  //     if (result) {
+  //       $.ajax({
+  //         type: "GET",
+  //         url: "<%= suspend_or_delete_admin_users_path %>",
+  //         data: { ids: ids, select_action: $('.multiple_select').val() }
+  //       });
+  //       //Logic to delete the item
+  //     }
+  //     else {
+  //       $('.checkbox_input:checkbox:checked,.checkbox_input_all:checkbox:checked').prop('checked', false)
+  //     }
+  //   }
+  // })
+</script>

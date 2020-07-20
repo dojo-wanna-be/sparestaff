@@ -1,8 +1,8 @@
 <div class="right_request_section">
   <div class="user-right-box">
     <div class="name-box">
-      <span class="Text22px"><%= @employee_listing.title %></span>
-      <%= @employee_listing.name %>
+      <span class="Text22px"><%= @employee_listing.name %></span>
+      <%= @employee_listing.title %>
     </div>
     <div class="image-box">
       <% if @employee_listing.profile_picture.present? %>
@@ -29,16 +29,23 @@
       <%= @slot.gsub(/,\s*$/, "").gsub(/(.*),(.*)/, '\1 and\2') %>
     </div>
   </div>
-
   <div class="user-right-box">
     <div class="left">
       <span><b>Probationary period</b></span>
     </div>
     <div class="right">
-      <span id="probationary_period"><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "1 month" %></span>
+      <span id="probationary_period">
+        <% if @transaction.probationary_period.present? %>
+          <%= @transaction.probationary_period.eql?(1) ? "#{@transaction.probationary_period} month" : "#{@transaction.probationary_period} months" %>
+        <%elsif (@transaction.end_date - @transaction.start_date).to_i > 29%>
+          1 month
+        <%else%>
+          N/A
+        <%end%>
+      </span>
     </div>
   </div>
-
+  <div class="discount_applied"></div>
   <div class="user-right-box">
     <div class="left">
       <div><b>Weekly payment</b></div>
@@ -49,10 +56,20 @@
     </div>
     <div class="right">
       <div>&nbsp;</div>
-      <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.weekday_hours}" %></div>
-      <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.weekend_hours}" %></div>
-      <div><%= "-$#{@transaction.tax_withholding_amount.round(2)}" %></div>
-      <div>$<%= @transaction.service_fee.round(2) %></div>
+      <div class="inline_data">
+        <span class="old_amount hidden">
+          $<span id="hiring_weekday_price_old"> <%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %>&nbsp;</span>
+        </span>
+        <div class="discount_weekday_price"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+      </div>
+      <div class="inline_data">
+        <span class="old_amount hidden">
+          $<span id="hiring_weekday_price_old"> <%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %>&nbsp;</span>
+        </span>
+        <div class="discount_weekend_price"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+      </div>
+      <div><%= "-$#{@transaction.tax_withholding_amount_calculate.round(2)}" %></div>
+      <div class="discount_service_fee">$<%= @transaction.service_fee.round(2) %></div>
     </div>
   </div>
 
@@ -61,11 +78,11 @@
       <span><b>Weekly Total</b></span>
     </div>
     <div class="right">
-      <span><b><%= "$#{(@transaction.amount + @transaction.service_fee ).round(2)}" %></b></span>
+      <span><b class="discount_hirer_weekly_amount">$<%= @transaction.hirer_weekly_amount %></b></span>
     </div>
   </div>
 
-  <div class="user-right-box joint-box">
+  <!-- <div class="user-right-box joint-box">
     <div class="inner-joint">
       <div class="left">
         <div><b>Total employment contract</b></div>
@@ -76,24 +93,24 @@
       </div>
       <div class="right">
         <div>&nbsp;</div>
-        <div><%= "$#{@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours}" %></div>
-        <div><%= "$#{@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours}" %></div>
-        <div><%= "-$#{@transaction.total_tax_withholding_amount.round(2)}" %></div>
-        <div>$<%= @transaction.total_service_fee.round(2) %></div>
+        <div class="discount_weekday_price_total"><%= "$#{(@employee_listing.weekday_price.to_f * @transaction.total_weekday_hours).round(2)}" %></div>
+        <div class="discount_weekend_price_total"><%= "$#{(@employee_listing.weekend_price.to_f * @transaction.total_weekend_hours).round(2)}" %></div>
+        <div><%= "-$#{@transaction.total_tax_withholding.round(2)}" %></div>
+        <div class="discount_total_service_fee">$<%= @transaction.total_service_fee.round(2) %></div>
       </div>
     </div>
     <div class="devider">
       <div class="full-row">
         <span class="total"><b>Total</b></span>
-        <span class="value"><b><%= "$#{(@transaction.total_amount + @transaction.total_service_fee).round(2)}" %></b></span>
+        <span class="value"><b class="discount_total_amount"><%= "$#{@transaction.total_amount.round(2)}" %></b></span>
       </div>
       <div class="p-text">You will not pay the Total employment contract upfront. You have chosen to pay weekly.</div>
     </div>
-  </div>
+  </div> -->
 
   <div class="user-right-box">
     <div class="name-box">
-      <span><b><%= "#{@employee_listing.poster.name} is Poster" %></b></span>
+      <span><b><%= "#{@employee_listing.poster_name} is Poster" %></b></span>
     </div>
     <div class="image-box">
       <% if @employee_listing.profile_picture.present? %>
@@ -104,7 +121,7 @@
     </div>
   </div>
 
-  <div class="user-right-box bottom-joint-box">
+  <!-- <div class="user-right-box bottom-joint-box">
     <div><b>Cancellation policy</b></div>
 
     <div class="more-box">
@@ -112,5 +129,5 @@
       <br />
       <%= link_to 'More details', 'https://www.sparestaff.com.au/cancellation-policy', target: '_blank', class: 'blank-link' %>
     </div>
-  </div>
+  </div> -->
 </div>

@@ -1,0 +1,120 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="reservation-section">
+  <div class="inner-reservation-section">
+    <div class="left-reservation-panel">
+      <ul class="panel-list">
+        <li class="panel-item">
+          <%= link_to "Your Listings", employee_index_path, id: "YourListingsLeftMenu", class: 'panel-link' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Your Reservations", reservations_path, class: 'panel-link selected-panel' %>
+        </li>
+        <li class="panel-item">
+          <%= link_to "Add New Listing", step_1_employee_index_path, class: 'listing-btn' %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right-reservation-panel">
+      <div class="reservation-box">
+        <div class="right-panel-header">View Invoices</div>
+        <div class="reservation-list-box">
+          <div class="main-reservation-list">
+            <div class="reservation-list">
+              <div class="list-box one"><b>Status</b></div>
+              <div class="list-box two"><b>Dates, Hours, Location</b></div>
+              <div class="list-box three"><b>Hired Employee</b></div>
+              <div class="list-box four"><b>Hirer</b></div>
+              <div class="list-box five"><b>Details</b></div>
+            </div>
+            <%# @posted_listing_transactions.each do |transaction| %>
+                <div class="reservation-list">
+                  <div class="list-box one"><%=transaction_status(@poster_transaction)%></div>
+                  <div class="list-box two">
+                    <%= "#{@poster_transaction.start_date.strftime('%d %b %Y')} - #{@poster_transaction.end_date.strftime('%d %b %Y')}" %> <br>
+                    <%= "#{@poster_transaction.total_weekday_hours + @poster_transaction.total_weekend_hours} Hour Total" %> <br>
+                    <%= @poster_transaction.employee_listing.address_1 %> <br>
+                    <%= "#{@poster_transaction.employee_listing.city} #{@poster_transaction.employee_listing.state} #{@poster_transaction.employee_listing.post_code}" %>
+                  </div>
+                  <div class="list-box three">
+                    <div class="image-box">
+                      <div class="user-image">
+                        <% if @poster_transaction.employee_listing.profile_picture.present? %>
+                          <%= image_tag @poster_transaction.employee_listing.profile_picture.url, class: 'ProfileIcon' %>
+                        <% else %>
+                          <%= image_tag 'no-image.jpg', class: 'ProfileIcon' %>
+                        <% end %>
+                      </div>
+                      <div class="user-detail">
+                        <b><%= @poster_transaction.employee_listing.title %></b><br>
+                        <%= @poster_transaction.employee_listing.name %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-box four">
+                    <div class="image-box">
+                      <div class="user-image">
+                        <%= image_tag 'alex-profile.jpg', class: 'ProfileIcon' %>
+                      </div>
+                      <div class="user-detail">
+                        <b><%= @poster_transaction.hirer.name %></b><br>
+                        Contact: <%= @poster_transaction.hirer.company.name %><br>
+                        <%= @poster_transaction.hirer.user_type.eql?("hr") ? "HR Manager" : "Owner" %><br>
+                        <%= "#{number_to_phone(@poster_transaction.hirer.company.contact_no, country_code: 61, delimiter: ' ', pattern: /(\d{3})(\d{4})(\d{4})$/)}" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-box five">
+                    <%= "#{number_to_currency(@poster_transaction.poster_total_amount.round(2))} Total" %><br>
+                    <%#= link_to 'Print confirmation', reservation_path(id: transaction.id), class: 'orange-text' %>
+                    <br>
+                    <%#= link_to 'Change or Cancel', change_or_cancel_reservation_path(id: transaction.id), class: 'orange-text' %>
+                    <br>
+                    <%#= link_to 'Message history', '#', class: 'orange-text' %>
+                    <br>
+                    <%#= link_to 'View invoices', reservations_view_invoice_list_reservations_path(id: transaction.id), class: 'orange-text' %>
+                    <br>
+                    <%#= link_to 'Accept or Decline', inbox_path(id: transaction.conversation.id), class: 'orange-text' %>
+                  </div>
+                </div>
+
+                <div class="invoice-list">
+                  <div class="invoice-list-box">
+                    <div class="item-box"><b>Invoice No.</b></div>
+                    <div class="item-box"><b>Amount</b></div>
+                    <div class="item-box date-item-box"><b>Date</b></div>
+                  </div>
+                  <% @poster_transaction.payment_receipts.each do |receipt| %>
+                  <div class="invoice-list-box">
+                    <div class="item-box">
+                       <%= link_to receipt.id, vat_invoice_details_reservation_path(id: @transaction, receipt_id: receipt.id), :target => "_blank" %>
+                    </div>
+                    <div class="item-box">$<%= receipt.tx_price %></div>
+                    <div class="item-box date-item-box"><%= receipt.start_date.strftime("%d-%h-%Y") %></div>
+                  </div>
+                  <% end %>
+                  <!-- <div class="invoice-list-box">
+                    <div class="item-box">
+                      <%#= link_to '102', '#', target: "_blank", class: 'orange-text' %>
+                    </div>
+                    <div class="item-box">$37.10</div>
+                    <div class="item-box date-item-box">26-Feb-2019</div>
+                  </div>
+                  <div class="invoice-list-box">
+                    <div class="item-box">
+                      <%#= link_to '101', '#', target: "_blank", class: 'orange-text' %>
+                    </div>
+                    <div class="item-box">$37.10</div>
+                    <div class="item-box date-item-box">19-Feb-2019</div>
+                  </div> -->
+                </div>
+            <%# end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

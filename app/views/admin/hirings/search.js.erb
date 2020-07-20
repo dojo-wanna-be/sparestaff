@@ -1,0 +1,5 @@
+<% if @hirings_transactions.present? %>
+  $('#hirings').html("<%= j render 'hirings', hirings: @hirings_transactions %>")
+<% else %>
+  $('#hirings').html("<%= j render 'not_record' %>")
+<% end %>

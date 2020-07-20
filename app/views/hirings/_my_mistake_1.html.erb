@@ -5,40 +5,14 @@
     <div class="my-mistake">
       <div class="title-main">Your Refund Summary</div>
       <div><b>This listing has cancellation policy</b></div>
-
-      <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
-
-      <div class="calculation-list">
-        <div class="list-item">
-          <div class="left-item">
-            Total Fee
-          </div>
-          <div class="right-item">
-            <%= "$#{@transaction.total_amount + @transaction.total_service_fee}" %>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="left-item">
-            Service fee
-          </div>
-          <div class="right-item">
-            <%= "-$#{@transaction.total_service_fee}" %>
-          </div>
-        </div>
-        <div class="list-item grey-list-item">
-          <div class="left-item">
-            <strong>Your Total Refund</strong>
-          </div>
-          <div class="right-item">
-            <strong><%= "$#{@transaction.total_amount}" %></strong>
-          </div>
-        </div>
-      </div>
-
-      <div class="custom-label">Tell <%= @listing.poster.name %> why you need to cancel</div>
-
-      <%= text_area_tag "message_text" %>
-
+      <% unless (@transaction.created? && @transaction.created_at + 2.days <= Date.today) || (@transaction.accepted? && @transaction.start_date - 1 <= Date.today) %>
+        <div class="under-title">If you cancel now, you'll receive a full refund, minus Spare Staff service fees.</div>
+      <% else %>
+        <div class="under-title">If you cancel now, you'll receive a full refund.</div>
+      <% end %>
+      <%= render partial: 'refund_amount' %>
+      <div class="custom-label">Tell <%= @listing.poster_name %> why you need to cancel</div>
+      <%= text_area_tag "message_text",nil, required: true %>
       <%= submit_tag "Cancel Hiring", class: 'continue-btn' %>
 
       <div class="small-grey-text">Cancellation is effective immediately</div>

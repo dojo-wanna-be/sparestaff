@@ -1,0 +1,51 @@
+<% @messages.each do |message|%>
+  <% if message.sender_id == current_user.id %>
+    <div class="message-chat-block__box right_user_direction">
+      <div class="message__conversation">
+        <% if message.deleted_by.present? %>
+          <div>This message was removed by Spare Staff due to possible policy violation.</div>
+        <% else %>
+          <%= message.content %>
+        <% end %>
+        <div class="message-chat-date grey-text">
+          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
+        </div>
+      </div>
+      <div class="message-user-box">
+        <% if current_user.avatar.present? %>
+          <%= image_tag current_user.avatar.url, class: 'message-user-box__img' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="message-chat-block__box left_user_direction">
+      <div class="message__conversation">
+        <% if message.deleted_by.present? %>
+          <div>This message was removed by Spare Staff due to possible policy violation.</div>
+        <% else %>
+          <%= message.content %>
+        <% end %>
+        <div class="message-chat-date grey-text">
+          <%= message.created_at.strftime("%-d %b %Y at %H:%M") %>
+        </div>
+      </div>
+      <div class="message-user-box">
+        <% if message.sender.avatar.present? %>
+          <%= image_tag message.sender.avatar.url, class: 'message-user-box__img' %>
+        <% else %>
+          <%= image_tag 'no-image.jpg', class: 'message-user-box__img' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<!-- 
+
+<div class="gray-mid-text-block">
+  <div class="gray-line"></div>
+  <div class="mid-text">HIRING CONFIRMED 12 FEB 2019</div>
+  <div class="gray-line"></div>
+</div> -->
+

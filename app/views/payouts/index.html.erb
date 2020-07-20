@@ -1,0 +1,97 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="account-section">
+  <%= render partial: 'payout_side_bar'%>
+  <div class="payout-prefrences-box">
+    <div class="payout-box">
+      <div class="panel-header">
+        Payment Methods
+      </div>
+      <div class="payout-box-content payout-method-box-content">
+        <div class="payout-method-box">
+          <% if @stripe_account.present? %>
+            <div class="method-box">
+              <div class="card-no-and-date">
+                <div class="card-no">xxxxxxxxxxx<%= @stripe_account.external_accounts.data.first.last4 %></div>
+                <div class="card-date"><%= @payment_method.created_at.strftime("%m/%y") %></div>
+              </div>
+              <div class="payouts-btn">
+                <div>Default<%#= link_to 'Default', 'javascript:;', class: 'card-btn-link default-set' %></div>
+                <div><%#= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
+              </div>
+            </div>
+          <% else %>
+
+            <!-- <div class="method-box">
+              <div class="card-no-and-date">
+                <div class="card-no">PayPal</div>
+                <div class="card-date">mypaypal@gmail.com</div>
+              </div>
+              <div class="payouts-btn">
+                <div><%#= link_to 'Set Default', 'javascript:;', class: 'card-btn-link' %></div>
+                <div><%#= link_to 'Remove', 'javascript:;', class: 'card-btn-link' %></div>
+              </div>
+            </div> -->
+
+            <%= link_to step_1_payouts_path do %>
+              <div class="method-box add-method-box">
+                <div class="add-method">
+                  <div class="add">+</div>
+                  <div>Add payment method</div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="align-left">Remember: Spare Staff will never ask you to wire money.</div>
+      </div>
+    </div>
+
+    <div class="payout-box">
+      <div class="panel-header">
+        Your Coupons
+      </div>
+      <div class="payout-box-content payout-method-box-content">
+        <div class="add-coupan-box">
+          <%= form_tag add_coupon_payouts_path, method: :patch, id: 'coupon_state', remote: true do %>
+            <%= label_tag :add_coupon %>
+              <!-- <input name="Text1" type="text" style="width:200px"> -->
+              <br />
+            <%= select_tag "coupon_id", options_for_select(@inactive_coupons&.map { |coupon| [coupon.coupon_code, coupon.id] }.insert(0, "Add Coupon To Activate")), class: 'custom-field'%>
+            <%#= link_to 'Add coupon', 'javascript:;', class: 'add-cpn-btn' %>
+          <%= submit_tag "Add Coupon", class: 'add-cpn-btn' %>
+          <% end %>
+        </div>
+
+        <div class="coupan-table">
+          <div class="table-tr">
+            <div class="table-td"><b>Coupon code</b></div>
+            <div class="table-td"><b>Expiration date</b></div>
+            <div class="table-td"><b>Amount(%)</b></div>
+            <div class="table-td"><b>State</b></div>
+          </div>
+          <% @coupons.each do |coupon| %>
+            <div class="table-tr">
+              <div class="table-td"><%=coupon.coupon_code%></div>
+              <div class="table-td"><%=coupon.expiry_date&.strftime('%b %d, %Y')%></div>
+              <div class="table-td"><%=coupon.discount%>%</div>
+              <% if coupon.user_coupons.find_by(user_id: current_user.id).active.eql?(false) %>
+                <div class="table-td">Inactive</div>
+              <% else %>
+                <div class="table-td">Active</div>
+              <% end %>
+            </div>
+          <% end %>
+          <!-- <div class="table-tr">
+            <div class="table-td">FGHIK67890</div>
+            <div class="table-td">12 Feb 2019</div>
+            <div class="table-td">$65 AUD</div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>

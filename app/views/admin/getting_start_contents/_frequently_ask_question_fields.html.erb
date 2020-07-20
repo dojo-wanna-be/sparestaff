@@ -1,0 +1,14 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.select :section_type, options_for_select(FrequentlyAskQuestion.section_types.map {|k, v| [k.humanize.capitalize, k]}, f.object.section_type), {}, {class: 'custom-field'} %>
+  </div>
+  <div class="field">
+    <%= f.label "Question" %>
+    <%= f.text_field :question, required: true %>
+  </div>
+  <div class="field">
+    <%= f.label "Answer" %>
+    <%= f.text_field :answer, required: true %>
+  </div>
+  <%= link_to_remove_association "remove", f %>
+</div>

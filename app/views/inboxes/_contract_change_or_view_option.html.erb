@@ -1,0 +1,12 @@
+<div class="reservation-order-box declined-box">
+  <div class="sub-title18"><b>Hiring confirmed. You are hiring <%= @listing.name %>!</b></div>
+  <br>
+  <div>
+    <div>Be sure to message <%= @transaction.poster.name %> with further instruction.</div>
+    <br>
+    <div class="btn-box">
+    	<%= link_to "View Contract", hiring_path(id: @transaction.id), class: "modal-white-btn" %>
+      <%= link_to "Change or Cancel", change_or_cancel_hiring_path(id: @transaction.id), class: "modal-white-btn" %>
+    </div>
+  </div>
+</div>

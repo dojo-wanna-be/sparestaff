@@ -10,15 +10,19 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+
 //= require rails-ujs
 //= require toastr_rails
-//= require jquery.validate
 //= require allow_numeric
 //= require jquery.tagsinput
 //= require activestorage
-//= require turbolinks
+//= require bootstrap-datepicker
+//= require jquery.validate
+//= require jquery.raty
+//= require chosen-jquery
+//= require select2.js
+//= require cocoon
 //= require_tree .

@@ -1,0 +1,76 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="transaction_history_section">
+  <div class="inner-listings-section">
+    <%= render partial: 'payout_side_bar'%>
+    <div class="right-panel">
+      <div class="listed-box">
+       <%= form_tag(security_payouts_path, id: "user_prefrence_form") do %>
+          <div class="right-panel-header">Change Your Password</div>
+            <div class="listing-card-box">
+              <div class="listing-card">
+                <div class="custom-field-box">
+                  <div class="custom-input-group">
+                    <div class="custom-label">
+                      <%= label_tag :old_password %>
+                    </div>
+                    <div>
+                      <%= password_field_tag :old_password, nil, class: 'old_password', required: true, minlength: 6 %><br />
+                    </div>
+                    <!-- <label class="custom-label">Old Password</label>
+                    <input class="custom-field" type="text"  name="Old Password" aria-invalid="false"> -->
+                  </div>
+                  <div class="custom-input-group">
+                    <div class="custom-label">
+                      <%= label_tag :new_password %>
+                    </div>
+                    <div>
+                      <%= password_field_tag :new_password, nil, class: 'new_password',required: true, minlength: 6%>
+                    </div>
+                    <!-- <label class="custom-label">Password</label>
+                    <input class="custom-field" type="text"  name="Password" aria-invalid="false"> -->
+                  </div>
+                  <div class="custom-input-group">
+                    <div class="custom-label">
+                      <%= label_tag :confirm_password %>
+                    </div>
+                    <div>
+                      <%= password_field_tag :confirm_password, nil, class: 'confirm_password',required: true, minlength: 6%>
+                    </div>
+                    <!-- <label class="custom-label">Confirm Password</label>
+                    <input class="custom-field" type="text"  name="Confirm Password" aria-invalid="false"> -->
+                  </div>
+                  <div>
+                    <div style="text-align: right;" colspan="2" class="BorderBottom">
+                    </div>
+                  </div>
+                    <%#= link_to 'Update Password', 'javascript:;', class: 'continue_btn' %>
+                    <%= submit_tag "Update Password", class: 'continue_btn' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<script type="text/javascript">
+    $(function () {
+        $(".continue_btn").click(function () {
+            var password = $(".new_password").val();
+            var confirmPassword = $(".confirm_password").val();
+            var oldPassword = $(".old_password").val();
+            if (password != confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            else if (oldPassword == password) {
+              alert("Your New Password must be different from your Old Password.");
+              return false;
+            }
+            return true;
+        });
+    });
+</script>

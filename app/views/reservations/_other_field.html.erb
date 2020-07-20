@@ -1,0 +1,66 @@
+<br>
+<br>
+<div class="FullWidth Hidden" id="SubOutcome2" style="display: block;">
+  <strong>For your consideration</strong><br>
+  <br>
+  It's best practice to give notice to Hirer so that they are aware of your situation and prepared for it.
+  <br><br>
+  <div id="PayoutSummary">
+    <br>
+    <span class="Text22pxPaddingBottom20px">Your Payout Summary</span><br>
+    If you cancel now, you'll receive your next payout for the work that the Employee has done up to yesterday, minus Spare Staff service fees.<br><br>
+    If the Employee plans to complete work for today for Hirer, you should cancel tomorrow.<br>
+    <br>
+    <div class="calculation-list">
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekday_price %> x <%= @weekday_hours %> hours
+        </div>
+        <div class="right-item">
+          $<%= @weekday_amount %>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          $<%= @listing.weekend_price %> x <%= @weekend_hours %> hours (weekend)
+        </div>
+        <div class="right-item">
+          $<%= @weekend_amount %>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Tax withholding
+        </div>
+
+        <div class="right-item">
+          -$<%= @poster_recieve > 0 ? @remaining_tax_withholding_amount : 0 %>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="left-item">
+          Service fee
+        </div>
+        <div class="right-item">
+          -$<%= @poster_recieve > 0 ? @poster_service_fee.round(2) : 0 %>
+        </div>
+      </div>
+      <div class="list-item grey-list-item">
+        <div class="left-item">
+          <strong>Your Payout</strong>
+        </div>
+        <div class="right-item">
+          <strong>
+            <%= @poster_recieve.round(2) %>
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= form_tag cancel_reservation_reservation_path(id: @transaction.id), method: :patch, id: "cancellation_reason_form" do %>
+  <%= hidden_field_tag "reason", "Other" %>
+  <div class="reservation_cancel_actions">
+    <%= render partial: "reservation_cancel_actions"%>
+  </div>
+<% end %>

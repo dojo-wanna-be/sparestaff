@@ -1,0 +1,162 @@
+<style type="text/css">
+  * {
+    font-family: ‘Circular Std Book’, ‘Circular Std’, CircularStdBook, Helvetica, Arial;
+  }
+
+ body::-webkit-scrollbar { 
+    display: none; 
+  }  
+ .WhiteLink12pt:link{
+    text-decoration: none;    
+  }
+
+  .WhiteLink12pt:visited{ 
+    text-decoration: none;      
+  }
+
+  .WhiteLink12pt:hover{
+    text-decoration: underline;
+  }
+  
+  .Visit:link{
+    text-decoration: none;
+    color: #f15927;
+  }
+
+  .Visit:visited{ 
+    text-decoration: none;   
+    color: #f15927;
+  }
+
+  .Visit:hover{
+    text-decoration: underline;
+  }
+</style>
+
+
+
+<table class="Padding80px" style="width: 100%">
+  <tr>
+    <td>&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <img alt="" class="LogoInEmail" src="https://staging.sparestaff.com.au/assets/logo.png" style="height: 30px;"/>
+  </td>
+  </tr>
+  <tr>
+    <td><br />
+    <h1 style="color:#484848;">Respond to hiring request</h1>
+    <% if @message.present? %>
+      <table style="width: 500px; color:#484848;">
+        <tr>
+          <td colspan="2">
+          <table style="border:1px; border-style:solid; border-color:#E1E1E1; width:100%;">
+                <tr>
+                  <td style="padding:10px;"><%= @message.content %></td>
+                </tr>
+              </table>
+    <% end %>
+</td>
+      </tr>
+      <tr>
+        <td style="width: 50%">&nbsp;</td>
+        <td>
+        &nbsp;</td>
+      </tr>
+      <tr>
+        <td style="width: 50%; color:#484848;"><%= @listing.name %><br />
+        <%= @listing.title %></td>
+        <td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/luca.png" class="Image200pxRight" style="width:200px; float:right;"/></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <br />
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div> <br />
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px;color:#484848;"><strong>From</strong><br />
+        <%= @transaction.start_date.strftime("%A %b %d, %Y") %></td>
+        <td style="text-align: right"><strong>To</strong><br />
+        <%= @transaction.end_date.strftime("%A %b %d, %Y") %></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+       <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>      <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Prompt responses help hirers to finalise 
+        their recruitment</strong><br />
+        Accept or decline requests within 48 hours.<br />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+       <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>      <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+    <table style="width: 180px; height: 50px; background-color: #F15927" align="center">
+      <tr>
+        <td style="text-align: center">
+        <a class="WhiteLink12pt" style="font-size: 12pt; color: #fff;" href="<%= inbox_url(id: @transaction.conversation.id) %>">Accept/Decline</a></td>
+      </tr>
+    </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>      <br />
+</td>
+      </tr>
+      <tr>
+        <td style="width: 300px">
+        <h4><%= @hirer.name %> is Hirer</h4>
+        </td>
+        <td>
+        <img alt="" src="https://staging.sparestaff.com.au/assets/zidane-profile.jpg" style="width:200px; float:right;" class="Image200pxRight" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><br/>
+        <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div><br/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <h4>Potential earnings</h4>
+        <p>Based on your rate of <%= "$#{minimum_price(@listing)}" %> per hour along with associated 
+        fees, your potential total employment contract payout for this hiring is <strong>
+        <%= "$#{(@transaction.poster_total_amount).round(2)}" %></strong></p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><br />
+       <div class="GreyLine1Px" style="height: 1px; background-color: #e4e4e4; padding: 0px;"></div>      <br />
+</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <h4>Customer support&nbsp;</h4>
+        <p><a href="https://www.sparestaff.com.au/help" class="Visit">Visit Help 
+        Center</a></p>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 300px">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>

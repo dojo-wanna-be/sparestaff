@@ -1,0 +1,153 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+
+<div class="account-section">
+  <%= render partial: 'payout_side_bar'%>
+  <div class="payout-prefrences-box">
+    <div  class="payout-box">
+      <div class="panel-header">
+        Add Payout Method
+      </div>
+      <div class="payout-box-content payout-method-step2">
+        <%= form_tag payouts_path, id: 'stripe_form',  method: :post, class: 'form-horizontal', multipart: true do |f| %>
+          <% if @error.present? %>
+            <p class="error_message" id="error_message"><%= @error %></p>
+            <script type="text/javascript">
+              setTimeout(function() {
+                  $('#error_message').fadeOut('slow');
+              }, 1000);
+            </script>
+          <% end %>
+          <div class="indi-bus-tab">
+            <div class="both-box">
+              <input type="radio" checked="true" name="user_type" id="individual" class="radiogroup legal_entity_type" value="individual"/>
+              Individual
+            </div>
+            <div class="both-box">
+              <input type="radio" name="user_type" id="business" class="radiogroup legal_entity_type" value="company" />
+              Business
+            </div>
+          </div>
+
+          <div class='form-group' id="individual_info">
+            <div>
+              <%= label_tag :first_name, 'First Name (individual) *' %>
+              <%= text_field_tag 'first_name', params[:first_name], required: true, class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :last_name, 'Surname Name (individual) *' %>
+              <%= text_field_tag 'last_name', params[:last_name], required: true, class: 'form-control' %>
+            </div>
+          </div>
+          <div class='form-group hidden' id="business_info">
+            <div>
+              <%= label_tag :business_name, 'Business Name *' %>
+              <%= text_field_tag 'business_name', params[:business_name], class: 'form-control', id: 'business_name' %>
+            </div>
+            <div>
+              <%= label_tag :business_first_name, 'First name of authorised representative *' %>
+              <%= text_field_tag 'business_first_name', params[:business_first_name], class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :business_surname, 'Surname of authorised representative *' %>
+              <%= text_field_tag 'business_surname', params[:business_surname], class: 'form-control' %>
+            </div>
+            <div>
+              <%= label_tag :abn, 'ABN *' %>
+              <%= text_field_tag 'abn', params[:abn], class: 'form-control', id: 'business_tax_id' %>
+            </div>
+            
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :date_of_birth, 'Date of birth *' %>
+            <% if params[:dob].present? %>
+              <%= date_select 'dob', nil, { order: [:day, :month, :year], default: {day: params[:dob]["(3i)"], month: params[:dob]["(2i)"], year: params[:dob]["(1i)"]}, start_year: 90.years.ago.year, end_year: 13.years.ago.year }, { required: true } %>
+            <% else %>
+              <%= date_select 'dob', nil, { order: [:day, :month, :year], prompt: true, start_year: 90.years.ago.year, end_year: 13.years.ago.year }, { required: true } %>
+            <% end %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :address, 'Street Address *' %>
+            <%= text_field_tag 'address_line1', params[:address_line1], required: true, class: 'form-control' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :city, 'City *' %>
+            <%= text_field_tag 'city', params[:city], required: true, class: 'form-control' %>
+          </div>
+
+
+          <div class='form-group'>
+            <%= label_tag :state, 'State *' %>
+            <%= select_tag 'state', options_for_select(EmployeeListing::EMPLOYEE_STATES, params[:state]), required: true, class: 'form-control'  %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :country, 'Country *' %>
+            <%= select_tag 'country', options_for_select(EmployeeListing::EMPLOYEE_COUNTRIES_WITH_CODE), required: true, class: 'form-control'  %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :postal_code, 'Postal Code *' %>
+            <%= text_field_tag 'postal_code', params[:postal_code], required: true, class: 'form-control' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :account_holder_name, 'Account holder name *' %>
+            <%= text_field_tag 'bank_holder_name', params[:bank_holder_name], required: true, class: 'form-control' %>
+          </div>
+          <div class='form-group'>
+            <%= label_tag :account_number, 'Account Number *' %>
+            <%= text_field_tag 'bank_account_number', params[:bank_account_number], required: true, class: 'form-control' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :routing_number, 'BSB Number *' %>
+            <%= text_field_tag 'bank_routing_number', params[:bank_routing_number], required: true, class: 'form-control' %>
+          </div>
+
+          <div class='form-group'>
+            <%= label_tag :verification_file, 'Photo ID verification *' %>
+            <%= file_field_tag 'stripe_verification_file', required: true, accept: 'image/png,image/gif,image/jpeg' %>
+          </div>
+
+          <%= submit_tag "Submit", class: "btn btn-large btn-primary" %>
+        <% end %>
+
+        <div class="button-box">
+          <%= link_to '< Back', step_1_payouts_path, class: 'orange-text' %>
+          <%#= link_to 'Next', stripe_account_payouts_path, class: 'modal-orange-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<style type="text/css">
+  .hidden{
+    display: none;
+  }
+</style>
+
+<script type="text/javascript">
+  $(".legal_entity_type").change(function(){
+    if($(this).val() == 'company'){
+      $('#individual_info').hide();
+      $('#first_name').attr('disabled', 'disabled');
+      $('#last_name').attr('disabled', 'disabled');
+      $("#business_info").show();
+      $('#business_name').attr('required', true);
+      $('#business_tax_id').attr('required', true);
+    }else{
+      $("#business_info").hide();
+      $('#individual_info').show();
+      $('#first_name').removeAttr('disabled');
+      $('#last_name').removeAttr('disabled');
+      $('#business_name').attr('required', false);
+      $('#business_tax_id').attr('required', false);
+    }
+  });
+</script>

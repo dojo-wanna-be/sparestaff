@@ -6,7 +6,7 @@
         <div>Hiring ID: <%= @transaction.id %></div>
       </div>
       <div class="header-right">
-        <%= link_to "Print", '#', class: 'print-btn' %>
+        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
       </div>
     </div>
 
@@ -31,7 +31,6 @@
             </div>
           </div>
         </div>
-
         <div class="user-detail-box">
           <div class="user-detail-box-left">
             <b>Hiring Start</b>
@@ -75,14 +74,14 @@
             <b>Timetable</b>
           </div>
           <div class="user-detail-box-right">
-            <% @transaction.bookings.each do |booking| %>
+            <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
               <div class="three-box">
                 <div class="three-box-left">
-                  <div><%= booking.day.titleize %></div>
+                  <div><%= bookings.first.day.titleize %></div>
                 </div>
                 <div class="three-box-middle">
                   <div>
-                    <%= "#{booking.start_time.strftime("%H:%M")} - #{booking.end_time.strftime("%H:%M")}" %>
+                    <%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %>
                   </div>
                 </div>
                 <div class="three-box-right">
@@ -100,11 +99,15 @@
           <div class="user-detail-box-right">
             <div class="three-box">
               <div class="three-box-left">
-                <div>
-                  <%= "#{@listing.address_1}" %>
-                  <%= "#{@listing.city} #{@listing.state} #{@listing.post_code}" %>
-                  <%= "#{@listing.country}" %>
-                </div>
+                <% if @address.present? %>
+                  <div>
+                    <%= "#{@address.address_1}" %>
+                    <%= "#{@address.city} #{@address.state} #{@address.post_code}" %>
+                    <%= "#{@address.country}" %>
+                  </div>
+                <% else %>
+                  <div>-</div>
+                <% end %>
               </div>
               <div class="three-box-middle">
                 <div>&nbsp;</div>
@@ -133,11 +136,11 @@
 
               <div class="three-box-right">
                 <div>&nbsp;</div>
-                <div>$<%= @listing.weekday_price * @transaction.weekday_hours %></div>
-                <div>$<%= @listing.weekend_price * @transaction.weekend_hours %></div>
-                <div>-$<%= @transaction.tax_withholding_amount %></div>
-                <div>$11.13</div>
-                <div><b>$<%= @transaction.amount %></b></div>
+                <div><%= "$#{(@listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+                <div><%= "$#{(@listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+                <div>-$<%= @transaction.tax_withholding_amount_calculate.round(2) %></div>
+                <div>$<%= @transaction.service_fee.round(2) %></div>
+                <div><b>$<%= discount_amount(@transaction, @transaction.hirer_weekly_amount) %></b></div>
               </div>
             </div>
 
@@ -153,17 +156,17 @@
 
               <div class="three-box-right">
                 <div>&nbsp;</div>
-                <div>$<%= @listing.weekday_price * @transaction.total_weekday_hours %></div>
-                <div>$<%= @listing.weekend_price * @transaction.total_weekend_hours %></div>
-                <div>-$<%= @transaction.total_tax_withholding_amount %></div>
-                <div>$116.13</div>
-                <div><b>$<%= @transaction.total_amount %></b></div>
+                <div><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.total_weekday_hours)}" %></div>
+                <div><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></div>
+                <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
+                <div>$<%= @transaction.total_service_fee.round(2) %></div>
+                <div><b>$<%= @transaction.total_amount.round(2) %></b></div>
               </div>
             </div>
 
             <div class="bottem-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
 
-            <%= link_to 'Get receipt', 'javascript:;', class: 'orange-link' %>
+            <%= link_to 'Get receipt', get_receipt_hiring_path(id: @transaction.id), class: 'orange-link' %>
           </div>
         </div>
 
@@ -180,23 +183,30 @@
 
       <div class="right-hiring-box">
         <div class="poster-view">
-          <%= image_tag 'zidane-profile.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% if @listing.poster.avatar.present? %>
+            <%= image_tag @listing.poster.avatar.url, class: 'ProfileIcon100pxNoBorder' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% end %>
           <br>
           <br>
-          <strong>Poster: <%= @listing.poster.name %></strong>
+          <strong>Poster: <%= @listing.poster_name %></strong>
           <br>
+          <div class="text-center">
           Have a question about your hiring? The
           best way to get information is to
           discuss with the Poster directly.
+          </div>
           <br>
+          <% if @transaction.conversation.present? %>
+          <%= link_to 'Message Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
+          <% end %>
           <br>
-
-          <%= link_to 'Message Poster', 'javascript:;', class: 'continue-btn' %>
-          <br>
-
-          <%= link_to 'javascript:;', class: 'orange-link' do  %>
-            <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
-            &nbsp; +61 434 292 527
+          <% if @listing.poster.phone_number.present? %>
+            <%= link_to 'javascript:;', class: 'orange-link' do  %>
+              <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
+              &nbsp; +<%= @listing.poster.phone_number%>
+            <% end %>
           <% end %>
         </div>
       </div>

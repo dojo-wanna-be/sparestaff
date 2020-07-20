@@ -1,0 +1,58 @@
+<%= render partial: "employee_listings/user_settings_header" %>
+<div class="transaction_history_section">
+  <div class="inner-listings-section">
+    <%= render partial: 'payout_side_bar'%>
+    <div class="right-panel">
+      <div class="listed-box">
+        <div class="right-panel-header">Completed Payouts</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div style="font-size: 18pt">Paid out: $<%= @total_payout.round(2) %> AUD</div>
+            <div class="payout_table">
+              <div class="table_row">
+                <div style="width: 15%"><strong>Date</strong></div>
+                <div style="width: 15%"><strong>Type</strong></div>
+                <div style="width: 40%"><strong>Details</strong></div>
+                <div style="width: 15%"><strong>Amount</strong></div>
+                <div><strong>Paid Out</strong></div>
+              </div>
+              <div class="sort_paginate_ajax2">
+                <%= render partial: "poster_payouts" %>
+              </div>
+              <!-- <div class="table_row">
+                <a href="#" class="tab_btn">&lt;</a>
+                <a href="#" class="tab_btn">&gt;</a>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="listed-box">
+        <div class="right-panel-header">Upcoming Payouts</div>
+        <div class="listing-card-box">
+          <div class="listing-card">
+            <div style="font-size: 18pt">Pending payouts: $<%= @pending_total_payout %> AUD</div>
+            <div class="payout_table">
+              <div class="table_row">
+                <div style="width: 15%"><strong>Date</strong></div>
+                <div style="width: 15%"><strong>Type</strong></div>
+                <div style="width: 40%"><strong>Details</strong></div>
+                <div style="width: 15%"><strong>Pay to</strong></div>
+                <div><strong>Amount</strong></div>
+              </div>
+              <div class="sort_paginate_ajax1">
+                <%= render partial: "upcoming_poster_payouts" %>
+              </div>
+              <!-- <div class="table_row">
+                <a href="#" class="tab_btn">&lt;</a>
+                <a href="#" class="tab_btn">&gt;</a>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render partial: "layouts/footer" %>

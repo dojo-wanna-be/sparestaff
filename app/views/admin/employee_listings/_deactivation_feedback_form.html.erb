@@ -1,0 +1,39 @@
+<%= form_for @employee_listing, url: deactivate_admin_employee_listings_path, method: :patch, :html => { :id => "listing_deactivation" } do |f| %>
+  <%= hidden_field_tag "id", @employee_listing.id %>
+  <%= hidden_field_tag "edit", "deactivation_done" %>
+
+  <div class="custom-input-group">
+    <label class="custom-label feedback-label">Please share your reasons/thoughts for deactivating</label>
+
+    <ul class="checkbox-list">
+      <label>This will help us improve for the future</label>
+
+      <%= f.text_area :deactivation_feedback, rows: 5 %>
+    </ul>
+  </div>
+
+  <div class="feedback-button-box">
+    <%= f.submit "Permanently deactivate", class: 'continue-btn' %>
+
+    <%= link_to 'Keep it listed', edit_employee_path(id: @employee_listing, edit: "listing_status"), class: 'keep-btn' %>
+  </div>
+
+  <div class="gray-thin-text">Deactivation is effective immediately and cannot be undone. If you want to list this employee again, you will need to create a new listing from scratch.</div>
+<% end %>
+
+<script type="text/javascript">
+  $("#listing_deactivation").validate({
+    rules: {
+      "employee_listing[deactivation_feedback]": {required: true},
+    },
+    messages: {
+      "employee_listing[deactivation_feedback]": {required: "Please give feedback"},
+    }
+  });
+</script>
+
+<style type="text/css">
+  .error{
+    color:#FF0000;
+  }
+</style>

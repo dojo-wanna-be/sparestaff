@@ -1,0 +1,38 @@
+<div class="employee_search-section">
+  <div class="employee_search-section-inner">
+    <div class="search-box">
+      <%= form_tag(search_home_index_path, method: :get, id: 'search_form', remote: true)do %>
+        <%= render partial: "employee_search_bar" %>
+
+        <%= render partial: "subbar_search_filter" %>
+      <% end %>
+    </div>
+    <% if params[:location].present? %>
+      <div class="small-text">Available workforce in <b><%= params[:location] %></b> and surrounding suburbs</div>
+    <% end %>
+    <% if @employee_listings.present? %>
+      <div class="featured-listings-box">
+          <div class="featured-listingsx sort_paginate_ajax" id="listing_div">
+            <%= render partial: "featured_listings", locals: {listings: @employee_listings} %>
+          </div>
+      </div>
+    <% else%>
+      <div class="featured-listings-box">
+        <%= render 'not_record'%>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+
+<script type="text/javascript">
+  $(function () {
+    $('.pagination a').click(function () {
+      $.get(this.href, null, null, 'script');
+      return false;
+    });
+  });
+</script>

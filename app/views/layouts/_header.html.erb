@@ -1,7 +1,12 @@
 <header class="fixed-header ">
   <nav class="navbar navbar-expand-md navbar-dark new-header">
-    <%= link_to '/', class: 'navbar-brand' do %>
-      <%= image_tag 'logo.png', class: 'logo-img' %>
+    <%= link_to root_path, class: 'navbar-brand' do %>
+      <% if StaticContent.last&.site_logo.present? %>
+        <% site_logo = StaticContent.last.site_logo.url %>
+        <%= image_tag site_logo, class: 'logo-img' %>
+      <% else %>
+        <%= image_tag 'logo.png', class: 'logo-img' %>
+      <% end %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -16,8 +21,8 @@
 
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to message_inbox_employee_index_path, class: "nav-link message" do %>
-              <span>Message</span><span class="badge">2</span>
+            <%= link_to inboxes_path, class: "nav-link message" do %>
+              <span>Message</span><span class="badge"><%=@unread_count%></span>
             <% end %>
           </li>
         <% end %>
@@ -29,7 +34,12 @@
           <li class="nav-item">
             <%= link_to "javascript:;", class: 'nav-link custom-show-dropdown' do %>
               <span class="dropdown_toggle">
-                <%= image_tag "Henry1.jpg", alt: "", class: "ProfileIcon" %>
+                <% if current_user.avatar.url.include?("missing") %>
+                  <%= image_tag "no-image.jpg", alt: "", class: "ProfileIcon" %>
+                <% else %>
+                  <%= image_tag(current_user.avatar.url(:thumb), class: "ProfileIcon") %>
+                <% end %>
+                <%#= current_user.name  %>
               </span>
             <% end %>
             <%= render partial: "layouts/user_icon_menu_box" %>
@@ -53,18 +63,16 @@
 
 
 <script type="text/javascript">
-  $( document ).ready(function() {
-    var $ShowMenu = $('.custom-show-dropdown');
+  var $ShowMenu = $('.custom-show-dropdown');
 
-    $(document).mouseup(e => {
-      if (!$ShowMenu.is(e.target) && $ShowMenu.has(e.target).length === 0)
-      {
-        $ShowMenu.removeClass('is-active');
-      }
-     });
+  $(document).mouseup(e => {
+    if (!$ShowMenu.is(e.target) && $ShowMenu.has(e.target).length === 0)
+    {
+      $ShowMenu.removeClass('is-active');
+    }
+  });
 
-    $('.dropdown_toggle').on('click', () => {
-      $ShowMenu.toggleClass('is-active');
-    });
+  $('.dropdown_toggle').on('click', () => {
+    $ShowMenu.toggleClass('is-active');
   });
 </script>

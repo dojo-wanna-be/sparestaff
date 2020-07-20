@@ -5,10 +5,10 @@
     <div class="left-panel">
       <ul class="panel-list">
         <li class="panel-item">
-          <%= link_to "Your Listings", employee_index_path, id: "YourListingsLeftMenu", class: 'panel-link' %>
+          <%= link_to "Your Listings", employee_index_path, id: "YourListingsLeftMenu", class: 'panel-link selected-panel' %>
         </li>
         <li class="panel-item">
-          <%= link_to "Your Reservations", 'javascript:;', id: "YourReservations", class: 'panel-link' %>
+          <%= link_to "Your Reservations", reservations_path, class: 'panel-link' %>
         </li>
         <li class="panel-item">
           <%= link_to "Add New Listing", step_1_employee_index_path, class: 'listing-btn' %>
@@ -17,92 +17,88 @@
     </div>
 
     <div class="right-panel">
+      <% if @published_listings.present? || @unpublished_listings.present? %>
+        <% if @published_listings.present? %>
+          <div class="listed-box">
+            <div class="right-panel-header">
+              Listed
+            </div>
 
-      <% if @employee_listings.present? %>
-        <div class="listed-box">
-          <div class="right-panel-header">
-            Listed
-          </div>
-
-          <% @employee_listings.each do |listing| %>
-            <div class="listing-card-box">
-              <div class="listing-card">
-                <div class="img-box">
-                  <% if listing.profile_picture.present? %>
-                    <%= image_tag listing.profile_picture.url, class: 'img-card' %>
-                  <% else %>
-                    <%= image_tag 'no-image.jpg', class: 'img-card' %>
-                  <% end %>
-                </div>
-                <div class="card-detail-box">
-                  <div class="card_heading"><%= listing.title %></div>
-                  <div class="sub-detail">
-                    <%= "#{listing.first_name} #{listing.last_name}" %>
+            <% @published_listings.each do |listing| %>
+              <div class="listing-card-box">
+                <div class="listing-card">
+                  <div class="img-box">
+                    <% if listing.profile_picture.present? %>
+                      <%= image_tag listing.profile_picture.url, class: 'img-card' %>
+                    <% else %>
+                      <%= image_tag 'no-image.jpg', class: 'img-card' %>
+                    <% end %>
                   </div>
-                  <div class="sub-detail">
-                    <%= "#{listing.city} #{listing.state} #{listing.post_code}" %>
-                  </div>
+                  <div class="card-detail-box">
+                    <div class="card_heading"><%= listing.title %></div>
+                    <div class="sub-detail">
+                      <%= "#{listing.first_name} #{listing.last_name}" %>
+                    </div>
+                    <div class="sub-detail">
+                      <%= "#{listing.city} #{listing.state} #{listing.post_code}" %>
+                    </div>
 
-                  <div class="small_grey_text">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></div>
+                    <div class="small_grey_text">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></div>
 
-                  <div class="card-btns">
-                    <%= link_to "Manage Listing", edit_employee_path(id: listing.id), class: 'manage-btn' %>
-                    <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
+                    <div class="card-btns">
+                      <%= link_to "Manage Listing", edit_employee_path(id: listing.id), class: 'manage-btn' %>
+                      <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
+                    </div>
                   </div>
                 </div>
               </div>
+            <% end %>
+          </div>
+        <% end %>
 
+        <% if @unpublished_listings.present? %>
+          <div class="listed-box">
+            <div class="right-panel-header">
+              In Progress
             </div>
-          <% end %>
 
-        </div>
-      
+            <% @unpublished_listings.each do |listing| %>
+              <div class="listing-card-box">
+                <div class="listing-card">
+                  <div class="img-box">
+                    <% if listing.profile_picture.present? %>
+                      <%= image_tag listing.profile_picture.url, class: 'img-card' %>
+                    <% else %>
+                      <%= image_tag 'no-image.jpg', class: 'img-card' %>
+                    <% end %>
+                  </div>
+                  <div class="card-detail-box">
+                    <div class="card_heading"><%= listing.title %></div>
+                    <div class="sub-detail">
+                      <%= "#{listing.first_name} #{listing.last_name}" %>
+                    </div>
+                    <div class="sub-detail">
+                      <%= "#{listing.city} #{listing.state} #{listing.post_code}" %>
+                    </div>
+
+                    <div class="small_grey_text">Last updated on <%= listing.updated_at.strftime("%d %B %Y") %></div>
+
+                    <div class="card-btns">
+                      <%= link_to "Finish The Listing", "/employee/#{listing.id}/step_#{listing.listing_step}", class: 'finish-btn' %>
+                      <%= link_to "Preview", employee_path(id: listing.id), target: "_blank", class: 'preview-btn' %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
       <% else %>
         <h2>Please Create Some listings to display here</h2>
       <% end %>
-
-      <div class="listed-box">
-        <div class="right-panel-header">
-          In Progress
-        </div>
-        <div class="listing-card-box">
-          <div class="listing-card">
-            <div class="img-box">
-              <%= image_tag 'no-image.jpg', class: 'img-card' %>
-            </div>
-            <div class="card-detail-box">
-              <div class="card_heading">Office Admin</div>
-              <div class="sub-detail">
-                Lionel Messi
-              </div>
-              <div class="sub-detail">
-                North Sydney NSW 2060
-              </div>
-
-              <div class="small_grey_text">Last updated on 12 December 2017</div>
-
-              <div class="card-btns">
-                <a href="../list-an-employee/list-an-employee-step-1.html" class="manage-btn">Finish The Listing</a>
-
-                <%= link_to "Preview", '../employee-search/employee-profile.html', target: "_blank", class: 'preview-btn' %>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
 <%= render partial: "layouts/footer" %>
-
-
-<script type="text/javascript">
-  window.onload=function(){
-    highlight_menu('YourListings');
-    highlight_left_menu('YourListingsLeftMenu');
-  };
-</script>
