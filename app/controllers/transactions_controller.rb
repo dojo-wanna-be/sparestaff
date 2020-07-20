@@ -98,7 +98,7 @@ class TransactionsController < ApplicationController
       message = find_or_create_conversation.messages.last
       TransactionMailer.request_to_hire_email_to_poster(@transaction, @employee_listing, @employee_listing.poster, current_user, message).deliver_later!
       TransactionMailer.request_to_hire_email_to_hirer(@transaction, @employee_listing, current_user).deliver_later!
-      HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
+      HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id, 'expire')
       redirect_to request_sent_successfully_transaction_path(id: @transaction.id)
     rescue Exception => e
       flash[:error] = e

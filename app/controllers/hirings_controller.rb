@@ -61,7 +61,7 @@ class HiringsController < ApplicationController
   end
 
   def accept
-    if @transaction.update_attributes(state: "accepted")
+    if @transaction.transition_to('accepted')
       if(@transaction.old_transaction.present?)
         old_transaction = Transaction.find(@transaction.old_transaction)
         old_transaction.update_attributes(state: "completed", status: false)
@@ -85,7 +85,7 @@ class HiringsController < ApplicationController
   end
 
   def decline
-    if @transaction.update_attribute(:state, "rejected")
+    if @transaction.transition_to("rejected")
       @listing = @transaction.employee_listing
       poster = User.find_by(id: @transaction.poster_id)
       conversation = find_or_create_conversation
@@ -196,7 +196,7 @@ class HiringsController < ApplicationController
             stripe_refund.update(reason: e.message)
   			    flash[:error] = e.message
   			  end
-          @old_transaction.update_attributes(state: "changed_hiring", request_by: 'hirer')
+          @old_transaction.update(state: "changed_hiring", request_by: 'hirer')
   		    @transaction.update_attributes(state: "accepted", request_by: 'hirer')
         	#HiringRequestWorker.perform_at((@transaction.created_at + 48.hours).to_s, @transaction.id)
         	HiringMailer.hiring_changed_email_to_hirer(@listing, current_user, @transaction).deliver_later!

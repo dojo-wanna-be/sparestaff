@@ -276,6 +276,10 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def transition_to(new_state)
+    update_attribute(:state, new_state)
+  end
+
   def self.attributes
     {
       id: 'ID',
