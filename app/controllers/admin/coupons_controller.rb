@@ -3,7 +3,7 @@ class Admin::CouponsController < Admin::AdminBaseController
   def index
     @coupons = Coupon.all
     @coupons = @coupons.paginate(:page => params[:page], :per_page => 10)
-    @users = User.all.where.not(id: current_user.id).order(id: :desc)
+    @users = User.exclude(current_user).order(id: :desc)
   end
 
   def create

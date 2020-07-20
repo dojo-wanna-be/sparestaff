@@ -12,21 +12,10 @@ class Admin::UsersController < Admin::AdminBaseController
   end
 
   def index
-    if params[:search_fields].present? && search_fields
-      if suspended_user_search_field
-        @users = suspended_user
-      elsif params[:selected_data] == "200"
-        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 200)
-      elsif (params[:selected_data] == "100")
-        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 100)
-      else
-        @users = users.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
-      end
-    elsif( params[:suspended_user].present? && suspended_user_search_field)
-      @users = suspended_user
-    else
-      @users = User.all.where.not(id: current_user.id).order(id: :desc).paginate(:page => params[:page], :per_page => 50)
-    end
+    per_page = params[:selected_data].present? params[:selected_data].to_i || 50
+    @users = User.exclude(current_user).order(id: :desc)
+    @users = @users.suspended if suspended_user_search_field || params[:suspended_user].present?
+    @users = @users.paginate(page: params[:page], per_page: per_page)
   end
 
   def emails
@@ -114,12 +103,12 @@ class Admin::UsersController < Admin::AdminBaseController
   private
   
   def users
-    users = User.all.where.not(id: current_user.id).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
+    users = User.exclude(current_user).ransack(first_name_or_last_name_or_email_cont_any: params[:q], id_in: params[:q],company_name_cont_any: params[:q], m: 'or').result(distinct: true)
     @users = users.ransack(created_at_gteq: params[:created_at_gteq], created_at_lteq: params[:created_at_lteq]).result(distinct: true)  
   end
   
   def suspended_user
-    User.where(is_suspended: true).order(id: :desc).paginate(:page => params[:page], :per_page => 50)
+    User.suspended.order(id: :desc).paginate(:page => params[:page], :per_page => 50)
   end
 
   def search_fields

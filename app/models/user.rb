@@ -53,6 +53,8 @@ class User < ApplicationRecord
   has_many :coupons, through: :user_coupons
   accepts_nested_attributes_for :company
 
+  scope :suspended, -> { where(is_suspended: true) }
+  scope :exclude, -> (user) { where.not(id: user.id) }
 
   enum user_type: { owner: 0, hr: 1 }
 
