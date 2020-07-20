@@ -34,15 +34,6 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-  def authenticate_user!
-    return true if user_signed_in?
-
-    respond_to do |format|
-      format.js { render nothing: true, status: :unauthorized } 
-      format.html { redirect_to root_path, :alert => 'Need to login.' }
-    end
-  end
-
   def ensure_is_admin
     unless current_user.is_admin? || current_user.is_superadmin?
       flash[:error] = "Only Adminstration enter in this area!"
