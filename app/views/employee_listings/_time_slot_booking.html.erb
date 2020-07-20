@@ -1,6 +1,3 @@
-<script type="text/javascript">
-  initializeTransactionForm();
-</script>
 <div class="right-preview-detail">
   <%= form_for transaction, :html => { :id => "listing_transaction" } do |f| %>
     <%= f.hidden_field :employee_listing_id, value: employee_listing.id %>
@@ -46,10 +43,10 @@
               <% else %>
                 <div class="start-side">
                   <span><%= availability.day.titleize %></span>
-                  <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_time_slot" %>
+                  <%= select_tag "transaction[booking_attributes][#{index}][start_time]", options_for_select(start_time_range(availability), disabled: @disabled_time[:start_time_slots][index]), include_blank: 'Start time', class: "cust_str_id start-side-select #{availability.day.downcase}_start_time_slot", data: {day: availability.day} %>
                 </div>
                 <div class="end-side">
-                  <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select #{availability.day.downcase}_time_slot" %>
+                  <%= select_tag "transaction[booking_attributes][#{index}][end_time]", options_for_select(end_time_range(availability), disabled: @disabled_time[:end_time_slots][index]), include_blank: 'End time', class: "end_str_id end-side-select end-time-select #{availability.day.downcase}_end_time_slot", data: {day: availability.day} %>
                 </div>
               <% end %>
             </li>
@@ -128,10 +125,10 @@
     <p class="info-text text-center">
       <a href="#" class="OrangeLink14px" data-popup-open="how-does-hiring-works-popup">How do hiring contracts work?</a>
     </p>
-    <%= link_to 'Contact Poster', inbox_path(@employee_listing.id, from: 'contact'), target: '_blank', class: 'request-btn contact-poster' %>
+    <%= link_to 'Contact Poster', inbox_path(employee_listing.id, from: 'contact'), target: '_blank', class: 'request-btn contact-poster' %>
     
     <%= f.submit "Request to hire", class: "request-btn", id: "hiring_button" %>
-    <label id="total_hour_error" style="display: none; color: red;">Poster requires <%= @employee_listing.minimum_working_hours %> hours minimum.</label>
+    <label id="total_hour_error" style="display: none; color: red;">Poster requires <%= employee_listing.minimum_working_hours %> hours minimum.</label>
     <p class="thin-text">No payment is required now.</p>
 
     <div class="footer-text">This employee listing has been viewed 149 times.</div>
@@ -157,3 +154,264 @@
     </a>
   </div>
 </div>
+<script type="text/javascript">
+  var totalSundays = 0;
+  var totalMondays = 0;
+  var totalTuesdays = 0;
+  var totalWednesdays = 0;
+  var totalThursdays = 0;
+  var totalFridays = 0;
+  var totalSaturdays = 0;
+
+  var totalSundayHours = 0;
+  var totalMondayHours = 0;
+  var totalTuesdayHours = 0;
+  var totalWednesdayHours = 0;
+  var totalThursdayHours = 0;
+  var totalFridayHours = 0;
+  var totalSaturdayHours = 0;
+
+  var sundayHour = 0;
+  var mondayHour = 0;
+  var tuesdayHour = 0;
+  var wednesdayHour = 0;
+  var thursdayHour = 0;
+  var fridayHour = 0;
+  var saturdayHour = 0;
+
+  var totalWeekdayHours = 0;
+  var totalWeekendHours = 0;
+
+  var hiring_weekday_price = 0;
+  var hiring_weekend_price = 0;
+
+  var listingWeekdayPrice = "<%= employee_listing.weekday_price %>";
+  var listingWeekendPrice = "<%= employee_listing.weekend_price %>";
+
+  $("#transaction_is_withholding_tax").on('change click', function () {
+    if ($(this).is(":checked")) {
+      $("#tax-notice").hide();
+      calculateTax();
+    } else {
+      calculateWithoutTax();
+      $("#tax-notice").show();
+    }
+  });
+
+  function calculateWithoutTax(){
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price
+    var service_tax = <%= hirer_commission %> * weekly_earning
+    $("#transaction_tax_withholding_amount").val('0');
+    $("#transaction_tax_withholding_amount").attr('disabled', 'disabled');
+    $("#weeklyServicePrice").html(service_tax.toFixed(2))
+    var weekly_total_price = weekly_earning + service_tax
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2));
+    var startDate = new Date($("#transaction_start_date").val());
+    var endDate = new Date($("#transaction_end_date").val());
+    var weekDiff = ((endDate - startDate + 1) / (1000 * 60 * 60 * 24) / 7);
+    $('#ContractTaxPrice').html('0');
+    $('#total_tax_with_holding').val('0');
+    var monday = 0;
+    var tuesday = 0;
+    var wednesday = 0;
+    var thursday = 0;
+    var friday = 0;
+    var saturday = 0;
+    var sunday = 0;
+    if(totalMondays != 0)
+      monday = totalMondays - Math.floor(weekDiff)
+    if(totalTuesdays != 0)
+      tuesday = totalTuesdays - Math.floor(weekDiff)
+    if(totalWednesdays != 0)
+      wednesday = totalWednesdays - Math.floor(weekDiff)
+    if(totalThursdays != 0)
+      thursday = totalThursdays - Math.floor(weekDiff)
+    if(totalFridays != 0)
+      friday = totalFridays - Math.floor(weekDiff)
+    if(totalSaturdays != 0)
+      saturday = totalSaturdays - Math.floor(weekDiff)
+    if(totalSundays != 0)
+      sunday = totalSundays - Math.floor(weekDiff)
+    var remainingWeekDayPrice =  (monday * mondayHour + tuesday * tuesdayHour + wednesday * wednesdayHour + thursday * thursdayHour + friday * fridayHour) * listingWeekdayPrice
+    var remainingWeekendPrice = (saturday * saturdayHour + sunday * sundayHour) * listingWeekendPrice
+    var remainingWeeklyEarning = remainingWeekDayPrice + remainingWeekendPrice
+    var remainingServiceTax = <%= hirer_commission %> * (remainingWeeklyEarning)
+    var remainingPrice = remainingWeeklyEarning + remainingServiceTax
+    var serviceTax = ((service_tax * Math.floor(weekDiff)) + remainingServiceTax)
+    $('#ContractServicePrice').html(serviceTax.toFixed(2));
+    $('#ContractTotalPrice').html(((weekly_total_price * Math.floor(weekDiff)) + remainingPrice).toFixed(2));
+  }
+  $("#transaction_start_date, #transaction_end_date").on('change', function (){
+    totalSundays = 0;
+    totalMondays = 0;
+    totalTuesdays = 0;
+    totalWednesdays = 0;
+    totalThursdays = 0;
+    totalFridays = 0;
+    totalSaturdays = 0;
+
+    var start = $("#transaction_start_date").val();
+    var end = $("#transaction_end_date").val();
+    var listingID = "<%= employee_listing.id %>"
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+
+    if (startDate < endDate){
+      validateAvailability(start, end, listingID);
+      for (var i = startDate; i <= endDate; ){
+        if (i.getDay() == 0){
+          totalSundays++;
+        }else if (i.getDay() == 1) {
+          totalMondays++;
+        }else if (i.getDay() == 2) {
+          totalTuesdays++;
+        }else if (i.getDay() == 3) {
+          totalWednesdays++;
+        }else if (i.getDay() == 4) {
+          totalThursdays++;
+        }else if (i.getDay() == 5) {
+          totalFridays++;
+        }else if (i.getDay() == 6) {
+          totalSaturdays++;
+        }
+        i.setTime(i.getTime() + 1000*60*60*24);
+      }
+
+      setWeekdayHours();
+      setWeekendHours();
+    }
+  });
+
+  function validateAvailability(start_date, end_date, listing){
+    $.ajax({
+      url: "/transactions/check_slot_availability",
+      type: "GET",
+      data : {
+        start: start_date,
+        end: end_date,
+        listing_id: listing,
+      },
+      dataType: "script",
+    });
+  }
+
+  function calculateTax(){
+    if ($('#transaction_frequency').val() == "fortnight") {
+      week_frequency = 2
+      $('.text_change_freq').text('Fortnightly total');
+    }
+    else {
+      week_frequency = 1
+      $('.text_change_freq').text('Weekly total');
+    }
+    var weekly_earning = hiring_weekday_price + hiring_weekend_price;
+    checkTax(weekly_earning)
+    var service_tax = <%= hirer_commission %> * (weekly_earning - tax);
+    $("#transaction_tax_withholding_amount").removeAttr('disabled');
+    $("#transaction_tax_withholding_amount").val(-tax);
+    $("#weeklyServicePrice").html(service_tax.toFixed(2) * week_frequency);
+    var weekly_total_price = weekly_earning - tax + service_tax;
+    $("#weekly_total_price").html(weekly_total_price.toFixed(2) * week_frequency);
+    // totalEmploymentContract(tax, service_tax, weekly_total_price);
+  }
+
+  function checkTax(weekly_earning){
+    var a = 0;
+    var b = 0;
+    var x = weekly_earning + 0.99;
+    if (x >= 0 && x <= 355){
+      a = 0;
+      b = 0;
+    }else if (x > 355 && x <= 422){
+      a = 0.1900;
+      b = 67.4635;
+    }else if (x > 422 && x <= 528){
+      a = 0.2900;
+      b = 109.7321;
+    }else if (x > 528 && x <= 711){
+      a = 0.2100;
+      b = 67.4635;
+    }else if (x > 711 && x <= 1282){
+      a = 0.3477;
+      b = 165.4423;
+    }else if (x > 1282 && x <= 1730){
+      a = 0.3450;
+      b = 161.9808;
+    }else if (x > 1730 && x <= 3461){
+      a = 0.3900;
+      b = 239.8654;
+    }else{
+      a = 0.4700;
+      b = 516.788;
+      //b = 576.7885;
+    }
+    tax = parseFloat(((a * x) - b).toFixed(2))
+    return tax
+  }
+
+  function setWeekdayHours(){
+    totalMondayHours = totalMondays * mondayHour;
+    totalTuesdayHours = totalTuesdays * tuesdayHour;
+    totalWednesdayHours = totalWednesdays * wednesdayHour;
+    totalThursdayHours = totalThursdays * thursdayHour;
+    totalFridayHours = totalFridays * fridayHour;
+    weekday_hour = mondayHour + tuesdayHour + wednesdayHour + thursdayHour + fridayHour;
+    totalWeekdayHours = totalMondayHours + totalTuesdayHours + totalWednesdayHours + totalThursdayHours + totalFridayHours;
+    $("#weekday_hours").html(weekday_hour);
+    hiring_weekday_price = weekday_hour * listingWeekdayPrice
+    $("#hiring_weekday_price").html(hiring_weekday_price.toFixed(2));
+    $("#total_weekday_hours").html(totalWeekdayHours);
+    hiring_total_weekday_price = totalWeekdayHours * listingWeekdayPrice;
+    $("#hiring_total_weekday_price").html(hiring_total_weekday_price.toFixed(2));
+    calculateTax();
+  }
+
+  function setWeekendHours(){
+    totalSaturdayHours = totalSaturdays * saturdayHour;
+    totalSundayHours = totalSundays * sundayHour;
+    weekend_hour = saturdayHour + sundayHour;
+    totalWeekendHours = totalSundayHours + totalSaturdayHours;
+    $("#weekend_hours").html(weekend_hour);
+    hiring_weekend_price = weekend_hour * listingWeekendPrice;
+    $("#hiring_weekend_price").html(hiring_weekend_price.toFixed(2));
+    $("#total_weekend_hours").html(totalWeekendHours);
+    hiring_total_weekend_price = totalWeekendHours * listingWeekendPrice;
+    $("#hiring_total_weekend_price").html(hiring_total_weekend_price.toFixed(2));
+    calculateTax();
+  }
+
+  $('.end-time-select').change(function() {
+    var day = $(this).data('day');
+    start_time = $(`.${day}_start_time_slot`).val();
+    end_time   = $(`.${day}_end_time_slot`).val();
+    total_hours = parseInt(end_time) - parseInt(start_time)
+    if (day == 'monday') {
+      mondayHour = total_hours;
+      setWeekdayHours();
+    }else if(day == 'tuesday') {
+      tuesdayHour = total_hours;
+      setWeekdayHours();
+    }else if(day == 'wednesday') {
+      wednesdayHour = total_hours;
+      setWeekdayHours();
+    }else if(day == 'thursday') {
+      thursdayHour = total_hours;
+      setWeekdayHours();
+    }else if(day == 'friday') {
+      fridayHour = total_hours;
+      setWeekdayHours();
+    }else if(day == 'saturday') {
+      saturdayHour = total_hours;
+      setWeekendHours();
+    }else if(day == 'sunday') {
+      sundayHour = total_hours;
+      setWeekendHours();
+    }
+  });
+
+  initializeTransactionForm(<%= employee_listing.minimum_working_hours %>);
+
+  $('#transaction_frequency').change(function(){
+    calculateTax();
+  })
+</script>

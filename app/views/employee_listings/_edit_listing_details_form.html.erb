@@ -155,29 +155,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $('#employee_listing_residency_status').on('keyup keypress change', function (){
-      var listingTitle = $("#employee_listing_residency_status").val();
-      if (listingTitle == "Other Visas"){
-        $("#other_res_sta").show();
-        $("#other_res_sta").attr("required", true);
-      }else{
-        $("#other_res_sta").hide();
-        $("#other_res_sta").removeAttr("required");
-      }
-    });
-
-    $("#listing_details").validate({
-      errorPlacement: function(error, element) {
-        error.appendTo(element.parent());
-      },
-      rules: {
-        "employee_listing[title]": {required: true},
-        "employee_listing[first_name]": {required: true},
-        "employee_listing[last_name]": {required: true},
-        "employee_listing[city]": {required: true},
-        "employee_listing[post_code]": {required: true},
-      },
-    });
+    initListingDetailsForm();
   });
 
   function sendFrontImage(fileData) {
@@ -315,9 +293,6 @@
   }
   label#sel_sta_id {
     display: none;
-    color:#FF0000;
-  }
-  .error {
     color:#FF0000;
   }
 </style>

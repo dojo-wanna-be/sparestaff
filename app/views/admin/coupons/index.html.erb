@@ -11,7 +11,7 @@
     <div class="step_heading">Create new Coupon</div>
     <div class="right_step user">
       <div class="right-panel edit_regis"><br />
-        <%= form_tag(admin_coupons_path, method: :post, id: 'new_form', remote: true,:action => "create")do %>
+        <%= form_tag(admin_coupons_path, method: :post, id: 'coupon_form', remote: true,:action => "create")do %>
           <div class="listed-box">
             <div class="custom-field-box">
               <div class="custom-input-group">
@@ -46,39 +46,5 @@
 </div>
 
 <script type="text/javascript">
-  $(function() {
-    $(".sort_paginate_ajax th a, .sort_paginate_ajax .pagination a").on("click", function(){
-      $.getScript(this.href);
-      return false;
-    });
-  });
-
-  $("#new_form").validate({
-    errorPlacement: function(error, element) {
-       error.appendTo(element.parent());
-    },
-    rules: {
-      "coupon_code": {required: true},
-      "discount": {required: true},
-      "expiry_date": {required: true},
-    }
-  });
-
-  $('.chosen_select').chosen({
-    placeholder: "Select a User",
-    width: "100%"
-  });
-
-
-  $('.assign_user').click(function(){
-    model_id = $(this).attr('model_id');
-    users = $(this).attr('users_ids')
-    $(model_id).chosen("destroy");
-    $(model_id).val(users.split(' '))
-    $(model_id).chosen({
-      placeholder: "Select a User",
-      width: "100%"
-    });
-  });
-
+  initCouponForm();
 </script>

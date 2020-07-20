@@ -6,7 +6,7 @@
       <div class="who-box">
         <p>Tell Hirers why this employee is the perfect candidate: qualification, certification, knowledge, skill sets, experience, completed training, etc. For security and privacy, links, email addresses, phone numbers, addresses are not allowed.</p>
 
-        <%= form_for @employee_listing, url: create_step_4_employee_path, method: :patch, multipart: true, :html => { :id => "skl_expr" } do |f| %>
+        <%= form_for @employee_listing, url: create_step_4_employee_path, method: :patch, multipart: true, :html => { :id => "employee_skills" } do |f| %>
           <%= hidden_field_tag "id", @employee_listing.id %>
 
           <div class="custom-field-box">
@@ -134,58 +134,9 @@
 </div>
 
 <script type="text/javascript">
-  $('#skill_tags').tagsInput({
-    'defaultText':'Add skill',
-    'height':'50px',
-    'width':'430px',
-    'delimiter': [',']
-  });
-
-  $("#skl_expr").validate({
-    errorPlacement: function(error, element) {
-       error.appendTo(element.parent());
-    },
-    rules: {
-    "parent_classification": {required: true},
-    "employee_listing[skill_description]": {required: true},
-    "employee_listing[employee_skills]": {required: true},
-    }
-  });
-
-  $('#parent_classification').on('change', function(){
-    var parent_val = $('#parent_classification :selected').val();
-    $.ajax({
-      url: "/employee/sub_category_lists",
-      type: "GET",
-      data : {
-        id: parent_val,
-      },
-      dataType: "script",
-    });
-  });
-
-  $('.cont_step').click(function(e) {
-    var FormValid = true;
-    var empLang = $('.checkbox-inline').is(':checked');
-    if (empLang){
-      $('#lan_emp_id').hide();
-    }
-    else{
-      $('#lan_emp_id').show();
-      FormValid = false;
-    }
-    return FormValid;
-  });
-
-  $('.checkbox-inline').on('keyup keypress change', function () {
-   var empLang = $('.checkbox-inline').is(':checked');
-    if (empLang) {
-      $("#lan_emp_id").hide();
-    }
-    else{
-      $("#lan_emp_id").show();
-    }
-  });
+  $(function(){
+    initEmployeeSkillsForm();
+  })
 
   function sendRelevantDocument(fileData) {
     var listing_id = "<%= @employee_listing.id %>"
@@ -254,13 +205,10 @@
 
 <style type="text/css">
   label#check_boxes {
-      display: none;
-  }
-  .error {
-      color:#FF0000;
+    display: none;
   }
   label#lan_emp_id {
     display: none;
-     color:#FF0000;
-}
+    color:#FF0000;
+  }
 </style>

@@ -56,65 +56,12 @@
 <% end %>
 
 <script type="text/javascript">
-  $('#skill_tags').tagsInput({
-    'defaultText':'Add skill',
-    'height':'50px',
-    'width':'430px',
-    'delimiter': [',']
-  });
-
-  $("#employee_skills").validate({
-    errorPlacement: function(error, element) {
-       error.appendTo(element.parent());
-    },
-    rules: {
-      "parent_classification": {required: true},
-      "employee_listing[skill_description]": {required: true},
-    }
-  });
-
-  $('#parent_classification').on('change', function(){
-    var parent_val = $('#parent_classification :selected').val();
-    $.ajax({
-      url: "/employee/sub_category_lists",
-      type: "GET",
-      data : {
-        id: parent_val,
-      },
-      dataType: "script",
-    });
-  });
-
-  $('.cont_step').click(function(e) {
-    var FormValid = true;
-    var empLang = $('.checkbox-inline').is(':checked');
-    if (empLang){
-      $('#lan_emp_id').hide();
-    }
-    else{
-      $('#lan_emp_id').show();
-      FormValid = false;
-    }
-    return FormValid;
-  });
-
-  $('.checkbox-inline').on('keyup keypress change', function () {
-   var empLang = $('.checkbox-inline').is(':checked');
-    if (empLang) {
-      $("#lan_emp_id").hide();
-    }
-    else{
-      $("#lan_emp_id").show();
-    }
-  });
+  initEmployeeSkillsForm();
 </script>
 
 <style type="text/css">
   label#check_boxes {
       display: none;
-  }
-  .error {
-      color:#FF0000;
   }
   label#lan_emp_id {
     display: none;

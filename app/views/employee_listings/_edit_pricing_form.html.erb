@@ -48,18 +48,3 @@
     <%= f.submit "Save", class: "continue-btn prw_btn" %>
   </div>
 <% end %>
-<script type="text/javascript">
-  $("#listing_pricing").validate({
-    rules: {
-      "employee_listing[other_weekday_price]": {min: 1},
-      "employee_listing[other_weekend_price]": {min: 1},
-      "employee_listing[other_holiday_price]": {min: 1},
-    }
-  });
-</script>
-
-<style type="text/css">
-  .error{
-    color:#FF0000;
-  }
-</style>
