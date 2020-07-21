@@ -1,0 +1,47 @@
+<% if past_listings.present? %>
+  <h1 class="order_listing_heading">Past Hiring</h1>
+
+  <div class="card_container">
+    <% past_listings.each_with_index do |hiring, index| %>
+      <div class="card">
+        <div class="top_img">
+          <% if hiring.employee_listing.profile_picture.present? %>
+            <%= image_tag hiring.employee_listing.profile_picture.url, class: 'card_profile_background_image' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'card_profile_background_image' %>
+          <% end %>
+          <%#= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
+        </div>
+        <div class="card_content">
+          <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
+          <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
+          <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
+          <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
+          <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
+          <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span><br />
+          <% if hiring.state.eql?("completed") %>
+            <div class='review-link'>Completed</div>
+          <% elsif hiring.state.eql?("expired") %>
+            <div class='review-link'>Expired</div>
+          <% end %>
+          <div class="review_part">
+            <span class="listing_star_rating" data-score ="<%= listing_star_rating(hiring.employee_listing.id).round(0) %>"></span>
+            <%#= image_tag 'star-rating.png', class: 'review-img' %>
+            <% if hiring.state.eql?("completed") %>
+              <% already_create_review = Review.where(transaction_id: hiring.id, sender_id: current_user.id) %>
+              <% if already_create_review.blank? %>
+                <%= link_to 'Write a Review', new_review_url(tx_id: hiring.id), class: 'review-link' %>
+              <% else %>
+                <%= link_to 'Read Your Review' , reviews_path, class: 'review-link gray-link' %>
+              <% end %>
+            <% end %>
+          </div>
+          <%= link_to 'View Receipt', get_receipt_hiring_path(id: hiring.id), class: 'review-receipt gray-link' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="will_pagination_box changes">
+    <%= js_will_paginate past_listings, params: { past_transaction: true } %>
+  </div>
+<% end %>
