@@ -1,7 +1,7 @@
 <% if params["hired_transaction"].present? %>
 	$('.hired_listing_transactions').html("<%=j render partial: 'hiring_list', locals: {transactions: @hired_listing_transactions} %>");
 <% elsif params["past_transaction"].present? %>
-	$('.past_listing_transactions').html("<%=j render partial: 'past_listings_transactions', locals: {past_listings: @past_listing_transactions} %>");
+	$('.past_listing_transactions').html("<%=j render partial: 'past_listings_transactions', locals: {transactions: @past_listing_transactions} %>");
 <% else %>
 	$('.declined_cancelled_transactions').html("<%=j render partial: 'declined_listing_transaction', locals: {declined_cancelled: @declined_listing_transactions} %>");
 <% end %>

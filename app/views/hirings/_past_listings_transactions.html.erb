@@ -1,8 +1,8 @@
-<% if past_listings.present? %>
+<% if transactions.present? %>
   <h1 class="order_listing_heading">Past Hiring</h1>
 
   <div class="card_container">
-    <% past_listings.each_with_index do |hiring, index| %>
+    <% transactions.each_with_index do |hiring, index| %>
       <div class="card">
         <div class="top_img">
           <% if hiring.employee_listing.profile_picture.present? %>
@@ -42,6 +42,6 @@
     <% end %>
   </div>
   <div class="will_pagination_box changes">
-    <%= js_will_paginate past_listings, params: { past_transaction: true } %>
+    <%= js_will_paginate transactions, params: { past_transaction: true } %>
   </div>
 <% end %>
