@@ -1,0 +1,225 @@
+<div class="show-hiring-section">
+  <div class="inner-show-hiring">
+    <div class="header-box">
+      <div class="header-left">
+        <h1 class="hiring-title">You're hiring <%= @listing.name %>!</h1>
+        <div>Hiring ID: <%= @transaction.id %></div>
+      </div>
+      <div class="header-right">
+        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
+      </div>
+    </div>
+
+    <div class="inner-hiring-box">
+      <div class="left-hiring-box">
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Employee</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="both-box">
+              <div class="both-left">
+                <div><%= @listing.title %> <br/> <%= @listing.name %> </div>
+              </div>
+              <div class="both-right">
+                <% if @listing.profile_picture.present? %>
+                  <%= image_tag @listing.profile_picture.url, class: 'Image150px' %>
+                <% else %>
+                  <%= image_tag 'no-image.jpg', class: 'Image150px' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Hiring Start</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="three-box">
+              <div class="three-box-left">
+                <div><%= @transaction.start_date.strftime("%d %h %Y") %></div>
+              </div>
+              <div class="three-box-middle">
+                <div><b>Hiring End</b></div>
+              </div>
+              <div class="three-box-right">
+                <div><%= @transaction.end_date.strftime("%d %h %Y") %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Probation</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="three-box">
+              <div class="three-box-left">
+                <div><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "-" %></div>
+              </div>
+              <div class="three-box-middle">
+                <div>&nbsp;</div>
+              </div>
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Timetable</b>
+          </div>
+          <div class="user-detail-box-right">
+            <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
+              <div class="three-box">
+                <div class="three-box-left">
+                  <div><%= bookings.first.day.titleize %></div>
+                </div>
+                <div class="three-box-middle">
+                  <div>
+                    <%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %>
+                  </div>
+                </div>
+                <div class="three-box-right">
+                  <div>&nbsp;</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Address</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="three-box">
+              <div class="three-box-left">
+                <% if @address.present? %>
+                  <div>
+                    <%= "#{@address.address_1}" %>
+                    <%= "#{@address.city} #{@address.state} #{@address.post_code}" %>
+                    <%= "#{@address.country}" %>
+                  </div>
+                <% else %>
+                  <div>-</div>
+                <% end %>
+              </div>
+              <div class="three-box-middle">
+                <div>&nbsp;</div>
+              </div>
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Billing</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div class="both-box space-both">
+              <div class="box-left">
+                <div>Weekly payment</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></div>
+                <div>Tax withholding</div>
+                <div>Service fee</div>
+                <div><b>Weekly total</b></div>
+              </div>
+
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+                <div><%= "$#{(@listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
+                <div><%= "$#{(@listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
+                <div>-$<%= @transaction.tax_withholding_amount_calculate.round(2) %></div>
+                <div>$<%= @transaction.service_fee.round(2) %></div>
+                <div><b>$<%= discount_amount(@transaction, @transaction.hirer_weekly_amount) %></b></div>
+              </div>
+            </div>
+
+            <div class="both-box">
+              <div class="box-left">
+                <div>Total employment contract</div>
+                <div>$<%= "#{@listing.weekday_price} x #{@transaction.total_weekday_hours} hours" %></div>
+                <div>$<%= "#{@listing.weekend_price} x #{@transaction.total_weekend_hours} hours (weekend)" %></div>
+                <div>Tax withholding</div>
+                <div>Service fee</div>
+                <div><b>Total</b></div>
+              </div>
+
+              <div class="three-box-right">
+                <div>&nbsp;</div>
+                <div><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.total_weekday_hours)}" %></div>
+                <div><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></div>
+                <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
+                <div>$<%= @transaction.total_service_fee.round(2) %></div>
+                <div><b>$<%= @transaction.total_amount.round(2) %></b></div>
+              </div>
+            </div>
+
+            <div class="bottem-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
+
+            <%= link_to 'Get receipt', get_receipt_hiring_path(id: @transaction.id), class: 'orange-link' %>
+          </div>
+        </div>
+
+        <div class="user-detail-box">
+          <div class="user-detail-box-left">
+            <b>Need help?</b>
+          </div>
+          <div class="user-detail-box-right">
+            <div>Visit the <%= link_to 'Help Center', 'javascript:;', class: 'orange-link' %></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="right-hiring-box">
+        <div class="poster-view">
+          <% if @listing.poster.avatar.present? %>
+            <%= image_tag @listing.poster.avatar.url, class: 'ProfileIcon100pxNoBorder' %>
+          <% else %>
+            <%= image_tag 'no-image.jpg', class: 'ProfileIcon100pxNoBorder' %>
+          <% end %>
+          <br>
+          <br>
+          <strong>Poster: <%= @listing.poster_name %></strong>
+          <br>
+          <div class="text-center">
+          Have a question about your hiring? The
+          best way to get information is to
+          discuss with the Poster directly.
+          </div>
+          <br>
+          <% if @transaction.conversation.present? %>
+          <%= link_to 'Message Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
+          <% end %>
+          <br>
+          <% if @listing.poster.phone_number.present? %>
+            <%= link_to 'javascript:;', class: 'orange-link' do  %>
+              <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
+              &nbsp; +<%= @listing.poster.phone_number%>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "layouts/footer" %>
+
+<style type="text/css">
+  .LogoFooter {
+    height: 20px;
+    float: left;
+    filter: grayscale(100%);
+  }
+</style>

@@ -1,7 +1,7 @@
 class HiringRequestWorker
   include Sidekiq::Worker
 
-  def perform(transaction_id)
-    HiringRequest.new(transaction_id).check_request
+  def perform(transaction_id, action)
+    HiringRequest.new(transaction_id).send(action)
   end
 end
