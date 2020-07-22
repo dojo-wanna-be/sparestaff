@@ -5,214 +5,194 @@
         <h1 class="hiring-title">You're hiring <%= @listing.name %>!</h1>
         <div>Hiring ID: <%= @transaction.id %></div>
       </div>
-      <div class="header-right">
-        <%= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
-      </div>
+      <!-- <div class="header-right">
+        <%#= link_to "Print", '#', class: 'print-btn' 'javascript:void(0)', :onclick => 'window.print();return false;'%>
+      </div> -->
     </div>
 
-    <div class="inner-hiring-box">
-      <div class="left-hiring-box">
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Employee</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div class="both-box">
-              <div class="both-left">
-                <div><%= @listing.title %> <br/> <%= @listing.name %> </div>
-              </div>
-              <div class="both-right">
-                <% if @listing.profile_picture.present? %>
-                  <%= image_tag @listing.profile_picture.url, class: 'Image150px' %>
-                <% else %>
-                  <%= image_tag 'no-image.jpg', class: 'Image150px' %>
-                <% end %>
-              </div>
-            </div>
+    <%#= render partial: "old_hiring_view" %>
+
+    <div class="show_hiring_details">
+      <div class="show_hiring_details_row">
+        <div class="user_box">
+          <%= image_tag 'luca.png', alt: 'user', class: 'ProfileIcon80px' %>
+          <div class="user_detail">
+            <div class="Text18px user_name">Cristiano Ronaldo</div>
+            <div class="time_period">12 Feb 2019 > 24 Apr 2019</div>
+            <div class="poster TextGrey">Poster: <%= link_to 'PosterABC', '#', target: '_blank', class: 'GrayLink16Px' %></div>
           </div>
         </div>
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Hiring Start</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div class="three-box">
-              <div class="three-box-left">
-                <div><%= @transaction.start_date.strftime("%d %h %Y") %></div>
-              </div>
-              <div class="three-box-middle">
-                <div><b>Hiring End</b></div>
-              </div>
-              <div class="three-box-right">
-                <div><%= @transaction.end_date.strftime("%d %h %Y") %></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Probation</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div class="three-box">
-              <div class="three-box-left">
-                <div><%= @transaction.probationary_period.present? ? "#{@transaction.probationary_period} month" : "-" %></div>
-              </div>
-              <div class="three-box-middle">
-                <div>&nbsp;</div>
-              </div>
-              <div class="three-box-right">
-                <div>&nbsp;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Timetable</b>
-          </div>
-          <div class="user-detail-box-right">
-            <% @transaction.bookings.order(:day).group_by(&:day).each do |day, bookings| %>
-              <div class="three-box">
-                <div class="three-box-left">
-                  <div><%= bookings.first.day.titleize %></div>
-                </div>
-                <div class="three-box-middle">
-                  <div>
-                    <%= "#{bookings.first.start_time.strftime("%H:%M")} - #{bookings.first.end_time.strftime("%H:%M")}" %>
-                  </div>
-                </div>
-                <div class="three-box-right">
-                  <div>&nbsp;</div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Address</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div class="three-box">
-              <div class="three-box-left">
-                <% if @address.present? %>
-                  <div>
-                    <%= "#{@address.address_1}" %>
-                    <%= "#{@address.city} #{@address.state} #{@address.post_code}" %>
-                    <%= "#{@address.country}" %>
-                  </div>
-                <% else %>
-                  <div>-</div>
-                <% end %>
-              </div>
-              <div class="three-box-middle">
-                <div>&nbsp;</div>
-              </div>
-              <div class="three-box-right">
-                <div>&nbsp;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Billing</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div class="both-box space-both">
-              <div class="box-left">
-                <div>Weekly payment</div>
-                <div>$<%= "#{@listing.weekday_price} x #{@transaction.weekday_hours} hours" %></div>
-                <div>$<%= "#{@listing.weekend_price} x #{@transaction.weekend_hours} hours (weekend)" %></div>
-                <div>Tax withholding</div>
-                <div>Service fee</div>
-                <div><b>Weekly total</b></div>
-              </div>
-
-              <div class="three-box-right">
-                <div>&nbsp;</div>
-                <div><%= "$#{(@listing.weekday_price.to_f * @transaction.weekday_hours).round(2)}" %></div>
-                <div><%= "$#{(@listing.weekend_price.to_f * @transaction.weekend_hours).round(2)}" %></div>
-                <div>-$<%= @transaction.tax_withholding_amount_calculate.round(2) %></div>
-                <div>$<%= @transaction.service_fee.round(2) %></div>
-                <div><b>$<%= discount_amount(@transaction, @transaction.hirer_weekly_amount) %></b></div>
-              </div>
-            </div>
-
-            <div class="both-box">
-              <div class="box-left">
-                <div>Total employment contract</div>
-                <div>$<%= "#{@listing.weekday_price} x #{@transaction.total_weekday_hours} hours" %></div>
-                <div>$<%= "#{@listing.weekend_price} x #{@transaction.total_weekend_hours} hours (weekend)" %></div>
-                <div>Tax withholding</div>
-                <div>Service fee</div>
-                <div><b>Total</b></div>
-              </div>
-
-              <div class="three-box-right">
-                <div>&nbsp;</div>
-                <div><%= "$#{discount_amount(@transaction, @listing.weekday_price.to_f * @transaction.total_weekday_hours)}" %></div>
-                <div><%= "$#{discount_amount(@transaction, @listing.weekend_price.to_f * @transaction.total_weekend_hours)}" %></div>
-                <div>-$<%= @transaction.total_tax_withholding.round(2) %></div>
-                <div>$<%= @transaction.total_service_fee.round(2) %></div>
-                <div><b>$<%= @transaction.total_amount.round(2) %></b></div>
-              </div>
-            </div>
-
-            <div class="bottem-text">You will not pay the Total employment contract upfront. You chose to pay weekly.</div>
-
-            <%= link_to 'Get receipt', get_receipt_hiring_path(id: @transaction.id), class: 'orange-link' %>
-          </div>
-        </div>
-
-        <div class="user-detail-box">
-          <div class="user-detail-box-left">
-            <b>Need help?</b>
-          </div>
-          <div class="user-detail-box-right">
-            <div>Visit the <%= link_to 'Help Center', 'javascript:;', class: 'orange-link' %></div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="right-hiring-box">
-        <div class="poster-view">
-          <% if @listing.poster.avatar.present? %>
-            <%= image_tag @listing.poster.avatar.url, class: 'ProfileIcon100pxNoBorder' %>
-          <% else %>
-            <%= image_tag 'no-image.jpg', class: 'ProfileIcon100pxNoBorder' %>
-          <% end %>
-          <br>
-          <br>
-          <strong>Poster: <%= @listing.poster_name %></strong>
-          <br>
-          <div class="text-center">
-          Have a question about your hiring? The
-          best way to get information is to
-          discuss with the Poster directly.
-          </div>
-          <br>
-          <% if @transaction.conversation.present? %>
-          <%= link_to 'Message Poster', inbox_path(id: @transaction.conversation.id), class: 'continue-btn' %>
-          <% end %>
-          <br>
-          <% if @listing.poster.phone_number.present? %>
-            <%= link_to 'javascript:;', class: 'orange-link' do  %>
-              <%= image_tag 'tel-icon.jpg', class: 'Height20px VerticalAlignMiddle' %>
-              &nbsp; +<%= @listing.poster.phone_number%>
-            <% end %>
-          <% end %>
+        <div class="contact_link_box">
+          <%= link_to 'Message Poster', '#', class: 'contact_button' %>
+          <%= link_to 'Cancel Hiring', '#', class: 'contact_button' %>
         </div>
       </div>
+
+      <div class="show_hiring_details_row">
+        <div class="default_roster_row">
+          <div class="default_roster_box">
+            <div class="default_roster_heading TextStrong">
+              Default Roster
+              <a href="javascript:;" class="info_link" onclick="toggle_visibility('DefaultRosterInfo');">
+                <%= image_tag 'info-icon.png', alt: 'info', class: '' %>    
+              </a>
+              <%= render partial: "default_roster_info" %>
+
+              <a href="javascript:;" class="edit_link" data-popup-open="edit-default-roster-popup">
+                <%= image_tag 'pencil-circle-icon.png', alt: 'pencil'  %>
+              </a>
+            </div>
+
+            <div class="roster_day_box">
+              <div class="day_row"><span>Monday</span><span>09.00 - 12.00</span></div>
+              <div class="day_row"><span>Tuesday</span><span>15.00 - 17.00</span></div>
+              <div class="day_row"><span>Wednesday</span></div>
+              <div class="day_row"><span>Thursday</span></div>
+              <div class="day_row"><span>Friday</span></div>
+              <div class="day_row"><span>Saturday</span><span>15.00 - 17.00</span></div>
+              <div class="day_row"><span>Sunday</span><span>15.00 - 17.00</span></div>
+            </div>
+          </div>
+
+          <div class="escrow_box">
+            <div class="TextStrong escrow_heading">In Escrow</div>
+            <div class="price_value">$0.00</div>
+          </div>
+          <div class="escrow_box rost_box">
+            <div class="TextStrong escrow_heading">Rosters Paid</div>
+            <div class="price_value">$742.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="show_hiring_details_row">
+        <div class="TextStrong">Next rosters</div>
+        <a href="javascript:;" class="edit_rosters_btn" data-popup-open="add-or-edit-rosters-popup">Add or edit rosters</a>
+      </div>
+
+      <div class="show_hiring_details_row">
+        <div class="rosters_box_row">
+          <div class="rosters_box">
+            <div class="num_order TextStrong">3</div>
+            <div class="roster_details">
+              <div class="rosters_heading">
+                <span class="TextStrong">26-Feb-2019 to 04-Mar-2019</span> 
+                <!-- <div class="inactive_btn" id="InactiveLabel">Inactive</div> -->
+                <div class="InactiveRoster FloatLeft" id="InactiveLabel">Inactive</div>
+                <div class="ActiveRoster FloatLeft Hidden" id="ActiveLabel">Active</div>
+              </div>
+              <div>Mon 09:00 - 12:00, Tue 15:00 - 17:00, Sat 12:00 - 16:00</div>
+              <div>$371.00 (Not funded)</div>
+            </div>
+          </div>
+          <a href="javascript:;" class="activate_btn" id="ActivateButton" data-popup-open="activate-roster-popup">Activate</a>
+          <a href="javascript:;" class="Hidden" id="PayNowButton" data-popup-open="pay-now-popup">Pay Now</a>
+        </div>
+      </div>
+
+      <div class="show_hiring_details_row">
+        <div class="rosters_box_row">
+          <div class="rosters_box">
+            <div class="num_order TextStrong">3</div>
+            <div class="roster_details">
+              <div class="rosters_heading">
+                <span class="TextStrong">26-Feb-2019 to 04-Mar-2019</span>
+              </div>
+              <div>Mon 09:00 - 12:00, Tue 15:00 - 17:00, Sat 12:00 - 16:00</div>
+              <div>$371.00 (Not funded)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="show_hiring_details_row">
+        <div class="rosters_box_row">
+          <div class="rosters_box">
+            <div class="num_order TextStrong">3</div>
+            <div class="roster_details">
+              <div class="rosters_heading">
+                <span class="TextStrong">26-Feb-2019 to 04-Mar-2019</span> 
+              </div>
+              <div>Mon 09:00 - 12:00, Tue 15:00 - 17:00, Sat 12:00 - 16:00</div>
+              <div>$371.00 (Not funded)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="show_hiring_details_row">
+        <div class="complete_roster_heading TextStrong" id="CompletedRosters" onclick="toggle_visibility('CompletedRosterList')">
+          <span>Completed rosters</span>
+          <%= image_tag 'arrow-head-down.png', alt: 'arrow', class: 'down_arrow' %>
+        </div>
+      </div>
+
+      <div class="show_hiring_details_row hidden_hiring_row" id="CompletedRosterList">
+        <div class="rosters_box_row CursorPointerOnMouseOver BackGroundLightGreyOnHover" id="roster1" data-popup-open="completed-roster-popup">
+          <div class="rosters_box">
+            <div class="num_order TextStrong">3</div>
+            <div class="roster_details">
+              <div class="rosters_heading">
+                <span class="TextStrong">26-Feb-2019 to 04-Mar-2019</span>
+              </div>
+              <div>Mon 09:00 - 12:00, Tue 15:00 - 17:00, Sat 12:00 - 16:00</div>
+              <div>$371.00 (Not funded)</div>
+            </div>
+          </div>
+        </div>
+        <div class="rosters_box_row CursorPointerOnMouseOver BackGroundLightGreyOnHover" id="roster2" data-popup-open="completed-roster-popup">
+          <div class="rosters_box">
+            <div class="num_order TextStrong">3</div>
+            <div class="roster_details">
+              <div class="rosters_heading">
+                <span class="TextStrong">26-Feb-2019 to 04-Mar-2019</span>
+              </div>
+              <div>Mon 09:00 - 12:00, Tue 15:00 - 17:00, Sat 12:00 - 16:00</div>
+              <div>$371.00 (Not funded)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
+<!-- edit-default-roster-popup -->
+<%= render partial: "edit_default_roster_popup" %>
+<!-- edit-default-roster-popup -->
+
+<!-- add-or-edit-roster-popup -->
+<%= render partial: "add_or_edit_roster_popup" %>
+<!-- add-or-edit-roster-popup -->
+
+<!-- Add new roster sub popup  -->
+<%= render partial: "add_new_roster_sub_popup" %>
+<!-- End of Add new roster sub popup  -->
+
+<!-- Edit roster 3 sub popup -->
+<%= render partial: "edit-roster-popup" %>
+<!-- End of Edit roster 3 sub popup -->
+
+<!-- Activate roster popup-->
+<%= render partial: "activate_roster_popup" %>
+<!-- End of Activate roster popup -->
+
+<!-- Pay now popup -->
+<%= render partial: "pay_now_popup" %>
+<!-- End of Pay now popup -->
+
+<!-- Pay now second step popup -->
+<%= render partial: "pay_now_second_step_popup" %>
+<!-- End of Pay now second step popup -->
+
+<!-- Pay now confirmation popup -->
+<%= render partial: "pay_now_confirmation_popup" %>
+<!-- End of Pay now confirmation popup -->
+
+<!-- Completed roster popup -->
+<%= render partial: "completed_roster_popup" %>
+<!-- End of Completed roster popup -->
 
 <%= render partial: "layouts/footer" %>
 
