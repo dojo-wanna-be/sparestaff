@@ -1,0 +1,158 @@
+<div class="roster-popup edit_default_roster_popup" data-popup="edit-default-roster-popup">
+  <div class="roster-popup-inner">
+    <span class="OrderListingTitle">Edit default roster</span>
+    <br />
+    <div class="GreyLine1Px"></div>
+    <div id="edit-default-roster" class="FullWidth inner_default_roster">
+      <div class="week-availability">
+        <ul class="from-to-list">
+          <!-- <div id="web_loading"></div> -->
+          <label id="timing_error" style="display: none; color: red;">Please enter timings accordingly</label>
+          <li class="header-item">
+            <div class="from-text">From</div>
+            <div class="to-text">To</div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span class="disabled-field">Sunday</span>
+              <select name="" id="" class="cust_str_id start-side-select disabled-field" disabled="disabled">
+                <option value=""> </option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select disabled-field" disabled="disabled">
+                <option value=""> </option>
+                <option value="01:00">01:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span>Monday</span>
+              <select name="" id="" class="cust_str_id start-side-select monday_start_time_slot" data-day="monday">
+                <option value="">Start time</option>
+                <option value="10:00">10:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select end-time-select monday_end_time_slot" data-day="monday">
+                <option value="">End time</option>
+                <option value="11:00">11:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span>Tuesday</span>
+              <select name="" id="" class="cust_str_id start-side-select tuesday_start_time_slot" data-day="tuesday">
+                <option value="">Start time</option>
+                <option value="10:00">10:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select end-time-select tuesday_end_time_slot" data-day="tuesday">
+                <option value="">End time</option>
+                <option value="11:00">11:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span>Wednesday</span>
+              <select name="" id="" class="cust_str_id start-side-select wednesday_start_time_slot" data-day="wednesday">
+                <option value="">Start time</option>
+                <option value="10:00">10:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select end-time-select wednesday_end_time_slot" data-day="wednesday">
+                <option value="">End time</option>
+                <option value="11:00">11:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span>Thursday</span>
+              <select name="" id="" class="cust_str_id start-side-select thursday_start_time_slot" data-day="thursday">
+                <option value="">Start time</option>
+                <option value="10:00">10:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select end-time-select thursday_end_time_slot" data-day="thursday">
+                <option value="">End time</option>
+                <option value="11:00">11:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span>Friday</span>
+              <select name="" id="" class="cust_str_id start-side-select friday_start_time_slot" data-day="friday">
+                <option value="">Start time</option>
+                <option value="10:00">10:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select end-time-select friday_end_time_slot" data-day="friday">
+                <option value="">End time</option>
+                <option value="11:00">11:00</option>
+              </select>
+            </div>
+          </li>
+          <li class="availability-item">
+            <div class="start-side">
+              <span class="disabled-field">Saturday</span>
+              <select name="" id="" class="cust_str_id start-side-select disabled-field" disabled="disabled">
+                <option value=""> </option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+              </select>
+            </div>
+            <div class="end-side">
+              <select name="" id="" class="end_str_id end-side-select disabled-field" disabled="disabled">
+                <option value=""> </option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+              </select>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="roster_calculation_box">
+        <ul class="calculation-list">
+          <li class="calc-item">
+            <span class="left">$<label class="listing_weekday_price"> 20.0 </label> x <label id="weekday_hours"> 0 </label> hours</span>
+            <span class="right">$<label id="hiring_weekday_price"> 0 </label> </span>
+          </li>
+          <li class="calc-item">
+            <span class="left">$<label class="listing_weekend_price"> 20.0 </label> x <label id="weekend_hours"> 0 </label> hours (weekend)</span>
+            <span class="right">$<label id="hiring_weekend_price"> 0 </label> </span>
+          </li>
+          <li class="calc-item last-item">
+            <span class="left">Tax withholding</span>
+            <span class="right">
+              <span class="dollar-input-box">$</span>
+              <input placeholder="-4.00" class="calc-value transaction_tax_withholding_amount" type="number" name="" id="">
+            </span>
+          </li>
+          <li class="calc-item">
+            <span class="left"><b class="text_change_freq">Total</b></span>
+            <span class="right"><b>$<label id="weekly_total_price"> 0 </label> </b></span>
+          </li>
+        </ul>
+        <div class="TextAlignCenter Text14px">No payment is required now.</div>
+      </div>
+    </div>
+    <div class="GreyLine1Px"></div>
+    <br />
+    <div class="ButtonOrangeHeight40px FloatRight">
+      <a href="#" data-popup-close="edit-default-roster-popup">Save</a>
+    </div>
+    <div class="FloatRight MarginRight40Px" style="vertical-align:middle" data-popup-close="edit-default-roster-popup"><a href="#" class="comman_link" style="line-height:40px">Cancel</a></div>
+  </div>
+</div>

@@ -60,6 +60,30 @@ td {
   padding:0px;
 }
 
+.LogoHeader {
+  height:30px;
+}
+
+.LogoFooter {
+  height:20px;
+  float:left;
+  filter: grayscale(100%);
+}
+
+.LogoAtSide {
+  width:80px;
+}
+
+.LogoInEmail {
+  height:30px;
+}
+
+.RequestToHireLeftTd {
+  text-align:center;
+  width:80px;
+  padding: 45px 0px 0px 0px;
+  vertical-align:top;
+}
 
 a:active, a:visited, a:link {
   color: #f15927;
@@ -138,6 +162,68 @@ table.TopOrangeButton:hover {
   border-radius:20px;
 }
 
+.InactiveRoster {
+  height:20px;
+  border-radius:3px;
+  border: 1px #F15927 solid;
+  text-align:center;
+  padding:0px 5px 0px 5px;
+  text-transform:uppercase;
+  margin-left:10px;
+  color:#F15927;
+  font-size:11px;
+  font-weight:bold;
+  vertical-align:middle;
+  line-height:20px;
+}
+
+.ActiveRoster {
+  height:20px;
+  border-radius:3px;
+  border: 1px #00CC00 solid;
+  text-align:center;
+  padding:0px 5px 0px 5px;
+  text-transform:uppercase;
+  margin-left:10px;
+  color:#00CC00;
+  font-size:11px;
+  font-weight:bold;
+  vertical-align:middle;
+  line-height:20px;
+}
+
+
+.SkillsList {
+  height:40px;
+  line-height:40px;
+  background-color:#e4e4e4; 
+  border-radius:3px;
+  text-align:center;
+  padding:5px 10px 5px 10px;
+  margin-right:10px;
+  text-transform:capitalize;
+}
+
+.LightGreyRoundButton {
+  height:40px;
+  line-height:40px;
+  background-color:#e4e4e4; 
+  border-radius:20px;
+  text-align:center;
+  padding:10px;
+}
+
+.LightGreyRoundButton:hover {
+  background-color:silver;
+}
+
+.LightGreyRoundButton a {
+  color:#484848;
+  text-decoration:none;
+  line-height:40px;
+}
+
+
 table.HomeButton {
   width: 180px;
   height:40px;
@@ -155,7 +241,7 @@ table.HomeButton:hover {
 }
 
 table.ListAnEmployeeIntroImage {
-  background-image:url('/assets/hand-shake.jpg');
+  background-image:url('images/hand-shake.jpg');
   background-repeat:no-repeat;
   background-position:center;
   height:500px;
@@ -288,6 +374,14 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
   margin-left:20px;
 }
 
+.MarginRight40Px {
+  margin-right:40px;
+}
+
+.MarginRight20Px {
+  margin-right:20px;
+}
+
 .MarginBottom10Px {
   margin-bottom:10px;
 }
@@ -333,6 +427,10 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
   padding-right:20px;
 }
 
+.PaddingRight30px {
+  padding-right:30px;
+}
+
 .PaddingRightBottom20px {
   padding-right:20px;
   padding-bottom:20px;
@@ -356,13 +454,18 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
   border-top:1px #e4e4e4 solid;
 }
 
+.BorderBottom {
+  border-bottom:1px #e4e4e4 solid;
+}
+
+.BorderLeft {
+  border-left:1px #e4e4e4 solid;
+}
+
 .BorderRight {
   border-right:1px #e4e4e4 solid;
 }
 
-.BorderBottom {
-  border-bottom:1px #e4e4e4 solid;
-}
 
 .TableBorderBottom td {
   border-bottom:1px #e4e4e4 solid;
@@ -395,10 +498,17 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
   height:70px;
 }
 
+.Height80px {
+  height:80px;
+}
+
 .Height100px {
   height:100px;
 }
 
+.Height500px {
+  height:500px;
+}
 
 .Height40pxPadding15px {
   height:40px;
@@ -415,6 +525,10 @@ table.AccountLeftMenu a.AccountLeftMenuSelected {
 
 .Height15px {
   height:15px;
+}
+
+.Height12px {
+  height:12px;
 }
 
 .Height10px {
@@ -510,6 +624,10 @@ table.ViewPhotosButton {
   border-color: #767676;
 }
 
+.ButtonDarkGrey140px td {
+  vertical-align:middle;
+}
+
 .ButtonDarkGrey140px td a {
   font-size:12pt;
   color:#333333;
@@ -532,12 +650,42 @@ table.ViewPhotosButton {
   border-color: #767676;
 }
 
+.ButtonDarkGrey180px td {
+  vertical-align:middle;
+}
 
 .ButtonDarkGrey180px td a {
   font-size:12pt;
   color:#333333;
   text-decoration:none;
 }
+
+.ButtonDarkGrey180pxHeight30Px {
+  width: 180px; 
+  height: 30px;
+  border:1px;
+  border-color: #333333;
+  border-style:solid;
+  background-color:white;
+  border-radius:3px;
+  border-collapse:separate;
+  text-align:center;
+}
+
+.ButtonDarkGrey180pxHeight30Px:hover {
+  border-color: #767676;
+}
+
+.ButtonDarkGrey180pxHeight30Px td {
+  vertical-align:middle;
+}
+
+.ButtonDarkGrey180pxHeight30Px td a {
+  font-size:14px;
+  color:#333333;
+  text-decoration:none;
+}
+
 
 .ButtonDarkGrey180pxHeight40px {
   width: 180px; 
@@ -642,6 +790,31 @@ table.GreyBorder30px {
   font-size:12pt;
 }
 
+table.SilverBorder180px {
+  width: 180px; 
+  height: 40px;
+  border:1px;
+  border-color: silver;
+  border-style:solid;
+  border-radius: 3px;
+  border-collapse:separate;
+  text-align:center;
+}
+
+table.SilverBorder180px a {
+  text-decoration:none;
+}
+
+table.OrangeBorderFullWidth {
+  width: 100%; 
+  height: 40px;
+  border:1px;
+  border-color: #f15927;
+  border-style:solid;
+  border-radius: 3px;
+  border-collapse:separate;
+  text-align:center;
+}
 
 
 table.OrangeBorder30px {
@@ -666,6 +839,14 @@ table.OrangeBorder150px {
   text-align:center;
 }
 
+table.OrangeBorder150px td {
+  vertical-align:middle;
+}
+
+table.OrangeBorder150px a {
+  text-decoration:none;
+}
+
 table.OrangeBorder180px {
   width: 180px; 
   height: 40px;
@@ -679,6 +860,30 @@ table.OrangeBorder180px {
 
 table.OrangeBorder180px a {
   text-decoration:none;
+}
+
+table.OrangeBorder180px td {
+  vertical-align:middle;
+}
+
+table.OrangeBorder180pxHeight30px {
+  width: 180px; 
+  height: 30px;
+  border:1px;
+  border-color: #f15927;
+  border-style:solid;
+  border-radius: 3px;
+  border-collapse:separate;
+  text-align:center;
+}
+
+table.OrangeBorder180pxHeight30px a {
+  text-decoration:none;
+  font-size:14px;
+}
+
+table.OrangeBorder180pxHeight30px td {
+  vertical-align:middle;
 }
 
 
@@ -700,6 +905,18 @@ table.OrangeBorder180px a {
   font-size:11pt;
 }
 
+.BlueBorderNoSize {
+  border:1px;
+  border-color: #0099FF;
+  border-style:solid;
+}
+
+.OrangeBorderNoSize {
+  border:1px;
+  border-color: #e4e4e4;
+  border-style:solid;
+  box-shadow: 5px 5px 10px #e4e4e4;
+}
 
 .GreyBorderNoSize {
   border:1px;
@@ -799,7 +1016,13 @@ table.PaddingBottomTop10px .PaddingBottomTop20px {
   padding-top:20px;
 }
 
+.LineHeight40Px {
+  line-height:40px;
+}
 
+.LineHeight30Px {
+  line-height:30px;
+}
 
 .CalendarSelection {
   border:1px;
@@ -909,11 +1132,15 @@ a.SelectedMenuLink {
   border-bottom: 2px solid white;
 }
 
+.FooterSectionHeading {
+  font-size:15px;
+  font-weight:bold;
+}
 
 a.FooterMenuLink:active, a.FooterMenuLink:visited, a.FooterMenuLink:link {
   color: #484848;
   text-decoration: none;
-  font-size:11pt;
+  font-size:14px;
   line-height:23px;
 }
 
@@ -925,7 +1152,7 @@ a.FooterMenuLink:hover{
 a.FooterBottomLink:active, a.FooterBottomLink:visited, a.FooterBottomLink:link {
   color: #484848;
   text-decoration: none;
-  font-size:10pt;
+  font-size:13px;
 }
 
 a.FooterBottomLink:hover{
@@ -1007,6 +1234,11 @@ a.GreyLink12pt:hover, a.GreyLink12pt:active, a.GreyLink12pt:link, a.GreyLink12pt
 a.GreyLink14Px:hover, a.GreyLink14Px:active, a.GreyLink14Px:link, a.GreyLink14Px:visited {
   font-size:14px;
   color:#484848;
+}
+
+a.GrayLink16Px:hover, a.GrayLink16Px:active, a.GrayLink16Px:link, a.GrayLink16Px:visited {
+  font-size:16px;
+  color:gray;
 }
 
 
@@ -1162,6 +1394,13 @@ img.Image50px {
   border:1px #dce0e0 solid;
 }
 
+.ProfileIcon80px {
+  border-radius: 50%;
+  width:80px;
+  height:80px;
+  border:1px #dce0e0 solid;
+}
+
 .ProfileIcon100pxNoBorder {
   border-radius: 50%;
   width:100px;
@@ -1181,6 +1420,78 @@ img.Image50px {
 .SeparatorLine {
   height: 1px;
   background-color:#C0C0C0;
+}
+
+.ButtonOrangeHeight40px {
+  height: 40px;
+  background-color: #F15927;
+  text-align:center;
+  border-radius:3px;
+  padding-left:30px;
+  padding-right:30px;
+  vertical-align:middle;
+  display:inline-block;
+}
+
+.ButtonOrangeHeight40px a {
+  color:white;
+  font-size:16px;
+  text-decoration:none;
+  line-height:40px;
+}
+
+.ButtonOrangeHeight30px {
+  height: 30px;
+  background-color: #F15927;
+  text-align:center;
+  border-radius:3px;
+  padding-left:30px;
+  padding-right:30px;
+  vertical-align:middle;
+  display:inline-block;
+}
+
+.ButtonOrangeHeight30px a {
+  color:white;
+  font-size:14px;
+  text-decoration:none;
+  line-height:30px;
+}
+
+.ButtonOrangeBorderHeight40px {
+  height: 40px;
+  border: #F15927 1px solid;
+  text-align:center;
+  border-radius:3px;
+  padding-left:30px;
+  padding-right:30px;
+  vertical-align:middle;
+  display:inline-block;
+}
+
+.ButtonOrangeBorderHeight40px a {
+  color:#F15927;
+  font-size:16px;
+  text-decoration:none;
+  line-height:40px;
+}
+
+.ButtonOrangeBorderHeight30px {
+  height: 30px;
+  border: #F15927 1px solid;
+  text-align:center;
+  border-radius:3px;
+  padding-left:30px;
+  padding-right:30px;
+  vertical-align:middle;
+  display:inline-block;
+}
+
+.ButtonOrangeBorderHeight30px a {
+  color:#F15927;
+  font-size:14px;
+  text-decoration:none;
+  line-height:30px;
 }
 
 .ButtonOrange {
@@ -1640,7 +1951,7 @@ td.PosterSummary {
 }
 
 table.UploadImages td {
-  background-image:url('/assets/upload-image.jpg');
+  background-image:url('images/upload-image.jpg');
   background-position:left;
   background-repeat:no-repeat;
   background-size: 80px;
@@ -1660,11 +1971,12 @@ table.UploadImages td {
   left:0px;
   background:rgba(0,0,0,0.75);
   z-index:1000;
+  overflow:auto;
 }
 
 /* Inner */
 .popup-inner {
-  max-width:500px;
+  max-width:450px;
   width:100%;
   padding:40px;
   position:absolute;
@@ -1674,7 +1986,6 @@ table.UploadImages td {
   transform:translate(-50%, -50%);
   background:#fff;
   text-align:center;
-  font-size: 15px;
 }
 
 .popup-inner input.SlimBorder {
@@ -1697,6 +2008,92 @@ table.UploadImages td {
 .popup-inner .SmallLetters td {
   font-size:10pt;
 }
+
+.add-or-edit-roster-popup {
+  width:100%;
+  height:100%;
+  display:none;
+  position:fixed;
+  top:0px;
+  left:0px;
+  background:rgba(0,0,0,0.5);
+  z-index:1000;
+  overflow:auto;
+  vertical-align:top;
+}
+
+.add-or-edit-roster-popup-inner {
+  max-width:100%;
+  width:90%;
+  height: auto;
+  padding:150px 30px 30px 30px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform:translate(-50%, -50%);
+  transform:translate(-50%, -50%);
+  background:#fff;
+  text-align:left;
+  vertical-align:top;
+}
+
+.add-roster-popup {
+  width:100%;
+  height:100%;
+  display:none;
+  position:fixed;
+  top:0px;
+  left:0px;
+  background:rgba(0,0,0,0.50);
+  z-index:1000;
+  overflow:auto;
+  vertical-align:top;
+}
+
+.add-roster-popup-inner {
+  max-width:100%;
+  width:950px;
+  padding:30px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform:translate(-50%, -50%);
+  transform:translate(-50%, -50%);
+  background:#fff;
+  text-align:left;
+  vertical-align:top;
+  font-size:15px;
+}
+
+.roster-popup {
+  width:100%;
+  height:100%;
+  display:none;
+  position:fixed;
+  top:0px;
+  left:0px;
+  background:rgba(0,0,0,0.75);
+  z-index:1000;
+  overflow:auto;
+  vertical-align:top;
+}
+
+.roster-popup-inner {
+  max-width:100%;
+  width:950px;
+  padding:30px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform:translate(-50%, -50%);
+  transform:translate(-50%, -50%);
+  background:#fff;
+  text-align:left;
+  vertical-align:top;
+  font-size:15px;
+}
+
+
 
 /* End of Fading in popup window greying out the rest of the page */
 
@@ -1826,6 +2223,11 @@ table.ButtonOrangeSignUp a {
   border:1.5px #dce0e0 solid;
 }
 
+.NoBorderBox {
+  border:0px white hidden;
+  border-radius:0px;
+}
+
 
 .OrderBox {
   border:1.5px;
@@ -1847,7 +2249,7 @@ table.ButtonOrangeSignUp a {
 
 .OrderBox .OrderContent {
   width:60%;
-  padding: 30px 30px 30px 30px;
+  padding: 20px 20px 20px 20px;
 }
 
 .OrderBox .Padding30Px {
@@ -1899,7 +2301,7 @@ table.ButtonOrangeSignUp a {
 }
 
 
-.Padding30pxa {
+.Padding30px {
   padding:30px;
 }
 
@@ -1911,6 +2313,17 @@ table.ButtonOrangeSignUp a {
   padding-left:20px;
 }
 
+.PaddingLeft30px {
+  padding-left:30px;
+}
+
+.PaddingLeft40px {
+  padding-left:40px;
+}
+
+.PaddingLeft50px {
+  padding-left:50px;
+}
 
 .ListingImageBox {
   position:absolute;
@@ -1937,7 +2350,7 @@ table.ButtonOrangeSignUp a {
 
 
 .OrderListingTitle {
-  font-size:24px;
+  font-size:20px;
   display:inline-block;
   padding-bottom:10px;
 }
@@ -1950,6 +2363,10 @@ table.ButtonOrangeSignUp a {
 
 .TextStrong {
   font-weight:bold;
+}
+
+.TextNormalWeight {
+  font-weight:normal;
 }
 
 .TextLineThrough {
@@ -2050,6 +2467,9 @@ table.ButtonOrangeSignUp a {
   font-weight:bold;
 }
 
+.Text22pxNormalWeight {
+  font-size:22px;
+}
 
 .Text22pxNoPadding {
   font-size:22px;
@@ -2058,6 +2478,11 @@ table.ButtonOrangeSignUp a {
 
 .Text22px {
   font-size:22px;
+  display:inline-block;
+  padding-bottom:10px;
+}
+
+.TextPaddingBottom10px {
   display:inline-block;
   padding-bottom:10px;
 }
@@ -2325,8 +2750,24 @@ a.GreyLink18PxUnderlineOnHover:hover {
   width:650px;
 }
 
+.Width700Px {
+  width:700px;
+}
+
+.Width750Px {
+  width:750px;
+}
+
+.Width550Px {
+  width:550px;
+}
+
 .Width500Px {
   width:500px;
+}
+
+.Width450Px {
+  width:450px;
 }
 
 .Width400Px {
@@ -2365,10 +2806,17 @@ a.GreyLink18PxUnderlineOnHover:hover {
   width:100px;
 }
 
+.Width110Px {
+  width:110px;
+}
+
 .Width125Px {
   width:125px;
 }
 
+.Width130Px {
+  width:130px;
+}
 
 .Width20Px {
   width:20px;
@@ -2405,6 +2853,10 @@ a.GreyLink18PxUnderlineOnHover:hover {
 
 .AlignCenter {
    margin:0 auto;
+}
+
+.TextAlignCenter {
+  text-align:center;
 }
 
 .AlignCenterBoth {
@@ -2505,7 +2957,7 @@ a.GreyLink18PxUnderlineOnHover:hover {
 }
 
 .ReservationList .BorderBottomNone .divTableCell  {
-  border-bottom:0px;
+  border-bottom::0px;
 }
 
 .ReservationList .BorderBottomNone .divTableRow {
@@ -2553,6 +3005,10 @@ a.GreyLink18PxUnderlineOnHover:hover {
 
 .input-icon {
   position: relative;
+}
+
+.BackGroundLightGreyOnHover:hover {
+  background-color:#f2f2f2;
 }
 
 .BackGroundLightGrey {
@@ -2720,191 +3176,35 @@ a.BackendLeftMenuSelected {
     margin-left: 15px;
 }
 
-.cust_btn{  
-    background: #f15827;  
-    border: none; 
-    width: 100%;  
-    cursor: pointer;  
-    color: #fff;  
-    font-weight: 600; 
-} 
-.hide-password {  
-  display: none 
-}
-.message-error {
-  display: none;
-}
-.distance_search {
-  color: #f15927;
-}
-.hidden {
-  display: none;
-}
-.ex_star {
-  .inline_stars {
-    display: flex;
-    .star_container {
-      padding: 15px 10px 10px 15px;
-      text-align: center;
-      img {
-        width: 45px;
-        margin-bottom: 12px;
-      }
-      .low_text {
-        font-weight: 100;
-        font-size: 13px;
-        color: lightgrey;
-      }
-      &.selected {
-        .star_recommend_blank {
-          display: none;
-        }
-        .star_recommend_full {
-          display: block;
-        }
-      }
-      .star_recommend_full {
-        display: none;
-      }
-    }
-  }
-}
-.box.active {
-  .answer {
-    color: #28a597;
-  }
-}
-.zero_opc {
-  opacity: 0;
-}
-.absolute_data {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: -1;
-}
-.main_pos {
-  position: relative;
-}
-.error_arise {
-  display: none;
-  color: red;
-}
-.discount_applied {
-  color: green;
-  text-align: right;
-  margin-top: 10px;
-}
-.spinner_discount {
-  position: fixed;
-  top: 0%;
-  width: 100%;
-  height: 100%;
-  background: #00000029;
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
-  ::-moz-focus-inner {
-    border: 0;
-    outline: 0;
-    padding: 0;
-  }
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0d2133;
-  }
-  svg {
-    width: 70px;
-    overflow: visible;
-    cursor: pointer;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -35px;
-  }
-  svg .loader-ring {
-    transform-origin: 50px 50px;
-    animation: 
-      starting-fill 0.5s forwards,
-      vary-loader-width 3s 0.5s linear infinite alternate,
-      spin 1.6s 0.2s linear infinite;
-  }
-  svg .loader-ring-overlay {
-    visibility: hidden;
-    transform-origin: 50px 50px;
-    animation: spin 1.6s 0.2s linear infinite;
-  }
-  .complete .loader-ring-overlay {
-    visibility: visible;
-    animation: 
-      complete-fill 0.5s linear forwards, 
-      spin 1.6s 0.2s linear infinite;
-  }
-  .complete .loader-ring {
-    animation: 
-      starting-fill 0.5s forwards,
-      vary-loader-width 3s 0.5s linear infinite alternate,
-      spin 1.6s 0.2s linear infinite, fade 0.1 0.5s linear forwards;
-  }
-  .complete svg {
-    animation: fade 0.2s 0.7s linear forwards;
-    transition: all 0s 0.9s;
-    cursor: initial;
-    pointer-events: none;
-  }
-  @keyframes starting-fill {
-    to {
-      stroke-dashoffset: 270;
-    }
-  }
-  @keyframes vary-loader-width {
-    0% {
-      stroke-dashoffset: 270;
-    }
-    50% {
-      stroke-dashoffset: 170;
-    }
-    100% {
-      stroke-dashoffset: 275;
-    }
-  }
-  @keyframes complete-fill {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  @keyframes fade {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-span.old_amount {
-  color: lightgrey;
-  text-decoration: line-through;
-  #hiring_weekday_price_old,#hiring_weekend_price_old {
-    color: lightgrey;
-  }
-}
-.inline_data {
-  //display: flex;
-}
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.toast-message {
-  color: #fff;
-}
 /* End of Separator line with text at middle */
+
+div.SSAdminFeeInfoBox {
+  display:none;
+  position:absolute;
+  margin: 10px 0 0 -70px;
+  border:#dce0e0 1px solid;
+  border-radius:3px;
+  padding:10px;
+  width:200px;
+  font-size:13px;
+  font-weight:normal;
+  background-color:white;
+}
+
+.TransactionList .divTableCell {
+  padding-top:5px;
+  padding-bottom: 5px;
+  padding-right:10px;
+  font-size:14px;
+  vertical-align:middle;
+}
+
+.TransactionList .divTableHeading .divTableCell {
+  padding-top:20px;
+  padding-bottom:10px;
+  border-bottom:1px #e4e4e4 solid;
+}
+
+.TransactionList .divTableCell a {
+  font-size:14px;
+}

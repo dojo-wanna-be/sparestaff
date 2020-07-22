@@ -28,7 +28,7 @@
 
   .inner-show-hiring {
     max-width: 100%;
-    width: 1071px;
+    width: 1086px;
     margin: 0 auto;
     margin-left: 80px;
 
@@ -238,3 +238,706 @@
     }
   }
 }
+
+
+//** New Comman Css Start **//
+
+.comman_link {
+  color: #f15927 !important;
+  text-decoration: none !important;
+}
+
+.ButtonOrangeHeight40px {
+  a {
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+}
+
+
+.show_hiring_details {
+  border: 1px solid #e4e4e4;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 767px) {
+    padding: 30px 12px;
+  }
+
+  .show_hiring_details_row {
+    padding: 17px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4e4e4;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+    &:first-of-type {
+      padding: 0 0 17px;
+    }
+    &.hidden_hiring_row {
+      display: none;
+      padding: 0;
+
+      .rosters_box_row {
+        padding: 17px 12px;
+        border-bottom: 1px solid #e4e4e4;
+
+        &:nth-last-of-type(1) {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .user_box {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      @media screen and (max-width: 767px) {
+        margin: 0 0 20px;
+      }
+
+      .ProfileIcon80px {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        border: 1px #dce0e0 solid;
+        object-fit: cover;
+        margin: 0 20px 0 0;
+      }
+      
+      .poster {
+        .GrayLink16Px {
+          font-size: 16px;
+          color: #808080;
+        }
+      }
+    }
+    .contact_link_box {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+
+      @media screen and (max-width: 767px) {
+        justify-content: space-between;
+      }
+
+      .contact_button {
+        height: 40px;
+        border: #F15927 1px solid;
+        border-radius: 3px;
+        padding: 0 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #F15927;
+        font-size: 16px;
+        text-decoration: none;
+        line-height: 40px;
+        margin: 0 20px 0 0;
+
+        @media screen and (max-width: 767px) {
+          padding: 0;
+          margin: 0;
+          width: 45%;
+        }
+        &:nth-last-of-type(1) {
+          margin: 0;
+        }
+      }
+    }
+
+    .default_roster_row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+
+      @media screen and (max-width: 767px) {
+        flex-direction: column;
+      }
+
+      .default_roster_box {
+        display: flex;
+        flex-direction: column;
+        width: 440px;
+
+        @media screen and (max-width: 767px) {
+          width: 100%;
+          margin: 0 0 20px;
+          border-bottom: 1px solid #e4e4e4;
+          padding: 0 0 12px;
+        }
+
+        .default_roster_heading {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 0 0 10px;
+          position: relative;
+
+          .info_link {
+            margin: 0 9px 0 15px;
+
+            img {
+              height: 12px;
+            }
+          }
+
+          .admin_fee_info_box {
+            display: none;
+            position: absolute;
+            top: 35px;
+            margin: 10px 0 0;
+            border: #dce0e0 1px solid;
+            border-radius: 3px;
+            padding: 10px;
+            width: 222px;
+            font-size: 13px;
+            font-weight: normal;
+            background-color: white;
+
+            .close_link {
+              color: #F15927;
+              font-size: 13px;
+              cursor: pointer;
+            }
+          }
+
+          .edit_link {
+            margin: 0 0 0 5px;
+            img {
+              height: 25px;
+            }
+          }
+        }
+
+        .roster_day_box {
+          height: 90px;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          
+          @media screen and (max-width: 767px) {
+            height: auto;
+          }
+
+          .day_row {
+            width: 210px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 10px 0 0;
+
+            span {
+              width: 50%;
+              text-align: left;
+            }
+          }
+        }
+      }
+
+      .escrow_box {
+        width: 200px;
+        padding: 0 0 0 50px;
+
+        @media screen and (max-width: 767px) {
+          width: 100%;
+          padding: 0;
+          margin: 0 0 12px;
+
+          &:nth-last-of-type(1) {
+            margin: 0;
+          }
+        }
+
+        .escrow_heading {
+          margin: 0 0 10px;
+        }
+
+        .price_value {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .edit_rosters_btn {
+      color: #F15927;
+      font-size: 14px;
+      text-decoration: none;
+      height: 30px;
+      border: #F15927 1px solid;
+      border-radius: 3px;
+      padding: 0 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @media screen and (max-width: 767px) {
+        margin: 15px 0 0;
+      }
+    }
+
+    .rosters_box_row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+
+      @media screen and (max-width: 767px) {
+        flex-direction: column;
+      }
+
+      .rosters_box {
+        display: flex;
+        flex-direction: row;
+
+        .num_order {
+          width: 50px;
+        }
+
+        .roster_details {
+          display: flex;
+          flex-direction: column;
+
+          .rosters_heading {
+            display: flex;
+            margin: 0 0 10px;
+
+            .inactive_btn {
+              height: 20px;
+              border-radius: 3px;
+              border: 1px #F15927 solid;
+              text-align: center;
+              padding: 0px 5px;
+              text-transform: uppercase;
+              margin-left: 10px;
+              color: #F15927;
+              font-size: 11px;
+              font-weight: bold;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+
+      .icon_link_box {
+        a {
+          text-decoration: none;
+        }
+        @media screen and (max-width: 767px) {
+          align-self: flex-end;
+        }
+      }
+    }
+
+    .activate_btn {
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      height: 30px;
+      background-color: #F15927;
+      border-radius: 3px;
+      padding: 0 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.deactivate_btn {
+        display: none;
+      }
+
+      @media screen and (max-width: 767px) {
+        margin: 15px 0 0;
+      }
+    }
+
+    .complete_roster_heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+
+      .down_arrow {
+        height: 10px;
+      }
+    }
+
+    .OrderListingTitle {
+      padding: 0;
+    }
+
+    .custom_text_area {
+      width: 100%;
+    }
+  }
+}
+
+//** New Comman Css end **//
+
+//** Popups Css Start **//
+
+.inner_default_roster {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 17px 0;
+  border-bottom: 1px solid #e4e4e4;
+
+  .week-availability {
+    width: 300px;
+    
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      width: 270px;
+    }
+
+    .from-to-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      width: 100%;
+      position: relative;
+      
+      .header-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 5px;
+        font-size: 11pt;
+        color: #484848;
+        line-height: 1.4;
+
+        @media screen and (max-width: 767px) {
+          line-height: 1.2;
+          padding-bottom: 0;
+        }
+
+        .from-text {
+          width: 235px;
+          padding-left: 102px;
+
+          @media screen and (max-width: 767px) {
+            width: 50%;
+            padding: 0;
+            text-align: center;
+            font-weight: bold;
+          }
+        }
+        .to-text {
+          width: 82px;
+
+          @media screen and (max-width: 767px) {
+            width: 50%;
+            padding: 0;
+            text-align: center;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .availability-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px 0;
+        font-size: 11pt;
+        color: #484848;
+        line-height: 1.4;
+
+        &:last-child {
+          margin-bottom: 15px;
+        }
+
+        .disabled-field {
+          color: #ddd;
+          -webkit-appearance: none;
+        }
+
+        .start-side {
+          width: 184px;
+          display: block;
+          justify-content: space-between;
+          flex-direction: row;
+          align-items: center;
+
+          @media screen and (max-width: 767px) {
+            width: 54%;
+            font-size: 14px;
+          }
+
+          .cust_str_id {
+            height: 30px;
+            padding: 5px;
+            width: 82px;
+            float:right;
+            color: #484848;
+
+            &.start-side-select + label + label {
+              width: 100%;
+              text-align: right;
+            }
+            &.error {
+              font-size: 14px;
+              width: 82px;
+              text-align: left;
+            }
+
+            @media screen and (max-width: 767px) {
+              width: 80px;
+              -webkit-appearance: none;
+              margin: 0 !important;
+            }
+          }
+
+          .error {
+            margin-top: 5px;
+            font-size: 12px;
+            width: 100%;
+            text-align: right;
+          }
+        }
+
+        .end-side {
+          width: 103px;
+          display: block;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          @media screen and (max-width: 767px) {
+            width: 44%;
+            font-size: 14px;
+          }
+
+          select {
+            height: 30px;
+            padding: 5px;
+            width: 82px;
+            float: right;
+            color: #484848;
+
+            &.end-side-select {
+              color: #484848;
+            }
+            &.error{
+              font-size: 14px;
+            }
+
+            @media screen and (max-width: 767px) {
+              width: 80px;
+              -webkit-appearance: none;
+              margin: 0 !important;
+              margin-right: 0px !important;
+            }
+          }
+          .error {
+            margin-top: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+          }
+
+          .availability-checkbox {
+            width: 170px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            @media screen and (max-width: 767px) {
+              font-size: 12px;
+              /* display: block; */
+              width: fit-content;
+              line-height: 1.2;
+            }
+
+            input {
+              margin-right: 8px;
+
+              @media screen and (max-width: 767px) {
+                height: auto;
+                margin-right: 4px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .roster_calculation_box {
+    width: 266px;
+    
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      width: 250px;
+    }
+
+    .calculation-list {
+      padding: 0;
+      margin: 0 0 15px;
+      list-style: none;
+
+      .calc-item {
+        border-bottom: 1px solid #e4e4e4;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 41px;
+
+        &.last-item {
+          height: 51px;
+        }
+
+        label {
+          margin: 0;
+        }
+
+        .left {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .tax-check {
+            margin-right: 10px;
+          }
+        }
+        .right {
+
+          .dollar-input-box {
+            position: relative;
+            left: 20px;
+          }
+          .calc-value {
+            text-align: right;
+            padding: 5px 5px 5px 16px;
+            width: 100px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.calendar_box {
+  display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin: 0 0 20px;
+  }
+
+  .calendar_num {
+    width: 50px;
+
+    @media screen and (max-width: 992px) {
+      width: 25px;
+    }
+  }
+
+  .date_row {
+    display: flex;
+    width: 230px;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    @media screen and (max-width: 767px) {
+      width: calc(100% - 25px);
+    }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      flex-direction: column;
+      width: 120px;
+      margin: 0;
+    }
+
+    .date_row_box {
+      width: 50%;
+
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 100%;
+        margin: 0 0 12px;
+
+        &:nth-last-of-type(1) {
+          margin: 0;
+        }
+      }
+
+      label {
+        margin: 0;
+      }
+      input {
+        width: 100%;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.edit_default_roster_popup {
+  background: rgba(0, 0, 0, 0.5) !important;
+  overflow: initial !important;
+
+  .roster-popup-inner {
+    max-width: 100%;
+    width: 710px;
+
+    @media screen and (max-width: 767px) {
+      padding: 30px 15px;
+      width: 97%;
+      overflow: hidden;
+      overflow-y: scroll;
+      max-height: 98vh;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.roster_popup_customize {
+  background: rgba(0, 0, 0, 0.5) !important;
+  overflow: initial !important;
+
+  .roster_popup_customize-inner {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 98vh;
+    padding: 30px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media screen and (max-width: 767px) {
+      padding: 30px 15px;
+      width: 97%;
+    }
+
+    .send_change_btn {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
+
+//** Popups Css End **//
