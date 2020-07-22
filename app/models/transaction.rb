@@ -56,6 +56,13 @@ class Transaction < ApplicationRecord
   enum state: { initiated: 0, created: 1, accepted: 2, rejected: 3, cancelled: 4, expired: 5, completed: 6, changed_hiring: 7 }
   enum cancelled_by: { hirer: 0, poster: 1 }
 
+  scope :completed_hirings, -> { where("end_date >= ?", Date.today).where(state: [:created, :accepted, :cancelled]) }
+  scope :past_hirings, -> { where(state: [:created, :accepted, :cancelled]).where("end_date >= ?", Date.today) }
+  scope :rejected_hirings, -> { where(state: 'rejected') }
+  scope :search_by_keyword, -> (pattern) { includes(:employee_listing).where('lower(transactions.title) like :pattern OR lower(employee_listings.first_name) like :pattern OR lower(employee_listings.last_name) like :pattern', pattern: "%#{pattern.downcase}%").references(:transaction)}
+  scope :descending, -> { order(updated_at: :desc) }
+  scope :by_page, -> (page, per_per) { paginate(page: page, per_page: per_page) }
+
   #HIRER_SERVICE_FEE = self.commission_from_hirer
   #POSTER_SERVICE_FEE = self.commission_from_poster
 

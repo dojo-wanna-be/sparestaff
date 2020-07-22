@@ -43,6 +43,7 @@ class User < ApplicationRecord
   validates_attachment_file_name :avatar, matches: [/png\Z/, /jpe?g\Z/]
 
   belongs_to :company, optional: true
+  has_many :hirings, foreign_key: :hirer_id, class_name: 'Transaction'
   has_many :employee_listings, as: :lister, dependent: :destroy
   has_many :conversations, class_name: "Conversation", foreign_key: "sender_id"
   has_many :messages, class_name: "Message", foreign_key: "sender_id"

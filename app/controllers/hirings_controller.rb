@@ -31,10 +31,18 @@ class HiringsController < ApplicationController
   end
 
   def index
-    hirer_transactions = Transaction.where(hirer_id: current_user.id).order(updated_at: :desc)
-    @hired_listing_transactions = hirer_transactions.where("end_date >= ?", Date.today).where(state: [:created, :accepted, :cancelled]).includes(:employee_listing).paginate(:page => params[:page], :per_page => 10)
-    @past_listing_transactions = hirer_transactions.where(state: [:cancelled, :completed]).where("end_date < ?", Date.today).includes(:employee_listing).paginate(:page => params[:page], :per_page => 10)
-    @declined_listing_transactions = hirer_transactions.where(state: "rejected").includes(:employee_listing).paginate(:page => params[:page], :per_page => 6)
+    hirings = current_user.hirings.includes(:employee_listing).descending
+    @hired_listing_transactions = hirings.completed_hirings.by_page(params[:page], 10)
+    @past_listing_transactions = hirings.past_hirings.by_page(params[:page], 6)
+    @declined_listing_transactions = hirings.rejected_hirings.by_page(params[:page], 6)
+  end
+
+  def search
+    @transactions = current_user.hirings.past_hirings.descending
+    if params[:q].present?
+      @transactions = @transactions.search_by_keyword(params[:q])
+    end
+    @transactions = @transactions.by_page(params[:page], 10)
   end
 
   def show

@@ -129,6 +129,7 @@ Rails.application.routes.draw do
       get :cancelled_successfully
       patch :send_details
       get :check_slot_availability
+      get :search
     end
     member do
       patch :accept

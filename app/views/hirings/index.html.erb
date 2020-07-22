@@ -2,6 +2,9 @@
 
 <div class="your-hiring-section">
   <div class="inner-box">
+    <%= form_tag(search_hirings_path, method: :get, :remote=>true) do %>
+      <%= render partial: "search_bar", locals: {transactions: @hired_listing_transactions} %>
+    <% end %>
     <div class="hired_listing_transactions">
       <%= render partial: "hiring_list", locals: {transactions: @hired_listing_transactions} %>
     </div>
