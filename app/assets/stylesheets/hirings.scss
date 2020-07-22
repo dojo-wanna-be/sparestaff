@@ -211,6 +211,33 @@
   }
 
   .inner-box {
+
+    form {
+      .search-name-title {
+        display: flex;
+        width: 55%;
+        margin: 22px 0 0;
+
+        @media screen and (max-width: 992px) {
+          width: 100%;
+        }
+
+        input {
+          width: 90%;
+        }
+
+        .search-btn {
+          background: transparent;
+          border: none;
+          margin: 0 0 0 10px;
+
+          .seacrh_png {
+            height: 25px;
+          }
+        }
+      }
+    }
+
     .order_box {
       display: flex;
       flex-direction: row;
