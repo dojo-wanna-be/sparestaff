@@ -247,6 +247,14 @@
   text-decoration: none !important;
 }
 
+.ButtonOrangeHeight40px {
+  a {
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+}
+
+
 .show_hiring_details {
   border: 1px solid #e4e4e4;
   padding: 30px;
@@ -277,6 +285,10 @@
       .rosters_box_row {
         padding: 17px 12px;
         border-bottom: 1px solid #e4e4e4;
+
+        &:nth-last-of-type(1) {
+          border-bottom: none;
+        }
       }
     }
 
@@ -517,6 +529,9 @@
       }
 
       .icon_link_box {
+        a {
+          text-decoration: none;
+        }
         @media screen and (max-width: 767px) {
           align-self: flex-end;
         }
@@ -534,6 +549,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      &.deactivate_btn {
+        display: none;
+      }
 
       @media screen and (max-width: 767px) {
         margin: 15px 0 0;
