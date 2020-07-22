@@ -1,0 +1,34 @@
+<% if declined_cancelled.present? %>
+  <h1 class="toggle-orange-hd">View/Hide Declined Hirings</h1>
+
+  <div class="declined-hiring-cards">
+    <div class="card_container">
+      <% declined_cancelled.each_with_index do |hiring, index| %>
+        <div class="card">
+          <div class="top_img">
+            <% if hiring.employee_listing.profile_picture.present? %>
+              <%= image_tag hiring.employee_listing.profile_picture.url, class: 'card_profile_background_image' %>
+            <% else %>
+              <%= image_tag 'no-image.jpg', class: 'card_profile_background_image' %>
+            <% end %>
+            <%= image_tag 'Henry1.jpg', class: 'card_profile_image' %>
+          </div>
+          <div class="card_content">
+            <h1 class="card_title"><%= hiring.employee_listing.title %></h1>
+            <h2 class="card_sub_title"><%= hiring.employee_listing.name %></h2>
+            <span class="sm_text"><%= hiring.employee_listing.poster_name %></span>
+            <strong class="dt_bold"><%= hiring.start_date.strftime("%d %h %Y") %></strong> <span class="aro">></span><strong class="dt_bold"><%= hiring.end_date.strftime("%d %h %Y") %></strong>
+            <% total_hours = hiring.total_weekday_hours + hiring.total_weekend_hours %>
+            <span class="OrderTotalHour"><%= "#{total_hours} Hour Total" %></span>
+            <div class="review_part hide-part">
+              <%= link_to 'Send Message', inbox_path(id: hiring.id), class: 'review-link gray-link' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="will_pagination_box changes">
+    <%= js_will_paginate declined_cancelled, params: { declined_transaction: true } %>
+  </div>
+<% end %>
